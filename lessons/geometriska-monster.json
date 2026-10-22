@@ -1,0 +1,354 @@
+{
+  "id": "geometriska-monster",
+  "area": "geometri",
+  "title": "Geometriska mönster: figurer som växer",
+  "level": "Från bild till tal · ungefär åk 4–6",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": [
+    "geometriska-figurer",
+    "talfoljder"
+  ],
+  "summary": "I ett växande mönster läggs det till lika mycket varje gång. Räknar du bitarna i varje figur får du en talföljd.",
+  "explanationTitle": "Se hur mönstret växer",
+  "explanation": "Titta på hur figur 1, 2 och 3 skiljer sig åt. Här läggs 2 nya rutor till i varje figur: 3, 5, 7. Då kan du förutsäga figur 4 utan att rita den: 7 + 2 = 9.",
+  "visual": {
+    "type": "monster",
+    "title": "Rosa rutor är nya i varje figur",
+    "steps": [
+      {
+        "label": "Figur 1",
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "accent": []
+      },
+      {
+        "label": "Figur 2",
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "accent": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            2
+          ]
+        ]
+      },
+      {
+        "label": "Figur 3",
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "accent": [
+          [
+            3,
+            0
+          ],
+          [
+            0,
+            3
+          ]
+        ]
+      }
+    ]
+  },
+  "rule": "Börja på startvärdet och lägg till lika mycket för varje ny figur",
+  "ruleLabel": "VÄXANDE MÖNSTER",
+  "example": "Figur 1 har 3 rutor och varje ny figur får 2 rutor till. Figur 10 har 3 + 9 · 2 = 21 rutor.",
+  "exercise": {
+    "prompt": "Hur många rutor har figur 4 i mönstret?",
+    "answer": [
+      "9"
+    ],
+    "correct": "Rätt! Det blir 2 rutor mer varje gång: 3, 5, 7, 9.",
+    "feedback": [
+      {
+        "answers": [
+          "8",
+          "10"
+        ],
+        "message": "Varje figur har 2 rutor mer än den förra: 3, 5, 7 och sedan 7 + 2."
+      },
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "4 är figurens nummer, inte antalet rutor."
+      }
+    ],
+    "visual": {
+      "type": "monster",
+      "steps": [
+        {
+          "label": "Figur 1",
+          "cells": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "accent": []
+        },
+        {
+          "label": "Figur 2",
+          "cells": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "accent": [
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              2
+            ]
+          ]
+        },
+        {
+          "label": "Figur 3",
+          "cells": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "accent": [
+            [
+              3,
+              0
+            ],
+            [
+              0,
+              3
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Maja bygger hus av tändstickor. Ett hus tar 5 stickor, två hus bredvid varandra tar 9 stickor och tre hus tar 13 stickor. Hur många stickor behövs för 5 hus?",
+      "answer": [
+        "21"
+      ],
+      "correct": "Rätt! Varje nytt hus tar 4 stickor till: 5, 9, 13, 17, 21.",
+      "feedback": [
+        {
+          "answers": [
+            "20",
+            "25"
+          ],
+          "message": "Det första huset tar 5 stickor, men varje nytt hus tar bara 4 nya eftersom husen delar en vägg. Följden är 5, 9, 13, 17, 21."
+        },
+        {
+          "answers": [
+            "17"
+          ],
+          "message": "17 stickor räcker till fyra hus. Du behöver ett hus till."
+        }
+      ],
+      "visual": {
+        "type": "tabell",
+        "title": "Hus och tändstickor",
+        "headers": [
+          "Antal hus",
+          "1",
+          "2",
+          "3"
+        ],
+        "rows": [
+          [
+            "Tändstickor",
+            "5",
+            "9",
+            "13"
+          ]
+        ]
+      }
+    },
+    {
+      "prompt": "Figur 1 är 1 ruta, figur 2 är en kvadrat med 4 rutor och figur 3 är en kvadrat med 9 rutor. Hur många rutor har figur 5?",
+      "answer": [
+        "25"
+      ],
+      "correct": "Rätt! Figur n är en kvadrat med n rader och n kolumner, så figur 5 har 5 · 5 = 25 rutor.",
+      "feedback": [
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "16 är figur 4. Figur 5 är en kvadrat med 5 rader och 5 kolumner."
+        },
+        {
+          "answers": [
+            "15",
+            "20"
+          ],
+          "message": "Här ökar skillnaden för varje figur (+3, +5, +7). Använd i stället att figur n har n rader med n rutor."
+        }
+      ],
+      "visual": {
+        "type": "monster",
+        "steps": [
+          {
+            "label": "Figur 1",
+            "rows": 1,
+            "cols": 1
+          },
+          {
+            "label": "Figur 2",
+            "rows": 2,
+            "cols": 2
+          },
+          {
+            "label": "Figur 3",
+            "rows": 3,
+            "cols": 3
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Mönstret börjar med 2 prickar i figur 1 och får 3 prickar till i varje ny figur. Hur många prickar har figur 6?",
+      "answer": [
+        "17"
+      ],
+      "correct": "Rätt! Det är 5 steg från figur 1 till figur 6, och 2 + 5 · 3 = 17.",
+      "feedback": [
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "Figur 1 har redan 2 prickar. Från figur 1 till figur 6 är det 5 steg med 3 prickar: 2 + 5 · 3."
+        },
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "6 · 3 = 18 räknar med sex steg, men figur 1 är början. Det är fem steg, och startvärdet 2 ska vara med."
+        },
+        {
+          "answers": [
+            "15"
+          ],
+          "message": "15 är bara de fem tillagda stegen (5 · 3). Glöm inte de 2 prickarna som figur 1 börjar med."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "id": "skala",
+  "area": "matning",
+  "title": "Skala: förminska och förstora",
+  "level": "Kartor och ritningar · ungefär åk 6–9",
+  "grade": 6,
+  "duration": "7 min",
+  "prerequisites": [
+    "enheter",
+    "multiplikation",
+    "division"
+  ],
+  "summary": "Skala 1:100 betyder att 1 cm på ritningen är 100 cm i verkligheten. Med skala kan stora saker ritas på små papper.",
+  "explanationTitle": "Ett steg på ritningen är många steg i verkligheten",
+  "explanation": "Skalan 1:50 betyder att allt i verkligheten är 50 gånger större än på ritningen. En soffa som är 200 cm lång blir 200 ÷ 50 = 4 cm på ritningen. Går du åt andra hållet multiplicerar du: 4 cm på ritningen är 4 · 50 = 200 cm i verkligheten.",
+  "visual": {
+    "type": "tabell",
+    "title": "Skala 1:50",
+    "headers": [
+      "Sak",
+      "På ritningen",
+      "I verkligheten"
+    ],
+    "rows": [
+      [
+        "Soffans längd",
+        "4 cm",
+        "200 cm"
+      ],
+      [
+        "Bordets bredd",
+        "2 cm",
+        "100 cm"
+      ],
+      [
+        "Rummets längd",
+        "10 cm",
+        "500 cm"
+      ]
+    ]
+  },
+  "components": [
+    {
+      "type": "text",
+      "text": "Ibland förstorar man i stället. Skala 10:1 betyder att bilden är 10 gånger större än verkligheten, till exempel när man ritar en liten detalj."
+    }
+  ],
+  "rule": "Verklighet = ritning · skalan, och ritning = verklighet ÷ skalan",
+  "ruleLabel": "SKALA",
+  "example": "På en karta i skala 1:100 000 är 1 cm lika med 100 000 cm, alltså 1 km.",
+  "exercise": {
+    "prompt": "På en ritning i skala 1:100 är en vägg 5 cm lång. Hur lång är väggen i verkligheten, i cm?",
+    "answer": [
+      "500"
+    ],
+    "correct": "Rätt! 5 cm · 100 = 500 cm.",
+    "feedback": [
+      {
+        "answers": [
+          "20",
+          "0,05",
+          "0.05"
+        ],
+        "message": "I verkligheten är väggen större än på ritningen. Multiplicera med 100 i stället för att dela."
+      },
+      {
+        "answers": [
+          "105"
+        ],
+        "message": "105 är 5 + 100. Skala 1:100 betyder att du ska multiplicera 5 med 100."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En båt är 12 m lång i verkligheten. Du bygger en modell i skala 1:100. Hur lång blir modellen, i cm?",
+      "answer": [
+        "12"
+      ],
+      "correct": "Rätt! 12 m = 1 200 cm, och 1 200 ÷ 100 = 12 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "1200"
+          ],
+          "message": "1 200 cm är båtens riktiga längd. Modellen är 100 gånger mindre, så dela med 100."
+        },
+        {
+          "answers": [
+            "0,12",
+            "0.12"
+          ],
+          "message": "12 ÷ 100 = 0,12 räknar i meter. Svara i centimeter: 0,12 m = 12 cm."
+        }
+      ]
+    },
+    {
+      "prompt": "Två städer ligger 8 cm från varandra på en karta i skala 1:50 000. Hur många km är det mellan städerna?",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! 8 · 50 000 = 400 000 cm = 4 km.",
+      "feedback": [
+        {
+          "answers": [
+            "400000"
+          ],
+          "message": "400 000 är avståndet i cm. 100 000 cm är 1 km, så det blir 4 km."
+        },
+        {
+          "answers": [
+            "4000"
+          ],
+          "message": "4 000 är avståndet i meter. En km är 1 000 m, så svaret i km är 4."
+        },
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "Kontrollera omvandlingen: 100 000 cm = 1 000 m = 1 km."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett frimärke är 2 cm brett. Det förstoras till en affisch i skala 10:1, alltså 10 gånger större. Hur bred blir bilden, i cm?",
+      "answer": [
+        "20"
+      ],
+      "correct": "Rätt! Vid förstoring multiplicerar du: 2 · 10 = 20 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "0,2",
+            "0.2"
+          ],
+          "message": "Vid förstoring blir bilden större, inte mindre. Multiplicera med 10."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är 2 + 10. Skala 10:1 betyder att längden multipliceras med 10."
+        }
+      ]
+    }
+  ]
+}

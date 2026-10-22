@@ -1,0 +1,228 @@
+{
+  "id": "pyssla-ekvation",
+  "kind": "pyssel",
+  "area": "algebra",
+  "title": "Pyssla: väg ekvationen",
+  "level": "Pyssla med ekvationer · ungefär åk 7–8",
+  "grade": 7,
+  "duration": "8 min",
+  "prerequisites": [
+    "ekvation"
+  ],
+  "summary": "Prova olika värden på x och se när vänster och höger sida blir lika.",
+  "explanationTitle": "Hitta x där sidorna blir lika",
+  "explanation": "Staplarna visar vänster och höger sida av ekvationen. När de är lika höga har du hittat x.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "3x + 2 = 14",
+      "intro": "Dra x tills staplarna är lika höga.",
+      "params": [
+        {
+          "name": "x",
+          "label": "x",
+          "min": 0,
+          "max": 15,
+          "step": 1,
+          "value": 0
+        }
+      ],
+      "view": {
+        "type": "staplar",
+        "max": 50,
+        "data": [
+          {
+            "label": "3x + 2",
+            "value": "=3*x+2"
+          },
+          {
+            "label": "14",
+            "value": 14,
+            "tone": "coral"
+          }
+        ]
+      },
+      "readouts": [
+        {
+          "text": "Vänster: 3 · {x} + 2 = {3*x+2}. Höger: 14."
+        },
+        {
+          "when": {
+            "expr": "3*x+2-14",
+            "equals": 0
+          },
+          "text": "✓ Sidorna är lika. x = {x} är lösningen!"
+        }
+      ],
+      "goals": [
+        {
+          "id": "fyra",
+          "text": "Lös 3x + 2 = 14.",
+          "conditions": [
+            {
+              "expr": "3*x+2",
+              "equals": 14
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "pyssel",
+      "title": "2x + 5 = 19",
+      "intro": "Samma sak med en ny ekvation.",
+      "params": [
+        {
+          "name": "x",
+          "label": "x",
+          "min": 0,
+          "max": 15,
+          "step": 1,
+          "value": 0
+        }
+      ],
+      "view": {
+        "type": "staplar",
+        "max": 50,
+        "data": [
+          {
+            "label": "2x + 5",
+            "value": "=2*x+5"
+          },
+          {
+            "label": "19",
+            "value": 19,
+            "tone": "coral"
+          }
+        ]
+      },
+      "readouts": [
+        {
+          "text": "Vänster: 2 · {x} + 5 = {2*x+5}. Höger: 19."
+        },
+        {
+          "when": {
+            "expr": "2*x+5-19",
+            "equals": 0
+          },
+          "text": "✓ Sidorna är lika. x = {x}!"
+        }
+      ],
+      "goals": [
+        {
+          "id": "sju",
+          "text": "Lös 2x + 5 = 19.",
+          "conditions": [
+            {
+              "expr": "2*x+5",
+              "equals": 19
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Staplarna visar 4x för x = 6 (24) och högersidan 28. Vilket värde på x gör sidorna lika?",
+    "answer": [
+      "7"
+    ],
+    "correct": "Rätt! 4 · 7 = 28.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "För x = 6 är vänstersidan 24, vilket är mindre än 28. Öka x ett steg."
+      },
+      {
+        "answers": [
+          "24"
+        ],
+        "message": "24 är vänstersidans värde för x = 6, inte x."
+      }
+    ],
+    "visual": {
+      "type": "staplar",
+      "max": 30,
+      "data": [
+        {
+          "label": "4x (x = 6)",
+          "value": 24
+        },
+        {
+          "label": "28",
+          "value": 28,
+          "tone": "coral"
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Staplarna visar x = 5 i ekvationen 2x + 3 = 15. Vilket x gör sidorna lika?",
+      "answer": [
+        "6"
+      ],
+      "correct": "Rätt! 2 · 6 + 3 = 15.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är 2x, alltså det som blir kvar när du tagit bort 3. Dela det med 2 för att få x."
+        },
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "För x = 5 är vänstersidan 13, men högersidan är 15."
+        }
+      ],
+      "visual": {
+        "type": "staplar",
+        "max": 20,
+        "data": [
+          {
+            "label": "2x + 3 (x = 5)",
+            "value": 13
+          },
+          {
+            "label": "15",
+            "value": 15,
+            "tone": "coral"
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Jag tänker på ett tal. Jag multiplicerar det med 3 och drar bort 4. Då får jag 11. Vilket tal tänker jag på?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! 3x − 4 = 11 ger 3x = 15 och x = 5.",
+      "feedback": [
+        {
+          "answers": [
+            "15"
+          ],
+          "message": "15 är 3x. Dela med 3 för att få talet."
+        },
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är 11 − 4. Du ska först lägga till 4 på båda sidorna: 3x = 15."
+        }
+      ]
+    }
+  ]
+}

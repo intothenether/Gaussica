@@ -1,0 +1,244 @@
+{
+  "id": "pyssla-funktioner",
+  "kind": "pyssel",
+  "area": "algebra",
+  "title": "Pyssla: räta linjer",
+  "level": "Pyssla med funktioner · ungefär åk 8–9",
+  "grade": 8,
+  "duration": "8 min",
+  "prerequisites": [
+    "funktioner"
+  ],
+  "summary": "Ändra k och m och se hur linjen y = kx + m lutar och var den skär y-axeln.",
+  "explanationTitle": "k är lutningen och m är skärningen",
+  "explanation": "k säger hur mycket linjen stiger när x ökar med 1, och m är där linjen skär y-axeln. Pyssla och klara utmaningarna.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Räta linjer",
+      "intro": "Ändra reglagen och följ linjen.",
+      "params": [
+        {
+          "name": "k",
+          "label": "Lutning k",
+          "min": -3,
+          "max": 3,
+          "step": 0.5,
+          "value": 1
+        },
+        {
+          "name": "m",
+          "label": "Skärning m",
+          "min": -4,
+          "max": 4,
+          "step": 1,
+          "value": 0
+        }
+      ],
+      "view": {
+        "type": "graf",
+        "xmin": -5,
+        "xmax": 5,
+        "ymin": -6,
+        "ymax": 6,
+        "lines": [
+          {
+            "k": "=k",
+            "m": "=m"
+          }
+        ],
+        "points": [
+          {
+            "x": 0,
+            "y": "=m",
+            "label": "(0, {m})",
+            "tone": "coral"
+          }
+        ]
+      },
+      "readouts": [
+        {
+          "text": "y = {k}x + {m}. När x = 2 blir y = {k*2+m}."
+        },
+        {
+          "when": {
+            "expr": "k",
+            "min": 0.01
+          },
+          "text": "Linjen går uppåt åt höger."
+        },
+        {
+          "when": {
+            "expr": "k",
+            "max": -0.01
+          },
+          "text": "Linjen går nedåt åt höger."
+        },
+        {
+          "when": {
+            "expr": "k",
+            "equals": 0
+          },
+          "text": "Linjen är vågrät."
+        }
+      ],
+      "goals": [
+        {
+          "id": "x2",
+          "text": "Gör linjen y = x + 2.",
+          "conditions": [
+            {
+              "expr": "k",
+              "equals": 1
+            },
+            {
+              "expr": "m",
+              "equals": 2
+            }
+          ]
+        },
+        {
+          "id": "ned",
+          "text": "Gör en linje som lutar nedåt och skär y-axeln vid 3.",
+          "conditions": [
+            {
+              "expr": "k",
+              "max": -0.5
+            },
+            {
+              "expr": "m",
+              "equals": 3
+            }
+          ]
+        },
+        {
+          "id": "vag",
+          "text": "Gör en vågrät linje genom y = −2.",
+          "conditions": [
+            {
+              "expr": "k",
+              "equals": 0
+            },
+            {
+              "expr": "m",
+              "equals": -2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Linjen i diagrammet är y = 2x + 1. Vad blir y när x = 3?",
+    "answer": [
+      "7"
+    ],
+    "correct": "Rätt! y = 2 · 3 + 1 = 7.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "2 · 3 = 6, men glöm inte att lägga till 1."
+      },
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 är 2 + 3. Sätt in x = 3: y = 2 · 3 + 1."
+      }
+    ],
+    "visual": {
+      "type": "graf",
+      "xmin": -3,
+      "xmax": 5,
+      "ymin": -3,
+      "ymax": 9,
+      "lines": [
+        {
+          "k": 2,
+          "m": 1
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Linjen i diagrammet är y = −x + 4. För vilket x skär linjen x-axeln (y = 0)?",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! −4 + 4 = 0.",
+      "feedback": [
+        {
+          "answers": [
+            "-4",
+            "−4"
+          ],
+          "message": "Då blir y = 4 + 4 = 8. Linjen skär x-axeln där −x + 4 = 0."
+        },
+        {
+          "answers": [
+            "0"
+          ],
+          "message": "Vid x = 0 är y = 4. Du söker det x där y = 0."
+        }
+      ],
+      "visual": {
+        "type": "graf",
+        "xmin": -2,
+        "xmax": 6,
+        "ymin": -2,
+        "ymax": 6,
+        "lines": [
+          {
+            "k": -1,
+            "m": 4
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Linjen y = 3x − 2 skär y-axeln. Vilket y-värde har skärningspunkten?",
+      "answer": [
+        "-2",
+        "−2"
+      ],
+      "correct": "Rätt! Vid x = 0 är y = m = −2.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är lutningen k, inte skärningen. Skärningen med y-axeln är där x = 0."
+        },
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "Tecknet är fel: m är −2."
+        }
+      ],
+      "visual": {
+        "type": "graf",
+        "xmin": -3,
+        "xmax": 3,
+        "ymin": -6,
+        "ymax": 6,
+        "lines": [
+          {
+            "k": 3,
+            "m": -2
+          }
+        ]
+      }
+    }
+  ]
+}

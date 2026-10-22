@@ -1,0 +1,189 @@
+{
+  "id": "pyssla-decimaltal",
+  "kind": "pyssel",
+  "area": "tal",
+  "title": "Pyssla: hundrarutorna",
+  "level": "Pyssla med decimaltal · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "decimaltal"
+  ],
+  "summary": "Färglägg rutor i ett rutnät med hundra rutor och se hur det blir ett decimaltal på tallinjen.",
+  "explanationTitle": "Hundra rutor är en hel",
+  "explanation": "Hela rutnätet är 1. Varje ruta är en hundradel, 0,01. Tio rutor är en tiondel, 0,1.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Hundrarutorna",
+      "intro": "Färglägg rutor med reglaget och se decimaltalet.",
+      "params": [
+        {
+          "name": "p",
+          "label": "Antal färgade rutor",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "value": 37
+        }
+      ],
+      "views": [
+        {
+          "type": "hundrarutor",
+          "filled": "=p",
+          "label": "{p} av 100 rutor"
+        },
+        {
+          "type": "tallinje",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "labelEvery": 0.1,
+          "points": [
+            {
+              "value": "=p/100"
+            }
+          ]
+        }
+      ],
+      "readouts": [
+        {
+          "text": "{p} hundradelar = {p/100} som decimaltal."
+        },
+        {
+          "text": "Det är {floor(p/10)} tiondelar och {mod(p,10)} hundradelar."
+        }
+      ],
+      "goals": [
+        {
+          "id": "halv",
+          "text": "Gör 0,5 – hälften av rutorna.",
+          "conditions": [
+            {
+              "expr": "p",
+              "equals": 50
+            }
+          ]
+        },
+        {
+          "id": "sju",
+          "text": "Gör 0,07.",
+          "conditions": [
+            {
+              "expr": "p",
+              "equals": 7
+            }
+          ]
+        },
+        {
+          "id": "fjardedel",
+          "text": "Gör 0,25 – en fjärdedel.",
+          "conditions": [
+            {
+              "expr": "p",
+              "equals": 25
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Hur stor del av rutorna är färgade? Svara som decimaltal.",
+    "answer": [
+      "0,62",
+      "0.62"
+    ],
+    "correct": "Rätt! 62 rutor av 100 är 0,62.",
+    "feedback": [
+      {
+        "answers": [
+          "62"
+        ],
+        "message": "62 är antalet rutor. Som del av en hel (100 rutor) skrivs det 0,62."
+      },
+      {
+        "answers": [
+          "0,6",
+          "0.6"
+        ],
+        "message": "0,6 är 60 rutor, men det är 62 rutor färgade."
+      }
+    ],
+    "visual": {
+      "type": "hundrarutor",
+      "filled": 62
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Rutnätet har 45 färgade rutor. Hur många fler rutor måste färgas för att 0,6 av rutorna ska vara färgade?",
+      "answer": [
+        "15"
+      ],
+      "correct": "Rätt! 0,6 är 60 rutor, och 60 − 45 = 15.",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 är hur många rutor som ska vara färgade totalt. Du har redan 45."
+        },
+        {
+          "answers": [
+            "0,15",
+            "0.15"
+          ],
+          "message": "0,15 är samma sak som 15 hundradelar. Svara i antal rutor."
+        }
+      ],
+      "visual": {
+        "type": "hundrarutor",
+        "filled": 45
+      }
+    },
+    {
+      "prompt": "Pricken på tallinjen pekar på ett decimaltal. Vilket?",
+      "answer": [
+        "0,7",
+        "0.7"
+      ],
+      "correct": "Rätt! Pricken ligger vid 7 tiondelar: 0,7.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 tiondelar skrivs 0,7 – med komma."
+        },
+        {
+          "answers": [
+            "0,07",
+            "0.07"
+          ],
+          "message": "0,07 vore 7 hundradelar, mycket närmare noll. Pricken är vid sju streck."
+        }
+      ],
+      "visual": {
+        "type": "tallinje",
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "labelEvery": 0.1,
+        "points": [
+          {
+            "value": 0.7,
+            "label": "?"
+          }
+        ]
+      }
+    }
+  ]
+}

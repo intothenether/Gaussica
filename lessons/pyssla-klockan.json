@@ -1,0 +1,210 @@
+{
+  "id": "pyssla-klockan",
+  "kind": "pyssel",
+  "area": "matning",
+  "title": "Pyssla: ställ klockan",
+  "level": "Pyssla med klockan · ungefär åk 3–4",
+  "grade": 3,
+  "duration": "8 min",
+  "prerequisites": [
+    "tid-klocka"
+  ],
+  "summary": "Ställ in en klocka med reglage och se hur visarna rör sig, och hur man säger tiden på olika sätt.",
+  "explanationTitle": "Korta visaren visar timmen",
+  "explanation": "Den korta blå visaren visar timmen och den långa rosa visaren visar minuterna. Pyssla med klockan och klara utmaningarna.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Ställ klockan",
+      "intro": "Flytta reglagen. Klockan visar också den digitala tiden.",
+      "params": [
+        {
+          "name": "h",
+          "label": "Timme",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "value": 3
+        },
+        {
+          "name": "m",
+          "label": "Minut",
+          "min": 0,
+          "max": 55,
+          "step": 5,
+          "value": 0
+        }
+      ],
+      "view": {
+        "type": "klocka",
+        "h": "=h",
+        "m": "=m"
+      },
+      "readouts": [
+        {
+          "text": "Digitalt: {h}:{m|2}"
+        },
+        {
+          "when": {
+            "expr": "m",
+            "equals": 0
+          },
+          "text": "En hel timme."
+        },
+        {
+          "when": {
+            "expr": "m",
+            "equals": 15
+          },
+          "text": "Kvart över {h}."
+        },
+        {
+          "when": {
+            "expr": "m",
+            "equals": 30
+          },
+          "text": "Halv {mod(h,12)+1} – det är en halvtimme kvar till hel timme."
+        },
+        {
+          "when": {
+            "expr": "m",
+            "equals": 45
+          },
+          "text": "Kvart i {mod(h,12)+1}."
+        }
+      ],
+      "goals": [
+        {
+          "id": "kvart",
+          "text": "Ställ in kvart över 3 (3:15).",
+          "conditions": [
+            {
+              "expr": "h",
+              "equals": 3
+            },
+            {
+              "expr": "m",
+              "equals": 15
+            }
+          ]
+        },
+        {
+          "id": "halv",
+          "text": "Ställ in halv åtta (7:30).",
+          "conditions": [
+            {
+              "expr": "h",
+              "equals": 7
+            },
+            {
+              "expr": "m",
+              "equals": 30
+            }
+          ]
+        },
+        {
+          "id": "kvartI",
+          "text": "Ställ in kvart i sex (5:45).",
+          "conditions": [
+            {
+              "expr": "h",
+              "equals": 5
+            },
+            {
+              "expr": "m",
+              "equals": 45
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Klockan är som på bilden. Hur många minuter är det kvar tills klockan blir 5?",
+    "answer": [
+      "15"
+    ],
+    "correct": "Rätt! Från 4:45 till 5:00 är det 15 minuter.",
+    "feedback": [
+      {
+        "answers": [
+          "45"
+        ],
+        "message": "45 minuter har gått sedan klockan fyra. Du ska räkna hur många som är kvar till nästa hel timme."
+      },
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "Klockan blir 5, men frågan är hur många minuter det är kvar."
+      }
+    ],
+    "visual": {
+      "type": "klocka",
+      "h": 4,
+      "m": 45
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "En film börjar 7:40 och är 50 minuter lång. Hur många minuter över åtta är filmen slut?",
+      "answer": [
+        "30"
+      ],
+      "correct": "Rätt! 40 + 50 = 90 minuter, alltså 1 timme och 30 minuter: klockan är 8:30.",
+      "feedback": [
+        {
+          "answers": [
+            "90"
+          ],
+          "message": "90 minuter är 1 timme och 30 minuter, eftersom en timme är 60 minuter. Klockan blir 30 minuter över åtta."
+        },
+        {
+          "answers": [
+            "50",
+            "10"
+          ],
+          "message": "Räkna ut när filmen slutar: 7:40 + 50 minuter. Först 20 minuter till klockan åtta, sedan 30 minuter till."
+        }
+      ],
+      "visual": {
+        "type": "klocka",
+        "h": 7,
+        "m": 40
+      }
+    },
+    {
+      "prompt": "Klockan är 3:20. Hur många minuter har gått sedan klockan var tre?",
+      "answer": [
+        "20"
+      ],
+      "correct": "Rätt! Den långa visaren pekar på 4, vilket är 20 minuter över.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "Siffran 4 på klockan betyder 20 minuter, eftersom varje siffra är 5 minuter."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är timmen. Titta på den långa visaren: den visar minuterna."
+        }
+      ],
+      "visual": {
+        "type": "klocka",
+        "h": 3,
+        "m": 20
+      }
+    }
+  ]
+}

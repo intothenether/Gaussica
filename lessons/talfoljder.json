@@ -1,0 +1,154 @@
+{
+  "id": "talfoljder",
+  "area": "algebra",
+  "title": "Talföljder: mönster av tal",
+  "level": "Hitta regeln · ungefär åk 3–6",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": [
+    "tallinjen",
+    "addition"
+  ],
+  "summary": "En talföljd är tal i en bestämd ordning. Hittar du regeln kan du säga vilket tal som kommer härnäst.",
+  "explanationTitle": "Hitta skillnaden mellan talen",
+  "explanation": "I talföljden 3, 7, 11, 15 ökar varje tal med 4. Regeln är ”lägg till 4”. När du känner regeln kan du fortsätta så långt du vill: efter 15 kommer 19. Ibland dubblas talen i stället, som i 1, 2, 4, 8.",
+  "visual": {
+    "type": "tallinje",
+    "title": "Talföljden 3, 7, 11, 15, 19",
+    "min": 0,
+    "max": 20,
+    "step": 1,
+    "labelEvery": 1,
+    "points": [
+      {
+        "value": 3
+      },
+      {
+        "value": 7
+      },
+      {
+        "value": 11
+      },
+      {
+        "value": 15
+      },
+      {
+        "value": 19
+      }
+    ],
+    "jumps": [
+      {
+        "from": 3,
+        "to": 7,
+        "label": "+4"
+      },
+      {
+        "from": 7,
+        "to": 11,
+        "label": "+4"
+      },
+      {
+        "from": 11,
+        "to": 15,
+        "label": "+4"
+      },
+      {
+        "from": 15,
+        "to": 19,
+        "label": "+4"
+      }
+    ]
+  },
+  "rule": "nästa tal = förra talet + skillnaden",
+  "ruleLabel": "REGELN I EN TALFÖLJD",
+  "example": "Följden 20, 17, 14, 11 minskar med 3 varje gång. Nästa tal är 11 − 3 = 8.",
+  "exercise": {
+    "prompt": "Vilket tal kommer härnäst: 5, 9, 13, 17, …?",
+    "answer": [
+      "21"
+    ],
+    "correct": "Rätt! Skillnaden är 4 hela tiden, och 17 + 4 = 21.",
+    "feedback": [
+      {
+        "answers": [
+          "19",
+          "20"
+        ],
+        "message": "Kontrollera skillnaden: 9 − 5 = 4 och 13 − 9 = 4. Du ska lägga till 4 varje gång."
+      },
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "4 är skillnaden mellan talen. Frågan är vilket tal som kommer efter 17."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Talföljden 2, 4, 6, 8, … fortsätter. Vilket är det åttonde talet i följden?",
+      "answer": [
+        "16"
+      ],
+      "correct": "Rätt! 2, 4, 6, 8, 10, 12, 14, 16 — det åttonde talet är 16.",
+      "feedback": [
+        {
+          "answers": [
+            "12",
+            "14"
+          ],
+          "message": "Fortsätt följden tills du har åtta tal: 2, 4, 6, 8, 10, 12, 14, 16."
+        },
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 är det femte talet. Räkna ända till plats åtta."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett badkar töms. Från början är det 90 liter. Efter 1 minut är det 80 liter, efter 2 minuter 70 liter och efter 3 minuter 60 liter. Hur många liter är kvar efter 5 minuter?",
+      "answer": [
+        "40"
+      ],
+      "correct": "Rätt! Det minskar med 10 liter varje minut: 60, 50, 40.",
+      "feedback": [
+        {
+          "answers": [
+            "50"
+          ],
+          "message": "50 liter är kvar efter 4 minuter. Ta ett steg till: ytterligare 10 liter mindre."
+        },
+        {
+          "answers": [
+            "30"
+          ],
+          "message": "30 liter är kvar först efter 6 minuter. Räkna minut för minut: 60, 50, 40."
+        }
+      ]
+    },
+    {
+      "prompt": "Talföljden börjar 1, 2, 4, 8, 16. Här dubblas talet varje gång. Vilket tal kommer efter 16?",
+      "answer": [
+        "32"
+      ],
+      "correct": "Rätt! Talen dubblas, och 16 · 2 = 32.",
+      "feedback": [
+        {
+          "answers": [
+            "24",
+            "20"
+          ],
+          "message": "Här är skillnaden inte lika stor varje gång (1, 2, 4, 8). Regeln är att talet dubblas: 16 · 2."
+        },
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "Du har lagt till 2, men talen ökar med olika mycket. Titta på 4 → 8 → 16: varje tal är dubbelt så stort som det förra."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "id": "pyssla-symmetri",
+  "kind": "pyssel",
+  "area": "geometri",
+  "title": "Pyssla: spegla och rita",
+  "level": "Pyssla med symmetri · ungefär åk 3–4",
+  "grade": 3,
+  "duration": "8 min",
+  "prerequisites": [
+    "symmetri"
+  ],
+  "summary": "Rita figurer i ett rutnät med en spegellinje, och fullborda en spegelbild på egen hand.",
+  "explanationTitle": "Spegellinjen delar figuren",
+  "explanation": "Den streckade linjen är spegellinjen. En figur är symmetrisk när varje ruta på ena sidan har en spegelbild på andra sidan.",
+  "components": [
+    {
+      "type": "ritrutnat",
+      "title": "Rita fritt med spegel",
+      "intro": "Klicka på rutor. Med 'Spegla automatiskt' ritas spegelbilden åt dig. Prova att stänga av den.",
+      "cols": 8,
+      "rows": 6,
+      "autoMirror": true
+    },
+    {
+      "type": "ritrutnat",
+      "title": "Uppdrag: fullborda spegelbilden",
+      "intro": "Vänstra halvan är redan ritad. Rita spegelbilden i högra halvan.",
+      "cols": 8,
+      "rows": 6,
+      "autoMirror": false,
+      "preset": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "goal": {
+        "id": "spegla",
+        "text": "Rita spegelbilden så att figuren blir symmetrisk.",
+        "minCells": 6
+      }
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Hur många av figurerna har en lodrät symmetrilinje (en linje rakt uppifrån och ned)?",
+    "answer": [
+      "3"
+    ],
+    "correct": "Rätt! Triangeln, rektangeln och cirkeln är symmetriska, men parallellogrammet lutar.",
+    "feedback": [
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "Parallellogrammet lutar åt ett håll. Om du viker det rakt på mitten täcker halvorna inte varandra."
+      },
+      {
+        "answers": [
+          "1",
+          "2"
+        ],
+        "message": "Du har missat någon. Tänk dig att du viker varje figur på mitten: det fungerar för tre av dem."
+      }
+    ],
+    "visual": {
+      "type": "figurer",
+      "items": [
+        {
+          "shape": "triangel",
+          "label": "Triangel"
+        },
+        {
+          "shape": "parallellogram",
+          "label": "Parallellogram"
+        },
+        {
+          "shape": "rektangel",
+          "label": "Rektangel"
+        },
+        {
+          "shape": "cirkel",
+          "label": "Cirkel"
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Bokstäverna A, B, F och M är ritade med rak stil. Hur många av dem har en lodrät symmetrilinje?",
+      "answer": [
+        "2"
+      ],
+      "correct": "Rätt! A och M är likadana på båda sidor om en lodrät linje.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "B har en vågrät symmetrilinje men ingen lodrät. Prova att vika B rakt på mitten uppifrån och ned."
+        },
+        {
+          "answers": [
+            "1",
+            "4"
+          ],
+          "message": "Pröva varje bokstav: tänk dig en spegel rakt uppifrån och ned."
+        }
+      ]
+    },
+    {
+      "prompt": "En fjäril är symmetrisk. Vänstra vingen har 7 prickar. Hur många prickar har fjärilen totalt om högra vingen är en spegelbild?",
+      "answer": [
+        "14"
+      ],
+      "correct": "Rätt! Högra vingen har lika många prickar: 7 + 7 = 14.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 prickar är bara vänstra vingen. Spegelbilden på högra sidan har lika många."
+        },
+        {
+          "answers": [
+            "21"
+          ],
+          "message": "Det är bara två vingar med lika många prickar, inte tre."
+        }
+      ]
+    }
+  ]
+}

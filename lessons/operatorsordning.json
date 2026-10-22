@@ -1,0 +1,100 @@
+{
+  "id": "operatorsordning",
+  "parentId": "rakneordning",
+  "area": "tal",
+  "title": "Operatörernas ordning",
+  "level": "Multiplikation & division före addition & subtraktion · åk 4–6",
+  "grade": 5,
+  "duration": "5 min",
+  "prerequisites": ["addition", "subtraktion", "multiplikation", "division"],
+  "summary": "Multiplikation och division görs före addition och subtraktion. Det är en global överenskommelse som gör matematik entydigt.",
+  "explanationTitle": "Varför ordningen spelar roll",
+  "explanation": "Utan överenskommelse: 2 + 3 × 4 skulle kunna räknas som (2 + 3) × 4 = 20 eller som 2 + (3 × 4) = 14. För att alla ska få samma svar är ordningen fastställd: multiplikation/division görs FÖRE addition/subtraktion. Sedan räknar vi från vänster till höger.",
+  "rule": "1. Multiplikation & Division (från vänster till höger)\n2. Addition & Subtraktion (från vänster till höger)",
+  "ruleLabel": "MULTIPLIKATION FÖRE ADDITION",
+  "example": "3 + 4 × 2 − 1 = 3 + 8 − 1 = 10. Först 4 × 2 = 8, sedan 3 + 8 − 1 från vänster till höger.",
+  "exercise": {
+    "prompt": "Räkna ut: 6 + 2 × 5. Vilken operation gör du först?",
+    "answer": ["16"],
+    "correct": "Rätt! Först 2 × 5 = 10, sedan 6 + 10 = 16.",
+    "feedback": [
+      { "answers": ["40"], "message": "Du räknade (6 + 2) × 5 = 8 × 5 = 40. Men multiplikation görs före addition utan parenteser. Rätt: 2 × 5 = 10, sedan 6 + 10 = 16." },
+      { "answers": ["13"], "message": "Du räknade bara 6 + 2 eller något annat. Kom ihåg: multiplikationen 2 × 5 = 10 går först! Sedan 6 + 10 = 16." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En elev har 4 böcker och köper 3 paket med 5 böcker i varje. Hur många böcker har eleven nu?",
+      "answer": ["19"],
+      "correct": "Precis! Först köpet: 3 × 5 = 15 böcker. Sedan totalt: 4 + 15 = 19 böcker.",
+      "feedback": [
+        { "answers": ["35"], "message": "Du räknade (4 + 3) × 5 = 7 × 5 = 35. Men eleven börjar med 4 böcker (inte 4 + 3). Rätt: 3 × 5 = 15 nya, sedan 4 + 15 = 19 totalt." },
+        { "answers": ["12"], "message": "Du räknade bara köpet (3 × 5 = 15) eller något annat. Eleven hade redan 4 böcker. Totalt: 4 + 15 = 19." }
+      ]
+    }
+  ],
+  "problemPatterns": [
+    {
+      "id": "pattern-precedence-addition",
+      "type": "multiStep",
+      "pattern": "operator_precedence",
+      "description": "Addition och multiplikation: multiplikationen först",
+      "count": 8,
+      "parameters": {
+        "operatorSequence": ["multiplication", "addition"],
+        "minA": 1,
+        "maxA": 10,
+        "minB": 2,
+        "maxB": 10,
+        "minC": 1,
+        "maxC": 15
+      },
+      "templates": [
+        "{a} + {b} × {c} = ?",
+        "{c} + {a} × {b} = ?",
+        "{b} × {c} + {a} = ?"
+      ]
+    },
+    {
+      "id": "pattern-precedence-subtraction",
+      "type": "multiStep",
+      "pattern": "operator_precedence",
+      "description": "Subtraktion och multiplikation: multiplikationen först",
+      "count": 6,
+      "parameters": {
+        "operatorSequence": ["multiplication", "subtraction"],
+        "minA": 10,
+        "maxA": 30,
+        "minB": 2,
+        "maxB": 8,
+        "minC": 1,
+        "maxC": 8
+      },
+      "templates": [
+        "{a} - {b} × {c} = ?",
+        "{a} - {c} × {b} = ?"
+      ]
+    },
+    {
+      "id": "pattern-precedence-division",
+      "type": "multiStep",
+      "pattern": "operator_precedence",
+      "description": "Division och addition: divisionen först",
+      "count": 6,
+      "parameters": {
+        "operatorSequence": ["division", "addition"],
+        "minA": 2,
+        "maxA": 12,
+        "minB": 2,
+        "maxB": 6,
+        "minC": 1,
+        "maxC": 10
+      },
+      "templates": [
+        "{a} + {b} ÷ 2 = ?",
+        "{b} ÷ 2 + {a} = ?",
+        "{c} + {a} ÷ 2 = ?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "id": "pyssla-delare",
+  "kind": "pyssel",
+  "area": "tal",
+  "title": "Pyssla: lägg rutor i rader",
+  "level": "Pyssla med delare · ungefär åk 5–6",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "delare"
+  ],
+  "summary": "Välj ett tal och se alla sätt att lägga det som en rektangel av rutor, och därmed alla delare.",
+  "explanationTitle": "Varje rektangel ger två delare",
+  "explanation": "Ett tal som 12 kan läggas som 1 · 12, 2 · 6 och 3 · 4. Varje sätt visar två delare. Primtal går bara att lägga som en enda rad.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Faktorpar",
+      "intro": "Välj ett tal och titta på rektanglarna.",
+      "params": [
+        {
+          "name": "n",
+          "label": "Talet",
+          "min": 1,
+          "max": 48,
+          "step": 1,
+          "value": 10
+        }
+      ],
+      "view": {
+        "type": "monster",
+        "generator": "faktorer",
+        "n": "=n"
+      },
+      "readouts": [
+        {
+          "text": "{n} har {divcount(n)} delare."
+        },
+        {
+          "when": {
+            "expr": "isprime(n)",
+            "equals": 1
+          },
+          "text": "Ett primtal! Det går bara att lägga som en rad: 1 · {n}."
+        }
+      ],
+      "goals": [
+        {
+          "id": "sex",
+          "text": "Hitta ett tal med exakt 6 delare.",
+          "conditions": [
+            {
+              "expr": "divcount(n)",
+              "equals": 6
+            }
+          ]
+        },
+        {
+          "id": "prim",
+          "text": "Hitta ett primtal större än 20.",
+          "conditions": [
+            {
+              "expr": "isprime(n)",
+              "equals": 1
+            },
+            {
+              "expr": "n",
+              "min": 21
+            }
+          ]
+        },
+        {
+          "id": "atta",
+          "text": "Hitta ett tal med exakt 8 delare.",
+          "conditions": [
+            {
+              "expr": "divcount(n)",
+              "equals": 8
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Bilden visar alla sätt att lägga 18 rutor i en rektangel. Hur många delare har 18?",
+    "answer": [
+      "6"
+    ],
+    "correct": "Rätt! Varje rektangel ger två delare: 1 och 18, 2 och 9, 3 och 6.",
+    "feedback": [
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "3 är antalet rektanglar. Varje rektangel visar två delare, så det blir fler."
+      },
+      {
+        "answers": [
+          "9",
+          "18"
+        ],
+        "message": "Delarna är talen som delar 18 jämnt: 1, 2, 3, 6, 9 och 18."
+      }
+    ],
+    "visual": {
+      "type": "monster",
+      "generator": "faktorer",
+      "n": 18
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vilket av talen 21, 22, 23 och 24 är ett primtal?",
+      "answer": [
+        "23"
+      ],
+      "correct": "Rätt! 23 har bara delarna 1 och 23.",
+      "feedback": [
+        {
+          "answers": [
+            "21"
+          ],
+          "message": "21 = 3 · 7, så 21 är inget primtal."
+        },
+        {
+          "answers": [
+            "22"
+          ],
+          "message": "22 = 2 · 11, så 22 är inget primtal."
+        },
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "24 är jämnt och kan delas med 2, så det är inget primtal."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många olika rektanglar (rader · kolumner, där 2 · 8 och 8 · 2 räknas som samma) kan du lägga med 16 rutor?",
+      "answer": [
+        "3"
+      ],
+      "correct": "Rätt! 1 · 16, 2 · 8 och 4 · 4.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är antalet delare (1, 2, 4, 8, 16). Varje rektangel använder ett par av dem, så det blir färre."
+        },
+        {
+          "answers": [
+            "2",
+            "4"
+          ],
+          "message": "Kontrollera paren: 1 · 16, 2 · 8 och 4 · 4."
+        }
+      ],
+      "visual": {
+        "type": "monster",
+        "generator": "faktorer",
+        "n": 16
+      }
+    }
+  ]
+}

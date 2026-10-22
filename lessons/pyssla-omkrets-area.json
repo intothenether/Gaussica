@@ -1,0 +1,271 @@
+{
+  "id": "pyssla-omkrets-area",
+  "kind": "pyssel",
+  "area": "geometri",
+  "title": "Pyssla: omkrets och area",
+  "level": "Pyssla med rektanglar · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "rektangelns-omkrets",
+    "kvadratens-area"
+  ],
+  "summary": "Förändra en rektangel och se hur omkretsen och arean ändras, och ibland ändras på olika sätt.",
+  "explanationTitle": "Kanten och ytan",
+  "explanation": "Den rosa kanten är omkretsen och rutorna inuti är arean. Ändra längd och bredd och jämför.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Bygg en rektangel",
+      "intro": "Hitta rektanglar som uppfyller utmaningarna.",
+      "params": [
+        {
+          "name": "l",
+          "label": "Längd",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "value": 6,
+          "unit": "cm"
+        },
+        {
+          "name": "b",
+          "label": "Bredd",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "value": 3,
+          "unit": "cm"
+        }
+      ],
+      "vars": [
+        {
+          "name": "omkrets",
+          "expr": "2*(l+b)"
+        },
+        {
+          "name": "area",
+          "expr": "l*b"
+        }
+      ],
+      "view": {
+        "type": "rektangel",
+        "w": "=l",
+        "h": "=b",
+        "unit": "cm",
+        "grid": true,
+        "outline": true,
+        "sides": "all"
+      },
+      "readouts": [
+        {
+          "label": "Omkrets",
+          "text": "2 · ({l} + {b}) = {omkrets} cm"
+        },
+        {
+          "label": "Area",
+          "text": "{l} · {b} = {area} cm²"
+        },
+        {
+          "when": {
+            "expr": "l-b",
+            "equals": 0
+          },
+          "text": "Alla sidor är lika långa: det är en kvadrat."
+        }
+      ],
+      "goals": [
+        {
+          "id": "a",
+          "text": "Gör arean 24 cm² och omkretsen 20 cm.",
+          "conditions": [
+            {
+              "expr": "l*b",
+              "equals": 24
+            },
+            {
+              "expr": "2*(l+b)",
+              "equals": 20
+            }
+          ]
+        },
+        {
+          "id": "b",
+          "text": "Gör en kvadrat med omkretsen 16 cm.",
+          "conditions": [
+            {
+              "expr": "l-b",
+              "equals": 0
+            },
+            {
+              "expr": "2*(l+b)",
+              "equals": 16
+            }
+          ]
+        },
+        {
+          "id": "c",
+          "text": "Hitta en rektangel med omkretsen 14 cm och arean 12 cm².",
+          "conditions": [
+            {
+              "expr": "2*(l+b)",
+              "equals": 14
+            },
+            {
+              "expr": "l*b",
+              "equals": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "pyssel",
+      "title": "Samma omkrets, olika area",
+      "intro": "Omkretsen är alltid 20 cm. Vilken form ger störst area?",
+      "params": [
+        {
+          "name": "l",
+          "label": "Längd",
+          "min": 1,
+          "max": 9,
+          "step": 1,
+          "value": 2,
+          "unit": "cm"
+        }
+      ],
+      "vars": [
+        {
+          "name": "b",
+          "expr": "10-l"
+        },
+        {
+          "name": "area",
+          "expr": "l*(10-l)"
+        }
+      ],
+      "view": {
+        "type": "rektangel",
+        "w": "=l",
+        "h": "=b",
+        "unit": "cm",
+        "grid": true,
+        "sides": "all"
+      },
+      "readouts": [
+        {
+          "text": "Längd {l} cm och bredd {b} cm ger omkretsen 20 cm och arean {area} cm²."
+        }
+      ],
+      "goals": [
+        {
+          "id": "storst",
+          "text": "Hitta formen med störst area.",
+          "conditions": [
+            {
+              "expr": "l*(10-l)",
+              "equals": 25
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Rektangel A och B har båda omkretsen 20 cm. Vilken har störst area? Skriv bokstaven.",
+    "answer": [
+      "b",
+      "B"
+    ],
+    "correct": "Rätt! B är en kvadrat med arean 5 · 5 = 25 cm², medan A har 8 · 2 = 16 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "a",
+          "A"
+        ],
+        "message": "A är smal och lång. Räkna rutorna: A har 16 rutor och B har 25 rutor."
+      }
+    ],
+    "visuals": [
+      {
+        "type": "rektangel",
+        "title": "A",
+        "w": 8,
+        "h": 2,
+        "unit": "cm",
+        "grid": true,
+        "sides": "all"
+      },
+      {
+        "type": "rektangel",
+        "title": "B",
+        "w": 5,
+        "h": 5,
+        "unit": "cm",
+        "grid": true,
+        "sides": "all"
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du har 24 m staket och gör en rektangulär hage som är 8 m lång. Hur stor area får hagen i m²?",
+      "answer": [
+        "32",
+        "32 m2",
+        "32 m²"
+      ],
+      "correct": "Rätt! Två längder är 16 m, så två bredder är 8 m och bredden är 4 m. Arean är 8 · 4 = 32 m².",
+      "feedback": [
+        {
+          "answers": [
+            "64"
+          ],
+          "message": "64 är 8 · 8. Bredden är inte 8: två bredder är 8 m tillsammans, så en bredd är 4 m."
+        },
+        {
+          "answers": [
+            "96"
+          ],
+          "message": "96 är 24 · 4. Räkna först ut bredden med hjälp av omkretsen."
+        }
+      ]
+    },
+    {
+      "prompt": "En kvadratisk trädgård har arean 36 m². Hur många meter staket behövs runt den?",
+      "answer": [
+        "24"
+      ],
+      "correct": "Rätt! Sidan är 6 m (6 · 6 = 36), och omkretsen är 4 · 6 = 24 m.",
+      "feedback": [
+        {
+          "answers": [
+            "36"
+          ],
+          "message": "36 är arean. Staketet går runt kanten: räkna först ut sidan."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är två sidor. En kvadrat har fyra lika långa sidor på 6 m."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 m är sidan. Staketet går runt alla fyra sidorna."
+        }
+      ]
+    }
+  ]
+}

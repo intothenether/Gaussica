@@ -1,0 +1,107 @@
+{
+  "id": "parenteser",
+  "parentId": "rakneordning",
+  "area": "tal",
+  "title": "Parenteser – gruppera först",
+  "level": "Ändra beräkningsordning med parenteser · åk 4–6",
+  "grade": 5,
+  "duration": "5 min",
+  "prerequisites": ["addition", "subtraktion", "multiplikation", "operatorsordning"],
+  "summary": "Parenteser säger 'räkna mig först!' De låter oss ändra ordningen och göra det som normalt skulle komma senare faktiskt först.",
+  "explanationTitle": "Parenteser bryter normal räkneordning",
+  "explanation": "Normalt gör vi multiplikation före addition. Men om vi skriver (2 + 3) × 4, säger parenteserna 'först (2 + 3), sedan multiplikation'. Utan parenteser skulle 2 + 3 × 4 = 14. Med parenteser: (2 + 3) × 4 = 20. Parenteser är som att säga 'detta är viktigare, gör det först!'",
+  "rule": "1. Allt inuti parenteser räknas FÖRST\n2. Sedan följer normal räkneordning",
+  "ruleLabel": "PARENTESER FÖRST",
+  "example": "Utan parenteser: 2 + 3 × 5 = 2 + 15 = 17. Med parenteser: (2 + 3) × 5 = 5 × 5 = 25.",
+  "exercise": {
+    "prompt": "Räkna ut: (3 + 2) × 4.",
+    "answer": ["20"],
+    "correct": "Rätt! Parenteserna säger 'gör detta först': 3 + 2 = 5. Sedan 5 × 4 = 20.",
+    "feedback": [
+      { "answers": ["14"], "message": "Du räknade 3 + 2 × 4 utan att respektera parenteserna. Med parenteser: (3 + 2) betyder vi gör det FÖRST. Så 3 + 2 = 5, sedan 5 × 4 = 20." },
+      { "answers": ["11"], "message": "Du räknade bara 3 + 2 = 5. Men det finns också en multiplikation! Sedan 5 × 4 = 20." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En fruktaffär gör ett erbjudande: Köp 3 äpplen och 2 päron för 7 kr per frukt. Hur mycket kostar det?",
+      "answer": ["35"],
+      "correct": "Precis! Först räknar vi hur många frukter: (3 + 2) = 5 frukter. Sedan 5 × 7 = 35 kr.",
+      "feedback": [
+        { "answers": ["31"], "message": "Du räknade ungefär 3 × 7 + 2 = 23 eller något annat. Parenteserna säger: först räkna alla frukter (3 + 2 = 5), sedan multiplicera priset. 5 × 7 = 35 kr." },
+        { "answers": ["21"], "message": "Du räknade bara ett av momenten. Parenteserna (3 + 2) betyder vi först lägger ihop frukterna till 5, sedan gånger priset 7. Total: 5 × 7 = 35 kr." }
+      ]
+    },
+    {
+      "prompt": "En dag fanns det 10 fåglar på en gren. Så kom 4 nya och 6 nya. Alla flög då upp i luften. Hur många fåglar flög upp?",
+      "answer": ["20"],
+      "correct": "Rätt! Vi beräknar hur många fåglar det var sammanlagt först: 10 + 4 + 6 = 20 fåglar. Sedan flög alla upp.",
+      "feedback": [
+        { "answers": ["24"], "message": "Du räknade 10 + 4 × 6 = 10 + 24 = 34 eller något liknande utan att räkna de nya. Det var en ursprunglig, plus 4 nya, plus 6 nya = 10 + 4 + 6 = 20." },
+        { "answers": ["14"], "message": "Du räknade 10 + 4 eller något delproblem. Det kom båda grupper: 10 + 4 + 6 = 20 fåglar sammanlagt." }
+      ]
+    }
+  ],
+  "problemPatterns": [
+    {
+      "id": "pattern-parentheses-add-mult",
+      "type": "multiStep",
+      "pattern": "parentheses",
+      "description": "Parenteser med addition och multiplikation",
+      "count": 8,
+      "parameters": {
+        "innerOperation": "addition",
+        "outerOperation": "multiplication",
+        "minA": 1,
+        "maxA": 8,
+        "minB": 1,
+        "maxB": 8,
+        "minC": 2,
+        "maxC": 10
+      },
+      "templates": [
+        "({a} + {b}) × {c} = ?",
+        "{c} × ({a} + {b}) = ?",
+        "({b} + {a}) × {c} = ?"
+      ]
+    },
+    {
+      "id": "pattern-parentheses-sub-mult",
+      "type": "multiStep",
+      "pattern": "parentheses",
+      "description": "Parenteser med subtraktion och multiplikation",
+      "count": 6,
+      "parameters": {
+        "innerOperation": "subtraction",
+        "outerOperation": "multiplication",
+        "minA": 5,
+        "maxA": 15,
+        "minB": 1,
+        "maxB": 5,
+        "minC": 2,
+        "maxC": 10
+      },
+      "templates": [
+        "({a} - {b}) × {c} = ?",
+        "{c} × ({a} - {b}) = ?"
+      ]
+    },
+    {
+      "id": "pattern-parentheses-nested",
+      "type": "multiStep",
+      "pattern": "parentheses",
+      "description": "Parenteser med olika operationer (utan nesting för åk 4-6)",
+      "count": 6,
+      "parameters": {
+        "combinationType": "mixed",
+        "minValue": 1,
+        "maxValue": 10
+      },
+      "templates": [
+        "({a} + {b}) - {c} = ?",
+        "{a} + ({b} - {c}) = ?",
+        "({a} - {b}) + {c} = ?"
+      ]
+    }
+  ]
+}

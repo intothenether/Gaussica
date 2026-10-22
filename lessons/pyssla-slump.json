@@ -1,0 +1,157 @@
+{
+  "id": "pyssla-slump",
+  "kind": "pyssel",
+  "area": "data",
+  "title": "Pyssla: kasta och räkna",
+  "level": "Pyssla med slump · ungefär åk 5–6",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "slump"
+  ],
+  "summary": "Kasta tärning och singla slant många gånger och se hur resultaten fördelar sig.",
+  "explanationTitle": "Slump och många försök",
+  "explanation": "Med få kast blir fördelningen ojämn. Med många kast kommer staplarna oftast närmare varandra. Den streckade linjen visar vad man väntar sig vid en helt jämn fördelning.",
+  "components": [
+    {
+      "type": "tarning",
+      "title": "Kasta tärning",
+      "intro": "Kasta 1, 10 eller 100 gånger.",
+      "kind": "tarning",
+      "sides": 6,
+      "goal": {
+        "id": "kasta",
+        "text": "Kasta tärningen minst 100 gånger totalt.",
+        "minRolls": 100
+      }
+    },
+    {
+      "type": "tarning",
+      "title": "Singla slant",
+      "intro": "Kron eller klave?",
+      "kind": "mynt",
+      "goal": {
+        "id": "singla",
+        "text": "Singla slanten minst 50 gånger totalt.",
+        "minRolls": 50
+      }
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Diagrammet visar 60 tärningskast. Vilken siffra kom oftast?",
+    "answer": [
+      "4"
+    ],
+    "correct": "Rätt! Fyrorna kom 12 gånger, mer än någon annan siffra.",
+    "feedback": [
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "12 är hur många gånger fyran kom. Frågan är vilken siffra som kom oftast."
+      },
+      {
+        "answers": [
+          "6",
+          "2"
+        ],
+        "message": "Titta efter den högsta stapeln."
+      }
+    ],
+    "visual": {
+      "type": "staplar",
+      "data": [
+        {
+          "label": "1",
+          "value": 9
+        },
+        {
+          "label": "2",
+          "value": 11
+        },
+        {
+          "label": "3",
+          "value": 10
+        },
+        {
+          "label": "4",
+          "value": 12
+        },
+        {
+          "label": "5",
+          "value": 8
+        },
+        {
+          "label": "6",
+          "value": 10
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Efter 50 slantsinglingar blev det 27 kronor och 23 klave. Hur många fler kronor än klave?",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! 27 − 23 = 4.",
+      "feedback": [
+        {
+          "answers": [
+            "50"
+          ],
+          "message": "50 är alla singlingar. Frågan är skillnaden mellan kron och klave."
+        },
+        {
+          "answers": [
+            "23",
+            "27"
+          ],
+          "message": "Det är ett av resultaten. Du ska jämföra dem: dra det ena från det andra."
+        }
+      ],
+      "visual": {
+        "type": "staplar",
+        "data": [
+          {
+            "label": "Krona",
+            "value": 27
+          },
+          {
+            "label": "Klave",
+            "value": 23
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Om du kastar en tärning 120 gånger, hur många gånger väntar du dig att få varje siffra vid en jämn fördelning?",
+      "answer": [
+        "20"
+      ],
+      "correct": "Rätt! 120 ÷ 6 = 20.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är antalet sidor på tärningen. Dela kasten (120) på sidorna."
+        },
+        {
+          "answers": [
+            "120"
+          ],
+          "message": "120 är alla kasten. Fördela dem lika över de sex siffrorna."
+        }
+      ]
+    }
+  ]
+}

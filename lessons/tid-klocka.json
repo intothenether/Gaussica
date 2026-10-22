@@ -1,0 +1,44 @@
+{
+  "id": "tid-klocka",
+  "area": "matning",
+  "title": "Tid och klockan",
+  "level": "Läs klockan och räkna tid · ungefär åk 3–6",
+  "grade": 3,
+  "duration": "7 min",
+  "prerequisites": ["addition", "subtraktion"],
+  "summary": "Klockan delar en timme i 60 minuter. När vi räknar tid behöver vi därför växla mellan minuter och timmar.",
+  "explanationTitle": "En timme är 60 minuter",
+  "explanation": "Klockan visar 14:35. Fyrtio minuter senare har 25 minuter gått fram till 15:00 och ytterligare 15 minuter till 15:15. Tiden skrivs med timmar och minuter, inte som hundratal.",
+  "rule": "60 minuter = 1 timme",
+  "ruleLabel": "TID VÄXLAR VID 60",
+  "example": "Från 14:35 till 15:00 är det 25 minuter. Lägg till de återstående 15 minuterna för att få 40 minuter totalt.",
+  "exercise": {
+    "prompt": "Klockan är 14:35. Vad är klockan 40 minuter senare? Svara HH:MM.",
+    "answer": ["15:15", "15.15"],
+    "correct": "Rätt! 25 minuter tar dig till 15:00 och 15 minuter till blir 15:15.",
+    "feedback": [
+      { "answers": ["14:75", "14.75"], "message": "Minuterna går inte upp till 75 på klockan. När du passerar 60 minuter växlar du till nästa timme och börjar om från 00 minuter." },
+      { "answers": ["15:05", "15.05"], "message": "Du kom fram till nästa timme, men räkna hur många av de 40 minuterna som är kvar efter 14:35 → 15:00." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En film börjar 09:20 och är 50 minuter lång. När slutar filmen?",
+      "answer": ["10:10", "10.10"],
+      "correct": "Rätt! 40 minuter tar dig till 10:00 och 10 minuter till blir 10:10.",
+      "feedback": [
+        { "answers": ["09:70", "09.70"], "message": "En klocka visar högst 59 minuter. När du passerar 60 minuter växlar du till nästa timme." },
+        { "answers": ["10:00", "10.00"], "message": "Du har räknat 40 minuter fram till nästa hela timme. Filmen är 50 minuter lång, så lägg till de 10 minuter som är kvar." }
+      ]
+    },
+    {
+      "prompt": "Fotbollsträningen börjar 16:15 och slutar 17:00. Hur många minuter tränar laget?",
+      "answer": ["45", "45 minuter"],
+      "correct": "Ja! Från 16:15 till 17:00 är det 45 minuter.",
+      "feedback": [
+        { "answers": ["85"], "message": "85 behandlar klockslagen som vanliga heltal. Räkna minuterna från 16:15 fram till nästa hela timme." },
+        { "answers": ["15"], "message": "15 är minuterna efter hel timme som träningen börjar. Räkna hur många minuter som återstår av timmen." }
+      ]
+    }
+  ]
+}

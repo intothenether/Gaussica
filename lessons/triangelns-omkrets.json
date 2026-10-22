@@ -1,0 +1,151 @@
+{
+  "id": "triangelns-omkrets",
+  "area": "geometri",
+  "parentId": "triangeln",
+  "title": "Triangelns omkrets: summan av tre sidor",
+  "level": "Lägg ihop sidorna · ungefär åk 4–7",
+  "grade": 5,
+  "duration": "6 min",
+  "prerequisites": [
+    "rektangelns-omkrets"
+  ],
+  "summary": "Omkretsen av en triangel är längden av alla tre sidor tillsammans.",
+  "explanationTitle": "Gå runt alla tre sidorna",
+  "explanation": "En triangel har tre sidor som kan vara olika långa. Har sidorna längderna 5 cm, 6 cm och 7 cm är omkretsen 5 + 6 + 7 = 18 cm. I en liksidig triangel är alla sidor lika långa, så där är omkretsen 3 gånger sidan.",
+  "visual": {
+    "type": "triangel",
+    "base": 6,
+    "height": 4.899,
+    "apex": 1,
+    "unit": "cm",
+    "outline": true,
+    "labels": {
+      "left": "5 cm",
+      "right": "7 cm",
+      "base": "6 cm"
+    },
+    "title": "Omkretsen är 5 + 6 + 7 cm"
+  },
+  "rule": "O = a + b + c",
+  "ruleLabel": "TRIANGELNS OMKRETS",
+  "example": "En liksidig triangel med sidan 4 m har omkretsen 3 · 4 = 12 m.",
+  "exercise": {
+    "prompt": "Triangeln har sidorna 8 cm, 6 cm och 5 cm. Vad är omkretsen i cm?",
+    "answer": [
+      "19",
+      "19 cm"
+    ],
+    "correct": "Rätt! 8 + 6 + 5 = 19 cm.",
+    "feedback": [
+      {
+        "answers": [
+          "48"
+        ],
+        "message": "48 är 8 · 6. Sidorna ska adderas, inte multipliceras."
+      },
+      {
+        "answers": [
+          "14",
+          "13",
+          "11"
+        ],
+        "message": "Du har bara lagt ihop två av de tre sidorna. Omkretsen är alla tre: 8 + 6 + 5."
+      }
+    ],
+    "visual": {
+      "type": "triangel",
+      "base": 8,
+      "height": 3.745,
+      "apex": 4.688,
+      "unit": "cm",
+      "outline": true,
+      "labels": {
+        "left": "6 cm",
+        "right": "5 cm",
+        "base": "8 cm"
+      }
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "En liksidig triangel har sidan 9 cm. Vad är omkretsen i cm?",
+      "answer": [
+        "27",
+        "27 cm"
+      ],
+      "correct": "Rätt! Tre sidor à 9 cm: 3 · 9 = 27 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "9 cm är bara en sida. Alla tre sidor är 9 cm."
+        },
+        {
+          "answers": [
+            "81"
+          ],
+          "message": "81 är 9 · 9. Omkretsen är sidorna adderade: 3 · 9."
+        }
+      ],
+      "visual": {
+        "type": "triangel",
+        "base": 9,
+        "height": 7.794,
+        "apex": 4.5,
+        "unit": "cm",
+        "labels": {
+          "left": "9 cm",
+          "right": "9 cm",
+          "base": "9 cm"
+        }
+      }
+    },
+    {
+      "prompt": "En triangulär flagga har sidorna 30 cm, 40 cm och 50 cm. Hur många cm snodd behövs för att sy en kant runt hela flaggan?",
+      "answer": [
+        "120",
+        "120 cm"
+      ],
+      "correct": "Rätt! 30 + 40 + 50 = 120 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "70",
+            "80",
+            "90"
+          ],
+          "message": "Du har missat en av sidorna. Kanten går runt alla tre: 30 + 40 + 50."
+        },
+        {
+          "answers": [
+            "60000"
+          ],
+          "message": "60 000 är 30 · 40 · 50. Omkretsen får du genom att addera sidorna."
+        }
+      ]
+    },
+    {
+      "prompt": "Omkretsen av en triangel är 24 cm. Två av sidorna är 7 cm och 9 cm. Hur lång är den tredje sidan, i cm?",
+      "answer": [
+        "8",
+        "8 cm"
+      ],
+      "correct": "Rätt! 7 + 9 = 16, och 24 − 16 = 8 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "16 är de två kända sidorna tillsammans. Den tredje sidan är det som saknas upp till 24."
+        },
+        {
+          "answers": [
+            "17"
+          ],
+          "message": "17 är 24 − 7. Du ska dra bort båda de kända sidorna: 24 − 7 − 9."
+        }
+      ]
+    }
+  ]
+}

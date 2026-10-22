@@ -1,0 +1,44 @@
+{
+  "id": "procent",
+  "area": "tal",
+  "title": "Procent är hundradelar",
+  "level": "Se bråk i vardagen · ungefär åk 5–8",
+  "grade": 6,
+  "duration": "6 min",
+  "prerequisites": ["brak", "decimaltal"],
+  "summary": "Procent betyder hundradelar. Det gör det lätt att jämföra andelar av olika helheter.",
+  "explanationTitle": "Procent betyder per hundra",
+  "explanation": "25 procent betyder 25 av 100 lika stora delar. Det är samma andel som 25/100 och som 1/4. Procent, bråk och decimaltal är olika sätt att beskriva samma andel.",
+  "rule": "25 % = 25/100 = 1/4 = 0,25",
+  "ruleLabel": "SAMMA ANDEL, OLIKA SKRIVSÄTT",
+  "example": "Om en helhet delas i fyra lika stora delar är varje del 25 procent av helheten.",
+  "exercise": {
+    "prompt": "Hur mycket är 25 % av 80?",
+    "answer": ["20"],
+    "correct": "Rätt! 25 % är en fjärdedel, och en fjärdedel av 80 är 20.",
+    "feedback": [
+      { "answers": ["25"], "message": "25 är själva procenttalet, inte 25 % av 80. Skriv om 25 % som en fjärdedel och dela sedan 80 i fyra lika stora delar." },
+      { "answers": ["40"], "message": "40 är hälften av 80. Men 25 % är en fjärdedel — hälften av en halv. Dela 80 i fyra lika stora delar." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En jacka kostar 200 kr. Priset sänks med 10 %. Hur många kronor är rabatten?",
+      "answer": ["20", "20 kr"],
+      "correct": "Rätt! 10 % av 200 kr är 0,10 × 200 = 20 kr.",
+      "feedback": [
+        { "answers": ["10"], "message": "10 är själva procentsatsen. Räkna ut 10 hundradelar av priset 200 kr." },
+        { "answers": ["190"], "message": "190 kr är det nya priset efter rabatten. Frågan gäller hur många kronor rabatten är." }
+      ]
+    },
+    {
+      "prompt": "En klass har 20 elever. 25 % cyklar till skolan. Hur många elever cyklar?",
+      "answer": ["5", "5 elever"],
+      "correct": "Precis! 25 % är en fjärdedel, och en fjärdedel av 20 är 5.",
+      "feedback": [
+        { "answers": ["25"], "message": "25 är procentsatsen, inte antalet elever. Hitta en fjärdedel av klassens 20 elever." },
+        { "answers": ["15"], "message": "15 elever kan vara resten av klassen. En fjärdedel av 20 cyklar." }
+      ]
+    }
+  ]
+}

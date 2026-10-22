@@ -1,0 +1,44 @@
+{
+  "id": "omkrets",
+  "area": "geometri",
+  "title": "Omkrets runt en cirkel",
+  "level": "Mät cirklar · ungefär åk 6–9",
+  "grade": 7,
+  "duration": "7 min",
+  "prerequisites": ["rektangelns-omkrets", "decimaltal"],
+  "summary": "En cirkels omkrets är sträckan hela vägen runt. Den beror på cirkelns diameter och talet pi.",
+  "explanationTitle": "Pi kopplar ihop diameter och omkrets",
+  "explanation": "För varje cirkel är omkretsen ungefär 3,14 gånger diametern. Diametern går tvärs över cirkeln genom mitten. Om du känner radien använder du två radier som diameter.",
+  "rule": "O = π · d = 2 · π · r",
+  "ruleLabel": "CIRKELNS OMKRETS",
+  "example": "En cirkel med diameter 10 cm har omkretsen ungefär 3,14 × 10 = 31,4 cm.",
+  "exercise": {
+    "prompt": "En cirkel har diametern 10 cm. Ungefär hur lång är omkretsen? Använd π ≈ 3,14.",
+    "answer": ["31.4", "31,4", "31.4 cm", "31,4 cm", "31.4cm", "31,4cm"],
+    "correct": "Ja! Omkretsen är π gånger diametern: 3,14 × 10 cm = 31,4 cm.",
+    "feedback": [
+      { "answers": ["20", "20 cm"], "message": "20 cm är två gånger diametern. För en cirkel måste du också ta hänsyn till pi: omkretsen är ungefär 3,14 gånger diametern." },
+      { "answers": ["15.7", "15,7"], "message": "15,7 cm är ungefär pi gånger radien. Uppgiften gav diametern, som är dubbelt så lång som radien." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett runt bord har diametern 80 cm. Ungefär hur långt är det runt kanten? Använd π ≈ 3,14.",
+      "answer": ["251.2", "251,2", "251.2 cm", "251,2 cm"],
+      "correct": "Rätt! 3,14 × 80 cm = 251,2 cm.",
+      "feedback": [
+        { "answers": ["160", "160 cm"], "message": "160 cm är två diametrar. Omkretsen är ungefär 3,14 gånger diametern." },
+        { "answers": ["125.6", "125,6"], "message": "Det värdet motsvarar ungefär pi gånger radien. Bordets diameter är 80 cm, alltså är radien 40 cm." }
+      ]
+    },
+    {
+      "prompt": "Ett cykelhjul har radien 30 cm. Ungefär hur långt rullar det på ett helt varv? Använd π ≈ 3,14.",
+      "answer": ["188.4", "188,4", "188.4 cm", "188,4 cm"],
+      "correct": "Precis! Omkretsen är 2 × 3,14 × 30 cm = 188,4 cm.",
+      "feedback": [
+        { "answers": ["94.2", "94,2"], "message": "Du räknade pi gånger radien. Ett helt varv runt hjulet är två gånger pi gånger radien." },
+        { "answers": ["60"], "message": "60 cm är hjulets diameter. Multiplicera diametern med pi för att hitta sträckan runt hjulet." }
+      ]
+    }
+  ]
+}

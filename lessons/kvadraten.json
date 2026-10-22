@@ -1,0 +1,47 @@
+{
+  "id": "kvadraten",
+  "area": "geometri",
+  "title": "Kvadraten: omkrets och area",
+  "level": "Mät runt och inuti · ungefär åk 3–6",
+  "grade": 4,
+  "duration": "12 min",
+  "prerequisites": [
+    "geometriska-figurer",
+    "multiplikation"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "kvadratens-omkrets",
+      "title": "Kvadratens omkrets",
+      "sequence": 1
+    },
+    {
+      "id": "kvadratens-area",
+      "title": "Kvadratens area",
+      "sequence": 2
+    }
+  ],
+  "summary": "En kvadrat har fyra lika långa sidor. Omkretsen mäter kanten runt, och arean mäter ytan inuti.",
+  "explanationTitle": "Runt och inuti",
+  "explanation": "Omkretsen är längden runt hela figuren, och arean är hur stor yta figuren täcker. Först lär du dig båda för kvadraten, där alla sidor är lika långa.",
+  "rule": "O = 4 · sidan och A = sidan · sidan",
+  "ruleLabel": "KVADRATENS FORMLER",
+  "example": "En kvadrat med sidan 3 cm har omkretsen 4 · 3 = 12 cm och arean 3 · 3 = 9 cm².",
+  "exercise": {
+    "prompt": "En kvadrat har sidan 3 cm. Vad är omkretsen i cm?",
+    "answer": [
+      "12"
+    ],
+    "correct": "Rätt! 4 · 3 = 12 cm.",
+    "feedback": [
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "9 är arean (3 · 3). Omkretsen är summan av alla fyra sidorna."
+      }
+    ]
+  },
+  "wordProblems": []
+}

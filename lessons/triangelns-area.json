@@ -1,0 +1,137 @@
+{
+  "id": "triangelns-area",
+  "area": "geometri",
+  "parentId": "triangeln",
+  "title": "Triangelns area: hälften av en rektangel",
+  "level": "Bas och höjd · ungefär åk 6–9",
+  "grade": 6,
+  "duration": "7 min",
+  "prerequisites": [
+    "triangelns-omkrets",
+    "rektangelns-area"
+  ],
+  "summary": "En triangel fyller hälften av en rektangel med samma bas och höjd. Därför är arean bas · höjd ÷ 2.",
+  "explanationTitle": "Rita in rektangeln",
+  "explanation": "Rita en rektangel runt triangeln så att triangelns bas är rektangelns botten och toppen når den övre kanten. Triangeln täcker precis hälften av rektangeln. Är basen 8 cm och höjden 5 cm har rektangeln arean 8 · 5 = 40 cm², och triangeln 40 ÷ 2 = 20 cm². Höjden mäts rakt upp, i rät vinkel mot basen. Det är inte samma sak som en av de lutande sidorna.",
+  "visual": {
+    "type": "triangel",
+    "base": 8,
+    "height": 5,
+    "apex": 3,
+    "unit": "cm",
+    "showHeight": true,
+    "showRect": true,
+    "title": "Triangeln är hälften av rektangeln"
+  },
+  "rule": "A = (bas · höjd) ÷ 2",
+  "ruleLabel": "TRIANGELNS AREA",
+  "example": "Bas 6 m och höjd 4 m ger (6 · 4) ÷ 2 = 12 m².",
+  "exercise": {
+    "prompt": "Triangeln har basen 10 cm och höjden 6 cm. Vad är arean i cm²?",
+    "answer": [
+      "30",
+      "30 cm2",
+      "30cm2",
+      "30 cm²",
+      "30cm²"
+    ],
+    "correct": "Rätt! (10 · 6) ÷ 2 = 30 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "60"
+        ],
+        "message": "60 är hela rektangeln (10 · 6). Triangeln är hälften av den."
+      },
+      {
+        "answers": [
+          "16"
+        ],
+        "message": "16 är 10 + 6. Arean får du genom att multiplicera bas och höjd och sedan dela med 2."
+      }
+    ],
+    "visual": {
+      "type": "triangel",
+      "base": 10,
+      "height": 6,
+      "apex": 4,
+      "unit": "cm",
+      "showHeight": true
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "En triangel har basen 12 cm och höjden 5 cm. Vad är arean i cm²?",
+      "answer": [
+        "30",
+        "30 cm2",
+        "30cm2",
+        "30 cm²",
+        "30cm²"
+      ],
+      "correct": "Rätt! (12 · 5) ÷ 2 = 30 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 är hela rektangeln (12 · 5). Triangeln är hälften."
+        },
+        {
+          "answers": [
+            "17"
+          ],
+          "message": "17 är 12 + 5. Multiplicera bas och höjd och dela sedan med 2."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett segel är en triangel med basen 4 m och höjden 6 m. Hur stor är seglets area i m²?",
+      "answer": [
+        "12",
+        "12 m2",
+        "12m2",
+        "12 m²",
+        "12m²"
+      ],
+      "correct": "Rätt! (4 · 6) ÷ 2 = 12 m².",
+      "feedback": [
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "24 är rektangeln 4 · 6. Seglet är bara hälften av den."
+        },
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 är 4 + 6. Använd formeln: bas gånger höjd, delat med 2."
+        }
+      ]
+    },
+    {
+      "prompt": "En triangel har arean 20 cm² och basen 8 cm. Hur hög är triangeln, i cm?",
+      "answer": [
+        "5",
+        "5 cm"
+      ],
+      "correct": "Rätt! Bas · höjd = 2 · 20 = 40, så höjden är 40 ÷ 8 = 5 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "2,5",
+            "2.5"
+          ],
+          "message": "20 ÷ 8 = 2,5 glömmer att arean är hälften av bas · höjd. Bas · höjd är dubbelt så stor som arean: 40."
+        },
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 är 20 ÷ 2. Du behöver också dela med basen: bas · höjd = 40, alltså 40 ÷ 8."
+        }
+      ]
+    }
+  ]
+}

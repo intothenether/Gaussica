@@ -1,0 +1,120 @@
+{
+  "id": "pyssla-primtal",
+  "kind": "pyssel",
+  "area": "tal",
+  "title": "Pyssla: primtalssilen",
+  "level": "Pyssla med primtal · ungefär åk 6–7",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "primtal"
+  ],
+  "summary": "Använd Eratosthenes sil: stryk multiplar av varje primtal tills bara primtalen återstår.",
+  "explanationTitle": "Sila fram primtalen",
+  "explanation": "Klicka på det minsta talet som inte är överstruket. Det är ett primtal. Då stryks alla dess multiplar över. Fortsätt tills alla tal är markerade eller överstrukna.",
+  "components": [
+    {
+      "type": "primtalssil",
+      "title": "Primtalssilen",
+      "from": 2,
+      "to": 50,
+      "goal": {
+        "id": "sil",
+        "text": "Hitta alla primtal mellan 2 och 50."
+      }
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Talen som är delbara med 3 är markerade i rutnätet. Hur många sådana tal finns det mellan 1 och 30?",
+    "answer": [
+      "10"
+    ],
+    "correct": "Rätt! 3, 6, 9, …, 30 är tio tal.",
+    "feedback": [
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "Glöm inte 30, som är 10 · 3."
+      },
+      {
+        "answers": [
+          "11"
+        ],
+        "message": "Räkna bara tal som går att dela med 3: 3 · 1 till 3 · 10."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "3 är talet vi delar med. Frågan är hur många tal som är delbara med 3."
+      }
+    ],
+    "visual": {
+      "type": "talrutnat",
+      "from": 1,
+      "to": 30,
+      "columns": 10,
+      "highlight": {
+        "multiplesOf": 3
+      }
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "När man silar bort multiplarna av 2, 3, 5 och 7 i rutnätet 1–100 återstår primtalen. Vilket är det största primtalet under 100?",
+      "answer": [
+        "97"
+      ],
+      "correct": "Rätt! 97 har bara delarna 1 och 97.",
+      "feedback": [
+        {
+          "answers": [
+            "99"
+          ],
+          "message": "99 = 9 · 11, så det kan delas med 3."
+        },
+        {
+          "answers": [
+            "95"
+          ],
+          "message": "95 = 5 · 19, så det kan delas med 5."
+        },
+        {
+          "answers": [
+            "91"
+          ],
+          "message": "91 = 7 · 13, så det kan delas med 7."
+        }
+      ]
+    },
+    {
+      "prompt": "Tvillingprimtal är två primtal som skiljer sig med 2, som 11 och 13. Vilket primtal är 2 mer än 17?",
+      "answer": [
+        "19"
+      ],
+      "correct": "Rätt! 17 och 19 är tvillingprimtal.",
+      "feedback": [
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "18 är jämnt och går att dela med 2, så det är inget primtal."
+        },
+        {
+          "answers": [
+            "15"
+          ],
+          "message": "15 är 2 mindre än 17 och är 3 · 5, inget primtal."
+        }
+      ]
+    }
+  ]
+}

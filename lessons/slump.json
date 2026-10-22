@@ -1,0 +1,156 @@
+{
+  "id": "slump",
+  "area": "data",
+  "title": "Slump: chans och sannolikhet",
+  "level": "Vad kan hända? · ungefär åk 3–7",
+  "grade": 5,
+  "duration": "7 min",
+  "prerequisites": [
+    "diagram",
+    "brak-del"
+  ],
+  "summary": "Slump betyder att vi inte kan veta på förhand vad som händer. Chansen kan ändå beskrivas med tal, till exempel 1 av 6.",
+  "explanationTitle": "Chans är önskade utfall av alla utfall",
+  "explanation": "När du kastar en vanlig tärning finns 6 lika troliga utfall: 1, 2, 3, 4, 5 och 6. Chansen att få en femma är 1 av 6, alltså 1/6. Chansen att få ett jämnt tal är 3 av 6, eftersom 2, 4 och 6 är jämna, och 3/6 = 1/2. Något säkert har sannolikheten 1 och något omöjligt har sannolikheten 0.",
+  "visual": {
+    "type": "stapeldiagram",
+    "title": "Resultat av 60 tärningskast",
+    "unit": "kast",
+    "data": [
+      {
+        "label": "1",
+        "value": 9
+      },
+      {
+        "label": "2",
+        "value": 11
+      },
+      {
+        "label": "3",
+        "value": 10
+      },
+      {
+        "label": "4",
+        "value": 12
+      },
+      {
+        "label": "5",
+        "value": 8
+      },
+      {
+        "label": "6",
+        "value": 10
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "text",
+      "text": "Staplarna är inte exakt lika höga, och det är helt normalt: slumpen varierar. Efter fem sexor i rad är chansen för en sexa i nästa kast fortfarande 1/6."
+    }
+  ],
+  "rule": "Sannolikhet = antal önskade utfall ÷ antal möjliga utfall",
+  "ruleLabel": "SANNOLIKHET",
+  "example": "I en påse ligger 2 röda och 3 blå kulor. Chansen att dra en röd är 2 av 5, alltså 2/5.",
+  "exercise": {
+    "prompt": "Du kastar en vanlig tärning. Vad är chansen att få en fyra? Svara som bråk.",
+    "answer": [
+      "1/6"
+    ],
+    "correct": "Rätt! Det finns 1 sida med fyra av 6 möjliga, alltså 1/6.",
+    "feedback": [
+      {
+        "answers": [
+          "1/4",
+          "4/6"
+        ],
+        "message": "Nämnaren är antalet möjliga utfall (6), och täljaren är antalet sidor som ger en fyra (1)."
+      },
+      {
+        "answers": [
+          "1/5"
+        ],
+        "message": "Tärningen har sex sidor, inte fem. Alla sex är möjliga utfall."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "I en påse ligger 3 röda, 2 gröna och 5 gula kulor. Du drar en kula utan att titta. Vad är chansen att den är gul? Svara som bråk.",
+      "answer": [
+        "1/2",
+        "5/10",
+        "0,5",
+        "0.5"
+      ],
+      "correct": "Rätt! 5 av 10 kulor är gula, och 5/10 = 1/2.",
+      "feedback": [
+        {
+          "answers": [
+            "3/10",
+            "2/10",
+            "1/5"
+          ],
+          "message": "Det är chansen för en annan färg. Räkna de gula kulorna: 5 av totalt 10."
+        },
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är antalet gula kulor. Chansen skrivs som gula kulor delat med alla kulor."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett lyckohjul har 8 lika stora fält numrerade 1 till 8. Vad är chansen att få ett tal som är större än 5? Svara som bråk.",
+      "answer": [
+        "3/8"
+      ],
+      "correct": "Rätt! Talen 6, 7 och 8 är större än 5, alltså 3 av 8.",
+      "feedback": [
+        {
+          "answers": [
+            "5/8"
+          ],
+          "message": "5/8 är chansen att få 5 eller mindre (1–5). Större än 5 är bara 6, 7 och 8."
+        },
+        {
+          "answers": [
+            "2/8",
+            "1/4"
+          ],
+          "message": "Du har missat ett tal. Större än 5 är 6, 7 och 8 — tre tal."
+        },
+        {
+          "answers": [
+            "3/5"
+          ],
+          "message": "Nämnaren är alla möjliga utfall, och det är 8 fält."
+        }
+      ]
+    },
+    {
+      "prompt": "Är det säkert, sannolikt, osannolikt eller omöjligt att få en sjua när du kastar en vanlig tärning? Svara med ett ord.",
+      "answer": [
+        "omöjligt",
+        "omöjlig"
+      ],
+      "correct": "Rätt! Ingen sida på tärningen har en sjua, så det är omöjligt.",
+      "feedback": [
+        {
+          "answers": [
+            "osannolikt"
+          ],
+          "message": "Osannolikt betyder att det kan hända, men sällan. Här finns ingen sida med sju prickar, så det går inte alls."
+        },
+        {
+          "answers": [
+            "säkert",
+            "sannolikt"
+          ],
+          "message": "Titta på tärningens sidor: de visar 1 till 6. En sjua kan aldrig komma."
+        }
+      ]
+    }
+  ]
+}

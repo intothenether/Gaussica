@@ -1,0 +1,252 @@
+{
+  "id": "pyssla-medelvarde",
+  "kind": "pyssel",
+  "area": "data",
+  "title": "Pyssla: staplar och medelvärde",
+  "level": "Pyssla med medelvärde · ungefär åk 6–7",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "medelvarde"
+  ],
+  "summary": "Ändra staplarnas höjd och se medelvärdet flytta sig i diagrammet.",
+  "explanationTitle": "Medelvärdet är nivån om allt delades lika",
+  "explanation": "Den streckade linjen är medelvärdet. Om du gör alla staplar lika höga hamnar de precis på linjen.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Staplar och medelvärde",
+      "intro": "Dra i fyra staplar och följ den streckade linjen.",
+      "params": [
+        {
+          "name": "a",
+          "label": "Stapel A",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "value": 3
+        },
+        {
+          "name": "b",
+          "label": "Stapel B",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "value": 6
+        },
+        {
+          "name": "c",
+          "label": "Stapel C",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "value": 8
+        },
+        {
+          "name": "d",
+          "label": "Stapel D",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "value": 2
+        }
+      ],
+      "vars": [
+        {
+          "name": "summa",
+          "expr": "a+b+c+d"
+        },
+        {
+          "name": "medel",
+          "expr": "(a+b+c+d)/4"
+        },
+        {
+          "name": "skillnad",
+          "expr": "abs(a-b)+abs(b-c)+abs(c-d)"
+        }
+      ],
+      "view": {
+        "type": "staplar",
+        "max": 10,
+        "data": [
+          {
+            "label": "A",
+            "value": "=a"
+          },
+          {
+            "label": "B",
+            "value": "=b"
+          },
+          {
+            "label": "C",
+            "value": "=c"
+          },
+          {
+            "label": "D",
+            "value": "=d"
+          }
+        ],
+        "line": {
+          "value": "=medel",
+          "label": "medelvärde {medel}"
+        }
+      },
+      "readouts": [
+        {
+          "text": "({a} + {b} + {c} + {d}) ÷ 4 = {summa} ÷ 4 = {medel}"
+        }
+      ],
+      "goals": [
+        {
+          "id": "fem",
+          "text": "Gör medelvärdet 5.",
+          "conditions": [
+            {
+              "expr": "(a+b+c+d)/4",
+              "equals": 5
+            }
+          ]
+        },
+        {
+          "id": "sju",
+          "text": "Gör medelvärdet 7, men med staplar som inte alla är lika höga.",
+          "conditions": [
+            {
+              "expr": "(a+b+c+d)/4",
+              "equals": 7
+            },
+            {
+              "expr": "abs(a-b)+abs(b-c)+abs(c-d)",
+              "min": 1
+            }
+          ]
+        },
+        {
+          "id": "lika",
+          "text": "Gör alla fyra staplar lika höga.",
+          "conditions": [
+            {
+              "expr": "abs(a-b)+abs(b-c)+abs(c-d)",
+              "equals": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Staplarna visar antal mål i fyra matcher. Vad är medelvärdet?",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! 2 + 4 + 9 + 5 = 20 och 20 ÷ 4 = 5.",
+    "feedback": [
+      {
+        "answers": [
+          "20"
+        ],
+        "message": "20 är summan. Dela med antalet matcher, 4."
+      },
+      {
+        "answers": [
+          "4,5",
+          "4.5"
+        ],
+        "message": "4,5 är det mellersta värdet (medianen). Medelvärdet får du genom att addera alla och dela med 4."
+      },
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "9 är det största värdet, inte medelvärdet."
+      }
+    ],
+    "visual": {
+      "type": "staplar",
+      "data": [
+        {
+          "label": "1",
+          "value": 2
+        },
+        {
+          "label": "2",
+          "value": 4
+        },
+        {
+          "label": "3",
+          "value": 9
+        },
+        {
+          "label": "4",
+          "value": 5
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Om du flyttar höjd mellan staplarna, utan att lägga till eller ta bort något totalt, ändras medelvärdet då? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Summan är densamma och antalet staplar är detsamma, så medelvärdet ändras inte.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Summan av staplarna ändras inte när du bara flyttar höjd mellan dem. Då blir medelvärdet detsamma."
+        }
+      ]
+    },
+    {
+      "prompt": "Medelvärdet av fyra staplar är 6. Tre av dem är 5, 7 och 8. Hur hög är den fjärde?",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! Summan måste vara 4 · 6 = 24. De tre är 20 tillsammans, så den fjärde är 4.",
+      "feedback": [
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "24 är summan av alla fyra. Dra bort de tre kända: 5 + 7 + 8 = 20."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är medelvärdet. Räkna ut summan och dra bort de kända staplarna."
+        }
+      ],
+      "visual": {
+        "type": "staplar",
+        "data": [
+          {
+            "label": "A",
+            "value": 5
+          },
+          {
+            "label": "B",
+            "value": 7
+          },
+          {
+            "label": "C",
+            "value": 8
+          }
+        ],
+        "line": {
+          "value": 6,
+          "label": "medelvärde 6 (för alla fyra)"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "id": "pyssla-procent",
+  "kind": "pyssel",
+  "area": "tal",
+  "title": "Pyssla: procent",
+  "level": "Pyssla med procent · ungefär åk 6–7",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "procent"
+  ],
+  "summary": "Färglägg procent i ett rutnät och hitta procent av ett tal med staplar.",
+  "explanationTitle": "Procent betyder hundradelar",
+  "explanation": "Hela rutnätet är 100 %. Varje ruta är 1 %. Nästa verktyg visar hur många procent av ett tal blir.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Procent av hundra",
+      "intro": "Färglägg rutorna med reglaget.",
+      "params": [
+        {
+          "name": "p",
+          "label": "Procent",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "value": 25,
+          "unit": "%"
+        }
+      ],
+      "view": {
+        "type": "hundrarutor",
+        "filled": "=p",
+        "label": "{p} %"
+      },
+      "readouts": [
+        {
+          "text": "{p} % = {p}/100 = {p/100}"
+        }
+      ],
+      "goals": [
+        {
+          "id": "halv",
+          "text": "Färglägg 50 %.",
+          "conditions": [
+            {
+              "expr": "p",
+              "equals": 50
+            }
+          ]
+        },
+        {
+          "id": "tre",
+          "text": "Färglägg 75 %.",
+          "conditions": [
+            {
+              "expr": "p",
+              "equals": 75
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "pyssel",
+      "title": "Procent av ett tal",
+      "intro": "Hur stor del av hela är det?",
+      "params": [
+        {
+          "name": "y",
+          "label": "Hela",
+          "min": 10,
+          "max": 200,
+          "step": 10,
+          "value": 60,
+          "unit": "kr"
+        },
+        {
+          "name": "p",
+          "label": "Procent",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "value": 25,
+          "unit": "%"
+        }
+      ],
+      "vars": [
+        {
+          "name": "del",
+          "expr": "y*p/100"
+        }
+      ],
+      "view": {
+        "type": "staplar",
+        "max": 200,
+        "data": [
+          {
+            "label": "Hela",
+            "value": "=y"
+          },
+          {
+            "label": "{p} %",
+            "value": "=del",
+            "tone": "coral"
+          }
+        ]
+      },
+      "readouts": [
+        {
+          "text": "{p} % av {y} = {y} · {p} ÷ 100 = {del}"
+        }
+      ],
+      "goals": [
+        {
+          "id": "tjugo",
+          "text": "Hitta 25 % av 80.",
+          "conditions": [
+            {
+              "expr": "y",
+              "equals": 80
+            },
+            {
+              "expr": "p",
+              "equals": 25
+            }
+          ]
+        },
+        {
+          "id": "sextio",
+          "text": "Gör så att delen blir 60.",
+          "conditions": [
+            {
+              "expr": "y*p/100",
+              "equals": 60
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Hur många procent av rutorna är färgade?",
+    "answer": [
+      "35",
+      "35%",
+      "35 %"
+    ],
+    "correct": "Rätt! 35 av 100 rutor är 35 %.",
+    "feedback": [
+      {
+        "answers": [
+          "3,5",
+          "3.5"
+        ],
+        "message": "Det finns 100 rutor, så antalet färgade rutor är procenttalet: 35 rutor är 35 %."
+      }
+    ],
+    "visual": {
+      "type": "hundrarutor",
+      "filled": 35
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Hur mycket är 20 % av 150 kr?",
+      "answer": [
+        "30",
+        "30 kr"
+      ],
+      "correct": "Rätt! 150 · 20 ÷ 100 = 30 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "20 är procenttalet. Räkna 20 hundradelar av 150."
+        },
+        {
+          "answers": [
+            "130"
+          ],
+          "message": "130 är 150 − 20. Procent av ett tal är en del av det, inte en subtraktion med procenttalet."
+        }
+      ]
+    },
+    {
+      "prompt": "En tröja kostar 200 kr och sänks med 25 %. Vad kostar den nu?",
+      "answer": [
+        "150",
+        "150 kr"
+      ],
+      "correct": "Rätt! Rabatten är 25 % av 200 = 50 kr, och 200 − 50 = 150 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "50"
+          ],
+          "message": "50 kr är rabatten. Priset är det som är kvar: 200 − 50."
+        },
+        {
+          "answers": [
+            "175"
+          ],
+          "message": "175 är 200 − 25. Rabatten är 25 procent av priset, inte 25 kr."
+        }
+      ]
+    }
+  ]
+}

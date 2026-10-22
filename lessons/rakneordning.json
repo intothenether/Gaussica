@@ -1,0 +1,57 @@
+{
+  "id": "rakneordning",
+  "area": "tal",
+  "title": "Ordningsföljd för räkneoperationer",
+  "level": "Kombinera operationer rätt · ungefär åk 4–6",
+  "grade": 5,
+  "duration": "10 min",
+  "prerequisites": ["addition", "subtraktion", "multiplikation", "division"],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "operatorsordning",
+      "title": "Operatörernas ordning",
+      "sequence": 1
+    },
+    {
+      "id": "parenteser",
+      "title": "Parenteser – gruppera först",
+      "sequence": 2
+    }
+  ],
+  "summary": "När ett matematiskt uttryck innehåller flera operationer (+ − × ÷) måste vi räkna i rätt ordning. Utan enighet om ordning skulle samma uttryck ge olika svar!",
+  "explanationTitle": "En överenskommelse om räkneordning",
+  "explanation": "Matematiker världen över är överens: multiplikation och division görs före addition och subtraktion. Utan denna regel skulle 2 + 3 × 4 kunna betyda både 14 (om vi gör 3 × 4 = 12 först, sedan 2 + 12) och 20 (om vi gör 2 + 3 = 5 först, sedan 5 × 4). Vi behöver EN säker ordning.",
+  "rule": "1. Parenteser\n2. Multiplikation & Division (från vänster till höger)\n3. Addition & Subtraktion (från vänster till höger)",
+  "ruleLabel": "RÄKNEORDNINGEN (PEMDAS/BODMAS)",
+  "example": "2 + 3 × 4 − 1 = 2 + 12 − 1 = 13. Vi gör multiplikationen först (3 × 4), sedan addition och subtraktion från vänster till höger.",
+  "exercise": {
+    "prompt": "Räkna ut: 5 + 2 × 3. Kom ihåg att multiplikation görs före addition.",
+    "answer": ["11"],
+    "correct": "Rätt! Först 2 × 3 = 6, sedan 5 + 6 = 11.",
+    "feedback": [
+      { "answers": ["21"], "message": "Du räknade (5 + 2) × 3 = 7 × 3 = 21. Men utan parenteser gör vi multiplikation före addition. Därför: 2 × 3 = 6, sedan 5 + 6 = 11." },
+      { "answers": ["9"], "message": "Du räknade bara 5 + 3. Kom ihåg att det också finns en multiplikation (2 × 3) som ska göras först, och den blir 6." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Anna köper 3 äpplen för 5 kr vardera och 2 påsar mjölk för 20 kr vardera. Hur mycket betalar Anna sammanlagt?",
+      "answer": ["55"],
+      "correct": "Precis! Äpplen: 3 × 5 = 15 kr. Mjölk: 2 × 20 = 40 kr. Sammanlagt: 15 + 40 = 55 kr.",
+      "feedback": [
+        { "answers": ["50"], "message": "Du glömde äpplena. Räkna: 3 äpplen × 5 kr = 15 kr för äpplena, 2 × 20 kr = 40 kr för mjölk. Sammanlagt 15 + 40 = 55 kr." },
+        { "answers": ["65"], "message": "Kontrollera multiplikationen. 3 × 5 = 15 (inte 25), och 2 × 20 = 40. Tillsammans: 15 + 40 = 55 kr." }
+      ]
+    },
+    {
+      "prompt": "En idrottshall har 4 lag med 6 spelare vardera och 5 domare. Hur många personer är det sammanlagt?",
+      "answer": ["29"],
+      "correct": "Rätt! Spelare: 4 × 6 = 24. Domare: 5. Sammanlagt: 24 + 5 = 29 personer.",
+      "feedback": [
+        { "answers": ["120"], "message": "Du räknade (4 + 5) × 6 = 9 × 6 = 54. Men det ska vara 4 × 6 = 24 spelare plus 5 domare = 29 personer." },
+        { "answers": ["24"], "message": "Du räknade bara spelarna (4 × 6 = 24). Men du glömde domarna! Sammanlagt: 24 + 5 = 29." }
+      ]
+    }
+  ]
+}

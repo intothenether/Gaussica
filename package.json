@@ -1,0 +1,12 @@
+{
+  "name": "gaussica",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gaussica – lärstig i matematik med konton och lagring",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}

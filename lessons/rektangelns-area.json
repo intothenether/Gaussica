@@ -1,0 +1,133 @@
+{
+  "id": "rektangelns-area",
+  "area": "geometri",
+  "parentId": "rektangeln",
+  "title": "Rektangelns area: längd gånger bredd",
+  "level": "Rader av rutor · ungefär åk 4–7",
+  "grade": 5,
+  "duration": "6 min",
+  "prerequisites": [
+    "rektangelns-omkrets",
+    "kvadratens-area"
+  ],
+  "summary": "Arean av en rektangel är antalet kvadratrutor inuti: rader gånger kolumner.",
+  "explanationTitle": "Räkna rutorna med multiplikation",
+  "explanation": "En rektangel som är 6 cm lång och 4 cm bred kan täckas av 4 rader med 6 rutor i varje. Det blir 4 · 6 = 24 rutor, så arean är 24 cm².",
+  "visual": {
+    "type": "rektangel",
+    "w": 6,
+    "h": 4,
+    "unit": "cm",
+    "grid": true,
+    "title": "24 rutor à 1 cm²"
+  },
+  "rule": "A = längd · bredd",
+  "ruleLabel": "REKTANGELNS AREA",
+  "example": "10 m · 3 m = 30 m². Area skrivs i kvadratenheter, omkrets i vanliga längdenheter.",
+  "exercise": {
+    "prompt": "Rektangeln är 9 cm lång och 4 cm bred. Vad är arean i cm²?",
+    "answer": [
+      "36",
+      "36 cm2",
+      "36cm2",
+      "36 cm²",
+      "36cm²"
+    ],
+    "correct": "Rätt! 9 · 4 = 36 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "26"
+        ],
+        "message": "26 är omkretsen (2 · (9 + 4)). Arean är antalet rutor inuti: 9 · 4."
+      },
+      {
+        "answers": [
+          "13"
+        ],
+        "message": "13 är 9 + 4. Area får du genom att multiplicera längd med bredd."
+      }
+    ],
+    "visual": {
+      "type": "rektangel",
+      "w": 9,
+      "h": 4,
+      "unit": "cm",
+      "grid": true
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett klassrum är 10 m långt och 7 m brett. Hur stor är golvytan i m²?",
+      "answer": [
+        "70",
+        "70 m2",
+        "70m2",
+        "70 m²",
+        "70m²"
+      ],
+      "correct": "Rätt! 10 · 7 = 70 m².",
+      "feedback": [
+        {
+          "answers": [
+            "34"
+          ],
+          "message": "34 är omkretsen. Golvytan är arean: 10 · 7."
+        },
+        {
+          "answers": [
+            "17"
+          ],
+          "message": "17 är 10 + 7. För ytan multiplicerar du längd och bredd."
+        }
+      ]
+    },
+    {
+      "prompt": "En rektangulär tomt har arean 72 m² och är 9 m bred. Hur lång är tomten, i meter?",
+      "answer": [
+        "8",
+        "8 m"
+      ],
+      "correct": "Rätt! Arean är längd · bredd, så längden är 72 ÷ 9 = 8 m.",
+      "feedback": [
+        {
+          "answers": [
+            "81"
+          ],
+          "message": "81 är 72 + 9. Eftersom arean är längd gånger bredd ska du dividera: 72 ÷ 9."
+        },
+        {
+          "answers": [
+            "63"
+          ],
+          "message": "63 är 72 − 9. Tänk på att area är en multiplikation, så du ska dela."
+        }
+      ]
+    },
+    {
+      "prompt": "En bok är 20 cm bred och 15 cm lång. Hur många cm² papper behövs minst för att täcka ena sidan?",
+      "answer": [
+        "300",
+        "300 cm2",
+        "300cm2",
+        "300 cm²",
+        "300cm²"
+      ],
+      "correct": "Rätt! 20 · 15 = 300 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "70"
+          ],
+          "message": "70 är omkretsen (2 · (20 + 15)). Papperet täcker ytan, så du räknar arean."
+        },
+        {
+          "answers": [
+            "35"
+          ],
+          "message": "35 är 20 + 15. Multiplicera måtten i stället för att addera."
+        }
+      ]
+    }
+  ]
+}

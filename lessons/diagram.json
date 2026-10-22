@@ -1,0 +1,151 @@
+{
+  "id": "diagram",
+  "area": "data",
+  "title": "Läs och jämför diagram",
+  "level": "Samla och tolka data · ungefär åk 4–8",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": ["addition", "subtraktion"],
+  "summary": "Diagram gör det lättare att jämföra information. Läs rubriken, enheterna och skalan innan du drar slutsatser.",
+  "explanationTitle": "Läs skalan innan du jämför staplar",
+  "explanation": "En klass röstade på favoritfrukt. Äpple fick 12 röster, päron 8, banan 5 och apelsin 3. Staplarna visar antalet röster. Samma information kan visas som stapeldiagram, cirkeldiagram eller i en tabell. Skillnaden mellan två värden får du genom subtraktion.",
+  "visual": {
+    "type": "tabs",
+    "title": "Klassens favoritfrukt",
+    "subtitle": "Undersökning i klass 5A (28 elever sammanlagt)",
+    "views": [
+      {
+        "type": "stapeldiagram",
+        "tabTitle": "Stapeldiagram",
+        "unit": "röster",
+        "yAxis": { "label": "Antal röster", "max": 14, "step": 2 },
+        "xAxis": { "label": "Fruktsort" },
+        "data": [
+          { "label": "Äpple", "value": 12 },
+          { "label": "Päron", "value": 8 },
+          { "label": "Banan", "value": 5 },
+          { "label": "Apelsin", "value": 3 }
+        ]
+      },
+      {
+        "type": "cirkeldiagram",
+        "tabTitle": "Cirkeldiagram",
+        "unit": "röster",
+        "donut": true,
+        "data": [
+          { "label": "Äpple", "value": 12 },
+          { "label": "Päron", "value": 8 },
+          { "label": "Banan", "value": 5 },
+          { "label": "Apelsin", "value": 3 }
+        ]
+      },
+      {
+        "type": "tabell",
+        "tabTitle": "Frekvenstabell",
+        "headers": ["Fruktsort", "Antal röster", "Andel"],
+        "rows": [
+          ["Äpple", "12", "43 %"],
+          ["Päron", "8", "29 %"],
+          ["Banan", "5", "18 %"],
+          ["Apelsin", "3", "10 %"]
+        ],
+        "summaryRow": ["Totalt", "28", "100 %"]
+      }
+    ]
+  },
+  "rule": "skillnad = största värdet − minsta värdet",
+  "ruleLabel": "JÄMFÖR STAPELVÄRDEN",
+  "example": "Om stapeln för äpple visar 12 och stapeln för banan visar 5 är skillnaden 12 − 5 = 7 röster.",
+  "exercise": {
+    "prompt": "Titta på diagrammet eller tabellen ovan. Äpple har 12 röster och banan 5 röster. Hur många fler röstade på äpple än banan?",
+    "visual": {
+      "type": "stapeldiagram",
+      "title": "Fruktröstning — snabbjämförelse",
+      "unit": "röster",
+      "yAxis": { "label": "Antal röster", "max": 14, "step": 2 },
+      "xAxis": { "label": "Fruktsort" },
+      "data": [
+        { "label": "Äpple", "value": 12 },
+        { "label": "Päron", "value": 8 },
+        { "label": "Banan", "value": 5 }
+      ]
+    },
+    "answer": ["7", "7 röster"],
+    "correct": "Rätt! Skillnaden är 12 − 5 = 7 röster.",
+    "feedback": [
+      { "answers": ["17"], "message": "17 är summan av rösterna. Frågan gäller hur många fler, alltså skillnaden mellan staplarna." },
+      { "answers": ["5"], "message": "5 är antalet bananröster. Jämför staplarna genom att ta 5 från 12." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "I linjediagrammet ser du hur många böcker Mira läste varje månad. Hur många böcker läste hon sammanlagt under januari, februari och mars?",
+      "visual": {
+        "type": "linjediagram",
+        "title": "Miras bokläsning under våren",
+        "subtitle": "Antal lästa böcker per månad",
+        "unit": "böcker",
+        "yAxis": { "label": "Antal böcker", "max": 8, "step": 2 },
+        "xAxis": { "label": "Månad" },
+        "data": [
+          { "label": "Januari", "value": 4 },
+          { "label": "Februari", "value": 6 },
+          { "label": "Mars", "value": 3 },
+          { "label": "April", "value": 5 }
+        ]
+      },
+      "answer": ["13", "13 böcker"],
+      "correct": "Precis! 4 + 6 + 3 = 13 böcker sammanlagt under de tre månaderna.",
+      "feedback": [
+        { "answers": ["2"], "message": "2 kan vara skillnaden mellan två månader. Frågan gäller sammanlagt, så lägg ihop alla tre värden: 4 + 6 + 3." },
+        { "answers": ["10"], "message": "Du har lagt ihop två av månaderna. Läs av även mars (3 böcker) och lägg till det." },
+        { "answers": ["18"], "message": "18 är summan för alla fyra månaderna inklusive april. Frågan gäller endast januari, februari och mars: 4 + 6 + 3 = 13." }
+      ]
+    },
+    {
+      "prompt": "I cirkeldiagrammet ser du hur 40 elever tar sig till skolan: 18 cyklar, 11 går, 7 åker buss och 4 åker bil. Hur många fler cyklar än går?",
+      "visual": {
+        "type": "cirkeldiagram",
+        "title": "Hur eleverna tar sig till skolan",
+        "subtitle": "Undersökning bland 40 elever",
+        "unit": "elever",
+        "donut": true,
+        "data": [
+          { "label": "Cykel", "value": 18 },
+          { "label": "Gång", "value": 11 },
+          { "label": "Buss", "value": 7 },
+          { "label": "Bil", "value": 4 }
+        ]
+      },
+      "answer": ["7", "7 elever"],
+      "correct": "Ja! 18 − 11 = 7 elever fler cyklar än går.",
+      "feedback": [
+        { "answers": ["29"], "message": "29 är det sammanlagda antalet cyklande och gående. Ordet fler ber dig jämföra grupperna med subtraktion: 18 − 11." },
+        { "answers": ["11"], "message": "11 är antalet som går. Ta bort det från 18 för att hitta skillnaden." }
+      ]
+    },
+    {
+      "prompt": "I tabellen ser du hur många poäng fyra lag samlat i skoltävlingen. Hur många poäng har Lag Röd och Lag Blå tillsammans?",
+      "visual": {
+        "type": "tabell",
+        "title": "Poängställning i skoltävlingen",
+        "subtitle": "Resultat efter tre grenar",
+        "caption": "Lagpoäng i skoltävlingen",
+        "headers": ["Lag", "Klass", "Poäng"],
+        "rows": [
+          ["Lag Röd", "5A", "15"],
+          ["Lag Blå", "5B", "12"],
+          ["Lag Grön", "5C", "9"],
+          ["Lag Gul", "5D", "8"]
+        ],
+        "summaryRow": ["Totalt", "4 lag", "44"]
+      },
+      "answer": ["27", "27 poäng"],
+      "correct": "Helt rätt! 15 + 12 = 27 poäng sammanlagt.",
+      "feedback": [
+        { "answers": ["3"], "message": "3 är skillnaden mellan de två lagen (15 − 12). Frågan gäller hur många poäng de har tillsammans, alltså addition." },
+        { "answers": ["44"], "message": "44 är totalsumman för alla fyra lag. Lägg ihop poängen för enbart Lag Röd (15) och Lag Blå (12)." }
+      ]
+    }
+  ]
+}

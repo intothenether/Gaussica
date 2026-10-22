@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Clear Storage</title>
+</head>
+<body>
+  <h1>Clearing localStorage...</h1>
+  <script>
+    localStorage.clear();
+    console.log('localStorage cleared');
+    // Try to clear the mattesteg-specific key
+    localStorage.removeItem('mattesteg-lessons-backup');
+    console.log('mattesteg-lessons-backup removed');
+    document.body.textContent = 'LocalStorage cleared! Redirecting...';
+    setTimeout(() => { window.location = 'index.html'; }, 2000);
+  </script>
+</body>
+</html>

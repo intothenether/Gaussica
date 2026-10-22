@@ -1,0 +1,137 @@
+{
+  "id": "storsta-gemensamma-delare",
+  "area": "tal",
+  "parentId": "delbarhet",
+  "title": "Största gemensamma delare (SGD)",
+  "level": "Störst av de gemensamma · ungefär åk 6–9",
+  "grade": 7,
+  "duration": "7 min",
+  "prerequisites": [
+    "gemensamma-delare"
+  ],
+  "summary": "SGD är det största tal som delar två tal utan rest. Den används för att förkorta bråk och dela upp saker rättvist.",
+  "explanationTitle": "Välj den största gemensamma delaren",
+  "explanation": "De gemensamma delarna till 12 och 18 är 1, 2, 3 och 6. Det största av dem är 6, så SGD(12, 18) = 6. Då kan båda talen delas i grupper om 6: 12 = 2 · 6 och 18 = 3 · 6. Med SGD kan du förkorta bråk: 12/18 blir 2/3 när täljare och nämnare delas med 6.",
+  "visual": {
+    "type": "tabell",
+    "title": "SGD av 12 och 18",
+    "headers": [
+      "Tal",
+      "Delare"
+    ],
+    "rows": [
+      [
+        "12",
+        "1, 2, 3, 4, 6, 12"
+      ],
+      [
+        "18",
+        "1, 2, 3, 6, 9, 18"
+      ],
+      [
+        "Gemensamma",
+        "1, 2, 3, 6"
+      ]
+    ],
+    "summaryRow": [
+      "SGD",
+      "6",
+      ""
+    ]
+  },
+  "rule": "SGD = den största gemensamma delaren",
+  "ruleLabel": "SGD",
+  "example": "SGD(20, 30) = 10, eftersom 10 är det största talet som delar både 20 och 30.",
+  "exercise": {
+    "prompt": "Vad är den största gemensamma delaren till 16 och 24?",
+    "answer": [
+      "8"
+    ],
+    "correct": "Rätt! 16 = 2 · 8 och 24 = 3 · 8, och ingen större delare delar båda.",
+    "feedback": [
+      {
+        "answers": [
+          "4",
+          "2",
+          "1"
+        ],
+        "message": "Det är en gemensam delare, men inte den största. Testa 8: 16 ÷ 8 = 2 och 24 ÷ 8 = 3."
+      },
+      {
+        "answers": [
+          "48"
+        ],
+        "message": "48 är en multipel av 16 (3 · 16), inte en delare. En delare kan inte vara större än det minsta talet."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vad är SGD(18, 27)?",
+      "answer": [
+        "9"
+      ],
+      "correct": "Rätt! 18 = 2 · 9 och 27 = 3 · 9.",
+      "feedback": [
+        {
+          "answers": [
+            "3",
+            "1"
+          ],
+          "message": "Det är en gemensam delare, men en större finns. Prova 9: 18 ÷ 9 = 2 och 27 ÷ 9 = 3."
+        },
+        {
+          "answers": [
+            "54"
+          ],
+          "message": "54 är en multipel. SGD är en delare, och den kan inte vara större än 18."
+        }
+      ]
+    },
+    {
+      "prompt": "Ida har 24 äpplen och 36 päron. Hon vill göra så många lika fruktkorgar som möjligt där alla äpplen och päron fördelas lika. Hur många korgar kan hon göra?",
+      "answer": [
+        "12"
+      ],
+      "correct": "Rätt! SGD(24, 36) = 12, så hon gör 12 korgar med 2 äpplen och 3 päron i varje.",
+      "feedback": [
+        {
+          "answers": [
+            "6",
+            "4",
+            "3",
+            "2"
+          ],
+          "message": "Det går att göra fler korgar. Leta efter det största tal som delar både 24 och 36."
+        },
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 är 24 + 36. Antalet korgar måste dela både 24 och 36, så det kan inte vara större än 24."
+        }
+      ]
+    },
+    {
+      "prompt": "Förkorta bråket 18/24 så långt det går, genom att dela täljare och nämnare med SGD. Vilken nämnare får du?",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! SGD(18, 24) = 6, och 18/24 = 3/4.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "Då delade du bara med 2 (9/12). Dela med den största gemensamma delaren, 6, för att förkorta så långt det går."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är täljaren (18 ÷ 6). Nämnaren är 24 ÷ 6."
+        }
+      ]
+    }
+  ]
+}

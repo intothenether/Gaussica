@@ -1,0 +1,50 @@
+{
+  "id": "rektangeln",
+  "area": "geometri",
+  "title": "Rektangeln: omkrets och area",
+  "level": "Längd och bredd · ungefär åk 4–7",
+  "grade": 4,
+  "duration": "12 min",
+  "prerequisites": [
+    "kvadraten"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "rektangelns-omkrets",
+      "title": "Rektangelns omkrets",
+      "sequence": 1
+    },
+    {
+      "id": "rektangelns-area",
+      "title": "Rektangelns area",
+      "sequence": 2
+    }
+  ],
+  "summary": "En rektangel har två långsidor och två kortsidor. Omkretsen är kanten runt och arean är rutorna inuti.",
+  "explanationTitle": "Samma idéer som för kvadraten",
+  "explanation": "En rektangel har en längd och en bredd som kan vara olika stora. Då räknar du omkretsen och arean med båda måtten i stället för bara en sida.",
+  "rule": "O = 2 · (längd + bredd) och A = längd · bredd",
+  "ruleLabel": "REKTANGELNS FORMLER",
+  "example": "Längd 7 cm och bredd 3 cm ger omkretsen 2 · (7 + 3) = 20 cm och arean 7 · 3 = 21 cm².",
+  "exercise": {
+    "prompt": "En rektangel är 7 cm lång och 3 cm bred. Vad är arean i cm²?",
+    "answer": [
+      "21",
+      "21 cm2",
+      "21cm2",
+      "21 cm²",
+      "21cm²"
+    ],
+    "correct": "Rätt! 7 · 3 = 21 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "20"
+        ],
+        "message": "20 är omkretsen (2 · (7 + 3)). Arean är antalet rutor: 7 · 3."
+      }
+    ]
+  },
+  "wordProblems": []
+}

@@ -1,0 +1,119 @@
+{
+  "id": "primtal",
+  "area": "tal",
+  "parentId": "delbarhet",
+  "title": "Primtal: tal med exakt två delare",
+  "level": "Byggstenar i talen · ungefär åk 5–9",
+  "grade": 6,
+  "duration": "7 min",
+  "prerequisites": [
+    "delare"
+  ],
+  "summary": "Ett primtal är ett tal större än 1 som bara har två delare: 1 och talet självt.",
+  "explanationTitle": "Primtal går inte att dela upp",
+  "explanation": "Talet 7 kan bara skrivas som 1 · 7, så dess delare är 1 och 7. Det gör 7 till ett primtal. Talet 8 har delarna 1, 2, 4 och 8 och är därför inte ett primtal. Talet 1 är inte heller ett primtal, eftersom det bara har en delare. Talet 2 är det enda jämna primtalet.",
+  "visual": {
+    "type": "talrutnat",
+    "title": "Primtalen mellan 1 och 30",
+    "from": 1,
+    "to": 30,
+    "columns": 10,
+    "highlight": [
+      2,
+      3,
+      5,
+      7,
+      11,
+      13,
+      17,
+      19,
+      23,
+      29
+    ]
+  },
+  "rule": "Primtal: exakt två delare (1 och talet självt)",
+  "ruleLabel": "PRIMTAL",
+  "example": "9 är inget primtal, eftersom 3 · 3 = 9 ger delaren 3. 11 är ett primtal: ingen annan delare än 1 och 11.",
+  "exercise": {
+    "prompt": "Hur många primtal finns det mellan 1 och 10?",
+    "answer": [
+      "4"
+    ],
+    "correct": "Rätt! Primtalen är 2, 3, 5 och 7.",
+    "feedback": [
+      {
+        "answers": [
+          "5",
+          "6"
+        ],
+        "message": "Har du räknat med 9 eller 1? 9 = 3 · 3 är inget primtal, och 1 räknas inte. Det är 2, 3, 5 och 7."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Glöm inte 2 — det är det enda jämna primtalet."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Är 21 ett primtal? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! 21 = 3 · 7, så 3 och 7 är delare.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Testa med 3: 3 · 7 = 21. Då har 21 fler delare än 1 och 21, så det är inget primtal."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket är det största primtalet som är mindre än 20?",
+      "answer": [
+        "19"
+      ],
+      "correct": "Rätt! 19 har bara delarna 1 och 19.",
+      "feedback": [
+        {
+          "answers": [
+            "17"
+          ],
+          "message": "17 är ett primtal, men 19 är större och också ett primtal."
+        },
+        {
+          "answers": [
+            "18",
+            "20"
+          ],
+          "message": "18 och 20 är jämna och går att dela med 2, så de är inga primtal."
+        }
+      ]
+    },
+    {
+      "prompt": "Två primtal ger summan 15. Vilket är det största av dem?",
+      "answer": [
+        "13"
+      ],
+      "correct": "Rätt! 2 + 13 = 15, och både 2 och 13 är primtal.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 + 8 = 15, men 8 är inget primtal. Ett udda tal är summan av ett jämnt och ett udda: det jämna primtalet är 2."
+        },
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "2 är det minsta primtalet i summan. Det andra är 15 − 2."
+        }
+      ]
+    }
+  ]
+}

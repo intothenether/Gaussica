@@ -1,0 +1,44 @@
+{
+  "id": "division",
+  "area": "tal",
+  "title": "Division: dela lika",
+  "level": "Dela och gruppera · ungefär åk 3–6",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": ["multiplikation"],
+  "summary": "Division delar upp en mängd i lika stora grupper. Multiplikation kan hjälpa oss kontrollera svaret.",
+  "explanationTitle": "Hur många lika grupper får vi?",
+  "explanation": "Om 56 saker delas lika i 7 grupper frågar vi hur många saker varje grupp får. Eftersom 7 × 8 = 56 får varje grupp 8 saker.",
+  "rule": "56 ÷ 7 = 8 eftersom 7 × 8 = 56",
+  "ruleLabel": "DIVISION OCH MULTIPLIKATION HÖR IHOP",
+  "example": "Kontrollera en division genom att multiplicera kvoten med divisorn. Om produkten blir det ursprungliga talet stämmer svaret.",
+  "exercise": {
+    "prompt": "56 saker delas lika mellan 7 grupper. Hur många får varje grupp?",
+    "answer": ["8"],
+    "correct": "Rätt! 7 grupper med 8 i varje innehåller 56 saker.",
+    "feedback": [
+      { "answers": ["49"], "message": "49 är 56 − 7, så du har kanske tagit bort en grupp i stället för att dela i lika grupper. Prova att fråga vilket tal gånger 7 blir 56." },
+      { "answers": ["7"], "message": "7 är antalet grupper. Frågan är hur många saker varje grupp får. Kontrollera med 7 gånger ditt svar." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "24 äpplen delas lika mellan 4 barn. Hur många äpplen får varje barn?",
+      "answer": ["6"],
+      "correct": "Rätt! 24 ÷ 4 = 6 äpplen var.",
+      "feedback": [
+        { "answers": ["20"], "message": "20 är 24 − 4. Dela i stället de 24 äpplena i fyra lika stora grupper." },
+        { "answers": ["8"], "message": "Kontrollera svaret genom att multiplicera med antalet barn: 4 gånger hur många ska bli 24?" }
+      ]
+    },
+    {
+      "prompt": "36 spelare delas in i lag med 6 spelare i varje. Hur många lag blir det?",
+      "answer": ["6", "6 lag"],
+      "correct": "Precis! 36 delat i grupper om 6 ger 6 lag.",
+      "feedback": [
+        { "answers": ["30"], "message": "30 är 36 − 6, men frågan är hur många grupper om sex som ryms i 36." },
+        { "answers": ["42"], "message": "42 är summan 36 + 6. Prova att räkna hur många sexor som tillsammans blir 36." }
+      ]
+    }
+  ]
+}

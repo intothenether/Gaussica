@@ -1,0 +1,160 @@
+{
+  "id": "decimaltal",
+  "area": "tal",
+  "title": "Decimaltal: tal mellan heltalen",
+  "level": "Tiondelar och hundradelar · ungefär åk 4–6",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": [
+    "platsvarde",
+    "tallinjen"
+  ],
+  "summary": "Ett decimaltal har en decimalkomma. Siffrorna efter kommat är delar av en hel: tiondelar, hundradelar och så vidare.",
+  "explanationTitle": "Efter kommat kommer delar av en hel",
+  "explanation": "Talet 3,47 har 3 hela, 4 tiondelar och 7 hundradelar. Varje plats efter kommat är tio gånger mindre än platsen före. På tallinjen ligger 3,5 precis mitt emellan 3 och 4.",
+  "visuals": [
+    {
+      "type": "tallinje",
+      "title": "Från 3 till 4 i tiondelar",
+      "min": 3,
+      "max": 4,
+      "step": 0.1,
+      "labelEvery": 0.5,
+      "points": [
+        {
+          "value": 3.5,
+          "label": "3,5"
+        }
+      ]
+    },
+    {
+      "type": "tabell",
+      "title": "Talet 3,47",
+      "headers": [
+        "Ental",
+        "Tiondelar",
+        "Hundradelar"
+      ],
+      "rows": [
+        [
+          "3",
+          "4",
+          "7"
+        ]
+      ]
+    }
+  ],
+  "rule": "0,1 = 1/10 och 0,01 = 1/100",
+  "ruleLabel": "DECIMALTAL",
+  "example": "0,5 = 5/10 = 1/2. Talen 0,5 och 0,50 är lika stora: en nolla sist ändrar inte värdet.",
+  "exercise": {
+    "prompt": "Vilket är störst, 0,6 eller 0,45? Skriv det största talet.",
+    "answer": [
+      "0,6",
+      "0.6",
+      "0,60",
+      "0.60"
+    ],
+    "correct": "Rätt! 0,6 är 6 tiondelar = 0,60, och det är mer än 0,45.",
+    "feedback": [
+      {
+        "answers": [
+          "0,45",
+          "0.45"
+        ],
+        "message": "Det är lätt att tro att 45 är mer än 6. Men 0,6 = 0,60, och 0,60 är större än 0,45."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Lisa är 1,45 m lång. Hur många centimeter är det?",
+      "answer": [
+        "145"
+      ],
+      "correct": "Rätt! 1 m = 100 cm, så 1,45 m = 145 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "14,5",
+            "14.5",
+            "14"
+          ],
+          "message": "Flytta kommat två steg åt höger: 1 m är 100 cm."
+        },
+        {
+          "answers": [
+            "1450"
+          ],
+          "message": "Då har du flyttat kommat tre steg. Det ska vara två: 1 m = 100 cm."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket tal ligger mitt emellan 0,2 och 0,4 på tallinjen?",
+      "answer": [
+        "0,3",
+        "0.3"
+      ],
+      "correct": "Rätt! Det är lika långt till 0,2 som till 0,4.",
+      "feedback": [
+        {
+          "answers": [
+            "0,6",
+            "0.6"
+          ],
+          "message": "0,6 är summan av talen. Mitt emellan ligger 0,3 — en tiondel från vardera."
+        },
+        {
+          "answers": [
+            "0,2",
+            "0,4",
+            "0.2",
+            "0.4"
+          ],
+          "message": "Det är ett av de givna talen. Leta efter talet i mitten av dem."
+        }
+      ],
+      "visual": {
+        "type": "tallinje",
+        "min": 0,
+        "max": 0.5,
+        "step": 0.1,
+        "labelEvery": 0.1,
+        "points": [
+          {
+            "value": 0.2
+          },
+          {
+            "value": 0.4
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "En penna kostar 4,75 kr och ett suddgummi kostar 2,50 kr. Hur mycket kostar de tillsammans?",
+      "answer": [
+        "7,25",
+        "7.25"
+      ],
+      "correct": "Rätt! 4,75 + 2,50 = 7,25 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "6,25",
+            "6.25"
+          ],
+          "message": "Titta på tiondelarna: 7 + 5 = 12, så du skriver 2 och för över 1 till entalen."
+        },
+        {
+          "answers": [
+            "72,5",
+            "7,5",
+            "7.5"
+          ],
+          "message": "Ställ upp talen med kommat under varandra: 4,75 + 2,50. Då hamnar alla siffror på rätt plats."
+        }
+      ]
+    }
+  ]
+}

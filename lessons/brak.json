@@ -1,0 +1,67 @@
+{
+  "id": "brak",
+  "area": "tal",
+  "title": "Bråk är delar av en helhet",
+  "level": "Koppla ihop idéer · ungefär åk 4–7",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": ["platsvarde"],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "brak-del",
+      "title": "Täljare och nämnare",
+      "sequence": 1
+    },
+    {
+      "id": "brak-likavarda",
+      "title": "Likvärdiga bråk",
+      "sequence": 2
+    },
+    {
+      "id": "brak-jämfora",
+      "title": "Jämföra bråk",
+      "sequence": 3
+    }
+  ],
+  "summary": "Täljaren berättar hur många delar vi har. Nämnaren berättar hur många lika stora delar helheten består av.",
+  "explanationTitle": "Samma helhet måste delas lika",
+  "explanation": "För att lägga ihop 1/2 och 1/4 behöver delarna vara lika stora. En halv är lika mycket som två fjärdedelar. Då blir 1/2 + 1/4 samma sak som 2/4 + 1/4.",
+  "rule": "1/2 + 1/4 = 2/4 + 1/4 = 3/4",
+  "ruleLabel": "GEMENSAM NÄMNARE",
+  "example": "Nämnaren talar om hur stora delarna är. När vi räknar tillsammans gör vi delarna lika stora — vi adderar inte nämnarna.",
+  "interactive": {
+    "type": "fraction-model",
+    "numerator": 3,
+    "denominator": 4
+  },
+  "exercise": {
+    "prompt": "Vad är 1/2 + 1/4? Skriv svaret som ett bråk, till exempel 3/4.",
+    "answer": ["3/4", "0.75", "0,75"],
+    "correct": "Ja! En halv är två fjärdedelar. Två fjärdedelar plus en fjärdedel blir tre fjärdedelar.",
+    "feedback": [
+      { "answers": ["2/6", "1/6", "2/4"], "message": "Du verkar ha räknat på täljarna och nämnarna var för sig. Men en halv och en fjärdedel är olika stora bitar. Skriv först om 1/2 som fjärdedelar." },
+      { "answers": ["1/3", "0.5"], "message": "En halv är inte samma sak som hela summan. Tänk på att du ska lägga till ytterligare en fjärdedel — hur många fjärdedelar blir det tillsammans?" }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En chokladkaka har 8 lika stora rutor. Lea äter 3 rutor. Vilken del av kakan är kvar?",
+      "answer": ["5/8"],
+      "correct": "Rätt! 8 − 3 = 5 rutor är kvar av kakans 8 lika stora rutor.",
+      "feedback": [
+        { "answers": ["3/8"], "message": "3/8 är delen Lea åt. Frågan är vilken del som är kvar av alla 8 rutor." },
+        { "answers": ["5"], "message": "5 är antalet rutor som är kvar. Skriv också hur många rutor hela kakan består av." }
+      ]
+    },
+    {
+      "prompt": "En kanna är fylld till 1/4 och en annan lika stor kanna till 2/4. Hur stor del är fylld tillsammans?",
+      "answer": ["3/4"],
+      "correct": "Precis! Delarna är lika stora, så 1 fjärdedel + 2 fjärdedelar blir 3 fjärdedelar.",
+      "feedback": [
+        { "answers": ["3/8"], "message": "Nämnaren anger hur stora delarna är. När fjärdedelarna är lika stora adderar du täljarna och behåller nämnaren." },
+        { "answers": ["2/4"], "message": "Du har bara räknat med den ena kannan. Lägg ihop 1 fjärdedel och 2 fjärdedelar." }
+      ]
+    }
+  ]
+}

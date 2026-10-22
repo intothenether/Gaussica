@@ -1,0 +1,124 @@
+{
+  "id": "medelvarde",
+  "area": "data",
+  "title": "Medelvärde: det jämna talet",
+  "level": "Fördela lika · ungefär åk 4–9",
+  "grade": 6,
+  "duration": "7 min",
+  "prerequisites": [
+    "addition",
+    "division",
+    "diagram"
+  ],
+  "summary": "Medelvärdet säger vilket tal alla skulle få om värdena delades lika. Du får det genom att addera alla värden och dela med antalet.",
+  "explanationTitle": "Lägg ihop och dela lika",
+  "explanation": "Tre vänner har 4, 6 och 8 kort. Lägg ihop: 4 + 6 + 8 = 18. Dela lika på 3: 18 ÷ 3 = 6. Medelvärdet är 6 kort. Hade alla haft lika många kort hade de haft 6 var.",
+  "visual": {
+    "type": "stapeldiagram",
+    "title": "Kort per vän",
+    "unit": "kort",
+    "data": [
+      {
+        "label": "Alva",
+        "value": 4
+      },
+      {
+        "label": "Bo",
+        "value": 6
+      },
+      {
+        "label": "Cleo",
+        "value": 8
+      }
+    ]
+  },
+  "rule": "Medelvärde = summan av värdena ÷ antalet värden",
+  "ruleLabel": "MEDELVÄRDE",
+  "example": "Betygen 3, 5, 4 och 4 har summan 16. Det är 4 värden, så medelvärdet är 16 ÷ 4 = 4.",
+  "exercise": {
+    "prompt": "Vad är medelvärdet av 5, 7 och 12?",
+    "answer": [
+      "8"
+    ],
+    "correct": "Rätt! 5 + 7 + 12 = 24 och 24 ÷ 3 = 8.",
+    "feedback": [
+      {
+        "answers": [
+          "24"
+        ],
+        "message": "24 är summan. Dela med antalet värden, som är 3."
+      },
+      {
+        "answers": [
+          "7"
+        ],
+        "message": "7 är det mellersta talet, men medelvärdet får du genom att addera alla tal och dela med antalet."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Lia sprang 2 km, 4 km, 3 km och 3 km under fyra dagar. Vad är medelvärdet i km per dag?",
+      "answer": [
+        "3"
+      ],
+      "correct": "Rätt! 12 ÷ 4 = 3 km per dag.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 km är summan av alla fyra dagarna. Dela med antalet dagar."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är antalet dagar. Medelvärdet är summan delat med det antalet."
+        }
+      ]
+    },
+    {
+      "prompt": "Medelvärdet av fem tal är 10. Vad är summan av de fem talen?",
+      "answer": [
+        "50"
+      ],
+      "correct": "Rätt! Medelvärde · antal = summa, så 10 · 5 = 50.",
+      "feedback": [
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "2 är 10 ÷ 5, men du ska gå åt andra hållet: multiplicera medelvärdet med antalet."
+        },
+        {
+          "answers": [
+            "15"
+          ],
+          "message": "15 är 10 + 5. Summan är medelvärdet gånger antalet tal."
+        }
+      ]
+    },
+    {
+      "prompt": "Jonas har fått 6, 8 och 7 poäng på tre prov. Hur många poäng måste han få på det fjärde provet för att medelvärdet ska bli 8?",
+      "answer": [
+        "11"
+      ],
+      "correct": "Rätt! Summan måste bli 4 · 8 = 32. Han har 6 + 8 + 7 = 21, så han behöver 11 poäng.",
+      "feedback": [
+        {
+          "answers": [
+            "32"
+          ],
+          "message": "32 är summan alla fyra proven ska ge. Dra bort det han redan har: 6 + 8 + 7 = 21."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är medelvärdet han vill nå. Räkna ut hur stor summan för fyra prov måste vara."
+        }
+      ]
+    }
+  ]
+}

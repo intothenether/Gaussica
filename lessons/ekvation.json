@@ -1,0 +1,45 @@
+{
+  "id": "ekvation",
+  "area": "algebra",
+  "title": "Låt båda sidor väga lika",
+  "level": "Tänk med okända tal · ungefär åk 6–9",
+  "grade": 7,
+  "duration": "6 min",
+  "prerequisites": ["rakneordning"],
+  "summary": "En ekvation är en balans. Det du gör på ena sidan måste du också göra på den andra.",
+  "explanationTitle": "Likhetstecknet betyder samma värde",
+  "explanation": "Ekvationen 3x + 2 = 14 säger att vänster och höger sida väger lika. Börja med att ta bort 2 från båda sidor. Dela sedan båda sidor med 3 för att hitta x.",
+  "rule": "3x + 2 = 14  →  3x = 12  →  x = 4",
+  "ruleLabel": "BALANSPRINCIPEN",
+  "example": "Om du bara ändrar ena sidan är balansen bruten — precis som en våg som bara får en extra vikt på ena sidan.",
+  "exercise": {
+    "prompt": "Lös ekvationen: 3x + 2 = 14. Vad är x?",
+    "answer": ["4", "x=4", "x = 4"],
+    "correct": "Just det! Subtrahera 2 från båda sidor och dela sedan med 3: x = 4.",
+    "feedback": [
+      { "answers": ["12"], "message": "Du tog bort 2 från 14 och fick 12. Bra start! Men 3x betyder 3 gånger x. Vilket tal gånger 3 blir 12?" },
+      { "answers": ["16"], "message": "Det ser ut som att 2 lades till i stället för att tas bort. För att få 3x ensamt behöver du göra motsatsen — på båda sidor." },
+      { "answers": ["3", "12/3"], "message": "Fundera på vad som behöver hända med 3x för att x ska stå ensamt. Hur påverkar det båda sidor?" }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett tal multipliceras med 3 och sedan läggs 2 till. Resultatet blir 14. Vilket är talet?",
+      "answer": ["4"],
+      "correct": "Rätt! 3 × 4 + 2 = 14.",
+      "feedback": [
+        { "answers": ["12"], "message": "12 är resultatet efter att du tagit bort 2. Dela sedan 12 med 3 för att hitta talet." },
+        { "answers": ["16"], "message": "Börja med att ta bort 2 från resultatet 14. Gör sedan motsatsen till att multiplicera med 3." }
+      ]
+    },
+    {
+      "prompt": "Tre likadana anteckningsböcker och en penna för 5 kr kostar tillsammans 35 kr. Vad kostar en anteckningsbok?",
+      "answer": ["10", "10 kr"],
+      "correct": "Ja! Ta bort pennans 5 kr: 30 kr återstår. Dela 30 kr på tre böcker: 10 kr styck.",
+      "feedback": [
+        { "answers": ["30"], "message": "30 kr är priset för de tre böckerna tillsammans efter att pennan räknats bort. Dela det med 3." },
+        { "answers": ["13"], "message": "Ta först bort pennans pris 5 kr från totalen. Dela sedan återstående pris lika mellan tre böcker." }
+      ]
+    }
+  ]
+}

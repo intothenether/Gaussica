@@ -1,0 +1,129 @@
+{
+  "id": "kvadratens-area",
+  "area": "geometri",
+  "parentId": "kvadraten",
+  "title": "Kvadratens area: ytan inuti",
+  "level": "Täck ytan · ungefär åk 3–6",
+  "grade": 4,
+  "duration": "6 min",
+  "prerequisites": [
+    "kvadratens-omkrets"
+  ],
+  "summary": "Arean visar hur stor yta en figur täcker. Vi räknar hur många kvadratrutor som ryms inuti.",
+  "explanationTitle": "Rutor i rader och kolumner",
+  "explanation": "En kvadrat med sidan 4 cm kan täckas av 4 rader med 4 rutor, och varje ruta är 1 cm². Det blir 4 · 4 = 16 rutor, så arean är 16 cm². Area mäts i kvadratenheter som cm² och m².",
+  "visual": {
+    "type": "kvadrat",
+    "w": 4,
+    "unit": "cm",
+    "grid": true,
+    "sides": "all",
+    "title": "16 rutor à 1 cm²"
+  },
+  "rule": "A = sidan · sidan",
+  "ruleLabel": "KVADRATENS AREA",
+  "example": "Sidan 5 m ger arean 5 · 5 = 25 m². Man kan också skriva sidan ”i kvadrat”: 5².",
+  "exercise": {
+    "prompt": "Kvadraten har sidan 5 cm. Vad är arean i cm²?",
+    "answer": [
+      "25",
+      "25 cm2",
+      "25cm2",
+      "25 cm²",
+      "25cm²"
+    ],
+    "correct": "Rätt! 5 rader med 5 rutor: 5 · 5 = 25 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "20"
+        ],
+        "message": "20 är omkretsen (4 · 5). Arean är antalet rutor inuti: 5 rader med 5 rutor."
+      },
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "10 är 5 + 5. Area räknar rutor, så multiplicera sidan med sig själv."
+      }
+    ],
+    "visual": {
+      "type": "kvadrat",
+      "w": 5,
+      "unit": "cm",
+      "grid": true,
+      "sides": "all"
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett golv är kvadratiskt med sidan 8 m. Hur många kvadratmeter är golvet?",
+      "answer": [
+        "64",
+        "64 m2",
+        "64m2",
+        "64 m²",
+        "64m²"
+      ],
+      "correct": "Rätt! 8 · 8 = 64 m².",
+      "feedback": [
+        {
+          "answers": [
+            "32"
+          ],
+          "message": "32 är omkretsen (4 · 8). Arean får du genom att multiplicera sidan med sig själv."
+        },
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "16 är 2 · 8. Area är sidan gånger sidan."
+        }
+      ]
+    },
+    {
+      "prompt": "En kvadratisk matta har arean 49 m². Hur lång är en sida, i meter?",
+      "answer": [
+        "7",
+        "7 m"
+      ],
+      "correct": "Rätt! 7 · 7 = 49, så sidan är 7 m.",
+      "feedback": [
+        {
+          "answers": [
+            "24,5",
+            "24.5"
+          ],
+          "message": "49 ÷ 2 = 24,5, men arean är sidan gånger sidan. Vilket tal gånger sig självt blir 49?"
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 · 8 = 64, vilket är för mycket. Prova 7 · 7."
+        }
+      ]
+    },
+    {
+      "prompt": "En målare ska måla en kvadratisk vägg med sidan 3 m. En burk färg räcker till 1 m². Hur många burkar behövs?",
+      "answer": [
+        "9"
+      ],
+      "correct": "Rätt! Väggens area är 3 · 3 = 9 m², och det kräver 9 burkar.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 m är väggens omkrets. Färg täcker ytan, så du ska räkna arean."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är 3 + 3. Arean är sidan gånger sidan."
+        }
+      ]
+    }
+  ]
+}

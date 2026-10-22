@@ -1,0 +1,95 @@
+{
+  "areas": [
+    {
+      "id": "alla",
+      "name": "Alla områden"
+    },
+    {
+      "id": "tal",
+      "name": "Tal & räkning"
+    },
+    {
+      "id": "algebra",
+      "name": "Samband & algebra"
+    },
+    {
+      "id": "geometri",
+      "name": "Form & rum"
+    },
+    {
+      "id": "matning",
+      "name": "Tid & mätning"
+    },
+    {
+      "id": "data",
+      "name": "Data & slump"
+    }
+  ],
+  "areaNotes": {
+    "geometri": "Utforska former, mätning och rumsliga samband. Fler moment på den här lärstigen kommer snart.",
+    "matning": "Utforska tid och mätning. Fler moment på den här lärstigen kommer snart.",
+    "data": "Utforska data, sannolikhet och hur vi tolkar slumpen."
+  },
+  "lessons": [
+    "platsvarde.json",
+    "addition.json",
+    "subtraktion.json",
+    "multiplikation.json",
+    "division.json",
+    "rakneordning.json",
+    "operatorsordning.json",
+    "parenteser.json",
+    "tid-klocka.json",
+    "enheter.json",
+    "omkrets.json",
+    "area.json",
+    "vinklar.json",
+    "diagram.json",
+    "brak.json",
+    "brak-del.json",
+    "brak-likavarda.json",
+    "brak-jamfora.json",
+    "procent.json",
+    "ekvation.json",
+    "funktioner.json",
+    "tallinjen.json",
+    "talfoljder.json",
+    "delbarhet.json",
+    "delare.json",
+    "gemensamma-delare.json",
+    "storsta-gemensamma-delare.json",
+    "primtal.json",
+    "decimaltal.json",
+    "skala.json",
+    "medelvarde.json",
+    "slump.json",
+    "geometriska-figurer.json",
+    "symmetri.json",
+    "geometriska-monster.json",
+    "kvadraten.json",
+    "kvadratens-omkrets.json",
+    "kvadratens-area.json",
+    "rektangeln.json",
+    "rektangelns-omkrets.json",
+    "rektangelns-area.json",
+    "triangeln.json",
+    "triangelns-omkrets.json",
+    "triangelns-area.json",
+    "pyssla-tallinjen.json",
+    "pyssla-klockan.json",
+    "pyssla-symmetri.json",
+    "pyssla-omkrets-area.json",
+    "pyssla-vinklar.json",
+    "pyssla-monster.json",
+    "pyssla-decimaltal.json",
+    "pyssla-delare.json",
+    "pyssla-slump.json",
+    "pyssla-primtal.json",
+    "pyssla-triangel.json",
+    "pyssla-skala.json",
+    "pyssla-medelvarde.json",
+    "pyssla-procent.json",
+    "pyssla-ekvation.json",
+    "pyssla-funktioner.json"
+  ]
+}

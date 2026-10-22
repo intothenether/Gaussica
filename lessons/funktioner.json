@@ -1,0 +1,44 @@
+{
+  "id": "funktioner",
+  "area": "algebra",
+  "title": "Funktioner visar förändring",
+  "level": "Beskriv samband · ungefär åk 8–gymnasiet",
+  "grade": 8,
+  "duration": "6 min",
+  "prerequisites": ["ekvation"],
+  "summary": "En funktion visar hur ett värde förändras när ett annat värde ändras — som en regel mellan in och ut.",
+  "explanationTitle": "En regel som kopplar ihop två värden",
+  "explanation": "I funktionen y = 2x + 1 ger varje värde på x precis ett värde på y. Om x ökar med 1 ökar y med 2. Talet framför x berättar hur snabbt sambandet förändras.",
+  "rule": "x = 3  →  y = 2 · 3 + 1 = 7",
+  "ruleLabel": "FUNKTIONEN y = 2x + 1",
+  "example": "Tänk en maskin: stoppa in ett x, multiplicera med 2 och lägg till 1. Maskinen ger alltid ett y.",
+  "exercise": {
+    "prompt": "I funktionen y = 2x + 1, vad blir y när x = 4?",
+    "answer": ["9"],
+    "correct": "Rätt! 2 · 4 + 1 = 9.",
+    "feedback": [
+      { "answers": ["8"], "message": "Du multiplicerade 2 med 4. Titta på uttrycket en gång till — vilken liten del återstår också?" },
+      { "answers": ["6"], "message": "Prova att sätta in 4 där x står: först 2 gånger 4, sedan plus 1. Vad blir summan?" }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En taxi tar 40 kr i startavgift och 12 kr per kilometer. Vad kostar en resa på 5 km?",
+      "answer": ["100", "100 kr"],
+      "correct": "Rätt! 40 kr + 12 kr × 5 = 100 kr.",
+      "feedback": [
+        { "answers": ["60"], "message": "60 kr är sträckpriset för 5 km. Lägg också till taxins fasta startavgift på 40 kr." },
+        { "answers": ["52"], "message": "52 kr är startavgiften plus priset för 1 km. Multiplicera 12 kr med alla 5 kilometer." }
+      ]
+    },
+    {
+      "prompt": "Ett ljus är 18 cm långt och brinner ner 2 cm varje timme. Hur långt är det efter 4 timmar?",
+      "answer": ["10", "10 cm"],
+      "correct": "Precis! Fyra timmar förbrukar 4 × 2 = 8 cm, så 18 − 8 = 10 cm återstår.",
+      "feedback": [
+        { "answers": ["8"], "message": "8 cm är hur mycket som brunnit ner. Ta bort den längden från ljusets ursprungliga 18 cm." },
+        { "answers": ["16"], "message": "Du har räknat bort 2 cm en gång. Ljuset brinner 2 cm per timme i 4 timmar." }
+      ]
+    }
+  ]
+}

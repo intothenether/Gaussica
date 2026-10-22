@@ -1,0 +1,143 @@
+{
+  "id": "geometriska-figurer",
+  "area": "geometri",
+  "title": "Geometriska figurer: sidor och hörn",
+  "level": "Känn igen former · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [],
+  "summary": "Figurer får sina namn efter hur många sidor och hörn de har. En triangel har tre, en kvadrat har fyra.",
+  "explanationTitle": "Räkna sidor och hörn",
+  "explanation": "En sida är en rak kant och ett hörn är där två sidor möts. En triangel har 3 sidor och 3 hörn, en fyrhörning har 4 och en femhörning har 5. En cirkel har ingen rak sida och inget hörn.",
+  "visual": {
+    "type": "figurer",
+    "title": "Några vanliga figurer",
+    "items": [
+      {
+        "shape": "triangel",
+        "label": "Triangel · 3 sidor"
+      },
+      {
+        "shape": "kvadrat",
+        "label": "Kvadrat · 4 sidor"
+      },
+      {
+        "shape": "rektangel",
+        "label": "Rektangel · 4 sidor"
+      },
+      {
+        "shape": "femhörning",
+        "label": "Femhörning · 5 sidor"
+      },
+      {
+        "shape": "sexhörning",
+        "label": "Sexhörning · 6 sidor"
+      },
+      {
+        "shape": "cirkel",
+        "label": "Cirkel · inga sidor"
+      }
+    ]
+  },
+  "rule": "Antal sidor = antal hörn",
+  "ruleLabel": "MÅNGHÖRNINGAR",
+  "example": "En sexhörning har 6 sidor och 6 hörn. En kvadrat är en rektangel där alla sidor är lika långa.",
+  "exercise": {
+    "prompt": "Hur många hörn har en femhörning?",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! Femhörning betyder fem hörn.",
+    "feedback": [
+      {
+        "answers": [
+          "4",
+          "6"
+        ],
+        "message": "Namnet berättar svaret: fem-hörning har fem hörn. Räkna hörnen i bilden en gång till."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "En triangel har 3 hörn. Femhörningen har fler."
+      }
+    ],
+    "visual": {
+      "type": "figurer",
+      "items": [
+        {
+          "shape": "femhörning",
+          "label": "Femhörning"
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "En stoppskylt har formen av en åttahörning. Hur många sidor har skylten?",
+      "answer": [
+        "8"
+      ],
+      "correct": "Rätt! Det finns lika många sidor som hörn: 8.",
+      "feedback": [
+        {
+          "answers": [
+            "6",
+            "7"
+          ],
+          "message": "Åtta-hörning betyder åtta hörn, och en månghörning har lika många sidor som hörn."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är antalet sidor på en kvadrat. En åttahörning har fler."
+        }
+      ]
+    },
+    {
+      "prompt": "Maja ritar en triangel och en kvadrat. Hur många hörn har de tillsammans?",
+      "answer": [
+        "7"
+      ],
+      "correct": "Rätt! 3 + 4 = 7 hörn.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är 3 · 4. Du ska addera antalet hörn: 3 + 4."
+        },
+        {
+          "answers": [
+            "3",
+            "4"
+          ],
+          "message": "Du har bara räknat en av figurerna. Lägg ihop hörnen från både triangeln och kvadraten."
+        }
+      ]
+    },
+    {
+      "prompt": "Jonas lägger två kvadrater sida vid sida så att de bildar en stor rektangel. Hur många hörn har den stora rektangeln?",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! En rektangel har alltid fyra hörn.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är hörnen på två separata kvadrater. När de bildar en rektangel finns bara rektangelns egna hörn."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "De två punkterna där kvadraterna möts ligger mitt på en rak kant. De är inga hörn."
+        }
+      ]
+    }
+  ]
+}

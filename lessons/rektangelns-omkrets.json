@@ -1,0 +1,125 @@
+{
+  "id": "rektangelns-omkrets",
+  "area": "geometri",
+  "parentId": "rektangeln",
+  "title": "Rektangelns omkrets: kanten runt",
+  "level": "Lägg ihop alla sidor · ungefär åk 4–7",
+  "grade": 4,
+  "duration": "6 min",
+  "prerequisites": [
+    "kvadratens-omkrets"
+  ],
+  "summary": "Omkretsen av en rektangel är längden av alla fyra sidor tillsammans: två längder och två bredder.",
+  "explanationTitle": "Två längder och två bredder",
+  "explanation": "Går du runt en rektangel som är 7 cm lång och 3 cm bred blir det 7 + 3 + 7 + 3 = 20 cm. Du kan räkna snabbare genom att lägga ihop längd och bredd och ta det dubbelt: 2 · (7 + 3) = 20.",
+  "visual": {
+    "type": "rektangel",
+    "w": 7,
+    "h": 3,
+    "unit": "cm",
+    "sides": "all",
+    "outline": true,
+    "title": "Rektangel 7 cm × 3 cm"
+  },
+  "rule": "O = 2 · (längd + bredd)",
+  "ruleLabel": "REKTANGELNS OMKRETS",
+  "example": "Längd 10 m och bredd 4 m ger 2 · (10 + 4) = 28 m. Det är samma som 10 + 4 + 10 + 4.",
+  "exercise": {
+    "prompt": "Rektangeln är 8 cm lång och 5 cm bred. Vad är omkretsen i cm?",
+    "answer": [
+      "26",
+      "26 cm"
+    ],
+    "correct": "Rätt! 2 · (8 + 5) = 26 cm.",
+    "feedback": [
+      {
+        "answers": [
+          "40"
+        ],
+        "message": "40 är arean (8 · 5). Omkretsen är summan av alla fyra sidorna."
+      },
+      {
+        "answers": [
+          "13"
+        ],
+        "message": "13 är längd + bredd, bara halva varvet. Du måste ta det dubbelt."
+      }
+    ],
+    "visual": {
+      "type": "rektangel",
+      "w": 8,
+      "h": 5,
+      "unit": "cm",
+      "sides": "all",
+      "outline": true
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "En fotbollsplan för barn är 40 m lång och 20 m bred. Hur långt är ett varv runt planen, i meter?",
+      "answer": [
+        "120",
+        "120 m"
+      ],
+      "correct": "Rätt! 2 · (40 + 20) = 120 m.",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 är bara halva varvet (40 + 20). Ta det dubbelt."
+        },
+        {
+          "answers": [
+            "800"
+          ],
+          "message": "800 är arean (40 · 20). Ett varv är summan av sidorna."
+        }
+      ]
+    },
+    {
+      "prompt": "Omkretsen av en rektangel är 30 cm. Längden är 9 cm. Hur bred är rektangeln, i cm?",
+      "answer": [
+        "6",
+        "6 cm"
+      ],
+      "correct": "Rätt! De två långsidorna är 18 cm. Då är 30 − 18 = 12 cm kvar till de två kortsidorna, alltså 6 cm var.",
+      "feedback": [
+        {
+          "answers": [
+            "21"
+          ],
+          "message": "21 får du om du bara drar bort en längd. Rektangeln har två långsidor (2 · 9 = 18). Det som blir kvar, 30 − 18 = 12, är de två kortsidorna."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är de två kortsidorna tillsammans. Bredden är en av dem, så dela med 2."
+        }
+      ]
+    },
+    {
+      "prompt": "Fatima vill sätta en list runt en rektangulär spegel som är 60 cm hög och 40 cm bred. Hur många cm list behövs?",
+      "answer": [
+        "200",
+        "200 cm"
+      ],
+      "correct": "Rätt! 2 · (60 + 40) = 200 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "100"
+          ],
+          "message": "100 är bara halva kanten (60 + 40). Listen ska gå hela vägen runt."
+        },
+        {
+          "answers": [
+            "2400"
+          ],
+          "message": "2 400 är arean (60 · 40). Listen går runt kanten, så du ska addera sidorna."
+        }
+      ]
+    }
+  ]
+}

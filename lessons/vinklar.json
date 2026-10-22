@@ -1,0 +1,44 @@
+{
+  "id": "vinklar",
+  "area": "geometri",
+  "title": "Vinklar mäter en vridning",
+  "level": "Mät och jämför former · ungefär åk 4–8",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": ["geometriska-figurer"],
+  "summary": "En vinkel beskriver hur mycket två strålar vrider sig från varandra. Vinklar mäts i grader.",
+  "explanationTitle": "Vinkelstorlek handlar om öppningen",
+  "explanation": "En rät vinkel är 90°. En spetsig vinkel är mindre än 90° och en trubbig vinkel är större än 90° men mindre än 180°. Vinklarnas längd på ritningen ändrar inte själva öppningen.",
+  "rule": "rät vinkel = 90° · rak vinkel = 180° · helt varv = 360°",
+  "ruleLabel": "JÄMFÖR VINKLAR",
+  "example": "Om en vinkel är 35° större än en rät vinkel blir den 90° + 35° = 125° och är trubbig.",
+  "exercise": {
+    "prompt": "En vinkel är 35° större än en rät vinkel. Hur många grader är vinkeln?",
+    "answer": ["125", "125°"],
+    "correct": "Precis! En rät vinkel är 90°, och 90° + 35° = 125°.",
+    "feedback": [
+      { "answers": ["35"], "message": "35° är bara hur mycket större vinkeln är än en rät vinkel. Lägg till 90° för den räta vinkeln." },
+      { "answers": ["55"], "message": "Du verkar ha tagit bort 35° från 90°. Uppgiften säger att vinkeln är 35° större, så lägg ihop dem." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En sax är öppen i 40°. Noa öppnar den 25° till. Hur stor är vinkeln nu?",
+      "answer": ["65", "65°"],
+      "correct": "Rätt! 40° + 25° = 65°.",
+      "feedback": [
+        { "answers": ["15"], "message": "Öppningen ökade, så lägg till 25° till de 40° saxen redan var öppen." },
+        { "answers": ["100"], "message": "Kontrollera vad saxen öppnades från. Startvinkeln var 40°, inte 75°." }
+      ]
+    },
+    {
+      "prompt": "En robot vrider sig ett kvarts varv. Hur många grader har den vridit sig?",
+      "answer": ["90", "90°"],
+      "correct": "Ja! Ett helt varv är 360°. Ett kvarts varv är 360° delat med 4, alltså 90°.",
+      "feedback": [
+        { "answers": ["180", "180°"], "message": "180° är ett halvt varv. Ett kvarts varv är hälften av det." },
+        { "answers": ["360", "360°"], "message": "360° är ett helt varv. Dela ett helt varv i fyra lika stora delar för att få ett kvarts varv." }
+      ]
+    }
+  ]
+}

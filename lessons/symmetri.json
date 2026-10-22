@@ -1,0 +1,173 @@
+{
+  "id": "symmetri",
+  "area": "geometri",
+  "title": "Symmetri: spegla en figur",
+  "level": "Spegelbilder · ungefär åk 3–5",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "geometriska-figurer"
+  ],
+  "summary": "En figur är symmetrisk om du kan vika den på mitten så att de två halvorna täcker varandra.",
+  "explanationTitle": "Symmetrilinjen är som en spegel",
+  "explanation": "Tänk dig att du ställer en spegel längs en linje i figuren. Ser spegelbilden ut precis som den andra halvan är figuren symmetrisk, och linjen kallas symmetrilinje. En kvadrat har fyra symmetrilinjer, en rektangel har två och en liksidig triangel har tre.",
+  "visual": {
+    "type": "symmetri",
+    "title": "Symmetrilinjer",
+    "items": [
+      {
+        "shape": "kvadrat",
+        "axes": [
+          0,
+          90,
+          45,
+          135
+        ],
+        "label": "Kvadrat · 4 linjer"
+      },
+      {
+        "shape": "rektangel",
+        "axes": [
+          0,
+          90
+        ],
+        "label": "Rektangel · 2 linjer"
+      },
+      {
+        "shape": "triangel",
+        "axes": "auto",
+        "label": "Liksidig triangel · 3 linjer"
+      }
+    ]
+  },
+  "rule": "Vik längs linjen: halvorna ska täcka varandra exakt",
+  "ruleLabel": "SYMMETRILINJE",
+  "example": "En regelbunden månghörning med n sidor har n symmetrilinjer. En femhörning där alla sidor är lika långa har alltså 5.",
+  "exercise": {
+    "prompt": "Hur många symmetrilinjer har en kvadrat?",
+    "answer": [
+      "4"
+    ],
+    "correct": "Rätt! Två linjer går genom sidornas mittpunkter och två genom hörnen.",
+    "feedback": [
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "Två linjer går genom sidornas mitt, men även de två diagonalerna är symmetrilinjer. Det blir fyra."
+      },
+      {
+        "answers": [
+          "1",
+          "3"
+        ],
+        "message": "Prova att vika en papperskvadrat: rakt över, rakt ned och längs båda diagonalerna — det går på fyra sätt."
+      }
+    ],
+    "visual": {
+      "type": "figurer",
+      "items": [
+        {
+          "shape": "kvadrat",
+          "label": "Kvadrat"
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Hur många symmetrilinjer har en rektangel som inte är en kvadrat?",
+      "answer": [
+        "2"
+      ],
+      "correct": "Rätt! Bara de två linjerna genom sidornas mittpunkter fungerar.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "Diagonalerna är inte symmetrilinjer i en rektangel: viker du längs en diagonal täcker halvorna inte varandra."
+        },
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "Det finns både en lodrät och en vågrät symmetrilinje."
+        }
+      ],
+      "visual": {
+        "type": "figurer",
+        "items": [
+          {
+            "shape": "rektangel",
+            "label": "Rektangel"
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Hur många symmetrilinjer har en liksidig triangel, där alla sidor är lika långa?",
+      "answer": [
+        "3"
+      ],
+      "correct": "Rätt! Det går en linje från varje hörn till mitten av motsatt sida.",
+      "feedback": [
+        {
+          "answers": [
+            "1",
+            "2"
+          ],
+          "message": "Prova varje hörn: från varje hörn går det en linje som delar triangeln i två lika halvor. Det blir tre."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Det finns tre linjer, inte sex. Varje linje går från ett hörn till motsatt sida."
+        }
+      ],
+      "visual": {
+        "type": "figurer",
+        "items": [
+          {
+            "shape": "triangel",
+            "label": "Liksidig triangel"
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Hur många symmetrilinjer har en regelbunden femhörning, där alla sidor är lika långa?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! En regelbunden månghörning har lika många symmetrilinjer som sidor.",
+      "feedback": [
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "Det går en linje genom varje hörn och mitten av motsatt sida: 5 hörn ger 5 linjer, inte fler."
+        },
+        {
+          "answers": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "message": "En regelbunden femhörning har lika många symmetrilinjer som sidor."
+        }
+      ],
+      "visual": {
+        "type": "figurer",
+        "items": [
+          {
+            "shape": "femhörning",
+            "label": "Femhörning"
+          }
+        ]
+      }
+    }
+  ]
+}

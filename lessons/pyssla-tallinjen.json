@@ -1,0 +1,204 @@
+{
+  "id": "pyssla-tallinjen",
+  "kind": "pyssel",
+  "area": "tal",
+  "title": "Pyssla: hoppa på tallinjen",
+  "level": "Pyssla med tallinjen · ungefär åk 3–4",
+  "grade": 3,
+  "duration": "8 min",
+  "prerequisites": [
+    "tallinjen"
+  ],
+  "summary": "Bestäm var du startar och hur långt du hoppar, och se direkt var du landar.",
+  "explanationTitle": "Hoppa själv",
+  "explanation": "Här får du styra tallinjen själv. Flytta reglagen och titta på pilen. Klara utmaningarna längst ned i verktyget.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Hoppa på tallinjen",
+      "intro": "Hopp åt höger är positiva, hopp åt vänster är negativa.",
+      "params": [
+        {
+          "name": "s",
+          "label": "Start",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "value": 6
+        },
+        {
+          "name": "h",
+          "label": "Hopp (minus = åt vänster)",
+          "min": -10,
+          "max": 10,
+          "step": 1,
+          "value": 5
+        }
+      ],
+      "view": {
+        "type": "tallinje",
+        "min": -10,
+        "max": 30,
+        "step": 1,
+        "labelEvery": 5,
+        "points": [
+          {
+            "value": "=s"
+          },
+          {
+            "value": "=s+h"
+          }
+        ],
+        "jumps": [
+          {
+            "from": "=s",
+            "to": "=s+h",
+            "label": "{h|+}"
+          }
+        ]
+      },
+      "readouts": [
+        {
+          "text": "Du startar på {s} och hoppar {h|+}. Du landar på {s+h}."
+        },
+        {
+          "when": {
+            "expr": "s+h",
+            "max": -1
+          },
+          "text": "Du hamnade under noll – ett negativt tal!"
+        }
+      ],
+      "goals": [
+        {
+          "id": "femton",
+          "text": "Starta på 6 och landa på 15.",
+          "conditions": [
+            {
+              "expr": "s",
+              "equals": 6
+            },
+            {
+              "expr": "s+h",
+              "equals": 15
+            }
+          ]
+        },
+        {
+          "id": "negativt",
+          "text": "Landa på ett negativt tal.",
+          "conditions": [
+            {
+              "expr": "s+h",
+              "max": -1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Du startar på 4 och hoppar 9 steg åt höger. På vilket tal landar du?",
+    "answer": [
+      "13"
+    ],
+    "correct": "Rätt! 4 + 9 = 13.",
+    "feedback": [
+      {
+        "answers": [
+          "5",
+          "-5",
+          "−5"
+        ],
+        "message": "Hoppet går åt höger, så talet blir större: 4 + 9."
+      },
+      {
+        "answers": [
+          "9",
+          "4"
+        ],
+        "message": "Det är startvärdet eller hoppets längd. Du ska lägga ihop dem."
+      }
+    ],
+    "visual": {
+      "type": "tallinje",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "labelEvery": 1,
+      "points": [
+        {
+          "value": 4
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Hur många steg är det mellan −3 och 4 på tallinjen?",
+      "answer": [
+        "7"
+      ],
+      "correct": "Rätt! Tre steg till noll och fyra steg till 4: 3 + 4 = 7.",
+      "feedback": [
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "1 är 4 − 3. Men −3 ligger till vänster om noll, så avståndet blir längre: 3 steg till noll plus 4 steg."
+        },
+        {
+          "answers": [
+            "-1",
+            "−1"
+          ],
+          "message": "Avståndet är aldrig negativt. Räkna stegen från −3 till 4."
+        }
+      ],
+      "visual": {
+        "type": "tallinje",
+        "min": -5,
+        "max": 5,
+        "step": 1,
+        "labelEvery": 1,
+        "points": [
+          {
+            "value": -3
+          },
+          {
+            "value": 4
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "En hiss står på våning 2. Den åker 5 våningar nedåt. Källarvåningar är negativa tal. Vilken våning står hissen på nu?",
+      "answer": [
+        "-3",
+        "−3"
+      ],
+      "correct": "Rätt! 2 − 5 = −3, alltså tredje källarvåningen.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "Hissen har åkt förbi våning 0 och hamnat i källaren, så svaret är negativt."
+        },
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "Hissen åker nedåt, så du ska subtrahera: 2 − 5."
+        }
+      ]
+    }
+  ]
+}

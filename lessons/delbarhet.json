@@ -1,0 +1,57 @@
+{
+  "id": "delbarhet",
+  "area": "tal",
+  "title": "Delbarhet: delare och primtal",
+  "level": "Tal som går att dela · ungefär åk 4–9",
+  "grade": 6,
+  "duration": "20 min",
+  "prerequisites": [
+    "multiplikation",
+    "division"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "delare",
+      "title": "Delare",
+      "sequence": 1
+    },
+    {
+      "id": "gemensamma-delare",
+      "title": "Gemensamma delare",
+      "sequence": 2
+    },
+    {
+      "id": "storsta-gemensamma-delare",
+      "title": "Största gemensamma delare",
+      "sequence": 3
+    },
+    {
+      "id": "primtal",
+      "title": "Primtal",
+      "sequence": 4
+    }
+  ],
+  "summary": "Ett tal är delbart med ett annat om divisionen går jämnt ut. Med hjälp av delare kan vi hitta gemensamma delare, SGD och primtal.",
+  "explanationTitle": "Fyra steg om tal som går att dela",
+  "explanation": "Du börjar med att hitta alla delare till ett tal. Sedan jämför du delarna hos två tal för att hitta gemensamma delare och den största av dem. Till sist undersöker du primtalen, talen som bara har två delare.",
+  "rule": "a är delare till b om b ÷ a går jämnt upp",
+  "ruleLabel": "DELBARHET",
+  "example": "12 ÷ 4 = 3 utan rest, så 12 är delbart med 4 och 4 är en delare till 12.",
+  "exercise": {
+    "prompt": "Är 12 delbart med 4? Svara ja eller nej.",
+    "answer": [
+      "ja"
+    ],
+    "correct": "Rätt! 12 ÷ 4 = 3 utan rest.",
+    "feedback": [
+      {
+        "answers": [
+          "nej"
+        ],
+        "message": "4 · 3 = 12, så divisionen går jämnt upp. Därför är 12 delbart med 4."
+      }
+    ]
+  },
+  "wordProblems": []
+}

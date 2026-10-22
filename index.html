@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff8e6">
+    <meta name="description" content="Utforska matematik steg för steg, från grundskolans första tal till gymnasiets matematik.">
+    <title>Gaussica — matematik som hänger ihop</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./auth-view.js" defer></script>
+    <script src="./lesson-model.js" defer></script>
+    <script src="./figures.js" defer></script>
+    <script src="./pyssel.js" defer></script>
+    <script src="./graph-view.js" defer></script>
+    <script src="./lesson-player.js" defer></script>
+    <script src="./teacher-view.js" defer></script>
+    <script src="./symbolic-math.js" defer></script>
+    <script src="./interactive-lesson-editor-v2.js" defer></script>
+    <script src="./admin-interface.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="#start" aria-label="Gaussica, startsida">
+        <img class="wordmark-mark" src="./logo.svg" alt="" width="38" height="38">
+        <span>Gauss<span class="wordmark-light">ica</span></span>
+      </a>
+      <div class="topbar-actions">
+        <div class="student-profile-bar" id="student-profile-bar"></div>
+        <a class="admin-top-link" href="#admin" id="admin-top-link" hidden>Lärarvy 📊</a>
+        <a class="top-link" href="#larstig">Utforska lärstigen <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+
+    <main id="start">
+      <section class="admin-page" id="admin-page" hidden aria-labelledby="admin-title"></section>
+      <div class="student-view" id="student-view">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> MATEMATIK SOM HÄNGER IHOP</p>
+          <h1 id="hero-title">En idé i taget.<br><span>Hela vägen fram.</span></h1>
+          <p class="hero-description">Bygg förståelse från grunden. Testa själv, se hur matematiken fungerar och förstå varför ett svar blir som det blir.</p>
+          <a class="primary-button" href="#larstig">Hitta nästa steg <span aria-hidden="true">↓</span></a>
+          <p class="hero-note">Från ungefär åk 3 till gymnasiet. I din takt.</p>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <span class="math-spark spark-one">+</span>
+          <span class="math-spark spark-two">÷</span>
+          <span class="math-spark spark-three">×</span>
+          <span class="math-spark spark-four">=</span>
+          <div class="hero-card">
+            <span class="hero-card-label">EN SAK I TAGET</span>
+            <span class="hero-fraction"><span>1</span><span class="fraction-line"></span><span>2</span></span>
+            <span class="hero-card-caption">En halv. Hur många sätt kan du se det?</span>
+            <div class="hero-card-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <span class="hero-small-note">förståelse före genvägar</span>
+        </div>
+      </section>
+
+      <section class="learning-section" id="larstig" aria-labelledby="path-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">DIN LÄRSTIG</p>
+            <h2 id="path-title">Matematiken bygger vidare.</h2>
+            <p class="section-description">Utforska sambanden eller börja var du vill. Följ pilarna för att se hur idéerna bygger på varandra.</p>
+          </div>
+          <span class="grade-range">ÅK 3 <span aria-hidden="true">→</span> GYMNASIET ÅK 3</span>
+        </div>
+        <div class="area-filters" id="area-filters" aria-label="Filtrera efter matematikområde"></div>
+        <div class="graph-heading">
+          <div>
+            <h3>Lärandegraf</h3>
+            <p>Lektionerna är ordnade efter ungefär vilken årskurs de brukar tas upp i, uppifrån och ned. Alla är öppna att börja med. Ringen runt varje nod visar hur många uppgifter du klarat – och vilka som behöver rättas. Linjerna visar användbara förkunskaper, inte låsta nivåer.</p>
+          </div>
+          <span class="graph-key" aria-label="Teckenförklaring">
+            <span class="graph-key-item"><i class="gk-dot is-done"></i> klar</span>
+            <span class="graph-key-item"><i class="gk-dot is-fix"></i> behöver rättas</span>
+            <span class="graph-key-item"><i class="gk-dot is-todo"></i> ej gjord</span>
+            <span class="graph-key-item"><i class="gk-shape gk-lesson"></i> lektion</span>
+            <span class="graph-key-item"><i class="gk-shape gk-unit"></i> kapitel</span>
+            <span class="graph-key-item"><i class="gk-shape gk-step"></i> delmoment</span>
+            <span class="graph-key-item"><i class="gk-shape gk-play"></i> pyssla</span>
+          </span>
+        </div>
+        <div class="graph-viewport" id="graph-viewport" tabindex="0" aria-label="Lärandegraf. Lektionerna ordnas uppifrån och ned efter förkunskaper.">
+          <div class="graph-canvas" id="lesson-graph"></div>
+        </div>
+        <p class="graph-help">Välj vilken nod som helst för att öppna lektionen. Ett kapitel (sexhörning) samlar flera delmoment. Följ linjerna nedåt om du vill lära dig i en föreslagen ordning.</p>
+        <p class="progress-notice" id="progress-notice" aria-live="polite"></p>
+        <article class="lesson-panel" id="lesson-panel" aria-live="polite"></article>
+      </section>
+
+      <section class="principles" aria-label="Så fungerar Gaussica">
+        <article class="principle">
+          <span class="principle-icon" aria-hidden="true">↗</span>
+          <h3>Följ sambanden</h3>
+          <p>Matte är inte en lista med årskurser. Nya idéer växer ur sådant du redan förstått.</p>
+        </article>
+        <article class="principle">
+          <span class="principle-icon principle-icon-peach" aria-hidden="true">?</span>
+          <h3>Förstå dina misstag</h3>
+          <p>Fastnat? Få en förklaring till vad som hände och en ledtråd till nästa försök.</p>
+        </article>
+        <article class="principle">
+          <span class="principle-icon principle-icon-blue" aria-hidden="true">↔</span>
+          <h3>Upptäck själv</h3>
+          <p>Ändra, prova och se matematiken förändras. Nyfikenhet är en del av lärandet.</p>
+        </article>
+      </section>
+      </div><!-- /student-view -->
+    </main>
+
+    <footer class="footer">
+      <a class="wordmark footer-wordmark" href="#start"><img class="wordmark-mark" src="./logo.svg" alt="" width="28" height="28"><span>Gauss<span class="wordmark-light">ica</span></span></a>
+      <p>Byggd för att förstå — inte bara räkna ut.</p>
+      <div class="footer-links">
+        <a href="#admin" class="footer-admin-link" hidden>Lärarvy &amp; statistik 📊</a>
+        <a href="./README.md">Om lärstigen <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+
+    <!-- Kontodialog (byt lösenord, logga ut) -->
+    <dialog class="student-modal" id="student-modal" aria-labelledby="modal-title">
+      <div class="modal-card" id="student-modal-card"></div>
+    </dialog>
+    <div class="player" id="lesson-player" hidden></div>
+  </body>
+</html>

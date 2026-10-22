@@ -1,0 +1,124 @@
+{
+  "id": "kvadratens-omkrets",
+  "area": "geometri",
+  "parentId": "kvadraten",
+  "title": "Kvadratens omkrets: kanten runt",
+  "level": "Mät kanten · ungefär åk 3–6",
+  "grade": 4,
+  "duration": "6 min",
+  "prerequisites": [
+    "geometriska-figurer",
+    "multiplikation"
+  ],
+  "summary": "Omkretsen är längden runt hela figuren. I en kvadrat är alla fyra sidor lika långa.",
+  "explanationTitle": "Gå ett varv runt kvadraten",
+  "explanation": "Går du runt en kvadrat med sidan 4 cm blir det 4 + 4 + 4 + 4 = 16 cm. Eftersom alla sidor är lika långa kan du också räkna 4 · 4 = 16 cm. Omkretsen mäts i längdenheter som cm och m.",
+  "visual": {
+    "type": "kvadrat",
+    "w": 4,
+    "unit": "cm",
+    "sides": "all",
+    "outline": true,
+    "title": "Omkretsen är den rosa kanten"
+  },
+  "rule": "O = 4 · sidan",
+  "ruleLabel": "KVADRATENS OMKRETS",
+  "example": "Sidan 7 m ger omkretsen 4 · 7 = 28 m.",
+  "exercise": {
+    "prompt": "Kvadraten har sidan 6 cm. Vad är omkretsen i cm?",
+    "answer": [
+      "24",
+      "24 cm"
+    ],
+    "correct": "Rätt! 4 · 6 = 24 cm.",
+    "feedback": [
+      {
+        "answers": [
+          "36"
+        ],
+        "message": "36 är 6 · 6, alltså arean. Omkretsen är kanten runt: fyra sidor à 6 cm."
+      },
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "12 är 6 + 6. Du har bara räknat två av de fyra sidorna."
+      }
+    ],
+    "visual": {
+      "type": "kvadrat",
+      "w": 6,
+      "unit": "cm",
+      "sides": "all",
+      "outline": true
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "En kvadratisk trädgård har sidan 9 m. Hur långt staket behövs för att gå runt hela trädgården, i meter?",
+      "answer": [
+        "36",
+        "36 m"
+      ],
+      "correct": "Rätt! 4 · 9 = 36 m.",
+      "feedback": [
+        {
+          "answers": [
+            "81"
+          ],
+          "message": "81 är 9 · 9, alltså trädgårdens area. Staketet går runt kanten: 4 sidor."
+        },
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "18 är två sidor (9 + 9). Staketet går runt alla fyra."
+        }
+      ]
+    },
+    {
+      "prompt": "Omkretsen av en kvadratisk ruta är 20 cm. Hur lång är en sida, i cm?",
+      "answer": [
+        "5",
+        "5 cm"
+      ],
+      "correct": "Rätt! Omkretsen är 4 sidor, så en sida är 20 ÷ 4 = 5 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "80"
+          ],
+          "message": "80 är 20 · 4. Eftersom omkretsen är fyra gånger sidan ska du dela med 4."
+        },
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 är hälften av omkretsen, vilket är två sidor. En sida är en fjärdedel."
+        }
+      ]
+    },
+    {
+      "prompt": "Alma går 3 varv runt en kvadratisk skolgård med sidan 15 m. Hur långt går hon, i meter?",
+      "answer": [
+        "180",
+        "180 m"
+      ],
+      "correct": "Rätt! Ett varv är 4 · 15 = 60 m, och tre varv är 3 · 60 = 180 m.",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 m är ett varv. Alma går tre varv."
+        },
+        {
+          "answers": [
+            "45"
+          ],
+          "message": "45 är en sida gånger 3 varv. Men varje varv består av fyra sidor."
+        }
+      ]
+    }
+  ]
+}

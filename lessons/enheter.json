@@ -1,0 +1,44 @@
+{
+  "id": "enheter",
+  "area": "matning",
+  "title": "Räkna och växla enheter",
+  "level": "Mät och jämför · ungefär åk 3–6",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": ["addition", "subtraktion"],
+  "summary": "Enheter berättar vad ett mått betyder. Växla till samma enhet innan du jämför eller räknar med olika mått.",
+  "explanationTitle": "Skriv måttet i en gemensam enhet",
+  "explanation": "En meter är 100 centimeter. Därför är 3 meter och 45 centimeter tillsammans 300 centimeter + 45 centimeter = 345 centimeter.",
+  "rule": "1 m = 100 cm",
+  "ruleLabel": "VÄXLA METER TILL CENTIMETER",
+  "example": "När du omvandlar meter till centimeter blir talet 100 gånger större, eftersom varje meter består av 100 centimeter.",
+  "exercise": {
+    "prompt": "Hur många centimeter är 3 m och 45 cm tillsammans?",
+    "answer": ["345 cm", "345cm"],
+    "correct": "Precis! 3 meter är 300 centimeter. Lägg till 45 centimeter: 345 centimeter.",
+    "feedback": [
+      { "answers": ["48", "3.45", "3,45"], "message": "Innan du adderar måtten måste de ha samma enhet. Växla först 3 meter till centimeter genom att multiplicera med 100." },
+      { "answers": ["3045"], "message": "En meter är 100 centimeter, inte 1 000. Skriv 3 meter som 300 centimeter och lägg sedan till 45." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En vandringsled är 2 km lång. Hur många meter är det?",
+      "answer": ["2000", "2 000", "2000 m", "2 000 m"],
+      "correct": "Rätt! En kilometer är 1 000 meter, så 2 km är 2 000 m.",
+      "feedback": [
+        { "answers": ["200", "200 m"], "message": "En kilometer är 1 000 meter. Multiplicera därför 2 med 1 000 för att få meter." },
+        { "answers": ["20000", "20 000"], "message": "Kontrollera omvandlingen: en kilometer är tusen meter. Två kilometer är två gånger så mycket." }
+      ]
+    },
+    {
+      "prompt": "Ett band är 1 m långt och ett annat är 75 cm. Hur många centimeter band finns det tillsammans?",
+      "answer": ["175", "175 cm"],
+      "correct": "Precis! 1 meter är 100 centimeter. 100 + 75 = 175 centimeter.",
+      "feedback": [
+        { "answers": ["76"], "message": "Växla först 1 meter till centimeter. Då kan du addera två mått med samma enhet." },
+        { "answers": ["250"], "message": "En meter är 100 centimeter, inte 175. Skriv om metern till 100 cm och lägg till 75 cm." }
+      ]
+    }
+  ]
+}

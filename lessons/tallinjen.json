@@ -1,0 +1,146 @@
+{
+  "id": "tallinjen",
+  "area": "tal",
+  "title": "Tallinjen: tal på en rak linje",
+  "level": "Se talen i ordning · ungefär åk 3–4",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [],
+  "summary": "Tallinjen visar talen i ordning på en rak linje. Ju längre åt höger ett tal ligger, desto större är det.",
+  "explanationTitle": "Avstånd och ordning på samma linje",
+  "explanation": "På en tallinje har varje tal sin egen plats. Talen växer åt höger och minskar åt vänster, och avståndet mellan två streck är alltid lika stort. Därför kan du hitta ett tal genom att utgå från ett tal du känner och räkna steg.",
+  "visual": {
+    "type": "tallinje",
+    "title": "Från 6 hoppar vi 8 steg",
+    "min": 0,
+    "max": 20,
+    "step": 1,
+    "labelEvery": 2,
+    "points": [
+      {
+        "value": 6
+      },
+      {
+        "value": 14
+      }
+    ],
+    "jumps": [
+      {
+        "from": 6,
+        "to": 14,
+        "label": "+8"
+      }
+    ]
+  },
+  "rule": "Addition: hoppa åt höger. Subtraktion: hoppa åt vänster.",
+  "ruleLabel": "TALLINJENS REGEL",
+  "example": "Från 6 hoppar du 8 steg åt höger och landar på 14, så 6 + 8 = 14. Tal till vänster om noll är negativa, till exempel −3.",
+  "exercise": {
+    "prompt": "Pricken med frågetecknet visar ett tal på tallinjen. Vilket tal är det?",
+    "answer": [
+      "13"
+    ],
+    "correct": "Rätt! Pricken ligger på 13, tre steg efter 10.",
+    "feedback": [
+      {
+        "answers": [
+          "12",
+          "14"
+        ],
+        "message": "Nästan! Börja vid ett tal du ser tydligt, till exempel 10, och räkna ett steg i taget åt höger tills du når pricken."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "3 är antalet steg från 10. Frågan är vilket tal pricken står på, alltså 10 plus de stegen."
+      }
+    ],
+    "visual": {
+      "type": "tallinje",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "labelEvery": 1,
+      "points": [
+        {
+          "value": 13,
+          "label": "?"
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Tallinjen går från 0 till 100 med ett streck för var tionde tal. Vilket tal ligger mitt emellan 40 och 60?",
+      "answer": [
+        "50"
+      ],
+      "correct": "Rätt! Det är 10 steg från 40 till 50 och 10 steg från 50 till 60.",
+      "feedback": [
+        {
+          "answers": [
+            "45",
+            "55"
+          ],
+          "message": "Mitt emellan betyder lika långt till båda talen. Mellan 40 och 60 är det 20, och hälften av det är 10 steg från 40."
+        },
+        {
+          "answers": [
+            "100",
+            "20"
+          ],
+          "message": "Titta på hur långt det är från 40 till 60 (20 steg). Mitt emellan ligger hälften så långt från 40."
+        }
+      ]
+    },
+    {
+      "prompt": "Du står på 7 på tallinjen och hoppar 5 steg åt vänster. Vilket tal landar du på?",
+      "answer": [
+        "2"
+      ],
+      "correct": "Rätt! 7 − 5 = 2.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "Åt vänster blir talen mindre. Du ska subtrahera 5, inte addera."
+        },
+        {
+          "answers": [
+            "1",
+            "3"
+          ],
+          "message": "Räkna hoppen en gång till: 7 → 6 → 5 → 4 → 3 → 2. Det är fem hopp."
+        }
+      ]
+    },
+    {
+      "prompt": "Termometern är en lodrät tallinje. Det är −2 grader och temperaturen sjunker 3 grader. Vilken temperatur blir det?",
+      "answer": [
+        "-5",
+        "−5",
+        "-5 grader",
+        "−5 grader"
+      ],
+      "correct": "Rätt! Sjunker temperaturen går du nedåt på tallinjen: −2 − 3 = −5.",
+      "feedback": [
+        {
+          "answers": [
+            "-1",
+            "−1",
+            "1"
+          ],
+          "message": "Sjunker betyder att talet blir mindre. Från −2 går du 3 steg åt vänster (nedåt): −3, −4, −5."
+        },
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "Det är kallt, så temperaturen är under noll. Svaret ska vara negativt."
+        }
+      ]
+    }
+  ]
+}

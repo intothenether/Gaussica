@@ -1,0 +1,168 @@
+{
+  "id": "pyssla-skala",
+  "kind": "pyssel",
+  "area": "matning",
+  "title": "Pyssla: rita i skala",
+  "level": "Pyssla med skala · ungefär åk 6–7",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "skala"
+  ],
+  "summary": "Välj längd på ritningen och skala och se hur långt det blir i verkligheten.",
+  "explanationTitle": "Ritning gånger skala",
+  "explanation": "Längden i verkligheten är längden på ritningen gånger skalan. Skala 1:50 betyder att 1 cm på ritningen är 50 cm i verkligheten.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Rita i skala",
+      "intro": "Ändra ritningen och skalan.",
+      "params": [
+        {
+          "name": "r",
+          "label": "Längd på ritningen",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "value": 4,
+          "unit": "cm"
+        },
+        {
+          "name": "s",
+          "label": "Skala 1:",
+          "min": 10,
+          "max": 200,
+          "step": 10,
+          "value": 50
+        }
+      ],
+      "view": {
+        "type": "rektangel",
+        "w": "=r",
+        "h": "=r/2",
+        "unit": "cm",
+        "labels": {
+          "w": "{r} cm på ritningen",
+          "h": "{r/2} cm"
+        }
+      },
+      "readouts": [
+        {
+          "text": "I verkligheten: {r} · {s} = {r*s} cm = {r*s/100} m."
+        }
+      ],
+      "goals": [
+        {
+          "id": "tre",
+          "text": "Gör att längden i verkligheten blir 3 m (300 cm).",
+          "conditions": [
+            {
+              "expr": "r*s",
+              "equals": 300
+            }
+          ]
+        },
+        {
+          "id": "tio",
+          "text": "Gör att längden i verkligheten blir 10 m.",
+          "conditions": [
+            {
+              "expr": "r*s",
+              "equals": 1000
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "På en karta i skala 1:200 är en gata 7 cm lång. Hur många meter är gatan i verkligheten?",
+    "answer": [
+      "14"
+    ],
+    "correct": "Rätt! 7 · 200 = 1 400 cm = 14 m.",
+    "feedback": [
+      {
+        "answers": [
+          "1400"
+        ],
+        "message": "1 400 är gatans längd i cm. Dela med 100 för att få meter."
+      },
+      {
+        "answers": [
+          "0,14",
+          "0.14"
+        ],
+        "message": "0,14 är för litet. Verkligheten är större än kartan: multiplicera med 200."
+      }
+    ],
+    "visual": {
+      "type": "tabell",
+      "headers": [
+        "Skala",
+        "På kartan",
+        "I verkligheten"
+      ],
+      "rows": [
+        [
+          "1:200",
+          "7 cm",
+          "? m"
+        ]
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "En modellbil i skala 1:20 är 18 cm lång. Hur lång är bilen i verkligheten, i meter?",
+      "answer": [
+        "3,6",
+        "3.6"
+      ],
+      "correct": "Rätt! 18 · 20 = 360 cm = 3,6 m.",
+      "feedback": [
+        {
+          "answers": [
+            "360"
+          ],
+          "message": "360 är bilens längd i cm. Svara i meter: dela med 100."
+        },
+        {
+          "answers": [
+            "0,9",
+            "0.9"
+          ],
+          "message": "18 ÷ 20 = 0,9. I verkligheten är bilen större än modellen: multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett bord är 150 cm långt. Hur långt ska det vara på en ritning i skala 1:25, i cm?",
+      "answer": [
+        "6"
+      ],
+      "correct": "Rätt! 150 ÷ 25 = 6 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "3750"
+          ],
+          "message": "3 750 är 150 · 25. På ritningen blir det mindre än i verkligheten, så du ska dela."
+        },
+        {
+          "answers": [
+            "175"
+          ],
+          "message": "175 är 150 + 25. Skala handlar om att dela eller multiplicera."
+        }
+      ]
+    }
+  ]
+}

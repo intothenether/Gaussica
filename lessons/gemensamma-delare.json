@@ -1,0 +1,121 @@
+{
+  "id": "gemensamma-delare",
+  "area": "tal",
+  "parentId": "delbarhet",
+  "title": "Gemensamma delare",
+  "level": "Jämför delare · ungefär åk 5–8",
+  "grade": 6,
+  "duration": "6 min",
+  "prerequisites": [
+    "delare"
+  ],
+  "summary": "En gemensam delare är ett tal som är delare till båda av två tal.",
+  "explanationTitle": "Leta efter delare som finns i båda listorna",
+  "explanation": "Delarna till 12 är 1, 2, 3, 4, 6 och 12. Delarna till 18 är 1, 2, 3, 6, 9 och 18. Talen som finns i båda listorna, 1, 2, 3 och 6, är gemensamma delare till 12 och 18. Talet 1 är alltid en gemensam delare.",
+  "visual": {
+    "type": "tabell",
+    "title": "Delare till 12 och 18",
+    "headers": [
+      "Tal",
+      "Delare"
+    ],
+    "rows": [
+      [
+        "12",
+        "1, 2, 3, 4, 6, 12"
+      ],
+      [
+        "18",
+        "1, 2, 3, 6, 9, 18"
+      ],
+      [
+        "Gemensamma",
+        "1, 2, 3, 6"
+      ]
+    ]
+  },
+  "rule": "Gemensamma delare = delare som finns i båda listorna",
+  "ruleLabel": "GEMENSAMMA DELARE",
+  "example": "Delare till 8: 1, 2, 4, 8. Delare till 12: 1, 2, 3, 4, 6, 12. Gemensamma delare: 1, 2 och 4.",
+  "exercise": {
+    "prompt": "Hur många gemensamma delare har 12 och 18?",
+    "answer": [
+      "4"
+    ],
+    "correct": "Rätt! De gemensamma delarna är 1, 2, 3 och 6.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "6 är den största gemensamma delaren, men frågan gäller hur många det finns. Räkna 1, 2, 3 och 6."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Glöm inte 1, som alltid är en gemensam delare."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Delarna till 8 är 1, 2, 4 och 8. Delarna till 12 är 1, 2, 3, 4, 6 och 12. Hur många gemensamma delare har 8 och 12?",
+      "answer": [
+        "3"
+      ],
+      "correct": "Rätt! De gemensamma delarna är 1, 2 och 4.",
+      "feedback": [
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "Glöm inte att 1 alltid är en gemensam delare. De gemensamma är 1, 2 och 4."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "8 har fyra delare, men 8 är inte en delare till 12. Bara de tal som finns i båda listorna räknas."
+        }
+      ]
+    },
+    {
+      "prompt": "Är 5 en gemensam delare till 20 och 30? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! 20 ÷ 5 = 4 och 30 ÷ 5 = 6, båda går jämnt upp.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Testa båda: 20 ÷ 5 = 4 och 30 ÷ 5 = 6. Båda går jämnt upp, så 5 är en gemensam delare."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilka av talen 2, 3, 4 och 5 är gemensamma delare till både 20 och 30? Hur många av dem är det?",
+      "answer": [
+        "2"
+      ],
+      "correct": "Rätt! Både 2 och 5 delar 20 och 30. Talet 4 delar bara 20 och 3 delar bara 30.",
+      "feedback": [
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "Fler än ett av talen delar båda: 2 delar både 20 och 30, och det gör även 5."
+        },
+        {
+          "answers": [
+            "3",
+            "4"
+          ],
+          "message": "Alla talen delar inte båda. 4 delar 20 men inte 30, och 3 delar 30 men inte 20."
+        }
+      ]
+    }
+  ]
+}

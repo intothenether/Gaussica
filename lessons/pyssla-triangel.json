@@ -1,0 +1,187 @@
+{
+  "id": "pyssla-triangel",
+  "kind": "pyssel",
+  "area": "geometri",
+  "title": "Pyssla: triangel och rektangel",
+  "level": "Pyssla med triangelns area · ungefär åk 6–7",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "triangelns-area"
+  ],
+  "summary": "Ändra basen och höjden och se att triangeln alltid är hälften av rektangeln runt den.",
+  "explanationTitle": "Hälften av rektangeln",
+  "explanation": "Den streckade rektangeln har samma bas och höjd som triangeln. Triangeln fyller precis hälften av den, oavsett hur toppen ligger.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Förändra triangeln",
+      "intro": "Dra i basen och höjden.",
+      "params": [
+        {
+          "name": "b",
+          "label": "Bas",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "value": 8,
+          "unit": "cm"
+        },
+        {
+          "name": "h",
+          "label": "Höjd",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "value": 5,
+          "unit": "cm"
+        }
+      ],
+      "view": {
+        "type": "triangel",
+        "base": "=b",
+        "height": "=h",
+        "apex": "=b*0.35",
+        "unit": "cm",
+        "showHeight": true,
+        "showRect": true
+      },
+      "readouts": [
+        {
+          "text": "Rektangeln: {b} · {h} = {b*h} cm²."
+        },
+        {
+          "text": "Triangeln är hälften: {b*h} ÷ 2 = {b*h/2} cm²."
+        }
+      ],
+      "goals": [
+        {
+          "id": "arton",
+          "text": "Gör en triangel med arean 18 cm².",
+          "conditions": [
+            {
+              "expr": "b*h/2",
+              "equals": 18
+            }
+          ]
+        },
+        {
+          "id": "tio4",
+          "text": "Gör en triangel med basen 10 cm och höjden 4 cm.",
+          "conditions": [
+            {
+              "expr": "b",
+              "equals": 10
+            },
+            {
+              "expr": "h",
+              "equals": 4
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Triangeln har basen 9 cm och höjden 4 cm. Vad är arean i cm²?",
+    "answer": [
+      "18",
+      "18 cm2",
+      "18 cm²"
+    ],
+    "correct": "Rätt! (9 · 4) ÷ 2 = 18 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "36"
+        ],
+        "message": "36 är hela rektangeln (9 · 4). Triangeln är hälften."
+      },
+      {
+        "answers": [
+          "13"
+        ],
+        "message": "13 är 9 + 4. Multiplicera bas och höjd och dela sedan med 2."
+      }
+    ],
+    "visual": {
+      "type": "triangel",
+      "base": 9,
+      "height": 4,
+      "apex": 3,
+      "unit": "cm",
+      "showHeight": true
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Båda trianglarna har basen 8 cm och höjden 6 cm, men toppen ligger på olika ställen. Vilken har störst area? Skriv A, B eller lika.",
+      "answer": [
+        "lika",
+        "lika stora",
+        "lika stor",
+        "båda"
+      ],
+      "correct": "Rätt! Arean beror bara på basen och höjden: båda är (8 · 6) ÷ 2 = 24 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "a",
+            "A",
+            "b",
+            "B"
+          ],
+          "message": "Det spelar ingen roll var toppen ligger. Båda har samma bas och höjd, så arean blir densamma."
+        }
+      ],
+      "visuals": [
+        {
+          "type": "triangel",
+          "title": "A",
+          "base": 8,
+          "height": 6,
+          "apex": 1.5,
+          "unit": "cm",
+          "showHeight": true
+        },
+        {
+          "type": "triangel",
+          "title": "B",
+          "base": 8,
+          "height": 6,
+          "apex": 6,
+          "unit": "cm",
+          "showHeight": true
+        }
+      ]
+    },
+    {
+      "prompt": "En triangel har arean 30 cm² och höjden 6 cm. Hur lång är basen, i cm?",
+      "answer": [
+        "10"
+      ],
+      "correct": "Rätt! Bas · höjd = 2 · 30 = 60, så basen är 60 ÷ 6 = 10 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är 30 ÷ 6, men arean är hälften av bas · höjd. Bas · höjd är 60."
+        },
+        {
+          "answers": [
+            "180"
+          ],
+          "message": "180 är 30 · 6. Du ska dela, inte multiplicera."
+        }
+      ]
+    }
+  ]
+}

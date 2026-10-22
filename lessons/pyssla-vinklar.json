@@ -1,0 +1,184 @@
+{
+  "id": "pyssla-vinklar",
+  "kind": "pyssel",
+  "area": "geometri",
+  "title": "Pyssla: öppna en vinkel",
+  "level": "Pyssla med vinklar · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "vinklar"
+  ],
+  "summary": "Öppna och stäng en vinkel och se när den är spetsig, rät, trubbig eller rak.",
+  "explanationTitle": "Vinkeln är öppningen mellan två linjer",
+  "explanation": "Dra i reglaget och se hur öppningen ändras. En rät vinkel är 90°, och en rak vinkel är 180° – en rak linje. En triangels tre vinklar är tillsammans alltid 180°.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Öppna vinkeln",
+      "intro": "Vilken sorts vinkel har du gjort?",
+      "params": [
+        {
+          "name": "v",
+          "label": "Vinkel",
+          "min": 0,
+          "max": 180,
+          "step": 5,
+          "value": 45,
+          "unit": "°"
+        }
+      ],
+      "view": {
+        "type": "vinkel",
+        "deg": "=v"
+      },
+      "readouts": [
+        {
+          "text": "Vinkeln är {v}°. Det som saknas till en rak vinkel är {180-v}°."
+        },
+        {
+          "when": {
+            "expr": "v",
+            "max": 89
+          },
+          "text": "En spetsig vinkel (mindre än 90°)."
+        },
+        {
+          "when": {
+            "expr": "v",
+            "equals": 90
+          },
+          "text": "En rät vinkel, 90°."
+        },
+        {
+          "when": {
+            "expr": "v",
+            "min": 91,
+            "max": 179
+          },
+          "text": "En trubbig vinkel (mellan 90° och 180°)."
+        },
+        {
+          "when": {
+            "expr": "v",
+            "equals": 180
+          },
+          "text": "En rak vinkel: de två linjerna bildar en rak linje."
+        }
+      ],
+      "goals": [
+        {
+          "id": "rat",
+          "text": "Gör en rät vinkel (90°).",
+          "conditions": [
+            {
+              "expr": "v",
+              "equals": 90
+            }
+          ]
+        },
+        {
+          "id": "trubbig",
+          "text": "Gör en trubbig vinkel på 135°.",
+          "conditions": [
+            {
+              "expr": "v",
+              "equals": 135
+            }
+          ]
+        },
+        {
+          "id": "spetsig",
+          "text": "Gör en spetsig vinkel som är mindre än 30°.",
+          "conditions": [
+            {
+              "expr": "v",
+              "max": 29
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Vinkeln på bilden är 120°. Hur stor är vinkeln som saknas för att bilda en rak vinkel (180°)?",
+    "answer": [
+      "60"
+    ],
+    "correct": "Rätt! 180° − 120° = 60°.",
+    "feedback": [
+      {
+        "answers": [
+          "300",
+          "240"
+        ],
+        "message": "En rak vinkel är 180°, inte 360°. Dra bort 120 från 180."
+      },
+      {
+        "answers": [
+          "120"
+        ],
+        "message": "120° är vinkeln själv. Du ska räkna ut vad som saknas till 180°."
+      }
+    ],
+    "visual": {
+      "type": "vinkel",
+      "deg": 120
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vinkeln på bilden är 35°. Hur stor är en vinkel som är dubbelt så stor?",
+      "answer": [
+        "70"
+      ],
+      "correct": "Rätt! 2 · 35° = 70°.",
+      "feedback": [
+        {
+          "answers": [
+            "35"
+          ],
+          "message": "35° är den vinkel som syns. Dubbelt så stor betyder att du multiplicerar med 2."
+        },
+        {
+          "answers": [
+            "145"
+          ],
+          "message": "145° är det som saknas till en rak vinkel (180° − 35°), inte dubbelt så stor."
+        }
+      ],
+      "visual": {
+        "type": "vinkel",
+        "deg": 35
+      }
+    },
+    {
+      "prompt": "I en triangel är två vinklar 50° och 60°. Hur stor är den tredje vinkeln?",
+      "answer": [
+        "70"
+      ],
+      "correct": "Rätt! Tillsammans är vinklarna 180°: 180 − 50 − 60 = 70°.",
+      "feedback": [
+        {
+          "answers": [
+            "110"
+          ],
+          "message": "50 + 60 = 110 är de två kända vinklarna. Den tredje är det som saknas till 180°."
+        },
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "Kontrollera subtraktionen: 180 − 110."
+        }
+      ]
+    }
+  ]
+}

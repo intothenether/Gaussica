@@ -1,0 +1,189 @@
+{
+  "id": "pyssla-monster",
+  "kind": "pyssel",
+  "area": "geometri",
+  "title": "Pyssla: mönster som växer",
+  "level": "Pyssla med mönster · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "geometriska-monster"
+  ],
+  "summary": "Välj vilken figur i ett mönster du vill se och hitta regeln för hur många rutor den har.",
+  "explanationTitle": "Hitta regeln",
+  "explanation": "Dra i reglaget för att se figur 1, 2, 3 och så vidare. Räkna rutorna och leta efter regeln.",
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "L-mönstret",
+      "intro": "De rosa rutorna är nya i varje figur.",
+      "params": [
+        {
+          "name": "n",
+          "label": "Figur nummer",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "value": 3
+        }
+      ],
+      "vars": [
+        {
+          "name": "antal",
+          "expr": "2*n+1"
+        }
+      ],
+      "view": {
+        "type": "monster",
+        "generator": "L",
+        "only": "=n"
+      },
+      "readouts": [
+        {
+          "text": "Figur {n} har {antal} rutor, eftersom 2 · {n} + 1 = {antal}."
+        },
+        {
+          "text": "Varje ny figur får 2 rutor till: 3, 5, 7, 9, …"
+        }
+      ],
+      "goals": [
+        {
+          "id": "femton",
+          "text": "Hitta figuren som har 15 rutor.",
+          "conditions": [
+            {
+              "expr": "2*n+1",
+              "equals": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "pyssel",
+      "title": "Kvadratmönstret",
+      "intro": "Här blir figuren en kvadrat som växer.",
+      "params": [
+        {
+          "name": "n",
+          "label": "Figur nummer",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "value": 4
+        }
+      ],
+      "vars": [
+        {
+          "name": "antal",
+          "expr": "n*n"
+        }
+      ],
+      "view": {
+        "type": "monster",
+        "generator": "kvadrat",
+        "only": "=n"
+      },
+      "readouts": [
+        {
+          "text": "Figur {n} har {n} rader med {n} rutor: {antal} rutor."
+        }
+      ],
+      "goals": [
+        {
+          "id": "fyrtionio",
+          "text": "Hitta figuren som har 49 rutor.",
+          "conditions": [
+            {
+              "expr": "n*n",
+              "equals": 49
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
+  "exercise": {
+    "prompt": "Figurerna är trappor. Figur 1 har 1 ruta, figur 2 har 3 rutor och figur 3 har 6 rutor. Hur många rutor har figur 4?",
+    "answer": [
+      "10"
+    ],
+    "correct": "Rätt! Det läggs till 2, sedan 3, sedan 4 rutor: 6 + 4 = 10.",
+    "feedback": [
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "Skillnaden är inte lika stor varje gång (+2, +3, …). Nästa steg lägger till 4."
+      },
+      {
+        "answers": [
+          "8"
+        ],
+        "message": "Trappans fjärde steg har 4 rutor längst ned: 1 + 2 + 3 + 4."
+      }
+    ],
+    "visual": {
+      "type": "monster",
+      "generator": "trappa",
+      "n": 3
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "I L-mönstret har figur n exakt 2 · n + 1 rutor. Hur många rutor har figur 12?",
+      "answer": [
+        "25"
+      ],
+      "correct": "Rätt! 2 · 12 + 1 = 25.",
+      "feedback": [
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "2 · 12 = 24, men figuren har en ruta till i hörnet: 2 · 12 + 1."
+        },
+        {
+          "answers": [
+            "13"
+          ],
+          "message": "13 är 12 + 1. Du ska multiplicera 12 med 2 först."
+        }
+      ]
+    },
+    {
+      "prompt": "Radmönstret har 1 ruta i figur 1, 2 rutor i figur 2 och så vidare upp till 5 rutor i figur 5. Hur många rutor är det tillsammans i de fem figurerna?",
+      "answer": [
+        "15"
+      ],
+      "correct": "Rätt! 1 + 2 + 3 + 4 + 5 = 15.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är antalet rutor i den sista figuren. Frågan är summan av alla fem figurerna."
+        },
+        {
+          "answers": [
+            "25"
+          ],
+          "message": "25 är 5 · 5. Figurerna har olika många rutor: 1, 2, 3, 4 och 5."
+        }
+      ],
+      "visual": {
+        "type": "monster",
+        "generator": "rad",
+        "n": 5
+      }
+    }
+  ]
+}

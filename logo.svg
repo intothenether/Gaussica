@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Gaussica">
+  <path d="M36.69 5.41 A27 27 0 0 1 58.59 27.31" fill="none" stroke="#425B9A" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M58.59 36.69 A27 27 0 0 1 36.69 58.59" fill="none" stroke="#425B9A" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M27.31 58.59 A27 27 0 0 1 5.41 36.69" fill="none" stroke="#425B9A" stroke-width="5.5" stroke-linecap="round"/>
+  <path d="M5.41 27.31 A27 27 0 0 1 27.31 5.41" fill="none" stroke="#FF95A5" stroke-width="5.5" stroke-linecap="round"/>
+  <rect x="16" y="35" width="5" height="10" rx="2.4" fill="#76C0EC"/>
+  <rect x="22.8" y="28" width="5" height="17" rx="2.4" fill="#5C84C8"/>
+  <rect x="29.6" y="19" width="5" height="26" rx="2.4" fill="#425B9A"/>
+  <rect x="36.4" y="28" width="5" height="17" rx="2.4" fill="#5C84C8"/>
+  <rect x="43.2" y="35" width="5" height="10" rx="2.4" fill="#76C0EC"/>
+</svg>
