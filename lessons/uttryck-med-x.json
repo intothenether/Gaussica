@@ -1,0 +1,64 @@
+{
+  "id": "uttryck-med-x",
+  "area": "algebra",
+  "title": "Uttryck med x",
+  "level": "Räkna med ett okänt tal · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": ["addition", "subtraktion", "multiplikation"],
+  "summary": "Ibland vet vi inte talet än. Då skriver vi x i stället och räknar baklänges för att hitta det.",
+  "explanationTitle": "x är ett tal vi inte känner än",
+  "explanation": "Bokstaven x står för ett tal som vi vill ta reda på. Uttrycket x + 3 = 10 betyder: vilket tal plus 3 blir 10? Du hittar det genom att räkna baklänges: 10 − 3 = 7, så x = 7. Skriver du 2x betyder det 2 · x, två gånger talet. Om x är 5 är 2x lika med 10. Du kan alltid kontrollera svaret genom att sätta in det: 7 + 3 = 10 stämmer.",
+  "visual": {
+    "type": "tallinje",
+    "title": "x + 3 = 10: vilket tal ger 10 när vi hoppar 3 steg?",
+    "min": 0,
+    "max": 12,
+    "step": 1,
+    "labelEvery": 1,
+    "points": [{ "value": 7, "label": "x" }, { "value": 10 }],
+    "jumps": [{ "from": 7, "to": 10, "label": "+3" }]
+  },
+  "rule": "Gör tvärtom: + blir −, · blir ÷",
+  "ruleLabel": "RÄKNA BAKLÄNGES",
+  "example": "x + 3 = 10 → x = 10 − 3 = 7. Och 3 · x = 12 → x = 12 ÷ 3 = 4.",
+  "exercise": {
+    "prompt": "Vad är x om x + 8 = 15?",
+    "answer": ["7", "x=7", "x = 7"],
+    "correct": "Rätt! Räkna baklänges: 15 − 8 = 7. Kontroll: 7 + 8 = 15.",
+    "feedback": [
+      { "answers": ["23"], "message": "Du har lagt ihop 8 och 15. Men x + 8 ska bli 15. Vilket tal plus 8 ger 15? Räkna baklänges." },
+      { "answers": ["8"], "message": "8 är talet som läggs till. Frågan är vilket tal x som tillsammans med 8 blir 15." }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Mira tänker på ett tal. Hon lägger till 6 och får 14. Vilket tal tänkte hon på?",
+      "answer": ["8", "x=8", "x = 8"],
+      "correct": "Rätt! x + 6 = 14, så x = 14 − 6 = 8.",
+      "feedback": [
+        { "answers": ["20"], "message": "Du har lagt ihop 6 och 14. Mira lade till 6 och kom fram till 14, så börja med 14 och gå tillbaka." },
+        { "answers": ["6"], "message": "6 är talet hon lade till. Vilket tal tänkte hon på från början?" }
+      ]
+    },
+    {
+      "prompt": "Det ligger x godisbitar i varje påse. Tre påsar innehåller sammanlagt 18 godisbitar. Hur många godisbitar ligger i en påse?",
+      "answer": ["6", "x=6", "x = 6"],
+      "correct": "Ja! 3 · x = 18, så x = 18 ÷ 3 = 6.",
+      "feedback": [
+        { "answers": ["54"], "message": "Du har multiplicerat 3 och 18. Men 18 är totalen för alla tre påsar. Dela den lika på 3 påsar." },
+        { "answers": ["15"], "message": "Påsarna är likadana, så det handlar om att dela upp 18 lika, inte att ta bort 3." }
+      ]
+    },
+    {
+      "prompt": "Vad är värdet av 2 · x + 1 om x = 5?",
+      "answer": ["11"],
+      "correct": "Rätt! 2 · 5 = 10 och 10 + 1 = 11.",
+      "feedback": [
+        { "answers": ["10"], "message": "Du glömde + 1 i slutet. Först 2 · 5 = 10, sedan lägger du till 1." },
+        { "answers": ["12"], "message": "Multiplikationen görs före additionen. Räkna 2 · 5 först och lägg sedan till 1." },
+        { "answers": ["251"], "message": "2x betyder 2 · x, inte siffrorna 2 och 5 bredvid varandra. Byt ut x mot 5 och räkna 2 · 5." }
+      ]
+    }
+  ]
+}

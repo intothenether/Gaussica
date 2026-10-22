@@ -7,7 +7,33 @@
 window.GaussicaAPI = (function () {
   "use strict";
 
+  // "server" when the Node server answers /api, "local" when the site is static (GitHub Pages):
+  // then GaussicaLocal keeps accounts and progress in this browser instead.
+  let backend = null;
+
+  async function detect() {
+    if (backend) return backend;
+    if (!window.GaussicaLocal) { backend = "server"; return backend; }
+    try {
+      const res = await fetch("/api/me", { credentials: "same-origin" });
+      backend = res.ok && /json/i.test(res.headers.get("content-type") || "") ? "server" : "local";
+    } catch (e) {
+      // A stopped dev server should still show the connection error; anywhere else there is no server to wait for.
+      backend = /^(localhost|127\.|\[::1\])/.test(window.location.hostname) ? null : "local";
+      if (!backend) return "server";
+    }
+    return backend;
+  }
+
   async function request(method, path, body, options) {
+    if ((await detect()) === "local") {
+      try {
+        return await window.GaussicaLocal.handle(method, path, body);
+      } catch (e) {
+        if (!e.status) e.status = 500;
+        throw e;
+      }
+    }
     let res;
     try {
       res = await fetch(path, {
@@ -33,6 +59,7 @@ window.GaussicaAPI = (function () {
   }
 
   return {
+    mode: function () { return backend; },
     request: request,
     get: function (path) { return request("GET", path); },
     post: function (path, body) { return request("POST", path, body === undefined ? {} : body); },
@@ -131,6 +158,9 @@ window.GaussicaAuth = (function () {
       const title = el("h1", "", "Välkommen");
       const lead = el("p", "auth-lead", "Logga in för att fortsätta där du slutade – dina svar och framsteg sparas på ditt konto.");
       card.append(title, lead);
+      if (API.mode() === "local") {
+        card.appendChild(el("p", "auth-note", "Demoläge: det finns ingen server här, så konton och framsteg sparas bara i den här webbläsaren."));
+      }
 
       const tabs = el("div", "auth-tabs");
       tabs.setAttribute("role", "tablist");
@@ -191,7 +221,9 @@ window.GaussicaAuth = (function () {
           code = input("text", "code", "off", { maxlength: "40" });
           form.appendChild(role === "student"
             ? field("auth-code", "Klasskod", code, "Du får koden av din lärare.")
-            : field("auth-code", "Lärarkod", code, "Koden visas när servern startas första gången (eller med “node server.js --teacher-code”)."));
+            : field("auth-code", "Lärarkod", code, API.mode() === "local"
+              ? "I demoläget är lärarkoden " + window.GaussicaLocal.teacherCode + "."
+              : "Koden visas när servern startas första gången (eller med “node server.js --teacher-code”)."));
         }
 
         const submit = el("button", "primary-button auth-submit", mode === "login" ? "Logga in" : "Skapa konto");

@@ -1,0 +1,56 @@
+{
+  "id": "digital-klocka",
+  "area": "matning",
+  "title": "Digital klocka",
+  "level": "Läs och skriv digital tid · ungefär åk 3–4",
+  "grade": 3,
+  "duration": "7 min",
+  "prerequisites": ["tid-klocka"],
+  "summary": "En digital klocka visar tiden med siffror: först timmar, sedan minuter. Efter klockan 12 på dagen räknar den vidare till 24.",
+  "explanationTitle": "Timmar, kolon, minuter",
+  "explanation": "På en digital klocka står timmarna före kolonet och minuterna efter. 08:25 betyder 8 timmar och 25 minuter, alltså fem över halv nio. På en analog klocka visar den korta visaren timmen och den långa visaren minuterna. Varje siffra på klockan är fem minuter, så siffran 5 betyder 25 minuter. På den digitala klockan räknar man vidare efter klockan 12 på dagen: 13:00 är klockan ett på eftermiddagen, 15:00 är klockan tre och 22:00 är klockan tio på kvällen.",
+  "visual": { "type": "klocka", "h": 15, "m": 45, "title": "15:45 är samma tid som kvart i fyra på eftermiddagen" },
+  "rule": "Efter klockan 12: lägg till 12 timmar",
+  "ruleLabel": "24-TIMMARSKLOCKAN",
+  "example": "Klockan 3 på eftermiddagen är 3 + 12 = 15, så den digitala klockan visar 15:00. Minuterna är alltid desamma.",
+  "exercise": {
+    "prompt": "Titta på den analoga klockan. Vad visar den digitala klockan? Svara HH:MM.",
+    "answer": ["08:25", "8:25", "08.25", "8.25"],
+    "correct": "Rätt! Korta visaren har just passerat 8 och den långa visaren pekar på 5, vilket är 25 minuter.",
+    "feedback": [
+      { "answers": ["08:05", "8:05", "08.05", "8.05"], "message": "Du läste siffran 5 som 5 minuter. Varje siffra på klockan är 5 minuter, så siffran 5 betyder 5 · 5 = 25 minuter." },
+      { "answers": ["05:40", "5:40", "05.40", "5.40"], "message": "Du har tagit den långa visaren för timmen. Den korta visaren visar timmen och den långa visar minuterna." }
+    ],
+    "visual": { "type": "klocka", "h": 8, "m": 25, "digital": false }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Den digitala klockan visar 15:00. Vilken siffra pekar den korta visaren på en analog klocka?",
+      "answer": ["3", "tre"],
+      "correct": "Rätt! 15 − 12 = 3. Klockan 15:00 är klockan tre på eftermiddagen.",
+      "feedback": [
+        { "answers": ["15"], "message": "En analog klocka har bara siffrorna 1 till 12. Dra bort 12 från 15 för att se vilken siffra visaren pekar på." },
+        { "answers": ["12"], "message": "12 är där klockan börjar om. Räkna hur många timmar som gått efter klockan 12." }
+      ]
+    },
+    {
+      "prompt": "Klockan på bilden visar kvart över tio på kvällen. Hur skriver du tiden på en digital 24-timmarsklocka? Svara HH:MM.",
+      "answer": ["22:15", "22.15"],
+      "correct": "Rätt! På kvällen lägger du till 12 timmar: 10 + 12 = 22, och minuterna är 15.",
+      "feedback": [
+        { "answers": ["10:15", "10.15"], "message": "Det är tiden på förmiddagen. Eftersom det är kväll räknar den digitala klockan vidare efter 12. Lägg till 12 timmar." },
+        { "answers": ["21:15", "21.15"], "message": "Nästan! Klockan är tio, inte nio. 10 + 12 = 22." }
+      ],
+      "visual": { "type": "klocka", "h": 10, "m": 15, "digital": false }
+    },
+    {
+      "prompt": "Elsa tittar på sin digitala klocka. Den visar 07:50. Hur många minuter är det kvar tills klockan är 08:00?",
+      "answer": ["10", "10 minuter"],
+      "correct": "Ja! Från 07:50 till 08:00 är det 10 minuter.",
+      "feedback": [
+        { "answers": ["50", "50 minuter"], "message": "50 är minuterna som redan gått efter 7. Du ska räkna hur många minuter som är kvar till hel timme." },
+        { "answers": ["40", "40 minuter"], "message": "En timme är 60 minuter. Räkna från 50 upp till 60." }
+      ]
+    }
+  ]
+}

@@ -2808,6 +2808,7 @@ body.auth-open { overflow: hidden; }
 .auth-card { width: 100%; max-width: 420px; padding: 30px 30px 26px; border: 1px solid var(--border); border-radius: 18px; background: var(--paper); box-shadow: var(--shadow-lg); }
 .auth-wordmark { margin-bottom: 18px; }
 .auth-card h1 { margin: 0 0 6px; font: 800 26px "Nunito", sans-serif; letter-spacing: -.6px; }
+.auth-note { margin: -6px 0 16px; padding: 9px 13px; border-radius: 12px; background: var(--sky-soft); color: var(--brand-dark); font-size: 13px; font-weight: 700; line-height: 1.5; }
 .auth-lead { margin: 0 0 18px; color: #4c566f; font-size: 13px; line-height: 1.6; }
 .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin-bottom: 18px; border-radius: 12px; background: #e6f2fc; }
 .auth-tabs button { padding: 9px; border: 0; border-radius: 9px; background: transparent; color: #4c566f; font: 700 13px "Nunito", sans-serif; cursor: pointer; }

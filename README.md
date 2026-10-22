@@ -234,3 +234,12 @@ och kräver ingen byggkedja.
 - Villkor i mål: `{expr, equals|min|max, tol}` eller `{all:[...]}`.
 - Utmaningar räknas som uppgifter i framsteg och lärarvyn.
 - Nya figurtyper: staplar, vinkel, graf, hundrarutor, klocka (och fler lägen för tallinje, monster, talrutnat).
+
+## Publicera på GitHub Pages (demoläge)
+
+GitHub Pages kan bara visa statiska filer, så där finns ingen Node-server. Då startar Gaussica automatiskt i **demoläge**: `local-backend.js` svarar på samma `/api`-anrop men sparar konton, klasser, framsteg och redigerade lektioner i webbläsarens `localStorage`.
+
+- Allt är bundet till en webbläsare på en enhet. Elever och lärare delar alltså bara data om de använder samma dator och webbläsare, och rensas webbläsardata försvinner kontona.
+- Lärarkoden i demoläget är `GAUSSICA` (visas på registreringssidan).
+- Vill ni ha konton som fungerar mellan enheter: kör `npm start` på en server (se ovan) eller lägg till en riktig backend.
+- Workflowen `.github/workflows/deploy-pages.yml` publicerar bara de statiska filerna (inte `server/`, `data/` eller testskript).

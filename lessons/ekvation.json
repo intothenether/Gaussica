@@ -5,7 +5,7 @@
   "level": "Tänk med okända tal · ungefär åk 6–9",
   "grade": 7,
   "duration": "6 min",
-  "prerequisites": ["rakneordning"],
+  "prerequisites": ["rakneordning", "uttryck-med-x"],
   "summary": "En ekvation är en balans. Det du gör på ena sidan måste du också göra på den andra.",
   "explanationTitle": "Likhetstecknet betyder samma värde",
   "explanation": "Ekvationen 3x + 2 = 14 säger att vänster och höger sida väger lika. Börja med att ta bort 2 från båda sidor. Dela sedan båda sidor med 3 för att hitta x.",

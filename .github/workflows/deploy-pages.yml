@@ -25,10 +25,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
+      - name: Collect static files
+        run: |
+          mkdir _site
+          cp index.html favicon.svg logo.svg styles.css *.js _site/
+          cp -r lessons _site/
+          rm -f _site/server.js _site/check-syntax.js _site/test-*.js _site/validate-*.js
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Deploy site
         id: deployment
         uses: actions/deploy-pages@v4
