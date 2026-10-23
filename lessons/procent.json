@@ -65,7 +65,7 @@
     "correct": "Rätt! 25 % är en fjärdedel, och en fjärdedel av 80 är 20.",
     "feedback": [
       { "answers": ["25"], "message": "25 är själva procenttalet, inte 25 % av 80. Skriv om 25 % som en fjärdedel och dela sedan 80 i fyra lika stora delar." },
-      { "answers": ["40"], "message": "40 är hälften av 80. Men 25 % är en fjärdedel — hälften av en halv. Dela 80 i fyra lika stora delar." }
+      { "answers": ["40"], "message": "40 är hälften av 80. Men 25 % är en fjärdedel, hälften av en halv. Dela 80 i fyra lika stora delar." }
     ]
   },
   "wordProblems": [

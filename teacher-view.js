@@ -7,7 +7,7 @@
 window.GaussicaTeacher = (function () {
   "use strict";
 
-  const ui = { studentId: null, lessonId: "alla", sort: "attention", classId: "alla", notice: null };
+  const ui = { studentId: null, lessonId: "alla", sort: "attention", classId: "alla", notice: null, assignLesson: "", assignScroll: false };
 
   function el(tag, className, text) {
     const e = document.createElement(tag);
@@ -147,6 +147,12 @@ window.GaussicaTeacher = (function () {
 
   // ===== RENDER =====
   function render(container, ctx) {
+    const y = window.scrollY;
+    draw(container, ctx);
+    if (!ui.assignScroll) window.scrollTo(0, y);
+  }
+
+  function draw(container, ctx) {
     if (ui.classId !== "alla" && !ctx.classes.some(function (c) { return String(c.id) === ui.classId; })) ui.classId = "alla";
     const students = ui.classId === "alla" ? ctx.students
       : ctx.students.filter(function (s) { return String(s.classId) === ui.classId; });
@@ -159,6 +165,11 @@ window.GaussicaTeacher = (function () {
     root.appendChild(header(ctx));
     if (ui.notice) root.appendChild(noticeBox());
     root.appendChild(classesSection(ctx));
+    root.appendChild(assignmentsSection(ctx));
+    if (ui.assignScroll) {
+      ui.assignScroll = false;
+      setTimeout(function () { const s = document.getElementById("tv-assignments"); if (s) s.scrollIntoView({ behavior: "smooth", block: "start" }); }, 50);
+    }
     if (!ctx.students.length) {
       const empty = el("section", "admin-card-section tv-section");
       empty.append(el("h3", "", "Inga elever än"),
@@ -267,6 +278,205 @@ window.GaussicaTeacher = (function () {
     });
     section.appendChild(form);
     return section;
+  }
+
+  // ===== ASSIGNMENTS =====
+  function lessonChoices(ctx) {
+    const L = window.GaussicaLesson;
+    const all = ctx.course.lessons;
+    return all.filter(function (l) { return !l.isParentLesson; }).map(function (l, i) {
+      return { l: l, grade: L.effectiveGrade(l, all), i: i };
+    }).sort(function (a, b) { return a.grade - b.grade || a.i - b.i; });
+  }
+
+  function statusOfStudent(student, lesson, ctx) {
+    const L = window.GaussicaLesson;
+    return L.summarize(lesson, function (id) { return (student.lessonProgress && student.lessonProgress[id]) || { answers: {} }; }, ctx.course.lessons);
+  }
+
+  function assignmentsSection(ctx) {
+    const section = el("section", "admin-card-section tv-section tv-assign");
+    section.id = "tv-assignments";
+    section.append(el("h3", "", "📌 Uppdrag"),
+      el("p", "admin-card-description", "Ge en klass eller en enskild elev en lektion att göra. Eleverna ser uppdraget i en stor ruta överst på sidan, med din hälsning och datum."));
+    if (!ctx.classes.length) {
+      section.appendChild(el("p", "tv-empty", "Skapa en klass ovan först."));
+      return section;
+    }
+
+    const form = el("form", "tv-assign-form");
+    const field = function (label, control) {
+      const wrap = el("label", "tv-field");
+      wrap.append(el("span", "tv-field-label", label), control);
+      return wrap;
+    };
+    const classSel = el("select");
+    ctx.classes.forEach(function (c) { const o = el("option", "", c.name); o.value = String(c.id); classSel.appendChild(o); });
+    const studentSel = el("select");
+    const fillStudents = function () {
+      studentSel.replaceChildren();
+      const all = el("option", "", "Hela klassen"); all.value = ""; studentSel.appendChild(all);
+      ctx.students.filter(function (s) { return String(s.classId) === classSel.value; }).forEach(function (s) {
+        const o = el("option", "", s.name); o.value = s.id; studentSel.appendChild(o);
+      });
+    };
+    classSel.addEventListener("change", fillStudents);
+    fillStudents();
+
+    const lessonSel = el("select");
+    lessonSel.required = true;
+    const placeholder = el("option", "", "Välj lektion…"); placeholder.value = ""; lessonSel.appendChild(placeholder);
+    lessonChoices(ctx).forEach(function (x) {
+      const o = el("option", "", window.GaussicaLesson.gradeLabel(x.grade) + " · " + x.l.title + (x.l.kind === "pyssel" ? " (pyssla)" : ""));
+      o.value = x.l.id; lessonSel.appendChild(o);
+    });
+    if (ui.assignLesson) lessonSel.value = ui.assignLesson;
+    const date = el("input");
+    date.type = "date";
+    const note = el("textarea");
+    note.maxLength = 400; note.rows = 2;
+    note.placeholder = "Skriv något till eleverna (valfritt), t.ex. “Ta det i din egen takt – du klarar det här!”";
+    const submit = button("Ge uppdrag 📌", "tv-btn is-primary", function () {});
+    submit.type = "submit";
+    const row = el("div", "tv-assign-row");
+    row.append(field("Klass", classSel), field("Vem?", studentSel), field("Lektion", lessonSel), field("Klart senast (valfritt)", date));
+    form.append(row, field("Meddelande till eleverna", note), submit);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!lessonSel.value) return;
+      submit.disabled = true;
+      ctx.actions.createAssignment({ classId: Number(classSel.value), studentId: studentSel.value || null, lessonId: lessonSel.value, note: note.value.trim(), dueDate: date.value || "" })
+        .then(function () {
+          ui.assignLesson = "";
+          ui.notice = { text: "Uppdraget har skickats. Eleverna ser det nästa gång de öppnar sidan." };
+          ctx.refresh();
+        }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+    });
+    section.appendChild(form);
+
+    const list = el("div", "tv-assign-list");
+    const items = ctx.assignments || [];
+    if (!items.length) list.appendChild(el("p", "tv-empty", "Inga aktiva uppdrag just nu."));
+    items.forEach(function (a) { list.appendChild(assignmentCard(a, ctx)); });
+    section.appendChild(list);
+    return section;
+  }
+
+  function assignmentCard(a, ctx) {
+    const lesson = ctx.course.lessons.find(function (l) { return l.id === a.lessonId; });
+    const card = el("article", "tv-assign-card");
+    const top = el("div", "tv-assign-top");
+    const due = window.GaussicaMailbox.dueInfo(a.dueDate);
+    top.append(el("strong", "", lesson ? lesson.title : a.lessonId + " (lektionen finns inte längre)"),
+      el("span", "tv-pill", a.className + " · " + (a.studentName || "hela klassen")),
+      el("span", "tv-due is-" + due.tone, due.text));
+    card.appendChild(top);
+    if (a.note) card.appendChild(el("p", "tv-assign-note", "“" + a.note + "”"));
+
+    const targets = ctx.students.filter(function (s) {
+      return s.classId === a.classId && (!a.studentId || String(a.studentId) === s.id);
+    });
+    if (lesson && targets.length) {
+      const states = targets.map(function (s) { return { s: s, sum: statusOfStudent(s, lesson, ctx) }; });
+      const done = states.filter(function (x) { return x.sum.total > 0 && x.sum.state === "complete"; }).length;
+      card.appendChild(el("p", "tv-assign-count", done + " av " + plural(targets.length, "elev", "elever") + " klara"));
+      const chips = el("div", "tv-assign-chips");
+      states.forEach(function (x) {
+        const isDone = x.sum.total > 0 && x.sum.state === "complete";
+        const started = x.sum.done > 0 || x.sum.fix > 0;
+        const chip = button((isDone ? "✓ " : started ? "◔ " : "○ ") + x.s.name + (started && !isDone ? " (" + x.sum.done + "/" + x.sum.total + ")" : ""),
+          "tv-chip tv-student-chip is-" + (isDone ? "done" : started ? "part" : "todo"), function () { ui.studentId = x.s.id; ctx.rerender(); });
+        chips.appendChild(chip);
+      });
+      card.appendChild(chips);
+    } else if (!targets.length) {
+      card.appendChild(el("p", "tv-muted", "Inga elever i den här klassen än."));
+    }
+    card.appendChild(button("Ta bort uppdraget", "tv-btn is-danger tv-small", function () {
+      if (!window.confirm("Ta bort uppdraget? Eleverna ser det inte längre.")) return;
+      ctx.actions.archiveAssignment(a.id).then(function () { ctx.refresh(); })
+        .catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+    }));
+    return card;
+  }
+
+  // ===== FEEDBACK TO A STUDENT =====
+  function stickerLabel(key) {
+    const s = window.GaussicaMailbox.STICKERS[key];
+    return s ? s.emoji + " " + s.label : "";
+  }
+
+  // scope: { lessonId, taskId, label }  (all optional: no scope = a general message)
+  function composer(ctx, student, scope) {
+    const form = el("form", "tv-compose");
+    const area = el("textarea");
+    area.maxLength = 600; area.rows = 3;
+    area.placeholder = "Skriv en hälsning till " + student.name.split(" ")[0] + (scope && scope.label ? " om " + scope.label : "") + "…";
+    area.setAttribute("aria-label", "Meddelande till " + student.name);
+    let chosen = null;
+    const stickers = el("div", "tv-stickers");
+    Object.keys(window.GaussicaMailbox.STICKERS).forEach(function (key) {
+      const b = button(stickerLabel(key), "tv-sticker", function () {
+        chosen = chosen === key ? null : key;
+        Array.prototype.forEach.call(stickers.children, function (c) { c.setAttribute("aria-pressed", String(c.dataset.key === chosen)); });
+      });
+      b.dataset.key = key;
+      b.setAttribute("aria-pressed", "false");
+      stickers.appendChild(b);
+    });
+    const error = el("p", "tv-compose-error");
+    error.hidden = true;
+    const send = button("Skicka 💬", "tv-btn is-primary", function () {});
+    send.type = "submit";
+    const actions = el("div", "tv-compose-actions");
+    actions.append(send, el("span", "tv-muted", "Eleven ser det direkt på sidan" + (scope && scope.label ? ", vid " + scope.label : "") + "."));
+    form.append(area, stickers, error, actions);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const text = area.value.trim();
+      if (!text && !chosen) { error.textContent = "Skriv något eller välj en dekal."; error.hidden = false; return; }
+      send.disabled = true;
+      ctx.actions.sendFeedback({ studentId: student.id, lessonId: scope && scope.lessonId, taskId: scope && scope.taskId, text: text, sticker: chosen })
+        .then(function () { ctx.rerender(); })
+        .catch(function (err) { error.textContent = err.message; error.hidden = false; send.disabled = false; });
+    });
+    return form;
+  }
+
+  function sentItem(f, ctx, student, course) {
+    const li = el("li", "tv-sent" + (f.read ? " is-read" : ""));
+    const body = el("div", "tv-sent-body");
+    if (f.sticker) body.appendChild(el("span", "tv-sent-sticker", stickerLabel(f.sticker)));
+    if (f.text) body.appendChild(el("span", "tv-sent-text", f.text));
+    li.appendChild(body);
+    const meta = el("div", "tv-sent-meta");
+    const lesson = f.lessonId && course.lessons.find(function (l) { return l.id === f.lessonId; });
+    const where = lesson ? lesson.title + (f.taskId ? " · " + ((window.GaussicaLesson.tasks(lesson).find(function (t) { return t.id === f.taskId; }) || {}).name || "fråga") : "") : "Allmänt";
+    meta.append(el("span", "tv-muted", where + " · " + ctx.formatTimestamp(f.createdAt)),
+      el("span", "tv-pill " + (f.read ? "is-done" : "is-todo"), f.read ? "✓ Läst" : "Inte läst än"));
+    const del = button("✕", "tv-btn tv-small", function () {
+      if (!window.confirm("Ta bort meddelandet? Eleven ser det inte längre.")) return;
+      ctx.actions.deleteFeedback(f.id).then(function () { ctx.rerender(); })
+        .catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+    });
+    del.setAttribute("aria-label", "Ta bort meddelandet");
+    meta.appendChild(del);
+    li.appendChild(meta);
+    return li;
+  }
+
+  function feedbackSection(student, ctx) {
+    const box = el("section", "tv-feedback-box");
+    box.appendChild(el("h4", "", "💬 Skriv till " + student.name.split(" ")[0]));
+    box.appendChild(el("p", "admin-card-description", "Ett allmänt meddelande. Vill du skriva om en viss fråga, använd knappen under frågan längre ned."));
+    box.appendChild(composer(ctx, student, null));
+    const sent = (student.feedback || []).slice().reverse();
+    if (sent.length) {
+      const list = el("ul", "tv-sent-list");
+      sent.slice(0, 12).forEach(function (f) { list.appendChild(sentItem(f, ctx, student, ctx.course)); });
+      box.append(el("h5", "tv-sent-title", "Skickat till " + student.name.split(" ")[0]), list);
+    }
+    return box;
   }
 
   function lastSeen(iso, ctx) {
@@ -451,6 +661,7 @@ window.GaussicaTeacher = (function () {
         }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
       }));
     section.appendChild(actions);
+    section.appendChild(feedbackSection(s, ctx));
 
     const t = a.totals;
     const stats = el("div", "tv-stats");
@@ -496,11 +707,11 @@ window.GaussicaTeacher = (function () {
         const fy = y.tasks.some(function (r) { return r.status === "fix"; }) ? 0 : 1;
         return fx - fy;
       })
-      .forEach(function (lr) { section.appendChild(lessonBlock(lr, ctx)); });
+      .forEach(function (lr) { section.appendChild(lessonBlock(lr, ctx, a.student)); });
     return section;
   }
 
-  function lessonBlock(lr, ctx) {
+  function lessonBlock(lr, ctx, student) {
     const hasFix = lr.tasks.some(function (r) { return r.status === "fix"; });
     const det = el("details", "tv-lesson");
     det.open = hasFix || ui.lessonId !== "alla";
@@ -515,7 +726,7 @@ window.GaussicaTeacher = (function () {
         : "bara övningsfrågor"));
     if (hasFix) sum.appendChild(el("span", "tv-pill is-fix", "behöver rättas"));
     det.appendChild(sum);
-    lr.tasks.forEach(function (row) { det.appendChild(taskBlock(row, ctx)); });
+    lr.tasks.forEach(function (row) { det.appendChild(taskBlock(row, ctx, student, lr.lesson)); });
     if (lr.practice && lr.practice.length) det.appendChild(practiceBlock(lr.practice, ctx));
     return det;
   }
@@ -563,7 +774,7 @@ window.GaussicaTeacher = (function () {
     return d;
   }
 
-  function taskBlock(row, ctx) {
+  function taskBlock(row, ctx, student, lesson) {
     const block = el("article", "tv-task is-" + row.status);
     const top = el("div", "tv-task-top");
     top.appendChild(el("strong", "", row.name));
@@ -642,8 +853,33 @@ window.GaussicaTeacher = (function () {
       if (row.entry.canvas) draft.appendChild(canvasDetails("Elevens rityta", row.entry.canvas));
       block.appendChild(draft);
     }
+    if (student && lesson) block.appendChild(taskComments(row, ctx, student, lesson));
     return block;
   }
 
-  return { render: render, analyzeStudent: analyzeStudent, analyzeClass: analyzeClass };
+  // Earlier comments on this task and a button that opens a box for a new one.
+  function taskComments(row, ctx, student, lesson) {
+    const wrap = el("div", "tv-task-comments");
+    const mine = (student.feedback || []).filter(function (f) { return f.lessonId === lesson.id && f.taskId === row.taskId; });
+    if (mine.length) {
+      const list = el("ul", "tv-sent-list");
+      mine.slice().reverse().forEach(function (f) { list.appendChild(sentItem(f, ctx, student, ctx.course)); });
+      wrap.appendChild(list);
+    }
+    const slot = el("div", "tv-compose-slot");
+    const open = button("💬 Skriv till eleven om den här frågan", "tv-btn tv-small", function () {
+      if (slot.firstChild) { slot.replaceChildren(); return; }
+      slot.appendChild(composer(ctx, student, { lessonId: lesson.id, taskId: row.taskId, label: row.name.toLowerCase() }));
+      slot.querySelector("textarea").focus();
+    });
+    wrap.append(open, slot);
+    return wrap;
+  }
+
+  function prefillAssignment(lessonId) {
+    ui.assignLesson = lessonId;
+    ui.assignScroll = true;
+  }
+
+  return { render: render, prefillAssignment: prefillAssignment, analyzeStudent: analyzeStudent, analyzeClass: analyzeClass };
 }());

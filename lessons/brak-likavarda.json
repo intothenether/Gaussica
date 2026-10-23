@@ -12,7 +12,7 @@
   "explanation": "Om vi delar något i 2 lika stora delar och tar 1, får vi 1/2. Om vi delar samma sak i 4 lika stora delar och tar 2, får vi 2/4. Det är samma mängd! Båda bråken är likvärdiga.",
   "rule": "Om du multiplicerar eller dividerar både täljare och nämnare med samma tal får du ett likvärdigt bråk.",
   "ruleLabel": "LIKVÄRDIGA BRÅK",
-  "example": "1/2 = 2/4 = 3/6 = 4/8 — alla är likvärdiga. Vi kan förlänga (gånger 2, 3, 4...) eller förkorta (dela med samma tal).",
+  "example": "1/2 = 2/4 = 3/6 = 4/8. Alla är likvärdiga. Vi kan förlänga (gånger 2, 3, 4...) eller förkorta (dela med samma tal).",
   "interactive": {
     "type": "fraction-model",
     "numerator": 1,
@@ -75,7 +75,7 @@
     "correct": "Ja! Båda 2/6 och 3/9 är likvärdiga med 1/3.",
     "feedback": [
       { "answers": ["2/4"], "message": "2/4 är en halv, inte en tredjedel. Försök att multiplicera både täljare och nämnare i 1/3 med samma tal." },
-      { "answers": ["2/8"], "message": "2/8 är en fjärdedel, inte en tredjedel. Om du multiplicerar 1/3 — täljare OCH nämnare — med samma tal, vad får du?" }
+      { "answers": ["2/8"], "message": "2/8 är en fjärdedel, inte en tredjedel. Om du multiplicerar 1/3 (täljare OCH nämnare) med samma tal, vad får du?" }
     ]
   },
   "wordProblems": [

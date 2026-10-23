@@ -6,6 +6,8 @@ const SESSION_DAYS = 30;
 const COLORS = ["#425b9a", "#ef6f88", "#4fa8dc", "#8a74c9", "#d99a2b", "#2f9d88", "#7a8db8"];
 const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart"];
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const PBKDF2_ITERATIONS = 100000;   // the most Workers allow
 
 class ApiError extends Error {
@@ -258,13 +260,42 @@ function createApi(env, request) {
     return [200, { ok: true }];
   }
 
+  const publicAssignment = (r) => ({
+    id: r.id, lessonId: r.lesson_id, note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
+    classId: r.class_id || null, className: r.class_name || null, studentId: r.student_id || null, studentName: r.student_name || null
+  });
+
+  const publicFeedback = (r) => ({
+    id: r.id, studentId: r.student_id || null, lessonId: r.lesson_id || null, taskId: r.task_id || null, text: r.text,
+    sticker: r.sticker || null, createdAt: r.created_at, read: Boolean(r.read_at), teacher: r.teacher || null
+  });
+
   async function myData() {
     const s = await requireUser();
-    const [progress, attempts] = await Promise.all([
+    const isStudent = s.user.role === "student";
+    const [progress, attempts, assignments, feedback] = await Promise.all([
       progressOf(s.user.id),
-      all("SELECT id, data, created_at FROM attempts WHERE user_id = ? ORDER BY id", s.user.id)
+      all("SELECT id, data, created_at FROM attempts WHERE user_id = ? ORDER BY id", s.user.id),
+      isStudent && s.user.class_id ? all(
+        "SELECT a.id, a.lesson_id, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
+        "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id",
+        s.user.class_id, s.user.id) : [],
+      isStudent ? all(
+        "SELECT f.id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at, u.display_name AS teacher FROM feedback f " +
+        "JOIN users u ON u.id = f.teacher_id WHERE f.student_id = ? ORDER BY f.id DESC LIMIT 200", s.user.id) : []
     ]);
-    return [200, { progress, attempts: attempts.map(attemptFromRow) }];
+    return [200, { progress, attempts: attempts.map(attemptFromRow), assignments: assignments.map(publicAssignment), feedback: feedback.map(publicFeedback) }];
+  }
+
+  async function markRead() {
+    const s = await requireUser();
+    const b = await readJson(request, 5000);
+    const ids = (Array.isArray(b.ids) ? b.ids.slice(0, 100) : []).filter(Number.isInteger);
+    const now = nowIso();
+    if (ids.length) {
+      await db.batch(ids.map((id) => db.prepare("UPDATE feedback SET read_at = ? WHERE id = ? AND student_id = ? AND read_at IS NULL").bind(now, id, s.user.id)));
+    }
+    return [200, { ok: true }];
   }
 
   async function putProgress(lessonId) {
@@ -351,14 +382,17 @@ function createApi(env, request) {
 
   async function teacherStudents() {
     const s = await requireTeacher();
-    const [students, progressRows, attemptRows] = await Promise.all([
+    const [students, progressRows, attemptRows, feedbackRows] = await Promise.all([
       all("SELECT u.id, u.username, u.display_name, u.created_at, u.class_id, c.name AS class_name FROM users u " +
         "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? AND u.role = 'student' ORDER BY u.display_name", s.user.id),
       all("SELECT p.user_id, p.lesson_id, p.data FROM progress p JOIN users u ON u.id = p.user_id " +
         "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ?", s.user.id),
       all("SELECT a.id, a.user_id, a.data, a.created_at FROM attempts a JOIN users u ON u.id = a.user_id " +
-        "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? ORDER BY a.id", s.user.id)
+        "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? ORDER BY a.id", s.user.id),
+      all("SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.teacher_id = ? ORDER BY f.id", s.user.id)
     ]);
+    const sent = {};
+    feedbackRows.forEach((r) => { (sent[r.student_id] = sent[r.student_id] || []).push(publicFeedback(r)); });
     const progress = {}, attempts = {};
     progressRows.forEach((r) => {
       try { (progress[r.user_id] = progress[r.user_id] || {})[r.lesson_id] = JSON.parse(r.data); } catch (e) { /* skip */ }
@@ -367,7 +401,7 @@ function createApi(env, request) {
     return [200, { students: students.map((u) => ({
       id: String(u.id), username: u.username, name: u.display_name, "class": u.class_name, classId: u.class_id,
       color: COLORS[u.id % COLORS.length], createdAt: u.created_at,
-      lessonProgress: progress[u.id] || {}, attempts: attempts[u.id] || []
+      lessonProgress: progress[u.id] || {}, attempts: attempts[u.id] || [], feedback: sent[u.id] || []
     })) }];
   }
 
@@ -375,6 +409,64 @@ function createApi(env, request) {
     const st = await one("SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'", Number(studentId), teacherId);
     if (!st) throw new ApiError(404, "Eleven finns inte i dina klasser.");
     return st;
+  }
+
+  // ----- assignments and feedback (teacher) -----
+  async function listAssignments() {
+    const s = await requireTeacher();
+    return [200, { assignments: (await all(
+      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
+      "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
+      "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id", s.user.id)).map(publicAssignment) }];
+  }
+
+  async function createAssignment() {
+    const s = await requireTeacher();
+    const b = await readJson(request, 5000);
+    const cls = await one("SELECT * FROM classes WHERE id = ? AND teacher_id = ?", Number(b.classId), s.user.id);
+    if (!cls) throw new ApiError(400, "Välj en av dina klasser.");
+    let studentId = null;
+    if (b.studentId !== undefined && b.studentId !== null && b.studentId !== "") {
+      const st = await one("SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'", Number(b.studentId), s.user.id);
+      if (!st || st.class_id !== cls.id) throw new ApiError(400, "Eleven går inte i den klassen.");
+      studentId = st.id;
+    }
+    const lessonId = str(b.lessonId, 80);
+    if (!ID_RE.test(lessonId)) throw new ApiError(400, "Välj en lektion.");
+    const dueDate = str(b.dueDate, 10);
+    if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw new ApiError(400, "Ogiltigt datum.");
+    const note = str(b.note, 400).trim();
+    const res = await run("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      cls.id, studentId, s.user.id, lessonId, note, dueDate || null, nowIso());
+    return [201, { id: res.meta.last_row_id }];
+  }
+
+  async function archiveAssignment(id) {
+    const s = await requireTeacher();
+    await run("UPDATE assignments SET archived = 1 WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
+    return [200, { ok: true }];
+  }
+
+  async function createFeedback() {
+    const s = await requireTeacher();
+    const b = await readJson(request, 5000);
+    const student = await studentOfTeacher(b.studentId, s.user.id);
+    const text = str(b.text, 600).trim();
+    const sticker = b.sticker ? str(b.sticker, 20) : null;
+    if (sticker && STICKERS.indexOf(sticker) < 0) throw new ApiError(400, "Okänd dekal.");
+    if (!text && !sticker) throw new ApiError(400, "Skriv något eller välj en dekal.");
+    const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
+    const taskId = b.taskId ? str(b.taskId, 80) : null;
+    if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw new ApiError(400, "Ogiltigt id.");
+    const res = await run("INSERT INTO feedback (student_id, teacher_id, lesson_id, task_id, text, sticker, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      student.id, s.user.id, lessonId, taskId, text, sticker, nowIso());
+    return [201, { id: res.meta.last_row_id }];
+  }
+
+  async function removeFeedback(id) {
+    const s = await requireTeacher();
+    await run("DELETE FROM feedback WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
+    return [200, { ok: true }];
   }
 
   async function resetStudentPassword(studentId) {
@@ -411,6 +503,7 @@ function createApi(env, request) {
     }
     if (method === "POST" && p === "/api/me/password") return changePassword();
     if (method === "GET" && p === "/api/me/data") return myData();
+    if (method === "POST" && p === "/api/me/feedback/read") return markRead();
     if ((m = /^\/api\/progress\/([^/]+)$/.exec(p)) && method === "PUT") return putProgress(decodeURIComponent(m[1]));
     if (method === "POST" && p === "/api/attempts") return postAttempt();
     if (method === "GET" && p === "/api/lessons") return listLessons();
@@ -418,6 +511,11 @@ function createApi(env, request) {
     if (method === "GET" && p === "/api/teacher/classes") return listClasses();
     if (method === "POST" && p === "/api/teacher/classes") return createClass();
     if (method === "GET" && p === "/api/teacher/students") return teacherStudents();
+    if (method === "GET" && p === "/api/teacher/assignments") return listAssignments();
+    if (method === "POST" && p === "/api/teacher/assignments") return createAssignment();
+    if ((m = /^\/api\/teacher\/assignments\/(\d+)$/.exec(p)) && method === "DELETE") return archiveAssignment(m[1]);
+    if (method === "POST" && p === "/api/teacher/feedback") return createFeedback();
+    if ((m = /^\/api\/teacher\/feedback\/(\d+)$/.exec(p)) && method === "DELETE") return removeFeedback(m[1]);
     if ((m = /^\/api\/teacher\/students\/(\d+)\/password$/.exec(p)) && method === "POST") return resetStudentPassword(m[1]);
     if ((m = /^\/api\/teacher\/students\/(\d+)$/.exec(p)) && method === "DELETE") return deleteStudent(m[1]);
     throw new ApiError(404, "Hittades inte.");

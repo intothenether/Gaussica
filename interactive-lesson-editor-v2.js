@@ -668,6 +668,11 @@ window.InteractiveEditor = (function () {
         [{ value: "lektion", label: "Lektion" }, { value: "pyssel", label: "Pyssla (interaktiv lek)" }],
         () => lesson.kind === "pyssel" ? "pyssel" : "lektion",
         v => { if (v === "pyssel") lesson.kind = "pyssel"; else delete lesson.kind; })),
+      field("Uträkning som svar", selectInput(
+        [{ value: "auto", label: "Automatiskt (tillåts från åk 7)" }, { value: "allow", label: "Tillåt, till exempel 36/6 eller 3*6" }, { value: "forbid", label: "Kräv ett uträknat tal" }],
+        () => typeof lesson.allowExpression === "boolean" ? (lesson.allowExpression ? "allow" : "forbid") : "auto",
+        v => { if (v === "auto") delete lesson.allowExpression; else lesson.allowExpression = v === "allow"; }),
+        "Om eleven får svara med en uträkning där ett tal väntas. Lågstadiet och mellanstadiet tränar på att räkna ut svaret. Enskilda frågor kan åsidosätta det med \"allowExpression\" i JSON."),
       field("Sammanfattning", areaInput(lesson, "summary", 3))
     );
 
@@ -886,7 +891,7 @@ window.InteractiveEditor = (function () {
         pre.appendChild(mk("span", "prerequisite-tag", l ? l.title : id));
       });
     } else {
-      pre.appendChild(mk("span", "prerequisite-tag", "Börja här — inga förkunskaper behövs"));
+      pre.appendChild(mk("span", "prerequisite-tag", "Börja här, inga förkunskaper behövs"));
     }
     top.appendChild(pre);
 

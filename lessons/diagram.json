@@ -113,7 +113,7 @@
     "prompt": "Titta på diagrammet eller tabellen ovan. Äpple har 12 röster och banan 5 röster. Hur många fler röstade på äpple än banan?",
     "visual": {
       "type": "stapeldiagram",
-      "title": "Fruktröstning — snabbjämförelse",
+      "title": "Fruktröstning: snabbjämförelse",
       "unit": "röster",
       "yAxis": { "label": "Antal röster", "max": 14, "step": 2 },
       "xAxis": { "label": "Fruktsort" },

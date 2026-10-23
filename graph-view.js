@@ -59,7 +59,7 @@ window.GaussicaGraph = (function () {
       const steps = L.children(lesson, allLessons);
       cells.push({
         lesson: lesson,
-        kind: steps.length ? "unit" : (lesson.kind === "pyssel" ? "pyssel" : "lesson"),
+        kind: steps.length ? "unit" : (lesson.kind === "pyssel" ? "pyssel" : lesson.kind === "begrepp" ? "begrepp" : "lesson"),
         steps: steps,
         grade: L.effectiveGrade(lesson, allLessons, gradeMemo)
       });
@@ -121,7 +121,7 @@ window.GaussicaGraph = (function () {
         c.w = Math.min(c.w, usable);
         const nodeSize = c.kind === "unit" ? M.unit.size : M.lesson.size;
         c.nodeSize = nodeSize;
-        c.h = nodeSize + M.labelGap + M.titleH + M.metaH + (c.kind === "unit" || c.kind === "pyssel" ? M.tagH + 4 : 0);
+        c.h = nodeSize + M.labelGap + M.titleH + M.metaH + (c.kind === "unit" || c.kind === "pyssel" || c.kind === "begrepp" ? M.tagH + 4 : 0);
         if (c.kind === "unit") c.h += M.unitStepsGap + M.step.size + M.labelGap + M.titleH + 10;
       });
 
@@ -267,14 +267,16 @@ window.GaussicaGraph = (function () {
       return owner && lay.positions.has(owner) ? owner : opts.activeId;
     }());
 
-    // Prerequisite edges between top-level cells. To keep the path readable only links
-    // between neighbouring levels are always drawn; the selected node also shows its
-    // longer-range connections.
+    // Prerequisite edges between top-level cells. A quiet default keeps the path readable: every lesson
+    // gets ONE faint line to the nearest prerequisite on the row above (no arrowheads). The selected
+    // lesson shows all of its connections, with arrows, in a stronger colour.
     const depthById = new Map();
     model.cells.forEach(function (c) { depthById.set(c.lesson.id, c.depth); });
     const seen = new Set();
+    const edges = [];
     model.cells.forEach(function (cell) {
       const to = lay.positions.get(cell.lesson.id);
+      const options = [];
       (cell.lesson.prerequisites || []).forEach(function (pid) {
         const topId = model.stepOwner.has(pid) && lay.positions.has(model.stepOwner.get(pid)) ? model.stepOwner.get(pid) : pid;
         const from = lay.positions.get(topId);
@@ -282,17 +284,29 @@ window.GaussicaGraph = (function () {
         const pairKey = topId + ">" + cell.lesson.id;
         if (seen.has(pairKey)) return;
         seen.add(pairKey);
+        const rows = cell.depth - (depthById.get(topId) || 0);
         const related = cell.lesson.id === activeTop || topId === activeTop;
-        if (!related && cell.depth - (depthById.get(topId) || 0) > 1) return;
-        const srcLesson = opts.allLessons.find(function (l) { return l.id === topId; });
-        const done = srcLesson && summaryOf(srcLesson).state === "complete";
-        const path = svgEl("path", {
-          "class": "graph-edge" + (done ? " is-done" : "") + (related ? " graph-edge-active" : "") + (cell.kind === "pyssel" ? " is-play" : ""),
-          d: edgePath(from.cx, from.cellBottom + 2, to.cx, to.nodeTop - 8),
-          "marker-end": "url(#graph-arrow" + (done ? "-done" : "") + ")"
-        });
-        svg.appendChild(path);
+        options.push({ topId: topId, from: from, to: to, cell: cell, rows: rows, dx: Math.abs(from.cx - to.cx), related: related });
       });
+      // the one quiet default line: the nearest prerequisite on the row directly above, if it is reasonably close
+      const adjacent = options.filter(function (o) { return o.rows === 1; }).sort(function (a, b) { return a.dx - b.dx; });
+      options.forEach(function (o) {
+        o.primary = adjacent[0] === o && o.dx <= width * 0.45 && o.to.nodeTop - o.from.cellBottom <= 380;
+        // the selected lesson also shows connections up to two rows away; anything further is listed in the panel
+        const near = o.related && o.rows <= 2 && o.dx <= width * 0.6;
+        if (near || o.primary) edges.push(o);
+      });
+    });
+    // faint lines first, the selected lesson's connections on top
+    edges.sort(function (a, b) { return (a.related ? 1 : 0) - (b.related ? 1 : 0); }).forEach(function (o) {
+      const srcLesson = opts.allLessons.find(function (l) { return l.id === o.topId; });
+      const done = srcLesson && summaryOf(srcLesson).state === "complete";
+      const attrs = {
+        "class": "graph-edge" + (done ? " is-done" : "") + (o.related ? " graph-edge-active" : "") + (o.cell.kind === "pyssel" ? " is-play" : ""),
+        d: busPath(o.from.cx, o.from.cellBottom + 2, o.to.cx, o.to.nodeTop - 8)
+      };
+      if (o.related) attrs["marker-end"] = "url(#graph-arrow" + (done ? "-done" : "") + ")";
+      svg.appendChild(svgEl("path", attrs));
     });
 
     // unit -> steps chain
@@ -331,7 +345,7 @@ window.GaussicaGraph = (function () {
       button.style.width = pos.nodeSize + "px";
       button.style.height = pos.nodeSize + "px";
       button.setAttribute("aria-current", String(isActive));
-      const kindLabel = kind === "unit" ? "kapitel" : kind === "step" ? "delmoment" : kind === "pyssel" ? "pyssla" : "lektion";
+      const kindLabel = kind === "unit" ? "kapitel" : kind === "step" ? "delmoment" : kind === "pyssel" ? "pyssla" : kind === "begrepp" ? "begreppslektion" : "lektion";
       const label = lesson.title + ", " + kindLabel + ", " + area + ", " + L.describe(s);
       button.dataset.baseLabel = label;
       button.setAttribute("aria-label", label);
@@ -343,6 +357,7 @@ window.GaussicaGraph = (function () {
       else if (kind === "unit") face.appendChild(stackIcon());
       else if (kind === "pyssel") face.appendChild(sparkIcon());
       else if (kind === "step") face.textContent = String(stepIndex + 1);
+      else if (kind === "begrepp") { face.textContent = "Aa"; face.classList.add("gn-glyph-begrepp"); }
       else {
         face.textContent = AREA_GLYPH[lesson.area] || "•";
         face.classList.add("gn-glyph-" + lesson.area);
@@ -368,6 +383,7 @@ window.GaussicaGraph = (function () {
       text.appendChild(meta);
       if (kind === "unit") text.appendChild(el("span", "graph-node-tag", "KAPITEL · " + ownerCount(lesson) + " DELMOMENT"));
       if (kind === "pyssel") text.appendChild(el("span", "graph-node-tag is-play", "PYSSLA"));
+      if (kind === "begrepp") text.appendChild(el("span", "graph-node-tag is-term", "BEGREPP"));
       text.addEventListener("click", function () { opts.onSelect(lesson.id); });
       graph.appendChild(text);
     };
@@ -386,8 +402,23 @@ window.GaussicaGraph = (function () {
     });
   }
 
+  // Lines run straight down from a lesson, sideways along a shared "bus" line just above the next row, and
+  // straight down into the target. Lines into the same row therefore merge instead of crossing each other.
+  function busPath(x1, y1, x2, y2) {
+    const r = 12;
+    const dx = x2 - x1;
+    const ym = Math.max(y1 + r * 2, y2 - 30);
+    if (Math.abs(dx) < r * 2 + 2 || ym > y2 - r) return edgePath(x1, y1, x2, y2);
+    const dir = dx > 0 ? 1 : -1;
+    return "M " + x1 + " " + y1 + " L " + x1 + " " + (ym - r) +
+      " Q " + x1 + " " + ym + " " + (x1 + dir * r) + " " + ym +
+      " L " + (x2 - dir * r) + " " + ym +
+      " Q " + x2 + " " + ym + " " + x2 + " " + (ym + r) +
+      " L " + x2 + " " + y2;
+  }
+
   function edgePath(x1, y1, x2, y2) {
-    const curve = Math.max(28, Math.abs(y2 - y1) / 2.4);
+    const curve = Math.min(46, Math.max(22, Math.abs(y2 - y1) / 2.8));
     return "M " + x1 + " " + y1 + " C " + x1 + " " + (y1 + curve) + ", " + x2 + " " + (y2 - curve) + ", " + x2 + " " + y2;
   }
 

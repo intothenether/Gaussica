@@ -142,10 +142,13 @@ window.GaussicaPlayer = (function () {
     shell.append(main, foot);
     c.appendChild(shell);
 
+    state.hosts = null;
     if (state.index >= state.steps.length) { if (isSession()) sessionSummary(card, foot); else summary(card, foot, l); }
     else step(card, foot, l, state.steps[state.index]);
     main.scrollTop = 0;
     main.focus({ preventScroll: true });
+    const answerInput = foot.querySelector("input[name=answer]");
+    if (answerInput && !foot.classList.contains("is-correct")) answerInput.focus({ preventScroll: true });
   }
 
   function topBar(l) {
@@ -176,6 +179,8 @@ window.GaussicaPlayer = (function () {
     return top;
   }
 
+  // The bottom bar is always visible. On a question screen it also holds the hint (feedback) and the answer
+  // field, so the student never has to scroll to answer. state.hosts are created once per question.
   function footer(foot, tone, message, actions) {
     foot.className = "pl-foot is-" + tone;
     foot.replaceChildren();
@@ -183,7 +188,14 @@ window.GaussicaPlayer = (function () {
     if (message) msg.textContent = message;
     const acts = el("div", "pl-foot-actions");
     actions.forEach(function (a) { acts.appendChild(a); });
-    foot.append(msg, acts);
+    const row = el("div", "pl-foot-row");
+    if (state.hosts) {
+      foot.appendChild(state.hosts.feedback);
+      row.append(msg, state.hosts.answer, acts);
+    } else {
+      row.append(msg, acts);
+    }
+    foot.appendChild(row);
   }
 
   function backButton() {
@@ -194,7 +206,7 @@ window.GaussicaPlayer = (function () {
   function step(card, foot, l, st) {
     if (st.type === "learn") {
       state.visited.add(state.index);
-      card.appendChild(el("p", "eyebrow pl-eyebrow", l.kind === "pyssel" ? "PYSSLA" : "LÄR DIG"));
+      card.appendChild(el("p", "eyebrow pl-eyebrow", l.kind === "pyssel" ? "PYSSLA" : l.kind === "begrepp" ? "BEGREPP" : "LÄR DIG"));
       const body = el("div", "pl-learn");
       st.keys.forEach(function (key) { deps.renderBlock(body, l, key); });
       card.appendChild(body);
@@ -213,6 +225,7 @@ window.GaussicaPlayer = (function () {
       : "FRÅGA " + st.number + " AV " + st.total;
     const holder = el("div", "pl-question");
     card.appendChild(holder);
+    state.hosts = { answer: el("div", "pl-foot-answer"), feedback: el("div", "pl-foot-feedback") };
     const next = button("Fortsätt →", "pl-btn pl-btn-primary", function () { go(state.index + 1); });
     const skip = button("Hoppa över", "pl-btn pl-btn-ghost", function () { go(state.index + 1); });
 
@@ -227,6 +240,8 @@ window.GaussicaPlayer = (function () {
     };
 
     deps.renderQuestion(holder, l, st.task, label, {
+      answerHost: state.hosts.answer,
+      feedbackHost: state.hosts.feedback,
       onResult: function (ok) {
         if (isSession()) {
           const r = state.session.results[st.task.id] || (state.session.results[st.task.id] = { completed: false, answered: true, tries: 0 });
@@ -241,7 +256,7 @@ window.GaussicaPlayer = (function () {
     const e = entryOf(st);
     if (e && e.completed) showSolved(false);
     else footer(foot, "neutral", "", [backButton(), skip].filter(Boolean));
-    const input = holder.querySelector("input[name=answer]");
+    const input = foot.querySelector("input[name=answer]");
     if (input && !(e && e.completed)) input.focus({ preventScroll: true });
   }
 

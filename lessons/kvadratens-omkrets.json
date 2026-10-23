@@ -57,7 +57,7 @@
       "derive": [{"name":"p","expr":"4*s"}],
       "prompt": "Omkretsen av en kvadrat är {p} cm. Hur lång är en sida?",
       "answer": ["=s","{s} cm","{s}cm"],
-      "correct": "Rätt! {p} ÷ 4 = {s} cm.",
+      "correct": "Rätt! {p}/4 = {s} cm.",
       "feedback": [
         {"answers":["=p/2"],"message":"En kvadrat har fyra lika långa sidor, så dela med 4."},
         {"answers":["=p"],"message":"Det är hela omkretsen. Dela den på de fyra sidorna."}
@@ -122,7 +122,7 @@
         "5",
         "5 cm"
       ],
-      "correct": "Rätt! Omkretsen är 4 sidor, så en sida är 20 ÷ 4 = 5 cm.",
+      "correct": "Rätt! Omkretsen är 4 sidor, så en sida är 20/4 = 5 cm.",
       "feedback": [
         {
           "answers": [

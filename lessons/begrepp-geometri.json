@@ -1,0 +1,199 @@
+{
+  "id": "begrepp-geometri",
+  "kind": "begrepp",
+  "area": "geometri",
+  "title": "Begrepp: former och mått",
+  "level": "Begrepp · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": ["geometriska-figurer"],
+  "summary": "Hörn, sida, rät vinkel, omkrets och area: orden du behöver för att prata om former.",
+  "explanationTitle": "Orden för former",
+  "explanation": "När du beskriver en figur använder du ord som hörn, sida och vinkel. Du kan också mäta den: omkretsen är längden runt figuren och arean är hur stor yta den täcker. Läs begreppskorten, och para sedan ihop varje ord med rätt förklaring.",
+  "components": [
+    {
+      "type": "begreppskort",
+      "title": "Begreppen",
+      "intro": "Läs varje kort. Sedan ska du para ihop begreppen med rätt förklaring.",
+      "cards": [
+        {
+          "term": "hörn",
+          "definition": "Platsen där två sidor i en figur möts.",
+          "example": "En triangel har tre hörn."
+        },
+        {
+          "term": "sida",
+          "definition": "En rak linje som begränsar en figur.",
+          "example": "En kvadrat har fyra lika långa sidor."
+        },
+        {
+          "term": "rät vinkel",
+          "definition": "En vinkel som är exakt 90 grader, som hörnet på ett papper.",
+          "example": "Hörnen i en rektangel är räta vinklar."
+        },
+        {
+          "term": "parallella linjer",
+          "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts.",
+          "example": "De två längsta sidorna i en rektangel är parallella."
+        },
+        {
+          "term": "symmetrilinje",
+          "definition": "En linje som delar en figur i två delar som är varandras spegelbilder.",
+          "example": "En kvadrat har fyra symmetrilinjer."
+        },
+        {
+          "term": "månghörning",
+          "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning.",
+          "example": "Kvadraten och triangeln är månghörningar."
+        },
+        {
+          "term": "omkrets",
+          "definition": "Längden runt en figurs ytterkant.",
+          "example": "En kvadrat med sidan 3 cm har omkretsen 12 cm."
+        },
+        {
+          "term": "area",
+          "definition": "Hur stor yta en figur täcker, mätt i kvadratenheter.",
+          "example": "En rektangel som är 4 cm lång och 2 cm bred har arean 8 cm²."
+        }
+      ]
+    },
+    {
+      "type": "koppla",
+      "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
+      "pairs": [
+        {"term":"hörn","definition":"Platsen där två sidor i en figur möts."},
+        {"term":"sida","definition":"En rak linje som begränsar en figur."},
+        {"term":"rät vinkel","definition":"En vinkel som är exakt 90 grader, som hörnet på ett papper."},
+        {
+          "term": "parallella linjer",
+          "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts."
+        }
+      ]
+    },
+    {
+      "type": "koppla",
+      "prompt": "Para ihop begreppen med rätt förklaring (del 2).",
+      "pairs": [
+        {
+          "term": "symmetrilinje",
+          "definition": "En linje som delar en figur i två delar som är varandras spegelbilder."
+        },
+        {
+          "term": "månghörning",
+          "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning."
+        },
+        {"term":"omkrets","definition":"Längden runt en figurs ytterkant."},
+        {"term":"area","definition":"Hur stor yta en figur täcker, mätt i kvadratenheter."}
+      ]
+    }
+  ],
+  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "practice": [
+    {
+      "id": "koppla",
+      "for": ["match-1","match-2"],
+      "mode": "koppla",
+      "size": 4,
+      "prompt": "Para ihop begreppen med rätt förklaring.",
+      "pool": [
+        {"term":"hörn","definition":"Platsen där två sidor i en figur möts."},
+        {"term":"sida","definition":"En rak linje som begränsar en figur."},
+        {"term":"rät vinkel","definition":"En vinkel som är exakt 90 grader, som hörnet på ett papper."},
+        {
+          "term": "parallella linjer",
+          "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts."
+        },
+        {
+          "term": "symmetrilinje",
+          "definition": "En linje som delar en figur i två delar som är varandras spegelbilder."
+        },
+        {
+          "term": "månghörning",
+          "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning."
+        },
+        {"term":"omkrets","definition":"Längden runt en figurs ytterkant."},
+        {"term":"area","definition":"Hur stor yta en figur täcker, mätt i kvadratenheter."}
+      ]
+    },
+    {
+      "id": "fraga",
+      "for": ["exercise","word-0","word-1"],
+      "mode": "fraga",
+      "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
+      "pool": [
+        {"term":"hörn","definition":"Platsen där två sidor i en figur möts.","alt":["hörnet","hörnen"]},
+        {"term":"sida","definition":"En rak linje som begränsar en figur.","alt":["sidan","sidor"]},
+        {
+          "term": "rät vinkel",
+          "definition": "En vinkel som är exakt 90 grader, som hörnet på ett papper.",
+          "alt": ["rät"]
+        },
+        {
+          "term": "parallella linjer",
+          "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts.",
+          "alt": ["parallella","parallell"]
+        },
+        {
+          "term": "symmetrilinje",
+          "definition": "En linje som delar en figur i två delar som är varandras spegelbilder.",
+          "alt": ["symmetrilinjen"]
+        },
+        {
+          "term": "månghörning",
+          "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning.",
+          "alt": ["månghörningen"]
+        },
+        {"term":"omkrets","definition":"Längden runt en figurs ytterkant.","alt":["omkretsen"]},
+        {"term":"area","definition":"Hur stor yta en figur täcker, mätt i kvadratenheter.","alt":["arean"]}
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad kallas längden runt en figur? Skriv begreppet.",
+    "answer": ["omkrets","omkretsen"],
+    "correct": "Rätt! Omkrets: Längden runt en figurs ytterkant.",
+    "feedback": [
+      {
+        "answers": ["area","arean"],
+        "message": "Area betyder: Hur stor yta en figur täcker, mätt i kvadratenheter. Det är inte det som frågas. Läs begreppskorten igen."
+      },
+      {
+        "answers": ["sida","sidan","sidor"],
+        "message": "Sida betyder: En rak linje som begränsar en figur. Det är inte det som frågas. Läs begreppskorten igen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vad kallas platsen där två sidor i en figur möts? Skriv begreppet.",
+      "answer": ["hörn","hörnet","hörnen"],
+      "correct": "Rätt! Hörn: Platsen där två sidor i en figur möts.",
+      "feedback": [
+        {
+          "answers": ["sida","sidan","sidor"],
+          "message": "Sida betyder: En rak linje som begränsar en figur. Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": ["area","arean"],
+          "message": "Area betyder: Hur stor yta en figur täcker, mätt i kvadratenheter. Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    },
+    {
+      "prompt": "Vad kallas en vinkel som är exakt 90 grader? Skriv begreppet.",
+      "answer": ["rät vinkel","rät"],
+      "correct": "Rätt! Rät vinkel: En vinkel som är exakt 90 grader, som hörnet på ett papper.",
+      "feedback": [
+        {
+          "answers": ["hörn","hörnet","hörnen"],
+          "message": "Hörn betyder: Platsen där två sidor i en figur möts. Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": ["symmetrilinje","symmetrilinjen"],
+          "message": "Symmetrilinje betyder: En linje som delar en figur i två delar som är varandras spegelbilder. Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    }
+  ]
+}

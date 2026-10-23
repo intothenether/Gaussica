@@ -9,7 +9,7 @@
   "summary": "Division delar upp en mängd i lika stora grupper. Multiplikation kan hjälpa oss kontrollera svaret.",
   "explanationTitle": "Hur många lika grupper får vi?",
   "explanation": "Om 56 saker delas lika i 7 grupper frågar vi hur många saker varje grupp får. Eftersom 7 × 8 = 56 får varje grupp 8 saker.",
-  "rule": "56 ÷ 7 = 8 eftersom 7 × 8 = 56",
+  "rule": "56/7 = 8 eftersom 7 × 8 = 56",
   "ruleLabel": "DIVISION OCH MULTIPLIKATION HÖR IHOP",
   "example": "Kontrollera en division genom att multiplicera kvoten med divisorn. Om produkten blir det ursprungliga talet stämmer svaret.",
   "practice": [
@@ -20,7 +20,7 @@
       "derive": [{"name":"t","expr":"g*k"}],
       "prompt": "{t} saker delas lika mellan {g} grupper. Hur många får varje grupp?",
       "answer": ["=k"],
-      "correct": "Rätt! {t} ÷ {g} = {k}.",
+      "correct": "Rätt! {t}/{g} = {k}.",
       "feedback": [
         {
           "answers": ["=t-g"],
@@ -34,9 +34,9 @@
       "for": ["word-0"],
       "vars": {"g":[3,9],"k":[4,12]},
       "derive": [{"name":"t","expr":"g*k"}],
-      "prompt": "Räkna ut {t} ÷ {g}.",
+      "prompt": "Räkna ut {t}/{g}.",
       "answer": ["=k"],
-      "correct": "Rätt! {g} · {k} = {t}, så {t} ÷ {g} = {k}.",
+      "correct": "Rätt! {g} · {k} = {t}, så {t}/{g} = {k}.",
       "feedback": [{"answers":["=t-g"],"message":"Division är inte subtraktion. Fråga dig: vad gånger {g} blir {t}?"}]
     },
     {
@@ -50,7 +50,7 @@
       "derive": [{"name":"t","expr":"g*k"}],
       "prompt": "{$namn} har {t} {$sak} och lägger dem i högar med {g} i varje. Hur många högar blir det?",
       "answer": ["=k"],
-      "correct": "Rätt! {t} ÷ {g} = {k} högar.",
+      "correct": "Rätt! {t}/{g} = {k} högar.",
       "feedback": [
         {
           "answers": ["=g"],
@@ -72,7 +72,7 @@
     {
       "prompt": "24 äpplen delas lika mellan 4 barn. Hur många äpplen får varje barn?",
       "answer": ["6"],
-      "correct": "Rätt! 24 ÷ 4 = 6 äpplen var.",
+      "correct": "Rätt! 24/4 = 6 äpplen var.",
       "feedback": [
         { "answers": ["20"], "message": "20 är 24 − 4. Dela i stället de 24 äpplena i fyra lika stora grupper." },
         { "answers": ["8"], "message": "Kontrollera svaret genom att multiplicera med antalet barn: 4 gånger hur många ska bli 24?" }

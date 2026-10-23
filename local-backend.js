@@ -13,6 +13,8 @@ window.GaussicaLocal = (function () {
   const COLORS = ["#425b9a", "#ef6f88", "#4fa8dc", "#8a74c9", "#d99a2b", "#2f9d88", "#7a8db8"];
   const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
   const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart"];
+  const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
   function ApiError(status, message) {
     const e = new Error(message);
@@ -27,7 +29,7 @@ window.GaussicaLocal = (function () {
 
   // ----- storage -----
   function empty() {
-    return { users: [], classes: [], progress: {}, attempts: [], lessons: {}, next: { user: 1, cls: 1, attempt: 1 }, session: null };
+    return { users: [], classes: [], progress: {}, attempts: [], lessons: {}, assignments: [], feedback: [], next: { user: 1, cls: 1, attempt: 1, assignment: 1, feedback: 1 }, session: null };
   }
 
   function load() {
@@ -35,7 +37,11 @@ window.GaussicaLocal = (function () {
       const raw = window.localStorage.getItem(KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (parsed && Array.isArray(parsed.users)) return Object.assign(empty(), parsed);
+        if (parsed && Array.isArray(parsed.users)) {
+          const merged = Object.assign(empty(), parsed);
+          merged.next = Object.assign(empty().next, parsed.next);   // data saved before assignments existed
+          return merged;
+        }
       }
     } catch (e) { /* storage blocked or corrupt: start empty */ }
     return empty();
@@ -152,6 +158,31 @@ window.GaussicaLocal = (function () {
     return db.users.find(function (u) { return u.id === studentId && u.role === "student" && ids.indexOf(u.classId) >= 0; }) || null;
   }
 
+  function publicAssignment(a, extra) {
+    const teacher = db.users.find(function (u) { return u.id === a.teacherId; });
+    const cls = db.classes.find(function (c) { return c.id === a.classId; });
+    const student = a.studentId ? db.users.find(function (u) { return u.id === a.studentId; }) : null;
+    return {
+      id: a.id, lessonId: a.lessonId, note: a.note, dueDate: a.dueDate, createdAt: a.createdAt, teacher: teacher ? teacher.displayName : null,
+      classId: extra ? a.classId : null, className: extra && cls ? cls.name : null, studentId: extra ? a.studentId : null, studentName: extra && student ? student.displayName : null
+    };
+  }
+
+  function publicFeedback(f, withStudent) {
+    const teacher = db.users.find(function (u) { return u.id === f.teacherId; });
+    return {
+      id: f.id, studentId: withStudent ? f.studentId : null, lessonId: f.lessonId, taskId: f.taskId, text: f.text,
+      sticker: f.sticker, createdAt: f.createdAt, read: Boolean(f.readAt), teacher: teacher ? teacher.displayName : null
+    };
+  }
+
+  function byDue(a, b) {
+    if (a.dueDate && b.dueDate) return a.dueDate.localeCompare(b.dueDate) || a.id - b.id;
+    if (a.dueDate) return -1;
+    if (b.dueDate) return 1;
+    return a.id - b.id;
+  }
+
   // ----- handlers -----
   async function register(b) {
     const role = b.role === "teacher" ? "teacher" : "student";
@@ -252,6 +283,73 @@ window.GaussicaLocal = (function () {
     return { ok: true };
   }
 
+  // ----- assignments and feedback -----
+  function listAssignments() {
+    const u = requireTeacher();
+    return { assignments: db.assignments.filter(function (a) { return a.teacherId === u.id && !a.archived; }).sort(byDue).map(function (a) { return publicAssignment(a, true); }) };
+  }
+
+  function createAssignment(b) {
+    const u = requireTeacher();
+    const cls = db.classes.find(function (c) { return c.id === Number(b.classId) && c.teacherId === u.id; });
+    if (!cls) throw ApiError(400, "Välj en av dina klasser.");
+    let studentId = null;
+    if (b.studentId !== undefined && b.studentId !== null && b.studentId !== "") {
+      const st = studentOfTeacher(Number(b.studentId), u.id);
+      if (!st || st.classId !== cls.id) throw ApiError(400, "Eleven går inte i den klassen.");
+      studentId = st.id;
+    }
+    const lessonId = str(b.lessonId, 80);
+    if (!ID_RE.test(lessonId)) throw ApiError(400, "Välj en lektion.");
+    const dueDate = str(b.dueDate, 10);
+    if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw ApiError(400, "Ogiltigt datum.");
+    const a = { id: db.next.assignment++, classId: cls.id, studentId: studentId, teacherId: u.id, lessonId: lessonId,
+      note: str(b.note, 400).trim(), dueDate: dueDate || null, createdAt: nowIso(), archived: false };
+    db.assignments.push(a);
+    save();
+    return { id: a.id };
+  }
+
+  function archiveAssignment(id) {
+    const u = requireTeacher();
+    const a = db.assignments.find(function (x) { return x.id === Number(id) && x.teacherId === u.id; });
+    if (a) { a.archived = true; save(); }
+    return { ok: true };
+  }
+
+  function createFeedback(b) {
+    const u = requireTeacher();
+    const student = studentOfTeacher(Number(b.studentId), u.id);
+    if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
+    const text = str(b.text, 600).trim();
+    const sticker = b.sticker ? str(b.sticker, 20) : null;
+    if (sticker && STICKERS.indexOf(sticker) < 0) throw ApiError(400, "Okänd dekal.");
+    if (!text && !sticker) throw ApiError(400, "Skriv något eller välj en dekal.");
+    const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
+    const taskId = b.taskId ? str(b.taskId, 80) : null;
+    if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw ApiError(400, "Ogiltigt id.");
+    const f = { id: db.next.feedback++, studentId: student.id, teacherId: u.id, lessonId: lessonId, taskId: taskId, text: text, sticker: sticker, createdAt: nowIso(), readAt: null };
+    db.feedback.push(f);
+    save();
+    return { id: f.id };
+  }
+
+  function removeFeedback(id) {
+    const u = requireTeacher();
+    db.feedback = db.feedback.filter(function (f) { return !(f.id === Number(id) && f.teacherId === u.id); });
+    save();
+    return { ok: true };
+  }
+
+  function markRead(b) {
+    const u = requireUser();
+    const ids = Array.isArray(b.ids) ? b.ids.slice(0, 100) : [];
+    const now = nowIso();
+    db.feedback.forEach(function (f) { if (f.studentId === u.id && !f.readAt && ids.indexOf(f.id) >= 0) f.readAt = now; });
+    save();
+    return { ok: true };
+  }
+
   function listClasses() {
     const u = requireTeacher();
     return {
@@ -284,7 +382,8 @@ window.GaussicaLocal = (function () {
       .map(function (s) {
         return {
           id: String(s.id), username: s.username, name: s.displayName, "class": className(s), classId: s.classId,
-          color: COLORS[s.id % COLORS.length], createdAt: s.createdAt, lessonProgress: progressOf(s.id), attempts: attemptsOf(s.id)
+          color: COLORS[s.id % COLORS.length], createdAt: s.createdAt, lessonProgress: progressOf(s.id), attempts: attemptsOf(s.id),
+          feedback: db.feedback.filter(function (f) { return f.studentId === s.id && f.teacherId === u.id; }).map(function (f) { return publicFeedback(f, true); })
         };
       });
     return { students: students };
@@ -308,6 +407,8 @@ window.GaussicaLocal = (function () {
     db.users = db.users.filter(function (u) { return u.id !== student.id; });
     db.attempts = db.attempts.filter(function (a) { return a.userId !== student.id; });
     delete db.progress[student.id];
+    db.feedback = db.feedback.filter(function (f) { return f.studentId !== student.id; });
+    db.assignments = db.assignments.filter(function (a) { return a.studentId !== student.id; });
     save();
     return { ok: true };
   }
@@ -321,7 +422,19 @@ window.GaussicaLocal = (function () {
     if (method === "POST" && path === "/api/login") return login(body);
     if (method === "POST" && path === "/api/logout") { db.session = null; save(); return { ok: true }; }
     if (method === "POST" && path === "/api/me/password") return changePassword(body);
-    if (method === "GET" && path === "/api/me/data") { const u = requireUser(); return { progress: progressOf(u.id), attempts: attemptsOf(u.id) }; }
+    if (method === "GET" && path === "/api/me/data") {
+      const u = requireUser();
+      const isStudent = u.role === "student";
+      return {
+        progress: progressOf(u.id), attempts: attemptsOf(u.id),
+        assignments: isStudent ? db.assignments.filter(function (a) {
+          return !a.archived && a.classId === u.classId && (!a.studentId || a.studentId === u.id);
+        }).sort(byDue).map(function (a) { return publicAssignment(a, false); }) : [],
+        feedback: isStudent ? db.feedback.filter(function (f) { return f.studentId === u.id; }).sort(function (a, b) { return b.id - a.id; }).slice(0, 200)
+          .map(function (f) { return publicFeedback(f, false); }) : []
+      };
+    }
+    if (method === "POST" && path === "/api/me/feedback/read") return markRead(body);
     if ((m = /^\/api\/progress\/([^/]+)$/.exec(path)) && method === "PUT") return putProgress(decodeURIComponent(m[1]), body);
     if (method === "POST" && path === "/api/attempts") return postAttempt(body);
     if (method === "GET" && path === "/api/lessons") { requireUser(); return { lessons: Object.keys(db.lessons).map(function (k) { return copy(db.lessons[k]); }) }; }
@@ -329,6 +442,11 @@ window.GaussicaLocal = (function () {
     if (method === "GET" && path === "/api/teacher/classes") return listClasses();
     if (method === "POST" && path === "/api/teacher/classes") return createClass(body);
     if (method === "GET" && path === "/api/teacher/students") return teacherStudents();
+    if (method === "GET" && path === "/api/teacher/assignments") return listAssignments();
+    if (method === "POST" && path === "/api/teacher/assignments") return createAssignment(body);
+    if ((m = /^\/api\/teacher\/assignments\/(\d+)$/.exec(path)) && method === "DELETE") return archiveAssignment(m[1]);
+    if (method === "POST" && path === "/api/teacher/feedback") return createFeedback(body);
+    if ((m = /^\/api\/teacher\/feedback\/(\d+)$/.exec(path)) && method === "DELETE") return removeFeedback(m[1]);
     if ((m = /^\/api\/teacher\/students\/(\d+)\/password$/.exec(path)) && method === "POST") return resetStudentPassword(m[1]);
     if ((m = /^\/api\/teacher\/students\/(\d+)$/.exec(path)) && method === "DELETE") return deleteStudent(m[1]);
     throw ApiError(404, "Hittades inte.");

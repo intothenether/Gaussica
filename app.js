@@ -20,7 +20,9 @@
   function makeElement(tag, className, text) {
     const element = document.createElement(tag);
     if (className) element.className = className;
-    if (text !== undefined) element.textContent = text;
+    if (text !== undefined) {
+      if (window.GaussicaText) window.GaussicaText.set(element, text); else element.textContent = text;
+    }
     return element;
   }
 
@@ -43,7 +45,10 @@
 
   async function loadUserData(user) {
     const data = await API.get("/api/me/data");
-    currentUser = Object.assign({}, user, { lessonProgress: data.progress || {}, attempts: data.attempts || [] });
+    currentUser = Object.assign({}, user, {
+      lessonProgress: data.progress || {}, attempts: data.attempts || [],
+      assignments: data.assignments || [], feedback: data.feedback || []
+    });
     lessonProgress = currentUser.lessonProgress;
     window.GaussicaUser = currentUser;
   }
@@ -265,9 +270,17 @@
       hasPractice: function (id) { const l = course.lessons.find(function (x) { return x.id === id; }); return window.GaussicaPractice.has(l); },
       startPractice: function (id) { window.location.hash = "#practice/" + id; }
     });
+    window.GaussicaMailbox.init({
+      getUser: function () { return currentUser; },
+      getCourse: function () { return course; },
+      getProgress: getLessonProgress,
+      openLesson: function (id, step) { window.GaussicaPlayer.open(id, typeof step === "number" ? { step: step } : undefined); },
+      markRead: markFeedbackRead
+    });
     course.areas.forEach(function (area) { areas.set(area.id, area.name); });
     validateCourse();
     activeLessonId = course.lessons[0] ? course.lessons[0].id : "";
+    initMapState();
     renderFilters();
     renderGraph();
     renderPanel();
@@ -373,7 +386,60 @@
     });
   }
 
+  // ===== "DIN VÄG" AND THE FULL MAP =====
+  // Students see a short path by default and open the full graph on request; teachers always see the graph.
+  const MAP_KEY = "gaussica.map";
+  let mapOpen = true;
+  let panelShown = true;   // the lesson panel is hidden for students until they ask for "Mer om lektionen"
+
+  function readMapPref() {
+    try { return window.localStorage.getItem(MAP_KEY) === "open"; } catch (e) { return false; }
+  }
+
+  function initMapState() {
+    const student = isStudent();
+    mapOpen = student ? readMapPref() : true;
+    panelShown = !student;
+    const toggle = document.getElementById("map-toggle");
+    const row = document.getElementById("map-toggle-row");
+    if (row) row.hidden = !student;
+    if (toggle && !toggle.dataset.bound) {
+      toggle.dataset.bound = "1";
+      toggle.addEventListener("click", function () {
+        mapOpen = !mapOpen;
+        try { window.localStorage.setItem(MAP_KEY, mapOpen ? "open" : "closed"); } catch (e) { /* storage blocked */ }
+        applyMapState();
+        if (mapOpen) { renderGraph(); renderPanel(); }
+      });
+    }
+    const desc = document.querySelector("#larstig .section-description");
+    if (desc && student) desc.textContent = "Här är det som passar dig just nu. Vill du välja själv öppnar du hela kartan.";
+    applyMapState();
+  }
+
+  function applyMapState() {
+    const fullMap = document.getElementById("full-map");
+    const toggle = document.getElementById("map-toggle");
+    if (fullMap) fullMap.hidden = !mapOpen;
+    if (toggle) {
+      toggle.setAttribute("aria-expanded", String(mapOpen));
+      toggle.textContent = mapOpen ? "🗺️ Dölj kartan" : "🗺️ Visa hela kartan";
+    }
+    updatePanelVisibility();
+  }
+
+  function updatePanelVisibility() {
+    if (panel) panel.hidden = !(mapOpen || panelShown);
+  }
+
+  function showLessonPanel(id) {
+    panelShown = true;
+    openLesson(id);
+    panel.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   function renderGraph() {
+    if (!mapOpen) { renderCoach(); return; }
     window.GaussicaGraph.render({
       container: graph,
       lessons: getVisibleLessons(),
@@ -385,6 +451,7 @@
       emptyText: course.areaNotes[activeArea],
       onSelect: function (id) {
         activeLessonId = id;
+        panelShown = true;
         renderGraph();
         renderPanel();
         panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -400,68 +467,103 @@
 
   function isStudent() { return Boolean(currentUser && currentUser.role === "student"); }
 
+  // The badge in the top bar, the big box under it and the pins on assigned lessons in the graph.
+  function renderInbox() {
+    const box = document.getElementById("mailbox");
+    const link = document.getElementById("mail-link");
+    Array.prototype.forEach.call(graph.querySelectorAll(".gn-pin"), function (p) { p.remove(); });
+    Array.prototype.forEach.call(graph.querySelectorAll(".has-assignment"), function (n) { n.classList.remove("has-assignment"); });
+    if (!course || !isStudent()) {
+      if (box) box.hidden = true;
+      if (link) link.hidden = true;
+      return;
+    }
+    const M = window.GaussicaMailbox;
+    M.render(box);
+    const c = M.counts();
+    const total = c.assignments + c.unread;
+    if (link) {
+      link.hidden = false;
+      link.classList.toggle("has-news", total > 0);
+      const badge = link.querySelector(".mail-badge");
+      badge.hidden = total === 0;
+      badge.textContent = String(total);
+      link.setAttribute("aria-label", total ? "Uppdrag och meddelanden från din lärare: " + total + " nya" : "Uppdrag och meddelanden från din lärare");
+    }
+    const tones = M.assignedLessonIds();
+    Object.keys(tones).forEach(function (id) {
+      const node = graph.querySelector('[data-lesson-id="' + id + '"]');
+      if (!node) return;
+      node.classList.add("has-assignment");
+      const pin = makeElement("span", "gn-pin is-" + tones[id], "UPPDRAG");
+      pin.setAttribute("aria-hidden", "true");
+      node.appendChild(pin);
+    });
+    document.title = (total ? "(" + total + ") " : "") + document.title.replace(/^\(\d+\)\s/, "");
+  }
+
+  function markFeedbackRead(ids) {
+    const set = new Set(ids);
+    let changed = false;
+    (currentUser.feedback || []).forEach(function (f) { if (set.has(f.id) && !f.read) { f.read = true; changed = true; } });
+    if (!changed) return;
+    API.post("/api/me/feedback/read", { ids: ids }).catch(function () { /* shown as unread again next time */ });
+    renderCoach();
+  }
+
+  // Picks up new assignments and comments without a page reload.
+  async function refreshInbox() {
+    if (!isStudent() || document.visibilityState === "hidden") return;
+    try {
+      const data = await API.get("/api/me/data");
+      currentUser.assignments = data.assignments || [];
+      currentUser.feedback = data.feedback || [];
+      renderCoach();
+    } catch (e) { /* offline: try again next time */ }
+  }
+  setInterval(refreshInbox, 120000);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") refreshInbox(); });
+
   // The suggestion card above the graph, the hero button and the highlighted node.
   function renderCoach() {
     const card = document.getElementById("next-card");
     const hero = document.getElementById("hero-cta");
     const prev = graph.querySelector(".is-next");
     if (prev) prev.classList.remove("is-next");
+    if (course) renderInbox();
     if (!card || !course || !isStudent()) {
       if (card) card.hidden = true;
       return;
     }
-    const L = window.GaussicaLesson;
     const next = window.GaussicaCoach.nextStep(coachContext());
     const review = window.GaussicaCoach.reviewPlan(coachContext());
+    const assigned = window.GaussicaMailbox.openAssignments()[0];
+    const data = window.GaussicaCoach.path(coachContext(), assigned && assigned.a.lessonId);
     card.hidden = false;
-    card.replaceChildren();
+    window.GaussicaPathView.render(card, data, {
+      assignment: assigned || null,
+      reviewLessons: review.lessons,
+      start: function (id) { window.location.hash = "#play/" + id; },
+      more: showLessonPanel,
+      review: function () { window.location.hash = "#review"; }
+    });
 
-    const main = makeElement("div", "next-main");
-    const copy = makeElement("div", "next-copy");
-    if (next.kind === "done") {
-      copy.append(makeElement("p", "eyebrow", "ALLT KLART"), makeElement("h3", "", "Du har klarat hela lärstigen!"),
-        makeElement("p", "next-meta", "Pyssla eller repetera igen när du vill."));
-      main.appendChild(copy);
-      if (hero) { hero.textContent = "Hitta nästa steg ↓"; hero.setAttribute("href", "#larstig"); }
-    } else {
-      const lesson = next.lesson;
-      const grade = L.gradeLabel(L.effectiveGrade(lesson, course.lessons));
-      let meta;
-      if (next.kind === "continue") {
-        meta = grade + " · " + next.done + " av " + next.total + " klara" + (next.fix ? " · " + next.fix + " att rätta" : "");
-      } else if (next.after && next.after.length) {
-        meta = grade + " · bygger på " + next.after.slice(0, 2).map(function (p) { return p.title; }).join(" och ");
-      } else {
-        meta = grade + (next.ready ? " · ett bra ställe att börja" : " · du kan prova även om du inte klarat förkunskaperna");
-      }
-      copy.append(
-        makeElement("p", "eyebrow", next.kind === "continue" ? "NÄSTA STEG · FORTSÄTT DÄR DU SLUTADE" : "NÄSTA STEG"),
-        makeElement("h3", "", lesson.title),
-        makeElement("p", "next-meta", meta)
-      );
-      const go = makeElement("button", "primary-button next-go", next.kind === "continue" ? "Fortsätt här →" : "Börja här →");
-      go.type = "button";
-      go.addEventListener("click", function () { window.location.hash = "#play/" + lesson.id; });
-      main.append(copy, go);
-      const node = graph.querySelector('[data-lesson-id="' + lesson.id + '"]');
+    // the node of the current step glows in the full map, and the hero button leads to it
+    if (data.now) {
+      const node = graph.querySelector('[data-lesson-id="' + data.now.lesson.id + '"]');
       if (node) node.classList.add("is-next");
-      if (hero) {
-        hero.textContent = (next.kind === "continue" ? "Fortsätt här" : "Börja här") + " →";
-        hero.setAttribute("href", "#play/" + lesson.id);
-      }
     }
-    card.appendChild(main);
-
-    if (review.lessons.length) {
-      const row = makeElement("div", "next-review");
-      const names = review.lessons.slice(0, 3).map(function (r) { return r.lesson.title; });
-      const text = makeElement("p", "next-review-text");
-      text.append(makeElement("strong", "", "Repetera: "), document.createTextNode("du kan behöva öva mer på " + names.join(", ") + "."));
-      const btn = makeElement("button", "next-review-btn", "Repetera nu");
-      btn.type = "button";
-      btn.addEventListener("click", function () { window.location.hash = "#review"; });
-      row.append(text, btn);
-      card.appendChild(row);
+    if (hero) {
+      if (assigned) {
+        hero.textContent = "Gör uppdraget →";
+        hero.setAttribute("href", "#play/" + assigned.lesson.id);
+      } else if (next.kind === "done") {
+        hero.textContent = "Hitta nästa steg ↓";
+        hero.setAttribute("href", "#larstig");
+      } else {
+        hero.textContent = (next.kind === "continue" ? "Fortsätt här" : "Börja här") + " →";
+        hero.setAttribute("href", "#play/" + next.lesson.id);
+      }
     }
   }
 
@@ -1371,6 +1473,10 @@
         parent.appendChild(window.GaussicaPyssel.render(comp, toolContext(lesson, compIndex)));
         return;
       }
+      if (comp.type === "begreppskort") {
+        parent.appendChild(renderConceptCards(comp));
+        return;
+      }
       const div = makeElement("div", "custom-component component-" + comp.type);
       
       switch (comp.type) {
@@ -1450,8 +1556,170 @@
     });
   }
 
+  // ===== BEGREPP: term cards and the matching test =====
+  // { type: "begreppskort", title, intro, cards: [{ term, definition, example }] }
+  function renderConceptCards(comp) {
+    const box = makeElement("section", "concepts");
+    box.appendChild(makeElement("p", "eyebrow", "BEGREPP"));
+    box.appendChild(makeElement("h3", "concepts-title", comp.title || "Begreppen i den här lektionen"));
+    if (comp.intro) box.appendChild(makeElement("p", "body-copy", comp.intro));
+    const grid = makeElement("div", "concept-grid");
+    (comp.cards || []).forEach(function (card, i) {
+      const c = makeElement("article", "concept-card c" + (i % 6));
+      c.appendChild(makeElement("h4", "concept-term", card.term));
+      c.appendChild(makeElement("p", "concept-def", card.definition));
+      if (card.example) {
+        const ex = makeElement("p", "concept-example");
+        window.GaussicaText.set(ex, "Exempel: " + card.example);
+        c.appendChild(ex);
+      }
+      grid.appendChild(c);
+    });
+    box.appendChild(grid);
+    return box;
+  }
+
+  function shuffled(list) {
+    const a = list.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  // Connect each term with its explanation: pick one on each side. A right pair locks in with a colour and number;
+  // a wrong pair is logged (so the teacher sees which terms get mixed up) and the student tries again.
+  function renderMatching(parent, lesson, exercise, taskId, labelText, opts) {
+    const finish = function (isCorrect) { if (opts && opts.onResult) opts.onResult(isCorrect); };
+    questionShownAt[lesson.id + "|" + taskId] = Date.now();
+    if (isPractice(taskId)) practiceProblems[lesson.id + "|" + taskId] = exercise;
+    const saved = savedEntry(lesson.id, taskId);
+    const pairs = exercise.pairs;
+
+    const section = makeElement("section", "exercise word-problem match-exercise");
+    const headingId = "problem-title-" + lesson.id + "-" + taskId;
+    section.setAttribute("aria-labelledby", headingId);
+    const heading = makeElement("h3", "", exercise.prompt);
+    heading.id = headingId;
+    section.append(makeElement("p", "eyebrow", labelText), heading);
+    section.appendChild(makeElement("p", "match-help", "Välj ett begrepp och sedan förklaringen som passar. Rätt par får samma färg."));
+
+    const status = makeElement("p", "match-status");
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    const board = makeElement("div", "match-board");
+    const left = makeElement("div", "match-col");
+    const right = makeElement("div", "match-col");
+    board.append(left, right);
+    const feedback = makeElement("p", "feedback-message", "");
+    feedback.setAttribute("role", "status");
+    feedback.setAttribute("aria-live", "polite");
+
+    const termBtns = [], defBtns = [];
+    const matched = new Set();
+    let pickedTerm = -1, pickedDef = -1, order = 0;
+
+    function markPair(t, d) {
+      order += 1;
+      matched.add(t);
+      [termBtns[t], defBtns[d]].forEach(function (b) {
+        b.disabled = true;
+        b.classList.remove("is-picked");
+        b.classList.add("is-done", "pair" + ((order - 1) % 6));
+        b.appendChild(makeElement("span", "match-no", String(order)));
+      });
+    }
+
+    function updateStatus() {
+      status.textContent = matched.size + " av " + pairs.length + " rätt";
+    }
+
+    function clearPicks() {
+      pickedTerm = pickedDef = -1;
+      termBtns.concat(defBtns).forEach(function (b) { b.classList.remove("is-picked"); b.setAttribute("aria-pressed", "false"); });
+    }
+
+    function tryPair() {
+      if (pickedTerm < 0 || pickedDef < 0) return;
+      const t = pickedTerm, d = pickedDef;
+      if (t === d) {
+        clearPicks();
+        markPair(t, d);
+        updateStatus();
+        if (matched.size === pairs.length) {
+          window.GaussicaText.set(feedback, exercise.correct);
+          feedback.className = "feedback-message feedback-correct";
+          storeAnswerProgress(lesson.id, taskId, "Alla " + pairs.length + " par rätt", "", exercise.correct, "correct", true, null, exercise.prompt, labelText);
+          finish(true);
+        } else {
+          feedback.className = "feedback-message";
+          feedback.textContent = "";
+        }
+        return;
+      }
+      // wrong: remember which term the chosen explanation belongs to
+      const wrongBtns = [termBtns[t], defBtns[d]];
+      wrongBtns.forEach(function (b) { b.classList.add("is-wrong"); });
+      setTimeout(function () { wrongBtns.forEach(function (b) { b.classList.remove("is-wrong"); }); }, 650);
+      clearPicks();
+      const note = "Inte riktigt. De passar inte ihop. Läs begreppskorten igen och försök på nytt.";
+      feedback.className = "feedback-message feedback-hint";
+      feedback.textContent = note;
+      const shown = pairs[d].definition.length > 80 ? pairs[d].definition.slice(0, 77) + "…" : pairs[d].definition;
+      storeAnswerProgress(lesson.id, taskId, pairs[t].term + " = " + shown, "", note, "hint", false,
+        "Blandade ihop ”" + pairs[t].term + "” med ”" + pairs[d].term + "”", exercise.prompt, labelText);
+      finish(false);
+    }
+
+    pairs.forEach(function (p, i) {
+      const tb = makeElement("button", "match-item match-term", p.term);
+      tb.type = "button";
+      tb.setAttribute("aria-pressed", "false");
+      tb.addEventListener("click", function () {
+        if (matched.has(i)) return;
+        const was = pickedTerm === i;
+        termBtns.forEach(function (b) { b.classList.remove("is-picked"); b.setAttribute("aria-pressed", "false"); });
+        pickedTerm = was ? -1 : i;
+        if (!was) { tb.classList.add("is-picked"); tb.setAttribute("aria-pressed", "true"); }
+        tryPair();
+      });
+      termBtns[i] = tb;
+      left.appendChild(tb);
+    });
+
+    shuffled(pairs.map(function (p, i) { return i; })).forEach(function (i) {
+      const db = makeElement("button", "match-item match-def", pairs[i].definition);
+      db.type = "button";
+      db.setAttribute("aria-pressed", "false");
+      db.addEventListener("click", function () {
+        if (matched.has(i)) return;
+        const was = pickedDef === i;
+        defBtns.forEach(function (b) { b.classList.remove("is-picked"); b.setAttribute("aria-pressed", "false"); });
+        pickedDef = was ? -1 : i;
+        if (!was) { db.classList.add("is-picked"); db.setAttribute("aria-pressed", "true"); }
+        tryPair();
+      });
+      defBtns[i] = db;
+      right.appendChild(db);
+    });
+
+    section.append(board, status, feedback);
+    parent.appendChild(section);
+    updateStatus();
+
+    // an already solved test is shown as solved
+    if (saved.completed) {
+      pairs.forEach(function (p, i) { markPair(i, i); });
+      updateStatus();
+      window.GaussicaText.set(feedback, exercise.correct);
+      feedback.className = "feedback-message feedback-correct";
+    }
+  }
+
   // opts.onResult(isCorrect) is called after each submitted answer (used by the lesson player).
   function renderProblem(parent, lesson, exercise, taskId, labelText, opts) {
+    if (Array.isArray(exercise.pairs)) return renderMatching(parent, lesson, exercise, taskId, labelText, opts);
     const finish = function (isCorrect) { if (opts && opts.onResult) opts.onResult(isCorrect); };
     questionShownAt[lesson.id + "|" + taskId] = Date.now();
     const saved = savedEntry(lesson.id, taskId);
@@ -1465,6 +1733,8 @@
       makeElement("p", "eyebrow", labelText),
       heading
     );
+    const teacherNotes = isStudent() && !isPractice(taskId) ? window.GaussicaMailbox.inline(lesson.id, taskId) : null;
+    if (teacherNotes) section.appendChild(teacherNotes);
     renderVisualsFor(section, exercise);
 
     // --- RITYTA: pen, text and bits to place; saved with the answer so the teacher can see it ---
@@ -1538,10 +1808,22 @@
         });
       }
 
+      // The right value written as a calculation ("36/6" for 6): where the point is to calculate, ask for the number.
+      const MS = window.MATTE_SYMBOLIC;
+      if (isCorrect && MS && MS.isCalculation(rawValue) && MS.expectsPlainNumber(exercise.answer) &&
+          !window.GaussicaLesson.allowsExpression(lesson, exercise, course.lessons)) {
+        const note = "Det stämmer, men du ska räkna ut svaret och skriva det som ett tal. Skriv talet i stället för uträkningen.";
+        feedback.className = "feedback-message feedback-hint";
+        window.GaussicaText.set(feedback, note);
+        storeAnswerProgress(lesson.id, taskId, answer.value, "", note, "hint", false, "Skrev en uträkning i stället för ett svar", exercise.prompt, labelText);
+        finish(false);
+        return;
+      }
+
       if (isCorrect) {
         feedback.className = "feedback-message feedback-correct";
-        feedback.textContent = exercise.correct;
-        storeAnswerProgress(lesson.id, taskId, answer.value, "", feedback.textContent, "correct", true, null, exercise.prompt, labelText);
+        window.GaussicaText.set(feedback, exercise.correct);
+        storeAnswerProgress(lesson.id, taskId, answer.value, "", exercise.correct, "correct", true, null, exercise.prompt, labelText);
         finish(true);
         return;
       }
@@ -1556,8 +1838,8 @@
 
       if (misconception) {
         feedback.className = "feedback-message feedback-hint";
-        feedback.textContent = misconception.message;
-        storeAnswerProgress(lesson.id, taskId, answer.value, "", feedback.textContent, "hint", false, misconception.message, exercise.prompt, labelText);
+        window.GaussicaText.set(feedback, misconception.message);
+        storeAnswerProgress(lesson.id, taskId, answer.value, "", misconception.message, "hint", false, misconception.message, exercise.prompt, labelText);
         finish(false);
         return;
       }
@@ -1590,7 +1872,36 @@
       finish(false);
     });
 
-    section.append(form, feedback);
+    // Keys for signs that are hard to find on a keyboard (< > ≠, brackets): "keys": ["<", "=", ">"] on a question
+    let keysRow = null;
+    if (Array.isArray(exercise.keys) && exercise.keys.length) {
+      keysRow = makeElement("div", "answer-keys");
+      keysRow.setAttribute("role", "group");
+      keysRow.setAttribute("aria-label", "Tecken att skriva in");
+      exercise.keys.forEach(function (key) {
+        const b = makeElement("button", "answer-key", key);
+        b.type = "button";
+        b.addEventListener("click", function () {
+          const start = answer.selectionStart === null ? answer.value.length : answer.selectionStart;
+          const end = answer.selectionEnd === null ? start : answer.selectionEnd;
+          answer.value = answer.value.slice(0, start) + key + answer.value.slice(end);
+          answer.focus();
+          answer.setSelectionRange(start + key.length, start + key.length);
+          answer.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+        keysRow.appendChild(b);
+      });
+    }
+
+    if (opts && opts.answerHost) {   // the player keeps these in its bottom bar
+      if (keysRow) opts.answerHost.appendChild(keysRow);
+      opts.answerHost.appendChild(form);
+      (opts.feedbackHost || section).appendChild(feedback);
+    } else {
+      section.append(form);
+      if (keysRow) section.appendChild(keysRow);
+      section.append(feedback);
+    }
     parent.appendChild(section);
   }
 
@@ -1598,6 +1909,7 @@
     const lesson = course.lessons.find(function (item) { return item.id === id; });
     if (!lesson) return;
     activeLessonId = id;
+    panelShown = true;
     if (activeArea !== "alla" && activeArea !== lesson.area) {
       activeArea = "alla";
       renderFilters();
@@ -1689,13 +2001,13 @@
           answer = a - (b * c);
         }
       } else if (pattern.parameters.operatorSequence[0] === 'division') {
-        // Division first: a + b÷2 or similar
-        if (prompt.includes('÷')) {
+        // Division first: a + b/2 or similar
+        if (prompt.includes('/')) {
           const divisor = 2;
           const divResult = Math.floor(b / divisor);
-          if (template.includes('{a} + {b} ÷')) {
+          if (template.includes('{a} + {b}/')) {
             answer = a + divResult;
-          } else if (template.includes('{b} ÷') && template.includes('+ {a}')) {
+          } else if (template.includes('{b}/') && template.includes('+ {a}')) {
             answer = divResult + a;
           } else {
             answer = c + divResult;
@@ -1813,6 +2125,20 @@
   function renderLessonOverview(parent, lesson) {
     const L = window.GaussicaLesson;
     renderProgressStrip(parent, lesson);
+    if (isStudent()) {
+      const banner = window.GaussicaMailbox.banner(lesson.id);
+      if (banner) parent.appendChild(banner);
+      const comments = window.GaussicaMailbox.inline(lesson.id, null);
+      if (comments) parent.appendChild(comments);
+    } else if (currentUser && currentUser.role === "teacher") {
+      const give = makeElement("button", "secondary-button give-assignment", "📌 Ge som uppdrag");
+      give.type = "button";
+      give.addEventListener("click", function () {
+        window.GaussicaTeacher.prefillAssignment(lesson.id);
+        window.location.hash = "#admin";
+      });
+      parent.appendChild(give);
+    }
     const steps = L.steps(lesson);
     const progress = getLessonProgress(lesson.id);
     const questions = steps.filter(function (st) { return st.type === "question"; });
@@ -1908,6 +2234,11 @@
   }
 
   function renderPanel() {
+    renderPanelContent();
+    updatePanelVisibility();
+  }
+
+  function renderPanelContent() {
     panel.replaceChildren();
     const lesson = course.lessons.find(function (item) { return item.id === activeLessonId; });
     if (!lesson) {
@@ -1948,7 +2279,7 @@
         prerequisites.appendChild(button);
       });
     } else {
-      prerequisites.appendChild(makeElement("span", "prerequisite-tag", "Börja här — inga förkunskaper behövs"));
+      prerequisites.appendChild(makeElement("span", "prerequisite-tag", "Börja här, inga förkunskaper behövs"));
     }
     panel.appendChild(prerequisites);
 
@@ -2149,7 +2480,7 @@
   }
 
   // Teacher data as last fetched from the server (used by the exports below).
-  let teacherCache = { students: [], classes: [] };
+  let teacherCache = { students: [], classes: [], assignments: [] };
 
   function exportAttemptsCSV() {
     const students = teacherCache.students;
@@ -2228,8 +2559,8 @@
     if (refetch !== false) {
       if (!teacherCache.students.length) adminPage.replaceChildren(makeElement("p", "tv-empty", "Hämtar elevdata…"));
       try {
-        const results = await Promise.all([API.get("/api/teacher/students"), API.get("/api/teacher/classes")]);
-        teacherCache = { students: results[0].students, classes: results[1].classes };
+        const results = await Promise.all([API.get("/api/teacher/students"), API.get("/api/teacher/classes"), API.get("/api/teacher/assignments")]);
+        teacherCache = { students: results[0].students, classes: results[1].classes, assignments: results[2].assignments };
       } catch (err) {
         adminPage.replaceChildren(makeElement("p", "course-error", "Kunde inte hämta elevdata: " + err.message));
         return;
@@ -2238,6 +2569,7 @@
     window.GaussicaTeacher.render(adminPage, {
       students: teacherCache.students,
       classes: teacherCache.classes,
+      assignments: teacherCache.assignments,
       course: course,
       formatTimestamp: formatTimestamp,
       rerender: function () { renderAdminPage(false); },
@@ -2250,7 +2582,24 @@
         resetPassword: function (studentId) {
           return API.post("/api/teacher/students/" + encodeURIComponent(studentId) + "/password").then(function (r) { return r.password; });
         },
-        deleteStudent: function (studentId) { return API.del("/api/teacher/students/" + encodeURIComponent(studentId)); }
+        deleteStudent: function (studentId) { return API.del("/api/teacher/students/" + encodeURIComponent(studentId)); },
+        createAssignment: function (payload) { return API.post("/api/teacher/assignments", payload); },
+        archiveAssignment: function (id) { return API.del("/api/teacher/assignments/" + encodeURIComponent(id)); },
+        sendFeedback: function (payload) {
+          return API.post("/api/teacher/feedback", payload).then(function (r) {
+            const student = teacherCache.students.find(function (s) { return s.id === String(payload.studentId); });
+            if (student) {
+              (student.feedback = student.feedback || []).push({ id: r.id, studentId: payload.studentId, lessonId: payload.lessonId || null, taskId: payload.taskId || null,
+                text: payload.text || "", sticker: payload.sticker || null, createdAt: new Date().toISOString(), read: false, teacher: currentUser.name });
+            }
+            return r;
+          });
+        },
+        deleteFeedback: function (id) {
+          return API.del("/api/teacher/feedback/" + encodeURIComponent(id)).then(function () {
+            teacherCache.students.forEach(function (s) { s.feedback = (s.feedback || []).filter(function (f) { return f.id !== id; }); });
+          });
+        }
       }
     });
   }
@@ -2286,6 +2635,11 @@
     } else {
       if (adminPage) adminPage.hidden = true;
       if (studentView) studentView.hidden = false;
+      if (hash === "#uppdrag") {
+        const box = document.getElementById("mailbox");
+        if (box && !box.hidden) box.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
       if (hash && hash !== "#start" && hash !== "#larstig") {
         const lessonId = hash.replace(/^#/, "");
         if (course && course.lessons.some(function (l) { return l.id === lessonId; })) {

@@ -12,7 +12,7 @@
   ],
   "summary": "Medelvärdet säger vilket tal alla skulle få om värdena delades lika. Du får det genom att addera alla värden och dela med antalet.",
   "explanationTitle": "Lägg ihop och dela lika",
-  "explanation": "Tre vänner har 4, 6 och 8 kort. Lägg ihop: 4 + 6 + 8 = 18. Dela lika på 3: 18 ÷ 3 = 6. Medelvärdet är 6 kort. Hade alla haft lika många kort hade de haft 6 var.",
+  "explanation": "Tre vänner har 4, 6 och 8 kort. Lägg ihop: 4 + 6 + 8 = 18. Dela lika på 3: 18/3 = 6. Medelvärdet är 6 kort. Hade alla haft lika många kort hade de haft 6 var.",
   "visual": {
     "type": "stapeldiagram",
     "title": "Kort per vän",
@@ -32,9 +32,9 @@
       }
     ]
   },
-  "rule": "Medelvärde = summan av värdena ÷ antalet värden",
+  "rule": "Medelvärde = summan av värdena delat med antalet värden",
   "ruleLabel": "MEDELVÄRDE",
-  "example": "Betygen 3, 5, 4 och 4 har summan 16. Det är 4 värden, så medelvärdet är 16 ÷ 4 = 4.",
+  "example": "Betygen 3, 5, 4 och 4 har summan 16. Det är 4 värden, så medelvärdet är 16/4 = 4.",
   "practice": [
     {
       "id": "tre-tal",
@@ -44,7 +44,7 @@
       "derive": [{"name":"m","expr":"(a+b+c)/3"}],
       "prompt": "Vad är medelvärdet av {a}, {b} och {c}?",
       "answer": ["=m"],
-      "correct": "Rätt! ({a} + {b} + {c}) ÷ 3 = {a+b+c} ÷ 3 = {m}.",
+      "correct": "Rätt! ({a} + {b} + {c})/3 = {a+b+c}/3 = {m}.",
       "feedback": [
         {"answers":["=a+b+c"],"message":"Det är summan. Dela den med antalet tal, 3."},
         {
@@ -62,7 +62,7 @@
       "derive": [{"name":"m","expr":"(a+b+c+d)/4"}],
       "prompt": "{$namn} fick {a}, {b}, {c} och {d} poäng på fyra uppgifter. Vilket är medelvärdet?",
       "answer": ["=m"],
-      "correct": "Rätt! {a+b+c+d} ÷ 4 = {m}.",
+      "correct": "Rätt! {a+b+c+d}/4 = {m}.",
       "feedback": [{"answers":["=a+b+c+d"],"message":"Du har bara lagt ihop poängen. Dela summan med 4."}]
     },
     {
@@ -87,7 +87,7 @@
     "answer": [
       "8"
     ],
-    "correct": "Rätt! 5 + 7 + 12 = 24 och 24 ÷ 3 = 8.",
+    "correct": "Rätt! 5 + 7 + 12 = 24 och 24/3 = 8.",
     "feedback": [
       {
         "answers": [
@@ -109,7 +109,7 @@
       "answer": [
         "3"
       ],
-      "correct": "Rätt! 12 ÷ 4 = 3 km per dag.",
+      "correct": "Rätt! 12/4 = 3 km per dag.",
       "feedback": [
         {
           "answers": [
@@ -136,7 +136,7 @@
           "answers": [
             "2"
           ],
-          "message": "2 är 10 ÷ 5, men du ska gå åt andra hållet: multiplicera medelvärdet med antalet."
+          "message": "2 är 10/5, men du ska gå åt andra hållet: multiplicera medelvärdet med antalet."
         },
         {
           "answers": [

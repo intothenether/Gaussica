@@ -1,0 +1,207 @@
+{
+  "id": "begrepp-brak",
+  "kind": "begrepp",
+  "area": "tal",
+  "title": "Begrepp: bråk och decimaltal",
+  "level": "Begrepp · ungefär åk 5",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": ["brak-likavarda","decimaltal"],
+  "summary": "Täljare, nämnare, förkorta och förlänga: orden för bråk, decimaltal och procent.",
+  "explanationTitle": "Orden för delar av en helhet",
+  "explanation": "Ett bråk beskriver en del av en helhet. Talet över bråkstrecket heter täljare och talet under heter nämnare. Du kan förlänga eller förkorta ett bråk utan att dess värde ändras. Decimaltal och procent är andra sätt att skriva delar av en helhet. Läs begreppskorten och koppla sedan ihop dem.",
+  "components": [
+    {
+      "type": "begreppskort",
+      "title": "Begreppen",
+      "intro": "Läs varje kort. Sedan ska du para ihop begreppen med rätt förklaring.",
+      "cards": [
+        {
+          "term": "bråk",
+          "definition": "Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck.",
+          "example": "3/4 betyder tre av fyra lika stora delar."
+        },
+        {
+          "term": "täljare",
+          "definition": "Talet över bråkstrecket. Det visar hur många delar man har.",
+          "example": "I 3/4 är 3 täljaren."
+        },
+        {
+          "term": "nämnare",
+          "definition": "Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i.",
+          "example": "I 3/4 är 4 nämnaren."
+        },
+        {
+          "term": "likvärdiga bråk",
+          "definition": "Bråk som skrivs olika men har samma värde.",
+          "example": "1/2 och 2/4 är likvärdiga bråk."
+        },
+        {
+          "term": "förkorta",
+          "definition": "Dela täljare och nämnare med samma tal så att bråket blir enklare.",
+          "example": "6/8 förkortat med 2 blir 3/4."
+        },
+        {
+          "term": "förlänga",
+          "definition": "Multiplicera täljare och nämnare med samma tal.",
+          "example": "1/2 förlängt med 3 blir 3/6."
+        },
+        {
+          "term": "decimaltal",
+          "definition": "Ett tal med decimaltecken (komma) som visar delar av en hel.",
+          "example": "0,5 är ett decimaltal."
+        },
+        {"term":"procent","definition":"Hundradelar. 1 % betyder 1/100.","example":"50 % är hälften."}
+      ]
+    },
+    {
+      "type": "koppla",
+      "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
+      "pairs": [
+        {
+          "term": "bråk",
+          "definition": "Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck."
+        },
+        {"term":"täljare","definition":"Talet över bråkstrecket. Det visar hur många delar man har."},
+        {
+          "term": "nämnare",
+          "definition": "Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i."
+        },
+        {"term":"likvärdiga bråk","definition":"Bråk som skrivs olika men har samma värde."}
+      ]
+    },
+    {
+      "type": "koppla",
+      "prompt": "Para ihop begreppen med rätt förklaring (del 2).",
+      "pairs": [
+        {
+          "term": "förkorta",
+          "definition": "Dela täljare och nämnare med samma tal så att bråket blir enklare."
+        },
+        {"term":"förlänga","definition":"Multiplicera täljare och nämnare med samma tal."},
+        {"term":"decimaltal","definition":"Ett tal med decimaltecken (komma) som visar delar av en hel."},
+        {"term":"procent","definition":"Hundradelar. 1 % betyder 1/100."}
+      ]
+    }
+  ],
+  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "practice": [
+    {
+      "id": "koppla",
+      "for": ["match-1","match-2"],
+      "mode": "koppla",
+      "size": 4,
+      "prompt": "Para ihop begreppen med rätt förklaring.",
+      "pool": [
+        {
+          "term": "bråk",
+          "definition": "Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck."
+        },
+        {"term":"täljare","definition":"Talet över bråkstrecket. Det visar hur många delar man har."},
+        {
+          "term": "nämnare",
+          "definition": "Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i."
+        },
+        {"term":"likvärdiga bråk","definition":"Bråk som skrivs olika men har samma värde."},
+        {
+          "term": "förkorta",
+          "definition": "Dela täljare och nämnare med samma tal så att bråket blir enklare."
+        },
+        {"term":"förlänga","definition":"Multiplicera täljare och nämnare med samma tal."},
+        {"term":"decimaltal","definition":"Ett tal med decimaltecken (komma) som visar delar av en hel."},
+        {"term":"procent","definition":"Hundradelar. 1 % betyder 1/100."}
+      ]
+    },
+    {
+      "id": "fraga",
+      "for": ["exercise","word-0","word-1"],
+      "mode": "fraga",
+      "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
+      "pool": [
+        {
+          "term": "bråk",
+          "definition": "Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck.",
+          "alt": []
+        },
+        {
+          "term": "täljare",
+          "definition": "Talet över bråkstrecket. Det visar hur många delar man har.",
+          "alt": ["täljaren"]
+        },
+        {
+          "term": "nämnare",
+          "definition": "Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i.",
+          "alt": ["nämnaren"]
+        },
+        {
+          "term": "likvärdiga bråk",
+          "definition": "Bråk som skrivs olika men har samma värde.",
+          "alt": ["likvärdiga","likvärdigt"]
+        },
+        {
+          "term": "förkorta",
+          "definition": "Dela täljare och nämnare med samma tal så att bråket blir enklare.",
+          "alt": ["förkortning","att förkorta"]
+        },
+        {
+          "term": "förlänga",
+          "definition": "Multiplicera täljare och nämnare med samma tal.",
+          "alt": ["förlängning","att förlänga"]
+        },
+        {
+          "term": "decimaltal",
+          "definition": "Ett tal med decimaltecken (komma) som visar delar av en hel.",
+          "alt": ["decimaltalet"]
+        },
+        {"term":"procent","definition":"Hundradelar. 1 % betyder 1/100.","alt":["procenten"]}
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad kallas talet under bråkstrecket? Skriv begreppet.",
+    "answer": ["nämnare","nämnaren"],
+    "correct": "Rätt! Nämnare: Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i.",
+    "feedback": [
+      {
+        "answers": ["täljare","täljaren"],
+        "message": "Täljare betyder: Talet över bråkstrecket. Det visar hur många delar man har. Det är inte det som frågas. Läs begreppskorten igen."
+      },
+      {
+        "answers": ["bråk"],
+        "message": "Bråk betyder: Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Det är inte det som frågas. Läs begreppskorten igen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vad kallas det när man delar täljare och nämnare med samma tal? Skriv begreppet.",
+      "answer": ["förkorta","förkortning","att förkorta"],
+      "correct": "Rätt! Förkorta: Dela täljare och nämnare med samma tal så att bråket blir enklare.",
+      "feedback": [
+        {
+          "answers": ["förlänga","förlängning","att förlänga"],
+          "message": "Förlänga betyder: Multiplicera täljare och nämnare med samma tal. Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": ["procent","procenten"],
+          "message": "Procent betyder: Hundradelar. 1 % betyder 1/100. Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    },
+    {
+      "prompt": "I bråket 3/8 kallas talet 3 något särskilt. Vad då? Skriv begreppet.",
+      "answer": ["täljare","täljaren"],
+      "correct": "Rätt! Täljare: Talet över bråkstrecket. Det visar hur många delar man har.",
+      "feedback": [
+        {
+          "answers": ["nämnare","nämnaren"],
+          "message": "Nämnare betyder: Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i. Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": ["decimaltal","decimaltalet"],
+          "message": "Decimaltal betyder: Ett tal med decimaltecken (komma) som visar delar av en hel. Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    }
+  ]
+}

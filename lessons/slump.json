@@ -49,7 +49,7 @@
       "text": "Staplarna är inte exakt lika höga, och det är helt normalt: slumpen varierar. Efter fem sexor i rad är chansen för en sexa i nästa kast fortfarande 1/6."
     }
   ],
-  "rule": "Sannolikhet = antal önskade utfall ÷ antal möjliga utfall",
+  "rule": "Sannolikhet = antal önskade utfall delat med antal möjliga utfall",
   "ruleLabel": "SANNOLIKHET",
   "example": "I en påse ligger 2 röda och 3 blå kulor. Chansen att dra en röd är 2 av 5, alltså 2/5.",
   "practice": [
@@ -156,7 +156,7 @@
             "2/8",
             "1/4"
           ],
-          "message": "Du har missat ett tal. Större än 5 är 6, 7 och 8 — tre tal."
+          "message": "Du har missat ett tal. Större än 5 är 6, 7 och 8, alltså tre tal."
         },
         {
           "answers": [

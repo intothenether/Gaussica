@@ -74,6 +74,21 @@ window.GaussicaLesson = (function () {
     return Boolean(c && c.type === "problem" && Array.isArray(c.answer) && Array.isArray(c.feedback));
   }
 
+  // A matching test: connect each term ("begrepp") with its explanation. { type: "koppla", prompt, pairs: [{ term, definition }] }
+  function isMatchComponent(c) {
+    return Boolean(c && c.type === "koppla" && Array.isArray(c.pairs) && c.pairs.length >= 2);
+  }
+
+  function matchProblem(c) {
+    return {
+      prompt: c.prompt || "Para ihop varje begrepp med rätt förklaring.",
+      pairs: c.pairs,
+      answer: ["alla par rätt"],
+      correct: c.correct || "Alla begrepp är rätt ihopparade!",
+      feedback: []
+    };
+  }
+
   // Answerable tasks shown in the lesson, in display order. `id` matches the ids
   // used when storing answers (see renderProblem in app.js).
   function tasks(l) {
@@ -87,6 +102,9 @@ window.GaussicaLesson = (function () {
       } else if (key.indexOf("comp:") === 0 && isTaskComponent(l.components[Number(key.slice(5))])) {
         const i = Number(key.slice(5));
         out.push({ id: "component-" + i, key: key, problem: l.components[i], name: "Uppgift" });
+      } else if (key.indexOf("comp:") === 0 && isMatchComponent(l.components[Number(key.slice(5))])) {
+        const i = Number(key.slice(5));
+        out.push({ id: "match-" + i, key: key, problem: matchProblem(l.components[i]), name: "Para ihop begrepp" });
       } else if (key.indexOf("comp:") === 0) {
         // challenges inside an interactive tool: done when the student reaches the goal
         const i = Number(key.slice(5));
@@ -108,6 +126,7 @@ window.GaussicaLesson = (function () {
     if (key.indexOf("comp:") === 0) {
       const c = l.components[Number(key.slice(5))] || {};
       if (isTool(c)) return "Pyssla: " + (c.title || "");
+      if (c.type === "begreppskort") return c.title || "Begreppskort";
       return c.title || c.label || (c.type === "text" || c.type === "heading" ? String(c.text || "").slice(0, 40) : "") || "Innehåll";
     }
     return "Innehåll";
@@ -243,10 +262,20 @@ window.GaussicaLesson = (function () {
     return g;
   }
 
+  // May the student answer with a calculation ("36/6", "3*6") where a number is expected?
+  // Lower grades practise doing the calculation, so it is not accepted there. From åk 7 the
+  // calculation step is treated as trivial (slopes, equations, formulas), so it is accepted.
+  // A question or a lesson can decide for itself with "allowExpression": true | false.
+  function allowsExpression(lesson, problem, all) {
+    if (problem && typeof problem.allowExpression === "boolean") return problem.allowExpression;
+    if (lesson && typeof lesson.allowExpression === "boolean") return lesson.allowExpression;
+    return lesson && all ? effectiveGrade(lesson, all) >= 7 : false;
+  }
+
   function gradeLabel(g) {
     return g >= 10 ? "GYMNASIET" : "ÅK " + g;
   }
 
-  return { isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, gradeLabel: gradeLabel, steps: steps, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
-    summarize: summarize, describe: describe, hasVisual: hasVisual, isTaskComponent: isTaskComponent };
+  return { isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, allowsExpression: allowsExpression, gradeLabel: gradeLabel, steps: steps, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
+    summarize: summarize, describe: describe, hasVisual: hasVisual, isTaskComponent: isTaskComponent, isMatchComponent: isMatchComponent };
 }());

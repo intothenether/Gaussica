@@ -1,0 +1,164 @@
+{
+  "id": "inte-lika-med",
+  "area": "tal",
+  "title": "Inte lika med",
+  "level": "Likhetstecknet och ≠ · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": ["addition","storre-mindre"],
+  "summary": "Tecknet = säger att båda sidor är lika mycket. Tecknet ≠ säger att de är olika.",
+  "explanationTitle": "Samma värde eller inte?",
+  "explanation": "Likhetstecknet = betyder att det som står på båda sidor är lika mycket. 3 + 4 = 7 stämmer, för båda sidorna är 7. Tecknet ≠ läses ”är inte lika med” och betyder att sidorna är olika mycket, till exempel 3 + 4 ≠ 8. Räkna ut båda sidorna först och jämför. Är värdena olika sätter du ≠ och är de lika sätter du =. Tänk på att ≠ inte säger vilken sida som är störst. Det visar < och > i stället. Du skriver ≠ med knappen under svarsrutan, eller så skriver du !=.",
+  "visual": {
+    "type": "staplar",
+    "title": "3 + 4 och 3 + 5 är olika: 3 + 4 ≠ 3 + 5",
+    "data": [{"label":"3 + 4","value":7},{"label":"3 + 5","value":8}],
+    "max": 10
+  },
+  "rule": "3 + 4 = 7   men   3 + 4 ≠ 8",
+  "ruleLabel": "LIKA ELLER INTE LIKA",
+  "example": "Räkna ut båda sidorna: 6 + 2 är 8 och 4 + 4 är också 8, så 6 + 2 = 4 + 4. Men 6 + 2 ≠ 4 + 5, för 8 och 9 är olika.",
+  "practice": [
+    {
+      "id": "olika-summa",
+      "for": ["exercise"],
+      "keys": ["=","≠"],
+      "vars": {"a":[2,9],"b":[2,9],"k":[1,3]},
+      "derive": [{"name":"c","expr":"a+b+k"}],
+      "prompt": "Vilket tecken ska stå i rutan: {a} + {b} □ {c}? Svara = eller ≠.",
+      "answer": ["≠","!=","<>","inte lika med","inte lika"],
+      "correct": "Rätt! {a} + {b} = {a+b} och {a+b} är inte lika med {c}.",
+      "feedback": [
+        {
+          "answers": ["=","lika","lika med"],
+          "message": "Räkna ut vänstra sidan: {a} + {b} = {a+b}. Är det lika med {c}?"
+        }
+      ]
+    },
+    {
+      "id": "lika-summa",
+      "for": ["exercise"],
+      "keys": ["=","≠"],
+      "vars": {"a":[2,9],"b":[2,9]},
+      "derive": [{"name":"c","expr":"a+b"}],
+      "prompt": "Vilket tecken ska stå i rutan: {a} + {b} □ {c}? Svara = eller ≠.",
+      "answer": ["=","lika","lika med"],
+      "correct": "Rätt! {a} + {b} = {c}, så sidorna är lika.",
+      "feedback": [
+        {
+          "answers": ["≠","!=","<>","inte lika med","inte lika"],
+          "message": "Räkna ut vänstra sidan: {a} + {b} = {c}. Är det olika mot {c}?"
+        }
+      ]
+    },
+    {
+      "id": "olika-gange",
+      "for": ["word-1"],
+      "keys": ["=","≠"],
+      "vars": {"a":[2,9],"b":[2,9],"k":[1,4]},
+      "derive": [{"name":"c","expr":"a*b+k"}],
+      "prompt": "Vilket tecken ska stå i rutan: {a} · {b} □ {c}? Svara = eller ≠.",
+      "answer": ["≠","!=","<>","inte lika med","inte lika"],
+      "correct": "Rätt! {a} · {b} = {a*b}, och {a*b} är inte lika med {c}.",
+      "feedback": [{"answers":["=","lika","lika med"],"message":"Räkna ut {a} · {b} = {a*b}. Är det lika med {c}?"}]
+    },
+    {
+      "id": "bada-sidor",
+      "for": ["word-1"],
+      "keys": ["=","≠"],
+      "vars": {"a":[2,9],"b":[2,9],"c":[2,9],"d":[2,9]},
+      "where": [{"expr":"a+b-c-d","min":1}],
+      "prompt": "Vilket tecken ska stå i rutan: {a} + {b} □ {c} + {d}? Svara = eller ≠.",
+      "answer": ["≠","!=","<>","inte lika med","inte lika"],
+      "correct": "Rätt! {a} + {b} = {a+b} och {c} + {d} = {c+d}. De är olika.",
+      "feedback": [
+        {
+          "answers": ["=","lika","lika med"],
+          "message": "Räkna ut båda sidorna: {a} + {b} = {a+b} och {c} + {d} = {c+d}. Är de lika?"
+        }
+      ]
+    },
+    {
+      "id": "bada-sidor-lika",
+      "for": ["word-1"],
+      "keys": ["=","≠"],
+      "vars": {"a":[2,9],"b":[2,9],"c":[2,9]},
+      "derive": [{"name":"d","expr":"a+b-c"}],
+      "where": [{"expr":"d","min":1},{"expr":"9-d","min":0}],
+      "prompt": "Vilket tecken ska stå i rutan: {a} + {b} □ {c} + {d}? Svara = eller ≠.",
+      "answer": ["=","lika","lika med"],
+      "correct": "Rätt! {a} + {b} = {a+b} och {c} + {d} = {a+b}. Båda sidor är lika.",
+      "feedback": [
+        {
+          "answers": ["≠","!=","<>","inte lika med","inte lika"],
+          "message": "Räkna ut båda sidorna: {a} + {b} = {a+b} och {c} + {d} = {c+d}. Är de olika?"
+        }
+      ]
+    },
+    {
+      "id": "pastaende-nej",
+      "for": ["word-0"],
+      "vars": {"a":[2,9],"b":[2,9]},
+      "derive": [{"name":"c","expr":"a+b"}],
+      "prompt": "Stämmer det att {a} + {b} ≠ {c}? Svara ja eller nej.",
+      "answer": ["nej","Nej"],
+      "correct": "Rätt, det stämmer inte! {a} + {b} = {c}, så sidorna är lika.",
+      "feedback": [
+        {
+          "answers": ["ja","Ja"],
+          "message": "Räkna ut {a} + {b}. Det blir {c}, och {c} är lika med {c}, så ≠ stämmer inte."
+        }
+      ]
+    },
+    {
+      "id": "pastaende-ja",
+      "for": ["word-0"],
+      "vars": {"a":[2,9],"b":[2,9],"k":[1,3]},
+      "derive": [{"name":"c","expr":"a+b+k"}],
+      "prompt": "Stämmer det att {a} + {b} ≠ {c}? Svara ja eller nej.",
+      "answer": ["ja","Ja"],
+      "correct": "Rätt, det stämmer! {a} + {b} = {a+b}, och {a+b} är inte lika med {c}.",
+      "feedback": [{"answers":["nej","Nej"],"message":"Räkna ut {a} + {b} = {a+b}. Är det samma tal som {c}?"}]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vilket tecken ska stå i rutan: 6 + 3 □ 10? Svara = eller ≠.",
+    "keys": ["=","≠"],
+    "answer": ["≠","!=","<>","inte lika med","inte lika"],
+    "correct": "Rätt! 6 + 3 = 9 och 9 är inte lika med 10, så 6 + 3 ≠ 10.",
+    "feedback": [
+      {"answers":["=","lika","lika med"],"message":"Räkna ut vänstra sidan: 6 + 3 = 9. Är 9 lika med 10?"}
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Stämmer det att 4 · 5 ≠ 20? Svara ja eller nej.",
+      "answer": ["nej","Nej"],
+      "correct": "Rätt, det stämmer inte! 4 · 5 = 20, så sidorna är lika. Rätt tecken är =.",
+      "feedback": [
+        {
+          "answers": ["ja","Ja"],
+          "message": "Räkna ut 4 · 5. Det blir 20, och 20 är lika med 20, så tecknet ≠ stämmer inte här."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket tecken ska stå i rutan: 9 − 4 □ 2 + 3? Svara = eller ≠.",
+      "keys": ["=","≠"],
+      "answer": ["=","lika","lika med"],
+      "correct": "Rätt! 9 − 4 = 5 och 2 + 3 = 5. Båda sidor är 5.",
+      "feedback": [
+        {
+          "answers": ["≠","!=","<>","inte lika med","inte lika"],
+          "message": "Räkna ut båda sidorna: 9 − 4 = 5 och 2 + 3 = 5. Är de olika?"
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket av påståendena är sant? A: 8 = 3 + 4. B: 8 ≠ 3 + 4. Skriv A eller B.",
+      "answer": ["B","b"],
+      "correct": "Rätt! 3 + 4 = 7 och 7 är inte lika med 8, så påstående B är sant.",
+      "feedback": [{"answers":["A","a"],"message":"Räkna ut 3 + 4. Det blir 7. Är 8 lika med 7?"}]
+    }
+  ]
+}

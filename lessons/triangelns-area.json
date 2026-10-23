@@ -10,9 +10,9 @@
     "triangelns-omkrets",
     "rektangelns-area"
   ],
-  "summary": "En triangel fyller hälften av en rektangel med samma bas och höjd. Därför är arean bas · höjd ÷ 2.",
+  "summary": "En triangel fyller hälften av en rektangel med samma bas och höjd. Därför är arean bas · höjd/2.",
   "explanationTitle": "Rita in rektangeln",
-  "explanation": "Rita en rektangel runt triangeln så att triangelns bas är rektangelns botten och toppen når den övre kanten. Triangeln täcker precis hälften av rektangeln. Är basen 8 cm och höjden 5 cm har rektangeln arean 8 · 5 = 40 cm², och triangeln 40 ÷ 2 = 20 cm². Höjden mäts rakt upp, i rät vinkel mot basen. Det är inte samma sak som en av de lutande sidorna.",
+  "explanation": "Rita en rektangel runt triangeln så att triangelns bas är rektangelns botten och toppen når den övre kanten. Triangeln täcker precis hälften av rektangeln. Är basen 8 cm och höjden 5 cm har rektangeln arean 8 · 5 = 40 cm², och triangeln 40/2 = 20 cm². Höjden mäts rakt upp, i rät vinkel mot basen. Det är inte samma sak som en av de lutande sidorna.",
   "visual": {
     "type": "triangel",
     "base": 8,
@@ -23,9 +23,9 @@
     "showRect": true,
     "title": "Triangeln är hälften av rektangeln"
   },
-  "rule": "A = (bas · höjd) ÷ 2",
+  "rule": "A = (bas · höjd)/2",
   "ruleLabel": "TRIANGELNS AREA",
-  "example": "Bas 6 m och höjd 4 m ger (6 · 4) ÷ 2 = 12 m².",
+  "example": "Bas 6 m och höjd 4 m ger (6 · 4)/2 = 12 m².",
   "practice": [
     {
       "id": "area",
@@ -36,7 +36,7 @@
       "prompt": "Triangeln har basen {b} cm och höjden {h} cm. Vad är arean i cm²?",
       "visual": {"type":"triangel","base":"=b","height":"=h","apex":"=floor(b/2)","unit":"cm","showHeight":true},
       "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
-      "correct": "Rätt! En triangel är hälften av en rektangel: {b} · {h} ÷ 2 = {p} cm².",
+      "correct": "Rätt! En triangel är hälften av en rektangel: {b} · {h}/2 = {p} cm².",
       "feedback": [
         {"answers":["=b*h"],"message":"Det är arean av hela rektangeln. En triangel är hälften av den."},
         {"answers":["=b+h"],"message":"Arean är bas gånger höjd delat med 2, inte bas plus höjd."}
@@ -50,7 +50,7 @@
       "derive": [{"name":"p","expr":"b*h/2"}],
       "prompt": "{$sak} har formen av en triangel med basen {b} cm och höjden {h} cm. Hur stor yta har den i cm²?",
       "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
-      "correct": "Rätt! {b} · {h} ÷ 2 = {p} cm².",
+      "correct": "Rätt! {b} · {h}/2 = {p} cm².",
       "feedback": [
         {
           "answers": ["=b*h"],
@@ -65,7 +65,7 @@
       "derive": [{"name":"a","expr":"b*h/2"}],
       "prompt": "En triangel har arean {a} cm² och basen {b} cm. Hur hög är den?",
       "answer": ["=h","{h} cm","{h}cm"],
-      "correct": "Rätt! 2 · {a} = {2*a}, och {2*a} ÷ {b} = {h} cm.",
+      "correct": "Rätt! 2 · {a} = {2*a}, och {2*a}/{b} = {h} cm.",
       "feedback": [
         {"answers":["=a/b"],"message":"Glöm inte att triangelns area är hälften. Dubbla arean först."},
         {"answers":["=a*b"],"message":"Gör tvärtom: dela med basen."}
@@ -81,7 +81,7 @@
       "30 cm²",
       "30cm²"
     ],
-    "correct": "Rätt! (10 · 6) ÷ 2 = 30 cm².",
+    "correct": "Rätt! (10 · 6)/2 = 30 cm².",
     "feedback": [
       {
         "answers": [
@@ -115,7 +115,7 @@
         "30 cm²",
         "30cm²"
       ],
-      "correct": "Rätt! (12 · 5) ÷ 2 = 30 cm².",
+      "correct": "Rätt! (12 · 5)/2 = 30 cm².",
       "feedback": [
         {
           "answers": [
@@ -140,7 +140,7 @@
         "12 m²",
         "12m²"
       ],
-      "correct": "Rätt! (4 · 6) ÷ 2 = 12 m².",
+      "correct": "Rätt! (4 · 6)/2 = 12 m².",
       "feedback": [
         {
           "answers": [
@@ -162,20 +162,20 @@
         "5",
         "5 cm"
       ],
-      "correct": "Rätt! Bas · höjd = 2 · 20 = 40, så höjden är 40 ÷ 8 = 5 cm.",
+      "correct": "Rätt! Bas · höjd = 2 · 20 = 40, så höjden är 40/8 = 5 cm.",
       "feedback": [
         {
           "answers": [
             "2,5",
             "2.5"
           ],
-          "message": "20 ÷ 8 = 2,5 glömmer att arean är hälften av bas · höjd. Bas · höjd är dubbelt så stor som arean: 40."
+          "message": "20/8 = 2,5 glömmer att arean är hälften av bas · höjd. Bas · höjd är dubbelt så stor som arean: 40."
         },
         {
           "answers": [
             "10"
           ],
-          "message": "10 är 20 ÷ 2. Du behöver också dela med basen: bas · höjd = 40, alltså 40 ÷ 8."
+          "message": "10 är 20/2. Du behöver också dela med basen: bas · höjd = 40, alltså 40/8."
         }
       ]
     }

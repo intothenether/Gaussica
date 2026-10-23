@@ -1,0 +1,207 @@
+{
+  "id": "storre-mindre",
+  "area": "tal",
+  "title": "Större än och mindre än",
+  "level": "Jämför tal med > och < · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": ["platsvarde"],
+  "summary": "Med tecknen > och < jämför du tal. Tecknet öppnar sig alltid mot det tal som är störst.",
+  "explanationTitle": "Krokodilen vill ha det största",
+  "explanation": "Tecknet > betyder större än och < betyder mindre än. Tänk dig att tecknet är en krokodilmun som alltid vill äta det största talet. Därför öppnar sig tecknet mot det största talet: 8 > 3 och 3 < 8. Är talen lika stora skriver vi = i stället. För tal med flera siffror jämför du siffran längst till vänster först: 347 > 298 eftersom 3 hundratal är fler än 2 hundratal. Under svarsrutan finns knappar för tecknen, så du slipper leta på tangentbordet.",
+  "visual": {
+    "type": "tallinje",
+    "title": "8 ligger längre åt höger än 3, så 8 > 3",
+    "min": 0,
+    "max": 10,
+    "step": 1,
+    "labelEvery": 1,
+    "points": [{"value":3},{"value":8}]
+  },
+  "rule": "8 > 3   och   3 < 8",
+  "ruleLabel": "ÖPPNA MOT DET STÖRSTA",
+  "example": "Munnen öppnar sig mot 8, det största talet. 8 > 3 läses ”åtta är större än tre”.",
+  "practice": [
+    {
+      "id": "storre",
+      "for": ["exercise"],
+      "keys": ["<","=",">"],
+      "vars": {"a":[10,99],"b":[10,99]},
+      "where": [{"expr":"a-b","min":1}],
+      "prompt": "Vilket tecken ska stå mellan talen: {a} □ {b}? Skriv >, < eller =.",
+      "answer": [">","större än","större"],
+      "correct": "Rätt! {a} > {b}. Tecknet öppnar sig mot {a}, det största talet.",
+      "feedback": [
+        {
+          "answers": ["<","mindre än","mindre"],
+          "message": "Tecknet ska öppna sig mot det största talet. Jämför tiotalen först: {floor(a/10)} och {floor(b/10)}."
+        }
+      ]
+    },
+    {
+      "id": "mindre",
+      "for": ["exercise"],
+      "keys": ["<","=",">"],
+      "vars": {"a":[10,99],"b":[10,99]},
+      "where": [{"expr":"b-a","min":1}],
+      "prompt": "Vilket tecken ska stå mellan talen: {a} □ {b}? Skriv >, < eller =.",
+      "answer": ["<","mindre än","mindre"],
+      "correct": "Rätt! {a} < {b}. Tecknet öppnar sig mot {b}, det största talet.",
+      "feedback": [
+        {
+          "answers": [">","större än","större"],
+          "message": "Tecknet ska öppna sig mot det största talet. Jämför tiotalen först: {floor(a/10)} och {floor(b/10)}."
+        }
+      ]
+    },
+    {
+      "id": "tresiffriga-storre",
+      "for": ["exercise"],
+      "keys": ["<","=",">"],
+      "vars": {"a":[100,999],"b":[100,999]},
+      "where": [{"expr":"a-b","min":1}],
+      "prompt": "Vilket tecken ska stå mellan talen: {a} □ {b}? Skriv >, < eller =.",
+      "answer": [">","större än","större"],
+      "correct": "Rätt! {a} > {b}.",
+      "feedback": [
+        {
+          "answers": ["<","mindre än","mindre"],
+          "message": "Börja med siffran längst till vänster. Hundratalen är {floor(a/100)} och {floor(b/100)}."
+        }
+      ]
+    },
+    {
+      "id": "tresiffriga-mindre",
+      "for": ["exercise"],
+      "keys": ["<","=",">"],
+      "vars": {"a":[100,999],"b":[100,999]},
+      "where": [{"expr":"b-a","min":1}],
+      "prompt": "Vilket tecken ska stå mellan talen: {a} □ {b}? Skriv >, < eller =.",
+      "answer": ["<","mindre än","mindre"],
+      "correct": "Rätt! {a} < {b}.",
+      "feedback": [
+        {
+          "answers": [">","större än","större"],
+          "message": "Börja med siffran längst till vänster. Hundratalen är {floor(a/100)} och {floor(b/100)}."
+        }
+      ]
+    },
+    {
+      "id": "rakna-storre",
+      "for": ["word-0"],
+      "keys": ["<","=",">"],
+      "vars": {"a":[2,9],"b":[2,9],"c":[3,15]},
+      "where": [{"expr":"a+b-c","min":1}],
+      "prompt": "Vilket tecken ska stå i rutan: {a} + {b} □ {c}? Räkna ut vänstra sidan först.",
+      "answer": [">","större än","större"],
+      "correct": "Rätt! {a} + {b} = {a+b}, och {a+b} > {c}.",
+      "feedback": [
+        {
+          "answers": ["<","mindre än","mindre"],
+          "message": "Räkna ut {a} + {b} = {a+b} och jämför med {c}. Munnen öppnar sig mot det största."
+        }
+      ]
+    },
+    {
+      "id": "rakna-mindre",
+      "for": ["word-0"],
+      "keys": ["<","=",">"],
+      "vars": {"a":[2,9],"b":[2,9],"c":[3,20]},
+      "where": [{"expr":"c-a-b","min":1}],
+      "prompt": "Vilket tecken ska stå i rutan: {a} + {b} □ {c}? Räkna ut vänstra sidan först.",
+      "answer": ["<","mindre än","mindre"],
+      "correct": "Rätt! {a} + {b} = {a+b}, och {a+b} < {c}.",
+      "feedback": [
+        {
+          "answers": [">","större än","större"],
+          "message": "Räkna ut {a} + {b} = {a+b} och jämför med {c}. Munnen öppnar sig mot det största."
+        }
+      ]
+    },
+    {
+      "id": "lika",
+      "for": ["word-0"],
+      "keys": ["<","=",">"],
+      "vars": {"a":[2,9],"b":[2,9]},
+      "where": [{"expr":"abs(a-b)","min":1}],
+      "prompt": "Vilket tecken ska stå i rutan: {a} + {b} □ {b} + {a}?",
+      "answer": ["=","lika","lika med"],
+      "correct": "Rätt! Båda sidor är {a+b}, så de är lika: {a} + {b} = {b} + {a}.",
+      "feedback": [
+        {
+          "answers": [">","större än","större","<","mindre än","mindre"],
+          "message": "Räkna ut båda sidorna. {a} + {b} = {a+b} och {b} + {a} = {a+b}. Hur stora är de jämfört med varandra?"
+        }
+      ]
+    },
+    {
+      "id": "storst-av-tre",
+      "for": ["word-1"],
+      "vars": {"a":[100,999],"b":[100,999],"c":[100,999]},
+      "where": [{"expr":"abs(a-b)","min":1},{"expr":"abs(a-c)","min":1},{"expr":"abs(b-c)","min":1}],
+      "derive": [{"name":"m","expr":"max(a,b,c)"},{"name":"s","expr":"min(a,b,c)"}],
+      "prompt": "Vilket tal är störst av {a}, {b} och {c}? Skriv talet.",
+      "answer": ["=m"],
+      "correct": "Rätt! {m} är störst.",
+      "feedback": [{"answers":["=s"],"message":"{s} är det minsta talet. Jämför hundratalen först, sedan tiotalen."}]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vilket tecken ska stå mellan talen: 47 □ 39? Skriv >, < eller =.",
+    "keys": ["<","=",">"],
+    "answer": [">","större än","större"],
+    "correct": "Rätt! 47 > 39. Tecknet öppnar sig mot 47, det största talet.",
+    "feedback": [
+      {
+        "answers": ["<","mindre än","mindre"],
+        "message": "Tecknet ska öppna sig mot det största talet. 47 har 4 tiotal och 39 har bara 3 tiotal."
+      },
+      {"answers":["=","lika","lika med"],"message":"Talen är inte lika stora: 47 och 39 är olika tal."}
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vilket tecken ska stå i rutan: 5 + 4 □ 2 · 5? Räkna ut båda sidorna först.",
+      "keys": ["<","=",">"],
+      "answer": ["<","mindre än","mindre"],
+      "correct": "Rätt! 5 + 4 = 9 och 2 · 5 = 10. 9 är mindre än 10, så 9 < 10.",
+      "feedback": [
+        {
+          "answers": [">","större än","större"],
+          "message": "Räkna ut båda sidorna först: 5 + 4 = 9 och 2 · 5 = 10. Vilket tal är störst?"
+        },
+        {
+          "answers": ["=","lika","lika med"],
+          "message": "Det blir 9 på ena sidan och 10 på den andra. De är inte lika stora."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket tal är störst av 408, 480 och 84? Skriv talet.",
+      "answer": ["480"],
+      "correct": "Rätt! 408 och 480 har lika många hundratal, men 480 har fler tiotal. 84 har bara två siffror.",
+      "feedback": [
+        {
+          "answers": ["408"],
+          "message": "Hundratalen är lika, så jämför tiotalen: 408 har 0 tiotal och 480 har 8 tiotal."
+        },
+        {
+          "answers": ["84"],
+          "message": "84 har bara två siffror, så det är det minsta talet här. Titta på hundratalen först."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många heltal ligger mellan 5 och 9? Det vill säga tal som är större än 5 och mindre än 9.",
+      "answer": ["3"],
+      "correct": "Rätt! Det är 6, 7 och 8, alltså 3 tal.",
+      "feedback": [
+        {
+          "answers": ["4"],
+          "message": "5 och 9 ska inte vara med, för de är inte större än 5 respektive mindre än 9."
+        },
+        {"answers":["5"],"message":"Skriv upp talen: 6, 7, 8. Hur många är det?"}
+      ]
+    }
+  ]
+}

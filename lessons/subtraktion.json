@@ -11,7 +11,7 @@
   "explanation": "I 502 − 278 kan vi inte ta 8 ental från 2 ental. Växla därför ett hundratal till tio tiotal. Växla sedan ett av tiotalen till tio ental och subtrahera varje position.",
   "rule": "502 − 278 = 4 hundratal, 12 tiotal, 12 ental − 278 = 224",
   "ruleLabel": "VÄXLA UTAN ATT ÄNDRA VÄRDET",
-  "example": "Ett hundratal är lika mycket som tio tiotal. Växling byter namn på samma mängd — den tar inte bort något.",
+  "example": "Ett hundratal är lika mycket som tio tiotal. Växling byter namn på samma mängd. Den tar inte bort något.",
   "practice": [
     {
       "id": "differens",

@@ -93,7 +93,7 @@
       },
       "readouts": [
         {
-          "text": "({a} + {b} + {c} + {d}) ÷ 4 = {summa} ÷ 4 = {medel}"
+          "text": "({a} + {b} + {c} + {d})/4 = {summa}/4 = {medel}"
         }
       ],
       "goals": [
@@ -146,7 +146,7 @@
     "answer": [
       "5"
     ],
-    "correct": "Rätt! 2 + 4 + 9 + 5 = 20 och 20 ÷ 4 = 5.",
+    "correct": "Rätt! 2 + 4 + 9 + 5 = 20 och 20/4 = 5.",
     "feedback": [
       {
         "answers": [

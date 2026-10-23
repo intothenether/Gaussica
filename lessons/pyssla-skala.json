@@ -139,7 +139,7 @@
             "0,9",
             "0.9"
           ],
-          "message": "18 ÷ 20 = 0,9. I verkligheten är bilen större än modellen: multiplicera."
+          "message": "18/20 = 0,9. I verkligheten är bilen större än modellen: multiplicera."
         }
       ]
     },
@@ -148,7 +148,7 @@
       "answer": [
         "6"
       ],
-      "correct": "Rätt! 150 ÷ 25 = 6 cm.",
+      "correct": "Rätt! 150/25 = 6 cm.",
       "feedback": [
         {
           "answers": [

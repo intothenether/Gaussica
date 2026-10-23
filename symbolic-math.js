@@ -462,7 +462,7 @@
           return {
             code: "FRACTION_ADDITION_ACROSS",
             title: "Bråkaddition utan gemensam nämnare",
-            explanation: "Du har lagt ihop täljare med täljare (" + num1 + " + " + num2 + " = " + badNum + ") och nämnare med nämnare (" + den1 + " + " + den2 + " = " + badDen + "). Bråk kan bara adderas när delarna är lika stora — hitta en gemensam nämnare först!"
+            explanation: "Du har lagt ihop täljare med täljare (" + num1 + " + " + num2 + " = " + badNum + ") och nämnare med nämnare (" + den1 + " + " + den2 + " = " + badDen + "). Bråk kan bara adderas när delarna är lika stora. Hitta en gemensam nämnare först!"
           };
         }
       }
@@ -501,7 +501,7 @@
         return {
           code: "EQUATION_HALFWAY",
           title: "Halvfärdig lösning",
-          explanation: "Du subtraherade 2 och fick 12 — helt rätt första steg! Men 3x betyder 3 gånger x. Dela 12 med 3 för att få vad x ensamt är."
+          explanation: "Du subtraherade 2 och fick 12. Det är ett helt rätt första steg! Men 3x betyder 3 gånger x. Dela 12 med 3 för att få vad x ensamt är."
         };
       }
       // Multiplicerat i stället för dividerat (12 * 3 = 36)
@@ -631,9 +631,41 @@
     return { results: results, lastResult: lastResult };
   }
 
+  // --- Svar som uträkning eller som tal ---
+  // Ett svar som "36/6" eller "3*6" är rätt värde men ingen uträkning av svaret. Hjälpfunktionerna nedan
+  // gör det möjligt att kräva ett uträknat tal när frågan går ut på att räkna ut något.
+
+  // Svaret utan blanksteg, med decimalpunkt och utan inledande "x =".
+  function bareAnswer(str) {
+    return String(str === undefined || str === null ? "" : str).toLowerCase()
+      .replace(/\s+/g, "").replace(/,/g, ".").replace(/[−–—]/g, "-").replace(/[·×]/g, "*").replace(/÷/g, "/")
+      .replace(/^[a-zåäö]=/, "");
+  }
+
+  // Ett ensamt tal, med eller utan enhet ("24", "24cm", "3,14", "20%", "125°", "15:15").
+  function isPlainNumber(str) {
+    const s = bareAnswer(str);
+    return /^-?\d+(?:\.\d+)?(?:[a-zåäö]+[2²]?|%|°)*$/.test(s) || /^\d{1,2}:\d{2}$/.test(s);
+  }
+
+  // Innehåller svaret en räkneoperation mellan tal, till exempel "36/6", "3*6", "10-4" eller "(2+3)*4"?
+  function isCalculation(str) {
+    const s = bareAnswer(str).replace(/[a-zåäö²°%]/g, "");
+    return /[\d)][*\/+^-][\d(]/.test(s);
+  }
+
+  // Är det väntade svaret ett vanligt tal (inte ett bråk, ett uttryck eller ett ord)?
+  function expectsPlainNumber(answers) {
+    const list = Array.isArray(answers) ? answers : [answers];
+    return list.some(isPlainNumber) && !list.some(function (a) { return isCalculation(a) || /\//.test(bareAnswer(a)); });
+  }
+
   return {
     cleanMathString: cleanMathString,
     stripUnits: stripUnits,
+    isPlainNumber: isPlainNumber,
+    isCalculation: isCalculation,
+    expectsPlainNumber: expectsPlainNumber,
     tokenize: tokenize,
     parse: parse,
     evaluateAST: evaluateAST,

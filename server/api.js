@@ -8,6 +8,8 @@ const COOKIE = "gs";
 const SESSION_DAYS = 30;
 const COLORS = ["#425b9a", "#ef6f88", "#4fa8dc", "#8a74c9", "#d99a2b", "#2f9d88", "#7a8db8"];
 const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
+const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart"];
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 class ApiError extends Error {
   constructor(status, message) { super(message); this.status = status; }
@@ -66,6 +68,24 @@ function createApi(db, options) {
     studentOfTeacher: db.prepare(
       "SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'"),
     deleteUser: db.prepare("DELETE FROM users WHERE id = ?"),
+    classOfTeacher: db.prepare("SELECT * FROM classes WHERE id = ? AND teacher_id = ?"),
+    insertAssignment: db.prepare("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"),
+    assignmentsForStudent: db.prepare(
+      "SELECT a.id, a.lesson_id, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
+      "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id"),
+    assignmentsForTeacher: db.prepare(
+      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
+      "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
+      "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id"),
+    archiveAssignment: db.prepare("UPDATE assignments SET archived = 1 WHERE id = ? AND teacher_id = ?"),
+    insertFeedback: db.prepare("INSERT INTO feedback (student_id, teacher_id, lesson_id, task_id, text, sticker, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"),
+    feedbackForStudent: db.prepare(
+      "SELECT f.id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at, u.display_name AS teacher FROM feedback f " +
+      "JOIN users u ON u.id = f.teacher_id WHERE f.student_id = ? ORDER BY f.id DESC LIMIT 200"),
+    feedbackForTeacher: db.prepare(
+      "SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.teacher_id = ? ORDER BY f.id"),
+    markFeedbackRead: db.prepare("UPDATE feedback SET read_at = ? WHERE id = ? AND student_id = ? AND read_at IS NULL"),
+    deleteFeedback: db.prepare("DELETE FROM feedback WHERE id = ? AND teacher_id = ?"),
     getSetting: db.prepare("SELECT value FROM settings WHERE key = ?"),
     setSetting: db.prepare("INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value")
   };
@@ -239,7 +259,36 @@ function createApi(db, options) {
 
   function myData(req, res) {
     const s = requireUser(req);
-    send(res, 200, { progress: progressOf(s.user.id), attempts: attemptsOf(s.user.id) });
+    const student = s.user.role === "student" && s.user.class_id;
+    send(res, 200, {
+      progress: progressOf(s.user.id), attempts: attemptsOf(s.user.id),
+      assignments: student ? q.assignmentsForStudent.all(s.user.class_id, s.user.id).map(publicAssignment) : [],
+      feedback: s.user.role === "student" ? q.feedbackForStudent.all(s.user.id).map(publicFeedback) : []
+    });
+  }
+
+  function publicAssignment(r) {
+    return {
+      id: r.id, lessonId: r.lesson_id, note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
+      classId: r.class_id || null, className: r.class_name || null, studentId: r.student_id || null, studentName: r.student_name || null
+    };
+  }
+
+  function publicFeedback(r) {
+    return {
+      id: r.id, studentId: r.student_id || null, lessonId: r.lesson_id || null, taskId: r.task_id || null, text: r.text,
+      sticker: r.sticker || null, createdAt: r.created_at, read: Boolean(r.read_at), teacher: r.teacher || null
+    };
+  }
+
+  async function markRead(req, res) {
+    const s = requireUser(req);
+    const b = await readJson(req, 5000);
+    const now = nowIso();
+    (Array.isArray(b.ids) ? b.ids.slice(0, 100) : []).forEach(function (id) {
+      if (Number.isInteger(id)) q.markFeedbackRead.run(now, id, s.user.id);
+    });
+    send(res, 200, { ok: true });
   }
 
   function progressOf(userId) {
@@ -341,14 +390,71 @@ function createApi(db, options) {
 
   function teacherStudents(req, res) {
     const s = requireTeacher(req);
+    const sent = {};
+    q.feedbackForTeacher.all(s.user.id).forEach(function (r) { (sent[r.student_id] = sent[r.student_id] || []).push(publicFeedback(r)); });
     const students = q.teacherStudents.all(s.user.id).map(function (u) {
       return {
+        feedback: sent[u.id] || [],
         id: String(u.id), username: u.username, name: u.display_name, class: u.class_name, classId: u.class_id,
         color: COLORS[u.id % COLORS.length], createdAt: u.created_at,
         lessonProgress: progressOf(u.id), attempts: attemptsOf(u.id)
       };
     });
     send(res, 200, { students: students });
+  }
+
+  // ----- assignments and feedback (teacher) -----
+  function listAssignments(req, res) {
+    const s = requireTeacher(req);
+    send(res, 200, { assignments: q.assignmentsForTeacher.all(s.user.id).map(publicAssignment) });
+  }
+
+  async function createAssignment(req, res) {
+    const s = requireTeacher(req);
+    const b = await readJson(req, 5000);
+    const cls = q.classOfTeacher.get(Number(b.classId), s.user.id);
+    if (!cls) throw new ApiError(400, "Välj en av dina klasser.");
+    let studentId = null;
+    if (b.studentId !== undefined && b.studentId !== null && b.studentId !== "") {
+      const st = q.studentOfTeacher.get(Number(b.studentId), s.user.id);
+      if (!st || st.class_id !== cls.id) throw new ApiError(400, "Eleven går inte i den klassen.");
+      studentId = st.id;
+    }
+    const lessonId = str(b.lessonId, 80);
+    if (!ID_RE.test(lessonId)) throw new ApiError(400, "Välj en lektion.");
+    const dueDate = str(b.dueDate, 10);
+    if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw new ApiError(400, "Ogiltigt datum.");
+    const note = str(b.note, 400).trim();
+    const id = Number(q.insertAssignment.run(cls.id, studentId, s.user.id, lessonId, note, dueDate || null, nowIso()).lastInsertRowid);
+    send(res, 201, { id: id });
+  }
+
+  function archiveAssignment(req, res, id) {
+    const s = requireTeacher(req);
+    q.archiveAssignment.run(Number(id), s.user.id);
+    send(res, 200, { ok: true });
+  }
+
+  async function createFeedback(req, res) {
+    const s = requireTeacher(req);
+    const b = await readJson(req, 5000);
+    const student = q.studentOfTeacher.get(Number(b.studentId), s.user.id);
+    if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
+    const text = str(b.text, 600).trim();
+    const sticker = b.sticker ? str(b.sticker, 20) : null;
+    if (sticker && STICKERS.indexOf(sticker) < 0) throw new ApiError(400, "Okänd dekal.");
+    if (!text && !sticker) throw new ApiError(400, "Skriv något eller välj en dekal.");
+    const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
+    const taskId = b.taskId ? str(b.taskId, 80) : null;
+    if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw new ApiError(400, "Ogiltigt id.");
+    const id = Number(q.insertFeedback.run(student.id, s.user.id, lessonId, taskId, text, sticker, nowIso()).lastInsertRowid);
+    send(res, 201, { id: id });
+  }
+
+  function removeFeedback(req, res, id) {
+    const s = requireTeacher(req);
+    q.deleteFeedback.run(Number(id), s.user.id);
+    send(res, 200, { ok: true });
   }
 
   async function resetStudentPassword(req, res, studentId) {
@@ -397,6 +503,7 @@ function createApi(db, options) {
       }
       if (method === "POST" && p === "/api/me/password") return await changePassword(req, res);
       if (method === "GET" && p === "/api/me/data") return myData(req, res);
+      if (method === "POST" && p === "/api/me/feedback/read") return await markRead(req, res);
       if ((m = /^\/api\/progress\/([^/]+)$/.exec(p)) && method === "PUT") return await putProgress(req, res, decodeURIComponent(m[1]));
       if (method === "POST" && p === "/api/attempts") return await postAttempt(req, res);
       if (method === "GET" && p === "/api/lessons") return listLessons(req, res);
@@ -404,6 +511,11 @@ function createApi(db, options) {
       if (method === "GET" && p === "/api/teacher/classes") return listClasses(req, res);
       if (method === "POST" && p === "/api/teacher/classes") return await createClass(req, res);
       if (method === "GET" && p === "/api/teacher/students") return teacherStudents(req, res);
+      if (method === "GET" && p === "/api/teacher/assignments") return listAssignments(req, res);
+      if (method === "POST" && p === "/api/teacher/assignments") return await createAssignment(req, res);
+      if ((m = /^\/api\/teacher\/assignments\/(\d+)$/.exec(p)) && method === "DELETE") return archiveAssignment(req, res, m[1]);
+      if (method === "POST" && p === "/api/teacher/feedback") return await createFeedback(req, res);
+      if ((m = /^\/api\/teacher\/feedback\/(\d+)$/.exec(p)) && method === "DELETE") return removeFeedback(req, res, m[1]);
       if ((m = /^\/api\/teacher\/students\/(\d+)\/password$/.exec(p)) && method === "POST") return await resetStudentPassword(req, res, m[1]);
       if ((m = /^\/api\/teacher\/students\/(\d+)$/.exec(p)) && method === "DELETE") return deleteStudent(req, res, m[1]);
       throw new ApiError(404, "Hittades inte.");

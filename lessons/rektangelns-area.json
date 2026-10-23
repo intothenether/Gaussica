@@ -55,7 +55,7 @@
       "derive": [{"name":"a","expr":"l*b"}],
       "prompt": "En rektangel har arean {a} cm² och längden {l} cm. Hur bred är den?",
       "answer": ["=b","{b} cm","{b}cm"],
-      "correct": "Rätt! {a} ÷ {l} = {b} cm.",
+      "correct": "Rätt! {a}/{l} = {b} cm.",
       "feedback": [
         {"answers":["=a-l"],"message":"Arean är längd gånger bredd, så du ska dela {a} med {l}."},
         {"answers":["=a*l"],"message":"Gör tvärtom mot multiplikation: dela {a} med {l}."}
@@ -126,13 +126,13 @@
         "8",
         "8 m"
       ],
-      "correct": "Rätt! Arean är längd · bredd, så längden är 72 ÷ 9 = 8 m.",
+      "correct": "Rätt! Arean är längd · bredd, så längden är 72/9 = 8 m.",
       "feedback": [
         {
           "answers": [
             "81"
           ],
-          "message": "81 är 72 + 9. Eftersom arean är längd gånger bredd ska du dividera: 72 ÷ 9."
+          "message": "81 är 72 + 9. Eftersom arean är längd gånger bredd ska du dividera: 72/9."
         },
         {
           "answers": [

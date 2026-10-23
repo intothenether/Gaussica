@@ -29,7 +29,7 @@
   "explanation": "För att lägga ihop 1/2 och 1/4 behöver delarna vara lika stora. En halv är lika mycket som två fjärdedelar. Då blir 1/2 + 1/4 samma sak som 2/4 + 1/4.",
   "rule": "1/2 + 1/4 = 2/4 + 1/4 = 3/4",
   "ruleLabel": "GEMENSAM NÄMNARE",
-  "example": "Nämnaren talar om hur stora delarna är. När vi räknar tillsammans gör vi delarna lika stora — vi adderar inte nämnarna.",
+  "example": "Nämnaren talar om hur stora delarna är. När vi räknar tillsammans gör vi delarna lika stora. Vi adderar inte nämnarna.",
   "interactive": {
     "type": "fraction-model",
     "numerator": 3,
@@ -41,7 +41,7 @@
     "correct": "Ja! En halv är två fjärdedelar. Två fjärdedelar plus en fjärdedel blir tre fjärdedelar.",
     "feedback": [
       { "answers": ["2/6", "1/6", "2/4"], "message": "Du verkar ha räknat på täljarna och nämnarna var för sig. Men en halv och en fjärdedel är olika stora bitar. Skriv först om 1/2 som fjärdedelar." },
-      { "answers": ["1/3", "0.5"], "message": "En halv är inte samma sak som hela summan. Tänk på att du ska lägga till ytterligare en fjärdedel — hur många fjärdedelar blir det tillsammans?" }
+      { "answers": ["1/3", "0.5"], "message": "En halv är inte samma sak som hela summan. Tänk på att du ska lägga till ytterligare en fjärdedel. Hur många fjärdedelar blir det tillsammans?" }
     ]
   },
   "wordProblems": [

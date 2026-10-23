@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#fff8e6">
     <meta name="description" content="Utforska matematik steg för steg, från grundskolans första tal till gymnasiets matematik.">
-    <title>Gaussica — matematik som hänger ihop</title>
+    <title>Gaussica: matematik som hänger ihop</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="stylesheet" href="./styles.css">
     <script src="./config.js" defer></script>
     <script src="./local-backend.js" defer></script>
     <script src="./privacy.js" defer></script>
     <script src="./auth-view.js" defer></script>
+    <script src="./richtext.js" defer></script>
     <script src="./lesson-model.js" defer></script>
     <script src="./canvas-pad.js" defer></script>
     <script src="./figures.js" defer></script>
     <script src="./pyssel.js" defer></script>
     <script src="./practice.js" defer></script>
     <script src="./coach.js" defer></script>
+    <script src="./mailbox.js" defer></script>
+    <script src="./path-view.js" defer></script>
     <script src="./graph-view.js" defer></script>
     <script src="./lesson-player.js" defer></script>
     <script src="./teacher-view.js" defer></script>
@@ -34,6 +37,7 @@
       </a>
       <div class="topbar-actions">
         <div class="student-profile-bar" id="student-profile-bar"></div>
+        <a class="mail-link" href="#uppdrag" id="mail-link" hidden><span aria-hidden="true">📬</span> Uppdrag <b class="mail-badge" hidden>0</b></a>
         <a class="admin-top-link" href="#admin" id="admin-top-link" hidden>Lärarvy 📊</a>
         <a class="top-link" href="#larstig">Utforska lärstigen <span aria-hidden="true">↗</span></a>
       </div>
@@ -42,28 +46,86 @@
     <main id="start">
       <section class="admin-page" id="admin-page" hidden aria-labelledby="admin-title"></section>
       <div class="student-view" id="student-view">
+      <section class="mailbox" id="mailbox" aria-label="Uppdrag och meddelanden från din lärare" hidden></section>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow"><span class="eyebrow-dot"></span> MATEMATIK SOM HÄNGER IHOP</p>
-          <h1 id="hero-title">En idé i taget.<br><span>Hela vägen fram.</span></h1>
+          <h1 id="hero-title">Utforska matematiken,<br><span>en idé i taget</span></h1>
           <p class="hero-description">Bygg förståelse från grunden. Testa själv, se hur matematiken fungerar och förstå varför ett svar blir som det blir.</p>
           <a class="primary-button" id="hero-cta" href="#larstig">Hitta nästa steg <span aria-hidden="true">↓</span></a>
+          <ul class="hero-chips" aria-label="Vad du hittar här">
+            <li><i></i>Lärstig</li><li><i></i>Pyssla</li><li><i></i>Rityta</li><li><i></i>Öva mer</li>
+          </ul>
           <p class="hero-note">Från ungefär åk 3 till gymnasiet. I din takt.</p>
         </div>
         <div class="hero-visual" aria-hidden="true">
-          <div class="orbit orbit-one"></div>
-          <div class="orbit orbit-two"></div>
-          <span class="math-spark spark-one">+</span>
-          <span class="math-spark spark-two">÷</span>
-          <span class="math-spark spark-three">×</span>
-          <span class="math-spark spark-four">=</span>
-          <div class="hero-card">
-            <span class="hero-card-label">EN SAK I TAGET</span>
-            <span class="hero-fraction"><span>1</span><span class="fraction-line"></span><span>2</span></span>
-            <span class="hero-card-caption">En halv. Hur många sätt kan du se det?</span>
-            <div class="hero-card-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="hero-blob hero-blob-one"></div>
+          <div class="hero-blob hero-blob-two"></div>
+          <div class="hero-graph">
+            <span class="hg-live"><i></i> Din lärstig</span>
+            <svg class="hg-svg" viewBox="0 0 480 400" focusable="false">
+              <g class="hg-rows">
+                <line x1="58" y1="350" x2="470" y2="350"/><line x1="58" y1="235" x2="470" y2="235"/><line x1="58" y1="125" x2="470" y2="125"/>
+                <text x="10" y="354">ÅK 3</text><text x="10" y="239">ÅK 6</text><text x="10" y="129">ÅK 9</text>
+              </g>
+              <g class="hg-edges">
+                <path d="M90 290 C90 262 128 262 138 235"/>
+                <path d="M212 290 C204 262 166 262 152 235"/>
+                <path d="M226 292 C262 272 292 264 300 237"/>
+                <path d="M148 172 C160 150 214 150 226 127"/>
+                <path d="M292 175 C272 152 250 150 238 127"/>
+                <path d="M306 172 C312 142 372 150 380 127"/>
+              </g>
+              <g class="hg-nodes">
+            <g transform="translate(90 320)"><g class="hg-bob" style="--d:0s">
+              <circle r="30" class="hg-track"/>
+              <circle r="30" class="hg-arc hg-done" stroke-dasharray="188.5 0" transform="rotate(-90)"/>
+              <circle r="20" class="hg-face"/>
+              <text class="hg-glyph" y="8" text-anchor="middle" fill="#425b9a">+</text>
+            </g></g>
+            <g transform="translate(212 320)"><g class="hg-bob" style="--d:0.6s">
+              <circle r="30" class="hg-track"/>
+              <circle r="30" class="hg-arc hg-done" stroke-dasharray="118 70.5" transform="rotate(-90)"/>
+              <circle r="30" class="hg-arc hg-fix" stroke-dasharray="52 136.5" stroke-dashoffset="-124" transform="rotate(-90)"/>
+              <circle r="20" class="hg-face"/>
+              <text class="hg-glyph" y="8" text-anchor="middle" fill="#425b9a">×</text>
+            </g></g>
+            <g transform="translate(145 205)"><g class="hg-bob" style="--d:1.1s">
+              <polygon points="0,-36 31,-18 31,18 0,36 -31,18 -31,-18" class="hg-hex"/>
+              <text class="hg-glyph hg-glyph-sm" y="8" text-anchor="middle" fill="#425b9a">½</text>
+            </g></g>
+            <g transform="translate(300 205)"><g class="hg-bob" style="--d:1.6s">
+              <rect x="-31" y="-31" width="62" height="62" rx="18" class="hg-play"/>
+              <path class="hg-spark" d="M0 -17 L5 -5 L17 0 L5 5 L0 17 L-5 5 L-17 0 L-5 -5 Z"/>
+              <path class="hg-spark hg-spark-sm" d="M17 -19 L19 -14 L24 -12 L19 -10 L17 -5 L15 -10 L10 -12 L15 -14 Z"/>
+            </g></g>
+            <g transform="translate(232 95)"><g class="hg-bob" style="--d:0.3s">
+              <circle r="30" class="hg-pulse"/>
+              <circle r="30" class="hg-track hg-track-next"/>
+              <circle r="30" class="hg-arc hg-fix" stroke-dasharray="70 118.5" transform="rotate(-90)"/>
+              <circle r="20" class="hg-face"/>
+              <text class="hg-glyph" y="8" text-anchor="middle" fill="#8a74c9">x</text>
+            </g></g>
+            <g transform="translate(380 95)"><g class="hg-bob" style="--d:2s">
+              <circle r="30" class="hg-track"/>
+              <circle r="20" class="hg-face"/>
+              <path d="M0 -10 L11 8 L-11 8 Z" class="hg-tri"/>
+            </g></g>
+              </g>
+              <g class="hg-bubble"><g class="hg-bubble-bob">
+                <rect x="178" y="12" width="108" height="30" rx="15"/>
+                <path d="M224 41 L232 52 L240 41 Z"/>
+                <text x="232" y="32" text-anchor="middle">Du är här!</text>
+              </g></g>
+              <g class="hg-chips">
+                <g transform="translate(446 316)"><circle r="17" class="hg-chip"/><text y="7" text-anchor="middle">÷</text></g>
+                <g transform="translate(448 212)"><circle r="15" class="hg-chip hg-chip-soft"/><text y="7" text-anchor="middle">=</text></g>
+                <g transform="translate(36 70)"><circle r="14" class="hg-chip hg-chip-soft"/><text y="7" text-anchor="middle">+</text></g>
+              </g>
+            </svg>
+            <span class="hg-pill hg-pill-a">✓ 3 klara</span>
+            <span class="hg-pill hg-pill-b">! 1 att rätta</span>
           </div>
-          <span class="hero-small-note">förståelse före genvägar</span>
         </div>
       </section>
 
@@ -74,29 +136,35 @@
             <h2 id="path-title">Matematiken bygger vidare.</h2>
             <p class="section-description">Utforska sambanden eller börja var du vill. Följ pilarna för att se hur idéerna bygger på varandra.</p>
           </div>
-          <span class="grade-range">ÅK 3 <span aria-hidden="true">→</span> GYMNASIET ÅK 3</span>
         </div>
-        <div class="next-card" id="next-card" hidden aria-live="polite"></div>
-        <div class="area-filters" id="area-filters" aria-label="Filtrera efter matematikområde"></div>
-        <div class="graph-heading">
-          <div>
-            <h3>Lärandegraf</h3>
-            <p>Lektionerna är ordnade efter ungefär vilken årskurs de brukar tas upp i, uppifrån och ned. Alla är öppna att börja med. Ringen runt varje nod visar hur många uppgifter du klarat – och vilka som behöver rättas. Linjerna visar användbara förkunskaper, inte låsta nivåer.</p>
+        <div class="next-card path-card" id="next-card" hidden aria-live="polite"></div>
+        <div class="map-toggle-row" id="map-toggle-row" hidden>
+          <button type="button" class="secondary-button map-toggle" id="map-toggle" aria-expanded="false" aria-controls="full-map">🗺️ Visa hela kartan</button>
+          <span class="map-toggle-hint">Vill du välja själv? Öppna kartan och välj vilken lektion du vill.</span>
+        </div>
+        <div class="full-map" id="full-map">
+          <div class="area-filters" id="area-filters" aria-label="Filtrera efter matematikområde"></div>
+          <div class="graph-heading">
+            <div>
+              <h3>Lärandegraf</h3>
+              <p>Lektionerna är ordnade efter ungefär vilken årskurs de brukar tas upp i, uppifrån och ned. Alla är öppna att börja med. Ringen runt varje nod visar hur många uppgifter du klarat – och vilka som behöver rättas. Linjerna visar användbara förkunskaper, inte låsta nivåer.</p>
+            </div>
+            <span class="graph-key" aria-label="Teckenförklaring">
+              <span class="graph-key-item"><i class="gk-dot is-done"></i> klar</span>
+              <span class="graph-key-item"><i class="gk-dot is-fix"></i> behöver rättas</span>
+              <span class="graph-key-item"><i class="gk-dot is-todo"></i> ej gjord</span>
+              <span class="graph-key-item"><i class="gk-shape gk-lesson"></i> lektion</span>
+              <span class="graph-key-item"><i class="gk-shape gk-unit"></i> kapitel</span>
+              <span class="graph-key-item"><i class="gk-shape gk-step"></i> delmoment</span>
+              <span class="graph-key-item"><i class="gk-shape gk-play"></i> pyssla</span>
+            <span class="graph-key-item"><i class="gk-shape gk-term"></i> begrepp</span>
+            </span>
           </div>
-          <span class="graph-key" aria-label="Teckenförklaring">
-            <span class="graph-key-item"><i class="gk-dot is-done"></i> klar</span>
-            <span class="graph-key-item"><i class="gk-dot is-fix"></i> behöver rättas</span>
-            <span class="graph-key-item"><i class="gk-dot is-todo"></i> ej gjord</span>
-            <span class="graph-key-item"><i class="gk-shape gk-lesson"></i> lektion</span>
-            <span class="graph-key-item"><i class="gk-shape gk-unit"></i> kapitel</span>
-            <span class="graph-key-item"><i class="gk-shape gk-step"></i> delmoment</span>
-            <span class="graph-key-item"><i class="gk-shape gk-play"></i> pyssla</span>
-          </span>
+          <div class="graph-viewport" id="graph-viewport" tabindex="0" aria-label="Lärandegraf. Lektionerna ordnas uppifrån och ned efter förkunskaper.">
+            <div class="graph-canvas" id="lesson-graph"></div>
+          </div>
+          <p class="graph-help">Välj vilken nod som helst för att öppna lektionen. Ett kapitel (sexhörning) samlar flera delmoment. Följ linjerna nedåt om du vill lära dig i en föreslagen ordning.</p>
         </div>
-        <div class="graph-viewport" id="graph-viewport" tabindex="0" aria-label="Lärandegraf. Lektionerna ordnas uppifrån och ned efter förkunskaper.">
-          <div class="graph-canvas" id="lesson-graph"></div>
-        </div>
-        <p class="graph-help">Välj vilken nod som helst för att öppna lektionen. Ett kapitel (sexhörning) samlar flera delmoment. Följ linjerna nedåt om du vill lära dig i en föreslagen ordning.</p>
         <p class="progress-notice" id="progress-notice" aria-live="polite"></p>
         <article class="lesson-panel" id="lesson-panel" aria-live="polite"></article>
       </section>
@@ -123,7 +191,7 @@
 
     <footer class="footer">
       <a class="wordmark footer-wordmark" href="#start"><img class="wordmark-mark" src="./logo.svg" alt="" width="28" height="28"><span>Gauss<span class="wordmark-light">ica</span></span></a>
-      <p>Byggd för att förstå — inte bara räkna ut.</p>
+      <p>Byggd för att förstå, inte bara räkna ut.</p>
       <div class="footer-links">
         <a href="#admin" class="footer-admin-link" hidden>Lärarvy &amp; statistik 📊</a>
         <button type="button" class="footer-privacy" id="footer-privacy">Integritet</button>

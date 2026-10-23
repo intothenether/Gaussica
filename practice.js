@@ -26,7 +26,7 @@ window.GaussicaPractice = (function () {
 
   function templates(lesson) {
     return (lesson && Array.isArray(lesson.practice) ? lesson.practice : []).filter(function (t) {
-      return t && t.id && t.prompt && Array.isArray(t.answer) && t.answer.length;
+      return t && t.id && ((t.prompt && Array.isArray(t.answer) && t.answer.length) || (Array.isArray(t.pool) && t.pool.length >= 2));
     });
   }
 
@@ -85,8 +85,61 @@ window.GaussicaPractice = (function () {
     return value;
   }
 
+  // A string that starts with "=" is a formula, so the equals sign itself as an answer ("=") needs protecting.
+  const GUARD = "\u0001";
+  function guard(value) {
+    if (typeof value === "string") return value === "=" ? GUARD + "=" : value;
+    if (Array.isArray(value)) return value.map(guard);
+    if (value && typeof value === "object") {
+      const o = {};
+      Object.keys(value).forEach(function (k) { o[k] = guard(value[k]); });
+      return o;
+    }
+    return value;
+  }
+  function unguard(value) {
+    if (typeof value === "string") return value === GUARD + "=" ? "=" : value;
+    if (Array.isArray(value)) return value.map(unguard);
+    if (value && typeof value === "object") {
+      const o = {};
+      Object.keys(value).forEach(function (k) { o[k] = unguard(value[k]); });
+      return o;
+    }
+    return value;
+  }
+
+  // Terms and explanations ("begrepp"): template.pool = [{ term, definition, alt: [other accepted spellings] }].
+  //   mode "koppla" (default): a matching round with template.size pairs
+  //   mode "fraga": one explanation, the student writes the term
+  function buildFromPool(template, seed) {
+    const rand = rng(seed);
+    const pool = template.pool.slice();
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      const t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    if (template.mode === "fraga") {
+      const p = pool[0];
+      return {
+        prompt: (template.prompt || "Vilket begrepp passar förklaringen? Skriv begreppet.") + " ”" + p.definition + "”",
+        answer: [p.term].concat(p.alt || []),
+        correct: "Rätt! " + p.term.charAt(0).toUpperCase() + p.term.slice(1) + ": " + p.definition,
+        feedback: []
+      };
+    }
+    const size = Math.max(2, Math.min(template.size || 4, pool.length));
+    return {
+      prompt: template.prompt || "Para ihop varje begrepp med rätt förklaring.",
+      pairs: pool.slice(0, size).map(function (p) { return { term: p.term, definition: p.definition }; }),
+      answer: ["alla par rätt"],
+      correct: template.correct || "Alla begrepp är rätt ihopparade!",
+      feedback: []
+    };
+  }
+
   // Builds one question from a template and a seed. Returns null if the numbers can't be made to fit.
   function build(template, seed) {
+    if (Array.isArray(template.pool)) return buildFromPool(template, seed);
     const py = P();
     if (!py) return null;
     const rand = rng(seed);
@@ -111,7 +164,7 @@ window.GaussicaPractice = (function () {
         prompt: template.prompt, answer: template.answer, correct: template.correct || "Rätt!",
         feedback: template.feedback || [], visual: template.visual, visuals: template.visuals
       }, picks);
-      const r = py.resolve(filled, scope);
+      const r = unguard(py.resolve(guard(filled), scope));
       const answer = stringsOf(r.answer);
       if (!answer.length || answer.indexOf("?") >= 0) continue;
       const feedback = [];
@@ -120,6 +173,8 @@ window.GaussicaPractice = (function () {
         if (answers.length && f.message) feedback.push({ answers: answers, message: f.message });
       });
       const problem = { prompt: r.prompt, answer: answer, correct: r.correct, feedback: feedback };
+      if (typeof template.allowExpression === "boolean") problem.allowExpression = template.allowExpression;
+      if (Array.isArray(template.keys)) problem.keys = template.keys;
       if (r.visual) problem.visual = r.visual;
       if (r.visuals) problem.visuals = r.visuals;
       if (/NaN|undefined/.test(JSON.stringify(problem)) || /\{|\}/.test(problem.prompt)) continue;

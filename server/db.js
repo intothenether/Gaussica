@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 function open(dbPath) {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -69,6 +69,34 @@ function migrate(db) {
         key   TEXT PRIMARY KEY,
         value TEXT NOT NULL
       );
+    `);
+  }
+  if (version < 2) {
+    db.exec(`
+      CREATE TABLE assignments (
+        id         INTEGER PRIMARY KEY,
+        class_id   INTEGER NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+        student_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        teacher_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        lesson_id  TEXT NOT NULL,
+        note       TEXT NOT NULL DEFAULT '',
+        due_date   TEXT,
+        created_at TEXT NOT NULL,
+        archived   INTEGER NOT NULL DEFAULT 0
+      );
+      CREATE INDEX assignments_class ON assignments (class_id, archived);
+      CREATE TABLE feedback (
+        id         INTEGER PRIMARY KEY,
+        student_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        teacher_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        lesson_id  TEXT,
+        task_id    TEXT,
+        text       TEXT NOT NULL DEFAULT '',
+        sticker    TEXT,
+        created_at TEXT NOT NULL,
+        read_at    TEXT
+      );
+      CREATE INDEX feedback_student ON feedback (student_id, created_at);
     `);
   }
   db.exec("PRAGMA user_version = " + SCHEMA_VERSION);

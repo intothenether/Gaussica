@@ -1,0 +1,157 @@
+{
+  "id": "multiplikationstabellen",
+  "area": "tal",
+  "title": "Multiplikationstabellen",
+  "level": "Tabellerna 2–10 · ungefär åk 3–4",
+  "grade": 3,
+  "duration": "8 min",
+  "prerequisites": ["multiplikation"],
+  "summary": "Multiplikationstabellen visar vad lika stora grupper blir. Med mönster och knep lär du dig tabellerna snabbare.",
+  "explanationTitle": "Tabellerna hänger ihop",
+  "explanation": "4 · 6 betyder 4 grupper med 6 i varje, alltså 24. Det går lika bra att räkna 6 · 4, för ordningen spelar ingen roll. Därför behöver du bara lära dig hälften av tabellen. Mönster hjälper också: tvåans tabell är dubbelt så mycket, femmans tabell slutar alltid på 5 eller 0 och i tians tabell sätter du bara en nolla efter talet. Nians tabell är en tia minus ett: 9 · 6 är 10 · 6 − 6 = 54.",
+  "visual": {
+    "type": "talrutnat",
+    "title": "Femmans tabell: 5, 10, 15, … slutar alltid på 5 eller 0",
+    "from": 1,
+    "to": 50,
+    "columns": 10,
+    "highlight": {"multiplesOf":5}
+  },
+  "rule": "a · b = b · a",
+  "ruleLabel": "ORDNINGEN SPELAR INGEN ROLL",
+  "example": "3 · 7 = 21 och 7 · 3 = 21. Kan du sjuans tabell kan du också 3 · 7.",
+  "practice": [
+    {
+      "id": "tabell",
+      "for": ["exercise"],
+      "vars": {"a":[3,10],"b":[3,10]},
+      "derive": [{"name":"p","expr":"a*b"}],
+      "prompt": "Vad är {a} · {b}?",
+      "answer": ["=p"],
+      "correct": "Rätt! {a} · {b} = {p}.",
+      "feedback": [
+        {
+          "answers": ["=a+b"],
+          "message": "{a + b} är {a} + {b}. Multiplikation betyder {a} grupper med {b} i varje."
+        },
+        {
+          "answers": ["=p-a","=p+a","=p-b","=p+b"],
+          "message": "Nästan! Räkna ut {a} · {b-1} och lägg till en grupp till om du är osäker."
+        }
+      ]
+    },
+    {
+      "id": "byt-plats",
+      "for": ["word-0"],
+      "vars": {"a":[3,9],"b":[3,9]},
+      "where": [{"expr":"abs(a-b)","min":1}],
+      "derive": [{"name":"p","expr":"a*b"}],
+      "prompt": "Du vet att {a} · {b} = {p}. Vad är {b} · {a}?",
+      "answer": ["=p"],
+      "correct": "Rätt! Ordningen spelar ingen roll: {b} · {a} = {p}.",
+      "feedback": [
+        {
+          "answers": ["=a+b"],
+          "message": "Tänk på att ordningen inte spelar någon roll. {b} · {a} är lika mycket som {a} · {b}."
+        }
+      ]
+    },
+    {
+      "id": "saknad-faktor",
+      "for": ["word-2"],
+      "vars": {"a":[3,9],"b":[3,10]},
+      "derive": [{"name":"p","expr":"a*b"}],
+      "prompt": "Vilket tal ska stå i rutan: {a} · □ = {p}?",
+      "answer": ["=b"],
+      "correct": "Rätt! {a} · {b} = {p}.",
+      "feedback": [
+        {
+          "answers": ["=p+a","=p-a","=p"],
+          "message": "Gör tvärtom: vilket tal gånger {a} blir {p}? Prova dig fram i {a}-tabellen."
+        }
+      ]
+    },
+    {
+      "id": "pasar",
+      "for": ["word-0"],
+      "pick": {
+        "namn": ["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"],
+        "sak": ["kulor","kort","pärlor","klistermärken"]
+      },
+      "vars": {"a":[3,10],"b":[3,10]},
+      "derive": [{"name":"p","expr":"a*b"}],
+      "prompt": "{$namn} har {a} påsar med {b} {$sak} i varje. Hur många {$sak} har {$namn} sammanlagt?",
+      "answer": ["=p"],
+      "correct": "Rätt! {a} · {b} = {p}.",
+      "feedback": [
+        {
+          "answers": ["=a+b"],
+          "message": "Du lade ihop antalen. Det är {a} påsar med {b} i varje, så du ska multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "tians-tabell",
+      "for": ["word-1"],
+      "vars": {"a":[3,12]},
+      "derive": [{"name":"p","expr":"a*10"}],
+      "prompt": "Vad är {a} · 10?",
+      "answer": ["=p"],
+      "correct": "Rätt! I tians tabell sätter du en nolla efter talet: {p}.",
+      "feedback": [
+        {
+          "answers": ["=a+10"],
+          "message": "Du lade ihop. {a} · 10 betyder {a} grupper med 10, alltså {a} tior."
+        },
+        {"answers":["=a*100"],"message":"Nästan! En nolla räcker: {a} tior är {a} med en nolla efter."}
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad är 7 · 8?",
+    "answer": ["56"],
+    "correct": "Rätt! 7 · 8 = 56. Ett knep: 7 · 7 = 49 och 49 + 7 = 56.",
+    "feedback": [
+      {
+        "answers": ["15"],
+        "message": "15 är 7 + 8. Multiplikation betyder 7 grupper med 8 i varje, inte att lägga ihop talen."
+      },
+      {
+        "answers": ["54","63","48","49"],
+        "message": "Nästan! Ta ett tal du kan, till exempel 7 · 7 = 49, och lägg till en grupp till."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En äggkartong rymmer 6 ägg. Hur många ägg finns det i 9 kartonger?",
+      "answer": ["54"],
+      "correct": "Rätt! 9 · 6 = 54. Nians tabell: 10 · 6 − 6 = 60 − 6 = 54.",
+      "feedback": [
+        {
+          "answers": ["15"],
+          "message": "15 är 6 + 9. Det är 9 kartonger med 6 ägg i varje, så du ska multiplicera."
+        },
+        {"answers":["45","63"],"message":"Nästan! Kolla tabellen igen: 9 · 6 = 10 · 6 − 6."}
+      ]
+    },
+    {
+      "prompt": "Fem kompisar får 8 kort var. Hur många kort delas ut sammanlagt?",
+      "answer": ["40"],
+      "correct": "Rätt! 5 · 8 = 40. Femmans tabell slutar på 0 eller 5.",
+      "feedback": [
+        {"answers":["13"],"message":"13 är 5 + 8. Varje kompis får 8 kort, och det är 5 kompisar."},
+        {"answers":["45","35"],"message":"Nästan! Femmans tabell: 5, 10, 15, 20, 25, 30, 35, 40."}
+      ]
+    },
+    {
+      "prompt": "Vilket tal ska stå i rutan: 6 · □ = 42?",
+      "answer": ["7"],
+      "correct": "Rätt! 6 · 7 = 42.",
+      "feedback": [
+        {"answers":["36"],"message":"6 · 6 = 36. Prova ett tal till: vad gånger 6 blir 42?"},
+        {"answers":["48"],"message":"6 · 8 = 48. Det är för mycket. Prova ett tal mindre."}
+      ]
+    }
+  ]
+}

@@ -21,7 +21,7 @@
   },
   "rule": "Gör tvärtom: + blir −, · blir ÷",
   "ruleLabel": "RÄKNA BAKLÄNGES",
-  "example": "x + 3 = 10 → x = 10 − 3 = 7. Och 3 · x = 12 → x = 12 ÷ 3 = 4.",
+  "example": "x + 3 = 10 → x = 10 − 3 = 7. Och 3 · x = 12 → x = 12/3 = 4.",
   "practice": [
     {
       "id": "plus",
@@ -55,7 +55,7 @@
       "derive": [{"name":"p","expr":"a*x"}],
       "prompt": "Vad är x om {a} · x = {p}?",
       "answer": ["=x","x={x}","x = {x}"],
-      "correct": "Rätt! {p} ÷ {a} = {x}.",
+      "correct": "Rätt! {p}/{a} = {x}.",
       "feedback": [{"answers":["=a*p"],"message":"Du har multiplicerat. Gör tvärtom: dela {p} med {a}."}]
     },
     {
@@ -77,7 +77,7 @@
       "derive": [{"name":"p","expr":"n*x"}],
       "prompt": "Det ligger x {$sak} i varje påse. {n} påsar innehåller sammanlagt {p} {$sak}. Hur många ligger i en påse?",
       "answer": ["=x","x={x}","x = {x}"],
-      "correct": "Rätt! {n} · x = {p}, så x = {p} ÷ {n} = {x}.",
+      "correct": "Rätt! {n} · x = {p}, så x = {p}/{n} = {x}.",
       "feedback": [
         {
           "answers": ["=n*p"],
@@ -124,7 +124,7 @@
     {
       "prompt": "Det ligger x godisbitar i varje påse. Tre påsar innehåller sammanlagt 18 godisbitar. Hur många godisbitar ligger i en påse?",
       "answer": ["6", "x=6", "x = 6"],
-      "correct": "Ja! 3 · x = 18, så x = 18 ÷ 3 = 6.",
+      "correct": "Ja! 3 · x = 18, så x = 18/3 = 6.",
       "feedback": [
         { "answers": ["54"], "message": "Du har multiplicerat 3 och 18. Men 18 är totalen för alla tre påsar. Dela den lika på 3 påsar." },
         { "answers": ["15"], "message": "Påsarna är likadana, så det handlar om att dela upp 18 lika, inte att ta bort 3." }

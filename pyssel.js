@@ -211,7 +211,9 @@ window.GaussicaPyssel = (function () {
   function el(tag, className, text) {
     const e = document.createElement(tag);
     if (className) e.className = className;
-    if (text !== undefined) e.textContent = text;
+    if (text !== undefined) {
+      if (window.GaussicaText) window.GaussicaText.set(e, text); else e.textContent = text;
+    }
     return e;
   }
 
@@ -348,7 +350,7 @@ window.GaussicaPyssel = (function () {
         if (r.when && !holds(resolve(r.when, s), s)) return;
         const li = el("li", "py-readout");
         if (r.label) li.appendChild(el("strong", "", r.label + ": "));
-        li.appendChild(document.createTextNode(resolve(r.text, s)));
+        li.appendChild(el("span", "", resolve(r.text, s)));
         readouts.appendChild(li);
       });
       goals.forEach(function (g) {

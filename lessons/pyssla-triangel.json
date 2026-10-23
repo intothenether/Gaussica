@@ -51,7 +51,7 @@
           "text": "Rektangeln: {b} · {h} = {b*h} cm²."
         },
         {
-          "text": "Triangeln är hälften: {b*h} ÷ 2 = {b*h/2} cm²."
+          "text": "Triangeln är hälften: {b*h}/2 = {b*h/2} cm²."
         }
       ],
       "goals": [
@@ -96,7 +96,7 @@
       "18 cm2",
       "18 cm²"
     ],
-    "correct": "Rätt! (9 · 4) ÷ 2 = 18 cm².",
+    "correct": "Rätt! (9 · 4)/2 = 18 cm².",
     "feedback": [
       {
         "answers": [
@@ -129,7 +129,7 @@
         "lika stor",
         "båda"
       ],
-      "correct": "Rätt! Arean beror bara på basen och höjden: båda är (8 · 6) ÷ 2 = 24 cm².",
+      "correct": "Rätt! Arean beror bara på basen och höjden: båda är (8 · 6)/2 = 24 cm².",
       "feedback": [
         {
           "answers": [
@@ -167,13 +167,13 @@
       "answer": [
         "10"
       ],
-      "correct": "Rätt! Bas · höjd = 2 · 30 = 60, så basen är 60 ÷ 6 = 10 cm.",
+      "correct": "Rätt! Bas · höjd = 2 · 30 = 60, så basen är 60/6 = 10 cm.",
       "feedback": [
         {
           "answers": [
             "5"
           ],
-          "message": "5 är 30 ÷ 6, men arean är hälften av bas · höjd. Bas · höjd är 60."
+          "message": "5 är 30/6, men arean är hälften av bas · höjd. Bas · höjd är 60."
         },
         {
           "answers": [

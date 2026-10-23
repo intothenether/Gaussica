@@ -108,7 +108,7 @@
       },
       "readouts": [
         {
-          "text": "{p} % av {y} = {y} · {p} ÷ 100 = {del}"
+          "text": "{p} % av {y} = {y} · {p}/100 = {del}"
         }
       ],
       "goals": [
@@ -176,7 +176,7 @@
         "30",
         "30 kr"
       ],
-      "correct": "Rätt! 150 · 20 ÷ 100 = 30 kr.",
+      "correct": "Rätt! 150 · 20/100 = 30 kr.",
       "feedback": [
         {
           "answers": [

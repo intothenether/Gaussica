@@ -1,0 +1,187 @@
+{
+  "id": "begrepp-koordinat",
+  "kind": "begrepp",
+  "area": "geometri",
+  "title": "Begrepp: koordinatsystem",
+  "level": "Begrepp · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": ["koordinatsystem"],
+  "summary": "Axlar, origo och koordinater: orden som beskriver var en punkt ligger.",
+  "explanationTitle": "Orden i koordinatsystemet",
+  "explanation": "Ett koordinatsystem har egna ord. De två tallinjerna heter axlar och mötespunkten heter origo. Talen som beskriver var en punkt ligger kallas koordinater. Läs begreppskorten och visa sedan att du kan koppla ihop dem.",
+  "components": [
+    {
+      "type": "begreppskort",
+      "title": "Begreppen",
+      "intro": "Läs varje kort. Sedan ska du para ihop begreppen med rätt förklaring.",
+      "cards": [
+        {
+          "term": "koordinatsystem",
+          "definition": "Ett rutnät med två tallinjer som visar var punkter ligger.",
+          "example": "Ett koordinatsystem liknar en karta med rutor."
+        },
+        {
+          "term": "x-axeln",
+          "definition": "Den vågräta tallinjen i ett koordinatsystem.",
+          "example": "Du går längs x-axeln när du går åt höger."
+        },
+        {
+          "term": "y-axeln",
+          "definition": "Den lodräta tallinjen i ett koordinatsystem.",
+          "example": "Du går längs y-axeln när du går uppåt."
+        },
+        {
+          "term": "origo",
+          "definition": "Punkten där axlarna möts. Dess koordinater är (0, 0).",
+          "example": "Origo är startpunkten när du läser av koordinater."
+        },
+        {
+          "term": "koordinater",
+          "definition": "De två talen som beskriver var en punkt ligger, skrivna (x, y).",
+          "example": "Punkten (3, 2) har koordinaterna 3 och 2."
+        },
+        {"term":"vågrät","definition":"Åt sidorna, som horisonten.","example":"x-axeln är vågrät."},
+        {"term":"lodrät","definition":"Rakt upp och ned, som en flaggstång.","example":"y-axeln är lodrät."},
+        {
+          "term": "punkt",
+          "definition": "En exakt plats utan storlek, som du markerar med en prick.",
+          "example": "Punkt A ligger i (3, 2)."
+        }
+      ]
+    },
+    {
+      "type": "koppla",
+      "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
+      "pairs": [
+        {"term":"koordinatsystem","definition":"Ett rutnät med två tallinjer som visar var punkter ligger."},
+        {"term":"x-axeln","definition":"Den vågräta tallinjen i ett koordinatsystem."},
+        {"term":"y-axeln","definition":"Den lodräta tallinjen i ett koordinatsystem."},
+        {"term":"origo","definition":"Punkten där axlarna möts. Dess koordinater är (0, 0)."}
+      ]
+    },
+    {
+      "type": "koppla",
+      "prompt": "Para ihop begreppen med rätt förklaring (del 2).",
+      "pairs": [
+        {
+          "term": "koordinater",
+          "definition": "De två talen som beskriver var en punkt ligger, skrivna (x, y)."
+        },
+        {"term":"vågrät","definition":"Åt sidorna, som horisonten."},
+        {"term":"lodrät","definition":"Rakt upp och ned, som en flaggstång."},
+        {"term":"punkt","definition":"En exakt plats utan storlek, som du markerar med en prick."}
+      ]
+    }
+  ],
+  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "practice": [
+    {
+      "id": "koppla",
+      "for": ["match-1","match-2"],
+      "mode": "koppla",
+      "size": 4,
+      "prompt": "Para ihop begreppen med rätt förklaring.",
+      "pool": [
+        {"term":"koordinatsystem","definition":"Ett rutnät med två tallinjer som visar var punkter ligger."},
+        {"term":"x-axeln","definition":"Den vågräta tallinjen i ett koordinatsystem."},
+        {"term":"y-axeln","definition":"Den lodräta tallinjen i ett koordinatsystem."},
+        {"term":"origo","definition":"Punkten där axlarna möts. Dess koordinater är (0, 0)."},
+        {
+          "term": "koordinater",
+          "definition": "De två talen som beskriver var en punkt ligger, skrivna (x, y)."
+        },
+        {"term":"vågrät","definition":"Åt sidorna, som horisonten."},
+        {"term":"lodrät","definition":"Rakt upp och ned, som en flaggstång."},
+        {"term":"punkt","definition":"En exakt plats utan storlek, som du markerar med en prick."}
+      ]
+    },
+    {
+      "id": "fraga",
+      "for": ["exercise","word-0","word-1"],
+      "mode": "fraga",
+      "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
+      "pool": [
+        {
+          "term": "koordinatsystem",
+          "definition": "Ett rutnät med två tallinjer som visar var punkter ligger.",
+          "alt": []
+        },
+        {
+          "term": "x-axeln",
+          "definition": "Den vågräta tallinjen i ett koordinatsystem.",
+          "alt": ["x-axel","xaxeln","x axeln"]
+        },
+        {
+          "term": "y-axeln",
+          "definition": "Den lodräta tallinjen i ett koordinatsystem.",
+          "alt": ["y-axel","yaxeln","y axeln"]
+        },
+        {
+          "term": "origo",
+          "definition": "Punkten där axlarna möts. Dess koordinater är (0, 0).",
+          "alt": ["origon"]
+        },
+        {
+          "term": "koordinater",
+          "definition": "De två talen som beskriver var en punkt ligger, skrivna (x, y).",
+          "alt": ["koordinaterna","koordinat"]
+        },
+        {"term":"vågrät","definition":"Åt sidorna, som horisonten.","alt":["vågrätt","horisontell"]},
+        {"term":"lodrät","definition":"Rakt upp och ned, som en flaggstång.","alt":["lodrätt","vertikal"]},
+        {
+          "term": "punkt",
+          "definition": "En exakt plats utan storlek, som du markerar med en prick.",
+          "alt": ["punkten"]
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad kallas punkten där axlarna möts, (0, 0)? Skriv begreppet.",
+    "answer": ["origo","origon"],
+    "correct": "Rätt! Origo: Punkten där axlarna möts. Dess koordinater är (0, 0).",
+    "feedback": [
+      {
+        "answers": ["x-axeln","x-axel","xaxeln","x axeln"],
+        "message": "X-axeln betyder: Den vågräta tallinjen i ett koordinatsystem. Det är inte det som frågas. Läs begreppskorten igen."
+      },
+      {
+        "answers": ["koordinater","koordinaterna","koordinat"],
+        "message": "Koordinater betyder: De två talen som beskriver var en punkt ligger, skrivna (x, y). Det är inte det som frågas. Läs begreppskorten igen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vad kallas den vågräta tallinjen i ett koordinatsystem? Skriv begreppet.",
+      "answer": ["x-axeln","x-axel","xaxeln","x axeln"],
+      "correct": "Rätt! X-axeln: Den vågräta tallinjen i ett koordinatsystem.",
+      "feedback": [
+        {
+          "answers": ["y-axeln","y-axel","yaxeln","y axeln"],
+          "message": "Y-axeln betyder: Den lodräta tallinjen i ett koordinatsystem. Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": ["origo","origon"],
+          "message": "Origo betyder: Punkten där axlarna möts. Dess koordinater är (0, 0). Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    },
+    {
+      "prompt": "De två talen (3, 5) beskriver var en punkt ligger. Vad kallas de? Skriv begreppet.",
+      "answer": ["koordinater","koordinaterna","koordinat"],
+      "correct": "Rätt! Koordinater: De två talen som beskriver var en punkt ligger, skrivna (x, y).",
+      "feedback": [
+        {
+          "answers": ["origo","origon"],
+          "message": "Origo betyder: Punkten där axlarna möts. Dess koordinater är (0, 0). Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": ["x-axeln","x-axel","xaxeln","x axeln"],
+          "message": "X-axeln betyder: Den vågräta tallinjen i ett koordinatsystem. Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    }
+  ]
+}

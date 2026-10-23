@@ -11,7 +11,7 @@
   "explanation": "Ekvationen 3x + 2 = 14 säger att vänster och höger sida väger lika. Börja med att ta bort 2 från båda sidor. Dela sedan båda sidor med 3 för att hitta x.",
   "rule": "3x + 2 = 14  →  3x = 12  →  x = 4",
   "ruleLabel": "BALANSPRINCIPEN",
-  "example": "Om du bara ändrar ena sidan är balansen bruten — precis som en våg som bara får en extra vikt på ena sidan.",
+  "example": "Om du bara ändrar ena sidan är balansen bruten, precis som en våg som bara får en extra vikt på ena sidan.",
   "practice": [
     {
       "id": "ax-plus-b",
@@ -20,7 +20,7 @@
       "derive": [{"name":"s","expr":"a*x+b"}],
       "prompt": "Lös ekvationen: {a}x + {b} = {s}. Vad är x?",
       "answer": ["=x","x={x}","x = {x}"],
-      "correct": "Rätt! {s} − {b} = {s-b}, och {s-b} ÷ {a} = {x}.",
+      "correct": "Rätt! {s} − {b} = {s-b}, och {s-b}/{a} = {x}.",
       "feedback": [
         {
           "answers": ["=s-b"],
@@ -37,7 +37,7 @@
       "derive": [{"name":"s","expr":"a*x-b"}],
       "prompt": "Lös ekvationen: {a}x − {b} = {s}. Vad är x?",
       "answer": ["=x","x={x}","x = {x}"],
-      "correct": "Rätt! {s} + {b} = {s+b}, och {s+b} ÷ {a} = {x}.",
+      "correct": "Rätt! {s} + {b} = {s+b}, och {s+b}/{a} = {x}.",
       "feedback": [{"answers":["=s-b"],"message":"Gör tvärtom mot minus: lägg till {b} på båda sidor först."}]
     },
     {
@@ -47,7 +47,7 @@
       "derive": [{"name":"s","expr":"a*x+b"}],
       "prompt": "{a} likadana böcker och ett radergummi för {b} kr kostar tillsammans {s} kr. Vad kostar en bok?",
       "answer": ["=x","{x} kr"],
-      "correct": "Rätt! {s} − {b} = {s-b} kr, och {s-b} ÷ {a} = {x} kr.",
+      "correct": "Rätt! {s} − {b} = {s-b} kr, och {s-b}/{a} = {x} kr.",
       "feedback": [
         {"answers":["=s-b"],"message":"{s-b} kr är priset för alla böckerna tillsammans. Dela med {a}."},
         {"answers":["=s/a"],"message":"Radergummit ska också dras bort först."}
@@ -60,7 +60,7 @@
     "correct": "Just det! Subtrahera 2 från båda sidor och dela sedan med 3: x = 4.",
     "feedback": [
       { "answers": ["12"], "message": "Du tog bort 2 från 14 och fick 12. Bra start! Men 3x betyder 3 gånger x. Vilket tal gånger 3 blir 12?" },
-      { "answers": ["16"], "message": "Det ser ut som att 2 lades till i stället för att tas bort. För att få 3x ensamt behöver du göra motsatsen — på båda sidor." },
+      { "answers": ["16"], "message": "Det ser ut som att 2 lades till i stället för att tas bort. För att få 3x ensamt behöver du göra motsatsen på båda sidor." },
       { "answers": ["3", "12/3"], "message": "Fundera på vad som behöver hända med 3x för att x ska stå ensamt. Hur påverkar det båda sidor?" }
     ]
   },

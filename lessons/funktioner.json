@@ -6,7 +6,7 @@
   "grade": 8,
   "duration": "6 min",
   "prerequisites": ["ekvation"],
-  "summary": "En funktion visar hur ett värde förändras när ett annat värde ändras — som en regel mellan in och ut.",
+  "summary": "En funktion visar hur ett värde förändras när ett annat värde ändras, som en regel mellan in och ut.",
   "explanationTitle": "En regel som kopplar ihop två värden",
   "explanation": "I funktionen y = 2x + 1 ger varje värde på x precis ett värde på y. Om x ökar med 1 ökar y med 2. Talet framför x berättar hur snabbt sambandet förändras.",
   "rule": "x = 3  →  y = 2 · 3 + 1 = 7",
@@ -48,7 +48,7 @@
       "derive": [{"name":"y","expr":"k*x+m"}],
       "prompt": "I funktionen y = {k}x + {m} är y = {y}. Vad är x?",
       "answer": ["=x"],
-      "correct": "Rätt! {y} − {m} = {y-m} och {y-m} ÷ {k} = {x}.",
+      "correct": "Rätt! {y} − {m} = {y-m} och {y-m}/{k} = {x}.",
       "feedback": [
         {"answers":["=y/k"],"message":"Ta bort {m} först och dela sedan med {k}."},
         {"answers":["=y-m"],"message":"Nästan! {y-m} är {k}x. Dela med {k} för att få x."}
@@ -60,7 +60,7 @@
     "answer": ["9"],
     "correct": "Rätt! 2 · 4 + 1 = 9.",
     "feedback": [
-      { "answers": ["8"], "message": "Du multiplicerade 2 med 4. Titta på uttrycket en gång till — vilken liten del återstår också?" },
+      { "answers": ["8"], "message": "Du multiplicerade 2 med 4. Titta på uttrycket en gång till. Vilken liten del återstår också?" },
       { "answers": ["6"], "message": "Prova att sätta in 4 där x står: först 2 gånger 4, sedan plus 1. Vad blir summan?" }
     ]
   },

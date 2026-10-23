@@ -51,3 +51,14 @@ Sätt `apiBase: "http://localhost:8787"` och lägg sidans adress i `ALLOWED_ORIG
 - Cloudflares gratisplan har dagliga gränser för läsningar och skrivningar i D1. Går ni över dem ger API:t fel tills nästa dygn börjar (klockan 00 UTC). Datan finns kvar.
 - Kontrollera Cloudflares aktuella villkor om du tänker använda sidan kommersiellt.
 - Databasen innehåller elevers namn och svar. `--jurisdiction eu` håller datan i EU. Ange i en kort integritetstext vad som sparas och vem som kan se det.
+
+## Uppdatera en redan driftsatt databas
+
+När nya tabeller tillkommer (till exempel uppdrag och meddelanden) kör du, i den här mappen:
+
+```bash
+npx wrangler d1 execute gaussica --remote --file=schema.sql
+npx wrangler deploy
+```
+
+`schema.sql` kan köras om utan att något förstörs: tabeller och index skapas bara om de saknas.

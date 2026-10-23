@@ -78,5 +78,36 @@ window.GaussicaPrivacy = (function () {
   const footer = document.getElementById("footer-privacy");
   if (footer) footer.addEventListener("click", open);
 
+  // ----- cookie notice -----
+  // The site sets no tracking or advertising cookies, only what is needed to stay signed in, so this is a
+  // short notice with one button. The choice is remembered in the browser.
+  const NOTICE_KEY = "gaussica.cookies-ok";
+
+  function noticeSeen() {
+    try { return window.localStorage.getItem(NOTICE_KEY) === "1"; } catch (e) { return false; }
+  }
+
+  function showCookieNotice() {
+    if (noticeSeen() || document.getElementById("cookie-notice")) return;
+    const box = el("section", "cookie-notice");
+    box.id = "cookie-notice";
+    box.setAttribute("role", "region");
+    box.setAttribute("aria-label", "Om cookies");
+    box.appendChild(el("h2", "", "🍪 Om cookies"));
+    box.appendChild(el("p", "", "Vi använder bara det som behövs för att du ska kunna logga in och för att sidan ska fungera. Ingen spårning och inga reklamcookies."));
+    const actions = el("div", "cookie-actions");
+    const ok = el("button", "primary-button", "Okej");
+    ok.type = "button";
+    ok.addEventListener("click", function () {
+      try { window.localStorage.setItem(NOTICE_KEY, "1"); } catch (e) { /* storage blocked: it just shows again next time */ }
+      box.remove();
+    });
+    actions.append(ok, link("Läs mer"));
+    box.appendChild(actions);
+    document.body.appendChild(box);
+  }
+
+  showCookieNotice();
+
   return { open: open, close: close, link: link };
 }());

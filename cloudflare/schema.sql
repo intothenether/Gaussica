@@ -46,6 +46,30 @@ CREATE TABLE IF NOT EXISTS lessons (
   updated_at TEXT NOT NULL,
   updated_by INTEGER REFERENCES users(id) ON DELETE SET NULL
 );
+CREATE TABLE IF NOT EXISTS assignments (
+  id         INTEGER PRIMARY KEY,
+  class_id   INTEGER NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+  student_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  teacher_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  lesson_id  TEXT NOT NULL,
+  note       TEXT NOT NULL DEFAULT '',
+  due_date   TEXT,
+  created_at TEXT NOT NULL,
+  archived   INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS assignments_class ON assignments (class_id, archived);
+CREATE TABLE IF NOT EXISTS feedback (
+  id         INTEGER PRIMARY KEY,
+  student_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  teacher_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  lesson_id  TEXT,
+  task_id    TEXT,
+  text       TEXT NOT NULL DEFAULT '',
+  sticker    TEXT,
+  created_at TEXT NOT NULL,
+  read_at    TEXT
+);
+CREATE INDEX IF NOT EXISTS feedback_student ON feedback (student_id, created_at);
 CREATE TABLE IF NOT EXISTS rate_limits (
   key          TEXT PRIMARY KEY,
   count        INTEGER NOT NULL,

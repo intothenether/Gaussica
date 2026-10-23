@@ -12,7 +12,7 @@
   ],
   "summary": "Skala 1:100 betyder att 1 cm på ritningen är 100 cm i verkligheten. Med skala kan stora saker ritas på små papper.",
   "explanationTitle": "Ett steg på ritningen är många steg i verkligheten",
-  "explanation": "Skalan 1:50 betyder att allt i verkligheten är 50 gånger större än på ritningen. En soffa som är 200 cm lång blir 200 ÷ 50 = 4 cm på ritningen. Går du åt andra hållet multiplicerar du: 4 cm på ritningen är 4 · 50 = 200 cm i verkligheten.",
+  "explanation": "Skalan 1:50 betyder att allt i verkligheten är 50 gånger större än på ritningen. En soffa som är 200 cm lång blir 200/50 = 4 cm på ritningen. Går du åt andra hållet multiplicerar du: 4 cm på ritningen är 4 · 50 = 200 cm i verkligheten.",
   "visual": {
     "type": "tabell",
     "title": "Skala 1:50",
@@ -45,7 +45,7 @@
       "text": "Ibland förstorar man i stället. Skala 10:1 betyder att bilden är 10 gånger större än verkligheten, till exempel när man ritar en liten detalj."
     }
   ],
-  "rule": "Verklighet = ritning · skalan, och ritning = verklighet ÷ skalan",
+  "rule": "Verklighet = ritning · skalan, och ritning = verklighet delat med skalan",
   "ruleLabel": "SKALA",
   "example": "På en karta i skala 1:100 000 är 1 cm lika med 100 000 cm, alltså 1 km.",
   "practice": [
@@ -119,7 +119,7 @@
       "answer": [
         "12"
       ],
-      "correct": "Rätt! 12 m = 1 200 cm, och 1 200 ÷ 100 = 12 cm.",
+      "correct": "Rätt! 12 m = 1 200 cm, och 1200/100 = 12 cm.",
       "feedback": [
         {
           "answers": [
@@ -132,7 +132,7 @@
             "0,12",
             "0.12"
           ],
-          "message": "12 ÷ 100 = 0,12 räknar i meter. Svara i centimeter: 0,12 m = 12 cm."
+          "message": "12/100 = 0,12 räknar i meter. Svara i centimeter: 0,12 m = 12 cm."
         }
       ]
     },

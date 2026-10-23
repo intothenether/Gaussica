@@ -1,0 +1,248 @@
+{
+  "id": "koordinatsystem",
+  "area": "geometri",
+  "title": "Koordinatsystem: hitta punkter",
+  "level": "Läs av och placera punkter · ungefär åk 4–6",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": ["tallinjen"],
+  "summary": "Ett koordinatsystem är en karta med två tallinjer. Med två tal kan du beskriva exakt var en punkt ligger.",
+  "explanationTitle": "Först åt höger, sedan upp",
+  "explanation": "Ett koordinatsystem har två tallinjer: x-axeln går åt sidan och y-axeln går uppåt. De möts i origo, där båda talen är 0. En punkt beskrivs med två koordinater, skrivna (x, y). Det första talet säger hur många steg du går åt höger och det andra hur många steg du går uppåt. Punkten (3, 2) hittar du genom att gå 3 steg åt höger och sedan 2 steg upp. Ordningen är viktig: (3, 2) och (2, 3) är olika punkter. Kom ihåg: först ut genom dörren, sedan upp för trappan. Knapparna under svarsrutan hjälper dig att skriva parenteser och komma.",
+  "visual": {
+    "type": "graf",
+    "xmin": 0,
+    "xmax": 8,
+    "ymin": 0,
+    "ymax": 8,
+    "points": [{"x":3,"y":2,"label":"A (3, 2)"}],
+    "title": "Punkt A: 3 steg åt höger och 2 steg upp"
+  },
+  "rule": "(x, y) = (åt höger, uppåt)",
+  "ruleLabel": "FÖRST ÅT SIDAN, SEDAN UPP",
+  "example": "Punkten (4, 1) ligger 4 steg åt höger och 1 steg upp. Punkten (1, 4) ligger 1 steg åt höger och 4 steg upp. De är olika punkter.",
+  "practice": [
+    {
+      "id": "x-koordinat",
+      "for": ["exercise"],
+      "vars": {"x":[1,8],"y":[1,8]},
+      "prompt": "Titta på bilden. Vilket tal är x-koordinaten för punkt A?",
+      "visual": {"type":"graf","xmin":0,"xmax":8,"ymin":0,"ymax":8,"points":[{"x":"=x","y":"=y","label":"A"}]},
+      "answer": ["=x"],
+      "correct": "Rätt! Punkt A ligger {x} steg åt höger, så x = {x}.",
+      "feedback": [
+        {
+          "answers": ["=y"],
+          "message": "{y} är y-koordinaten, alltså hur långt upp. x-koordinaten är hur långt åt höger."
+        }
+      ]
+    },
+    {
+      "id": "y-koordinat",
+      "for": ["exercise"],
+      "vars": {"x":[1,8],"y":[1,8]},
+      "prompt": "Titta på bilden. Vilket tal är y-koordinaten för punkt A?",
+      "visual": {"type":"graf","xmin":0,"xmax":8,"ymin":0,"ymax":8,"points":[{"x":"=x","y":"=y","label":"A"}]},
+      "answer": ["=y"],
+      "correct": "Rätt! Punkt A ligger {y} steg upp, så y = {y}.",
+      "feedback": [
+        {
+          "answers": ["=x"],
+          "message": "{x} är x-koordinaten, alltså hur långt åt höger. y-koordinaten är hur långt upp."
+        }
+      ]
+    },
+    {
+      "id": "koordinater",
+      "for": ["exercise"],
+      "keys": ["(",",",")"],
+      "vars": {"x":[1,8],"y":[1,8]},
+      "where": [{"expr":"abs(x-y)","min":1}],
+      "prompt": "Titta på bilden. Vilka koordinater har punkt A? Skriv som (x, y).",
+      "visual": {"type":"graf","xmin":0,"xmax":8,"ymin":0,"ymax":8,"points":[{"x":"=x","y":"=y","label":"A"}]},
+      "answer": ["({x},{y})","({x}, {y})","{x},{y}","{x}, {y}","({x};{y})","{x};{y}"],
+      "correct": "Rätt! Punkt A är {x} steg åt höger och {y} steg upp: ({x}, {y}).",
+      "feedback": [
+        {
+          "answers": ["({y},{x})","({y}, {x})","{y},{x}","{y}, {x}","({y};{x})","{y};{x}"],
+          "message": "Du har bytt plats på talen. Först x (åt höger), sedan y (uppåt)."
+        }
+      ]
+    },
+    {
+      "id": "skriv-koordinater",
+      "for": ["word-0"],
+      "keys": ["(",",",")"],
+      "vars": {"x":[1,9],"y":[1,9]},
+      "where": [{"expr":"abs(x-y)","min":1}],
+      "prompt": "En punkt ligger {x} steg åt höger och {y} steg upp från origo. Vilka koordinater har punkten? Skriv som (x, y).",
+      "answer": ["({x},{y})","({x}, {y})","{x},{y}","{x}, {y}","({x};{y})","{x};{y}"],
+      "correct": "Rätt! ({x}, {y}).",
+      "feedback": [
+        {
+          "answers": ["({y},{x})","({y}, {x})","{y},{x}","{y}, {x}","({y};{x})","{y};{x}"],
+          "message": "Du har bytt plats på talen. Det första talet är åt höger (x) och det andra uppåt (y)."
+        }
+      ]
+    },
+    {
+      "id": "flytta-hoger",
+      "for": ["word-2"],
+      "keys": ["(",",",")"],
+      "vars": {"x":[1,5],"y":[1,8],"k":[1,3]},
+      "derive": [{"name":"nx","expr":"x+k"}],
+      "prompt": "Du står i punkten ({x}, {y}) och går {k} steg åt höger. Vilka koordinater har du nu? Skriv som (x, y).",
+      "answer": ["({nx},{y})","({nx}, {y})","{nx},{y}","{nx}, {y}","({nx};{y})","{nx};{y}"],
+      "correct": "Rätt! Åt höger ändrar x: {x} + {k} = {nx}. Uppåt är oförändrat: ({nx}, {y}).",
+      "feedback": [
+        {
+          "answers": ["({x},{y+k})","({x}, {y+k})","{x},{y+k}","{x}, {y+k}","({x};{y+k})","{x};{y+k}"],
+          "message": "Du gick uppåt i stället för åt höger. Åt höger ändras det första talet, x."
+        }
+      ]
+    },
+    {
+      "id": "flytta-upp",
+      "for": ["word-2"],
+      "keys": ["(",",",")"],
+      "vars": {"x":[1,8],"y":[1,5],"k":[1,3]},
+      "derive": [{"name":"ny","expr":"y+k"}],
+      "prompt": "Du står i punkten ({x}, {y}) och går {k} steg uppåt. Vilka koordinater har du nu? Skriv som (x, y).",
+      "answer": ["({x},{ny})","({x}, {ny})","{x},{ny}","{x}, {ny}","({x};{ny})","{x};{ny}"],
+      "correct": "Rätt! Uppåt ändrar y: {y} + {k} = {ny}. Åt höger är oförändrat: ({x}, {ny}).",
+      "feedback": [
+        {
+          "answers": ["({x+k},{y})","({x+k}, {y})","{x+k},{y}","{x+k}, {y}","({x+k};{y})","{x+k};{y}"],
+          "message": "Du gick åt höger i stället för uppåt. Uppåt ändras det andra talet, y."
+        }
+      ]
+    },
+    {
+      "id": "bokstav-b",
+      "for": ["word-1"],
+      "vars": {"ax":[1,8],"ay":[1,8],"bx":[1,8],"by":[1,8],"cx":[1,8],"cy":[1,8]},
+      "where": [
+        {"expr":"abs(ax-bx)+abs(ay-by)","min":2},
+        {"expr":"abs(ax-cx)+abs(ay-cy)","min":2},
+        {"expr":"abs(bx-cx)+abs(by-cy)","min":2},
+        {"expr":"abs(bx-by)","min":1}
+      ],
+      "prompt": "Titta på bilden. Vilken punkt har koordinaterna ({bx}, {by})? Skriv bokstaven.",
+      "visual": {
+        "type": "graf",
+        "xmin": 0,
+        "xmax": 8,
+        "ymin": 0,
+        "ymax": 8,
+        "points": [
+          {"x":"=ax","y":"=ay","label":"A"},
+          {"x":"=bx","y":"=by","label":"B"},
+          {"x":"=cx","y":"=cy","label":"C"}
+        ]
+      },
+      "answer": ["B","b"],
+      "correct": "Rätt! Gå {bx} steg åt höger och {by} steg upp, så hamnar du på punkt B.",
+      "feedback": [
+        {
+          "answers": ["A","a","C","c"],
+          "message": "Gå {bx} steg åt höger och sedan {by} steg upp. Vilken punkt ligger där?"
+        }
+      ]
+    },
+    {
+      "id": "bokstav-c",
+      "for": ["word-1"],
+      "vars": {"ax":[1,8],"ay":[1,8],"bx":[1,8],"by":[1,8],"cx":[1,8],"cy":[1,8]},
+      "where": [
+        {"expr":"abs(ax-bx)+abs(ay-by)","min":2},
+        {"expr":"abs(ax-cx)+abs(ay-cy)","min":2},
+        {"expr":"abs(bx-cx)+abs(by-cy)","min":2},
+        {"expr":"abs(cx-cy)","min":1}
+      ],
+      "prompt": "Titta på bilden. Vilken punkt har koordinaterna ({cx}, {cy})? Skriv bokstaven.",
+      "visual": {
+        "type": "graf",
+        "xmin": 0,
+        "xmax": 8,
+        "ymin": 0,
+        "ymax": 8,
+        "points": [
+          {"x":"=ax","y":"=ay","label":"A"},
+          {"x":"=bx","y":"=by","label":"B"},
+          {"x":"=cx","y":"=cy","label":"C"}
+        ]
+      },
+      "answer": ["C","c"],
+      "correct": "Rätt! Gå {cx} steg åt höger och {cy} steg upp, så hamnar du på punkt C.",
+      "feedback": [
+        {
+          "answers": ["A","a","B","b"],
+          "message": "Gå {cx} steg åt höger och sedan {cy} steg upp. Vilken punkt ligger där?"
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Titta på bilden. Vilka koordinater har punkt A? Skriv som (x, y).",
+    "keys": ["(",",",")"],
+    "visual": {"type":"graf","xmin":0,"xmax":8,"ymin":0,"ymax":8,"points":[{"x":5,"y":3,"label":"A"}]},
+    "answer": ["(5,3)","(5, 3)","5,3","5, 3","(5;3)","5;3"],
+    "correct": "Rätt! Punkt A ligger 5 steg åt höger och 3 steg upp: (5, 3).",
+    "feedback": [
+      {
+        "answers": ["(3,5)","(3, 5)","3,5","3, 5","(3;5)","3;5"],
+        "message": "Du har bytt plats på talen. Först kommer x (åt höger), sedan y (uppåt). Börja vid origo och räkna steg åt höger."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En punkt ligger 4 steg åt höger och 6 steg upp från origo. Vilka koordinater har punkten? Skriv som (x, y).",
+      "keys": ["(",",",")"],
+      "answer": ["(4,6)","(4, 6)","4,6","4, 6","(4;6)","4;6"],
+      "correct": "Rätt! 4 steg åt höger ger x = 4 och 6 steg upp ger y = 6: (4, 6).",
+      "feedback": [
+        {
+          "answers": ["(6,4)","(6, 4)","6,4","6, 4","(6;4)","6;4"],
+          "message": "Du har bytt plats på talen. Det första talet är åt höger (x) och det andra är uppåt (y)."
+        }
+      ]
+    },
+    {
+      "prompt": "Titta på bilden. Vilken punkt har koordinaterna (6, 2)? Skriv bokstaven.",
+      "visual": {
+        "type": "graf",
+        "xmin": 0,
+        "xmax": 8,
+        "ymin": 0,
+        "ymax": 8,
+        "points": [{"x":2,"y":6,"label":"A"},{"x":6,"y":2,"label":"B"},{"x":4,"y":4,"label":"C"}]
+      },
+      "answer": ["B","b"],
+      "correct": "Rätt! Gå 6 steg åt höger och 2 steg upp, så hamnar du på punkt B.",
+      "feedback": [
+        {
+          "answers": ["A","a"],
+          "message": "Punkt A är (2, 6). Du har bytt plats på talen. Gå först 6 steg åt höger och sedan 2 steg upp."
+        },
+        {"answers":["C","c"],"message":"Punkt C är (4, 4). Gå först 6 steg åt höger och sedan 2 steg upp."}
+      ]
+    },
+    {
+      "prompt": "Du står i punkten (2, 3) och går 4 steg åt höger. Vilka koordinater har du nu? Skriv som (x, y).",
+      "keys": ["(",",",")"],
+      "answer": ["(6,3)","(6, 3)","6,3","6, 3","(6;3)","6;3"],
+      "correct": "Rätt! Åt höger ändrar x: 2 + 4 = 6. Uppåt är oförändrat, y = 3: (6, 3).",
+      "feedback": [
+        {
+          "answers": ["(2,7)","(2, 7)","2,7","2, 7","(2;7)","2;7"],
+          "message": "Du gick uppåt i stället för åt höger. Åt höger ändras det första talet, x."
+        },
+        {
+          "answers": ["(6,7)","(6, 7)","6,7","6, 7","(6;7)","6;7"],
+          "message": "Du ändrade båda talen. Du går bara åt höger, så bara x ändras."
+        }
+      ]
+    }
+  ]
+}

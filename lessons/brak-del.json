@@ -51,7 +51,7 @@
       "derive": [{"name":"t","expr":"n*k"}],
       "prompt": "Vad är 1/{n} av {t}?",
       "answer": ["=k"],
-      "correct": "Rätt! {t} ÷ {n} = {k}.",
+      "correct": "Rätt! {t}/{n} = {k}.",
       "feedback": [
         {
           "answers": ["=t*n"],
@@ -66,7 +66,7 @@
     "correct": "Ja! 2 delar av 4 är skuggad. 2 är täljaren (överst), 4 är nämnaren (nederst).",
     "feedback": [
       { "answers": ["4/2"], "message": "Du har vänt på täljare och nämnare. Täljaren är överst (hur många delar vi tar), nämnaren är nederst (hur många delar helheten är delad i)." },
-      { "answers": ["1/4"], "message": "Räkna igen — hur många delar av de fyra är skuggade?" }
+      { "answers": ["1/4"], "message": "Räkna igen: hur många delar av de fyra är skuggade?" }
     ]
   },
   "wordProblems": [

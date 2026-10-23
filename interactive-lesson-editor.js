@@ -297,7 +297,7 @@ window.InteractiveEditor = (function() {
     meta.className = "preview-metadata";
     meta.innerHTML = `
       <h2>${escape(currentLesson.title || "Namnlös")}</h2>
-      <div class="preview-meta">Område: <strong>${escape(currentLesson.area || "—")}</strong></div>
+      <div class="preview-meta">Område: <strong>${escape(currentLesson.area || "okänt")}</strong></div>
       <p class="preview-summary">${escape(currentLesson.summary || "Ingen sammanfattning")}</p>
     `;
     content.appendChild(meta);

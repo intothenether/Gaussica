@@ -117,13 +117,13 @@
       "answer": [
         "ja"
       ],
-      "correct": "Rätt! 20 ÷ 5 = 4 och 30 ÷ 5 = 6, båda går jämnt upp.",
+      "correct": "Rätt! 20/5 = 4 och 30/5 = 6, båda går jämnt upp.",
       "feedback": [
         {
           "answers": [
             "nej"
           ],
-          "message": "Testa båda: 20 ÷ 5 = 4 och 30 ÷ 5 = 6. Båda går jämnt upp, så 5 är en gemensam delare."
+          "message": "Testa båda: 20/5 = 4 och 30/5 = 6. Båda går jämnt upp, så 5 är en gemensam delare."
         }
       ]
     },

@@ -11,7 +11,7 @@
   "explanation": "I talet 3 482 betyder 3:an tre tusental, 4:an fyra hundratal, 8:an åtta tiotal och 2:an två ental. En siffra får sitt värde från platsen den står på.",
   "rule": "3 482 = 3 000 + 400 + 80 + 2",
   "ruleLabel": "TAL I UTVIDGAD FORM",
-  "example": "Om 8:an flyttas ett steg åt vänster blir den värd 800 i stället för 80 — tio gånger så mycket.",
+  "example": "Om 8:an flyttas ett steg åt vänster blir den värd 800 i stället för 80, tio gånger så mycket.",
   "practice": [
     {
       "id": "tiotal",

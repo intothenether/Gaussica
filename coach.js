@@ -79,9 +79,9 @@ window.GaussicaCoach = (function () {
     return L().summarize(lesson, ctx.getProgress, ctx.lessons);
   }
 
-  function nextStep(ctx) {
+  // Where the student is in the course: lessons in path order, how far each one is, and what is ready.
+  function analyse(ctx) {
     const lessons = candidates(ctx);
-    if (!lessons.length) return { kind: "done" };
     const index = new Map();
     ctx.lessons.forEach(function (l, i) { index.set(l.id, i); });
     const grades = new Map();
@@ -90,28 +90,65 @@ window.GaussicaCoach = (function () {
       return grades.get(l.id);
     };
     const byPath = function (a, b) { return gradeOf(a) - gradeOf(b) || index.get(a.id) - index.get(b.id); };
-
     const states = new Map();
     lessons.forEach(function (l) { states.set(l.id, summaryOf(ctx, l)); });
-
-    const going = lessons.filter(function (l) { const s = states.get(l.id); return s.state === "started" || s.state === "fix"; })
-      .sort(function (a, b) { return lastActivity(ctx, b) - lastActivity(ctx, a) || byPath(a, b); });
-    if (going.length) {
-      const s = states.get(going[0].id);
-      return { kind: "continue", lesson: going[0], done: s.done, total: s.total, fix: s.fix };
-    }
-
     const isDone = function (id) {
       const p = ctx.lessons.find(function (x) { return x.id === id; });
       return !p || summaryOf(ctx, p).state === "complete";
     };
+    const going = lessons.filter(function (l) { const s = states.get(l.id); return s.state === "started" || s.state === "fix"; })
+      .sort(function (a, b) { return lastActivity(ctx, b) - lastActivity(ctx, a) || byPath(a, b); });
     const fresh = lessons.filter(function (l) { return states.get(l.id).state === "new"; }).sort(byPath);
     const ready = fresh.filter(function (l) { return (l.prerequisites || []).every(isDone); });
-    const pick = ready[0] || fresh[0];
+    const done = lessons.filter(function (l) { return states.get(l.id).state === "complete"; });
+    return { lessons: lessons, states: states, going: going, fresh: fresh, ready: ready, done: done, isDone: isDone };
+  }
+
+  function nextStep(ctx) {
+    const A = analyse(ctx);
+    if (!A.lessons.length) return { kind: "done" };
+    if (A.going.length) {
+      const s = A.states.get(A.going[0].id);
+      return { kind: "continue", lesson: A.going[0], done: s.done, total: s.total, fix: s.fix };
+    }
+    const pick = A.ready[0] || A.fresh[0];
     if (!pick) return { kind: "done" };
     const after = (pick.prerequisites || []).map(function (id) { return ctx.lessons.find(function (x) { return x.id === id; }); })
       .filter(Boolean).filter(function (p) { return summaryOf(ctx, p).state === "complete"; });
-    return { kind: "start", lesson: pick, after: after, ready: Boolean(ready[0]), total: states.get(pick.id).total };
+    return { kind: "start", lesson: pick, after: after, ready: Boolean(A.ready[0]), total: A.states.get(pick.id).total };
+  }
+
+  // "Din väg": what to do now, what comes after, and one play lesson. `assigned` is the lesson of an open
+  // assignment from the teacher (it always comes first).
+  function path(ctx, assignedLessonId) {
+    const A = analyse(ctx);
+    const step = function (role, kind, lesson, extra) {
+      const s = A.states.get(lesson.id) || summaryOf(ctx, lesson);
+      return Object.assign({ role: role, kind: kind, lesson: lesson, sum: s, grade: L().effectiveGrade(lesson, ctx.lessons) }, extra || {});
+    };
+    const taken = new Set();
+    let now = null;
+    const assigned = assignedLessonId && A.lessons.find(function (l) { return l.id === assignedLessonId; });
+    if (assigned) now = step("now", "assignment", assigned);
+    else if (A.going.length) now = step("now", "continue", A.going[0]);
+    else if (A.ready[0] || A.fresh[0]) now = step("now", "start", A.ready[0] || A.fresh[0], { ready: Boolean(A.ready[0]) });
+    if (now) taken.add(now.lesson.id);
+
+    // after that: other lessons already begun, then lessons that are ready (never play lessons here)
+    const later = [];
+    const candidatesLater = A.going.concat(A.ready).filter(function (l) { return l.kind !== "pyssel"; });
+    candidatesLater.forEach(function (l) {
+      if (later.length >= 2 || taken.has(l.id)) return;
+      taken.add(l.id);
+      const begun = A.states.get(l.id).state !== "new";
+      later.push(step("later", begun ? "going" : "start", l));
+    });
+
+    // one play lesson: one that is begun, otherwise the first that is ready
+    const playPool = A.going.concat(A.ready).filter(function (l) { return l.kind === "pyssel" && !taken.has(l.id); });
+    const play = playPool[0] ? step("play", A.states.get(playPool[0].id).state === "new" ? "start" : "going", playPool[0]) : null;
+
+    return { now: now, later: later, play: play, doneCount: A.done.length, total: A.lessons.length, allDone: !now && A.done.length === A.lessons.length };
   }
 
   // ----- what to repeat -----
@@ -167,5 +204,5 @@ window.GaussicaCoach = (function () {
     return out;
   }
 
-  return { nextStep: nextStep, reviewPlan: reviewPlan, practiceRound: practiceRound, reviewRound: reviewRound, weaknesses: weaknesses };
+  return { nextStep: nextStep, path: path, reviewPlan: reviewPlan, practiceRound: practiceRound, reviewRound: reviewRound, weaknesses: weaknesses };
 }());
