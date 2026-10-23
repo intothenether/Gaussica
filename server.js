@@ -78,13 +78,21 @@ function notFound(res) {
   res.end("404 Not Found");
 }
 
+// config.js may point the page at the shared Cloudflare API; the page then needs permission to call it.
+function apiOrigin() {
+  try {
+    const m = /apiBase:\s*"([^"]+)"/.exec(fs.readFileSync(path.join(ROOT, "config.js"), "utf8"));
+    return m ? new URL(m[1]).origin : "";
+  } catch (e) { return ""; }
+}
+
 const server = http.createServer(function (req, res) {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("Referrer-Policy", "same-origin");
   res.setHeader("Content-Security-Policy",
     "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; " +
-    "img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+    "img-src 'self' data: blob:; connect-src 'self' " + apiOrigin() + "; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
 
   let url;
   try {

@@ -1,0 +1,14 @@
+name = "gaussica-api"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gaussica"
+# Replace with the id printed by:  npx wrangler d1 create gaussica
+database_id = "08f20410-dca9-4bb7-a980-2967bc39efd8"
+
+[vars]
+# Sites allowed to call the API (comma separated, no trailing slash).
+ALLOWED_ORIGINS = "https://intothenether.github.io,http://localhost:8000,http://127.0.0.1:8000"
+# The teacher code is a secret, set it with:  npx wrangler secret put TEACHER_CODE

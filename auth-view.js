@@ -9,10 +9,25 @@ window.GaussicaAPI = (function () {
 
   // "server" when the Node server answers /api, "local" when the site is static (GitHub Pages):
   // then GaussicaLocal keeps accounts and progress in this browser instead.
+  // "remote" when config.js points at the shared Cloudflare API: logged-in users are then identified by a
+  // token kept in this browser instead of a cookie.
+  const TOKEN_KEY = "gaussica.token";
   let backend = null;
+  let apiBase = "";
+
+  function getToken() { try { return window.localStorage.getItem(TOKEN_KEY); } catch (e) { return null; } }
+  function setToken(t) {
+    try { if (t) window.localStorage.setItem(TOKEN_KEY, t); else window.localStorage.removeItem(TOKEN_KEY); } catch (e) { /* storage blocked */ }
+  }
 
   async function detect() {
     if (backend) return backend;
+    const cfg = window.GAUSSICA_CONFIG || {};
+    if (cfg.apiBase) {
+      apiBase = String(cfg.apiBase).replace(/\/+$/, "");
+      backend = "remote";
+      return backend;
+    }
     if (!window.GaussicaLocal) { backend = "server"; return backend; }
     try {
       const res = await fetch("/api/me", { credentials: "same-origin" });
@@ -34,17 +49,22 @@ window.GaussicaAPI = (function () {
         throw e;
       }
     }
+    const remote = backend === "remote";
+    const payload = body === undefined ? undefined : JSON.stringify(body);
+    const headers = { "Content-Type": "application/json" };
+    if (remote && getToken()) headers.Authorization = "Bearer " + getToken();
     let res;
     try {
-      res = await fetch(path, {
+      res = await fetch((remote ? apiBase : "") + path, {
         method: method,
-        credentials: "same-origin",
-        headers: { "Content-Type": "application/json" },
-        body: body === undefined ? undefined : JSON.stringify(body),
-        keepalive: Boolean(options && options.keepalive)
+        credentials: remote ? "omit" : "same-origin",
+        headers: headers,
+        body: payload,
+        // keepalive requests are capped at 64 KB, drawings can be larger
+        keepalive: Boolean(options && options.keepalive) && (!payload || payload.length < 60000)
       });
     } catch (e) {
-      const err = new Error("Kan inte nå servern. Kontrollera anslutningen.");
+      const err = new Error(remote ? "Kan inte nå databasen. Kontrollera internetanslutningen." : "Kan inte nå servern. Kontrollera anslutningen.");
       err.status = 0;
       throw err;
     }
@@ -55,6 +75,8 @@ window.GaussicaAPI = (function () {
       err.status = res.status;
       throw err;
     }
+    if (remote && json && json.token) setToken(json.token);
+    if (remote && path === "/api/logout") setToken(null);
     return json;
   }
 
@@ -140,7 +162,7 @@ window.GaussicaAuth = (function () {
       s.replaceChildren();
       const card = el("div", "auth-card");
       card.append(wordmark(), el("h1", "", "Ingen kontakt med servern"),
-        el("p", "auth-lead", message + " Starta servern med “npm start” (eller “node server.js”) och försök igen."));
+        el("p", "auth-lead", message + (API.mode() === "remote" ? " Försök igen om en stund." : " Starta servern med “npm start” (eller “node server.js”) och försök igen.")));
       const retry = el("button", "primary-button auth-submit", "Försök igen");
       retry.type = "button";
       retry.addEventListener("click", resolve);
@@ -223,7 +245,9 @@ window.GaussicaAuth = (function () {
             ? field("auth-code", "Klasskod", code, "Du får koden av din lärare.")
             : field("auth-code", "Lärarkod", code, API.mode() === "local"
               ? "I demoläget är lärarkoden " + window.GaussicaLocal.teacherCode + "."
-              : "Koden visas när servern startas första gången (eller med “node server.js --teacher-code”)."));
+              : API.mode() === "remote"
+                ? "Lärarkoden har ställts in av den som driver sidan."
+                : "Koden visas när servern startas första gången (eller med “node server.js --teacher-code”)."));
         }
 
         const submit = el("button", "primary-button auth-submit", mode === "login" ? "Logga in" : "Skapa konto");

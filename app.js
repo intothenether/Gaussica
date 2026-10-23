@@ -112,10 +112,25 @@
   }
 
   const questionShownAt = {};
+  // Latest drawing (JSON string) per "lessonId|taskId" while a problem is open.
+  const drawings = {};
+
+  // The drawing is saved on its own, so drawing never changes whether a task counts as solved.
+  function storeCanvas(lessonId, taskId, json) {
+    const progress = getLessonProgress(lessonId);
+    progress.started = true;
+    drawings[lessonId + "|" + taskId] = json || "";
+    const entry = progress.answers[taskId] || (progress.answers[taskId] = { answer: "", scratchpad: "", feedback: "", feedbackType: "", completed: false });
+    if (json) entry.canvas = json; else delete entry.canvas;
+    dirtyLessons.add(lessonId);
+    scheduleSave(800);
+  }
 
   function storeAnswerProgress(lessonId, taskId, answer, scratchpad, feedback, feedbackType, completed, misconceptionTitle, promptText, labelText) {
     const progress = getLessonProgress(lessonId);
     progress.started = true;
+    const drawKey = lessonId + "|" + taskId;
+    const canvas = (drawKey in drawings ? drawings[drawKey] : (progress.answers[taskId] && progress.answers[taskId].canvas)) || "";
     progress.answers[taskId] = {
       answer: answer,
       scratchpad: scratchpad || (progress.answers[taskId] && progress.answers[taskId].scratchpad) || "",
@@ -123,6 +138,7 @@
       feedbackType: feedbackType || "",
       completed: Boolean(completed)
     };
+    if (canvas) progress.answers[taskId].canvas = canvas;
     const lesson = course.lessons.find(function (item) { return item.id === lessonId; });
     progress.completed = window.GaussicaLesson.tasks(lesson).every(function (task) {
       const taskProgress = progress.answers[task.id];
@@ -152,6 +168,13 @@
         correctAnswer: task ? task.problem.answer.join(" / ") : "",
         seconds: shownAt ? Math.round((Date.now() - shownAt) / 1000) : null
       };
+      // The drawing is only attached when it differs from the one on the previous submission.
+      if (canvas) {
+        const lastDrawn = currentUser.attempts.filter(function (a) {
+          return a.lessonId === lessonId && a.taskId === taskId && a.canvas;
+        }).pop();
+        if (!lastDrawn || lastDrawn.canvas !== canvas) attempt.canvas = canvas;
+      }
       currentUser.attempts.push(Object.assign({ id: "att-local-" + Date.now(), timestamp: new Date().toISOString() }, attempt));
       sendAttempt(attempt);
     }
@@ -1293,37 +1316,23 @@
     );
     renderVisualsFor(section, exercise);
 
-    // --- KLADDPAPPER & EXPERIMENTRUTA ---
-    const scratchBox = makeElement("div", "scratchpad-box");
+    // --- RITYTA: pen, text and bits to place; saved with the answer so the teacher can see it ---
+    const drawKey = lesson.id + "|" + taskId;
+    drawings[drawKey] = saved.canvas || "";
+    const scratchBox = makeElement("div", "scratchpad-box canvas-box");
     const scratchHeader = makeElement("div", "scratchpad-header");
     const scratchTitle = makeElement("div", "scratchpad-title");
     scratchTitle.append(
       makeElement("span", "scratchpad-icon", "✏️"),
-      makeElement("span", "scratchpad-heading", "Kladdpapper & uträkning")
+      makeElement("span", "scratchpad-heading", "Rityta")
     );
-    const scratchSubtitle = makeElement("span", "scratchpad-hint", "Skriv delsteg eller prova matematiska uttryck");
+    const scratchSubtitle = makeElement("span", "scratchpad-hint", "Rita, skriv och lägg ut saker. Din lärare kan se hur du tänkte.");
     scratchHeader.append(scratchTitle, scratchSubtitle);
-
-    const scratchTextarea = document.createElement("textarea");
-    scratchTextarea.className = "scratchpad-input";
-    scratchTextarea.placeholder = "Skriv hur du tänker eller räkna steg för steg här...\nT.ex: 14 - 2 = 12\n12 / 3 = 4";
-    scratchTextarea.rows = 2;
-    scratchTextarea.value = saved.scratchpad || "";
-    scratchTextarea.setAttribute("aria-label", "Kladdpapper för " + labelText);
-
-    const scratchFooter = makeElement("div", "scratchpad-footer");
-    const evalPreview = makeElement("div", "scratchpad-eval-preview");
-    evalPreview.setAttribute("aria-live", "polite");
-
-    const scratchActions = makeElement("div", "scratchpad-actions");
-    const copyToAnswerBtn = makeElement("button", "scratchpad-btn scratchpad-copy-btn", "Använd som svar ↵");
-    copyToAnswerBtn.type = "button";
-    copyToAnswerBtn.title = "Kopiera resultatet till svarsfältet";
-    const clearScratchBtn = makeElement("button", "scratchpad-btn scratchpad-clear-btn", "Rensa");
-    clearScratchBtn.type = "button";
-    scratchActions.append(copyToAnswerBtn, clearScratchBtn);
-    scratchFooter.append(evalPreview, scratchActions);
-    scratchBox.append(scratchHeader, scratchTextarea, scratchFooter);
+    const pad = window.GaussicaCanvas.create({
+      value: saved.canvas || "",
+      onChange: function (json) { storeCanvas(lesson.id, taskId, json); }
+    });
+    scratchBox.append(scratchHeader, pad);
     section.appendChild(scratchBox);
 
     // --- SLUTGILTIGT SVARSFÄLT ---
@@ -1355,51 +1364,10 @@
     feedback.classList.toggle("feedback-correct", saved.feedbackType === "correct");
     feedback.classList.toggle("feedback-hint", saved.feedbackType === "hint");
 
-    function updateLiveEvaluation() {
-      if (!window.MATTE_SYMBOLIC) return;
-      const res = window.MATTE_SYMBOLIC.evaluateScratchpad(scratchTextarea.value);
-      if (res.lastResult !== null && res.lastResult !== undefined) {
-        evalPreview.textContent = "Senaste uträkning: " + res.lastResult;
-        evalPreview.classList.add("has-result");
-      } else {
-        evalPreview.textContent = "";
-        evalPreview.classList.remove("has-result");
-      }
-    }
-
-    scratchTextarea.addEventListener("input", function () {
-      updateLiveEvaluation();
-      storeAnswerProgress(lesson.id, taskId, answer.value, scratchTextarea.value, "", "", false, null, exercise.prompt, labelText);
-    });
-
-    copyToAnswerBtn.addEventListener("click", function () {
-      if (window.MATTE_SYMBOLIC) {
-        const res = window.MATTE_SYMBOLIC.evaluateScratchpad(scratchTextarea.value);
-        if (res.lastResult !== null && res.lastResult !== undefined) {
-          answer.value = String(res.lastResult);
-          answer.focus();
-          return;
-        }
-      }
-      const lines = scratchTextarea.value.trim().split("\n");
-      const last = lines[lines.length - 1] || "";
-      const cleaned = last.replace(/.*=/, "").trim();
-      if (cleaned) answer.value = cleaned;
-      answer.focus();
-    });
-
-    clearScratchBtn.addEventListener("click", function () {
-      scratchTextarea.value = "";
-      updateLiveEvaluation();
-      storeAnswerProgress(lesson.id, taskId, answer.value, "", "", "", false, null, exercise.prompt, labelText);
-    });
-
-    updateLiveEvaluation();
-
     answer.addEventListener("input", function () {
       feedback.className = "feedback-message";
       feedback.textContent = "";
-      storeAnswerProgress(lesson.id, taskId, answer.value, scratchTextarea.value, "", "", false, null, exercise.prompt, labelText);
+      storeAnswerProgress(lesson.id, taskId, answer.value, "", "", "", false, null, exercise.prompt, labelText);
     });
 
     form.addEventListener("submit", function (event) {
@@ -1422,7 +1390,7 @@
       if (isCorrect) {
         feedback.className = "feedback-message feedback-correct";
         feedback.textContent = exercise.correct;
-        storeAnswerProgress(lesson.id, taskId, answer.value, scratchTextarea.value, feedback.textContent, "correct", true, null, exercise.prompt, labelText);
+        storeAnswerProgress(lesson.id, taskId, answer.value, "", feedback.textContent, "correct", true, null, exercise.prompt, labelText);
         finish(true);
         return;
       }
@@ -1438,7 +1406,7 @@
       if (misconception) {
         feedback.className = "feedback-message feedback-hint";
         feedback.textContent = misconception.message;
-        storeAnswerProgress(lesson.id, taskId, answer.value, scratchTextarea.value, feedback.textContent, "hint", false, misconception.message, exercise.prompt, labelText);
+        storeAnswerProgress(lesson.id, taskId, answer.value, "", feedback.textContent, "hint", false, misconception.message, exercise.prompt, labelText);
         finish(false);
         return;
       }
@@ -1459,7 +1427,7 @@
         const badge = makeElement("span", "feedback-diagnosed-badge", "💡 Upptäckt mönster: " + autoDiagnosis.title);
         const explanationP = makeElement("p", "", autoDiagnosis.explanation);
         feedback.append(badge, explanationP);
-        storeAnswerProgress(lesson.id, taskId, answer.value, scratchTextarea.value, autoDiagnosis.title + ": " + autoDiagnosis.explanation, "hint", false, autoDiagnosis.title, exercise.prompt, labelText);
+        storeAnswerProgress(lesson.id, taskId, answer.value, "", autoDiagnosis.title + ": " + autoDiagnosis.explanation, "hint", false, autoDiagnosis.title, exercise.prompt, labelText);
         finish(false);
         return;
       }
@@ -1467,7 +1435,7 @@
       // 4. Standardledtråd
       feedback.className = "feedback-message feedback-hint";
       feedback.textContent = "Det svaret stämmer inte riktigt ännu. Titta på förklaringen ovan och prova att ta ett steg i taget.";
-      storeAnswerProgress(lesson.id, taskId, answer.value, scratchTextarea.value, feedback.textContent, "hint", false, "Generellt beräkningsfel", exercise.prompt, labelText);
+      storeAnswerProgress(lesson.id, taskId, answer.value, "", feedback.textContent, "hint", false, "Generellt beräkningsfel", exercise.prompt, labelText);
       finish(false);
     });
 

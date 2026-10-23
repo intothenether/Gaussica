@@ -46,7 +46,7 @@ window.GaussicaTeacher = (function () {
       const addRow = function (taskId, name, problem, fallback) {
         const subs = L.history(student, lesson.id, taskId);
         const entry = entries[taskId];
-        const hasDraft = Boolean(entry && (entry.answer || entry.scratchpad));
+        const hasDraft = Boolean(entry && (entry.answer || entry.scratchpad || entry.canvas));
         if (!subs.length && !hasDraft && !(entry && entry.completed)) return;
         const stats = L.taskStats(subs, entry);
         let status = "todo";
@@ -495,6 +495,18 @@ window.GaussicaTeacher = (function () {
     return det;
   }
 
+  // The student's drawing, drawn only when the teacher opens it.
+  function canvasDetails(title, canvas) {
+    const d = el("details", "tv-scratch tv-canvas");
+    d.appendChild(el("summary", "", title));
+    d.addEventListener("toggle", function () {
+      if (!d.open || d.querySelector(".cv-view")) return;
+      const v = window.GaussicaCanvas && window.GaussicaCanvas.view(canvas);
+      d.appendChild(v || el("p", "tv-muted", "Ritytan kunde inte visas."));
+    });
+    return d;
+  }
+
   function taskBlock(row, ctx) {
     const block = el("article", "tv-task is-" + row.status);
     const top = el("div", "tv-task-top");
@@ -526,6 +538,7 @@ window.GaussicaTeacher = (function () {
 
     if (row.subs.length) {
       const timeline = el("ol", "tv-timeline");
+      let shownCanvas = "";
       row.subs.forEach(function (a, i) {
         const li = el("li", "tv-try is-" + (a.completed ? "ok" : "bad"));
         const line = el("div", "tv-try-line");
@@ -551,10 +564,17 @@ window.GaussicaTeacher = (function () {
           sp.appendChild(el("pre", "", a.scratchpad));
           li.appendChild(sp);
         }
+        if (a.canvas) {
+          li.appendChild(canvasDetails("Rityta vid detta försök", a.canvas));
+          shownCanvas = a.canvas;
+        }
         timeline.appendChild(li);
       });
       block.appendChild(timeline);
-    } else if (row.entry && (row.entry.answer || row.entry.scratchpad)) {
+      if (row.entry && row.entry.canvas && row.entry.canvas !== shownCanvas) {
+        block.appendChild(canvasDetails(shownCanvas ? "Senaste rityta (ändrad efter sista försöket)" : "Elevens rityta", row.entry.canvas));
+      }
+    } else if (row.entry && (row.entry.answer || row.entry.scratchpad || row.entry.canvas)) {
       const draft = el("div", "tv-draft");
       if (row.entry.answer) draft.appendChild(el("p", "", "Påbörjat svar: “" + row.entry.answer + "”"));
       if (row.entry.scratchpad) {
@@ -563,6 +583,7 @@ window.GaussicaTeacher = (function () {
         sp.appendChild(el("pre", "", row.entry.scratchpad));
         draft.appendChild(sp);
       }
+      if (row.entry.canvas) draft.appendChild(canvasDetails("Elevens rityta", row.entry.canvas));
       block.appendChild(draft);
     }
     return block;

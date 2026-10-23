@@ -263,17 +263,17 @@ function createApi(db, options) {
   async function putProgress(req, res, lessonId) {
     const s = requireUser(req);
     if (!ID_RE.test(lessonId)) throw new ApiError(400, "Ogiltigt lektions-id.");
-    const b = await readJson(req, 200000);
+    const b = await readJson(req, 800000);
     if (!b.data || typeof b.data !== "object" || Array.isArray(b.data)) throw new ApiError(400, "Saknar data.");
     const json = JSON.stringify(b.data);
-    if (json.length > 150000) throw new ApiError(413, "För mycket data.");
+    if (json.length > 600000) throw new ApiError(413, "För mycket data.");
     q.upsertProgress.run(s.user.id, lessonId, json, nowIso());
     send(res, 200, { ok: true });
   }
 
   async function postAttempt(req, res) {
     const s = requireUser(req);
-    const b = await readJson(req, 50000);
+    const b = await readJson(req, 150000);
     const lessonId = str(b.lessonId, 80), taskId = str(b.taskId, 80);
     if (!ID_RE.test(lessonId) || !ID_RE.test(taskId)) throw new ApiError(400, "Ogiltigt id.");
     if (b.feedbackType !== "correct" && b.feedbackType !== "hint") throw new ApiError(400, "Ogiltig typ av försök.");
@@ -287,6 +287,7 @@ function createApi(db, options) {
       misconception: b.misconception ? str(b.misconception, 500) : null,
       attemptNo: attemptNo, correctAnswer: str(b.correctAnswer, 500), seconds: seconds
     };
+    if (typeof b.canvas === "string" && b.canvas) data.canvas = str(b.canvas, 60000);
     const created = nowIso();
     const id = Number(q.insertAttempt.run(s.user.id, lessonId, taskId, completed ? 1 : 0, JSON.stringify(data), created).lastInsertRowid);
     data.id = "att-" + id;

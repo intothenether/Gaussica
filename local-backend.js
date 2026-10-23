@@ -206,7 +206,7 @@ window.GaussicaLocal = (function () {
     if (!ID_RE.test(lessonId)) throw ApiError(400, "Ogiltigt lektions-id.");
     if (!b.data || typeof b.data !== "object" || Array.isArray(b.data)) throw ApiError(400, "Saknar data.");
     const json = JSON.stringify(b.data);
-    if (json.length > 150000) throw ApiError(413, "För mycket data.");
+    if (json.length > 600000) throw ApiError(413, "För mycket data.");
     if (!db.progress[u.id]) db.progress[u.id] = {};
     db.progress[u.id][lessonId] = JSON.parse(json);
     save();
@@ -228,6 +228,7 @@ window.GaussicaLocal = (function () {
       misconception: b.misconception ? str(b.misconception, 500) : null,
       attemptNo: attemptNo, correctAnswer: str(b.correctAnswer, 500), seconds: seconds
     };
+    if (typeof b.canvas === "string" && b.canvas) data.canvas = str(b.canvas, 60000);
     const row = { id: db.next.attempt++, userId: u.id, lessonId: lessonId, taskId: taskId, completed: completed, data: data, createdAt: nowIso() };
     db.attempts.push(row);
     save();
