@@ -62,7 +62,7 @@
       showSaveNotice("Du har loggats ut och dina senaste svar sparades inte. Ladda om sidan och logga in igen.");
       return;
     }
-    showSaveNotice("Kunde inte spara just nu – försöker igen om en stund…");
+    showSaveNotice("Kunde inte spara just nu, försöker igen om en stund…");
     clearTimeout(retryTimer);
     retryTimer = setTimeout(function () { flushProgress(false); }, 5000);
   }
@@ -280,6 +280,7 @@
     course.areas.forEach(function (area) { areas.set(area.id, area.name); });
     validateCourse();
     activeLessonId = course.lessons[0] ? course.lessons[0].id : "";
+    initPreview();
     initMapState();
     renderFilters();
     renderGraph();
@@ -465,7 +466,55 @@
     return { lessons: course.lessons, student: currentUser, getProgress: getLessonProgress };
   }
 
-  function isStudent() { return Boolean(currentUser && currentUser.role === "student"); }
+  // Teachers can switch to the student's view to see what students see ("Visa som elev").
+  const PREVIEW_KEY = "gaussica.preview";
+  let previewAsStudent = false;
+
+  function isStudent() {
+    return Boolean(currentUser && (currentUser.role === "student" || (currentUser.role === "teacher" && previewAsStudent)));
+  }
+
+  function setPreview(on) {
+    previewAsStudent = Boolean(on) && Boolean(currentUser && currentUser.role === "teacher");
+    try { window.sessionStorage.setItem(PREVIEW_KEY, previewAsStudent ? "1" : "0"); } catch (e) { /* storage blocked */ }
+    applyPreviewUi();
+    initMapState();
+    renderGraph();
+    renderPanel();
+    renderCoach();
+  }
+
+  function applyPreviewUi() {
+    const teacher = Boolean(currentUser && currentUser.role === "teacher");
+    const sw = document.getElementById("view-switch");
+    const banner = document.getElementById("preview-banner");
+    const adminLink = document.getElementById("admin-top-link");
+    document.body.classList.toggle("is-previewing", previewAsStudent);
+    if (sw) {
+      sw.hidden = !teacher;
+      sw.textContent = previewAsStudent ? "🧑‍🏫 Tillbaka till lärarvyn" : "👀 Visa som elev";
+    }
+    if (banner) banner.hidden = !previewAsStudent;
+    if (adminLink && teacher) adminLink.hidden = previewAsStudent;
+  }
+
+  function initPreview() {
+    const sw = document.getElementById("view-switch");
+    const back = document.getElementById("preview-back");
+    if (sw && !sw.dataset.bound) {
+      sw.dataset.bound = "1";
+      sw.addEventListener("click", function () {
+        if (!previewAsStudent && window.location.hash.indexOf("#admin") === 0) window.location.hash = "#larstig";
+        setPreview(!previewAsStudent);
+      });
+    }
+    if (back && !back.dataset.bound) {
+      back.dataset.bound = "1";
+      back.addEventListener("click", function () { setPreview(false); });
+    }
+    try { previewAsStudent = currentUser && currentUser.role === "teacher" && window.sessionStorage.getItem(PREVIEW_KEY) === "1"; } catch (e) { previewAsStudent = false; }
+    applyPreviewUi();
+  }
 
   // The badge in the top bar, the big box under it and the pins on assigned lessons in the graph.
   function renderInbox() {
@@ -2362,6 +2411,7 @@
   function showTeacherLinks() {
     if (!currentUser || currentUser.role !== "teacher") return;
     document.querySelectorAll(".admin-top-link, .footer-admin-link").forEach(function (a) { a.hidden = false; });
+    applyPreviewUi();
   }
 
   function renderStudentProfileBar() {
@@ -2480,7 +2530,7 @@
   }
 
   // Teacher data as last fetched from the server (used by the exports below).
-  let teacherCache = { students: [], classes: [], assignments: [] };
+  let teacherCache = { students: [], classes: [], assignments: [], inboxUnavailable: false };
 
   function exportAttemptsCSV() {
     const students = teacherCache.students;
@@ -2559,8 +2609,15 @@
     if (refetch !== false) {
       if (!teacherCache.students.length) adminPage.replaceChildren(makeElement("p", "tv-empty", "Hämtar elevdata…"));
       try {
-        const results = await Promise.all([API.get("/api/teacher/students"), API.get("/api/teacher/classes"), API.get("/api/teacher/assignments")]);
-        teacherCache = { students: results[0].students, classes: results[1].classes, assignments: results[2].assignments };
+        // An API that has not been updated yet (no assignments endpoint) must not block the rest of the teacher view.
+        const results = await Promise.all([
+          API.get("/api/teacher/students"), API.get("/api/teacher/classes"),
+          API.get("/api/teacher/assignments").catch(function (err) {
+            if (err.status === 404) return { assignments: [], unavailable: true };
+            throw err;
+          })
+        ]);
+        teacherCache = { students: results[0].students, classes: results[1].classes, assignments: results[2].assignments, inboxUnavailable: Boolean(results[2].unavailable) };
       } catch (err) {
         adminPage.replaceChildren(makeElement("p", "course-error", "Kunde inte hämta elevdata: " + err.message));
         return;
@@ -2570,6 +2627,7 @@
       students: teacherCache.students,
       classes: teacherCache.classes,
       assignments: teacherCache.assignments,
+      inboxUnavailable: teacherCache.inboxUnavailable,
       course: course,
       formatTimestamp: formatTimestamp,
       rerender: function () { renderAdminPage(false); },
@@ -2626,6 +2684,7 @@
         window.location.hash = "#larstig";
         return;
       }
+      if (previewAsStudent) setPreview(false);
       if (studentView) studentView.hidden = true;
       if (adminPage) {
         adminPage.hidden = false;

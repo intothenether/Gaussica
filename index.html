@@ -38,10 +38,16 @@
       <div class="topbar-actions">
         <div class="student-profile-bar" id="student-profile-bar"></div>
         <a class="mail-link" href="#uppdrag" id="mail-link" hidden><span aria-hidden="true">📬</span> Uppdrag <b class="mail-badge" hidden>0</b></a>
+        <button type="button" class="view-switch" id="view-switch" hidden>👀 Visa som elev</button>
         <a class="admin-top-link" href="#admin" id="admin-top-link" hidden>Lärarvy 📊</a>
         <a class="top-link" href="#larstig">Utforska lärstigen <span aria-hidden="true">↗</span></a>
       </div>
     </header>
+
+    <div class="preview-banner" id="preview-banner" hidden>
+      <span>👀 Du ser sidan som en elev. Dina svar sparas på ditt lärarkonto, inte hos eleverna.</span>
+      <button type="button" class="preview-back" id="preview-back">Tillbaka till lärarvyn</button>
+    </div>
 
     <main id="start">
       <section class="admin-page" id="admin-page" hidden aria-labelledby="admin-title"></section>
@@ -147,7 +153,7 @@
           <div class="graph-heading">
             <div>
               <h3>Lärandegraf</h3>
-              <p>Lektionerna är ordnade efter ungefär vilken årskurs de brukar tas upp i, uppifrån och ned. Alla är öppna att börja med. Ringen runt varje nod visar hur många uppgifter du klarat – och vilka som behöver rättas. Linjerna visar användbara förkunskaper, inte låsta nivåer.</p>
+              <p>Lektionerna är ordnade efter ungefär vilken årskurs de brukar tas upp i, uppifrån och ned. Alla är öppna att börja med. Ringen runt varje nod visar hur många uppgifter du klarat och vilka som behöver rättas. Linjerna visar användbara förkunskaper, inte låsta nivåer.</p>
             </div>
             <span class="graph-key" aria-label="Teckenförklaring">
               <span class="graph-key-item"><i class="gk-dot is-done"></i> klar</span>

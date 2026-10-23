@@ -3586,3 +3586,14 @@ body { background: var(--cream); }
 .cookie-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
 .cookie-actions .primary-button { padding: 10px 22px; font-size: 15px; }
 body.player-open .cookie-notice { display: none; }
+
+/* ---- Lärare: visa som elev ---- */
+.view-switch { padding: 7px 14px; border: 2px solid var(--brand); border-radius: 999px; background: #fff; color: var(--brand); font: 800 13px "Nunito", sans-serif; cursor: pointer; }
+.view-switch:hover { background: var(--sky-soft); }
+.view-switch[hidden] { display: none; }
+body.is-previewing .view-switch { border-color: var(--pink-deep); color: var(--pink-deep); }
+.preview-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px; padding: 10px 16px; background: #ffe9ee; border-bottom: 3px solid #ffb3c1; color: #8a3b52; font: 800 14px "Nunito", sans-serif; text-align: center; }
+.preview-banner[hidden] { display: none; }
+.preview-back { padding: 6px 14px; border: 2px solid var(--pink-deep); border-radius: 999px; background: #fff; color: var(--pink-deep); font: 800 13px "Nunito", sans-serif; cursor: pointer; }
+body.is-previewing .admin-toolbar { display: none; }
+body.is-previewing.has-admin-toolbar { padding-top: 0; }

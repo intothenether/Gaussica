@@ -428,7 +428,7 @@ window.InteractiveEditor = (function () {
     col.appendChild(list);
 
     col.appendChild(el("p", "le-outline-note",
-      "Dra block eller använd ↑ ↓ för att välja ordning – så här ser eleven lektionen, uppifrån och ned."));
+      "Dra block eller använd ↑ ↓ för att välja ordning. Så här ser eleven lektionen, uppifrån och ned."));
 
     const palette = el("div", "le-palette");
     palette.appendChild(el("h3", "", "Lägg till"));
@@ -740,7 +740,7 @@ window.InteractiveEditor = (function () {
         jsonForm(form, () => b.data, v => { b.data = v; },
           window.GaussicaLesson.isTool(b.data)
             ? "Pyssel-verktyg ställs in som JSON: reglage (params), formler (vars), figur (view), text (readouts) och utmaningar (goals). Se README, avsnittet Pyssla."
-            : "Okänd blocktyp – redigeras som JSON.");
+            : "Okänd blocktyp, redigeras som JSON.");
     }
   }
 
@@ -803,7 +803,7 @@ window.InteractiveEditor = (function () {
       );
       return;
     }
-    jsonForm(form, () => lesson.interactive, v => { lesson.interactive = v; }, "Okänd modell – redigeras som JSON.");
+    jsonForm(form, () => lesson.interactive, v => { lesson.interactive = v; }, "Okänd modell. Redigeras som JSON.");
   }
 
   // One problem (exercise / word problem / problem component).
@@ -1113,7 +1113,7 @@ window.InteractiveEditor = (function () {
     isNew = false;
     dirty = false;
     renderAll();
-    toast("Sparat – eleverna ser den nya versionen.");
+    toast("Sparat! Eleverna ser den nya versionen.");
   }
 
   function downloadJSON() {

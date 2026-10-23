@@ -11,7 +11,7 @@
   ],
   "summary": "Öppna och stäng en vinkel och se när den är spetsig, rät, trubbig eller rak.",
   "explanationTitle": "Vinkeln är öppningen mellan två linjer",
-  "explanation": "Dra i reglaget och se hur öppningen ändras. En rät vinkel är 90°, och en rak vinkel är 180° – en rak linje. En triangels tre vinklar är tillsammans alltid 180°.",
+  "explanation": "Dra i reglaget och se hur öppningen ändras. En rät vinkel är 90°, och en rak vinkel är 180°, det blir en rak linje. En triangels tre vinklar är tillsammans alltid 180°.",
   "components": [
     {
       "type": "pyssel",

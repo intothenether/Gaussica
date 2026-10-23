@@ -299,6 +299,10 @@ window.GaussicaTeacher = (function () {
     section.id = "tv-assignments";
     section.append(el("h3", "", "📌 Uppdrag"),
       el("p", "admin-card-description", "Ge en klass eller en enskild elev en lektion att göra. Eleverna ser uppdraget i en stor ruta överst på sidan, med din hälsning och datum."));
+    if (ctx.inboxUnavailable) {
+      section.appendChild(el("p", "tv-notice is-error", "Uppdrag och meddelanden fungerar inte än, för servern är inte uppdaterad. Uppdatera databasen och API:t (kommandona finns i cloudflare/README.md, avsnittet om att uppdatera en driftsatt databas) och ladda sedan om sidan."));
+      return section;
+    }
     if (!ctx.classes.length) {
       section.appendChild(el("p", "tv-empty", "Skapa en klass ovan först."));
       return section;
@@ -335,7 +339,7 @@ window.GaussicaTeacher = (function () {
     date.type = "date";
     const note = el("textarea");
     note.maxLength = 400; note.rows = 2;
-    note.placeholder = "Skriv något till eleverna (valfritt), t.ex. “Ta det i din egen takt – du klarar det här!”";
+    note.placeholder = "Skriv något till eleverna (valfritt), t.ex. “Ta det i din egen takt, du klarar det här!”";
     const submit = button("Ge uppdrag 📌", "tv-btn is-primary", function () {});
     submit.type = "submit";
     const row = el("div", "tv-assign-row");
@@ -467,6 +471,7 @@ window.GaussicaTeacher = (function () {
 
   function feedbackSection(student, ctx) {
     const box = el("section", "tv-feedback-box");
+    if (ctx.inboxUnavailable) return el("span");   // the server cannot store messages yet, see the assignments box
     box.appendChild(el("h4", "", "💬 Skriv till " + student.name.split(" ")[0]));
     box.appendChild(el("p", "admin-card-description", "Ett allmänt meddelande. Vill du skriva om en viss fråga, använd knappen under frågan längre ned."));
     box.appendChild(composer(ctx, student, null));
@@ -576,7 +581,7 @@ window.GaussicaTeacher = (function () {
     }).filter(function (r) { return r.score > 0; }).sort(function (a, b) { return b.score - a.score; }).slice(0, 6);
 
     if (!ranked.length) {
-      section.appendChild(el("p", "tv-empty", "Inga svåra uppgifter ännu – alla har klarat sina uppgifter på första försöket."));
+      section.appendChild(el("p", "tv-empty", "Inga svåra uppgifter ännu. Alla har klarat sina uppgifter på första försöket."));
       return section;
     }
     const list = el("ol", "tv-hard");
@@ -790,7 +795,7 @@ window.GaussicaTeacher = (function () {
       label = "! Inte löst – " + plural(st.submissions, "försök", "försök") + " hittills";
     } else {
       tone = "todo";
-      label = "Påbörjad – inget svar inskickat";
+      label = "Påbörjad, inget svar inskickat";
     }
     top.appendChild(el("span", "tv-pill is-" + tone, label));
     if (row.orphan) top.appendChild(el("span", "tv-muted", "(uppgiften finns inte längre i lektionen)"));
@@ -853,7 +858,7 @@ window.GaussicaTeacher = (function () {
       if (row.entry.canvas) draft.appendChild(canvasDetails("Elevens rityta", row.entry.canvas));
       block.appendChild(draft);
     }
-    if (student && lesson) block.appendChild(taskComments(row, ctx, student, lesson));
+    if (student && lesson && !ctx.inboxUnavailable) block.appendChild(taskComments(row, ctx, student, lesson));
     return block;
   }
 
