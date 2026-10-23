@@ -12,6 +12,53 @@
   "rule": "56 ÷ 7 = 8 eftersom 7 × 8 = 56",
   "ruleLabel": "DIVISION OCH MULTIPLIKATION HÖR IHOP",
   "example": "Kontrollera en division genom att multiplicera kvoten med divisorn. Om produkten blir det ursprungliga talet stämmer svaret.",
+  "practice": [
+    {
+      "id": "dela-lika",
+      "for": ["exercise"],
+      "vars": {"g":[3,9],"k":[3,9]},
+      "derive": [{"name":"t","expr":"g*k"}],
+      "prompt": "{t} saker delas lika mellan {g} grupper. Hur många får varje grupp?",
+      "answer": ["=k"],
+      "correct": "Rätt! {t} ÷ {g} = {k}.",
+      "feedback": [
+        {
+          "answers": ["=t-g"],
+          "message": "Du tog bort {g} från {t}. Att dela lika betyder att fördela {t} på {g} grupper."
+        },
+        {"answers":["=t"],"message":"Det är hela antalet. Det ska delas lika på {g} grupper."}
+      ]
+    },
+    {
+      "id": "rakna",
+      "for": ["word-0"],
+      "vars": {"g":[3,9],"k":[4,12]},
+      "derive": [{"name":"t","expr":"g*k"}],
+      "prompt": "Räkna ut {t} ÷ {g}.",
+      "answer": ["=k"],
+      "correct": "Rätt! {g} · {k} = {t}, så {t} ÷ {g} = {k}.",
+      "feedback": [{"answers":["=t-g"],"message":"Division är inte subtraktion. Fråga dig: vad gånger {g} blir {t}?"}]
+    },
+    {
+      "id": "hogar",
+      "for": ["word-1"],
+      "pick": {
+        "namn": ["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"],
+        "sak": ["kulor","kort","pärlor","klossar"]
+      },
+      "vars": {"g":[3,8],"k":[3,9]},
+      "derive": [{"name":"t","expr":"g*k"}],
+      "prompt": "{$namn} har {t} {$sak} och lägger dem i högar med {g} i varje. Hur många högar blir det?",
+      "answer": ["=k"],
+      "correct": "Rätt! {t} ÷ {g} = {k} högar.",
+      "feedback": [
+        {
+          "answers": ["=g"],
+          "message": "{g} är antalet i varje hög. Du ska ta reda på hur många högar det blir."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "56 saker delas lika mellan 7 grupper. Hur många får varje grupp?",
     "answer": ["8"],

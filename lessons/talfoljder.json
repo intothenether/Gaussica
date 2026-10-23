@@ -62,6 +62,61 @@
   "rule": "nästa tal = förra talet + skillnaden",
   "ruleLabel": "REGELN I EN TALFÖLJD",
   "example": "Följden 20, 17, 14, 11 minskar med 3 varje gång. Nästa tal är 11 − 3 = 8.",
+  "practice": [
+    {
+      "id": "oka",
+      "for": ["exercise"],
+      "vars": {"a":[2,30],"d":[2,9]},
+      "derive": [
+        {"name":"n2","expr":"a+d"},
+        {"name":"n3","expr":"a+2*d"},
+        {"name":"n4","expr":"a+3*d"},
+        {"name":"n5","expr":"a+4*d"}
+      ],
+      "prompt": "Vilket tal kommer härnäst: {a}, {n2}, {n3}, {n4}, …?",
+      "answer": ["=n5"],
+      "correct": "Rätt! Talen ökar med {d} varje gång: {n4} + {d} = {n5}.",
+      "feedback": [
+        {"answers":["=d"],"message":"{d} är hur mycket talen ökar. Du ska ge nästa tal i talföljden."},
+        {"answers":["=n4+1"],"message":"Titta på skillnaden mellan talen. Den är {d} varje gång."}
+      ]
+    },
+    {
+      "id": "minska",
+      "for": ["word-0"],
+      "vars": {"a":[40,90],"d":[3,9]},
+      "derive": [
+        {"name":"n2","expr":"a-d"},
+        {"name":"n3","expr":"a-2*d"},
+        {"name":"n4","expr":"a-3*d"},
+        {"name":"n5","expr":"a-4*d"}
+      ],
+      "prompt": "Vilket tal kommer härnäst: {a}, {n2}, {n3}, {n4}, …?",
+      "answer": ["=n5"],
+      "correct": "Rätt! Talen minskar med {d} varje gång: {n4} − {d} = {n5}.",
+      "feedback": [{"answers":["=n4+d"],"message":"Talen blir mindre. Du ska ta bort {d}, inte lägga till."}]
+    },
+    {
+      "id": "dubbla",
+      "for": ["word-1"],
+      "vars": {"a":[1,6]},
+      "derive": [
+        {"name":"n2","expr":"2*a"},
+        {"name":"n3","expr":"4*a"},
+        {"name":"n4","expr":"8*a"},
+        {"name":"n5","expr":"16*a"}
+      ],
+      "prompt": "Vilket tal kommer härnäst: {a}, {n2}, {n3}, {n4}, …?",
+      "answer": ["=n5"],
+      "correct": "Rätt! Talen dubblas varje gång: {n4} · 2 = {n5}.",
+      "feedback": [
+        {
+          "answers": ["=n4+a"],
+          "message": "Titta på hur talen växer. De dubblas varje gång, de ökar inte lika mycket."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Vilket tal kommer härnäst: 5, 9, 13, 17, …?",
     "answer": [

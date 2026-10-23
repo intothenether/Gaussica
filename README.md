@@ -255,3 +255,29 @@ Varje fråga (Din tur, textuppgifter och uppgiftskomponenter) har en rityta (`ca
 ## Delad databas (Cloudflare D1)
 
 För att använda samma konton och data på både GitHub Pages och din egen dator, följ [cloudflare/README.md](cloudflare/README.md). Sätt sedan `apiBase` i [config.js](config.js). Ordningen är: `apiBase` satt → Cloudflare-API:t, annars Node-servern på samma adress, annars demoläge i webbläsaren.
+
+## Nästa steg, Öva mer och Repetera
+
+- **Nästa steg.** `coach.js` föreslår vad eleven ska göra härnäst: lektionen eleven senast arbetade i, annars nästa lektion vars förkunskaper är klara (lägst årskurs först). Förslaget visas som ett kort ovanför lärstigen, i knappen i hero-sektionen och som en glödande nod i grafen.
+- **Öva mer.** En lektion kan ha `practice`, en lista med mallar som skapar nya frågor med nya tal. Knappen finns på lektionssidan och efter en klar lektion. Frågorna rättas som vanliga frågor, loggas i lärarvyn ("Övning och repetition") men påverkar inte lektionens framsteg.
+- **Repetera.** Räknas ut från elevens svarslogg: varje fel svar ger ett poäng, varje svar som är rätt på första försöket tar bort ett. Ligger en lektion på två poäng eller mer (senaste 30 dagarna) föreslås repetition, och mallarna som eleven haft svårast med väljs oftare.
+
+En mall (se `practice.js`):
+
+```json
+{ "id": "summa", "for": ["exercise"],
+  "pick": { "namn": ["Mira", "Omar"] },
+  "vars": { "a": [120, 899], "b": [120, 899] },
+  "derive": [ { "name": "s", "expr": "a+b" } ],
+  "where": [ { "expr": "a-b", "min": 1 } ],
+  "prompt": "Räkna ut {a} + {b}.",
+  "answer": ["=s"],
+  "correct": "Rätt! {a} + {b} = {s}.",
+  "feedback": [ { "answers": ["=a-b"], "message": "Du har tagit bort i stället för att lägga till." } ] }
+```
+
+Uttrycken är samma som i pyssla-verktygen (`+ - * / ^`, `abs sqrt round floor ceil min max pow mod divcount isprime sgd primecount nextprime`). `{$namn}` fylls med ett slumpmässigt val, `{uttryck}` med ett värde (`{h|2}` ger två siffror), och `visual` kan använda `"=uttryck"` för figurer. `for` anger vilka ordinarie uppgifter mallen motsvarar, så att fel där leder till fler frågor av just den typen.
+
+## Integritetstext
+
+Texten "Så hanteras dina uppgifter" (`privacy.js`) visas från sidfoten och inloggningsrutan. Lägg gärna in en kontaktadress i `config.js` (`contact`), så visas den i texten. Om skolan eller huvudmannen använder sidan bör de också kontrollera texten mot sina egna regler för personuppgifter.

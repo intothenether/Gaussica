@@ -12,6 +12,48 @@
   "rule": "rät vinkel = 90° · rak vinkel = 180° · helt varv = 360°",
   "ruleLabel": "JÄMFÖR VINKLAR",
   "example": "Om en vinkel är 35° större än en rät vinkel blir den 90° + 35° = 125° och är trubbig.",
+  "practice": [
+    {
+      "id": "rat-plus",
+      "for": ["exercise"],
+      "vars": {"x":[10,80,5]},
+      "derive": [{"name":"v","expr":"90+x"}],
+      "prompt": "En vinkel är {x}° större än en rät vinkel. Hur många grader är vinkeln?",
+      "answer": ["=v","{v}°"],
+      "correct": "Rätt! En rät vinkel är 90°, och 90 + {x} = {v}°.",
+      "feedback": [
+        {"answers":["=x"],"message":"{x}° är skillnaden. Du ska lägga till den till den räta vinkeln, 90°."}
+      ]
+    },
+    {
+      "id": "rak",
+      "for": ["word-0"],
+      "vars": {"a":[20,160,10]},
+      "derive": [{"name":"r","expr":"180-a"}],
+      "prompt": "Två vinklar bildar tillsammans en rak vinkel. Den ena är {a}°. Hur stor är den andra?",
+      "answer": ["=r","{r}°"],
+      "correct": "Rätt! En rak vinkel är 180°, och 180 − {a} = {r}°.",
+      "feedback": [
+        {"answers":["=90-a"],"message":"En rät vinkel är 90°, men en rak vinkel är 180°."},
+        {"answers":["=360-a"],"message":"360° är ett helt varv. En rak vinkel är 180°."}
+      ]
+    },
+    {
+      "id": "las-av",
+      "for": ["word-1"],
+      "vars": {"a":[10,170,10]},
+      "prompt": "Hur många grader är vinkeln på bilden?",
+      "visual": {"type":"vinkel","deg":"=a"},
+      "answer": ["=a","{a}°"],
+      "correct": "Rätt! Vinkeln är {a}°.",
+      "feedback": [
+        {
+          "answers": ["=180-a"],
+          "message": "Det är vinkeln på andra sidan av den raka linjen. Läs av vinkeln mellan de två strålarna."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "En vinkel är 35° större än en rät vinkel. Hur många grader är vinkeln?",
     "answer": ["125", "125°"],

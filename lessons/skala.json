@@ -48,6 +48,48 @@
   "rule": "Verklighet = ritning · skalan, och ritning = verklighet ÷ skalan",
   "ruleLabel": "SKALA",
   "example": "På en karta i skala 1:100 000 är 1 cm lika med 100 000 cm, alltså 1 km.",
+  "practice": [
+    {
+      "id": "ritning",
+      "for": ["exercise"],
+      "vars": {"s":[10,200,10],"c":[2,9]},
+      "derive": [{"name":"r","expr":"c*s"}],
+      "prompt": "På en ritning i skala 1:{s} är en sträcka {c} cm. Hur lång är den i verkligheten, i cm?",
+      "answer": ["=r","{r} cm","{r}cm"],
+      "correct": "Rätt! Skala 1:{s} betyder att allt är {s} gånger större i verkligheten: {c} · {s} = {r} cm.",
+      "feedback": [
+        {
+          "answers": ["=c/s"],
+          "message": "Du har delat. Skalan 1:{s} betyder att verkligheten är {s} gånger större, så du ska multiplicera."
+        },
+        {"answers":["=c+s"],"message":"Skala handlar om att multiplicera, inte lägga till."}
+      ]
+    },
+    {
+      "id": "rum",
+      "for": ["word-0"],
+      "vars": {"m":[2,12]},
+      "prompt": "En ritning har skala 1:100. Ett rum är {m} m långt i verkligheten. Hur långt är det på ritningen, i cm?",
+      "answer": ["=m","{m} cm","{m}cm"],
+      "correct": "Rätt! {m} m = {m*100} cm, och på ritningen är det 100 gånger mindre: {m} cm.",
+      "feedback": [
+        {
+          "answers": ["=m*100"],
+          "message": "Det är längden i verkligheten i cm. På ritningen är allt 100 gånger mindre."
+        }
+      ]
+    },
+    {
+      "id": "karta",
+      "for": ["word-1"],
+      "vars": {"k":[2,9],"c":[3,12]},
+      "derive": [{"name":"r","expr":"c*k"}],
+      "prompt": "På en karta motsvarar 1 cm {k} km i verkligheten. Två orter ligger {c} cm från varandra på kartan. Hur långt är det mellan orterna, i km?",
+      "answer": ["=r","{r} km","{r}km"],
+      "correct": "Rätt! {c} · {k} = {r} km.",
+      "feedback": [{"answers":["=c+k"],"message":"Varje centimeter på kartan är {k} km. Multiplicera {c} med {k}."}]
+    }
+  ],
   "exercise": {
     "prompt": "På en ritning i skala 1:100 är en vägg 5 cm lång. Hur lång är väggen i verkligheten, i cm?",
     "answer": [

@@ -29,6 +29,47 @@
   "rule": "O = a + b + c",
   "ruleLabel": "TRIANGELNS OMKRETS",
   "example": "En liksidig triangel med sidan 4 m har omkretsen 3 · 4 = 12 m.",
+  "practice": [
+    {
+      "id": "tre-sidor",
+      "for": ["exercise"],
+      "vars": {"a":[4,12],"b":[4,12],"c":[4,12]},
+      "where": [{"expr":"a+b-c","min":1},{"expr":"a+c-b","min":1},{"expr":"b+c-a","min":1}],
+      "derive": [{"name":"p","expr":"a+b+c"}],
+      "prompt": "Triangeln har sidorna {a} cm, {b} cm och {c} cm. Vad är omkretsen i cm?",
+      "answer": ["=p","{p} cm","{p}cm"],
+      "correct": "Rätt! {a} + {b} + {c} = {p} cm.",
+      "feedback": [
+        {
+          "answers": ["=a+b","=a+c","=b+c"],
+          "message": "Du har bara lagt ihop två sidor. Omkretsen är alla tre sidorna."
+        }
+      ]
+    },
+    {
+      "id": "liksidig",
+      "for": ["word-0"],
+      "vars": {"s":[3,20]},
+      "derive": [{"name":"p","expr":"3*s"}],
+      "prompt": "En liksidig triangel har sidan {s} cm. Vad är omkretsen i cm?",
+      "answer": ["=p","{p} cm","{p}cm"],
+      "correct": "Rätt! Alla tre sidor är {s} cm: 3 · {s} = {p} cm.",
+      "feedback": [{"answers":["=s*s"],"message":"Omkretsen är sidorna sammanlagt: 3 sidor som är {s} cm var."}]
+    },
+    {
+      "id": "saknad-sida",
+      "for": ["word-1"],
+      "vars": {"a":[4,12],"b":[4,12],"c":[4,12]},
+      "where": [{"expr":"a+b-c","min":1},{"expr":"a+c-b","min":1},{"expr":"b+c-a","min":1}],
+      "derive": [{"name":"p","expr":"a+b+c"}],
+      "prompt": "Omkretsen av en triangel är {p} cm. Två av sidorna är {a} cm och {b} cm. Hur lång är den tredje sidan?",
+      "answer": ["=c","{c} cm","{c}cm"],
+      "correct": "Rätt! {p} − {a} − {b} = {c} cm.",
+      "feedback": [
+        {"answers":["=p-a","=p-b"],"message":"Du har bara tagit bort en av de kända sidorna. Ta bort båda."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Triangeln har sidorna 8 cm, 6 cm och 5 cm. Vad är omkretsen i cm?",
     "answer": [

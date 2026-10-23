@@ -12,6 +12,47 @@
   "rule": "O = π · d = 2 · π · r",
   "ruleLabel": "CIRKELNS OMKRETS",
   "example": "En cirkel med diameter 10 cm har omkretsen ungefär 3,14 × 10 = 31,4 cm.",
+  "practice": [
+    {
+      "id": "diameter",
+      "for": ["exercise"],
+      "vars": {"d":[2,20]},
+      "derive": [{"name":"o","expr":"3.14*d"}],
+      "prompt": "En cirkel har diametern {d} cm. Ungefär hur lång är omkretsen? Använd π ≈ 3,14.",
+      "answer": ["=o","{o} cm","{o}cm"],
+      "correct": "Rätt! Omkretsen är π · d ≈ 3,14 · {d} = {o} cm.",
+      "feedback": [
+        {"answers":["=3.14*d*d"],"message":"Det är area-räkning. Omkretsen är π gånger diametern."},
+        {"answers":["=3.14*d/2"],"message":"Du har använt radien. Omkretsen är π gånger diametern."}
+      ]
+    },
+    {
+      "id": "radie",
+      "for": ["word-0"],
+      "vars": {"r":[2,12]},
+      "derive": [{"name":"o","expr":"2*3.14*r"}],
+      "prompt": "En cirkel har radien {r} cm. Ungefär hur lång är omkretsen? Använd π ≈ 3,14.",
+      "answer": ["=o","{o} cm","{o}cm"],
+      "correct": "Rätt! Diametern är {2*r} cm, och 3,14 · {2*r} = {o} cm.",
+      "feedback": [
+        {
+          "answers": ["=3.14*r"],
+          "message": "Det är π gånger radien. Omkretsen är π gånger diametern, som är dubbla radien."
+        }
+      ]
+    },
+    {
+      "id": "hjul",
+      "for": ["word-1"],
+      "pick": {"sak":["Ett cykelhjul","En tallrik","En burk"]},
+      "vars": {"d":[10,80,5]},
+      "derive": [{"name":"o","expr":"3.14*d"}],
+      "prompt": "{$sak} har diametern {d} cm. Ungefär hur långt är det runt ytterkanten? Använd π ≈ 3,14.",
+      "answer": ["=o","{o} cm","{o}cm"],
+      "correct": "Rätt! 3,14 · {d} = {o} cm.",
+      "feedback": [{"answers":["=d*d"],"message":"Omkretsen är π · diametern, inte diametern gånger diametern."}]
+    }
+  ],
   "exercise": {
     "prompt": "En cirkel har diametern 10 cm. Ungefär hur lång är omkretsen? Använd π ≈ 3,14.",
     "answer": ["31.4", "31,4", "31.4 cm", "31,4 cm", "31.4cm", "31,4cm"],

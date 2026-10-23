@@ -12,6 +12,49 @@
   "rule": "x = 3  →  y = 2 · 3 + 1 = 7",
   "ruleLabel": "FUNKTIONEN y = 2x + 1",
   "example": "Tänk en maskin: stoppa in ett x, multiplicera med 2 och lägg till 1. Maskinen ger alltid ett y.",
+  "practice": [
+    {
+      "id": "inmatning",
+      "for": ["exercise"],
+      "vars": {"k":[2,6],"m":[1,9],"x":[1,9]},
+      "derive": [{"name":"y","expr":"k*x+m"}],
+      "prompt": "I funktionen y = {k}x + {m}, vad blir y när x = {x}?",
+      "answer": ["=y"],
+      "correct": "Rätt! {k} · {x} + {m} = {k*x} + {m} = {y}.",
+      "feedback": [
+        {"answers":["=k*(x+m)"],"message":"Multiplicera först: {k} · {x}, och lägg sedan till {m}."},
+        {"answers":["=k*x"],"message":"Du glömde + {m} i slutet."}
+      ]
+    },
+    {
+      "id": "taxi",
+      "for": ["word-0"],
+      "vars": {"m":[20,50,5],"k":[5,15],"x":[2,12]},
+      "derive": [{"name":"y","expr":"k*x+m"}],
+      "prompt": "En taxi tar {m} kr i startavgift och {k} kr för varje kilometer. Vad kostar en resa på {x} km?",
+      "answer": ["=y","{y} kr"],
+      "correct": "Rätt! {k} · {x} + {m} = {y} kr.",
+      "feedback": [
+        {
+          "answers": ["=(k+m)*x"],
+          "message": "Startavgiften betalar man bara en gång. Räkna kilometerpriset gånger {x} och lägg till {m}."
+        }
+      ]
+    },
+    {
+      "id": "omvand",
+      "for": ["word-1"],
+      "vars": {"k":[2,6],"m":[1,9],"x":[1,9]},
+      "derive": [{"name":"y","expr":"k*x+m"}],
+      "prompt": "I funktionen y = {k}x + {m} är y = {y}. Vad är x?",
+      "answer": ["=x"],
+      "correct": "Rätt! {y} − {m} = {y-m} och {y-m} ÷ {k} = {x}.",
+      "feedback": [
+        {"answers":["=y/k"],"message":"Ta bort {m} först och dela sedan med {k}."},
+        {"answers":["=y-m"],"message":"Nästan! {y-m} är {k}x. Dela med {k} för att få x."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "I funktionen y = 2x + 1, vad blir y när x = 4?",
     "answer": ["9"],

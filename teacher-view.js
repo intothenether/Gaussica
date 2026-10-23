@@ -27,6 +27,27 @@ window.GaussicaTeacher = (function () {
   function pct(n, d) { return d ? Math.round((n / d) * 100) : 0; }
   function normAnswer(a) { return String(a == null ? "" : a).trim().toLowerCase().replace(/\s+/g, " "); }
 
+  // Generated practice questions ("Öva mer" / "Repetera") have ids like practice-<template>-<seed>.
+  function isPractice(taskId) { return String(taskId || "").indexOf("practice-") === 0; }
+
+  // One entry per generated question the student answered: what was asked and how it went.
+  function practiceOf(student, lessonId) {
+    const L = window.GaussicaLesson;
+    const byTask = new Map();
+    (student.attempts || []).forEach(function (a) {
+      if (a.lessonId !== lessonId || !isPractice(a.taskId) || !L.isSubmission(a)) return;
+      if (!byTask.has(a.taskId)) byTask.set(a.taskId, { taskId: a.taskId, kind: a.taskName, prompt: a.prompt, correct: a.correctAnswer, subs: [], at: a.timestamp });
+      byTask.get(a.taskId).subs.push(a);
+    });
+    return Array.from(byTask.values()).map(function (q) {
+      const first = q.subs.findIndex(function (a) { return a.completed; });
+      q.solved = first >= 0;
+      q.tries = first >= 0 ? first + 1 : q.subs.length;
+      q.at = q.subs[q.subs.length - 1].timestamp;
+      return q;
+    }).sort(function (a, b) { return String(b.at || "").localeCompare(String(a.at || "")); });
+  }
+
   // ===== ANALYTICS =====
   function analyzeStudent(student, course) {
     const L = window.GaussicaLesson;
@@ -73,14 +94,15 @@ window.GaussicaTeacher = (function () {
       // answers logged for tasks that no longer exist in the lesson (edited since)
       const orphanIds = {};
       (student.attempts || []).forEach(function (a) {
-        if (a.lessonId === lesson.id && L.isSubmission(a) && !known[a.taskId] && !orphanIds[a.taskId]) orphanIds[a.taskId] = a;
+        if (a.lessonId === lesson.id && L.isSubmission(a) && !isPractice(a.taskId) && !known[a.taskId] && !orphanIds[a.taskId]) orphanIds[a.taskId] = a;
       });
       Object.keys(orphanIds).forEach(function (id) {
         const a = orphanIds[id];
         if (!L.tasks(lesson).some(function (t) { return t.id === id; })) addRow(id, a.taskName || id, null, a);
       });
 
-      if (taskRows.length) lessons.push({ lesson: lesson, tasks: taskRows });
+      const practice = practiceOf(student, lesson.id);
+      if (taskRows.length || practice.length) lessons.push({ lesson: lesson, tasks: taskRows, practice: practice });
     });
 
     return {
@@ -488,10 +510,44 @@ window.GaussicaTeacher = (function () {
     lr.tasks.forEach(function (r) { bar.appendChild(el("span", "tv-mini-seg is-" + (r.status === "draft" ? "todo" : r.status))); });
     const tries = lr.tasks.reduce(function (n, r) { return n + r.subs.length; }, 0);
     sum.append(el("strong", "", lr.lesson.title), bar,
-      el("span", "tv-muted", solved + " av " + lr.tasks.length + " klara · " + plural(tries, "försök", "försök")));
+      el("span", "tv-muted", lr.tasks.length
+        ? solved + " av " + lr.tasks.length + " klara · " + plural(tries, "försök", "försök")
+        : "bara övningsfrågor"));
     if (hasFix) sum.appendChild(el("span", "tv-pill is-fix", "behöver rättas"));
     det.appendChild(sum);
     lr.tasks.forEach(function (row) { det.appendChild(taskBlock(row, ctx)); });
+    if (lr.practice && lr.practice.length) det.appendChild(practiceBlock(lr.practice, ctx));
+    return det;
+  }
+
+  // "Öva mer" and "Repetera": a short summary and the most recent generated questions.
+  function practiceBlock(items, ctx) {
+    const solved = items.filter(function (q) { return q.solved; }).length;
+    const firstTry = items.filter(function (q) { return q.solved && q.tries === 1; }).length;
+    const wrong = items.reduce(function (n, q) { return n + q.subs.filter(function (a) { return !a.completed; }).length; }, 0);
+    const det = el("details", "tv-task tv-practice");
+    det.appendChild(el("summary", "tv-practice-sum",
+      "Övning och repetition: " + plural(items.length, "fråga", "frågor") + " · " + firstTry + " rätt på första försöket · " + plural(wrong, "fel svar", "fel svar")));
+    const list = el("ol", "tv-timeline");
+    items.slice(0, 15).forEach(function (q) {
+      const li = el("li", "tv-try is-" + (q.solved ? "ok" : "bad"));
+      const line = el("div", "tv-try-line");
+      line.append(
+        el("span", "tv-try-no", q.kind || "Öva mer"),
+        el("span", "tv-try-mark", q.solved ? (q.tries === 1 ? "✓ Rätt direkt" : "✓ Rätt efter " + q.tries + " försök") : "✗ Inte löst"),
+        el("span", "tv-try-answer", q.prompt || "")
+      );
+      if (q.at) line.appendChild(el("span", "tv-muted tv-try-meta", ctx.formatTimestamp(q.at)));
+      li.appendChild(line);
+      const wrongs = q.subs.filter(function (a) { return !a.completed; });
+      if (wrongs.length) {
+        li.appendChild(el("p", "tv-feedback", "Fel svar: " + wrongs.map(function (a) { return "“" + (a.answer || "inget") + "”"; }).join(", ") +
+          (q.correct ? " · rätt svar: " + q.correct.split(" / ")[0] : "")));
+      }
+      list.appendChild(li);
+    });
+    det.appendChild(list);
+    if (items.length > 15) det.appendChild(el("p", "tv-muted", "Visar de 15 senaste av " + items.length + " frågor."));
     return det;
   }
 

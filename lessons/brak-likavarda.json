@@ -18,6 +18,57 @@
     "numerator": 1,
     "denominator": 2
   },
+  "practice": [
+    {
+      "id": "forlang",
+      "for": ["exercise"],
+      "vars": {"b":[2,6],"a":[1,5],"k":[2,5]},
+      "where": [{"expr":"b-a","min":1},{"expr":"sgd(a,b)","equals":1}],
+      "derive": [{"name":"p","expr":"a*k"},{"name":"q","expr":"b*k"}],
+      "prompt": "Skriv {a}/{b} som ett likvärdigt bråk med nämnaren {q}.",
+      "answer": ["{p}/{q}"],
+      "correct": "Rätt! Multiplicera täljare och nämnare med {k}: {a}/{b} = {p}/{q}.",
+      "feedback": [
+        {
+          "answers": ["{a}/{q}"],
+          "message": "Du ändrade bara nämnaren. Multiplicera både täljare och nämnare med {k}."
+        },
+        {
+          "answers": ["{a+k}/{q}"],
+          "message": "Du lade till i stället för att multiplicera. Både täljaren och nämnaren multipliceras med {k}."
+        }
+      ]
+    },
+    {
+      "id": "saknad-taljare",
+      "for": ["exercise"],
+      "vars": {"b":[2,6],"a":[1,5],"k":[2,5]},
+      "where": [{"expr":"b-a","min":1},{"expr":"sgd(a,b)","equals":1}],
+      "derive": [{"name":"p","expr":"a*k"},{"name":"q","expr":"b*k"}],
+      "prompt": "{a}/{b} = ?/{q}. Vilket tal ska stå i stället för frågetecknet?",
+      "answer": ["=p"],
+      "correct": "Rätt! Nämnaren blev {k} gånger större, så täljaren också: {a} · {k} = {p}.",
+      "feedback": [
+        {
+          "answers": ["=a"],
+          "message": "Täljaren ska också bli {k} gånger större, eftersom nämnaren gick från {b} till {q}."
+        }
+      ]
+    },
+    {
+      "id": "forkorta",
+      "for": ["word-0"],
+      "vars": {"b":[2,6],"a":[1,5],"k":[2,5]},
+      "where": [{"expr":"b-a","min":1},{"expr":"sgd(a,b)","equals":1}],
+      "derive": [{"name":"p","expr":"a*k"},{"name":"q","expr":"b*k"}],
+      "prompt": "Förkorta {p}/{q} så mycket du kan. Svara som bråk.",
+      "answer": ["{a}/{b}"],
+      "correct": "Rätt! Dela täljare och nämnare med {k}: {p}/{q} = {a}/{b}.",
+      "feedback": [
+        {"answers":["{a}/{q}","{p}/{b}"],"message":"Du måste dela både täljare och nämnare med samma tal."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Vilket bråk är likvärdigt med 1/3? Välj från: 2/4, 2/6, 2/8, 3/9.",
     "answer": ["2/6", "3/9"],

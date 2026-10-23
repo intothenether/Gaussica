@@ -35,6 +35,53 @@
   "rule": "Addition: hoppa åt höger. Subtraktion: hoppa åt vänster.",
   "ruleLabel": "TALLINJENS REGEL",
   "example": "Från 6 hoppar du 8 steg åt höger och landar på 14, så 6 + 8 = 14. Tal till vänster om noll är negativa, till exempel −3.",
+  "practice": [
+    {
+      "id": "punkt",
+      "for": ["exercise"],
+      "vars": {"v":[3,37]},
+      "derive": [{"name":"lo","expr":"floor(v/10)*10"},{"name":"hi","expr":"floor(v/10)*10+20"}],
+      "where": [{"expr":"mod(v,5)","min":1}],
+      "prompt": "Pricken med frågetecknet visar ett tal på tallinjen. Vilket tal är det?",
+      "visual": {
+        "type": "tallinje",
+        "min": "=lo",
+        "max": "=hi",
+        "step": 1,
+        "labelEvery": 5,
+        "points": [{"value":"=v","label":"?"}]
+      },
+      "answer": ["=v"],
+      "correct": "Rätt! Pricken är vid {v}.",
+      "feedback": [
+        {
+          "answers": ["=v+1","=v-1"],
+          "message": "Nästan! Räkna streck för streck från närmaste tal som står under tallinjen."
+        }
+      ]
+    },
+    {
+      "id": "hopp",
+      "for": ["word-0"],
+      "vars": {"a":[2,15],"d":[3,9]},
+      "derive": [{"name":"r","expr":"a+d"}],
+      "prompt": "Du står på {a} på tallinjen och hoppar {d} steg åt höger. Vilket tal hamnar du på?",
+      "visual": {"type":"tallinje","min":0,"max":30,"step":1,"labelEvery":5,"points":[{"value":"=a"}]},
+      "answer": ["=r"],
+      "correct": "Rätt! {a} + {d} = {r}.",
+      "feedback": [{"answers":["=a-d"],"message":"Åt höger är det större tal. Då ska du lägga till."}]
+    },
+    {
+      "id": "mellan",
+      "for": ["word-1"],
+      "vars": {"a":[2,20],"k":[2,8]},
+      "derive": [{"name":"b","expr":"a+2*k"},{"name":"m","expr":"a+k"}],
+      "prompt": "Vilket tal ligger mitt emellan {a} och {b} på tallinjen?",
+      "answer": ["=m"],
+      "correct": "Rätt! Avståndet är {b-a}, hälften är {k}, och {a} + {k} = {m}.",
+      "feedback": [{"answers":["=(a+b)"],"message":"Det är summan. Mitten får du genom att dela summan med 2."}]
+    }
+  ],
   "exercise": {
     "prompt": "Pricken med frågetecknet visar ett tal på tallinjen. Vilket tal är det?",
     "answer": [

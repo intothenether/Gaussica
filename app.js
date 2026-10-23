@@ -114,12 +114,36 @@
   const questionShownAt = {};
   // Latest drawing (JSON string) per "lessonId|taskId" while a problem is open.
   const drawings = {};
+  // Generated practice questions ("Öva mer", "Repetera") are not part of a lesson's progress. Their answers are
+  // only kept while the round is open; the attempt log still records every submitted answer.
+  const practiceEntries = {};
+  const practiceProblems = {};
+
+  function isPractice(taskId) { return window.GaussicaPractice.isPracticeId(taskId); }
+
+  function practiceEntry(lessonId, taskId) {
+    const key = lessonId + "|" + taskId;
+    return practiceEntries[key] || (practiceEntries[key] = { answer: "", scratchpad: "", feedback: "", feedbackType: "", completed: false });
+  }
+
+  // The saved state of a question: progress for lesson questions, the open round for generated ones.
+  function savedEntry(lessonId, taskId) {
+    if (isPractice(taskId)) return practiceEntries[lessonId + "|" + taskId] || {};
+    const p = currentUser && currentUser.lessonProgress && currentUser.lessonProgress[lessonId];
+    return (p && p.answers && p.answers[taskId]) || {};
+  }
 
   // The drawing is saved on its own, so drawing never changes whether a task counts as solved.
   function storeCanvas(lessonId, taskId, json) {
+    drawings[lessonId + "|" + taskId] = json || "";
+    if (isPractice(taskId)) {
+      const e = practiceEntry(lessonId, taskId);
+      if (json) e.canvas = json; else delete e.canvas;
+      return;
+    }
     const progress = getLessonProgress(lessonId);
     progress.started = true;
-    drawings[lessonId + "|" + taskId] = json || "";
+    progress.updatedAt = Date.now();
     const entry = progress.answers[taskId] || (progress.answers[taskId] = { answer: "", scratchpad: "", feedback: "", feedbackType: "", completed: false });
     if (json) entry.canvas = json; else delete entry.canvas;
     dirtyLessons.add(lessonId);
@@ -127,39 +151,49 @@
   }
 
   function storeAnswerProgress(lessonId, taskId, answer, scratchpad, feedback, feedbackType, completed, misconceptionTitle, promptText, labelText) {
-    const progress = getLessonProgress(lessonId);
-    progress.started = true;
+    const practice = isPractice(taskId);
     const drawKey = lessonId + "|" + taskId;
-    const canvas = (drawKey in drawings ? drawings[drawKey] : (progress.answers[taskId] && progress.answers[taskId].canvas)) || "";
-    progress.answers[taskId] = {
+    const lesson = course.lessons.find(function (item) { return item.id === lessonId; });
+    const progress = practice ? null : getLessonProgress(lessonId);
+    const before = practice ? practiceEntry(lessonId, taskId) : progress.answers[taskId];
+    const canvas = (drawKey in drawings ? drawings[drawKey] : (before && before.canvas)) || "";
+    const entry = {
       answer: answer,
-      scratchpad: scratchpad || (progress.answers[taskId] && progress.answers[taskId].scratchpad) || "",
+      scratchpad: scratchpad || (before && before.scratchpad) || "",
       feedback: feedback || "",
       feedbackType: feedbackType || "",
       completed: Boolean(completed)
     };
-    if (canvas) progress.answers[taskId].canvas = canvas;
-    const lesson = course.lessons.find(function (item) { return item.id === lessonId; });
-    progress.completed = window.GaussicaLesson.tasks(lesson).every(function (task) {
-      const taskProgress = progress.answers[task.id];
-      return taskProgress && taskProgress.completed;
-    });
+    if (canvas) entry.canvas = canvas;
+    if (practice) {
+      entry.completed = entry.completed || Boolean(before && before.completed);   // a solved question stays solved
+      practiceEntries[drawKey] = entry;
+    } else {
+      progress.started = true;
+      progress.updatedAt = Date.now();
+      progress.answers[taskId] = entry;
+      progress.completed = window.GaussicaLesson.tasks(lesson).every(function (task) {
+        const taskProgress = progress.answers[task.id];
+        return taskProgress && taskProgress.completed;
+      });
+    }
 
     // Typing drafts only update progress; the log holds submitted answers ("Kolla svaret").
     if (window.GaussicaLesson.isSubmission({ feedbackType: feedbackType })) {
       const priorSubmissions = currentUser.attempts.filter(function (a) {
         return a.lessonId === lessonId && a.taskId === taskId && window.GaussicaLesson.isSubmission(a);
       }).length;
-      const task = lesson && window.GaussicaLesson.tasks(lesson).find(function (t) { return t.id === taskId; });
+      const task = practice ? { problem: practiceProblems[drawKey] || { answer: [] } }
+        : lesson && window.GaussicaLesson.tasks(lesson).find(function (t) { return t.id === taskId; });
       const shownAt = questionShownAt[lessonId + "|" + taskId];
       const attempt = {
         lessonId: lessonId,
         lessonTitle: (lesson && lesson.title) || lessonId,
         taskId: taskId,
-        taskName: labelText || taskId,
+        taskName: practice ? (/^REPETERA/.test(labelText || "") ? "Repetera" : "Öva mer") : (labelText || taskId),
         prompt: promptText || (lesson && taskId === "exercise" ? lesson.exercise.prompt : ""),
         answer: answer,
-        scratchpad: scratchpad || (progress.answers[taskId] && progress.answers[taskId].scratchpad) || "",
+        scratchpad: entry.scratchpad,
         completed: Boolean(completed),
         feedback: feedback || "",
         feedbackType: feedbackType || "",
@@ -179,6 +213,7 @@
       sendAttempt(attempt);
     }
 
+    if (practice) return;
     dirtyLessons.add(lessonId);
     scheduleSave(feedbackType ? 100 : 800);
     updateNodeProgress(lessonId);
@@ -226,7 +261,9 @@
         renderProblem(parent, lesson, task.problem, task.id, label, opts);
       },
       goToLesson: function (id) { window.location.hash = "#" + id; },
-      goToPlayer: function (id) { window.location.hash = "#play/" + id; }
+      goToPlayer: function (id) { window.location.hash = "#play/" + id; },
+      hasPractice: function (id) { const l = course.lessons.find(function (x) { return x.id === id; }); return window.GaussicaPractice.has(l); },
+      startPractice: function (id) { window.location.hash = "#practice/" + id; }
     });
     course.areas.forEach(function (area) { areas.set(area.id, area.name); });
     validateCourse();
@@ -353,6 +390,120 @@
         panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
     });
+    renderCoach();
+  }
+
+  // ============ "NÄSTA STEG", ÖVA MER OCH REPETERA ============
+  function coachContext() {
+    return { lessons: course.lessons, student: currentUser, getProgress: getLessonProgress };
+  }
+
+  function isStudent() { return Boolean(currentUser && currentUser.role === "student"); }
+
+  // The suggestion card above the graph, the hero button and the highlighted node.
+  function renderCoach() {
+    const card = document.getElementById("next-card");
+    const hero = document.getElementById("hero-cta");
+    const prev = graph.querySelector(".is-next");
+    if (prev) prev.classList.remove("is-next");
+    if (!card || !course || !isStudent()) {
+      if (card) card.hidden = true;
+      return;
+    }
+    const L = window.GaussicaLesson;
+    const next = window.GaussicaCoach.nextStep(coachContext());
+    const review = window.GaussicaCoach.reviewPlan(coachContext());
+    card.hidden = false;
+    card.replaceChildren();
+
+    const main = makeElement("div", "next-main");
+    const copy = makeElement("div", "next-copy");
+    if (next.kind === "done") {
+      copy.append(makeElement("p", "eyebrow", "ALLT KLART"), makeElement("h3", "", "Du har klarat hela lärstigen!"),
+        makeElement("p", "next-meta", "Pyssla eller repetera igen när du vill."));
+      main.appendChild(copy);
+      if (hero) { hero.textContent = "Hitta nästa steg ↓"; hero.setAttribute("href", "#larstig"); }
+    } else {
+      const lesson = next.lesson;
+      const grade = L.gradeLabel(L.effectiveGrade(lesson, course.lessons));
+      let meta;
+      if (next.kind === "continue") {
+        meta = grade + " · " + next.done + " av " + next.total + " klara" + (next.fix ? " · " + next.fix + " att rätta" : "");
+      } else if (next.after && next.after.length) {
+        meta = grade + " · bygger på " + next.after.slice(0, 2).map(function (p) { return p.title; }).join(" och ");
+      } else {
+        meta = grade + (next.ready ? " · ett bra ställe att börja" : " · du kan prova även om du inte klarat förkunskaperna");
+      }
+      copy.append(
+        makeElement("p", "eyebrow", next.kind === "continue" ? "NÄSTA STEG · FORTSÄTT DÄR DU SLUTADE" : "NÄSTA STEG"),
+        makeElement("h3", "", lesson.title),
+        makeElement("p", "next-meta", meta)
+      );
+      const go = makeElement("button", "primary-button next-go", next.kind === "continue" ? "Fortsätt här →" : "Börja här →");
+      go.type = "button";
+      go.addEventListener("click", function () { window.location.hash = "#play/" + lesson.id; });
+      main.append(copy, go);
+      const node = graph.querySelector('[data-lesson-id="' + lesson.id + '"]');
+      if (node) node.classList.add("is-next");
+      if (hero) {
+        hero.textContent = (next.kind === "continue" ? "Fortsätt här" : "Börja här") + " →";
+        hero.setAttribute("href", "#play/" + lesson.id);
+      }
+    }
+    card.appendChild(main);
+
+    if (review.lessons.length) {
+      const row = makeElement("div", "next-review");
+      const names = review.lessons.slice(0, 3).map(function (r) { return r.lesson.title; });
+      const text = makeElement("p", "next-review-text");
+      text.append(makeElement("strong", "", "Repetera: "), document.createTextNode("du kan behöva öva mer på " + names.join(", ") + "."));
+      const btn = makeElement("button", "next-review-btn", "Repetera nu");
+      btn.type = "button";
+      btn.addEventListener("click", function () { window.location.hash = "#review"; });
+      row.append(text, btn);
+      card.appendChild(row);
+    }
+  }
+
+  function openRound(kind, items, options) {
+    if (!items.length) {
+      window.location.hash = options.backHash;
+      return;
+    }
+    items.forEach(function (it) { practiceProblems[it.lessonId + "|" + it.taskId] = it.problem; });
+    window.GaussicaPlayer.openSession({
+      kind: kind,
+      title: options.title,
+      items: items,
+      backLabel: options.backLabel,
+      onExit: function () { window.location.hash = options.backHash; },
+      again: options.again
+    });
+  }
+
+  function openPracticeSession(lessonId) {
+    const lesson = course.lessons.find(function (l) { return l.id === lessonId; });
+    if (!lesson || !window.GaussicaPractice.has(lesson)) {
+      window.location.hash = lesson ? "#" + lessonId : "#larstig";
+      return;
+    }
+    const options = {
+      title: "Öva mer: " + lesson.title,
+      backLabel: "Tillbaka till lektionen",
+      backHash: "#" + lessonId,
+      again: function () { openRound("practice", window.GaussicaCoach.practiceRound(coachContext(), lesson, 5), options); }
+    };
+    openRound("practice", window.GaussicaCoach.practiceRound(coachContext(), lesson, 5), options);
+  }
+
+  function openReviewSession() {
+    const options = {
+      title: "Repetera",
+      backLabel: "Till lärstigen",
+      backHash: "#larstig",
+      again: function () { openRound("review", window.GaussicaCoach.reviewRound(coachContext(), 6), options); }
+    };
+    openRound("review", window.GaussicaCoach.reviewRound(coachContext(), 6), options);
   }
 
   function addSection(parent, eyebrow, heading, text) {
@@ -1193,6 +1344,7 @@
     const progress = getLessonProgress(lessonId);
     const lesson = course.lessons.find(function (item) { return item.id === lessonId; });
     progress.started = true;
+    progress.updatedAt = Date.now();
     progress.answers[taskId] = { answer: "klart", scratchpad: "", feedback: "", feedbackType: "correct", completed: true };
     progress.completed = window.GaussicaLesson.tasks(lesson).every(function (task) {
       const entry = progress.answers[task.id];
@@ -1302,9 +1454,8 @@
   function renderProblem(parent, lesson, exercise, taskId, labelText, opts) {
     const finish = function (isCorrect) { if (opts && opts.onResult) opts.onResult(isCorrect); };
     questionShownAt[lesson.id + "|" + taskId] = Date.now();
-    const student = getActiveStudent();
-    const saved = (student.lessonProgress && student.lessonProgress[lesson.id] &&
-      student.lessonProgress[lesson.id].answers && student.lessonProgress[lesson.id].answers[taskId]) || {};
+    const saved = savedEntry(lesson.id, taskId);
+    if (isPractice(taskId)) practiceProblems[lesson.id + "|" + taskId] = exercise;
     const section = makeElement("section", taskId === "exercise" ? "exercise" : "exercise word-problem");
     const headingId = "problem-title-" + lesson.id + "-" + taskId;
     section.setAttribute("aria-labelledby", headingId);
@@ -1686,7 +1837,16 @@
     startBtn.addEventListener("click", function () {
       window.GaussicaPlayer.open(lesson.id, state === "complete" ? { step: 0 } : undefined);
     });
-    card.append(copy, startBtn);
+    const actions = makeElement("div", "start-actions");
+    actions.appendChild(startBtn);
+    if (window.GaussicaPractice.has(lesson)) {
+      const practiceBtn = makeElement("button", "secondary-button start-practice", "Öva mer");
+      practiceBtn.type = "button";
+      practiceBtn.title = "Nya uppgifter i samma stil, med nya tal";
+      practiceBtn.addEventListener("click", function () { window.location.hash = "#practice/" + lesson.id; });
+      actions.appendChild(practiceBtn);
+    }
+    card.append(copy, actions);
     parent.appendChild(card);
 
     const list = makeElement("ol", "step-list");
@@ -2098,6 +2258,13 @@
   function checkRoute() {
     const hash = window.location.hash || "";
     const playId = hash.indexOf("#play/") === 0 ? hash.slice(6) : "";
+    const practiceId = hash.indexOf("#practice/") === 0 ? decodeURIComponent(hash.slice(10)) : "";
+    if (practiceId || hash === "#review") {
+      if (adminPage) adminPage.hidden = true;
+      if (studentView) studentView.hidden = false;
+      if (practiceId) openPracticeSession(practiceId); else openReviewSession();
+      return;
+    }
     if (playId) {
       if (adminPage) adminPage.hidden = true;
       if (studentView) studentView.hidden = false;

@@ -12,6 +12,48 @@
   "rule": "3x + 2 = 14  →  3x = 12  →  x = 4",
   "ruleLabel": "BALANSPRINCIPEN",
   "example": "Om du bara ändrar ena sidan är balansen bruten — precis som en våg som bara får en extra vikt på ena sidan.",
+  "practice": [
+    {
+      "id": "ax-plus-b",
+      "for": ["exercise"],
+      "vars": {"a":[2,6],"x":[1,12],"b":[1,15]},
+      "derive": [{"name":"s","expr":"a*x+b"}],
+      "prompt": "Lös ekvationen: {a}x + {b} = {s}. Vad är x?",
+      "answer": ["=x","x={x}","x = {x}"],
+      "correct": "Rätt! {s} − {b} = {s-b}, och {s-b} ÷ {a} = {x}.",
+      "feedback": [
+        {
+          "answers": ["=s-b"],
+          "message": "Du tog bort {b} och fick {s-b}. Bra! Men {a}x är {s-b}, så dela med {a}."
+        },
+        {"answers":["=s+b"],"message":"Gör tvärtom: ta bort {b} från båda sidor."}
+      ]
+    },
+    {
+      "id": "ax-minus-b",
+      "for": ["exercise"],
+      "vars": {"a":[2,6],"x":[2,12],"b":[1,9]},
+      "where": [{"expr":"a*x-b","min":1}],
+      "derive": [{"name":"s","expr":"a*x-b"}],
+      "prompt": "Lös ekvationen: {a}x − {b} = {s}. Vad är x?",
+      "answer": ["=x","x={x}","x = {x}"],
+      "correct": "Rätt! {s} + {b} = {s+b}, och {s+b} ÷ {a} = {x}.",
+      "feedback": [{"answers":["=s-b"],"message":"Gör tvärtom mot minus: lägg till {b} på båda sidor först."}]
+    },
+    {
+      "id": "bocker",
+      "for": ["word-1"],
+      "vars": {"a":[2,5],"x":[4,15],"b":[3,12]},
+      "derive": [{"name":"s","expr":"a*x+b"}],
+      "prompt": "{a} likadana böcker och ett radergummi för {b} kr kostar tillsammans {s} kr. Vad kostar en bok?",
+      "answer": ["=x","{x} kr"],
+      "correct": "Rätt! {s} − {b} = {s-b} kr, och {s-b} ÷ {a} = {x} kr.",
+      "feedback": [
+        {"answers":["=s-b"],"message":"{s-b} kr är priset för alla böckerna tillsammans. Dela med {a}."},
+        {"answers":["=s/a"],"message":"Radergummit ska också dras bort först."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Lös ekvationen: 3x + 2 = 14. Vad är x?",
     "answer": ["4", "x=4", "x = 4"],

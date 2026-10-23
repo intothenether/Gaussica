@@ -18,6 +18,71 @@
     "numerator": 2,
     "denominator": 3
   },
+  "practice": [
+    {
+      "id": "storst-forst",
+      "for": ["exercise"],
+      "vars": {"a":[1,8],"b":[2,9],"c":[1,8],"d":[2,9]},
+      "where": [
+        {"expr":"b-a","min":1},
+        {"expr":"d-c","min":1},
+        {"expr":"a/b-c/d","min":0.04},
+        {"expr":"sgd(a,b)","equals":1},
+        {"expr":"sgd(c,d)","equals":1}
+      ],
+      "prompt": "Vilket bråk är störst: {a}/{b} eller {c}/{d}? Skriv det större bråket.",
+      "answer": ["{a}/{b}"],
+      "correct": "Rätt! {a}/{b} ≈ {a/b} och {c}/{d} ≈ {c/d}.",
+      "feedback": [
+        {
+          "answers": ["{c}/{d}"],
+          "message": "Gör bråken liknämniga, eller jämför med 1/2, för att se vilket som är störst."
+        }
+      ]
+    },
+    {
+      "id": "storst-sist",
+      "for": ["exercise"],
+      "vars": {"a":[1,8],"b":[2,9],"c":[1,8],"d":[2,9]},
+      "where": [
+        {"expr":"b-a","min":1},
+        {"expr":"d-c","min":1},
+        {"expr":"a/b-c/d","min":0.04},
+        {"expr":"sgd(a,b)","equals":1},
+        {"expr":"sgd(c,d)","equals":1}
+      ],
+      "prompt": "Vilket bråk är störst: {c}/{d} eller {a}/{b}? Skriv det större bråket.",
+      "answer": ["{a}/{b}"],
+      "correct": "Rätt! {a}/{b} ≈ {a/b} och {c}/{d} ≈ {c/d}.",
+      "feedback": [
+        {
+          "answers": ["{c}/{d}"],
+          "message": "Gör bråken liknämniga, eller jämför med 1/2, för att se vilket som är störst."
+        }
+      ]
+    },
+    {
+      "id": "minst",
+      "for": ["word-0"],
+      "vars": {"a":[1,8],"b":[2,9],"c":[1,8],"d":[2,9]},
+      "where": [
+        {"expr":"b-a","min":1},
+        {"expr":"d-c","min":1},
+        {"expr":"a/b-c/d","min":0.04},
+        {"expr":"sgd(a,b)","equals":1},
+        {"expr":"sgd(c,d)","equals":1}
+      ],
+      "prompt": "Vilket bråk är minst: {a}/{b} eller {c}/{d}? Skriv det mindre bråket.",
+      "answer": ["{c}/{d}"],
+      "correct": "Rätt! {c}/{d} ≈ {c/d} är mindre än {a}/{b} ≈ {a/b}.",
+      "feedback": [
+        {
+          "answers": ["{a}/{b}"],
+          "message": "Gör bråken liknämniga, eller jämför med 1/2, för att se vilket som är minst."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Vilket bråk är större: 2/3 eller 3/5?",
     "answer": ["2/3"],

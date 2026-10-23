@@ -26,6 +26,52 @@
   "rule": "A = (bas · höjd) ÷ 2",
   "ruleLabel": "TRIANGELNS AREA",
   "example": "Bas 6 m och höjd 4 m ger (6 · 4) ÷ 2 = 12 m².",
+  "practice": [
+    {
+      "id": "area",
+      "for": ["exercise"],
+      "vars": {"b":[4,14],"h":[3,10]},
+      "where": [{"expr":"mod(b*h,2)","equals":0}],
+      "derive": [{"name":"p","expr":"b*h/2"}],
+      "prompt": "Triangeln har basen {b} cm och höjden {h} cm. Vad är arean i cm²?",
+      "visual": {"type":"triangel","base":"=b","height":"=h","apex":"=floor(b/2)","unit":"cm","showHeight":true},
+      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "correct": "Rätt! En triangel är hälften av en rektangel: {b} · {h} ÷ 2 = {p} cm².",
+      "feedback": [
+        {"answers":["=b*h"],"message":"Det är arean av hela rektangeln. En triangel är hälften av den."},
+        {"answers":["=b+h"],"message":"Arean är bas gånger höjd delat med 2, inte bas plus höjd."}
+      ]
+    },
+    {
+      "id": "vimpel",
+      "for": ["word-0"],
+      "pick": {"sak":["En vimpel","Ett segel","En flagga"]},
+      "vars": {"b":[6,30,2],"h":[4,20,2]},
+      "derive": [{"name":"p","expr":"b*h/2"}],
+      "prompt": "{$sak} har formen av en triangel med basen {b} cm och höjden {h} cm. Hur stor yta har den i cm²?",
+      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "correct": "Rätt! {b} · {h} ÷ 2 = {p} cm².",
+      "feedback": [
+        {
+          "answers": ["=b*h"],
+          "message": "Du glömde dela med 2. En triangel är hälften av rektangeln {b} · {h}."
+        }
+      ]
+    },
+    {
+      "id": "saknad-hojd",
+      "for": ["word-1"],
+      "vars": {"b":[4,12,2],"h":[3,9]},
+      "derive": [{"name":"a","expr":"b*h/2"}],
+      "prompt": "En triangel har arean {a} cm² och basen {b} cm. Hur hög är den?",
+      "answer": ["=h","{h} cm","{h}cm"],
+      "correct": "Rätt! 2 · {a} = {2*a}, och {2*a} ÷ {b} = {h} cm.",
+      "feedback": [
+        {"answers":["=a/b"],"message":"Glöm inte att triangelns area är hälften. Dubbla arean först."},
+        {"answers":["=a*b"],"message":"Gör tvärtom: dela med basen."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Triangeln har basen 10 cm och höjden 6 cm. Vad är arean i cm²?",
     "answer": [

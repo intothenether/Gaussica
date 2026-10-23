@@ -24,6 +24,51 @@
   "rule": "O = 2 · (längd + bredd)",
   "ruleLabel": "REKTANGELNS OMKRETS",
   "example": "Längd 10 m och bredd 4 m ger 2 · (10 + 4) = 28 m. Det är samma som 10 + 4 + 10 + 4.",
+  "practice": [
+    {
+      "id": "omkrets",
+      "for": ["exercise"],
+      "vars": {"l":[4,15],"b":[2,9]},
+      "where": [{"expr":"l-b","min":1}],
+      "derive": [{"name":"p","expr":"2*(l+b)"}],
+      "prompt": "Rektangeln är {l} cm lång och {b} cm bred. Vad är omkretsen i cm?",
+      "visual": {"type":"rektangel","w":"=l","h":"=b","unit":"cm","sides":"all","outline":true},
+      "answer": ["=p","{p} cm","{p}cm"],
+      "correct": "Rätt! 2 · ({l} + {b}) = 2 · {l+b} = {p} cm.",
+      "feedback": [
+        {
+          "answers": ["=l+b"],
+          "message": "Det är bara två sidor. En rektangel har fyra sidor, två långa och två korta."
+        },
+        {"answers":["=l*b"],"message":"Det är arean. Omkretsen är sträckan runt om."}
+      ]
+    },
+    {
+      "id": "tradgard",
+      "for": ["word-0"],
+      "vars": {"l":[6,30],"b":[3,15]},
+      "where": [{"expr":"l-b","min":1}],
+      "derive": [{"name":"p","expr":"2*(l+b)"}],
+      "prompt": "En trädgård är {l} m lång och {b} m bred. Hur långt staket behövs runt hela?",
+      "answer": ["=p","{p} m","{p}m"],
+      "correct": "Rätt! 2 · ({l} + {b}) = {p} m.",
+      "feedback": [{"answers":["=l*b"],"message":"Det är arean. Staketet går runt om, så du ska räkna omkretsen."}]
+    },
+    {
+      "id": "saknad-sida",
+      "for": ["word-1"],
+      "vars": {"l":[5,15],"b":[2,9]},
+      "where": [{"expr":"l-b","min":1}],
+      "derive": [{"name":"p","expr":"2*(l+b)"}],
+      "prompt": "En rektangel har omkretsen {p} cm och längden {l} cm. Hur bred är den?",
+      "answer": ["=b","{b} cm","{b}cm"],
+      "correct": "Rätt! {p} ÷ 2 = {p/2} är längd plus bredd. {p/2} − {l} = {b} cm.",
+      "feedback": [
+        {"answers":["=p-l"],"message":"Omkretsen innehåller två längder och två bredder. Dela med 2 först."},
+        {"answers":["=p/2"],"message":"Det är längd plus bredd tillsammans. Ta bort längden {l}."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Rektangeln är 8 cm lång och 5 cm bred. Vad är omkretsen i cm?",
     "answer": [

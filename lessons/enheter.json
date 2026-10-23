@@ -12,6 +12,51 @@
   "rule": "1 m = 100 cm",
   "ruleLabel": "VÄXLA METER TILL CENTIMETER",
   "example": "När du omvandlar meter till centimeter blir talet 100 gånger större, eftersom varje meter består av 100 centimeter.",
+  "practice": [
+    {
+      "id": "m-cm",
+      "for": ["exercise"],
+      "vars": {"m":[1,9],"c":[5,95,5]},
+      "derive": [{"name":"r","expr":"m*100+c"}],
+      "prompt": "Hur många centimeter är {m} m och {c} cm tillsammans?",
+      "answer": ["=r","{r} cm","{r}cm"],
+      "correct": "Rätt! {m} m = {m*100} cm, och {m*100} + {c} = {r} cm.",
+      "feedback": [
+        {"answers":["=m+c"],"message":"Du lade ihop talen utan att växla. 1 m är 100 cm."},
+        {"answers":["=m*10+c"],"message":"1 m är 100 cm, inte 10 cm."}
+      ]
+    },
+    {
+      "id": "km-m",
+      "for": ["word-0"],
+      "vars": {"k":[2,9]},
+      "derive": [{"name":"r","expr":"k*1000"}],
+      "prompt": "Hur många meter är {k} km?",
+      "answer": ["=r","{r} m","{r}m"],
+      "correct": "Rätt! 1 km är 1000 m, så {k} km är {r} m.",
+      "feedback": [{"answers":["=k*100"],"message":"1 km är 1000 m, inte 100 m."}]
+    },
+    {
+      "id": "kg-g",
+      "for": ["word-1"],
+      "vars": {"k":[1,6],"g":[50,950,50]},
+      "derive": [{"name":"r","expr":"k*1000+g"}],
+      "prompt": "Hur många gram är {k} kg och {g} g tillsammans?",
+      "answer": ["=r","{r} g","{r}g"],
+      "correct": "Rätt! {k} kg = {k*1000} g, och {k*1000} + {g} = {r} g.",
+      "feedback": [{"answers":["=k+g"],"message":"Du lade ihop utan att växla. 1 kg är 1000 g."}]
+    },
+    {
+      "id": "cm-mm",
+      "for": ["word-1"],
+      "vars": {"c":[2,30]},
+      "derive": [{"name":"r","expr":"c*10"}],
+      "prompt": "Hur många millimeter är {c} cm?",
+      "answer": ["=r","{r} mm","{r}mm"],
+      "correct": "Rätt! 1 cm är 10 mm, så {c} cm är {r} mm.",
+      "feedback": [{"answers":["=c*100"],"message":"1 cm är 10 mm, inte 100 mm."}]
+    }
+  ],
   "exercise": {
     "prompt": "Hur många centimeter är 3 m och 45 cm tillsammans?",
     "answer": ["345 cm", "345cm"],

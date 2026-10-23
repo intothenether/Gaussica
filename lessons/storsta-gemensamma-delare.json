@@ -42,6 +42,45 @@
   "rule": "SGD = den största gemensamma delaren",
   "ruleLabel": "SGD",
   "example": "SGD(20, 30) = 10, eftersom 10 är det största talet som delar både 20 och 30.",
+  "practice": [
+    {
+      "id": "sgd",
+      "for": ["exercise"],
+      "vars": {"a":[8,80],"b":[8,80]},
+      "where": [{"expr":"abs(a-b)","min":1},{"expr":"sgd(a,b)","min":2}],
+      "derive": [{"name":"g","expr":"sgd(a,b)"}],
+      "prompt": "Vad är den största gemensamma delaren till {a} och {b}?",
+      "answer": ["=g"],
+      "correct": "Rätt! Det största tal som går jämnt upp i både {a} och {b} är {g}.",
+      "feedback": [
+        {
+          "answers": ["=min(a,b)"],
+          "message": "Det mindre talet är inte alltid delare till det större. Kontrollera att talet går jämnt upp i båda."
+        },
+        {
+          "answers": ["=a*b"],
+          "message": "Det är produkten. Den största gemensamma delaren är ett tal som går upp i båda talen."
+        }
+      ]
+    },
+    {
+      "id": "fruktkorgar",
+      "for": ["word-0"],
+      "pick": {"namn":["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"]},
+      "vars": {"a":[12,60],"b":[12,60]},
+      "where": [{"expr":"abs(a-b)","min":1},{"expr":"sgd(a,b)","min":2}],
+      "derive": [{"name":"g","expr":"sgd(a,b)"}],
+      "prompt": "{$namn} har {a} äpplen och {b} päron och vill göra likadana fruktkorgar utan att något blir över. Hur många korgar kan {$namn} som mest göra?",
+      "answer": ["=g"],
+      "correct": "Rätt! Det blir {g} korgar, och varje korg får {a/g} äpplen och {b/g} päron.",
+      "feedback": [
+        {
+          "answers": ["=1"],
+          "message": "Det går att göra fler korgar. Leta efter den största gemensamma delaren till {a} och {b}."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Vad är den största gemensamma delaren till 16 och 24?",
     "answer": [

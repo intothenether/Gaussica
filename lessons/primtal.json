@@ -34,6 +34,56 @@
   "rule": "Primtal: exakt två delare (1 och talet självt)",
   "ruleLabel": "PRIMTAL",
   "example": "9 är inget primtal, eftersom 3 · 3 = 9 ger delaren 3. 11 är ett primtal: ingen annan delare än 1 och 11.",
+  "practice": [
+    {
+      "id": "antal-primtal",
+      "for": ["exercise"],
+      "vars": {"n":[10,50,10]},
+      "derive": [{"name":"c","expr":"primecount(n)"}],
+      "prompt": "Hur många primtal finns det mellan 1 och {n}?",
+      "answer": ["=c"],
+      "correct": "Rätt! Det finns {c} primtal upp till {n}.",
+      "feedback": [
+        {"answers":["=c+1"],"message":"Talet 1 är inte ett primtal. Ett primtal har exakt två delare."},
+        {"answers":["=c-1"],"message":"Glöm inte 2, det enda jämna primtalet."}
+      ]
+    },
+    {
+      "id": "ar-primtal",
+      "for": ["word-0"],
+      "vars": {"n":[11,60]},
+      "where": [{"expr":"isprime(n)","equals":1}],
+      "prompt": "Är {n} ett primtal? Svara ja eller nej.",
+      "answer": ["ja","Ja"],
+      "correct": "Ja! {n} har bara delarna 1 och {n}.",
+      "feedback": []
+    },
+    {
+      "id": "inte-primtal",
+      "for": ["word-0"],
+      "vars": {"n":[11,60]},
+      "where": [{"expr":"isprime(n)","equals":0},{"expr":"mod(n,2)","equals":1}],
+      "prompt": "Är {n} ett primtal? Svara ja eller nej.",
+      "answer": ["nej","Nej"],
+      "correct": "Nej. {n} har fler delare än 1 och sig självt: {n} har {divcount(n)} delare.",
+      "feedback": []
+    },
+    {
+      "id": "nasta-primtal",
+      "for": ["word-1"],
+      "vars": {"n":[10,60]},
+      "derive": [{"name":"p","expr":"nextprime(n)"}],
+      "prompt": "Vilket är det minsta primtalet som är större än {n}?",
+      "answer": ["=p"],
+      "correct": "Rätt! Det är {p}.",
+      "feedback": [
+        {
+          "answers": ["=n+1"],
+          "message": "Kolla om {n+1} har fler delare än 1 och sig självt. Då är det inte ett primtal."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Hur många primtal finns det mellan 1 och 10?",
     "answer": [

@@ -12,6 +12,56 @@
   "rule": "358 + 176 = 400 + 120 + 14 = 534",
   "ruleLabel": "ADDERA POSITIONSVIS",
   "example": "Tio ental kan bytas mot ett tiotal och tio tiotal mot ett hundratal. Värdet ändras inte när vi grupperar om.",
+  "practice": [
+    {
+      "id": "summa",
+      "for": ["exercise"],
+      "vars": {"a":[120,899],"b":[120,899]},
+      "derive": [{"name":"s","expr":"a+b"}],
+      "prompt": "Räkna ut {a} + {b}.",
+      "answer": ["=s"],
+      "correct": "Rätt! {a} + {b} = {s}.",
+      "feedback": [
+        {
+          "answers": ["=s-10","=s-100"],
+          "message": "Det ser ut som att en minnessiffra glömdes. När en kolumn blir 10 eller mer flyttar du tiotalet till nästa kolumn."
+        },
+        {
+          "answers": ["=s+10","=s+100"],
+          "message": "Du har tagit med en minnessiffra för mycket. Räkna kolumnerna igen."
+        }
+      ]
+    },
+    {
+      "id": "berattelse",
+      "for": ["word-0"],
+      "pick": {
+        "namn": ["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"],
+        "sak": ["frimärken","klistermärken","pärlor","kort","kulor"]
+      },
+      "vars": {"a":[120,700],"b":[80,290]},
+      "derive": [{"name":"s","expr":"a+b"}],
+      "prompt": "{$namn} har {a} {$sak} och får {b} till. Hur många {$sak} har {$namn} nu?",
+      "answer": ["=s"],
+      "correct": "Rätt! {a} + {b} = {s}.",
+      "feedback": [{"answers":["=abs(a-b)"],"message":"Här ska du lägga ihop, för {$namn} får fler {$sak}."}]
+    },
+    {
+      "id": "saknat-tal",
+      "for": ["word-1"],
+      "vars": {"a":[100,500],"b":[60,400]},
+      "derive": [{"name":"s","expr":"a+b"}],
+      "prompt": "Vilket tal ska stå i rutan: {a} + □ = {s}?",
+      "answer": ["=b"],
+      "correct": "Rätt! {s} − {a} = {b}.",
+      "feedback": [
+        {
+          "answers": ["=s+a"],
+          "message": "Du lade ihop talen. Rutan ska fyllas så att summan blir {s}. Räkna baklänges: {s} − {a}."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Räkna ut 358 + 176.",
     "answer": ["534"],

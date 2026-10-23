@@ -43,6 +43,34 @@
   "rule": "Vik längs linjen: halvorna ska täcka varandra exakt",
   "ruleLabel": "SYMMETRILINJE",
   "example": "En regelbunden månghörning med n sidor har n symmetrilinjer. En femhörning där alla sidor är lika långa har alltså 5.",
+  "practice": [
+    {
+      "id": "regelbunden",
+      "for": ["exercise"],
+      "vars": {"k":[3,8]},
+      "prompt": "En regelbunden månghörning har {k} sidor (alla sidor och vinklar är lika stora). Hur många symmetrilinjer har den?",
+      "answer": ["=k"],
+      "correct": "Rätt! En regelbunden {k}-hörning har {k} symmetrilinjer.",
+      "feedback": [
+        {"answers":["=2*k"],"message":"Räkna en gång till. Det finns lika många symmetrilinjer som sidor."}
+      ]
+    },
+    {
+      "id": "spegling",
+      "for": ["word-0"],
+      "vars": {"a":[1,9]},
+      "derive": [{"name":"r","expr":"a"}],
+      "prompt": "Du speglar en figur i en symmetrilinje. Ett hörn är {a} cm från linjen. Hur långt från linjen är motsvarande hörn i spegelbilden?",
+      "answer": ["=a","{a} cm"],
+      "correct": "Rätt! Spegelbilden ligger lika långt från linjen på andra sidan: {a} cm.",
+      "feedback": [
+        {
+          "answers": ["=2*a"],
+          "message": "Det är avståndet mellan de två hörnen. Du ska svara hur långt från linjen spegelbildens hörn ligger."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Hur många symmetrilinjer har en kvadrat?",
     "answer": [

@@ -10,11 +10,14 @@
     <link rel="stylesheet" href="./styles.css">
     <script src="./config.js" defer></script>
     <script src="./local-backend.js" defer></script>
+    <script src="./privacy.js" defer></script>
     <script src="./auth-view.js" defer></script>
     <script src="./lesson-model.js" defer></script>
     <script src="./canvas-pad.js" defer></script>
     <script src="./figures.js" defer></script>
     <script src="./pyssel.js" defer></script>
+    <script src="./practice.js" defer></script>
+    <script src="./coach.js" defer></script>
     <script src="./graph-view.js" defer></script>
     <script src="./lesson-player.js" defer></script>
     <script src="./teacher-view.js" defer></script>
@@ -44,7 +47,7 @@
           <p class="eyebrow"><span class="eyebrow-dot"></span> MATEMATIK SOM HÄNGER IHOP</p>
           <h1 id="hero-title">En idé i taget.<br><span>Hela vägen fram.</span></h1>
           <p class="hero-description">Bygg förståelse från grunden. Testa själv, se hur matematiken fungerar och förstå varför ett svar blir som det blir.</p>
-          <a class="primary-button" href="#larstig">Hitta nästa steg <span aria-hidden="true">↓</span></a>
+          <a class="primary-button" id="hero-cta" href="#larstig">Hitta nästa steg <span aria-hidden="true">↓</span></a>
           <p class="hero-note">Från ungefär åk 3 till gymnasiet. I din takt.</p>
         </div>
         <div class="hero-visual" aria-hidden="true">
@@ -73,6 +76,7 @@
           </div>
           <span class="grade-range">ÅK 3 <span aria-hidden="true">→</span> GYMNASIET ÅK 3</span>
         </div>
+        <div class="next-card" id="next-card" hidden aria-live="polite"></div>
         <div class="area-filters" id="area-filters" aria-label="Filtrera efter matematikområde"></div>
         <div class="graph-heading">
           <div>
@@ -122,6 +126,7 @@
       <p>Byggd för att förstå — inte bara räkna ut.</p>
       <div class="footer-links">
         <a href="#admin" class="footer-admin-link" hidden>Lärarvy &amp; statistik 📊</a>
+        <button type="button" class="footer-privacy" id="footer-privacy">Integritet</button>
         <a href="./README.md">Om lärstigen <span aria-hidden="true">↗</span></a>
       </div>
     </footer>

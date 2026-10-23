@@ -45,6 +45,17 @@ window.GaussicaPyssel = (function () {
       for (let d = 2; d * d <= n; d++) if (n % d === 0) return 0;
       return 1;
     },
+    primecount: function (n) {   // how many primes there are up to and including n
+      n = Math.round(n);
+      let c = 0;
+      for (let k = 2; k <= n; k++) c += FUNCS.isprime(k);
+      return c;
+    },
+    nextprime: function (n) {    // the smallest prime larger than n
+      n = Math.round(n);
+      for (let k = n + 1; k < n + 1000; k++) if (FUNCS.isprime(k)) return k;
+      return NaN;
+    },
     sgd: function (a, b) {
       a = Math.abs(Math.round(a)); b = Math.abs(Math.round(b));
       while (b) { const t = b; b = a % b; a = t; }

@@ -56,6 +56,59 @@
   "rule": "skillnad = största värdet − minsta värdet",
   "ruleLabel": "JÄMFÖR STAPELVÄRDEN",
   "example": "Om stapeln för äpple visar 12 och stapeln för banan visar 5 är skillnaden 12 − 5 = 7 röster.",
+  "practice": [
+    {
+      "id": "skillnad",
+      "for": ["exercise"],
+      "vars": {"a":[9,14],"b":[4,8],"c":[2,7]},
+      "derive": [{"name":"r","expr":"a-b"}],
+      "prompt": "Titta på diagrammet. Hur många fler röster har äpple än banan?",
+      "visual": {
+        "type": "staplar",
+        "data": [{"label":"Äpple","value":"=a"},{"label":"Banan","value":"=b"},{"label":"Päron","value":"=c"}],
+        "max": 14
+      },
+      "answer": ["=r","{r} röster"],
+      "correct": "Rätt! {a} − {b} = {r}.",
+      "feedback": [
+        {
+          "answers": ["=a+b"],
+          "message": "Du lade ihop staplarna. Ska du jämföra, räkna då skillnaden mellan dem."
+        }
+      ]
+    },
+    {
+      "id": "totalt",
+      "for": ["word-0"],
+      "vars": {"a":[3,12],"b":[3,12],"c":[3,12]},
+      "derive": [{"name":"s","expr":"a+b+c"}],
+      "prompt": "Titta på diagrammet. Hur många röster fick frukterna tillsammans?",
+      "visual": {
+        "type": "staplar",
+        "data": [{"label":"Äpple","value":"=a"},{"label":"Banan","value":"=b"},{"label":"Päron","value":"=c"}],
+        "max": 14
+      },
+      "answer": ["=s","{s} röster"],
+      "correct": "Rätt! {a} + {b} + {c} = {s}.",
+      "feedback": [
+        {
+          "answers": ["=max(a,b,c)"],
+          "message": "Det är den högsta stapeln. Ska du räkna alla röster, lägg ihop alla tre staplarna."
+        }
+      ]
+    },
+    {
+      "id": "pa-flera",
+      "for": ["word-1"],
+      "vars": {"a":[8,14],"b":[2,7]},
+      "derive": [{"name":"r","expr":"a-b"}],
+      "prompt": "Diagrammet visar hur många som valde äpple och banan. Hur många fler valde äpple?",
+      "visual": {"type":"staplar","data":[{"label":"Äpple","value":"=a"},{"label":"Banan","value":"=b"}],"max":14},
+      "answer": ["=r"],
+      "correct": "Rätt! {a} − {b} = {r}.",
+      "feedback": [{"answers":["=a+b"],"message":"Det är summan av båda staplarna. Du ska hitta skillnaden."}]
+    }
+  ],
   "exercise": {
     "prompt": "Titta på diagrammet eller tabellen ovan. Äpple har 12 röster och banan 5 röster. Hur många fler röstade på äpple än banan?",
     "visual": {

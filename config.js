@@ -4,6 +4,9 @@
 //   apiBase: "https://gaussica-api.<konto>.workers.dev"   use the shared Cloudflare database (see cloudflare/README.md)
 //
 // The same value works on GitHub Pages and on your own PC, so both see the same accounts.
+//
+//   contact: "namn@exempel.se"   shown in the privacy text as the person to ask about data (optional)
 window.GAUSSICA_CONFIG = {
-  apiBase: "https://gaussica-api.sebastianintoklawon.workers.dev"
+  apiBase: "https://gaussica-api.sebastianintoklawon.workers.dev",
+  contact: ""
 };

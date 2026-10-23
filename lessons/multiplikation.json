@@ -12,6 +12,61 @@
   "rule": "7 × 8 = 7 grupper med 8 = 56",
   "ruleLabel": "UPPREPAD ADDITION",
   "example": "En rektangel med 7 rader och 8 kolumner har 56 rutor. Att vända rektangeln visar att 7 × 8 och 8 × 7 ger samma antal.",
+  "practice": [
+    {
+      "id": "grupper",
+      "for": ["exercise"],
+      "vars": {"g":[3,9],"k":[3,9]},
+      "derive": [{"name":"p","expr":"g*k"}],
+      "prompt": "Hur många saker finns i {g} lika stora grupper med {k} saker i varje?",
+      "answer": ["=p"],
+      "correct": "Rätt! {g} · {k} = {p}.",
+      "feedback": [
+        {
+          "answers": ["=g+k"],
+          "message": "Du lade ihop antalen. Det är {g} grupper med {k} i varje, alltså {g} · {k}."
+        }
+      ]
+    },
+    {
+      "id": "tabell",
+      "for": ["word-0"],
+      "vars": {"a":[3,9],"b":[6,12]},
+      "derive": [{"name":"p","expr":"a*b"}],
+      "prompt": "Räkna ut {a} · {b}.",
+      "answer": ["=p"],
+      "correct": "Rätt! {a} · {b} = {p}.",
+      "feedback": [
+        {
+          "answers": ["=a+b"],
+          "message": "Det är en summa. Multiplikation betyder {a} grupper med {b} i varje."
+        },
+        {
+          "answers": ["=p-a","=p+a","=p-b","=p+b"],
+          "message": "Nästan! Kolla tabellen igen. Du kan räkna {a} · {b} som {a} · {b-1} och sedan lägga till {a}."
+        }
+      ]
+    },
+    {
+      "id": "pris",
+      "for": ["word-1"],
+      "pick": {
+        "namn": ["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"],
+        "sak": ["bullar","pennor","kort","gummin"]
+      },
+      "vars": {"a":[3,9],"b":[5,15]},
+      "derive": [{"name":"p","expr":"a*b"}],
+      "prompt": "{$namn} köper {a} {$sak} för {b} kr styck. Vad kostar det tillsammans?",
+      "answer": ["=p","{p} kr"],
+      "correct": "Rätt! {a} · {b} kr = {p} kr.",
+      "feedback": [
+        {
+          "answers": ["=a+b"],
+          "message": "Du lade ihop talen. Priset är {b} kr för varje, och {$namn} köper {a} stycken."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Hur många saker finns i 7 lika stora grupper med 8 saker i varje?",
     "answer": ["56"],

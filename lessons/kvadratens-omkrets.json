@@ -24,6 +24,46 @@
   "rule": "O = 4 · sidan",
   "ruleLabel": "KVADRATENS OMKRETS",
   "example": "Sidan 7 m ger omkretsen 4 · 7 = 28 m.",
+  "practice": [
+    {
+      "id": "omkrets",
+      "for": ["exercise"],
+      "vars": {"s":[3,15]},
+      "derive": [{"name":"p","expr":"4*s"}],
+      "prompt": "Kvadraten har sidan {s} cm. Vad är omkretsen i cm?",
+      "visual": {"type":"kvadrat","w":"=s","unit":"cm","sides":"all","outline":true},
+      "answer": ["=p","{p} cm","{p}cm"],
+      "correct": "Rätt! 4 · {s} = {p} cm.",
+      "feedback": [
+        {"answers":["=s*s"],"message":"Det är arean. Omkretsen är sträckan runt om: 4 sidor."},
+        {"answers":["=2*s"],"message":"Du har bara räknat två sidor. En kvadrat har fyra sidor."}
+      ]
+    },
+    {
+      "id": "staket",
+      "for": ["word-0"],
+      "pick": {"sak":["trädgård","lekplats","fotbollsplan"]},
+      "vars": {"s":[4,30]},
+      "derive": [{"name":"p","expr":"4*s"}],
+      "prompt": "En kvadratisk {$sak} har sidan {s} m. Hur långt staket behövs runt hela?",
+      "answer": ["=p","{p} m","{p}m"],
+      "correct": "Rätt! 4 · {s} = {p} m.",
+      "feedback": [{"answers":["=s*s"],"message":"Det är arean. Staketet går runt om, så du ska räkna omkretsen."}]
+    },
+    {
+      "id": "sida",
+      "for": ["word-1"],
+      "vars": {"s":[3,15]},
+      "derive": [{"name":"p","expr":"4*s"}],
+      "prompt": "Omkretsen av en kvadrat är {p} cm. Hur lång är en sida?",
+      "answer": ["=s","{s} cm","{s}cm"],
+      "correct": "Rätt! {p} ÷ 4 = {s} cm.",
+      "feedback": [
+        {"answers":["=p/2"],"message":"En kvadrat har fyra lika långa sidor, så dela med 4."},
+        {"answers":["=p"],"message":"Det är hela omkretsen. Dela den på de fyra sidorna."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Kvadraten har sidan 6 cm. Vad är omkretsen i cm?",
     "answer": [

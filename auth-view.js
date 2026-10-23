@@ -194,6 +194,7 @@ window.GaussicaAuth = (function () {
 
       const body = el("div", "auth-body");
       card.appendChild(body);
+      if (window.GaussicaPrivacy) card.appendChild(window.GaussicaPrivacy.link("Så hanteras dina uppgifter", "pv-link auth-privacy"));
       s.appendChild(card);
 
       let mode = "login";

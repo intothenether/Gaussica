@@ -7,7 +7,8 @@ window.GaussicaPlayer = (function () {
   "use strict";
 
   let deps = null;
-  let state = null;       // { lessonId, steps, index, visited:Set, tries:{} }
+  let state = null;       // { mode:"lesson"|"session", lessonId, steps, index, visited:Set, tries:{}, session }
+                          // a session is a set of generated questions ("Öva mer", "Repetera") from one or several lessons
   let pendingOpts = null;
   let keyHandler = null;
 
@@ -26,8 +27,10 @@ window.GaussicaPlayer = (function () {
   }
 
   function lesson() { return deps.getLesson(state.lessonId); }
+  function isSession() { return state && state.mode === "session"; }
 
   function entryOf(step, lessonId) {
+    if (isSession()) return state.session.results[step.task.id];
     const p = deps.getProgress(lessonId || state.lessonId);
     return p.answers && p.answers[step.task.id];
   }
@@ -65,12 +68,32 @@ window.GaussicaPlayer = (function () {
     const wanted = pendingOpts && typeof pendingOpts.step === "number" ? pendingOpts.step : null;
     pendingOpts = null;
     state = {
+      mode: "lesson",
       lessonId: lessonId,
       steps: steps,
       index: wanted !== null ? Math.max(0, Math.min(wanted, steps.length)) : resumeIndex(steps, lessonId),
       visited: new Set(),
       tries: {}
     };
+    deps.container.hidden = false;
+    document.body.classList.add("player-open");
+    if (!keyHandler) {
+      keyHandler = function (e) { if (e.key === "Escape" && state) exit(); };
+      document.addEventListener("keydown", keyHandler);
+    }
+    render();
+  }
+
+  // session: { kind:"practice"|"review", title, items:[{lessonId, taskId, templateId, problem}], onExit(), again() }
+  function openSession(session) {
+    if (!deps) return;
+    const steps = session.items.map(function (it, i) {
+      return { type: "question", key: it.taskId, lessonId: it.lessonId,
+        task: { id: it.taskId, key: it.taskId, name: session.kind === "review" ? "Repetera" : "Öva mer", problem: it.problem },
+        number: i + 1, total: session.items.length };
+    });
+    session.results = {};
+    state = { mode: "session", lessonId: null, steps: steps, index: 0, visited: new Set(), tries: {}, session: session };
     deps.container.hidden = false;
     document.body.classList.add("player-open");
     if (!keyHandler) {
@@ -90,7 +113,9 @@ window.GaussicaPlayer = (function () {
   }
 
   function exit() {
-    if (state) deps.goToLesson(state.lessonId);
+    if (!state) return;
+    if (isSession()) state.session.onExit();
+    else deps.goToLesson(state.lessonId);
   }
 
   // ===== RENDER =====
@@ -100,13 +125,13 @@ window.GaussicaPlayer = (function () {
   }
 
   function render() {
-    const l = lesson();
+    const l = isSession() ? null : lesson();
     const c = deps.container;
     c.replaceChildren();
     const shell = el("div", "pl-shell");
     shell.setAttribute("role", "dialog");
     shell.setAttribute("aria-modal", "true");
-    shell.setAttribute("aria-label", l.title);
+    shell.setAttribute("aria-label", isSession() ? state.session.title : l.title);
 
     shell.appendChild(topBar(l));
     const main = el("main", "pl-main");
@@ -117,7 +142,7 @@ window.GaussicaPlayer = (function () {
     shell.append(main, foot);
     c.appendChild(shell);
 
-    if (state.index >= state.steps.length) summary(card, foot, l);
+    if (state.index >= state.steps.length) { if (isSession()) sessionSummary(card, foot); else summary(card, foot, l); }
     else step(card, foot, l, state.steps[state.index]);
     main.scrollTop = 0;
     main.focus({ preventScroll: true });
@@ -146,7 +171,7 @@ window.GaussicaPlayer = (function () {
       seg.addEventListener("click", function () { go(i); });
       bar.appendChild(seg);
     });
-    const title = el("span", "pl-title", l.title);
+    const title = el("span", "pl-title", isSession() ? state.session.title : l.title);
     top.append(close, bar, title);
     return top;
   }
@@ -181,7 +206,11 @@ window.GaussicaPlayer = (function () {
     }
 
     // question
-    const label = "FRÅGA " + st.number + " AV " + st.total;
+    const sessionLesson = isSession() ? deps.getLesson(st.lessonId) : null;
+    if (sessionLesson) l = sessionLesson;
+    const label = isSession()
+      ? (state.session.kind === "review" ? "REPETERA · " + l.title.toUpperCase() : "ÖVA MER · FRÅGA " + st.number + " AV " + st.total)
+      : "FRÅGA " + st.number + " AV " + st.total;
     const holder = el("div", "pl-question");
     card.appendChild(holder);
     const next = button("Fortsätt →", "pl-btn pl-btn-primary", function () { go(state.index + 1); });
@@ -198,7 +227,15 @@ window.GaussicaPlayer = (function () {
     };
 
     deps.renderQuestion(holder, l, st.task, label, {
-      onResult: function (ok) { if (ok) showSolved(true); else showWrong(); }
+      onResult: function (ok) {
+        if (isSession()) {
+          const r = state.session.results[st.task.id] || (state.session.results[st.task.id] = { completed: false, answered: true, tries: 0 });
+          r.answered = true;
+          if (ok && !r.completed) { r.completed = true; r.firstTry = r.tries === 0; }
+          if (!ok) r.tries += 1;
+        }
+        if (ok) showSolved(true); else showWrong();
+      }
     });
 
     const e = entryOf(st);
@@ -263,10 +300,52 @@ window.GaussicaPlayer = (function () {
         actions.push(button("Nästa: " + nextLessons[0].title + " →", "pl-btn pl-btn-primary", function () { deps.goToPlayer(nextLessons[0].id); }));
       }
     }
+    if (!open.length && deps.hasPractice && deps.hasPractice(l.id)) {
+      actions.push(button("Öva mer", "pl-btn pl-btn-ghost", function () { deps.startPractice(l.id); }));
+    }
     actions.unshift(button("Till lärstigen", open.length ? "pl-btn pl-btn-ghost" : (actions.length ? "pl-btn pl-btn-ghost" : "pl-btn pl-btn-primary"), exit));
     const back = backButton();
     footer(foot, open.length ? "neutral" : "correct", open.length ? "" : "🎉 Lektionen är klar", (back ? [back] : []).concat(actions));
   }
 
-  return { init: init, open: open, close: close };
+  function sessionSummary(card, foot) {
+    const s = state.session;
+    const total = state.steps.length;
+    const results = state.steps.map(function (st) { return s.results[st.task.id] || {}; });
+    const solved = results.filter(function (r) { return r.completed; }).length;
+    const first = results.filter(function (r) { return r.firstTry; }).length;
+    const missed = state.steps.filter(function (st) { return !(s.results[st.task.id] || {}).completed; });
+    card.appendChild(el("p", "eyebrow pl-eyebrow", s.kind === "review" ? "REPETITION KLAR" : "ÖVNING KLAR"));
+    card.appendChild(el("h2", "pl-summary-title", first === total ? "Strålande!" : "Bra jobbat!"));
+    card.appendChild(el("p", "pl-summary-sub",
+      solved + " av " + total + " frågor klara" + (first ? " · " + first + " rätt på första försöket" : "") +
+      (missed.length ? " · " + missed.length + " kvar att lösa" : "")));
+    const list = el("ul", "pl-summary-list");
+    state.steps.forEach(function (st, i) {
+      const r = results[i];
+      const status = r.completed ? "done" : r.answered ? "fix" : "todo";
+      const li = el("li", "pl-summary-row is-" + status);
+      const b = el("button", "pl-summary-btn");
+      b.type = "button";
+      const lessonTitle = deps.getLesson(st.lessonId).title;
+      b.append(
+        el("span", "pl-summary-dot", status === "done" ? "✓" : status === "fix" ? "!" : String(st.number)),
+        el("span", "pl-summary-name", s.kind === "review" ? lessonTitle : "Fråga " + st.number),
+        el("span", "pl-summary-text", r.completed ? (r.firstTry ? "Rätt på första försöket" : "Rätt efter " + (r.tries + 1) + " försök") : r.answered ? "Inte löst än" : "Inte gjord")
+      );
+      b.addEventListener("click", function () { go(i); });
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+    card.appendChild(list);
+
+    const actions = [];
+    if (missed.length) actions.push(button("Gå till första som återstår →", "pl-btn pl-btn-primary", function () { go(state.steps.indexOf(missed[0])); }));
+    else if (s.again) actions.push(button(s.kind === "review" ? "Repetera mer →" : "Öva en runda till →", "pl-btn pl-btn-primary", function () { s.again(); }));
+    actions.unshift(button(s.backLabel || "Tillbaka", missed.length || actions.length ? "pl-btn pl-btn-ghost" : "pl-btn pl-btn-primary", exit));
+    const back = backButton();
+    footer(foot, missed.length ? "neutral" : "correct", missed.length ? "" : "🎉 Bra kämpat", (back ? [back] : []).concat(actions));
+  }
+
+  return { init: init, open: open, openSession: openSession, close: close };
 }());

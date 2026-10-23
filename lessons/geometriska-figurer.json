@@ -42,6 +42,42 @@
   "rule": "Antal sidor = antal hörn",
   "ruleLabel": "MÅNGHÖRNINGAR",
   "example": "En sexhörning har 6 sidor och 6 hörn. En kvadrat är en rektangel där alla sidor är lika långa.",
+  "practice": [
+    {
+      "id": "trianglar",
+      "for": ["exercise"],
+      "vars": {"a":[2,8]},
+      "derive": [{"name":"r","expr":"3*a"}],
+      "prompt": "Hur många hörn har {a} trianglar tillsammans?",
+      "answer": ["=r"],
+      "correct": "Rätt! En triangel har 3 hörn, så {a} · 3 = {r}.",
+      "feedback": [{"answers":["=a+3"],"message":"Du lade ihop. Varje triangel har 3 hörn, så multiplicera."}]
+    },
+    {
+      "id": "kvadrater",
+      "for": ["word-0"],
+      "vars": {"a":[2,8]},
+      "derive": [{"name":"r","expr":"4*a"}],
+      "prompt": "Hur många sidor har {a} kvadrater tillsammans?",
+      "answer": ["=r"],
+      "correct": "Rätt! En kvadrat har 4 sidor, så {a} · 4 = {r}.",
+      "feedback": [{"answers":["=a+4"],"message":"Du lade ihop. Varje kvadrat har 4 sidor, så multiplicera."}]
+    },
+    {
+      "id": "manghorning",
+      "for": ["word-1"],
+      "vars": {"k":[3,10]},
+      "prompt": "En månghörning har {k} sidor. Hur många hörn har den?",
+      "answer": ["=k"],
+      "correct": "Rätt! En månghörning har lika många hörn som sidor: {k}.",
+      "feedback": [
+        {
+          "answers": ["=k+1","=k-1"],
+          "message": "Räkna en gång till. Varje sida slutar i ett hörn, så antalet hörn är samma som antalet sidor."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Hur många hörn har en femhörning?",
     "answer": [

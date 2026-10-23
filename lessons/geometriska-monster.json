@@ -117,6 +117,52 @@
   "rule": "Börja på startvärdet och lägg till lika mycket för varje ny figur",
   "ruleLabel": "VÄXANDE MÖNSTER",
   "example": "Figur 1 har 3 rutor och varje ny figur får 2 rutor till. Figur 10 har 3 + 9 · 2 = 21 rutor.",
+  "practice": [
+    {
+      "id": "kvadrat-monster",
+      "for": ["exercise"],
+      "vars": {"m":[4,8]},
+      "derive": [{"name":"r","expr":"m*m"}],
+      "prompt": "Titta på mönstret. Hur många rutor har figur {m}?",
+      "visual": {"type":"monster","generator":"kvadrat","n":3},
+      "answer": ["=r"],
+      "correct": "Rätt! Figur {m} är en kvadrat med {m} rutor i varje riktning: {m} · {m} = {r}.",
+      "feedback": [
+        {
+          "answers": ["=2*m"],
+          "message": "Det är bara en rad och en kolumn. Figuren är en hel kvadrat: {m} · {m}."
+        }
+      ]
+    },
+    {
+      "id": "trappa-monster",
+      "for": ["word-0"],
+      "vars": {"m":[4,8]},
+      "derive": [{"name":"r","expr":"m*(m+1)/2"}],
+      "prompt": "Titta på mönstret. Hur många rutor har figur {m}?",
+      "visual": {"type":"monster","generator":"trappa","n":4},
+      "answer": ["=r"],
+      "correct": "Rätt! Rad 1 har 1 ruta, rad 2 har 2, och så vidare till {m}. Summan är {r}.",
+      "feedback": [
+        {"answers":["=m*m"],"message":"Trappan är inte en hel kvadrat. Rad k har k rutor: 1 + 2 + … + {m}."}
+      ]
+    },
+    {
+      "id": "rad-monster",
+      "for": ["word-1"],
+      "vars": {"a":[3,6],"d":[2,5],"m":[5,9]},
+      "derive": [{"name":"r","expr":"a+(m-1)*d"}],
+      "prompt": "Figur 1 har {a} rutor. Varje ny figur får {d} rutor till. Hur många rutor har figur {m}?",
+      "answer": ["=r"],
+      "correct": "Rätt! {a} + {m-1} · {d} = {r}.",
+      "feedback": [
+        {
+          "answers": ["=a+m*d"],
+          "message": "Figur 1 har redan {a} rutor. Det är {m-1} nya figurer efter den, inte {m}."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Hur många rutor har figur 4 i mönstret?",
     "answer": [

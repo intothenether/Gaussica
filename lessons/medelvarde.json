@@ -35,6 +35,53 @@
   "rule": "Medelvärde = summan av värdena ÷ antalet värden",
   "ruleLabel": "MEDELVÄRDE",
   "example": "Betygen 3, 5, 4 och 4 har summan 16. Det är 4 värden, så medelvärdet är 16 ÷ 4 = 4.",
+  "practice": [
+    {
+      "id": "tre-tal",
+      "for": ["exercise"],
+      "vars": {"a":[2,15],"b":[2,15],"c":[2,15]},
+      "where": [{"expr":"mod(a+b+c,3)","equals":0}],
+      "derive": [{"name":"m","expr":"(a+b+c)/3"}],
+      "prompt": "Vad är medelvärdet av {a}, {b} och {c}?",
+      "answer": ["=m"],
+      "correct": "Rätt! ({a} + {b} + {c}) ÷ 3 = {a+b+c} ÷ 3 = {m}.",
+      "feedback": [
+        {"answers":["=a+b+c"],"message":"Det är summan. Dela den med antalet tal, 3."},
+        {
+          "answers": ["=b"],
+          "message": "Det är mittentalet i listan, inte medelvärdet. Lägg ihop och dela med 3."
+        }
+      ]
+    },
+    {
+      "id": "fyra-tal",
+      "for": ["word-0"],
+      "pick": {"namn":["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"]},
+      "vars": {"a":[3,12],"b":[3,12],"c":[3,12],"d":[3,12]},
+      "where": [{"expr":"mod(a+b+c+d,4)","equals":0}],
+      "derive": [{"name":"m","expr":"(a+b+c+d)/4"}],
+      "prompt": "{$namn} fick {a}, {b}, {c} och {d} poäng på fyra uppgifter. Vilket är medelvärdet?",
+      "answer": ["=m"],
+      "correct": "Rätt! {a+b+c+d} ÷ 4 = {m}.",
+      "feedback": [{"answers":["=a+b+c+d"],"message":"Du har bara lagt ihop poängen. Dela summan med 4."}]
+    },
+    {
+      "id": "saknat-tal",
+      "for": ["word-1"],
+      "vars": {"a":[2,12],"b":[2,12],"m":[4,12]},
+      "derive": [{"name":"c","expr":"3*m-a-b"}],
+      "where": [{"expr":"c","min":1}],
+      "prompt": "Medelvärdet av tre tal är {m}. Två av talen är {a} och {b}. Vilket är det tredje talet?",
+      "answer": ["=c"],
+      "correct": "Rätt! De tre talen ska ha summan 3 · {m} = {3*m}. {3*m} − {a} − {b} = {c}.",
+      "feedback": [
+        {
+          "answers": ["=3*m"],
+          "message": "Det är summan av alla tre talen. Dra bort {a} och {b} för att få det tredje."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Vad är medelvärdet av 5, 7 och 12?",
     "answer": [

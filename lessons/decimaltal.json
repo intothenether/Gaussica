@@ -47,6 +47,59 @@
   "rule": "0,1 = 1/10 och 0,01 = 1/100",
   "ruleLabel": "DECIMALTAL",
   "example": "0,5 = 5/10 = 1/2. Talen 0,5 och 0,50 är lika stora: en nolla sist ändrar inte värdet.",
+  "practice": [
+    {
+      "id": "storst",
+      "for": ["exercise"],
+      "vars": {"a":[0.1,0.9,0.1],"b":[0.11,0.99,0.01]},
+      "where": [{"expr":"abs(a-b)","min":0.005}],
+      "derive": [{"name":"big","expr":"max(a,b)"},{"name":"small","expr":"min(a,b)"}],
+      "prompt": "Vilket är störst, {a} eller {b}? Skriv det största talet.",
+      "answer": ["=big"],
+      "correct": "Rätt! Jämför tiondelarna först: {big} är större än {small}.",
+      "feedback": [
+        {
+          "answers": ["=small"],
+          "message": "Jämför siffra för siffra från vänster, tiondelarna först. Fler decimaler betyder inte att talet är större."
+        }
+      ]
+    },
+    {
+      "id": "addera",
+      "for": ["word-0"],
+      "vars": {"a":[0.2,9.8,0.1],"b":[0.2,9.8,0.1]},
+      "derive": [{"name":"s","expr":"a+b"}],
+      "prompt": "Räkna ut {a} + {b}.",
+      "answer": ["=s"],
+      "correct": "Rätt! {a} + {b} = {s}.",
+      "feedback": [
+        {
+          "answers": ["=a*10+b*10"],
+          "message": "Du har glömt kommat. Lägg ihop hela tal och tiondelar för sig."
+        }
+      ]
+    },
+    {
+      "id": "subtrahera",
+      "for": ["word-1"],
+      "vars": {"a":[3.1,9.9,0.1],"b":[0.2,2.9,0.1]},
+      "derive": [{"name":"r","expr":"a-b"}],
+      "prompt": "Räkna ut {a} − {b}.",
+      "answer": ["=r"],
+      "correct": "Rätt! {a} − {b} = {r}.",
+      "feedback": [{"answers":["=a+b"],"message":"Här ska du ta bort {b} från {a}."}]
+    },
+    {
+      "id": "tiondelar",
+      "for": ["word-1"],
+      "vars": {"t":[1,19]},
+      "derive": [{"name":"r","expr":"t/10"}],
+      "prompt": "Skriv {t} tiondelar som decimaltal.",
+      "answer": ["=r"],
+      "correct": "Rätt! {t} tiondelar är {r}.",
+      "feedback": [{"answers":["=t/100"],"message":"En tiondel är 0,1. Det är {t} sådana, inte {t} hundradelar."}]
+    }
+  ],
   "exercise": {
     "prompt": "Vilket är störst, 0,6 eller 0,45? Skriv det största talet.",
     "answer": [

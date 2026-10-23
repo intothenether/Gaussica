@@ -12,6 +12,75 @@
   "rule": "3 482 = 3 000 + 400 + 80 + 2",
   "ruleLabel": "TAL I UTVIDGAD FORM",
   "example": "Om 8:an flyttas ett steg åt vänster blir den värd 800 i stället för 80 — tio gånger så mycket.",
+  "practice": [
+    {
+      "id": "tiotal",
+      "for": ["exercise"],
+      "vars": {"th":[1,9],"h":[1,9],"t":[1,9],"o":[1,9]},
+      "where": [{"expr":"abs(t-th)","min":1},{"expr":"abs(t-h)","min":1},{"expr":"abs(t-o)","min":1}],
+      "derive": [{"name":"n","expr":"th*1000+h*100+t*10+o"}],
+      "prompt": "Vad är {t}:ans värde i talet {n}?",
+      "answer": ["=t*10"],
+      "correct": "Rätt! {t} står på tiotalsplatsen, så den är värd {t} · 10 = {t*10}.",
+      "feedback": [
+        {
+          "answers": ["=t"],
+          "message": "{t} är siffran. Dess värde beror på platsen den står på. Tiotalsplatsen är värd 10 gånger siffran."
+        },
+        {
+          "answers": ["=t*100"],
+          "message": "Det är hundratalsplatsen du har räknat med. {t} står en plats längre till höger."
+        }
+      ]
+    },
+    {
+      "id": "hundratal",
+      "for": ["exercise"],
+      "vars": {"th":[1,9],"h":[1,9],"t":[1,9],"o":[1,9]},
+      "where": [{"expr":"abs(h-th)","min":1},{"expr":"abs(h-t)","min":1},{"expr":"abs(h-o)","min":1}],
+      "derive": [{"name":"n","expr":"th*1000+h*100+t*10+o"}],
+      "prompt": "Vad är {h}:ans värde i talet {n}?",
+      "answer": ["=h*100"],
+      "correct": "Rätt! {h} står på hundratalsplatsen, så den är värd {h} · 100 = {h*100}.",
+      "feedback": [
+        {"answers":["=h"],"message":"{h} är siffran. Dess värde beror på platsen den står på."},
+        {
+          "answers": ["=h*10"],
+          "message": "Det är tiotalsplatsen du har räknat med. Hundratalen står en plats längre åt vänster."
+        }
+      ]
+    },
+    {
+      "id": "skriv-talet",
+      "for": ["exercise"],
+      "vars": {"th":[1,9],"h":[0,9],"t":[0,9],"o":[0,9]},
+      "derive": [{"name":"n","expr":"th*1000+h*100+t*10+o"}],
+      "prompt": "Skriv talet med siffror: {th} tusental, {h} hundratal, {t} tiotal och {o} ental.",
+      "answer": ["=n"],
+      "correct": "Rätt! Talet blir {n}.",
+      "feedback": [
+        {
+          "answers": ["=th+h+t+o"],
+          "message": "Det är siffrorna sammanlagda. Skriv i stället siffrorna efter varandra: tusental, hundratal, tiotal, ental."
+        }
+      ]
+    },
+    {
+      "id": "tio-mer",
+      "for": ["word-0"],
+      "vars": {"n":[100,9980]},
+      "prompt": "Vilket tal är 10 mer än {n}?",
+      "answer": ["=n+10"],
+      "correct": "Rätt! 10 mer än {n} är {n+10}.",
+      "feedback": [
+        {"answers":["=n+1"],"message":"Du lade till 1. 10 mer ändrar tiotalssiffran."},
+        {
+          "answers": ["=n+100"],
+          "message": "Du lade till 100. 10 mer ändrar tiotalssiffran, inte hundratalssiffran."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Vad är 6:ans värde i talet 2 643?",
     "answer": ["600", "600.0", "sexhundra"],

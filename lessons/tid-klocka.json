@@ -12,6 +12,62 @@
   "rule": "60 minuter = 1 timme",
   "ruleLabel": "TID VÄXLAR VID 60",
   "example": "Från 14:35 till 15:00 är det 25 minuter. Lägg till de återstående 15 minuterna för att få 40 minuter totalt.",
+  "practice": [
+    {
+      "id": "senare",
+      "for": ["exercise"],
+      "vars": {"h":[7,18],"m":[0,55,5],"d":[10,95,5]},
+      "derive": [
+        {"name":"tot","expr":"h*60+m+d"},
+        {"name":"hh","expr":"floor(tot/60)"},
+        {"name":"mm","expr":"mod(tot,60)"},
+        {"name":"om","expr":"m+d"}
+      ],
+      "prompt": "Klockan är {h|2}:{m|2}. Vad är klockan {d} minuter senare? Svara HH:MM.",
+      "answer": ["{hh|2}:{mm|2}","{hh|2}.{mm|2}","{hh}:{mm|2}"],
+      "correct": "Rätt! {h|2}:{m|2} plus {d} minuter blir {hh|2}:{mm|2}.",
+      "feedback": [
+        {
+          "answers": ["{h|2}:{om|2}","{h|2}.{om|2}"],
+          "message": "Minuterna går inte över 59 på klockan. När du kommer förbi 60 minuter växlar du till nästa timme och börjar om från 00."
+        }
+      ]
+    },
+    {
+      "id": "till-hel",
+      "for": ["word-1"],
+      "vars": {"h":[7,18],"m":[5,55,5]},
+      "prompt": "Klockan är {h|2}:{m|2}. Hur många minuter är det kvar till klockan {h+1|2}:00?",
+      "answer": ["=60-m","{60-m} minuter"],
+      "correct": "Rätt! 60 − {m} = {60-m} minuter.",
+      "feedback": [
+        {
+          "answers": ["=m"],
+          "message": "{m} är minuterna som redan gått efter hel timme. Du ska räkna hur många som är kvar."
+        }
+      ]
+    },
+    {
+      "id": "film",
+      "for": ["word-0"],
+      "pick": {"namn":["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"]},
+      "vars": {"h":[9,17],"m":[0,50,10],"d":[75,135,5]},
+      "derive": [
+        {"name":"tot","expr":"h*60+m+d"},
+        {"name":"hh","expr":"floor(tot/60)"},
+        {"name":"mm","expr":"mod(tot,60)"}
+      ],
+      "prompt": "En film börjar {h|2}:{m|2} och är {d} minuter lång. När slutar filmen? Svara HH:MM.",
+      "answer": ["{hh|2}:{mm|2}","{hh|2}.{mm|2}","{hh}:{mm|2}"],
+      "correct": "Rätt! {h|2}:{m|2} plus {d} minuter blir {hh|2}:{mm|2}.",
+      "feedback": [
+        {
+          "answers": ["{h|2}:{m+d|2}"],
+          "message": "Minuterna går inte över 59. När du passerar 60 växlar du till nästa timme."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Klockan är 14:35. Vad är klockan 40 minuter senare? Svara HH:MM.",
     "answer": ["15:15", "15.15"],

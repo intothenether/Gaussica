@@ -52,6 +52,43 @@
   "rule": "Sannolikhet = antal önskade utfall ÷ antal möjliga utfall",
   "ruleLabel": "SANNOLIKHET",
   "example": "I en påse ligger 2 röda och 3 blå kulor. Chansen att dra en röd är 2 av 5, alltså 2/5.",
+  "practice": [
+    {
+      "id": "storre-an",
+      "for": ["exercise"],
+      "vars": {"n":[1,5]},
+      "derive": [{"name":"g","expr":"6-n"},{"name":"k","expr":"sgd(6-n,6)"}],
+      "prompt": "Du kastar en vanlig tärning. Vad är chansen att få ett tal större än {n}? Svara som bråk.",
+      "answer": ["{g}/6","{g/k}/{6/k}"],
+      "correct": "Rätt! {g} av 6 utfall är större än {n}: {g}/6.",
+      "feedback": [
+        {
+          "answers": ["1/{g}"],
+          "message": "Nämnaren är alla möjliga utfall, 6 stycken. Täljaren är antalet gynnsamma utfall."
+        }
+      ]
+    },
+    {
+      "id": "pase",
+      "for": ["word-0"],
+      "vars": {"r":[1,8],"b":[1,8]},
+      "derive": [{"name":"t","expr":"r+b"},{"name":"k","expr":"sgd(r,r+b)"}],
+      "prompt": "I en påse ligger {r} röda och {b} blå kulor. Du drar en kula utan att titta. Vad är chansen att få en röd? Svara som bråk.",
+      "answer": ["{r}/{t}","{r/k}/{t/k}"],
+      "correct": "Rätt! {r} av {t} kulor är röda: {r}/{t}.",
+      "feedback": [{"answers":["{r}/{b}"],"message":"Nämnaren ska vara alla kulor, {t} stycken, inte bara de blå."}]
+    },
+    {
+      "id": "forvantat",
+      "for": ["word-1"],
+      "vars": {"n":[10,100,10]},
+      "derive": [{"name":"r","expr":"n/2"}],
+      "prompt": "Du singlar slant {n} gånger. Ungefär hur många gånger förväntar du dig krona?",
+      "answer": ["=r"],
+      "correct": "Rätt! Chansen är 1/2, så ungefär {n} · 1/2 = {r} gånger.",
+      "feedback": [{"answers":["=n"],"message":"Det vore om det blev krona varje gång. Chansen för krona är 1/2."}]
+    }
+  ],
   "exercise": {
     "prompt": "Du kastar en vanlig tärning. Vad är chansen att få en fyra? Svara som bråk.",
     "answer": [

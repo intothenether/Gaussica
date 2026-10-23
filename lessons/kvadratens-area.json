@@ -23,6 +23,48 @@
   "rule": "A = sidan · sidan",
   "ruleLabel": "KVADRATENS AREA",
   "example": "Sidan 5 m ger arean 5 · 5 = 25 m². Man kan också skriva sidan ”i kvadrat”: 5².",
+  "practice": [
+    {
+      "id": "area",
+      "for": ["exercise"],
+      "vars": {"s":[3,15]},
+      "derive": [{"name":"p","expr":"s*s"}],
+      "prompt": "Kvadraten har sidan {s} cm. Vad är arean i cm²?",
+      "visual": {"type":"kvadrat","w":"=s","unit":"cm","grid":true},
+      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "correct": "Rätt! {s} · {s} = {p} cm².",
+      "feedback": [
+        {"answers":["=4*s"],"message":"Det är omkretsen. Arean är sidan gånger sidan."},
+        {"answers":["=2*s"],"message":"Arean är sidan gånger sidan, inte två sidor."}
+      ]
+    },
+    {
+      "id": "kakel",
+      "for": ["word-0"],
+      "vars": {"s":[10,40,5]},
+      "derive": [{"name":"p","expr":"s*s"}],
+      "prompt": "Ett kakel är kvadratiskt med sidan {s} cm. Hur stor yta täcker kakelplattan?",
+      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "correct": "Rätt! {s} · {s} = {p} cm².",
+      "feedback": [{"answers":["=4*s"],"message":"Det är omkretsen. Ytan är sidan gånger sidan."}]
+    },
+    {
+      "id": "sida-fran-area",
+      "for": ["word-1"],
+      "vars": {"s":[2,12]},
+      "derive": [{"name":"a","expr":"s*s"}],
+      "prompt": "En kvadrat har arean {a} cm². Hur lång är sidan?",
+      "answer": ["=s","{s} cm","{s}cm"],
+      "correct": "Rätt! {s} · {s} = {a}, så sidan är {s} cm.",
+      "feedback": [
+        {
+          "answers": ["=a/2"],
+          "message": "Sidan gånger sidan ska bli {a}. Vilket tal gånger sig självt blir {a}?"
+        },
+        {"answers":["=a/4"],"message":"Fyra sidor hör till omkretsen. Här ska sidan gånger sidan bli {a}."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Kvadraten har sidan 5 cm. Vad är arean i cm²?",
     "answer": [

@@ -12,6 +12,53 @@
   "rule": "25 % = 25/100 = 1/4 = 0,25",
   "ruleLabel": "SAMMA ANDEL, OLIKA SKRIVSÄTT",
   "example": "Om en helhet delas i fyra lika stora delar är varje del 25 procent av helheten.",
+  "practice": [
+    {
+      "id": "procent-av",
+      "for": ["exercise"],
+      "vars": {"p":[10,75,5],"t":[20,400,20]},
+      "where": [{"expr":"mod(p*t,100)","equals":0}],
+      "derive": [{"name":"r","expr":"p*t/100"}],
+      "prompt": "Hur mycket är {p} % av {t}?",
+      "answer": ["=r"],
+      "correct": "Rätt! {p} % av {t} = {p}/100 · {t} = {r}.",
+      "feedback": [
+        {
+          "answers": ["=p*t"],
+          "message": "Du har bara multiplicerat. Procent betyder hundradelar, så dela också med 100."
+        },
+        {"answers":["=t-r"],"message":"Det är det som blir kvar. Frågan gäller själva delen, {p} % av {t}."}
+      ]
+    },
+    {
+      "id": "rabatt",
+      "for": ["word-0"],
+      "pick": {"sak":["En tröja","En jacka","Ett par skor","En väska"]},
+      "vars": {"p":[10,50,10],"t":[100,600,50]},
+      "where": [{"expr":"mod(p*t,100)","equals":0}],
+      "derive": [{"name":"r","expr":"t-p*t/100"},{"name":"d","expr":"p*t/100"}],
+      "prompt": "{$sak} kostar {t} kr. Nu är det {p} % rabatt. Vad kostar det nu?",
+      "answer": ["=r","{r} kr"],
+      "correct": "Rätt! Rabatten är {d} kr, och {t} − {d} = {r} kr.",
+      "feedback": [{"answers":["=d"],"message":"{d} kr är rabatten. Frågan är vad det kostar efter rabatten."}]
+    },
+    {
+      "id": "andel",
+      "for": ["word-1"],
+      "vars": {"y":[4,50],"x":[1,40]},
+      "where": [{"expr":"mod(x*100,y)","equals":0},{"expr":"y-x","min":1}],
+      "derive": [{"name":"pct","expr":"x*100/y"}],
+      "prompt": "I en klass med {y} elever är {x} elever sjuka. Hur många procent av eleverna är sjuka?",
+      "answer": ["=pct","{pct} %"],
+      "correct": "Rätt! {x}/{y} = {pct}/100, alltså {pct} %.",
+      "feedback": [
+        {
+          "answers": ["=x"],
+          "message": "{x} är antalet elever. Du ska räkna ut hur många procent det är av {y} elever."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Hur mycket är 25 % av 80?",
     "answer": ["20"],

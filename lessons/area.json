@@ -12,6 +12,49 @@
   "rule": "A = längd · bredd",
   "ruleLabel": "REKTANGELNS AREA",
   "example": "Area skrivs i kvadratenheter, till exempel cm². Omkrets mäter kanten runt formen och använder vanliga längdenheter.",
+  "practice": [
+    {
+      "id": "rektangel",
+      "for": ["exercise"],
+      "vars": {"l":[4,15],"b":[2,9]},
+      "where": [{"expr":"l-b","min":1}],
+      "derive": [{"name":"p","expr":"l*b"}],
+      "prompt": "En rektangel är {l} cm lång och {b} cm bred. Vad är arean i cm²?",
+      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "correct": "Rätt! {l} · {b} = {p} cm².",
+      "feedback": [
+        {
+          "answers": ["=l+b","=2*(l+b)"],
+          "message": "Det är en längd, inte en area. Arean är hur många rutor som ryms: längd · bredd."
+        }
+      ]
+    },
+    {
+      "id": "golv",
+      "for": ["word-0"],
+      "vars": {"l":[3,9],"b":[2,7]},
+      "derive": [{"name":"p","expr":"l*b"}],
+      "prompt": "Ett golv är {l} m långt och {b} m brett. Hur många kvadratmeter är golvet?",
+      "answer": ["=p","{p} m2","{p}m2","{p} m²","{p}m²"],
+      "correct": "Rätt! {l} · {b} = {p} m².",
+      "feedback": [
+        {
+          "answers": ["=2*(l+b)"],
+          "message": "Det är omkretsen. Arean får du genom att multiplicera längd och bredd."
+        }
+      ]
+    },
+    {
+      "id": "kvadrat",
+      "for": ["word-1"],
+      "vars": {"s":[3,12]},
+      "derive": [{"name":"p","expr":"s*s"}],
+      "prompt": "En kvadrat har sidan {s} cm. Vad är arean i cm²?",
+      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "correct": "Rätt! {s} · {s} = {p} cm².",
+      "feedback": [{"answers":["=4*s"],"message":"Det är omkretsen. Arean är sidan gånger sidan."}]
+    }
+  ],
   "exercise": {
     "prompt": "En rektangel är 8 cm lång och 5 cm bred. Vad är arean i cm²?",
     "answer": ["40", "40 cm2", "40cm2", "40 cm²", "40cm²"],

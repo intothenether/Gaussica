@@ -37,6 +37,38 @@
   "rule": "Gemensamma delare = delare som finns i båda listorna",
   "ruleLabel": "GEMENSAMMA DELARE",
   "example": "Delare till 8: 1, 2, 4, 8. Delare till 12: 1, 2, 3, 4, 6, 12. Gemensamma delare: 1, 2 och 4.",
+  "practice": [
+    {
+      "id": "antal-gemensamma",
+      "for": ["exercise"],
+      "vars": {"a":[8,60],"b":[8,60]},
+      "where": [{"expr":"abs(a-b)","min":1},{"expr":"sgd(a,b)","min":2}],
+      "derive": [{"name":"g","expr":"sgd(a,b)"},{"name":"c","expr":"divcount(g)"}],
+      "prompt": "Hur många gemensamma delare har {a} och {b}?",
+      "answer": ["=c"],
+      "correct": "Rätt! De gemensamma delarna är delarna till {g}, den största gemensamma delaren. Det är {c} stycken.",
+      "feedback": [
+        {
+          "answers": ["=g"],
+          "message": "{g} är den största gemensamma delaren. Du ska räkna hur många gemensamma delare det finns."
+        },
+        {"answers":["=c-1"],"message":"Glöm inte 1. Det är en gemensam delare till alla tal."}
+      ]
+    },
+    {
+      "id": "storre-an-1",
+      "for": ["word-0"],
+      "vars": {"a":[8,60],"b":[8,60]},
+      "where": [{"expr":"abs(a-b)","min":1},{"expr":"sgd(a,b)","min":2}],
+      "derive": [{"name":"g","expr":"sgd(a,b)"},{"name":"c","expr":"divcount(g)-1"}],
+      "prompt": "{a} och {b} har några gemensamma delare. Hur många av dem är större än 1?",
+      "answer": ["=c"],
+      "correct": "Rätt! Utan 1 blir det {c} stycken.",
+      "feedback": [
+        {"answers":["=c+1"],"message":"Du räknade med 1. Frågan gäller bara de delare som är större än 1."}
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Hur många gemensamma delare har 12 och 18?",
     "answer": [

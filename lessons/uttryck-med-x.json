@@ -22,6 +22,86 @@
   "rule": "Gör tvärtom: + blir −, · blir ÷",
   "ruleLabel": "RÄKNA BAKLÄNGES",
   "example": "x + 3 = 10 → x = 10 − 3 = 7. Och 3 · x = 12 → x = 12 ÷ 3 = 4.",
+  "practice": [
+    {
+      "id": "plus",
+      "for": ["exercise"],
+      "vars": {"x":[2,20],"b":[2,20]},
+      "derive": [{"name":"s","expr":"x+b"}],
+      "prompt": "Vad är x om x + {b} = {s}?",
+      "answer": ["=x","x={x}","x = {x}"],
+      "correct": "Rätt! {s} − {b} = {x}. Kontroll: {x} + {b} = {s}.",
+      "feedback": [{"answers":["=s+b"],"message":"Du har lagt ihop talen. Räkna baklänges: {s} − {b}."}]
+    },
+    {
+      "id": "minus",
+      "for": ["exercise"],
+      "vars": {"r":[2,20],"b":[2,20]},
+      "derive": [{"name":"x","expr":"r+b"}],
+      "prompt": "Vad är x om x − {b} = {r}?",
+      "answer": ["=x","x={x}","x = {x}"],
+      "correct": "Rätt! {r} + {b} = {x}. Kontroll: {x} − {b} = {r}.",
+      "feedback": [
+        {
+          "answers": ["=r-b"],
+          "message": "Du har tagit bort {b} i stället för att lägga till. Gör tvärtom mot subtraktionen."
+        }
+      ]
+    },
+    {
+      "id": "gange",
+      "for": ["word-1"],
+      "vars": {"a":[2,9],"x":[2,12]},
+      "derive": [{"name":"p","expr":"a*x"}],
+      "prompt": "Vad är x om {a} · x = {p}?",
+      "answer": ["=x","x={x}","x = {x}"],
+      "correct": "Rätt! {p} ÷ {a} = {x}.",
+      "feedback": [{"answers":["=a*p"],"message":"Du har multiplicerat. Gör tvärtom: dela {p} med {a}."}]
+    },
+    {
+      "id": "tankt-tal",
+      "for": ["word-0"],
+      "pick": {"namn":["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"]},
+      "vars": {"x":[3,25],"b":[3,15]},
+      "derive": [{"name":"s","expr":"x+b"}],
+      "prompt": "{$namn} tänker på ett tal. {$namn} lägger till {b} och får {s}. Vilket tal tänkte {$namn} på?",
+      "answer": ["=x","x={x}","x = {x}"],
+      "correct": "Rätt! x + {b} = {s}, så x = {s} − {b} = {x}.",
+      "feedback": [{"answers":["=s+b"],"message":"Du har lagt ihop {s} och {b}. Börja med {s} och gå tillbaka."}]
+    },
+    {
+      "id": "pasar",
+      "for": ["word-1"],
+      "pick": {"sak":["godisbitar","kulor","klistermärken"]},
+      "vars": {"x":[3,9],"n":[3,6]},
+      "derive": [{"name":"p","expr":"n*x"}],
+      "prompt": "Det ligger x {$sak} i varje påse. {n} påsar innehåller sammanlagt {p} {$sak}. Hur många ligger i en påse?",
+      "answer": ["=x","x={x}","x = {x}"],
+      "correct": "Rätt! {n} · x = {p}, så x = {p} ÷ {n} = {x}.",
+      "feedback": [
+        {
+          "answers": ["=n*p"],
+          "message": "Du har multiplicerat. Påsarna är likadana, så dela {p} lika på {n} påsar."
+        }
+      ]
+    },
+    {
+      "id": "varde",
+      "for": ["word-2"],
+      "vars": {"a":[2,6],"x":[2,9],"b":[1,9]},
+      "derive": [{"name":"v","expr":"a*x+b"}],
+      "prompt": "Vad är värdet av {a} · x + {b} om x = {x}?",
+      "answer": ["=v"],
+      "correct": "Rätt! {a} · {x} = {a*x} och {a*x} + {b} = {v}.",
+      "feedback": [
+        {"answers":["=a*x"],"message":"Du glömde + {b} i slutet."},
+        {
+          "answers": ["=a*(x+b)"],
+          "message": "Multiplikationen görs före additionen. Räkna {a} · {x} först och lägg sedan till {b}."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Vad är x om x + 8 = 15?",
     "answer": ["7", "x=7", "x = 7"],

@@ -37,6 +37,42 @@
   "rule": "a är en delare till b om b ÷ a går jämnt upp",
   "ruleLabel": "DELARE",
   "example": "Delarna till 10 är 1, 2, 5 och 10. Talet 4 är ingen delare eftersom 10 ÷ 4 = 2 med resten 2.",
+  "practice": [
+    {
+      "id": "antal-delare",
+      "for": ["exercise"],
+      "vars": {"n":[6,48]},
+      "derive": [{"name":"c","expr":"divcount(n)"}],
+      "prompt": "Hur många delare har talet {n}?",
+      "answer": ["=c"],
+      "correct": "Rätt! {n} har {c} delare.",
+      "feedback": [
+        {"answers":["=c-1","=c-2"],"message":"Glöm inte att både 1 och talet självt är delare."},
+        {"answers":["=c+1"],"message":"Dubbelkolla: räkna varje delare bara en gång."}
+      ]
+    },
+    {
+      "id": "delbart-ja",
+      "for": ["word-0"],
+      "vars": {"d":[3,9],"k":[3,12]},
+      "derive": [{"name":"n","expr":"d*k"}],
+      "prompt": "Är {n} delbart med {d}? Svara ja eller nej.",
+      "answer": ["ja","Ja"],
+      "correct": "Ja! {d} · {k} = {n}, så {d} går jämnt upp i {n}.",
+      "feedback": []
+    },
+    {
+      "id": "delbart-nej",
+      "for": ["word-0"],
+      "vars": {"d":[3,9],"k":[3,12],"r":[1,2]},
+      "where": [{"expr":"d-r","min":1}],
+      "derive": [{"name":"n","expr":"d*k+r"}],
+      "prompt": "Är {n} delbart med {d}? Svara ja eller nej.",
+      "answer": ["nej","Nej"],
+      "correct": "Nej. {d} · {k} = {d*k}, och {n} är {r} mer, så {d} går inte jämnt upp i {n}.",
+      "feedback": []
+    }
+  ],
   "exercise": {
     "prompt": "Hur många delare har talet 12?",
     "answer": [

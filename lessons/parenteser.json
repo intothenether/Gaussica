@@ -13,6 +13,45 @@
   "rule": "1. Allt inuti parenteser räknas FÖRST\n2. Sedan följer normal räkneordning",
   "ruleLabel": "PARENTESER FÖRST",
   "example": "Utan parenteser: 2 + 3 × 5 = 2 + 15 = 17. Med parenteser: (2 + 3) × 5 = 5 × 5 = 25.",
+  "practice": [
+    {
+      "id": "plus-i-parentes",
+      "for": ["exercise"],
+      "vars": {"a":[2,12],"b":[2,12],"c":[2,9]},
+      "derive": [{"name":"r","expr":"(a+b)*c"}],
+      "prompt": "Räkna ut: ({a} + {b}) × {c}.",
+      "answer": ["=r"],
+      "correct": "Rätt! Parentesen först: {a} + {b} = {a+b}, sedan {a+b} × {c} = {r}.",
+      "feedback": [
+        {"answers":["=a+b*c"],"message":"Du glömde parentesen. Det som står inom parentes räknar du först."}
+      ]
+    },
+    {
+      "id": "minus-i-parentes",
+      "for": ["exercise"],
+      "vars": {"a":[10,30],"b":[2,9],"c":[2,9]},
+      "derive": [{"name":"r","expr":"c*(a-b)"}],
+      "prompt": "Räkna ut: {c} × ({a} − {b}).",
+      "answer": ["=r"],
+      "correct": "Rätt! Parentesen först: {a} − {b} = {a-b}, sedan {c} × {a-b} = {r}.",
+      "feedback": [{"answers":["=c*a-b"],"message":"Du glömde parentesen. Räkna {a} − {b} först."}]
+    },
+    {
+      "id": "efter",
+      "for": ["word-0"],
+      "vars": {"a":[20,50],"b":[2,9],"c":[2,9]},
+      "derive": [{"name":"r","expr":"a-(b+c)"}],
+      "prompt": "Räkna ut: {a} − ({b} + {c}).",
+      "answer": ["=r"],
+      "correct": "Rätt! {b} + {c} = {b+c}, sedan {a} − {b+c} = {r}.",
+      "feedback": [
+        {
+          "answers": ["=a-b+c"],
+          "message": "Parentesen visar att {b} + {c} ska räknas först och sedan dras bort från {a}."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Räkna ut: (3 + 2) × 4.",
     "answer": ["20"],

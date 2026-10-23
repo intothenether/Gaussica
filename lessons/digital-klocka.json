@@ -13,6 +13,55 @@
   "rule": "Efter klockan 12: lägg till 12 timmar",
   "ruleLabel": "24-TIMMARSKLOCKAN",
   "example": "Klockan 3 på eftermiddagen är 3 + 12 = 15, så den digitala klockan visar 15:00. Minuterna är alltid desamma.",
+  "practice": [
+    {
+      "id": "analog-till-digital",
+      "for": ["exercise"],
+      "vars": {"h":[1,12],"m":[0,55,5]},
+      "prompt": "Titta på den analoga klockan. Vad visar den digitala klockan? Svara HH:MM.",
+      "visual": {"type":"klocka","h":"=h","m":"=m","digital":false},
+      "answer": ["{h|2}:{m|2}","{h}:{m|2}","{h|2}.{m|2}","{h}.{m|2}"],
+      "correct": "Rätt! Korta visaren visar timmen {h} och den långa visar {m} minuter.",
+      "feedback": [
+        {
+          "answers": ["{h|2}:{m/5|2}","{h}:{m/5|2}"],
+          "message": "Varje siffra på klockan är 5 minuter. Siffran {m/5} betyder {m} minuter."
+        },
+        {
+          "answers": ["{m/5|2}:{h*5|2}"],
+          "message": "Du har tagit den långa visaren för timmen. Den korta visaren visar timmen."
+        }
+      ]
+    },
+    {
+      "id": "efter-lunch",
+      "for": ["word-1"],
+      "vars": {"h":[1,9],"m":[0,55,5]},
+      "prompt": "Den analoga klockan visar {h}:{m|2} på eftermiddagen. Vad visar en digital 24-timmarsklocka? Svara HH:MM.",
+      "answer": ["{h+12}:{m|2}","{h+12}.{m|2}"],
+      "correct": "Rätt! På eftermiddagen lägger du till 12 timmar: {h} + 12 = {h+12}.",
+      "feedback": [
+        {
+          "answers": ["{h|2}:{m|2}","{h}:{m|2}"],
+          "message": "Det är tiden på förmiddagen. Efter klockan 12 räknar den digitala klockan vidare: lägg till 12 timmar."
+        }
+      ]
+    },
+    {
+      "id": "digital-till-analog",
+      "for": ["word-0"],
+      "vars": {"hh":[13,23]},
+      "prompt": "Den digitala klockan visar {hh}:00. Vilken siffra pekar den korta visaren på en analog klocka?",
+      "answer": ["=hh-12"],
+      "correct": "Rätt! {hh} − 12 = {hh-12}.",
+      "feedback": [
+        {
+          "answers": ["=hh"],
+          "message": "En analog klocka har bara siffrorna 1 till 12. Dra bort 12 från {hh}."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Titta på den analoga klockan. Vad visar den digitala klockan? Svara HH:MM.",
     "answer": ["08:25", "8:25", "08.25", "8.25"],

@@ -18,6 +18,48 @@
     "numerator": 2,
     "denominator": 4
   },
+  "practice": [
+    {
+      "id": "taljare",
+      "for": ["exercise"],
+      "vars": {"b":[3,12]},
+      "derive": [{"name":"a","expr":"b-2"}],
+      "prompt": "Vilket tal är täljaren i bråket {a}/{b}?",
+      "answer": ["=a"],
+      "correct": "Rätt! Täljaren är det övre talet, {a}.",
+      "feedback": [{"answers":["=b"],"message":"{b} är nämnaren, det nedre talet. Täljaren står överst."}]
+    },
+    {
+      "id": "farglagda",
+      "for": ["exercise"],
+      "vars": {"b":[3,10],"a":[1,9]},
+      "where": [{"expr":"b-a","min":1}],
+      "prompt": "En cirkel är delad i {b} lika stora delar. {a} av delarna är färgade. Vilket bråk är färgat? Svara som bråk.",
+      "answer": ["{a}/{b}"],
+      "correct": "Rätt! {a} av {b} delar är färgade: {a}/{b}.",
+      "feedback": [
+        {
+          "answers": ["{b}/{a}"],
+          "message": "Täljaren (överst) visar antalet färgade delar och nämnaren (nederst) hur många delar helheten är delad i."
+        }
+      ]
+    },
+    {
+      "id": "del-av",
+      "for": ["word-0"],
+      "vars": {"n":[2,6],"k":[2,9]},
+      "derive": [{"name":"t","expr":"n*k"}],
+      "prompt": "Vad är 1/{n} av {t}?",
+      "answer": ["=k"],
+      "correct": "Rätt! {t} ÷ {n} = {k}.",
+      "feedback": [
+        {
+          "answers": ["=t*n"],
+          "message": "1/{n} betyder att du delar {t} i {n} lika delar. Du ska dela, inte multiplicera."
+        }
+      ]
+    }
+  ],
   "exercise": {
     "prompt": "Vilken del är skuggad? I bråket a/b, vilket är täljaren och vilket är nämnaren?",
     "answer": ["2/4", "1/2", "0.5", "0,5"],

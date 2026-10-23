@@ -12,6 +12,53 @@
   "rule": "502 − 278 = 4 hundratal, 12 tiotal, 12 ental − 278 = 224",
   "ruleLabel": "VÄXLA UTAN ATT ÄNDRA VÄRDET",
   "example": "Ett hundratal är lika mycket som tio tiotal. Växling byter namn på samma mängd — den tar inte bort något.",
+  "practice": [
+    {
+      "id": "differens",
+      "for": ["exercise"],
+      "vars": {"a":[301,999],"b":[102,299]},
+      "derive": [{"name":"r","expr":"a-b"}],
+      "prompt": "Räkna ut {a} − {b}.",
+      "answer": ["=r"],
+      "correct": "Rätt! {a} − {b} = {r}.",
+      "feedback": [
+        {"answers":["=a+b"],"message":"Det ser ut som att du adderade. Här ska du ta bort {b} från {a}."},
+        {
+          "answers": ["=r+10","=r-10","=r+100","=r-100"],
+          "message": "Kolla växlingen. När du lånar från nästa kolumn blir den kolumnen 1 mindre."
+        }
+      ]
+    },
+    {
+      "id": "berattelse",
+      "for": ["word-0"],
+      "pick": {
+        "namn": ["Mira","Omar","Elsa","Kasper","Nora","Hugo","Leila","Sam"],
+        "sak": ["frimärken","klistermärken","pärlor","kort","kulor"]
+      },
+      "vars": {"a":[200,900],"b":[50,199]},
+      "derive": [{"name":"r","expr":"a-b"}],
+      "prompt": "{$namn} har {a} {$sak} och ger bort {b}. Hur många {$sak} är kvar?",
+      "answer": ["=r"],
+      "correct": "Rätt! {a} − {b} = {r}.",
+      "feedback": [
+        {
+          "answers": ["=a+b"],
+          "message": "{$namn} ger bort {$sak}, så det blir färre. Då ska du ta bort, inte lägga till."
+        }
+      ]
+    },
+    {
+      "id": "saknat-tal",
+      "for": ["word-1"],
+      "vars": {"a":[200,900],"b":[20,199]},
+      "derive": [{"name":"r","expr":"a-b"}],
+      "prompt": "Vilket tal ska stå i rutan: {a} − □ = {r}?",
+      "answer": ["=b"],
+      "correct": "Rätt! {a} − {r} = {b}.",
+      "feedback": [{"answers":["=a+r"],"message":"Du lade ihop talen. Räkna baklänges: {a} − {r}."}]
+    }
+  ],
   "exercise": {
     "prompt": "Räkna ut 502 − 278.",
     "answer": ["224"],
