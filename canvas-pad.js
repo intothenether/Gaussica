@@ -5,9 +5,10 @@
 // GaussicaCanvas.view(value)                 -> element   read-only drawing (teacher view)
 // GaussicaCanvas.isEmpty(value)              -> boolean
 //
-// The paper is squared (CELL pixels per square). Text, tiles, shapes and lines snap to the squares, and
-// shapes and lines can be resized with the round handles. The drawing is stored as a small JSON string:
-// { v: 1, g: 1, sn: 0|1, items: [...] }. Every item has a type `t` and a position x/y; strokes keep their
+// The paper is squared (CELL pixels per square) and endless: drag empty paper to move it, pinch or use the
+// zoom buttons to zoom. The "Skriv" tool writes one character per square (items of type r). Text, tiles,
+// shapes and lines snap to the squares, and shapes and lines can be resized with the round handles.
+// The drawing is stored as a small JSON string: { v: 1, g: 1, sn: 0|1, vw: { x, y, z }, items: [...] }. Every item has a type `t` and a position x/y; strokes keep their
 // points relative to that position.
 
 window.GaussicaCanvas = (function () {
@@ -16,6 +17,9 @@ window.GaussicaCanvas = (function () {
   const NS = "http://www.w3.org/2000/svg";
   const W = 800, H = 440;
   const CELL = 20;
+  const ROWH = CELL * 2;          // a row of typed characters is two squares high
+  const LIM = 20000;              // the paper is endless, but not quite
+  const ZMIN = 0.4, ZMAX = 2.5;
   const MAX_JSON = 45000;
   const MAX_POINTS = 900;
   const COLORS = [
@@ -41,12 +45,21 @@ window.GaussicaCanvas = (function () {
   }
 
   function parse(value) {
-    if (!value) return { g: 1, sn: 1, items: [] };
+    const empty = { g: 1, sn: 1, view: { x: 0, y: 0, z: 1 }, items: [] };
+    if (!value) return empty;
     try {
       const d = typeof value === "string" ? JSON.parse(value) : value;
-      if (d && Array.isArray(d.items)) return { g: 1, sn: d.sn === 0 ? 0 : 1, items: d.items.filter(function (i) { return i && typeof i.t === "string"; }) };
+      if (d && Array.isArray(d.items)) {
+        const vw = d.vw || {};
+        const num = function (v, dflt) { return Number.isFinite(Number(v)) && v !== null && v !== "" ? Number(v) : dflt; };
+        return {
+          g: 1, sn: d.sn === 0 ? 0 : 1,
+          view: { x: Math.max(-LIM, Math.min(LIM, num(vw.x, 0))), y: Math.max(-LIM, Math.min(LIM, num(vw.y, 0))), z: Math.max(ZMIN, Math.min(ZMAX, num(vw.z, 1))) },
+          items: d.items.filter(function (i) { return i && typeof i.t === "string"; })
+        };
+      }
     } catch (e) { /* corrupt data: treat as empty */ }
-    return { g: 1, sn: 1, items: [] };
+    return empty;
   }
 
   function isEmpty(value) { return parse(value).items.length === 0; }
@@ -101,6 +114,17 @@ window.GaussicaCanvas = (function () {
           const sp = s("tspan", { x: 0, dy: i ? step : 0 }, t);
           sp.textContent = l;
         });
+        break;
+      }
+      case "r": {
+        const str = String(it.s || "");
+        s("rect", { x: 0, y: 0, width: Math.max(1, str.length) * CELL, height: ROWH, fill: "transparent" }, g);
+        const t = s("text", { fill: col.v, "font-size": 30, "font-weight": 800, "font-family": FONT, "text-anchor": "middle" }, g);
+        for (let i = 0; i < str.length; i++) {
+          if (str.charAt(i) === " ") continue;
+          const sp = s("tspan", { x: i * CELL + CELL / 2, y: ROWH - 9 }, t);
+          sp.textContent = str.charAt(i);
+        }
         break;
       }
       case "chip": {
@@ -177,14 +201,51 @@ window.GaussicaCanvas = (function () {
   // Squared paper: a light line every CELL, a slightly stronger one every fifth square.
   function background(svg) {
     const id = ++uid;
-    s("rect", { x: 0, y: 0, width: W, height: H, fill: "#fffdf7" }, svg);
+    s("rect", { x: -LIM, y: -LIM, width: 2 * LIM, height: 2 * LIM, fill: "#fffdf7" }, svg);
     const defs = s("defs", {}, svg);
     const minor = s("pattern", { id: "cv-grid-" + id, width: CELL, height: CELL, patternUnits: "userSpaceOnUse" }, defs);
     s("path", { d: "M" + CELL + " 0 H0 V" + CELL, fill: "none", stroke: "#dbe9f5", "stroke-width": 1 }, minor);
     const major = s("pattern", { id: "cv-major-" + id, width: CELL * 5, height: CELL * 5, patternUnits: "userSpaceOnUse" }, defs);
     s("path", { d: "M" + CELL * 5 + " 0 H0 V" + CELL * 5, fill: "none", stroke: "#bcd5ea", "stroke-width": 1.4 }, major);
-    s("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#cv-grid-" + id + ")" }, svg);
-    s("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#cv-major-" + id + ")" }, svg);
+    s("rect", { x: -LIM, y: -LIM, width: 2 * LIM, height: 2 * LIM, fill: "url(#cv-grid-" + id + ")" }, svg);
+    s("rect", { x: -LIM, y: -LIM, width: 2 * LIM, height: 2 * LIM, fill: "url(#cv-major-" + id + ")" }, svg);
+  }
+
+  const BOX_SIZES = { chip: [60, 40], op: [40, 40], dot: [20, 20], ones: [CELL, CELL], tens: [10 * CELL, CELL], hund: [10 * CELL, 10 * CELL], nl: [440, 80] };
+
+  function sizeOf(it) {
+    if (it.t === "chip") return [chipWidth(it), 40];
+    if (it.t === "shape") return shapeSize(it);
+    if (it.t === "r") return [Math.max(1, String(it.s || "").length) * CELL, ROWH];
+    return BOX_SIZES[it.t] || [40, 40];
+  }
+
+  // [x0, y0, x1, y1] of one item
+  function bbox(it) {
+    const x = it.x || 0, y = it.y || 0;
+    if (it.t === "s") {
+      const p = it.p || [];
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      for (let i = 0; i + 1 < p.length; i += 2) { x0 = Math.min(x0, p[i]); x1 = Math.max(x1, p[i]); y0 = Math.min(y0, p[i + 1]); y1 = Math.max(y1, p[i + 1]); }
+      return x0 === Infinity ? [x, y, x, y] : [x + x0, y + y0, x + x1, y + y1];
+    }
+    if (it.t === "line") return [Math.min(x, x + (it.dx || 0)), Math.min(y, y + (it.dy || 0)), Math.max(x, x + (it.dx || 0)), Math.max(y, y + (it.dy || 0))];
+    if (it.t === "t") {
+      const size = it.z || 24, lines = String(it.s || "").split("\n");
+      const widest = lines.reduce(function (m, l) { return Math.max(m, l.length); }, 1);
+      return [x, y - size, x + widest * size * 0.58, y + (lines.length - 1) * (it.lh || size * 1.25) + size * 0.3];
+    }
+    const sz = sizeOf(it);
+    return [x, y, x + sz[0], y + sz[1]];
+  }
+
+  function itemsBox(list) {
+    let box = null;
+    (list || []).forEach(function (it) {
+      const b = bbox(it);
+      box = box ? [Math.min(box[0], b[0]), Math.min(box[1], b[1]), Math.max(box[2], b[2]), Math.max(box[3], b[3])] : b;
+    });
+    return box;
   }
 
   // ----- read-only view -----
@@ -192,7 +253,15 @@ window.GaussicaCanvas = (function () {
     const data = parse(value);
     if (!data.items.length) return null;
     const wrap = el("div", "cv-view");
-    const svg = s("svg", { viewBox: "0 0 " + W + " " + H, "class": "cv-svg", role: "img", "aria-label": "Elevens rityta" });
+    // normally the first screen of paper; when the work reaches further, show all of it
+    let vb = [0, 0, W, H];
+    const b = itemsBox(data.items);
+    if (b && (b[0] < 0 || b[1] < 0 || b[2] > W || b[3] > H)) {
+      const pad = 30, bw = b[2] - b[0] + 2 * pad, bh = b[3] - b[1] + 2 * pad;
+      const w = Math.max(W, bw, bh * W / H), h = w * H / W;
+      vb = [(b[0] + b[2]) / 2 - w / 2, (b[1] + b[3]) / 2 - h / 2, w, h];
+    }
+    const svg = s("svg", { viewBox: vb.join(" "), "class": "cv-svg", role: "img", "aria-label": "Elevens rityta" });
     background(svg);
     const layer = s("g", {}, svg);
     data.items.forEach(function (it) { const g = drawItem(it, false); if (g) layer.appendChild(g); });
@@ -221,9 +290,10 @@ window.GaussicaCanvas = (function () {
   const SIZES = { chip: [60, 40], op: [40, 40], dot: [20, 20], ones: [CELL, CELL], tens: [10 * CELL, CELL], hund: [10 * CELL, 10 * CELL], nl: [440, 80] };
 
   const TOOLS = [
-    { id: "select", label: "Flytta", hint: "Klicka på något för att markera och dra det. Figurer och linjer får runda punkter som du drar i för att ändra storleken. Dubbelklicka på text och tal för att ändra." },
-    { id: "pen", label: "Rita", hint: "Rita fritt med pekaren eller fingret." },
-    { id: "text", label: "Text", hint: "Klicka i rutan där du vill skriva. Texten hamnar på rutnätet. Tryck Enter när du är klar." },
+    { id: "select", label: "Flytta", hint: "Dra på tomt papper för att flytta pappret, så får du plats hur långt du vill. Klicka på något för att markera och flytta det. Figurer och linjer får runda punkter som du drar i för att ändra storleken." },
+    { id: "pen", label: "Rita", hint: "Rita fritt med pekaren eller fingret. Dra med två fingrar för att flytta pappret." },
+    { id: "write", label: "Skriv", hint: "Klicka på en ruta och skriv. En siffra eller bokstav per ruta. Enter går till nästa rad och piltangenterna flyttar markören. Tryck på Sträck för att dra ett streck under talen. Dra på tomt papper för att flytta pappret." },
+    { id: "text", label: "Textruta", hint: "Klicka där du vill ha en textruta och skriv. Tryck Enter när du är klar. Dra i en ruta som redan finns för att flytta den, klicka på den för att ändra." },
     { id: "erase", label: "Sudd", hint: "Dra över det du vill ta bort." },
     { id: "line", label: "Linje", hint: "Dra för att rita en rak linje. Den fastnar på rutnätets hörn." },
     { id: "arrow", label: "Pil", hint: "Dra för att rita en pil. Den fastnar på rutnätets hörn." }
@@ -234,39 +304,80 @@ window.GaussicaCanvas = (function () {
     return String(v).replace(".", ",");
   }
 
+  function coarsePointer() {
+    return Boolean(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+  }
+
   function create(options) {
     options = options || {};
     const initial = parse(options.value);
     let items = initial.items;
     let snapOn = Boolean(initial.sn);
+    let vx = initial.view.x, vy = initial.view.y, zoom = initial.view.z;   // which part of the endless paper is shown
     let tool = "select";
     let color = 0;
     let width = 3;
     let selected = -1;
     let editing = null;
+    let cur = null;               // the writing cursor of the "Skriv" tool: { col, row }
+    let lineStart = 0;            // Enter goes back to this column
+    let keypadOn = coarsePointer();
+    let lastTypeAt = 0;
+    let spaceDown = false;
+    let viewTimer = null;
     const history = [];
     let hIdx = -1;
 
     const root = el("div", "cv");
-    const toolbar = el("div", "cv-toolbar");
+    // A slim rail with the everyday tools; everything else lives in the "Mer" panel.
+    const toolbar = el("div", "cv-rail");
     toolbar.setAttribute("role", "toolbar");
     toolbar.setAttribute("aria-label", "Verktyg för ritytan");
+    const panel = el("div", "cv-more");
+    panel.hidden = true;
+    const colorPanel = el("div", "cv-more cv-colors");
+    colorPanel.hidden = true;
     const bits = el("div", "cv-bits");
     bits.setAttribute("role", "toolbar");
     bits.setAttribute("aria-label", "Saker att lägga på ritytan");
+    const main = el("div", "cv-main");
     const stage = el("div", "cv-stage");
     stage.tabIndex = 0;
-    const svg = s("svg", { viewBox: "0 0 " + W + " " + H, "class": "cv-svg", role: "img", "aria-label": "Rityta för din lösning" });
+    const svg = s("svg", { viewBox: vx + " " + vy + " " + W / zoom + " " + H / zoom, "class": "cv-svg", role: "img", "aria-label": "Rityta för din lösning" });
     const bgHolder = s("g", {}, svg);
     const layer = s("g", {}, svg);
+    const overlay = s("g", { "pointer-events": "none" }, svg);
     stage.appendChild(svg);
+    background(bgHolder);
+
+    // typing happens in a hidden field, so phones and tablets can bring up their own keyboard when asked
+    const typer = el("input", "cv-typer");
+    typer.type = "text";
+    typer.setAttribute("autocomplete", "off");
+    typer.setAttribute("autocapitalize", "off");
+    typer.setAttribute("autocorrect", "off");
+    typer.setAttribute("spellcheck", "false");
+    typer.setAttribute("aria-label", "Skriv på rutorna");
+    stage.appendChild(typer);
+
+    const zoomBar = el("div", "cv-zoom");
+    const awayChip = el("button", "cv-away", "↩ Visa mitt arbete");
+    awayChip.type = "button";
+    awayChip.hidden = true;
+    stage.append(zoomBar, awayChip);
+
+    const keypad = el("div", "cv-keypad");
+    keypad.hidden = true;
     const foot = el("div", "cv-foot");
     const hint = el("p", "cv-hint");
     hint.setAttribute("aria-live", "polite");
     const selbar = el("div", "cv-selbar");
     selbar.hidden = true;
-    foot.append(hint, selbar);
-    root.append(toolbar, bits, stage, foot);
+    const writebar = el("div", "cv-selbar cv-writebar");   // buttons that belong to the "Skriv" tool
+    writebar.hidden = true;
+    foot.append(hint, selbar, writebar);
+    main.append(stage, keypad, foot);
+    root.append(toolbar, main, panel, colorPanel);
 
     function button(label, className, onClick) {
       const b = el("button", "cv-btn" + (className ? " " + className : ""), label);
@@ -276,10 +387,18 @@ window.GaussicaCanvas = (function () {
     }
 
     // --- model ---
-    function serialize() { return JSON.stringify({ v: 1, g: 1, sn: snapOn ? 1 : 0, items: items }); }
+    function serialize() {
+      return JSON.stringify({ v: 1, g: 1, sn: snapOn ? 1 : 0, vw: { x: Math.round(vx), y: Math.round(vy), z: Math.round(zoom * 100) / 100 }, items: items });
+    }
 
     function emit(json) {
       if (options.onChange) options.onChange(items.length ? json : "");
+    }
+
+    // The view is saved too, but panning does not count as a step to undo.
+    function emitSoon() {
+      clearTimeout(viewTimer);
+      viewTimer = setTimeout(function () { if (items.length) emit(serialize()); }, 500);
     }
 
     function say(text) { hint.textContent = text; }
@@ -296,28 +415,78 @@ window.GaussicaCanvas = (function () {
       syncUi();
     }
 
-    function commit() {
+    // opts.merge: keystrokes in a row count as one step to undo
+    function commit(opts) {
       const json = serialize();
       if (json.length > MAX_JSON) {
         restore(history[hIdx]);
         say("Ritytan är full. Ta bort något innan du lägger till mer.");
         return false;
       }
-      history.splice(hIdx + 1);
-      history.push(json);
-      if (history.length > 60) history.shift();
-      hIdx = history.length - 1;
+      const now = Date.now();
+      if (opts && opts.merge && hIdx > 0 && hIdx === history.length - 1 && now - lastTypeAt < 1500) {
+        history[hIdx] = json;
+      } else {
+        history.splice(hIdx + 1);
+        history.push(json);
+        if (history.length > 60) history.shift();
+        hIdx = history.length - 1;
+      }
+      lastTypeAt = opts && opts.merge ? now : 0;
       emit(json);
       syncUi();
       return true;
     }
 
-    // --- rendering ---
-    function itemSize(it) {
-      if (it.t === "chip") return [chipWidth(it), 40];
-      if (it.t === "shape") return shapeSize(it);
-      return SIZES[it.t] || [40, 40];
+    // --- the view: pan and zoom over an endless paper ---
+    function applyView(rescale) {
+      svg.setAttribute("viewBox", vx + " " + vy + " " + W / zoom + " " + H / zoom);
+      zoomLabel.textContent = Math.round(zoom * 100) + " %";
+      updateCursor();
+      updateAway();
+      if (rescale) render();
     }
+
+    function updateAway() {
+      const x0 = vx, y0 = vy, x1 = vx + W / zoom, y1 = vy + H / zoom;
+      const seen = items.some(function (it) {
+        const b = bbox(it);
+        return b[2] >= x0 && b[0] <= x1 && b[3] >= y0 && b[1] <= y1;
+      });
+      awayChip.hidden = !items.length || seen;
+    }
+
+    function zoomBy(factor, cx, cy) {
+      const r = svg.getBoundingClientRect();
+      const px = cx === undefined ? r.left + r.width / 2 : cx, py = cy === undefined ? r.top + r.height / 2 : cy;
+      const wx = vx + (px - r.left) * (W / zoom) / r.width, wy = vy + (py - r.top) * (H / zoom) / r.height;
+      zoom = Math.max(ZMIN, Math.min(ZMAX, zoom * factor));
+      vx = wx - (px - r.left) * (W / zoom) / r.width;
+      vy = wy - (py - r.top) * (H / zoom) / r.height;
+      applyView(true);
+      emitSoon();
+    }
+
+    function goHome() {
+      vx = 0; vy = 0; zoom = 1;
+      applyView(true);
+      emitSoon();
+    }
+
+    function fitAll() {
+      const b = itemsBox(items);
+      if (!b) { goHome(); return; }
+      const pad = 40;
+      const bw = b[2] - b[0] + 2 * pad, bh = b[3] - b[1] + 2 * pad;
+      zoom = Math.max(ZMIN, Math.min(1.5, Math.min(W / bw, H / bh)));
+      vx = (b[0] + b[2]) / 2 - W / zoom / 2;
+      vy = (b[1] + b[3]) / 2 - H / zoom / 2;
+      applyView(true);
+      emitSoon();
+    }
+
+    // --- rendering ---
+    function itemSize(it) { return sizeOf(it); }
 
     // Round handles for changing the size of a shape or the end of a line.
     function handleSpecs(it) {
@@ -334,10 +503,11 @@ window.GaussicaCanvas = (function () {
       const b = g.getBBox();   // measured after insertion: a detached group has no box
       s("rect", { x: b.x - 6, y: b.y - 6, width: b.width + 12, height: b.height + 12, rx: 8, "class": "cv-sel" }, g);
       if (tool !== "select") return;
+      const k = 1 / zoom;   // handles keep the same size on screen
       handleSpecs(items[i]).forEach(function (h) {
         const hg = s("g", { "class": "cv-handle", "data-mode": h.mode, transform: "translate(" + h.x + " " + h.y + ")" }, g);
-        s("circle", { r: 20, fill: "transparent" }, hg);
-        s("circle", { r: 8, "class": "cv-handle-dot" }, hg);
+        s("circle", { r: 20 * k, fill: "transparent" }, hg);
+        s("circle", { r: 8 * k, "class": "cv-handle-dot" }, hg);
       });
     }
 
@@ -357,8 +527,6 @@ window.GaussicaCanvas = (function () {
     }
 
     function render() {
-      bgHolder.replaceChildren();
-      background(bgHolder);
       layer.replaceChildren();
       items.forEach(function (it, i) {
         const g = buildNode(i);
@@ -367,6 +535,7 @@ window.GaussicaCanvas = (function () {
         decorate(g, i);
       });
       syncSelection();
+      updateAway();
     }
 
     function syncSelection() {
@@ -378,23 +547,39 @@ window.GaussicaCanvas = (function () {
     }
 
     function syncUi() {
-      Array.prototype.forEach.call(toolbar.querySelectorAll("[data-tool]"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.tool === tool)); });
+      Array.prototype.forEach.call(root.querySelectorAll("[data-tool]"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.tool === tool)); });
+      const dot = root.querySelector(".cv-dot");
+      if (dot) dot.style.background = COLORS[color].v;
+      // the "Mer" button names the extra tool in use (a text box, a line, an arrow or something to place)
+      const extra = tool === "text" || tool === "line" || tool === "arrow" || tool.indexOf("place:") === 0;
+      const moreBtn = root.querySelector("[data-act=more]");
+      if (moreBtn) {
+        const spec = tool.indexOf("place:") === 0 ? PLACE.find(function (x) { return "place:" + x.id === tool; }) : null;
+        const name = tool === "text" ? "Textruta" : tool === "line" ? "Linje" : tool === "arrow" ? "Pil" : spec ? spec.label : "Mer";
+        moreBtn.setAttribute("aria-pressed", String(extra || !panel.hidden));
+        moreBtn.querySelector(".cv-tool-label").textContent = name;
+      }
       Array.prototype.forEach.call(bits.querySelectorAll("[data-place]"), function (b) { b.setAttribute("aria-pressed", String(tool === "place:" + b.dataset.place)); });
-      Array.prototype.forEach.call(toolbar.querySelectorAll("[data-color]"), function (b) { b.setAttribute("aria-pressed", String(Number(b.dataset.color) === color)); });
-      const thick = toolbar.querySelector("[data-act=width]");
+      Array.prototype.forEach.call(root.querySelectorAll("[data-color]"), function (b) { b.setAttribute("aria-pressed", String(Number(b.dataset.color) === color)); });
+      const thick = root.querySelector("[data-act=width]");
       if (thick) { thick.textContent = width > 3 ? "Tjock penna" : "Tunn penna"; }
-      const snapBtn = toolbar.querySelector("[data-act=snap]");
+      const snapBtn = root.querySelector("[data-act=snap]");
       if (snapBtn) snapBtn.setAttribute("aria-pressed", String(snapOn));
-      toolbar.querySelector("[data-act=undo]").disabled = hIdx <= 0;
-      toolbar.querySelector("[data-act=redo]").disabled = hIdx >= history.length - 1;
-      toolbar.querySelector("[data-act=clear]").disabled = !items.length;
+      const keysBtn = root.querySelector("[data-act=keys]");
+      if (keysBtn) keysBtn.setAttribute("aria-pressed", String(keypadOn));
+      root.querySelector("[data-act=undo]").disabled = hIdx <= 0;
+      root.querySelector("[data-act=redo]").disabled = hIdx >= history.length - 1;
+      root.querySelector("[data-act=clear]").disabled = !items.length;
       stage.dataset.tool = tool.indexOf("place:") === 0 ? "place" : tool;
+      keypad.hidden = !(tool === "write" && keypadOn);
+      writebar.hidden = tool !== "write";
       syncSelection();
     }
 
     function setTool(id) {
       finishEdit(true);
       tool = id;
+      if (id !== "write") { cur = null; typer.blur(); updateCursor(); }
       if (id.indexOf("place:") !== 0) {
         const t = TOOLS.find(function (x) { return x.id === id; });
         say(t ? t.hint : "");
@@ -410,9 +595,11 @@ window.GaussicaCanvas = (function () {
     }
 
     // --- geometry ---
+    function clampW(v) { return Math.max(-LIM, Math.min(LIM, v)); }
+
     function point(e) {
       const r = svg.getBoundingClientRect();
-      return { x: Math.max(0, Math.min(W, (e.clientX - r.left) * W / r.width)), y: Math.max(0, Math.min(H, (e.clientY - r.top) * H / r.height)) };
+      return { x: clampW(vx + (e.clientX - r.left) * (W / zoom) / r.width), y: clampW(vy + (e.clientY - r.top) * (H / zoom) / r.height) };
     }
 
     function itemAt(e) {
@@ -421,12 +608,193 @@ window.GaussicaCanvas = (function () {
       return g && layer.contains(g) ? Number(g.getAttribute("data-i")) : -1;
     }
 
-    function clampPos(it, x, y) {
-      const size = itemSize(it);
-      return [Math.max(-size[0] + 30, Math.min(W - 30, x)), Math.max(-size[1] + 30, Math.min(H - 30, y))];
+    function clampPos(it, x, y) { return [clampW(x), clampW(y)]; }
+
+    // --- writing on the squares: one character per square, like squared paper ---
+    function updateCursor() {
+      overlay.replaceChildren();
+      if (!cur || tool !== "write") return;
+      s("rect", { x: cur.col * CELL, y: cur.row * ROWH, width: CELL, height: ROWH, rx: 3, "class": "cv-cursor" }, overlay);
+      s("line", { x1: cur.col * CELL + 2, y1: cur.row * ROWH + ROWH - 4, x2: cur.col * CELL + CELL - 2, y2: cur.row * ROWH + ROWH - 4, "class": "cv-cursor-line" }, overlay);
     }
 
-    // --- inline editing (text, number tiles, number-line range) ---
+    // keep the cursor on screen: the paper follows when you write past the edge
+    function revealCursor() {
+      if (!cur) return;
+      const x0 = cur.col * CELL, y0 = cur.row * ROWH;
+      const w = W / zoom, h = H / zoom, m = CELL * 2;
+      let moved = false;
+      if (x0 < vx + m) { vx = x0 - m; moved = true; } else if (x0 + CELL > vx + w - m) { vx = x0 + CELL - w + m; moved = true; }
+      if (y0 < vy + m) { vy = y0 - m; moved = true; } else if (y0 + ROWH > vy + h - m) { vy = y0 + ROWH - h + m; moved = true; }
+      if (moved) { applyView(false); emitSoon(); }
+    }
+
+    function setCursor(col, row, keepStart) {
+      cur = { col: col, row: row };
+      if (!keepStart) lineStart = col;
+      updateCursor();
+      revealCursor();
+      if (!keypadOn || !coarsePointer()) typer.focus({ preventScroll: true });
+    }
+
+    function ensureCursor() {
+      if (cur) return;
+      const col = Math.ceil((vx + CELL * 3) / CELL), row = Math.ceil((vy + ROWH) / ROWH);
+      setCursor(col, row);
+    }
+
+    function rowItemIndex(x, y) {
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        if (it.t === "r" && it.y === y && x >= it.x - CELL && x <= it.x + String(it.s).length * CELL) return i;
+      }
+      return -1;
+    }
+
+    // remove spaces at the ends of a row and drop it when nothing is left
+    function tidyRow(it) {
+      while (it.s.length && it.s.charAt(0) === " ") { it.s = it.s.slice(1); it.x += CELL; }
+      it.s = it.s.replace(/\s+$/, "");
+      if (!it.s.length) { items.splice(items.indexOf(it), 1); selected = -1; }
+    }
+
+    function placeChar(ch) {
+      if (!cur || !ch || ch === "\n") return;
+      const x = cur.col * CELL, y = cur.row * ROWH;
+      const idx = rowItemIndex(x, y);
+      if (idx >= 0) {
+        const it = items[idx];
+        if (x < it.x) { it.s = ch + it.s; it.x = x; }
+        else if (x >= it.x + it.s.length * CELL) it.s += ch;
+        else { const pos = (x - it.x) / CELL; it.s = it.s.slice(0, pos) + ch + it.s.slice(pos + 1); }
+        tidyRow(it);
+      } else if (ch !== " ") {
+        items.push({ t: "r", s: ch, x: x, y: y, c: color });
+      }
+      cur.col += 1;
+      selected = -1;
+      render();
+      commit({ merge: true });
+      updateCursor();
+      revealCursor();
+    }
+
+    function deleteAt(col, row) {
+      const x = col * CELL, y = row * ROWH;
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        if (it.t === "r" && it.y === y && x >= it.x && x < it.x + it.s.length * CELL) {
+          const pos = (x - it.x) / CELL;
+          it.s = it.s.slice(0, pos) + " " + it.s.slice(pos + 1);
+          tidyRow(it);
+          render();
+          commit({ merge: true });
+          return;
+        }
+      }
+    }
+
+    function backspace() {
+      if (!cur) return;
+      cur.col -= 1;
+      deleteAt(cur.col, cur.row);
+      updateCursor();
+      revealCursor();
+    }
+
+    function rowHasContent(row) {
+      return items.some(function (it) { return it.t === "r" && it.y === row * ROWH; });
+    }
+
+    // The line under the numbers (like in uppställning): as wide as the rows above it, then the cursor
+    // moves to the row below the line, ready for the result.
+    function drawUnderline() {
+      if (!cur) {   // no cursor yet: work from the row that was written last
+        let last = null;
+        items.forEach(function (it) { if (it.t === "r") last = it; });
+        if (last) setCursor(Math.round(last.x / CELL), Math.round(last.y / ROWH)); else ensureCursor();
+      }
+      let row = cur.row;
+      if (!rowHasContent(row)) row -= 1;   // the cursor is on the empty row under the numbers
+      let x0 = Infinity, x1 = -Infinity;
+      for (let r = row; rowHasContent(r); r--) {
+        items.forEach(function (it) {
+          if (it.t === "r" && it.y === r * ROWH) { x0 = Math.min(x0, it.x); x1 = Math.max(x1, it.x + String(it.s).length * CELL); }
+        });
+      }
+      if (x0 === Infinity) { say("Skriv talen först, tryck sedan på Sträck."); return; }
+      const y = (row + 1) * ROWH;
+      const exists = items.some(function (it) { return it.t === "line" && it.y === y && it.x === x0 && it.dx === x1 - x0 && it.dy === 0; });
+      if (!exists) {
+        items.push({ t: "line", c: color, x: x0, y: y, dx: x1 - x0, dy: 0, h: 0 });
+        selected = -1;
+        render();
+        commit();
+      }
+      setCursor(Math.round(x0 / CELL), row + 1);
+      say("Strecket är draget. Skriv svaret på raden under.");
+    }
+
+    function newLine() {
+      if (!cur) return;
+      cur.row += 1;
+      cur.col = lineStart;
+      updateCursor();
+      revealCursor();
+    }
+
+    function moveCursor(dc, dr) {
+      if (!cur) return;
+      cur.col += dc;
+      cur.row += dr;
+      if (dc) lineStart = cur.col;
+      updateCursor();
+      revealCursor();
+    }
+
+    typer.addEventListener("input", function () {
+      const text = typer.value;
+      typer.value = "";
+      Array.from(text).forEach(placeChar);
+    });
+    typer.addEventListener("keydown", function (e) {
+      e.stopPropagation();
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") { e.preventDefault(); if (e.shiftKey) redo(); else undo(); return; }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "y") { e.preventDefault(); redo(); return; }
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      switch (e.key) {
+        case "Enter": e.preventDefault(); newLine(); break;
+        case "Backspace": e.preventDefault(); backspace(); break;
+        case "Delete": e.preventDefault(); if (cur) { deleteAt(cur.col, cur.row); } break;
+        case "ArrowLeft": e.preventDefault(); moveCursor(-1, 0); break;
+        case "ArrowRight": e.preventDefault(); moveCursor(1, 0); break;
+        case "ArrowUp": e.preventDefault(); moveCursor(0, -1); break;
+        case "ArrowDown": e.preventDefault(); moveCursor(0, 1); break;
+        case "Home": e.preventDefault(); if (cur) { cur.col = lineStart; updateCursor(); revealCursor(); } break;
+        case "Escape": e.preventDefault(); cur = null; updateCursor(); typer.blur(); stage.focus({ preventScroll: true }); break;
+        default: break;
+      }
+    });
+
+    // --- on-screen number pad (always shown on touch screens while writing) ---
+    ["7", "8", "9", "+", "−", "·", "⌫", "4", "5", "6", "/", "=", "(", ")", "1", "2", "3", "0", ",", "Abc", "↵"].forEach(function (k) {
+      const b = el("button", "cv-key" + (/^(⌫|↵|Abc)$/.test(k) ? " is-special" : ""), k);
+      b.type = "button";
+      if (k === "⌫") b.setAttribute("aria-label", "Sudda tecknet");
+      if (k === "↵") b.setAttribute("aria-label", "Ny rad");
+      if (k === "Abc") b.title = "Visa tangentbordet för bokstäver";
+      b.addEventListener("pointerdown", function (e) { e.preventDefault(); });   // keep focus and the cursor where they are
+      b.addEventListener("click", function () {
+        ensureCursor();
+        if (k === "⌫") backspace();
+        else if (k === "↵") newLine();
+        else if (k === "Abc") typer.focus({ preventScroll: true });
+        else placeChar(k);
+      });
+      keypad.appendChild(b);
+    });
+
+    // --- inline editing (text boxes, number tiles, number-line range) ---
     function finishEdit(save) {
       if (!editing) return;
       const ed = editing;
@@ -458,7 +826,7 @@ window.GaussicaCanvas = (function () {
     function startEdit(it, isNew) {
       finishEdit(true);
       const r = svg.getBoundingClientRect();
-      const k = r.width / W;
+      const k = r.width / (W / zoom);
       const input = el("input", "cv-edit");
       input.type = "text";
       input.maxLength = it.t === "chip" ? 12 : 300;
@@ -467,9 +835,10 @@ window.GaussicaCanvas = (function () {
       if (it.t === "t") { size = it.z || 24; top = (it.y || 0) - size; input.value = it.s || ""; w = Math.max(180, (String(it.s || "").length + 4) * size * 0.58); }
       else if (it.t === "chip") { input.value = it.s || ""; w = Math.max(chipWidth(it), 70); size = 22; input.className += " is-center"; }
       else if (it.t === "nl") { input.value = it.min + "–" + it.max; w = 150; top = (it.y || 0) + 10; left = (it.x || 0) + 140; }
-      input.style.left = (left * k) + "px";
-      input.style.top = (top * k) + "px";
-      input.style.width = Math.min(w * k, r.width - left * k - 4) + "px";
+      const sx = (left - vx) * k, sy = (top - vy) * k;
+      input.style.left = sx + "px";
+      input.style.top = sy + "px";
+      input.style.width = Math.max(60, Math.min(w * k, r.width - sx - 4)) + "px";
       input.style.fontSize = Math.max(14, size * k) + "px";
       input.style.color = (COLORS[it.c] || COLORS[0]).v;
       input.addEventListener("keydown", function (e) {
@@ -486,6 +855,8 @@ window.GaussicaCanvas = (function () {
 
     // --- pointer handling ---
     let drag = null;
+    const pointers = new Map();
+    let gesture = null;
 
     function sizeText(it) {
       if (it.t === "line") return "Längd " + cells(Math.hypot(it.dx || 0, it.dy || 0)) + " rutor";
@@ -500,14 +871,57 @@ window.GaussicaCanvas = (function () {
     function fitShape(it, ax, ay, bx, by) {
       let w = Math.max(CELL, Math.abs(bx - ax)), h = Math.max(CELL, Math.abs(by - ay));
       if (it.k === "kvadrat" || it.k === "cirkel") { w = h = Math.max(w, h); }
-      let x = bx < ax ? ax - w : ax, y = by < ay ? ay - h : ay;
-      x = Math.max(0, Math.min(W - w, x));
-      y = Math.max(0, Math.min(H - h, y));
-      if (it.k === "kvadrat" || it.k === "cirkel") { const m = Math.min(w, W - x, H - y); w = h = Math.max(CELL, m); }
-      it.x = x; it.y = y; it.w = w; it.h = h;
+      it.x = bx < ax ? ax - w : ax;
+      it.y = by < ay ? ay - h : ay;
+      it.w = w; it.h = h;
+    }
+
+    // the whole drag was interrupted (a second finger came down): put things back
+    function cancelDrag() {
+      if (!drag) return;
+      const d = drag;
+      drag = null;
+      if ((d.kind === "pen" || d.kind === "line") && items.indexOf(d.item) >= 0) items.splice(items.indexOf(d.item), 1);
+      else if (d.kind === "shape" && d.added && items.indexOf(d.item) >= 0) items.splice(items.indexOf(d.item), 1);
+      else if (d.kind === "move") { d.item.x = d.ox; d.item.y = d.oy; }
+      render();
+    }
+
+    function startGesture() {
+      cancelDrag();
+      const pts = Array.from(pointers.values());
+      const r = svg.getBoundingClientRect();
+      const cx = (pts[0].x + pts[1].x) / 2, cy = (pts[0].y + pts[1].y) / 2;
+      gesture = {
+        d0: Math.max(10, Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y)), z0: zoom,
+        wx: vx + (cx - r.left) * (W / zoom) / r.width, wy: vy + (cy - r.top) * (H / zoom) / r.height
+      };
+    }
+
+    function moveGesture() {
+      const pts = Array.from(pointers.values());
+      const r = svg.getBoundingClientRect();
+      const cx = (pts[0].x + pts[1].x) / 2, cy = (pts[0].y + pts[1].y) / 2;
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      const before = zoom;
+      zoom = Math.max(ZMIN, Math.min(ZMAX, gesture.z0 * dist / gesture.d0));
+      vx = gesture.wx - (cx - r.left) * (W / zoom) / r.width;
+      vy = gesture.wy - (cy - r.top) * (H / zoom) / r.height;
+      applyView(Math.abs(zoom - before) > 0.04);
+      emitSoon();
+    }
+
+    function startPan(e, click) {
+      drag = { kind: "pan", sx: e.clientX, sy: e.clientY, ovx: vx, ovy: vy, moved: !click, click: click || null };
+      if (!click) stage.dataset.panning = "1";
+      svg.setPointerCapture(e.pointerId);
     }
 
     svg.addEventListener("pointerdown", function (e) {
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointers.size === 2) { startGesture(); return; }
+      if (pointers.size > 2) return;
+      if (e.button === 1 || (spaceDown && e.button === 0)) { e.preventDefault(); startPan(e); return; }
       if (e.button !== undefined && e.button !== 0) return;
       if (editing) { finishEdit(true); }
       stage.focus({ preventScroll: true });
@@ -531,12 +945,24 @@ window.GaussicaCanvas = (function () {
         render();
         drag = { kind: "line", item: it, g: layer.lastChild };
         svg.setPointerCapture(e.pointerId);
-      } else if (tool === "text") {
+      } else if (tool === "text" || tool === "write") {
         const hit = itemAt(e);
-        if (hit >= 0 && items[hit].t === "t") { selected = hit; startEdit(items[hit], false); return; }
-        // the text sits on the grid line below the click, like writing on squared paper
-        const y = snapOn ? Math.ceil((p.y - 2) / CELL) * CELL : Math.round(p.y + 6);
-        startEdit({ t: "t", c: color, z: 28, lh: 40, x: snapV(p.x), y: Math.max(CELL, y), s: "" }, true);
+        const cell = { col: Math.floor(p.x / CELL), row: Math.floor(p.y / ROWH) };
+        if (hit >= 0) {
+          // pressing on something that is already there moves it (and a plain click edits it), so no switching of tools is needed
+          selected = hit;
+          render();
+          const it = items[hit];
+          drag = { kind: "move", item: it, g: layer.querySelector('[data-i="' + hit + '"]'), sx: p.x, sy: p.y, ox: it.x || 0, oy: it.y || 0, moved: false,
+            editOnClick: tool === "text" && it.t === "t", cursorOnClick: tool === "write" ? cell : null };
+          svg.setPointerCapture(e.pointerId);
+        } else if (tool === "write") {
+          startPan(e, cell);   // a plain click puts the cursor here, dragging moves the paper
+        } else {
+          // a new text box sits on the grid line below the click, like writing on squared paper
+          const y = snapOn ? Math.ceil((p.y - 2) / CELL) * CELL : Math.round(p.y + 6);
+          startEdit({ t: "t", c: color, z: 28, lh: 40, x: snapV(p.x), y: y, s: "" }, true);
+        }
       } else if (tool.indexOf("place:") === 0) {
         const spec = PLACE.find(function (x) { return "place:" + x.id === tool; });
         const it = Object.assign({ c: color }, spec.make());
@@ -547,8 +973,8 @@ window.GaussicaCanvas = (function () {
         }
         const size = itemSize(it);
         const pos = clampPos(it, snapV(p.x - size[0] / 2), snapV(p.y - size[1] / 2));
-        it.x = Math.max(0, Math.min(W - size[0], pos[0]));
-        it.y = Math.max(0, Math.min(H - size[1], pos[1]));
+        it.x = pos[0];
+        it.y = pos[1];
         if (spec.edit) { startEdit(it, true); return; }
         items.push(it);
         selected = items.length - 1;
@@ -569,6 +995,8 @@ window.GaussicaCanvas = (function () {
           const it = items[hit];
           drag = { kind: "move", item: it, g: layer.querySelector('[data-i="' + hit + '"]'), sx: p.x, sy: p.y, ox: it.x || 0, oy: it.y || 0, moved: false };
           svg.setPointerCapture(e.pointerId);
+        } else {
+          startPan(e);   // empty paper: dragging moves the paper
         }
       }
     });
@@ -582,7 +1010,21 @@ window.GaussicaCanvas = (function () {
     }
 
     svg.addEventListener("pointermove", function (e) {
+      if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (gesture && pointers.size >= 2) { moveGesture(); return; }
       if (!drag) return;
+      if (drag.kind === "pan") {
+        if (!drag.moved) {
+          if (Math.abs(e.clientX - drag.sx) + Math.abs(e.clientY - drag.sy) < 7) return;
+          drag.moved = true;
+          stage.dataset.panning = "1";
+        }
+        const r = svg.getBoundingClientRect();
+        vx = drag.ovx - (e.clientX - drag.sx) * (W / zoom) / r.width;
+        vy = drag.ovy - (e.clientY - drag.sy) * (H / zoom) / r.height;
+        applyView(false);
+        return;
+      }
       const p = point(e);
       if (drag.kind === "pen") {
         const pts = drag.item.p;
@@ -630,10 +1072,8 @@ window.GaussicaCanvas = (function () {
           if (drag.mode === "w" || drag.mode === "wh") w = snapV(p.x) - it.x;
           if (drag.mode === "h" || drag.mode === "wh") h = snapV(p.y) - it.y;
           if (square) w = h = Math.max(w, h);
-          w = Math.max(CELL, w); h = Math.max(CELL, h);
-          if (square) { w = h = Math.min(w, W - it.x, H - it.y); }
-          else { w = Math.min(w, W - it.x); h = Math.min(h, H - it.y); }
-          it.w = Math.max(CELL, w); it.h = Math.max(CELL, h);
+          it.w = Math.max(CELL, w); it.h = Math.max(CELL, square ? w : h);
+          if (square) it.h = it.w;
         }
         drag.changed = true;
         refreshNode(drag.index);
@@ -649,11 +1089,17 @@ window.GaussicaCanvas = (function () {
       }
     });
 
-    function endDrag() {
+    function endDrag(e) {
+      if (e && pointers.has(e.pointerId)) pointers.delete(e.pointerId);
+      if (pointers.size < 2) gesture = null;
       if (!drag) return;
       const d = drag;
       drag = null;
-      if (d.kind === "pen") {
+      if (d.kind === "pan") {
+        delete stage.dataset.panning;
+        if (d.moved) { emitSoon(); updateAway(); }
+        else if (d.click) setCursor(d.click.col, d.click.row);
+      } else if (d.kind === "pen") {
         selected = -1;
         render();
         commit();
@@ -667,8 +1113,8 @@ window.GaussicaCanvas = (function () {
         if (!d.added) {   // plain click: a shape of the usual size, centred on the click
           const size = SHAPE_NEW[d.item.k] || [100, 100];
           d.item.w = size[0]; d.item.h = size[1];
-          d.item.x = Math.max(0, Math.min(W - size[0], snapV(d.cx - size[0] / 2)));
-          d.item.y = Math.max(0, Math.min(H - size[1], snapV(d.cy - size[1] / 2)));
+          d.item.x = snapV(d.cx - size[0] / 2);
+          d.item.y = snapV(d.cy - size[1] / 2);
           items.push(d.item);
         }
         selected = items.indexOf(d.item);
@@ -684,6 +1130,8 @@ window.GaussicaCanvas = (function () {
         if (d.changed) { commit(); say(sizeText(d.item) + "."); }
       } else if (d.kind === "move") {
         if (d.moved) commit();
+        else if (d.editOnClick) startEdit(d.item, false);
+        else if (d.cursorOnClick) { selected = -1; render(); setCursor(d.cursorOnClick.col, d.cursorOnClick.row); }
       }
     }
     svg.addEventListener("pointerup", endDrag);
@@ -696,6 +1144,19 @@ window.GaussicaCanvas = (function () {
       const it = items[hit];
       if (it.t === "t" || it.t === "chip" || it.t === "nl") { selected = hit; render(); startEdit(it, false); }
     });
+
+    // the wheel moves the paper once you have clicked on it; Ctrl + wheel zooms
+    stage.addEventListener("wheel", function (e) {
+      if (e.ctrlKey || e.metaKey) { e.preventDefault(); zoomBy(e.deltaY < 0 ? 1.12 : 1 / 1.12, e.clientX, e.clientY); return; }
+      const active = document.activeElement;
+      if (active !== stage && active !== typer) return;   // let the page scroll when the paper is not in use
+      e.preventDefault();
+      const r = svg.getBoundingClientRect();
+      const k = (W / zoom) / r.width;
+      vx += e.deltaX * k; vy += e.deltaY * k;
+      applyView(false);
+      emitSoon();
+    }, { passive: false });
 
     // --- actions on the selected item ---
     function removeSelected() {
@@ -710,7 +1171,7 @@ window.GaussicaCanvas = (function () {
       const it = items[selected];
       if (!it) return;
       const copy = JSON.parse(JSON.stringify(it));
-      const pos = clampPos(copy, (copy.x || 0) + CELL * 2, (copy.y || 0) + CELL * 2);
+      const pos = clampPos(copy, (copy.x || 0) + CELL * 2, (copy.y || 0) + (it.t === "r" ? ROWH : CELL * 2));
       copy.x = pos[0]; copy.y = pos[1];
       items.push(copy);
       selected = items.length - 1;
@@ -740,6 +1201,12 @@ window.GaussicaCanvas = (function () {
 
     stage.addEventListener("keydown", function (e) {
       if (editing) return;
+      if (e.key === " " && tool !== "write" && document.activeElement === stage) {   // hold Space and drag to move the paper
+        e.preventDefault();
+        spaceDown = true;
+        stage.dataset.pan = "1";
+        return;
+      }
       const step = snapOn ? CELL : 2;
       if ((e.key === "Delete" || e.key === "Backspace") && selected >= 0) {
         e.preventDefault();
@@ -755,11 +1222,15 @@ window.GaussicaCanvas = (function () {
         redo();
       }
     });
+    stage.addEventListener("keyup", function (e) {
+      if (e.key === " ") { spaceDown = false; delete stage.dataset.pan; }
+    });
 
     function undo() {
       finishEdit(true);
       if (hIdx <= 0) return;
       hIdx--;
+      lastTypeAt = 0;
       restore(history[hIdx]);
       emit(history[hIdx]);
     }
@@ -768,16 +1239,52 @@ window.GaussicaCanvas = (function () {
       finishEdit(true);
       if (hIdx >= history.length - 1) return;
       hIdx++;
+      lastTypeAt = 0;
       restore(history[hIdx]);
       emit(history[hIdx]);
     }
 
-    // --- toolbar ---
-    TOOLS.forEach(function (t) {
-      const b = button(t.label, "", function () { setTool(t.id); });
-      b.dataset.tool = t.id;
+    // --- zoom controls on the paper ---
+    const zoomOut = button("−", "cv-zoom-btn", function () { zoomBy(1 / 1.25); });
+    zoomOut.title = "Zooma ut";
+    zoomOut.setAttribute("aria-label", "Zooma ut");
+    const zoomLabel = el("button", "cv-zoom-label", "100 %");
+    zoomLabel.type = "button";
+    zoomLabel.title = "Tillbaka till vanlig storlek";
+    zoomLabel.addEventListener("click", goHome);
+    const zoomIn = button("+", "cv-zoom-btn", function () { zoomBy(1.25); });
+    zoomIn.title = "Zooma in";
+    zoomIn.setAttribute("aria-label", "Zooma in");
+    const zoomAll = button("⤢", "cv-zoom-btn", fitAll);
+    zoomAll.title = "Visa allt jag har ritat";
+    zoomAll.setAttribute("aria-label", "Visa allt");
+    zoomBar.append(zoomOut, zoomLabel, zoomIn, zoomAll);
+    awayChip.addEventListener("click", fitAll);
+
+    // --- tool rail ---
+    const TOOL_ICONS = { select: "✋", pen: "✏️", write: "Aa", erase: "🧽" };
+    ["select", "pen", "write", "erase"].forEach(function (id) {
+      const t = TOOLS.find(function (x) { return x.id === id; });
+      const b = el("button", "cv-tool");
+      b.type = "button";
+      b.dataset.tool = id;
+      b.title = t.hint;
+      b.append(el("span", "cv-tool-icon", TOOL_ICONS[id]), el("span", "cv-tool-label", t.label));
+      b.addEventListener("click", function () { panel.hidden = true; setTool(id); });
       toolbar.appendChild(b);
     });
+    const colorBtn = el("button", "cv-tool");
+    colorBtn.type = "button";
+    colorBtn.dataset.act = "color";
+    colorBtn.title = "Välj färg";
+    colorBtn.append(el("span", "cv-dot"), el("span", "cv-tool-label", "Färg"));
+    colorBtn.addEventListener("click", function () {
+      panel.hidden = true;
+      colorPanel.hidden = !colorPanel.hidden;
+      colorPanel.style.top = colorBtn.offsetTop + "px";
+      syncUi();
+    });
+    toolbar.appendChild(colorBtn);
     const swatches = el("span", "cv-swatches");
     COLORS.forEach(function (c, i) {
       const b = el("button", "cv-swatch");
@@ -789,25 +1296,76 @@ window.GaussicaCanvas = (function () {
       b.addEventListener("click", function () {
         color = i;
         if (selected >= 0 && items[selected]) { items[selected].c = i; render(); commit(); }
+        colorPanel.hidden = true;
         syncUi();
       });
       swatches.appendChild(b);
     });
-    toolbar.appendChild(swatches);
-    const widthBtn = button("Tunn penna", "", function () { width = width > 3 ? 3 : 7; syncUi(); });
+    colorPanel.appendChild(swatches);
+    const undoBtn = button("↶", "cv-hist", undo);
+    undoBtn.dataset.act = "undo";
+    undoBtn.title = "Ångra";
+    undoBtn.setAttribute("aria-label", "Ångra");
+    const redoBtn = button("↷", "cv-hist", redo);
+    redoBtn.dataset.act = "redo";
+    redoBtn.title = "Gör om";
+    redoBtn.setAttribute("aria-label", "Gör om");
+    const histRow = el("div", "cv-hist-row");
+    histRow.append(undoBtn, redoBtn);
+    toolbar.appendChild(histRow);
+    const moreBtn = el("button", "cv-tool");
+    moreBtn.type = "button";
+    moreBtn.dataset.act = "more";
+    moreBtn.title = "Textruta, linjer, pilar, former, siffror och mer";
+    moreBtn.append(el("span", "cv-tool-icon", "⋯"), el("span", "cv-tool-label", "Mer"));
+    moreBtn.addEventListener("click", function () { colorPanel.hidden = true; panel.hidden = !panel.hidden; syncUi(); });
+    toolbar.appendChild(moreBtn);
+
+    // --- the "Mer" panel: extra tools, things to place and paper settings ---
+    const sect = function (title) {
+      const sec = el("div", "cv-more-sec");
+      sec.appendChild(el("span", "cv-bits-label", title));
+      panel.appendChild(sec);
+      return sec;
+    };
+    const closeBtn = button("✕", "cv-more-close", function () { panel.hidden = true; syncUi(); });
+    closeBtn.setAttribute("aria-label", "Stäng");
+    panel.appendChild(closeBtn);
+
+    const shapesSec = sect("Fler verktyg");
+    [["text", "Textruta"], ["line", "Linje"], ["arrow", "Pil"]].forEach(function (x) {
+      const t = TOOLS.find(function (y) { return y.id === x[0]; });
+      const b = button(x[1], "cv-bit", function () { panel.hidden = true; setTool(x[0]); });
+      b.dataset.tool = x[0];
+      b.title = t.hint;
+      shapesSec.appendChild(b);
+    });
+    const widthBtn = button("Tunn penna", "cv-bit", function () { width = width > 3 ? 3 : 7; syncUi(); });
     widthBtn.dataset.act = "width";
-    const snapBtn = button("Fäst i rutor", "", function () {
+    shapesSec.appendChild(widthBtn);
+
+    sect("Lägg till");
+    panel.appendChild(bits);
+    PLACE.forEach(function (p) {
+      const b = button(p.label, "cv-bit", function () { panel.hidden = true; setTool(tool === "place:" + p.id ? "select" : "place:" + p.id); });
+      b.dataset.place = p.id;
+      bits.appendChild(b);
+    });
+
+    const paperSec = sect("Papper");
+    const snapBtn = button("Fäst i rutor", "cv-bit", function () {
       snapOn = !snapOn;
       say(snapOn ? "Text, tal och figurer fastnar på rutnätet." : "Du kan nu placera saker precis var du vill.");
       commit();
     });
     snapBtn.title = "När det är på fastnar text, tal, figurer och linjer på rutnätet";
     snapBtn.dataset.act = "snap";
-    const undoBtn = button("Ångra", "", undo);
-    undoBtn.dataset.act = "undo";
-    const redoBtn = button("Gör om", "", redo);
-    redoBtn.dataset.act = "redo";
-    const clearBtn = button("Rensa", "cv-btn-quiet", function () {
+    const keysBtn = button("Sifferknappar", "cv-bit", function () { keypadOn = !keypadOn; syncUi(); });
+    keysBtn.title = "Visa knappar med siffror och räknetecken när du skriver";
+    keysBtn.dataset.act = "keys";
+    const homeBtn = button("Till början", "cv-bit", function () { panel.hidden = true; goHome(); syncUi(); });
+    const allBtn = button("Visa allt", "cv-bit", function () { panel.hidden = true; fitAll(); syncUi(); });
+    const clearBtn = button("Rensa allt", "cv-bit cv-btn-quiet", function () {
       if (!items.length) return;
       if (items.length > 3 && !window.confirm("Ta bort allt på ritytan?")) return;
       items = [];
@@ -816,14 +1374,16 @@ window.GaussicaCanvas = (function () {
       commit();
     });
     clearBtn.dataset.act = "clear";
-    toolbar.append(widthBtn, snapBtn, undoBtn, redoBtn, clearBtn);
+    paperSec.append(snapBtn, keysBtn, homeBtn, allBtn, clearBtn);
 
-    bits.appendChild(el("span", "cv-bits-label", "Lägg till:"));
-    PLACE.forEach(function (p) {
-      const b = button(p.label, "cv-bit", function () { setTool(tool === "place:" + p.id ? "select" : "place:" + p.id); });
-      b.dataset.place = p.id;
-      bits.appendChild(b);
-    });
+    // the panel closes when you click anywhere else (and the listener goes away with the canvas)
+    function onDocPointer(e) {
+      if (!root.isConnected) { document.removeEventListener("pointerdown", onDocPointer, true); return; }
+      if (!panel.hidden && !panel.contains(e.target) && !moreBtn.contains(e.target)) { panel.hidden = true; syncUi(); }
+      if (!colorPanel.hidden && !colorPanel.contains(e.target) && !colorBtn.contains(e.target)) { colorPanel.hidden = true; syncUi(); }
+    }
+    document.addEventListener("pointerdown", onDocPointer, true);
+    root.addEventListener("keydown", function (e) { if (e.key === "Escape" && (!panel.hidden || !colorPanel.hidden)) { panel.hidden = true; colorPanel.hidden = true; syncUi(); e.stopPropagation(); } });
 
     // actions for the marked item (shown under the paper, so the paper does not jump around)
     const smaller = button("A−", "cv-btn-small", function () { textSize(-1); });
@@ -835,10 +1395,15 @@ window.GaussicaCanvas = (function () {
     const copyBtn = button("Kopiera", "cv-btn-small", copySelected);
     const delBtn = button("Ta bort", "cv-btn-small cv-btn-danger", removeSelected);
     selbar.append(smaller, larger, copyBtn, delBtn);
+    const lineBtn = button("▬ Sträck", "cv-btn-small cv-btn-main", function () { drawUnderline(); });
+    lineBtn.title = "Dra ett streck under talen du har skrivit";
+    lineBtn.addEventListener("pointerdown", function (e) { e.preventDefault(); });   // the cursor stays where it is
+    writebar.appendChild(lineBtn);
 
     history.push(serialize());
     hIdx = 0;
     render();
+    applyView(false);
     syncUi();
     say(TOOLS[0].hint);
 

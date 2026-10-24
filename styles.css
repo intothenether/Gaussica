@@ -3766,3 +3766,81 @@ sup.pow { font-size: .7em; line-height: 0; vertical-align: super; margin-left: .
 .fig-tnode.is-leaf { fill: #fff0b8; stroke: #d99a2b; }
 .fig-tnode.is-root + text { fill: #fff; }
 .fig-copy { fill: rgba(255, 140, 160, .18); stroke: #ff8ca0; stroke-width: 2.5; stroke-dasharray: 6 5; stroke-linejoin: round; }
+
+/* ---- Rityta: smalt verktygsfält vid sidan, resten under "Mer" ---- */
+.cv { position: relative; display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 12px; align-items: start; }
+.cv-main { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.cv-rail { display: flex; flex-direction: column; align-items: stretch; gap: 6px; padding: 6px; border: 2px solid var(--border); border-radius: 16px; background: #fff; }
+.cv-tool { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-height: 52px; padding: 5px 2px; border: 2px solid transparent; border-radius: 12px; background: #f4f7fc; color: var(--ink); font: 800 11px "Nunito", sans-serif; cursor: pointer; transition: background .12s, border-color .12s; }
+.cv-tool:hover { background: var(--sky-soft); }
+.cv-tool[aria-pressed="true"] { border-color: var(--brand-dark); background: var(--brand); color: #fff; }
+.cv-tool-icon { font-size: 21px; line-height: 1.15; font-weight: 900; }
+.cv-tool-label { line-height: 1.1; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cv-rail .cv-swatches { display: grid; grid-template-columns: repeat(2, 28px); gap: 7px; justify-content: center; padding: 6px 0; }
+.cv-rail .cv-swatch { width: 28px; height: 28px; }
+.cv-hist-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.cv-hist { padding: 4px 0; border: 2px solid var(--border); border-radius: 10px; background: #fff; color: var(--ink); font: 900 20px "Nunito", sans-serif; line-height: 1.2; cursor: pointer; }
+.cv-hist:hover:not(:disabled) { background: var(--sky-soft); }
+.cv-hist:disabled { opacity: .35; cursor: default; }
+
+.cv-more { position: absolute; z-index: 20; top: 0; left: 86px; width: min(450px, calc(100% - 100px)); max-height: 100%; overflow: auto; padding: 16px 16px 14px; border: 2px solid var(--border); border-radius: 16px; background: #fff; box-shadow: 0 10px 30px rgba(31, 42, 68, .22); }
+.cv-more[hidden] { display: none; }
+.cv-more-sec { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 0 0 12px; }
+.cv-more-sec .cv-bits-label { flex-basis: 100%; margin: 0 0 2px; }
+.cv-more .cv-bits { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 12px; }
+.cv-more .cv-bit { padding: 8px 13px; font-size: 14px; }
+.cv-more-close { position: absolute; top: 8px; right: 8px; width: 34px; height: 34px; border: 0; border-radius: 50%; background: #f1f3f8; color: var(--muted); font-size: 16px; cursor: pointer; }
+.cv-more-close:hover { background: #e4e9f3; }
+
+/* surfplatta och mobil: större knappar, verktygen under pappret */
+@media (pointer: coarse) {
+  .cv { grid-template-columns: 82px minmax(0, 1fr); }
+  .cv-tool { min-height: 62px; }
+  .cv-rail .cv-swatches { grid-template-columns: repeat(2, 34px); gap: 8px; }
+  .cv-rail .cv-swatch { width: 34px; height: 34px; }
+  .cv-hist { padding: 8px 0; }
+  .cv-more .cv-bit { padding: 12px 16px; font-size: 15px; }
+  .cv-selbar .cv-btn-small { padding: 10px 16px; font-size: 14px; }
+  .cv-more { left: 94px; }
+}
+@media (max-width: 640px) {
+  .cv { grid-template-columns: minmax(0, 1fr); }
+  .cv-main { order: 0; }
+  .cv-more { order: 1; position: static; width: auto; max-height: none; box-shadow: none; }
+  .cv-rail { order: 2; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
+  .cv-tool { flex: 1 1 56px; max-width: 84px; min-height: 58px; }
+  .cv-rail .cv-swatches { display: flex; gap: 8px; padding: 0 6px; }
+  .cv-hist-row { display: flex; }
+  .cv-hist { width: 46px; }
+}
+.cv-dot { display: block; width: 26px; height: 26px; margin: 1px 0; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 2px var(--border); background: #25304f; }
+.cv-colors { width: auto; max-width: none; padding: 12px 14px; }
+.cv-colors .cv-swatches { display: flex; gap: 12px; padding: 0; }
+.cv-colors .cv-swatch { width: 40px; height: 40px; }
+@media (max-width: 640px) { .cv-colors { position: static; order: 1; } }
+
+/* ---- Rityta: skriva på rutorna, flytta pappret, zoom, sifferknappar ---- */
+.cv-stage[data-tool="select"] .cv-svg, .cv-stage[data-tool="write"] .cv-svg { cursor: grab; }
+.cv-stage[data-tool="write"] .cv-svg { cursor: text; }
+.cv-stage[data-pan] .cv-svg, .cv-stage[data-panning] .cv-svg { cursor: grabbing !important; }
+.cv-cursor { fill: rgba(66, 91, 154, .14); stroke: var(--brand); stroke-width: 2; }
+.cv-cursor-line { stroke: var(--brand); stroke-width: 3; stroke-linecap: round; animation: cv-blink 1s steps(2, start) infinite; }
+@keyframes cv-blink { to { visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .cv-cursor-line { animation: none; } }
+.cv-typer { position: absolute; left: 0; bottom: 0; width: 1px; height: 1px; padding: 0; border: 0; opacity: 0; font-size: 16px; pointer-events: none; }
+.cv-zoom { position: absolute; right: 8px; bottom: 8px; display: flex; align-items: center; gap: 2px; padding: 3px; border: 2px solid var(--border); border-radius: 12px; background: rgba(255, 255, 255, .92); line-height: 1; }
+.cv-zoom-btn, .cv-zoom-label { min-width: 30px; height: 30px; padding: 0 6px; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font: 900 17px "Nunito", sans-serif; cursor: pointer; }
+.cv-zoom-label { min-width: 52px; font-size: 12px; color: var(--muted); }
+.cv-zoom-btn:hover, .cv-zoom-label:hover { background: var(--sky-soft); }
+.cv-away { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); padding: 9px 16px; border: 2px solid var(--brand-dark); border-radius: 999px; background: var(--brand); color: #fff; font: 800 14px "Nunito", sans-serif; line-height: 1.2; cursor: pointer; box-shadow: 0 4px 14px rgba(31, 42, 68, .25); }
+.cv-away[hidden] { display: none; }
+.cv-keypad { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.cv-keypad[hidden] { display: none; }
+.cv-key { min-height: 46px; padding: 6px 0; border: 2px solid var(--border); border-radius: 12px; background: #fff; color: var(--ink); font: 900 22px "Nunito", sans-serif; cursor: pointer; }
+.cv-key:active { background: var(--sky-soft); transform: translateY(1px); }
+.cv-key.is-special { background: #f4f7fc; font-size: 16px; }
+@media (pointer: coarse) { .cv-key { min-height: 56px; font-size: 26px; } .cv-zoom-btn { min-width: 40px; height: 40px; } .cv-zoom-label { height: 40px; } }
+.cv-btn-main { border-color: var(--brand-dark); background: var(--brand); color: #fff; }
+.cv-btn-main:hover { background: var(--brand-light); }
+.cv-writebar[hidden] { display: none; }
+@media (pointer: coarse) { .cv-writebar .cv-btn-small { padding: 12px 20px; font-size: 16px; } }
