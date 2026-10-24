@@ -3597,3 +3597,110 @@ body.is-previewing .view-switch { border-color: var(--pink-deep); color: var(--p
 .preview-back { padding: 6px 14px; border: 2px solid var(--pink-deep); border-radius: 999px; background: #fff; color: var(--pink-deep); font: 800 13px "Nunito", sans-serif; cursor: pointer; }
 body.is-previewing .admin-toolbar { display: none; }
 body.is-previewing.has-admin-toolbar { padding-top: 0; }
+
+/* ---- Stjärnor och märken ---- */
+.rewards-chip { padding: 7px 14px; border: 2px solid #f6c453; border-radius: 999px; background: #fff8dc; color: #8a5a00; font: 900 14px "Nunito", sans-serif; cursor: pointer; }
+.rewards-chip:hover { background: #fff1c0; }
+.rewards-chip[hidden] { display: none; }
+.rewards-chip b { margin-left: 2px; }
+.pl-stars { display: flex; gap: 6px; margin: 4px 0 12px; }
+.pl-star { color: #d8dfec; font-size: 44px; line-height: 1; }
+.pl-star.is-on { color: #f6c453; text-shadow: 0 3px 0 #d99a2b; animation: star-pop .5s ease-out backwards; }
+.pl-star:nth-child(2).is-on { animation-delay: .2s; }
+.pl-star:nth-child(3).is-on { animation-delay: .4s; }
+@keyframes star-pop { from { transform: scale(0) rotate(-40deg); opacity: 0; } 70% { transform: scale(1.25) rotate(8deg); } }
+.reward-toast { position: fixed; left: 50%; top: 14px; z-index: 30000; display: flex; align-items: center; gap: 12px; transform: translateX(-50%); padding: 12px 20px; border: 3px solid #f6c453; border-radius: 999px; background: #fffdf0; box-shadow: 0 10px 28px rgba(37, 48, 79, .25); font: 900 17px "Nunito", sans-serif; color: var(--ink); cursor: pointer; animation: toast-in .45s cubic-bezier(.34, 1.56, .64, 1); }
+.reward-toast-emoji { font-size: 30px; line-height: 1; }
+@keyframes toast-in { from { transform: translate(-50%, -80px); opacity: 0; } }
+.confetti-layer { position: fixed; inset: 0; z-index: 29000; pointer-events: none; overflow: hidden; }
+.confetti { position: absolute; top: -16px; width: 10px; height: 16px; border-radius: 2px; animation: confetti-fall 2.4s linear forwards; }
+@keyframes confetti-fall { to { top: 105%; margin-left: 60px; transform: rotate(720deg); } }
+.rw-card { width: min(640px, 100%); }
+.rw-head { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
+.rw-big { font-size: 46px; line-height: 1; }
+.rw-sub { margin: 0; color: var(--muted); font: 700 15px "Nunito", sans-serif; }
+.rw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin-top: 8px; }
+.rw-badge { display: flex; flex-direction: column; gap: 3px; padding: 12px; border: 2px solid #e3e8f2; border-radius: 16px; background: #f6f8fc; color: #7b86a0; }
+.rw-badge.is-earned { border-color: #f6c453; background: #fffaf0; color: var(--ink); box-shadow: 0 3px 0 #f6c453; }
+.rw-emoji { font-size: 30px; line-height: 1.1; }
+.rw-badge strong { font: 900 15px "Nunito", sans-serif; }
+.rw-text { font: 600 13px/1.4 "Nunito", sans-serif; }
+.rw-progress { margin-top: 2px; font: 800 12px "Nunito", sans-serif; color: var(--brand); }
+.rw-lessons { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.rw-lessons li { display: flex; gap: 10px; font: 700 14px "Nunito", sans-serif; }
+.rw-stars { color: #d99a2b; letter-spacing: 1px; }
+.rw-note { margin-top: 14px; color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { .pl-star.is-on, .reward-toast { animation: none; } }
+.tv-toggle { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; color: var(--muted); font: 700 13px "Nunito", sans-serif; cursor: pointer; }
+
+/* ---- lärarverktyg: flera lektioner, Öva mer, förslag, snabbsvar, utskriftsrapport ---- */
+.tv-picks { display: grid; gap: 8px; margin-bottom: 8px; }
+.tv-pick { display: flex; gap: 8px; align-items: center; }
+.tv-pick select { flex: 1; min-width: 0; padding: 9px 11px; border: 2px solid var(--border); border-radius: 10px; background: #fff; font: 600 14px "Nunito", sans-serif; color: var(--ink); }
+.tv-pill.is-practice { background: #e3f4ee; color: var(--success-dark); }
+.tv-suggest { margin-top: 18px; }
+.tv-suggest-box { padding: 14px 16px; border: 2px dashed var(--border); border-radius: 14px; background: var(--sky-soft); }
+.tv-suggest-box h4 { margin: 0 0 4px; font: 800 16px "Nunito", sans-serif; }
+.tv-suggest-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 10px; }
+.tv-suggest-card { padding: 12px 14px; border: 2px solid var(--border); border-radius: 12px; background: #fff; }
+.tv-suggest-card p { margin: 4px 0 10px; font-size: 13px; }
+.tv-suggest-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.tv-templates { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.tv-template { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.tv-template:hover { border-color: var(--brand); }
+.tv-template-save { border-style: dashed; color: var(--muted); }
+.tv-template-own { display: inline-flex; align-items: center; gap: 2px; }
+.tv-template-del { padding: 0 6px; border: 0; background: none; color: var(--muted); font-size: 12px; cursor: pointer; }
+.tv-template-del:hover { color: var(--coral-dark); }
+
+.tv-report-overlay { position: fixed; inset: 0; z-index: 5000; overflow: auto; background: #eef2f8; padding: 0 0 40px; }
+.tv-report-bar { position: sticky; top: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 20px; border-bottom: 2px solid var(--border); background: #fff; }
+.tv-report { box-sizing: border-box; width: min(820px, 100% - 24px); margin: 20px auto; padding: 36px 44px; border-radius: 6px; background: #fff; color: #1f2a44; box-shadow: 0 4px 24px rgba(31, 42, 68, .14); font-family: "Nunito", sans-serif; }
+.tv-report h1 { margin: 0 0 4px; font-size: 30px; }
+.tv-report h2 { margin: 26px 0 8px; padding-bottom: 4px; border-bottom: 2px solid #e1e7f2; font-size: 17px; }
+.tv-report-brand { margin: 0 0 2px; color: var(--brand); font: 800 13px "Nunito", sans-serif; letter-spacing: .6px; text-transform: uppercase; }
+.tv-report-sub { margin: 10px 0 4px; font-weight: 800; }
+.tv-report-list { margin: 4px 0 0; padding-left: 20px; line-height: 1.6; }
+.tv-report-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tv-report-table th { padding: 6px 8px; border-bottom: 2px solid #c9d3e6; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: #4f5b78; }
+.tv-report-table td { padding: 6px 8px; border-bottom: 1px solid #e1e7f2; }
+.tv-report-table tr.is-fix td { background: #fff1f3; }
+.tv-report-notes { min-height: 120px; padding: 10px 12px; border: 1px solid #c9d3e6; border-radius: 8px; line-height: 1.6; white-space: pre-wrap; }
+.tv-report-notes:empty::before { content: attr(data-placeholder); color: #8a94ab; }
+.tv-report-foot { margin-top: 18px; font-size: 12px; }
+
+@media print {
+  body.is-printing-report > *:not(.tv-report-overlay) { display: none !important; }
+  .tv-report-overlay { position: static; overflow: visible; background: #fff; padding: 0; }
+  .tv-report-bar { display: none; }
+  .tv-report { width: auto; margin: 0; padding: 0; box-shadow: none; }
+  .tv-report-notes:empty { border-color: #c9d3e6; }
+  .tv-report-notes:empty::before { content: ""; }
+  .tv-report h2 { break-after: avoid; }
+  .tv-report-table tr { break-inside: avoid; }
+}
+.tv-field > .tv-btn { align-self: flex-start; }
+
+/* Smala skärmar: toppmenyn får bryta rad i stället för att göra sidan bredare */
+@media (max-width: 760px) {
+  .topbar { height: auto; min-height: 67px; flex-wrap: wrap; gap: 4px 12px; padding-block: 8px; }
+  .topbar-actions { flex-wrap: wrap; justify-content: flex-end; gap: 6px 8px; min-width: 0; }
+  .rewards-chip, .mail-link { padding: 5px 11px; font-size: 12.5px; }
+}
+@media (max-width: 600px) { .tv-report { padding: 22px 16px; } .tv-report h1 { font-size: 24px; } }
+
+/* Rityta: rutat papper, figurer med storlekspunkter, knappar för markerad sak */
+.cv-foot { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 6px 12px; }
+.cv-foot .cv-hint { flex: 1 1 260px; }
+.cv-selbar { display: flex; flex-wrap: wrap; gap: 6px; }
+.cv-selbar[hidden] { display: none; }
+.cv-btn-small { padding: 4px 11px; border: 2px solid var(--border); border-radius: 999px; background: #fff; color: var(--ink); font: 800 12.5px "Nunito", sans-serif; cursor: pointer; }
+.cv-btn-small:hover { background: var(--sky-soft); }
+.cv-btn-small[hidden] { display: none; }
+.cv-btn-danger { color: var(--coral-dark); }
+.cv-handle { cursor: nwse-resize; }
+.cv-handle[data-mode="w"] { cursor: ew-resize; }
+.cv-handle[data-mode="h"] { cursor: ns-resize; }
+.cv-handle[data-mode="line"] { cursor: crosshair; }
+.cv-handle-dot { fill: #fff; stroke: var(--brand); stroke-width: 3; }
+.cv-handle:hover .cv-handle-dot { fill: var(--brand-light); }

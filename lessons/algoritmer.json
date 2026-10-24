@@ -1,0 +1,296 @@
+{
+  "id": "algoritmer",
+  "area": "algebra",
+  "title": "Algoritmer: steg för steg",
+  "level": "Instruktioner som alltid fungerar · ungefär åk 4–6",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": [
+    "addition",
+    "subtraktion",
+    "multiplikation"
+  ],
+  "summary": "En algoritm är en lista med steg som du följer i rätt ordning. Ordningen avgör vilket svar du får.",
+  "explanationTitle": "Följ stegen i ordning",
+  "explanation": "En algoritm är en lista med steg som du följer i exakt rätt ordning för att lösa ett problem. Ett recept är en algoritm. Uppställning är också en algoritm. Datorer följer algoritmer. En bra algoritm är tydlig: varje steg säger precis vad du ska göra, och om du följer den får du alltid rätt svar. Exempel: starta med 4, dubbla talet och lägg till 3. Då blir det 4, sedan 8 och sist 11. Ibland upprepas ett steg: starta med 5 och upprepa 3 gånger att lägga till 2. Då får du 7, 9 och 11. Ordningen är viktig. Om du lägger till 3 först (4 + 3 = 7) och dubblar sedan blir svaret 14, inte 11.",
+  "visual": {
+    "type": "tabell",
+    "title": "Algoritm: starta med 4, dubbla, lägg till 3",
+    "headers": [
+      "Steg",
+      "Instruktion",
+      "Talet blir"
+    ],
+    "rows": [
+      [
+        "1",
+        "Starta med 4",
+        "4"
+      ],
+      [
+        "2",
+        "Dubbla talet",
+        "8"
+      ],
+      [
+        "3",
+        "Lägg till 3",
+        "11"
+      ]
+    ]
+  },
+  "rule": "Följ stegen i den ordning de står, ett i taget",
+  "ruleLabel": "ALGORITM",
+  "example": "Starta med 6, dubbla, dra ifrån 2: 6 → 12 → 10. Om du drar ifrån först (6 − 2 = 4) och dubblar sedan blir det 8, ett annat svar.",
+  "practice": [
+    {
+      "id": "dubbla-plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          15
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "2*a+b"
+        }
+      ],
+      "prompt": "Följ algoritmen. 1. Starta med {a}. 2. Dubbla talet. 3. Lägg till {b}. Vilket tal får du?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} dubblat är {2*a} och {2*a} + {b} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*(a+b)"
+          ],
+          "message": "Du lade till {b} före du dubblade. Följ stegen i den ordning de står."
+        },
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du glömde att dubbla talet. Steg 2 är att dubbla."
+        }
+      ]
+    },
+    {
+      "id": "tre-steg",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          8,
+          20
+        ],
+        "b": [
+          2,
+          6
+        ],
+        "c": [
+          2,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "(a-b)*c"
+        }
+      ],
+      "prompt": "Följ algoritmen. 1. Starta med {a}. 2. Dra ifrån {b}. 3. Multiplicera med {c}. Vilket tal får du?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} − {b} = {a-b} och {a-b} · {c} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*c-b"
+          ],
+          "message": "Du multiplicerade före du drog ifrån. Följ stegen i den ordning de står."
+        }
+      ]
+    },
+    {
+      "id": "upprepa",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "s": [
+          1,
+          15
+        ],
+        "k": [
+          3,
+          6
+        ],
+        "d": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "s+k*d"
+        }
+      ],
+      "prompt": "Följ algoritmen. Starta med {s}. Upprepa {k} gånger: lägg till {d}. Vilket tal får du till slut?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Du lägger till {d} totalt {k} gånger, alltså {k*d}. {s} + {k*d} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s+d"
+          ],
+          "message": "Du lade bara till {d} en gång. Steget upprepas {k} gånger."
+        },
+        {
+          "answers": [
+            "=k*d"
+          ],
+          "message": "Glöm inte startvärdet {s}. Det är med i summan."
+        }
+      ]
+    },
+    {
+      "id": "jamnt-udda",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "n": [
+          11,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "mod(n,2)"
+        }
+      ],
+      "prompt": "Algoritm: dela talet med 2. Blir det ingen rest är talet jämnt, annars är det udda. Vilken rest får du när du delar {n} med 2?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {n} delat med 2 ger resten {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=floor(n/2)"
+          ],
+          "message": "{floor(n/2)} är hur många gånger 2 går i {n}. Resten är det som blir över."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Följ algoritmen. 1. Starta med 5. 2. Dubbla talet. 3. Lägg till 4. Vilket tal får du?",
+    "answer": [
+      "14"
+    ],
+    "correct": "Rätt! 5 dubblat är 10 och 10 + 4 = 14.",
+    "feedback": [
+      {
+        "answers": [
+          "18"
+        ],
+        "message": "Du lade till 4 före du dubblade. Följ stegen i den ordning de står: dubbla först."
+      },
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "9 är 5 + 4. Du glömde att dubbla talet."
+      },
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "10 är 5 dubblat. Du glömde steg 3: lägg till 4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Mira följer en algoritm. 1. Starta med 10. 2. Dra ifrån 4. 3. Multiplicera med 3. Vilket tal får hon?",
+      "answer": [
+        "18"
+      ],
+      "correct": "Rätt! 10 − 4 = 6 och 6 · 3 = 18.",
+      "feedback": [
+        {
+          "answers": [
+            "26"
+          ],
+          "message": "Du multiplicerade före du drog ifrån: 10 · 3 = 30 och 30 − 4. Följ stegen i ordning: dra ifrån först."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är talet efter steg 2. Fortsätt med steg 3 och multiplicera med 3."
+        }
+      ]
+    },
+    {
+      "prompt": "Följ algoritmen. Starta med 2. Upprepa 4 gånger: lägg till 3. Vilket tal får du till slut?",
+      "answer": [
+        "14"
+      ],
+      "correct": "Rätt! 2, 5, 8, 11, 14. Du lägger till 3 fyra gånger, alltså 12, och 2 + 12 = 14.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "Du lade bara till 3 en gång. Steget upprepas 4 gånger."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är 4 · 3. Glöm inte att börja på 2."
+        },
+        {
+          "answers": [
+            "11"
+          ],
+          "message": "Du lade till 3 tre gånger. Steget upprepas 4 gånger."
+        }
+      ]
+    },
+    {
+      "prompt": "En algoritm för att avgöra om ett tal är jämnt: 1. Dela talet med 2. 2. Blir det ingen rest är talet jämnt, annars är det udda. Är 37 jämnt eller udda? Skriv jämnt eller udda.",
+      "answer": [
+        "udda"
+      ],
+      "correct": "Rätt! 37 delat med 2 är 18 rest 1. Det blir en rest, så talet är udda.",
+      "feedback": [
+        {
+          "answers": [
+            "jämnt",
+            "jämn"
+          ],
+          "message": "37 delat med 2 är 18 rest 1. Det blir en rest, så talet är udda."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "id": "division-med-10-100-1000",
+  "area": "tal",
+  "title": "Division med 1, 10, 100 och 1000",
+  "level": "Flytta siffrorna åt höger · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "6 min",
+  "prerequisites": [
+    "division",
+    "platsvarde"
+  ],
+  "summary": "Att dela med 1, 10, 100 och 1000 är en genväg: talet blir 1, 10, 100 eller 1000 gånger mindre.",
+  "explanationTitle": "Ta bort nollor",
+  "explanation": "När du delar ett tal med 1 händer ingenting. Talet är kvar som det var: 36/1 = 36. När du delar med 10 blir varje siffra tio gånger mindre. Då flyttar alla siffror ett steg åt höger i platsvärdestabellen. Slutar talet på noll kan du i stället ta bort en nolla: 450/10 = 45. Att dela med 100 tar bort två nollor och att dela med 1000 tar bort tre nollor: 4500/100 = 45 och 4000/1000 = 4. Division är motsatsen till multiplikation, så 45 · 100 = 4500 och 4500/100 = 45.",
+  "visual": {
+    "type": "tabell",
+    "title": "Dela 45000",
+    "headers": [
+      "Räkning",
+      "Svar",
+      "Vad händer?"
+    ],
+    "rows": [
+      [
+        "45000/1",
+        "45000",
+        "Inget ändras"
+      ],
+      [
+        "45000/10",
+        "4500",
+        "En nolla bort"
+      ],
+      [
+        "45000/100",
+        "450",
+        "Två nollor bort"
+      ],
+      [
+        "45000/1000",
+        "45",
+        "Tre nollor bort"
+      ]
+    ]
+  },
+  "rule": "Dela med 10, 100 eller 1000: ta bort 1, 2 eller 3 nollor",
+  "ruleLabel": "NOLLORNA",
+  "example": "7000/100: ta bort två nollor, så blir det 70. Kontroll: 70 · 100 = 7000.",
+  "practice": [
+    {
+      "id": "dela-1",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          11,
+          9999
+        ]
+      },
+      "prompt": "Räkna ut {a}/1.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Att dela med 1 ändrar ingenting, så {a}/1 = {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=0",
+            "=1"
+          ],
+          "message": "När du delar med 1 blir talet precis detsamma som innan."
+        }
+      ]
+    },
+    {
+      "id": "dela-10",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          11,
+          999
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*10"
+        }
+      ],
+      "prompt": "Räkna ut {n}/10.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Ta bort en nolla: {n}/10 = {a}. Kontroll: {a} · 10 = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Talet är oförändrat. Dela med 10 gör talet tio gånger mindre."
+        },
+        {
+          "answers": [
+            "=a*100"
+          ],
+          "message": "Du har lagt till en nolla. Vid division tar du bort nollor."
+        }
+      ]
+    },
+    {
+      "id": "dela-100",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100"
+        }
+      ],
+      "prompt": "Räkna ut {n}/100.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Ta bort två nollor: {n}/100 = {a}. Kontroll: {a} · 100 = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Du har bara tagit bort en nolla. Dela med 100 tar bort två nollor."
+        }
+      ]
+    },
+    {
+      "id": "dela-1000",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*1000"
+        }
+      ],
+      "prompt": "Räkna ut {n}/1000.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Ta bort tre nollor: {n}/1000 = {a}. Kontroll: {a} · 1000 = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Du har bara tagit bort två nollor. Dela med 1000 tar bort tre nollor."
+        },
+        {
+          "answers": [
+            "=a*100"
+          ],
+          "message": "Du har bara tagit bort en nolla. Dela med 1000 tar bort tre nollor."
+        }
+      ]
+    },
+    {
+      "id": "paskar",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "sak": [
+          "kulor",
+          "pärlor",
+          "klistermärken"
+        ]
+      },
+      "vars": {
+        "a": [
+          2,
+          40
+        ],
+        "e": [
+          1,
+          3
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "pow(10,e)"
+        },
+        {
+          "name": "n",
+          "expr": "a*pow(10,e)"
+        }
+      ],
+      "prompt": "Det finns {n} {$sak}. De packas i påsar med {d} {$sak} i varje. Hur många påsar blir det?",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! {n}/{d} = {a} påsar.",
+      "feedback": [
+        {
+          "answers": [
+            "=n+d"
+          ],
+          "message": "Du har lagt ihop talen. Här ska du dela {n} med {d}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 6000/10.",
+    "answer": [
+      "600"
+    ],
+    "correct": "Rätt! Dela med 10 tar bort en nolla: 6000/10 = 600.",
+    "feedback": [
+      {
+        "answers": [
+          "60"
+        ],
+        "message": "Du har tagit bort två nollor. Dela med 10 tar bort bara en nolla."
+      },
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "Du har tagit bort tre nollor. Dela med 10 tar bort bara en nolla."
+      },
+      {
+        "answers": [
+          "60000"
+        ],
+        "message": "Du har lagt till en nolla. Det är multiplikation. Vid division tar du bort nollor."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "3000 kronor delas lika på 100 elever. Hur många kronor får varje elev?",
+      "answer": [
+        "30"
+      ],
+      "correct": "Rätt! Dela med 100 tar bort två nollor: 3000/100 = 30.",
+      "feedback": [
+        {
+          "answers": [
+            "300"
+          ],
+          "message": "Du har bara tagit bort en nolla. Dela med 100 tar bort två nollor."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "Du har tagit bort tre nollor. Dela med 100 tar bort två nollor."
+        },
+        {
+          "answers": [
+            "300000"
+          ],
+          "message": "Du har lagt till nollor. Vid division tar du bort nollor."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett rep är 8000 millimeter långt. 1000 millimeter är 1 meter. Hur många meter är repet?",
+      "answer": [
+        "8"
+      ],
+      "correct": "Rätt! Dela med 1000 tar bort tre nollor: 8000/1000 = 8.",
+      "feedback": [
+        {
+          "answers": [
+            "80"
+          ],
+          "message": "Du har bara tagit bort två nollor. Dela med 1000 tar bort tre nollor."
+        },
+        {
+          "answers": [
+            "800"
+          ],
+          "message": "Du har bara tagit bort en nolla. Dela med 1000 tar bort tre nollor."
+        }
+      ]
+    },
+    {
+      "prompt": "Det finns 2500 kort. De läggs i högar med 10 kort i varje. Hur många högar blir det?",
+      "answer": [
+        "250"
+      ],
+      "correct": "Rätt! Dela med 10 tar bort en nolla: 2500/10 = 250.",
+      "feedback": [
+        {
+          "answers": [
+            "25"
+          ],
+          "message": "Du har tagit bort två nollor. Dela med 10 tar bort bara en nolla."
+        },
+        {
+          "answers": [
+            "25000"
+          ],
+          "message": "Du har lagt till en nolla. Vid division tar du bort nollor."
+        }
+      ]
+    }
+  ]
+}

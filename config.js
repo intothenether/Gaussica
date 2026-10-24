@@ -5,8 +5,8 @@
 //
 // The same value works on GitHub Pages and on your own PC, so both see the same accounts.
 //
-//   contact: "namn@exempel.se"   shown in the privacy text as the person to ask about data (optional)
+//   contact: shown in the privacy text as the person to ask about data (optional)
 window.GAUSSICA_CONFIG = {
   apiBase: "https://gaussica-api.sebastianintoklawon.workers.dev",
-  contact: ""
+  contact: "sebastianintoklawon@gmail.com"
 };

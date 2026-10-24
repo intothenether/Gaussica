@@ -1,0 +1,333 @@
+{
+  "id": "negativa-tal",
+  "area": "tal",
+  "title": "Negativa tal",
+  "level": "Tal under noll · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": [
+    "tallinjen"
+  ],
+  "summary": "Negativa tal är tal som är mindre än noll. Du ser dem på en termometer när det är kallt.",
+  "explanationTitle": "Tal som är mindre än noll",
+  "explanation": "Negativa tal skrivs med ett minustecken framför, till exempel −3. Du ser dem på en termometer när det är kallare än noll grader: −5 grader är fem grader under noll. På tallinjen ligger de negativa talen till vänster om noll. Ju längre åt vänster ett tal ligger, desto mindre är det. Därför är −8 mindre än −2, fast 8 är större än 2. När temperaturen stiger går du åt höger på tallinjen, och när den sjunker går du åt vänster. Exempel: det är −3 grader och blir 5 grader varmare. Du går 5 steg åt höger från −3 och hamnar på 2.",
+  "visual": {
+    "type": "tallinje",
+    "title": "−3 grader och 5 grader varmare blir 2 grader",
+    "min": -10,
+    "max": 10,
+    "step": 1,
+    "labelEvery": 1,
+    "points": [
+      {
+        "value": -3,
+        "label": "−3"
+      },
+      {
+        "value": 2
+      }
+    ],
+    "jumps": [
+      {
+        "from": -3,
+        "to": 2,
+        "label": "+5"
+      }
+    ]
+  },
+  "rule": "Åt höger blir talet större, åt vänster blir det mindre",
+  "ruleLabel": "TALLINJEN",
+  "example": "−2 ligger till höger om −7, så −2 är större än −7. Från −7 till −2 är det 5 steg.",
+  "practice": [
+    {
+      "id": "stiger",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "s": [
+          -9,
+          -1
+        ],
+        "u": [
+          1,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "s+u"
+        }
+      ],
+      "prompt": "Temperaturen är {s} grader. Sedan blir det {u} grader varmare. Vilken temperatur blir det?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Från {s} går du {u} steg åt höger och hamnar på {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s-u"
+          ],
+          "message": "Varmare betyder åt höger på tallinjen, så du ska lägga till {u}."
+        },
+        {
+          "answers": [
+            "=abs(s)+u"
+          ],
+          "message": "Börja på {s}, som ligger under noll. Gå {u} steg åt höger på tallinjen."
+        }
+      ]
+    },
+    {
+      "id": "sjunker",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "s": [
+          -5,
+          10
+        ],
+        "d": [
+          2,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "s-d",
+          "max": -1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "s-d"
+        }
+      ],
+      "prompt": "Temperaturen är {s} grader. Under natten sjunker den {d} grader. Vilken temperatur blir det?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Från {s} går du {d} steg åt vänster och hamnar på {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s+d"
+          ],
+          "message": "Sjunker betyder åt vänster på tallinjen, så du ska ta bort {d}."
+        },
+        {
+          "answers": [
+            "=d-s"
+          ],
+          "message": "Gå {d} steg åt vänster från {s}. Svaret hamnar under noll, så det är ett negativt tal."
+        }
+      ]
+    },
+    {
+      "id": "storst",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "x": [
+          -9,
+          -1
+        ],
+        "y": [
+          -9,
+          -1
+        ],
+        "z": [
+          -9,
+          -1
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(x-y)",
+          "min": 1
+        },
+        {
+          "expr": "abs(y-z)",
+          "min": 1
+        },
+        {
+          "expr": "abs(x-z)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "m",
+          "expr": "max(x,max(y,z))"
+        }
+      ],
+      "prompt": "Vilket tal är störst: {x}, {y} eller {z}? Skriv talet.",
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! {m} ligger längst åt höger på tallinjen, så det är störst.",
+      "feedback": [
+        {
+          "answers": [
+            "=min(x,min(y,z))"
+          ],
+          "message": "Det är det minsta talet. Talet som ligger längst åt höger på tallinjen är störst."
+        }
+      ]
+    },
+    {
+      "id": "skillnad",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          -9,
+          -1
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "b-a"
+        }
+      ],
+      "prompt": "Det är {a} grader på natten och {b} grader på dagen. Hur många grader varmare är det på dagen?",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! Från {a} till 0 är det {0-a} steg, och sedan {b} steg till. Tillsammans {s} grader.",
+      "feedback": [
+        {
+          "answers": [
+            "=b+a"
+          ],
+          "message": "Från {a} upp till 0 är det {0-a} steg, och sedan {b} steg till. Lägg ihop stegen."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Temperaturen är −3 grader. Sedan blir det 5 grader varmare. Vilken temperatur blir det?",
+    "answer": [
+      "2"
+    ],
+    "correct": "Rätt! Från −3 går du 5 steg åt höger: −2, −1, 0, 1, 2. Det blir 2 grader.",
+    "feedback": [
+      {
+        "answers": [
+          "-8",
+          "−8"
+        ],
+        "message": "Du har gått åt vänster. Varmare betyder åt höger på tallinjen."
+      },
+      {
+        "answers": [
+          "8"
+        ],
+        "message": "Du har lagt ihop 3 och 5. Men −3 ligger under noll. Gå 5 steg åt höger från −3."
+      },
+      {
+        "answers": [
+          "-2",
+          "−2"
+        ],
+        "message": "Nästan! Räkna 5 steg åt höger från −3: −2, −1, 0, 1, 2. Du var ett steg för kort."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Klockan 6 är det −4 grader. Till middagstid har det blivit 7 grader varmare. Hur varmt är det då?",
+      "answer": [
+        "3"
+      ],
+      "correct": "Rätt! Från −4 går du 7 steg åt höger. 4 steg tar dig till 0 och 3 steg till. Det blir 3 grader.",
+      "feedback": [
+        {
+          "answers": [
+            "-11",
+            "−11"
+          ],
+          "message": "Du har gått åt vänster. Varmare betyder åt höger på tallinjen."
+        },
+        {
+          "answers": [
+            "11"
+          ],
+          "message": "Du har lagt ihop 4 och 7. Men −4 ligger under noll. Gå 7 steg åt höger från −4."
+        }
+      ]
+    },
+    {
+      "prompt": "Det är 2 grader ute. Under natten sjunker temperaturen 6 grader. Vilken temperatur blir det?",
+      "answer": [
+        "-4",
+        "−4"
+      ],
+      "correct": "Rätt! Från 2 går du 6 steg åt vänster. 2 steg tar dig till 0 och 4 steg till. Det blir −4 grader.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "Talet har rätt storlek men fel tecken. Du hamnar under noll, så svaret är negativt."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "Du har lagt ihop 2 och 6. Sjunker betyder att du går åt vänster, så du ska ta bort."
+        },
+        {
+          "answers": [
+            "-8",
+            "−8"
+          ],
+          "message": "Du har gått 6 steg åt vänster från −2, men du började på 2."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket av talen −9, −2 och −5 är störst? Skriv talet.",
+      "answer": [
+        "-2",
+        "−2"
+      ],
+      "correct": "Rätt! −2 ligger längst åt höger på tallinjen, så det är störst.",
+      "feedback": [
+        {
+          "answers": [
+            "-9",
+            "−9"
+          ],
+          "message": "−9 ligger längst åt vänster, så det är minst. Det största ligger längst åt höger."
+        },
+        {
+          "answers": [
+            "-5",
+            "−5"
+          ],
+          "message": "−5 är mindre än −2. Vilket tal ligger längst åt höger på tallinjen?"
+        },
+        {
+          "answers": [
+            "9",
+            "2",
+            "5"
+          ],
+          "message": "Talen är negativa. Skriv talet med minustecken."
+        }
+      ]
+    }
+  ]
+}

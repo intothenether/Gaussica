@@ -284,6 +284,15 @@ window.GaussicaPlayer = (function () {
 
     card.appendChild(el("p", "eyebrow pl-eyebrow", open.length ? "NÄSTAN KLAR" : "LEKTIONEN KLAR"));
     card.appendChild(el("h2", "pl-summary-title", open.length ? "Några frågor återstår" : "Bra jobbat!"));
+    const R = window.GaussicaRewards;
+    if (!open.length && R && R.enabled()) {
+      const s = R.lessonStars(l).stars;
+      const box = el("div", "pl-stars");
+      box.setAttribute("aria-label", s + " av 3 stjärnor");
+      for (let i = 0; i < 3; i++) box.appendChild(el("span", "pl-star" + (i < s ? " is-on" : ""), "★"));
+      card.appendChild(box);
+      R.celebrate();
+    }
     card.appendChild(el("p", "pl-summary-sub",
       qs.length ? (qs.length - open.length) + " av " + qs.length + " frågor klara" +
         (firstTry ? " · " + firstTry + " rätt på första försöket" : "") : "Du har gått igenom hela lektionen."));

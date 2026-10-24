@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS assignments (
   note       TEXT NOT NULL DEFAULT '',
   due_date   TEXT,
   created_at TEXT NOT NULL,
-  archived   INTEGER NOT NULL DEFAULT 0
+  archived   INTEGER NOT NULL DEFAULT 0,
+  kind       TEXT NOT NULL DEFAULT 'lesson'
 );
 CREATE INDEX IF NOT EXISTS assignments_class ON assignments (class_id, archived);
 CREATE TABLE IF NOT EXISTS feedback (
@@ -70,6 +71,10 @@ CREATE TABLE IF NOT EXISTS feedback (
   read_at    TEXT
 );
 CREATE INDEX IF NOT EXISTS feedback_student ON feedback (student_id, created_at);
+CREATE TABLE IF NOT EXISTS class_settings (
+  class_id INTEGER PRIMARY KEY REFERENCES classes(id) ON DELETE CASCADE,
+  rewards  INTEGER NOT NULL DEFAULT 1
+);
 CREATE TABLE IF NOT EXISTS rate_limits (
   key          TEXT PRIMARY KEY,
   count        INTEGER NOT NULL,

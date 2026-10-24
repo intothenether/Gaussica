@@ -1,0 +1,294 @@
+{
+  "id": "multiplikation-uppstallning",
+  "area": "tal",
+  "title": "Multiplikation med uppställning",
+  "level": "Räkna stora tal på papper · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "multiplikationstabellen",
+    "platsvarde"
+  ],
+  "summary": "När talen blir stora ställer du upp multiplikationen och räknar en plats i taget, med entalen först.",
+  "explanationTitle": "Ental först, sedan tiotal",
+  "explanation": "Vid uppställning skriver du talen under varandra så att entalen står över entalen. Sedan multiplicerar du det nedre talet med varje siffra i det övre, och du börjar längst till höger med entalen. Blir produkten tio eller mer skriver du bara entalssiffran och minns tiotalen. Tiotalen lägger du till i nästa steg. Exempel: 34 · 6. Först 6 · 4 = 24. Skriv 4 och minns 2. Sedan 6 · 3 = 18 och 18 + 2 = 20. Svaret är 204. Gör gärna en överslagsräkning först: 30 · 6 = 180, så svaret ska vara lite större än 180.",
+  "visual": {
+    "type": "tabell",
+    "title": "34 · 6 steg för steg",
+    "headers": [
+      "Steg",
+      "Räkna",
+      "Skriv"
+    ],
+    "rows": [
+      [
+        "1. Entalen",
+        "6 · 4 = 24",
+        "Skriv 4 och minns 2"
+      ],
+      [
+        "2. Tiotalen",
+        "6 · 3 = 18 och 18 + 2 = 20",
+        "Skriv 20"
+      ],
+      [
+        "Svar",
+        "",
+        "204"
+      ]
+    ]
+  },
+  "rule": "Ental först. Skriv entalssiffran och minns tiotalen.",
+  "ruleLabel": "UPPSTÄLLNING",
+  "example": "34 · 6: 6 · 4 = 24, skriv 4 och minns 2. 6 · 3 = 18 och 18 + 2 = 20. Svar: 204.",
+  "practice": [
+    {
+      "id": "uppstallning",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          12,
+          49
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Räkna ut {a} · {b} med uppställning.",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! {b} · {a} = {a*b}. Ental först, sedan tiotal.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. Multiplikation betyder {b} grupper med {a} i varje."
+        },
+        {
+          "answers": [
+            "=floor(a/10)*b*10+mod(mod(a,10)*b,10)"
+          ],
+          "message": "Du glömde minnessiffran. Lägg till tiotalet du minns när du multiplicerar tiotalssiffran."
+        }
+      ]
+    },
+    {
+      "id": "tresiffrigt",
+      "for": [
+        "word-0",
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          101,
+          399
+        ],
+        "b": [
+          2,
+          6
+        ]
+      },
+      "prompt": "Räkna ut {a} · {b} med uppställning.",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! {a} · {b} = {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. Multiplicera i stället, en plats i taget."
+        }
+      ]
+    },
+    {
+      "id": "paket",
+      "for": [
+        "word-0",
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ],
+        "sak": [
+          "pennor",
+          "klistermärken",
+          "kort",
+          "pärlor"
+        ]
+      },
+      "vars": {
+        "a": [
+          12,
+          48
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "prompt": "{$namn} köper {b} paket. I varje paket ligger {a} {$sak}. Hur många {$sak} har {$namn} sammanlagt?",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! {b} · {a} = {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop {a} och {b}. Det är {b} paket med {a} i varje, så du ska multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "overslag",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "t": [
+          1,
+          9
+        ],
+        "u": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "10*t+u"
+        },
+        {
+          "name": "r",
+          "expr": "10*t"
+        }
+      ],
+      "prompt": "Gör en överslagsräkning: avrunda {a} till närmaste tiotal och räkna ut ungefär hur mycket {a} · {b} är.",
+      "answer": [
+        "=r*b"
+      ],
+      "correct": "Rätt! {a} avrundas till {r} och {r} · {b} = {r*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "{a*b} är det exakta svaret. Vid en överslagsräkning använder du det avrundade talet {r}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 23 · 4 med uppställning.",
+    "answer": [
+      "92"
+    ],
+    "correct": "Rätt! 4 · 3 = 12, skriv 2 och minns 1. 4 · 2 = 8 och 8 + 1 = 9. Svar: 92.",
+    "feedback": [
+      {
+        "answers": [
+          "82"
+        ],
+        "message": "Du glömde minnessiffran. 4 · 3 = 12: skriv 2 och minns 1. Sedan 4 · 2 = 8 och 8 + 1 = 9."
+      },
+      {
+        "answers": [
+          "812"
+        ],
+        "message": "Skriv bara entalssiffran 2 och minns tiotalet 1. Lägg till 1 när du multiplicerar tiotalen."
+      },
+      {
+        "answers": [
+          "27"
+        ],
+        "message": "27 är 23 + 4. Multiplikation betyder 4 grupper med 23."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En skola köper 36 böcker till varje klass. Det finns 7 klasser. Hur många böcker köper skolan?",
+      "answer": [
+        "252"
+      ],
+      "correct": "Rätt! 7 · 6 = 42, skriv 2 och minns 4. 7 · 3 = 21 och 21 + 4 = 25. Svar: 252.",
+      "feedback": [
+        {
+          "answers": [
+            "212"
+          ],
+          "message": "Du glömde minnessiffran 4. 7 · 3 = 21 och 21 + 4 = 25."
+        },
+        {
+          "answers": [
+            "43"
+          ],
+          "message": "43 är 36 + 7. Det är 7 klasser med 36 böcker var, så du ska multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett paket innehåller 48 kort. Hur många kort finns det i 6 paket?",
+      "answer": [
+        "288"
+      ],
+      "correct": "Rätt! 6 · 8 = 48, skriv 8 och minns 4. 6 · 4 = 24 och 24 + 4 = 28. Svar: 288.",
+      "feedback": [
+        {
+          "answers": [
+            "248"
+          ],
+          "message": "Du glömde minnessiffran 4. 6 · 4 = 24 och 24 + 4 = 28."
+        },
+        {
+          "answers": [
+            "54"
+          ],
+          "message": "54 är 48 + 6. Det är 6 paket med 48 kort var, så du ska multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "Du vill veta ungefär hur mycket 52 · 4 är. Avrunda 52 till närmaste tiotal och räkna ut svaret.",
+      "answer": [
+        "200"
+      ],
+      "correct": "Rätt! 52 avrundas till 50 och 50 · 4 = 200.",
+      "feedback": [
+        {
+          "answers": [
+            "208"
+          ],
+          "message": "208 är det exakta svaret. Vid en överslagsräkning räknar du med det avrundade talet: 50 · 4."
+        },
+        {
+          "answers": [
+            "56"
+          ],
+          "message": "56 är 52 + 4. Avrunda 52 till 50 och multiplicera med 4."
+        }
+      ]
+    }
+  ]
+}

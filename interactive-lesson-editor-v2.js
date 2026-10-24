@@ -81,6 +81,23 @@ window.InteractiveEditor = (function () {
     }
   };
 
+  // Terms and matching tests for "begrepp" lessons (see README, "Begreppslektioner").
+  COMPONENT_TYPES.begreppskort = {
+    label: "Begreppskort", icon: "Aa",
+    create: () => ({
+      type: "begreppskort", title: "Begreppen", intro: "Läs varje kort. Sedan ska du para ihop begreppen med rätt förklaring.",
+      cards: [{ term: "täljare", definition: "Talet över bråkstrecket. Det visar hur många delar man har.", example: "I 3/4 är 3 täljaren." },
+        { term: "nämnare", definition: "Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i.", example: "I 3/4 är 4 nämnaren." }]
+    })
+  };
+  COMPONENT_TYPES.koppla = {
+    label: "Para ihop", icon: "⇄",
+    create: () => ({
+      type: "koppla", prompt: "Para ihop begreppen med rätt förklaring.",
+      pairs: [{ term: "täljare", definition: "Talet över bråkstrecket." }, { term: "nämnare", definition: "Talet under bråkstrecket." }]
+    })
+  };
+
   const KIND_INFO = {
     meta: { label: "Lektionsinfo", icon: "ⓘ" },
     explanation: { label: "Förklaring", icon: "¶" },
@@ -223,6 +240,8 @@ window.InteractiveEditor = (function () {
       else if (d.type === "diagram") sub = d.title;
       else if (d.type === "slider") sub = (d.label || "") + " (" + d.min + "–" + d.max + ")";
       else if (d.type === "problem") sub = d.prompt;
+      else if (d.type === "begreppskort") sub = (d.cards || []).length + " begrepp";
+      else if (d.type === "koppla") sub = d.prompt;
       else if (window.GaussicaLesson.isTool(d)) sub = d.title;
       return { label: info.label, icon: info.icon, sub: clip(sub) };
     }
@@ -665,9 +684,9 @@ window.InteractiveEditor = (function () {
         () => String(lesson.grade || 3), v => { lesson.grade = Number(v); }),
         "Bestämmer var i lärstigen lektionen hamnar. Den placeras aldrig före sina förkunskaper."),
       field("Typ av nod", selectInput(
-        [{ value: "lektion", label: "Lektion" }, { value: "pyssel", label: "Pyssla (interaktiv lek)" }],
-        () => lesson.kind === "pyssel" ? "pyssel" : "lektion",
-        v => { if (v === "pyssel") lesson.kind = "pyssel"; else delete lesson.kind; })),
+        [{ value: "lektion", label: "Lektion" }, { value: "pyssel", label: "Pyssla (interaktiv lek)" }, { value: "begrepp", label: "Begrepp (kort och matchning)" }],
+        () => lesson.kind === "pyssel" || lesson.kind === "begrepp" ? lesson.kind : "lektion",
+        v => { if (v === "pyssel" || v === "begrepp") lesson.kind = v; else delete lesson.kind; })),
       field("Uträkning som svar", selectInput(
         [{ value: "auto", label: "Automatiskt (tillåts från åk 7)" }, { value: "allow", label: "Tillåt, till exempel 36/6 eller 3*6" }, { value: "forbid", label: "Kräv ett uträknat tal" }],
         () => typeof lesson.allowExpression === "boolean" ? (lesson.allowExpression ? "allow" : "forbid") : "auto",
@@ -699,6 +718,7 @@ window.InteractiveEditor = (function () {
     });
     fs.appendChild(box);
     form.appendChild(fs);
+    form.appendChild(practiceFieldset());
   }
 
   function componentForm(form, b) {
@@ -736,12 +756,138 @@ window.InteractiveEditor = (function () {
       case "problem":
         problemForm(form, c);
         break;
+      case "begreppskort":
+        begreppskortForm(form, b);
+        break;
+      case "koppla":
+        kopplaForm(form, c);
+        break;
       default:
         jsonForm(form, () => b.data, v => { b.data = v; },
           window.GaussicaLesson.isTool(b.data)
             ? "Pyssel-verktyg ställs in som JSON: reglage (params), formler (vars), figur (view), text (readouts) och utmaningar (goals). Se README, avsnittet Pyssla."
             : "Okänd blocktyp, redigeras som JSON.");
     }
+  }
+
+  // Rows with a term and an explanation. `extra` adds a third field (example) to each row.
+  function termRows(list, extra) {
+    const rows = el("div", "le-mistakes");
+    const draw = () => {
+      rows.replaceChildren();
+      list.forEach((item, i) => {
+        const box = el("div", "le-mistake");
+        box.append(field("Begrepp", textInput(item, "term", "T.ex. täljare")), field("Förklaring", areaInput(item, "definition", 2)));
+        if (extra) box.appendChild(field("Exempel (valfritt)", textInput(item, "example")));
+        box.appendChild(button("Ta bort", "le-btn le-btn-small le-btn-danger", () => { list.splice(i, 1); draw(); changed(); }));
+        rows.appendChild(box);
+      });
+    };
+    draw();
+    return { rows, redraw: draw };
+  }
+
+  function begreppskortForm(form, b) {
+    const c = b.data;
+    if (!Array.isArray(c.cards)) c.cards = [];
+    form.append(field("Rubrik", textInput(c, "title")), field("Inledning", areaInput(c, "intro", 2)));
+    const fs = el("fieldset", "le-fieldset");
+    fs.appendChild(el("legend", "", "Begreppskort"));
+    fs.appendChild(el("p", "le-hint", "Eleven läser korten. Ett kort har ett begrepp, en förklaring och gärna ett exempel."));
+    const t = termRows(c.cards, true);
+    fs.appendChild(t.rows);
+    fs.appendChild(button("+ Lägg till begrepp", "le-btn le-btn-small", () => {
+      c.cards.push({ term: "", definition: "", example: "" });
+      t.redraw(); changed();
+      const inputs = t.rows.querySelectorAll("input[type=text]");
+      if (inputs.length) inputs[inputs.length - 2 >= 0 ? inputs.length - 2 : 0].focus();
+    }));
+    form.appendChild(fs);
+    form.appendChild(el("p", "le-hint", "Genvägar:"));
+    form.appendChild(button("Skapa matchningstest av korten", "le-btn le-btn-small", () => matchFromCards(b),
+      "Lägger till ett eller flera Para ihop-block med fyra begrepp i varje"));
+  }
+
+  function kopplaForm(form, c) {
+    if (!Array.isArray(c.pairs)) c.pairs = [];
+    form.appendChild(field("Uppmaning", areaInput(c, "prompt", 2)));
+    const fs = el("fieldset", "le-fieldset");
+    fs.appendChild(el("legend", "", "Par att koppla ihop"));
+    fs.appendChild(el("p", "le-hint", "Minst två par. Eleven väljer ett begrepp och sedan förklaringen som passar. Fyra par är lagom."));
+    const t = termRows(c.pairs, false);
+    fs.appendChild(t.rows);
+    fs.appendChild(button("+ Lägg till par", "le-btn le-btn-small", () => {
+      c.pairs.push({ term: "", definition: "" });
+      t.redraw(); changed();
+    }));
+    form.appendChild(fs);
+  }
+
+  // One Para ihop block per four cards (a short last group joins the one before it).
+  function matchFromCards(b) {
+    const cards = (b.data.cards || []).filter(x => x.term && x.term.trim() && x.definition && x.definition.trim());
+    if (cards.length < 2) { toast("Skriv minst två begrepp med förklaring först."); return; }
+    const groups = [];
+    for (let i = 0; i < cards.length; i += 4) groups.push(cards.slice(i, i + 4));
+    if (groups.length > 1 && groups[groups.length - 1].length < 2) {
+      const last = groups.pop();
+      groups[groups.length - 1] = groups[groups.length - 1].concat(last);
+    }
+    groups.forEach((g, n) => insertBlock(newBlock("component", {
+      type: "koppla",
+      prompt: "Para ihop begreppen med rätt förklaring" + (groups.length > 1 ? " (del " + (n + 1) + ")" : "") + ".",
+      pairs: g.map(x => ({ term: x.term.trim(), definition: x.definition.trim() }))
+    })));
+    toast(groups.length === 1 ? "Matchningstest tillagt." : groups.length + " matchningstester tillagda.");
+  }
+
+  // "Öva mer" templates built from the lesson's term cards: a matching round and a "which term is this" question.
+  function practiceFromCards() {
+    const pool = [];
+    blocks.forEach(b => {
+      if (b.kind === "component" && b.data.type === "begreppskort") {
+        (b.data.cards || []).forEach(c => {
+          if (c.term && c.term.trim() && c.definition && c.definition.trim()) pool.push({ term: c.term.trim(), definition: c.definition.trim() });
+        });
+      }
+    });
+    if (pool.length < 4) { toast("Behöver minst fyra begrepp i begreppskorten."); return false; }
+    const matchIds = [];
+    const askIds = [];
+    let comp = 0;
+    let word = 0;
+    blocks.forEach(b => {
+      if (b.kind === "component") { if (b.data.type === "koppla") matchIds.push("match-" + comp); comp += 1; }
+      else if (b.kind === "word") { askIds.push("word-" + word); word += 1; }
+      else if (b.kind === "exercise") askIds.push("exercise");
+    });
+    lesson.practice = [
+      { id: "koppla", for: matchIds, mode: "koppla", size: 4, prompt: "Para ihop begreppen med rätt förklaring.", pool: pool.map(p => ({ term: p.term, definition: p.definition })) },
+      { id: "fraga", for: askIds, mode: "fraga", prompt: "Vilket begrepp betyder detta? Skriv begreppet.", pool: pool.map(p => ({ term: p.term, definition: p.definition, alt: [] })) }
+    ];
+    return true;
+  }
+
+  function practiceStarter() {
+    return { id: "summa", for: ["exercise"], vars: { a: [10, 99], b: [10, 99] }, derive: [{ name: "s", expr: "a+b" }],
+      prompt: "Räkna ut {a} + {b}.", answer: ["=s"], correct: "Rätt! {a} + {b} = {s}." };
+  }
+
+  function practiceFieldset() {
+    const fs = el("fieldset", "le-fieldset");
+    fs.appendChild(el("legend", "", "Övningsmallar (Öva mer)"));
+    jsonForm(fs, () => lesson.practice || [], v => { if (Array.isArray(v) && v.length) lesson.practice = v; else delete lesson.practice; },
+      "Mallar som skapar nya frågor med nya tal. Eleven når dem med knappen Öva mer, och du kan ge dem som uppdrag. De redigeras som JSON, se README.");
+    const actions = el("div", "le-row2");
+    actions.appendChild(button("Skapa av begreppskorten", "le-btn le-btn-small", () => {
+      if (practiceFromCards()) { dirty = true; renderInspector(); toast("Övningsmallar skapade."); }
+    }, "Fyller i en matchningsmall och en fråga-mall utifrån begreppskorten"));
+    actions.appendChild(button("Lägg till en räkne-mall", "le-btn le-btn-small", () => {
+      lesson.practice = (lesson.practice || []).concat([practiceStarter()]);
+      dirty = true; renderInspector(); toast("Exempelmall tillagd. Ändra talen och texten.");
+    }, "Lägger till en mall som du kan ändra"));
+    fs.appendChild(actions);
+    return fs;
   }
 
   function row2(a, b) {
@@ -1023,6 +1169,13 @@ window.InteractiveEditor = (function () {
       if (b.kind === "exercise") checkProblem(lesson.exercise, b.id, "Övningen");
       else if (b.kind === "word") checkProblem(b.data, b.id, "Textuppgift " + wordNumber(b));
       else if (b.kind === "component" && b.data.type === "problem") checkProblem(b.data, b.id, "Uppgiften");
+      else if (b.kind === "component" && b.data.type === "koppla") {
+        const ok = (b.data.pairs || []).filter(p => p.term && p.term.trim() && p.definition && p.definition.trim());
+        if (ok.length < 2) add(b.id, "Para ihop: minst två par med både begrepp och förklaring krävs.");
+      } else if (b.kind === "component" && b.data.type === "begreppskort") {
+        const ok = (b.data.cards || []).filter(c => c.term && c.term.trim() && c.definition && c.definition.trim());
+        if (!ok.length) add(b.id, "Begreppskort: lägg till minst ett begrepp med förklaring.");
+      }
     });
     return problems;
   }
@@ -1042,6 +1195,11 @@ window.InteractiveEditor = (function () {
       if (b.kind === "component") {
         const copy = JSON.parse(JSON.stringify(b.data));
         if (copy.type === "problem") clean(copy);
+        if (copy.type === "koppla") copy.pairs = (copy.pairs || []).filter(p => p.term && p.term.trim() && p.definition && p.definition.trim());
+        if (copy.type === "begreppskort") {
+          copy.cards = (copy.cards || []).filter(c => c.term && c.term.trim() && c.definition && c.definition.trim());
+          copy.cards.forEach(c => { if (!c.example || !c.example.trim()) delete c.example; });
+        }
         layout.push("comp:" + comps.length);
         comps.push(copy);
       } else if (b.kind === "word") {
@@ -1062,6 +1220,7 @@ window.InteractiveEditor = (function () {
     if (!has("visual")) delete out.visual;
     if (!has("interactive")) delete out.interactive;
     if (!has("patterns")) delete out.problemPatterns;
+    if (Array.isArray(out.practice) && !out.practice.length) delete out.practice;
 
     if (comps.length) out.components = comps; else delete out.components;
     out.wordProblems = words;

@@ -62,3 +62,15 @@ npx wrangler deploy
 ```
 
 `schema.sql` kan köras om utan att något förstörs: tabeller och index skapas bara om de saknas.
+
+### Version med Öva mer-uppdrag och stjärnor
+
+Uppdragen har fått en kolumn `kind` (lektion eller Öva mer) och klasserna en inställning för stjärnor (`class_settings`). Eftersom `CREATE TABLE IF NOT EXISTS` inte lägger till kolumner i en tabell som redan finns, körs en liten ändring en gång, och bara om databasen skapades före den här versionen:
+
+```bash
+npx wrangler d1 execute gaussica --remote --file=schema.sql
+npx wrangler d1 execute gaussica --remote --file=migrations/002-assignment-kind.sql
+npx wrangler deploy
+```
+
+Ny databas: det räcker med `schema.sql`. Kör inte `002-assignment-kind.sql` en andra gång, då ger den felet "duplicate column name".

@@ -141,10 +141,11 @@ function createApi(env, request) {
 
   const publicUser = (u) => ({
     id: u.id, username: u.username, name: u.display_name, role: u.role,
-    classId: u.class_id || null, className: u.class_name || null, color: COLORS[u.id % COLORS.length]
+    classId: u.class_id || null, className: u.class_name || null, color: COLORS[u.id % COLORS.length],
+    rewards: u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards)
   });
 
-  const userById = (id) => one("SELECT u.*, c.name AS class_name FROM users u LEFT JOIN classes c ON c.id = u.class_id WHERE u.id = ?", id);
+  const userById = (id) => one("SELECT u.*, c.name AS class_name, COALESCE(cs.rewards, 1) AS rewards FROM users u LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE u.id = ?", id);
 
   function bearer() {
     const m = /^Bearer\s+([A-Za-z0-9_-]{20,100})$/.exec(request.headers.get("Authorization") || "");
@@ -156,8 +157,8 @@ function createApi(env, request) {
     if (!token) return null;
     const hash = await sha256Hex(token);
     const user = await one(
-      "SELECT u.*, c.name AS class_name FROM sessions s JOIN users u ON u.id = s.user_id " +
-      "LEFT JOIN classes c ON c.id = u.class_id WHERE s.token_hash = ? AND s.expires_at > ?", hash, nowIso());
+      "SELECT u.*, c.name AS class_name, COALESCE(cs.rewards, 1) AS rewards FROM sessions s JOIN users u ON u.id = s.user_id " +
+      "LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE s.token_hash = ? AND s.expires_at > ?", hash, nowIso());
     return user ? { user, tokenHash: hash } : null;
   }
 
@@ -261,7 +262,7 @@ function createApi(env, request) {
   }
 
   const publicAssignment = (r) => ({
-    id: r.id, lessonId: r.lesson_id, note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
+    id: r.id, lessonId: r.lesson_id, kind: r.kind || "lesson", note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
     classId: r.class_id || null, className: r.class_name || null, studentId: r.student_id || null, studentName: r.student_name || null
   });
 
@@ -277,7 +278,7 @@ function createApi(env, request) {
       progressOf(s.user.id),
       all("SELECT id, data, created_at FROM attempts WHERE user_id = ? ORDER BY id", s.user.id),
       isStudent && s.user.class_id ? all(
-        "SELECT a.id, a.lesson_id, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
+        "SELECT a.id, a.lesson_id, a.kind, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
         "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id",
         s.user.class_id, s.user.id) : [],
       isStudent ? all(
@@ -361,9 +362,21 @@ function createApi(env, request) {
 
   async function listClasses() {
     const s = await requireTeacher();
-    return [200, { classes: await all(
-      "SELECT c.id, c.name, c.code, c.created_at, (SELECT COUNT(*) FROM users u WHERE u.class_id = c.id) AS students " +
-      "FROM classes c WHERE c.teacher_id = ? ORDER BY c.name", s.user.id) }];
+    return [200, { classes: (await all(
+      "SELECT c.id, c.name, c.code, c.created_at, (SELECT COUNT(*) FROM users u WHERE u.class_id = c.id) AS students, " +
+      "COALESCE((SELECT rewards FROM class_settings WHERE class_id = c.id), 1) AS rewards " +
+      "FROM classes c WHERE c.teacher_id = ? ORDER BY c.name", s.user.id)).map((c) => Object.assign({}, c, { rewards: Boolean(c.rewards) })) }];
+  }
+
+  async function updateClass(id) {
+    const s = await requireTeacher();
+    const cls = await one("SELECT id FROM classes WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
+    if (!cls) throw new ApiError(404, "Klassen finns inte.");
+    const b = await readJson(request, 2000);
+    if (typeof b.rewards === "boolean") {
+      await run("INSERT INTO class_settings (class_id, rewards) VALUES (?, ?) ON CONFLICT (class_id) DO UPDATE SET rewards = excluded.rewards", cls.id, b.rewards ? 1 : 0);
+    }
+    return [200, { ok: true }];
   }
 
   async function createClass() {
@@ -415,7 +428,7 @@ function createApi(env, request) {
   async function listAssignments() {
     const s = await requireTeacher();
     return [200, { assignments: (await all(
-      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
+      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
       "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
       "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id", s.user.id)).map(publicAssignment) }];
   }
@@ -436,8 +449,9 @@ function createApi(env, request) {
     const dueDate = str(b.dueDate, 10);
     if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw new ApiError(400, "Ogiltigt datum.");
     const note = str(b.note, 400).trim();
-    const res = await run("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      cls.id, studentId, s.user.id, lessonId, note, dueDate || null, nowIso());
+    const kind = b.kind === "practice" ? "practice" : "lesson";
+    const res = await run("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at, kind) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      cls.id, studentId, s.user.id, lessonId, note, dueDate || null, nowIso(), kind);
     return [201, { id: res.meta.last_row_id }];
   }
 
@@ -510,6 +524,7 @@ function createApi(env, request) {
     if ((m = /^\/api\/lessons\/([^/]+)$/.exec(p)) && method === "PUT") return putLesson(decodeURIComponent(m[1]));
     if (method === "GET" && p === "/api/teacher/classes") return listClasses();
     if (method === "POST" && p === "/api/teacher/classes") return createClass();
+    if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "PUT") return updateClass(m[1]);
     if (method === "GET" && p === "/api/teacher/students") return teacherStudents();
     if (method === "GET" && p === "/api/teacher/assignments") return listAssignments();
     if (method === "POST" && p === "/api/teacher/assignments") return createAssignment();

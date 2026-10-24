@@ -5,14 +5,17 @@
 // GaussicaCanvas.view(value)                 -> element   read-only drawing (teacher view)
 // GaussicaCanvas.isEmpty(value)              -> boolean
 //
-// The drawing is stored as a small JSON string: { v: 1, g: 0|1, items: [...] }. Every item
-// has a type `t` and a position x/y; strokes keep their points relative to that position.
+// The paper is squared (CELL pixels per square). Text, tiles, shapes and lines snap to the squares, and
+// shapes and lines can be resized with the round handles. The drawing is stored as a small JSON string:
+// { v: 1, g: 1, sn: 0|1, items: [...] }. Every item has a type `t` and a position x/y; strokes keep their
+// points relative to that position.
 
 window.GaussicaCanvas = (function () {
   "use strict";
 
   const NS = "http://www.w3.org/2000/svg";
   const W = 800, H = 440;
+  const CELL = 20;
   const MAX_JSON = 45000;
   const MAX_POINTS = 900;
   const COLORS = [
@@ -20,6 +23,7 @@ window.GaussicaCanvas = (function () {
     { v: "#2f9d88", name: "Grön" }, { v: "#d98a1f", name: "Orange" }
   ];
   const FONT = "Nunito, system-ui, sans-serif";
+  const TEXT_SIZES = [20, 28, 40];
   let uid = 0;
 
   function s(tag, attrs, parent) {
@@ -37,18 +41,27 @@ window.GaussicaCanvas = (function () {
   }
 
   function parse(value) {
-    if (!value) return { g: 0, items: [] };
+    if (!value) return { g: 1, sn: 1, items: [] };
     try {
       const d = typeof value === "string" ? JSON.parse(value) : value;
-      if (d && Array.isArray(d.items)) return { g: d.g ? 1 : 0, items: d.items.filter(function (i) { return i && typeof i.t === "string"; }) };
+      if (d && Array.isArray(d.items)) return { g: 1, sn: d.sn === 0 ? 0 : 1, items: d.items.filter(function (i) { return i && typeof i.t === "string"; }) };
     } catch (e) { /* corrupt data: treat as empty */ }
-    return { g: 0, items: [] };
+    return { g: 1, sn: 1, items: [] };
   }
 
   function isEmpty(value) { return parse(value).items.length === 0; }
 
   // ----- drawing items -----
-  function chipWidth(it) { return Math.max(60, String(it.s || "").length * 17 + 26); }
+  function chipWidth(it) { return Math.ceil(Math.max(60, String(it.s || "").length * 17 + 26) / CELL) * CELL; }
+
+  // Shapes made before they could be resized have no w/h and keep their old size.
+  const SHAPE_DEFAULTS = { kvadrat: [90, 90], rektangel: [150, 80], cirkel: [90, 90], triangel: [100, 86] };
+  const SHAPE_NEW = { kvadrat: [100, 100], rektangel: [160, 100], cirkel: [100, 100], triangel: [120, 100] };
+
+  function shapeSize(it) {
+    const d = SHAPE_DEFAULTS[it.k] || [100, 86];
+    return [Number(it.w) || d[0], Number(it.h) || d[1]];
+  }
 
   function numberLine(it) {
     const min = Number(it.min), max = Number(it.max);
@@ -67,7 +80,6 @@ window.GaussicaCanvas = (function () {
   function drawItem(it, interactive) {
     const col = COLORS[it.c] || COLORS[0];
     const g = s("g", { transform: "translate(" + (it.x || 0) + " " + (it.y || 0) + ")", "data-t": it.t });
-    let box;
     switch (it.t) {
       case "s": {
         const p = it.p || [];
@@ -80,52 +92,54 @@ window.GaussicaCanvas = (function () {
       }
       case "t": {
         const size = it.z || 24;
+        const step = it.lh || size * 1.25;
         const lines = String(it.s || "").split("\n");
         const widest = lines.reduce(function (m, l) { return Math.max(m, l.length); }, 1);
-        s("rect", { x: -4, y: -size, width: widest * size * 0.58 + 8, height: lines.length * size * 1.25 + 4, fill: "transparent" }, g);
+        s("rect", { x: -4, y: -size, width: widest * size * 0.58 + 8, height: (lines.length - 1) * step + size * 1.25 + 4, fill: "transparent" }, g);
         const t = s("text", { x: 0, y: 0, fill: col.v, "font-size": size, "font-weight": 700, "font-family": FONT }, g);
         lines.forEach(function (l, i) {
-          const sp = s("tspan", { x: 0, dy: i ? size * 1.25 : 0 }, t);
+          const sp = s("tspan", { x: 0, dy: i ? step : 0 }, t);
           sp.textContent = l;
         });
         break;
       }
       case "chip": {
         const w = chipWidth(it);
-        s("rect", { x: 0, y: 0, width: w, height: 44, rx: 12, fill: "#fff", stroke: col.v, "stroke-width": 3 }, g);
-        const t = s("text", { x: w / 2, y: 30, "text-anchor": "middle", fill: col.v, "font-size": 24, "font-weight": 800, "font-family": FONT }, g);
+        s("rect", { x: 0, y: 0, width: w, height: 40, rx: 10, fill: "#fff", stroke: col.v, "stroke-width": 3 }, g);
+        const t = s("text", { x: w / 2, y: 28, "text-anchor": "middle", fill: col.v, "font-size": 24, "font-weight": 800, "font-family": FONT }, g);
         t.textContent = it.s || "";
         break;
       }
       case "op": {
-        s("circle", { cx: 22, cy: 22, r: 22, fill: col.v }, g);
-        const t = s("text", { x: 22, y: 31, "text-anchor": "middle", fill: "#fff", "font-size": 28, "font-weight": 800, "font-family": FONT }, g);
+        s("circle", { cx: 20, cy: 20, r: 20, fill: col.v }, g);
+        const t = s("text", { x: 20, y: 29, "text-anchor": "middle", fill: "#fff", "font-size": 26, "font-weight": 800, "font-family": FONT }, g);
         t.textContent = it.s || "+";
         break;
       }
       case "dot":
-        s("circle", { cx: 14, cy: 14, r: 13, fill: col.v, "fill-opacity": 0.9, stroke: "#fff", "stroke-width": 2 }, g);
+        s("circle", { cx: 10, cy: 10, r: 9, fill: col.v, "fill-opacity": 0.9, stroke: "#fff", "stroke-width": 1.5 }, g);
         break;
       case "ones":
-        s("rect", { x: 0, y: 0, width: 24, height: 24, rx: 3, fill: "#76c0ec", stroke: "#425b9a", "stroke-width": 2 }, g);
+        s("rect", { x: 0, y: 0, width: CELL, height: CELL, rx: 3, fill: "#76c0ec", stroke: "#425b9a", "stroke-width": 2 }, g);
         break;
       case "tens":
-        s("rect", { x: 0, y: 0, width: 200, height: 24, rx: 3, fill: "#76c0ec", stroke: "#425b9a", "stroke-width": 2 }, g);
-        for (let i = 1; i < 10; i++) s("line", { x1: i * 20, y1: 0, x2: i * 20, y2: 24, stroke: "#425b9a", "stroke-width": 1.5 }, g);
+        s("rect", { x: 0, y: 0, width: 10 * CELL, height: CELL, rx: 3, fill: "#76c0ec", stroke: "#425b9a", "stroke-width": 2 }, g);
+        for (let i = 1; i < 10; i++) s("line", { x1: i * CELL, y1: 0, x2: i * CELL, y2: CELL, stroke: "#425b9a", "stroke-width": 1.5 }, g);
         break;
       case "hund":
-        s("rect", { x: 0, y: 0, width: 120, height: 120, rx: 3, fill: "#a9d6f3", stroke: "#425b9a", "stroke-width": 2 }, g);
+        s("rect", { x: 0, y: 0, width: 10 * CELL, height: 10 * CELL, rx: 3, fill: "#a9d6f3", stroke: "#425b9a", "stroke-width": 2 }, g);
         for (let i = 1; i < 10; i++) {
-          s("line", { x1: i * 12, y1: 0, x2: i * 12, y2: 120, stroke: "#425b9a", "stroke-width": 1 }, g);
-          s("line", { x1: 0, y1: i * 12, x2: 120, y2: i * 12, stroke: "#425b9a", "stroke-width": 1 }, g);
+          s("line", { x1: i * CELL, y1: 0, x2: i * CELL, y2: 10 * CELL, stroke: "#425b9a", "stroke-width": 1 }, g);
+          s("line", { x1: 0, y1: i * CELL, x2: 10 * CELL, y2: i * CELL, stroke: "#425b9a", "stroke-width": 1 }, g);
         }
         break;
       case "shape": {
+        const size = shapeSize(it);
+        const w = size[0], h = size[1];
         const attrs = { fill: col.v, "fill-opacity": 0.18, stroke: col.v, "stroke-width": 3, "stroke-linejoin": "round" };
-        if (it.k === "kvadrat") s("rect", Object.assign({ x: 0, y: 0, width: 90, height: 90 }, attrs), g);
-        else if (it.k === "rektangel") s("rect", Object.assign({ x: 0, y: 0, width: 150, height: 80 }, attrs), g);
-        else if (it.k === "cirkel") s("circle", Object.assign({ cx: 45, cy: 45, r: 45 }, attrs), g);
-        else s("polygon", Object.assign({ points: "50,0 100,86 0,86" }, attrs), g);
+        if (it.k === "kvadrat" || it.k === "rektangel") s("rect", Object.assign({ x: 0, y: 0, width: w, height: h }, attrs), g);
+        else if (it.k === "cirkel") s("ellipse", Object.assign({ cx: w / 2, cy: h / 2, rx: w / 2, ry: h / 2 }, attrs), g);
+        else s("polygon", Object.assign({ points: w / 2 + ",0 " + w + "," + h + " 0," + h }, attrs), g);
         break;
       }
       case "line": {
@@ -137,16 +151,16 @@ window.GaussicaCanvas = (function () {
       }
       case "nl": {
         const nl = numberLine(it);
-        s("rect", { x: -10, y: -6, width: nl.width + 20, height: 76, fill: "transparent" }, g);
-        s("line", { x1: 0, y1: 26, x2: nl.width, y2: 26, stroke: col.v, "stroke-width": 3, "stroke-linecap": "round" }, g);
+        s("rect", { x: -10, y: -6, width: nl.width + 20, height: 80, fill: "transparent" }, g);
+        s("line", { x1: 0, y1: 20, x2: nl.width, y2: 20, stroke: col.v, "stroke-width": 3, "stroke-linecap": "round" }, g);
         const span = nl.max - nl.min || 1;
         for (let v = nl.min; v <= nl.max + 1e-9; v += 1) {
           const x = (v - nl.min) / span * nl.width;
           const major = (v - nl.min) % nl.step === 0;
           if (nl.max - nl.min > 40 && !major) continue;
-          s("line", { x1: x, y1: major ? 14 : 19, x2: x, y2: major ? 38 : 33, stroke: col.v, "stroke-width": major ? 3 : 2 }, g);
+          s("line", { x1: x, y1: major ? 8 : 13, x2: x, y2: major ? 32 : 27, stroke: col.v, "stroke-width": major ? 3 : 2 }, g);
           if (major) {
-            const t = s("text", { x: x, y: 60, "text-anchor": "middle", fill: col.v, "font-size": 16, "font-weight": 700, "font-family": FONT }, g);
+            const t = s("text", { x: x, y: 56, "text-anchor": "middle", fill: col.v, "font-size": 16, "font-weight": 700, "font-family": FONT }, g);
             t.textContent = String(v);
           }
         }
@@ -158,15 +172,17 @@ window.GaussicaCanvas = (function () {
     return g;
   }
 
-  function background(svg, grid) {
-    const id = "cv-grid-" + (++uid);
+  // Squared paper: a light line every CELL, a slightly stronger one every fifth square.
+  function background(svg) {
+    const id = ++uid;
     s("rect", { x: 0, y: 0, width: W, height: H, fill: "#fffdf7" }, svg);
-    if (grid) {
-      const defs = s("defs", {}, svg);
-      const pat = s("pattern", { id: id, width: 40, height: 40, patternUnits: "userSpaceOnUse" }, defs);
-      s("path", { d: "M40 0 H0 V40", fill: "none", stroke: "#cfe3f4", "stroke-width": 1.5 }, pat);
-      s("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#" + id + ")" }, svg);
-    }
+    const defs = s("defs", {}, svg);
+    const minor = s("pattern", { id: "cv-grid-" + id, width: CELL, height: CELL, patternUnits: "userSpaceOnUse" }, defs);
+    s("path", { d: "M" + CELL + " 0 H0 V" + CELL, fill: "none", stroke: "#dbe9f5", "stroke-width": 1 }, minor);
+    const major = s("pattern", { id: "cv-major-" + id, width: CELL * 5, height: CELL * 5, patternUnits: "userSpaceOnUse" }, defs);
+    s("path", { d: "M" + CELL * 5 + " 0 H0 V" + CELL * 5, fill: "none", stroke: "#bcd5ea", "stroke-width": 1.4 }, major);
+    s("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#cv-grid-" + id + ")" }, svg);
+    s("rect", { x: 0, y: 0, width: W, height: H, fill: "url(#cv-major-" + id + ")" }, svg);
   }
 
   // ----- read-only view -----
@@ -175,7 +191,7 @@ window.GaussicaCanvas = (function () {
     if (!data.items.length) return null;
     const wrap = el("div", "cv-view");
     const svg = s("svg", { viewBox: "0 0 " + W + " " + H, "class": "cv-svg", role: "img", "aria-label": "Elevens rityta" });
-    background(svg, data.g);
+    background(svg);
     const layer = s("g", {}, svg);
     data.items.forEach(function (it) { const g = drawItem(it, false); if (g) layer.appendChild(g); });
     wrap.appendChild(svg);
@@ -200,23 +216,27 @@ window.GaussicaCanvas = (function () {
     { id: "cirkel", label: "Cirkel", make: function () { return { t: "shape", k: "cirkel" }; } },
     { id: "nl", label: "Tallinje", make: function () { return { t: "nl", min: 0, max: 10 }; } }
   ];
-  const SIZES = { chip: [60, 44], op: [44, 44], dot: [28, 28], ones: [24, 24], tens: [200, 24], hund: [120, 120], nl: [440, 70] };
-  const SHAPE_SIZES = { kvadrat: [90, 90], rektangel: [150, 80], cirkel: [90, 90], triangel: [100, 86] };
+  const SIZES = { chip: [60, 40], op: [40, 40], dot: [20, 20], ones: [CELL, CELL], tens: [10 * CELL, CELL], hund: [10 * CELL, 10 * CELL], nl: [440, 80] };
 
   const TOOLS = [
-    { id: "select", label: "Flytta", hint: "Klicka på något för att markera och dra det. Dubbelklicka på text och tal för att ändra. Delete tar bort." },
-    { id: "pen", label: "Rita", hint: "Rita med pekaren eller fingret." },
-    { id: "text", label: "Text", hint: "Klicka i rutan där du vill skriva. Tryck Enter när du är klar." },
+    { id: "select", label: "Flytta", hint: "Klicka på något för att markera och dra det. Figurer och linjer får runda punkter som du drar i för att ändra storleken. Dubbelklicka på text och tal för att ändra." },
+    { id: "pen", label: "Rita", hint: "Rita fritt med pekaren eller fingret." },
+    { id: "text", label: "Text", hint: "Klicka i rutan där du vill skriva. Texten hamnar på rutnätet. Tryck Enter när du är klar." },
     { id: "erase", label: "Sudd", hint: "Dra över det du vill ta bort." },
-    { id: "line", label: "Linje", hint: "Dra för att rita en rak linje." },
-    { id: "arrow", label: "Pil", hint: "Dra för att rita en pil." }
+    { id: "line", label: "Linje", hint: "Dra för att rita en rak linje. Den fastnar på rutnätets hörn." },
+    { id: "arrow", label: "Pil", hint: "Dra för att rita en pil. Den fastnar på rutnätets hörn." }
   ];
+
+  function cells(n) {
+    const v = Math.round(n / CELL * 10) / 10;
+    return String(v).replace(".", ",");
+  }
 
   function create(options) {
     options = options || {};
     const initial = parse(options.value);
     let items = initial.items;
-    let grid = initial.g;
+    let snapOn = Boolean(initial.sn);
     let tool = "select";
     let color = 0;
     let width = 3;
@@ -238,9 +258,13 @@ window.GaussicaCanvas = (function () {
     const bgHolder = s("g", {}, svg);
     const layer = s("g", {}, svg);
     stage.appendChild(svg);
+    const foot = el("div", "cv-foot");
     const hint = el("p", "cv-hint");
     hint.setAttribute("aria-live", "polite");
-    root.append(toolbar, bits, stage, hint);
+    const selbar = el("div", "cv-selbar");
+    selbar.hidden = true;
+    foot.append(hint, selbar);
+    root.append(toolbar, bits, stage, foot);
 
     function button(label, className, onClick) {
       const b = el("button", "cv-btn" + (className ? " " + className : ""), label);
@@ -250,7 +274,7 @@ window.GaussicaCanvas = (function () {
     }
 
     // --- model ---
-    function serialize() { return JSON.stringify({ v: 1, g: grid, items: items }); }
+    function serialize() { return JSON.stringify({ v: 1, g: 1, sn: snapOn ? 1 : 0, items: items }); }
 
     function emit(json) {
       if (options.onChange) options.onChange(items.length ? json : "");
@@ -258,10 +282,13 @@ window.GaussicaCanvas = (function () {
 
     function say(text) { hint.textContent = text; }
 
+    // Snap a coordinate to the squares (or just round it when snapping is off).
+    function snapV(v) { return snapOn ? Math.round(v / CELL) * CELL : Math.round(v); }
+
     function restore(snapshot) {
       const d = parse(snapshot);
       items = d.items;
-      grid = d.g;
+      snapOn = Boolean(d.sn);
       selected = -1;
       render();
       syncUi();
@@ -285,29 +312,67 @@ window.GaussicaCanvas = (function () {
 
     // --- rendering ---
     function itemSize(it) {
-      if (it.t === "chip") return [chipWidth(it), 44];
-      if (it.t === "shape") return SHAPE_SIZES[it.k] || [100, 86];
+      if (it.t === "chip") return [chipWidth(it), 40];
+      if (it.t === "shape") return shapeSize(it);
       return SIZES[it.t] || [40, 40];
     }
 
-    function drawBackground() {
-      bgHolder.replaceChildren();
-      background(bgHolder, grid);
+    // Round handles for changing the size of a shape or the end of a line.
+    function handleSpecs(it) {
+      if (it.t === "line") return [{ mode: "line", x: it.dx || 0, y: it.dy || 0 }];
+      if (it.t !== "shape") return [];
+      const size = shapeSize(it);
+      const w = size[0], h = size[1];
+      if (it.k === "kvadrat" || it.k === "cirkel") return [{ mode: "wh", x: w, y: h }];
+      return [{ mode: "w", x: w, y: h / 2 }, { mode: "h", x: w / 2, y: h }, { mode: "wh", x: w, y: h }];
+    }
+
+    function decorate(g, i) {
+      if (i !== selected) return;
+      const b = g.getBBox();   // measured after insertion: a detached group has no box
+      s("rect", { x: b.x - 6, y: b.y - 6, width: b.width + 12, height: b.height + 12, rx: 8, "class": "cv-sel" }, g);
+      if (tool !== "select") return;
+      handleSpecs(items[i]).forEach(function (h) {
+        const hg = s("g", { "class": "cv-handle", "data-mode": h.mode, transform: "translate(" + h.x + " " + h.y + ")" }, g);
+        s("circle", { r: 20, fill: "transparent" }, hg);
+        s("circle", { r: 8, "class": "cv-handle-dot" }, hg);
+      });
+    }
+
+    function buildNode(i) {
+      const g = drawItem(items[i], true);
+      if (g) g.setAttribute("data-i", String(i));
+      return g;
+    }
+
+    // Redraws one item in place (used while dragging, so the rest of the drawing is left alone).
+    function refreshNode(i) {
+      const old = layer.querySelector('[data-i="' + i + '"]');
+      const g = buildNode(i);
+      if (!g) return;
+      if (old) layer.replaceChild(g, old); else layer.appendChild(g);
+      decorate(g, i);
     }
 
     function render() {
-      drawBackground();
+      bgHolder.replaceChildren();
+      background(bgHolder);
       layer.replaceChildren();
       items.forEach(function (it, i) {
-        const g = drawItem(it, true);
+        const g = buildNode(i);
         if (!g) return;
-        g.setAttribute("data-i", String(i));
         layer.appendChild(g);
-        if (i === selected) {   // measured after insertion: a detached group has no box
-          const b = g.getBBox();
-          s("rect", { x: b.x - 6, y: b.y - 6, width: b.width + 12, height: b.height + 12, rx: 8, "class": "cv-sel" }, g);
-        }
+        decorate(g, i);
       });
+      syncSelection();
+    }
+
+    function syncSelection() {
+      const it = selected >= 0 ? items[selected] : null;
+      selbar.hidden = !it || tool !== "select";
+      if (!it) return;
+      const isText = it.t === "t";
+      Array.prototype.forEach.call(selbar.querySelectorAll("[data-text]"), function (b) { b.hidden = !isText; });
     }
 
     function syncUi() {
@@ -316,12 +381,13 @@ window.GaussicaCanvas = (function () {
       Array.prototype.forEach.call(toolbar.querySelectorAll("[data-color]"), function (b) { b.setAttribute("aria-pressed", String(Number(b.dataset.color) === color)); });
       const thick = toolbar.querySelector("[data-act=width]");
       if (thick) { thick.textContent = width > 3 ? "Tjock penna" : "Tunn penna"; }
-      const gridBtn = toolbar.querySelector("[data-act=grid]");
-      if (gridBtn) gridBtn.setAttribute("aria-pressed", String(Boolean(grid)));
+      const snapBtn = toolbar.querySelector("[data-act=snap]");
+      if (snapBtn) snapBtn.setAttribute("aria-pressed", String(snapOn));
       toolbar.querySelector("[data-act=undo]").disabled = hIdx <= 0;
       toolbar.querySelector("[data-act=redo]").disabled = hIdx >= history.length - 1;
       toolbar.querySelector("[data-act=clear]").disabled = !items.length;
       stage.dataset.tool = tool.indexOf("place:") === 0 ? "place" : tool;
+      syncSelection();
     }
 
     function setTool(id) {
@@ -332,7 +398,10 @@ window.GaussicaCanvas = (function () {
         say(t ? t.hint : "");
       } else {
         const p = PLACE.find(function (x) { return "place:" + x.id === id; });
-        say("Klicka i rutan för att lägga ut «" + (p ? p.label : "") + "». Byt till Flytta för att flytta den.");
+        const isShape = p && p.make().t === "shape";
+        say(isShape
+          ? "Dra i rutan för att rita «" + p.label.toLowerCase() + "» så stor du vill, eller klicka för en vanlig storlek. Sedan kan du ändra storleken med de runda punkterna."
+          : "Klicka i rutan för att lägga ut «" + (p ? p.label : "") + "». Byt till Flytta för att flytta den.");
       }
       if (id !== "select" && selected >= 0) { selected = -1; render(); }
       syncUi();
@@ -348,6 +417,11 @@ window.GaussicaCanvas = (function () {
       const hit = document.elementFromPoint(e.clientX, e.clientY);
       const g = hit && hit.closest ? hit.closest("[data-i]") : null;
       return g && layer.contains(g) ? Number(g.getAttribute("data-i")) : -1;
+    }
+
+    function clampPos(it, x, y) {
+      const size = itemSize(it);
+      return [Math.max(-size[0] + 30, Math.min(W - 30, x)), Math.max(-size[1] + 30, Math.min(H - 30, y))];
     }
 
     // --- inline editing (text, number tiles, number-line range) ---
@@ -411,6 +485,26 @@ window.GaussicaCanvas = (function () {
     // --- pointer handling ---
     let drag = null;
 
+    function sizeText(it) {
+      if (it.t === "line") return "Längd " + cells(Math.hypot(it.dx || 0, it.dy || 0)) + " rutor";
+      const size = shapeSize(it);
+      if (it.k === "kvadrat") return "Sida " + cells(size[0]) + " rutor";
+      if (it.k === "cirkel") return "Diameter " + cells(size[0]) + " rutor";
+      if (it.k === "triangel") return "Bas " + cells(size[0]) + " rutor, höjd " + cells(size[1]) + " rutor";
+      return "Bredd " + cells(size[0]) + " rutor, höjd " + cells(size[1]) + " rutor";
+    }
+
+    // Sets a shape's box from two corners. Squares and circles stay square.
+    function fitShape(it, ax, ay, bx, by) {
+      let w = Math.max(CELL, Math.abs(bx - ax)), h = Math.max(CELL, Math.abs(by - ay));
+      if (it.k === "kvadrat" || it.k === "cirkel") { w = h = Math.max(w, h); }
+      let x = bx < ax ? ax - w : ax, y = by < ay ? ay - h : ay;
+      x = Math.max(0, Math.min(W - w, x));
+      y = Math.max(0, Math.min(H - h, y));
+      if (it.k === "kvadrat" || it.k === "cirkel") { const m = Math.min(w, W - x, H - y); w = h = Math.max(CELL, m); }
+      it.x = x; it.y = y; it.w = w; it.h = h;
+    }
+
     svg.addEventListener("pointerdown", function (e) {
       if (e.button !== undefined && e.button !== 0) return;
       if (editing) { finishEdit(true); }
@@ -430,7 +524,7 @@ window.GaussicaCanvas = (function () {
         svg.setPointerCapture(e.pointerId);
         eraseAt(e);
       } else if (tool === "line" || tool === "arrow") {
-        const it = { t: "line", c: color, x: Math.round(p.x), y: Math.round(p.y), dx: 0, dy: 0, h: tool === "arrow" ? 1 : 0 };
+        const it = { t: "line", c: color, x: snapV(p.x), y: snapV(p.y), dx: 0, dy: 0, h: tool === "arrow" ? 1 : 0 };
         items.push(it);
         render();
         drag = { kind: "line", item: it, g: layer.lastChild };
@@ -438,19 +532,34 @@ window.GaussicaCanvas = (function () {
       } else if (tool === "text") {
         const hit = itemAt(e);
         if (hit >= 0 && items[hit].t === "t") { selected = hit; startEdit(items[hit], false); return; }
-        startEdit({ t: "t", c: color, z: 24, x: Math.round(p.x), y: Math.round(p.y + 6), s: "" }, true);
+        // the text sits on the grid line below the click, like writing on squared paper
+        const y = snapOn ? Math.ceil((p.y - 2) / CELL) * CELL : Math.round(p.y + 6);
+        startEdit({ t: "t", c: color, z: 28, lh: 40, x: snapV(p.x), y: Math.max(CELL, y), s: "" }, true);
       } else if (tool.indexOf("place:") === 0) {
         const spec = PLACE.find(function (x) { return "place:" + x.id === tool; });
         const it = Object.assign({ c: color }, spec.make());
+        if (it.t === "shape") {
+          drag = { kind: "shape", item: it, added: false, sx: snapV(p.x), sy: snapV(p.y), cx: p.x, cy: p.y };
+          svg.setPointerCapture(e.pointerId);
+          return;
+        }
         const size = itemSize(it);
-        it.x = Math.round(Math.max(0, Math.min(W - size[0], p.x - size[0] / 2)));
-        it.y = Math.round(Math.max(0, Math.min(H - size[1], p.y - size[1] / 2)));
+        const pos = clampPos(it, snapV(p.x - size[0] / 2), snapV(p.y - size[1] / 2));
+        it.x = Math.max(0, Math.min(W - size[0], pos[0]));
+        it.y = Math.max(0, Math.min(H - size[1], pos[1]));
         if (spec.edit) { startEdit(it, true); return; }
         items.push(it);
         selected = items.length - 1;
         render();
         commit();
       } else {
+        const handle = e.target.closest ? e.target.closest(".cv-handle") : null;
+        if (handle && selected >= 0 && items[selected]) {
+          const it = items[selected];
+          drag = { kind: "resize", item: it, index: selected, mode: handle.getAttribute("data-mode"), changed: false };
+          svg.setPointerCapture(e.pointerId);
+          return;
+        }
         const hit = itemAt(e);
         selected = hit;
         render();
@@ -487,21 +596,53 @@ window.GaussicaCanvas = (function () {
       } else if (drag.kind === "erase") {
         eraseAt(e);
       } else if (drag.kind === "line") {
-        drag.item.dx = Math.round(p.x - drag.item.x);
-        drag.item.dy = Math.round(p.y - drag.item.y);
+        drag.item.dx = snapV(p.x) - drag.item.x;
+        drag.item.dy = snapV(p.y) - drag.item.y;
         const g = drawItem(drag.item, true);
         g.setAttribute("data-i", String(items.indexOf(drag.item)));
         layer.replaceChild(g, drag.g);
         drag.g = g;
+      } else if (drag.kind === "shape") {
+        const ex = snapV(p.x), ey = snapV(p.y);
+        if (!drag.added) {
+          if (Math.abs(p.x - drag.cx) + Math.abs(p.y - drag.cy) < 8) return;   // a click, not a drag
+          drag.added = true;
+          items.push(drag.item);
+          selected = -1;
+          fitShape(drag.item, drag.sx, drag.sy, ex, ey);
+          render();
+        } else {
+          fitShape(drag.item, drag.sx, drag.sy, ex, ey);
+          refreshNode(items.indexOf(drag.item));
+        }
+        say(sizeText(drag.item));
+      } else if (drag.kind === "resize") {
+        const it = drag.item;
+        if (it.t === "line") {
+          it.dx = snapV(p.x) - it.x;
+          it.dy = snapV(p.y) - it.y;
+        } else {
+          const square = it.k === "kvadrat" || it.k === "cirkel";
+          const old = shapeSize(it);
+          let w = old[0], h = old[1];
+          if (drag.mode === "w" || drag.mode === "wh") w = snapV(p.x) - it.x;
+          if (drag.mode === "h" || drag.mode === "wh") h = snapV(p.y) - it.y;
+          if (square) w = h = Math.max(w, h);
+          w = Math.max(CELL, w); h = Math.max(CELL, h);
+          if (square) { w = h = Math.min(w, W - it.x, H - it.y); }
+          else { w = Math.min(w, W - it.x); h = Math.min(h, H - it.y); }
+          it.w = Math.max(CELL, w); it.h = Math.max(CELL, h);
+        }
+        drag.changed = true;
+        refreshNode(drag.index);
+        say(sizeText(it));
       } else if (drag.kind === "move") {
         const dx = p.x - drag.sx, dy = p.y - drag.sy;
         if (!drag.moved && Math.abs(dx) + Math.abs(dy) < 3) return;
         drag.moved = true;
-        const size = itemSize(drag.item);
-        const nx = Math.max(-size[0] + 30, Math.min(W - 30, drag.ox + dx));
-        const ny = Math.max(-size[1] + 30, Math.min(H - 30, drag.oy + dy));
-        drag.item.x = Math.round(nx);
-        drag.item.y = Math.round(ny);
+        const pos = clampPos(drag.item, snapV(drag.ox + dx), snapV(drag.oy + dy));
+        drag.item.x = Math.round(pos[0]);
+        drag.item.y = Math.round(pos[1]);
         drag.g.setAttribute("transform", "translate(" + drag.item.x + " " + drag.item.y + ")");
       }
     });
@@ -520,6 +661,25 @@ window.GaussicaCanvas = (function () {
         if (Math.abs(d.item.dx) + Math.abs(d.item.dy) < 8) items.splice(items.indexOf(d.item), 1);
         render();
         if (items.indexOf(d.item) >= 0) commit();
+      } else if (d.kind === "shape") {
+        if (!d.added) {   // plain click: a shape of the usual size, centred on the click
+          const size = SHAPE_NEW[d.item.k] || [100, 100];
+          d.item.w = size[0]; d.item.h = size[1];
+          d.item.x = Math.max(0, Math.min(W - size[0], snapV(d.cx - size[0] / 2)));
+          d.item.y = Math.max(0, Math.min(H - size[1], snapV(d.cy - size[1] / 2)));
+          items.push(d.item);
+        }
+        selected = items.indexOf(d.item);
+        tool = "select";
+        render();
+        if (commit()) {
+          setTool("select");
+          selected = items.indexOf(d.item);
+          render();
+          say("Dra i de runda punkterna för att ändra storleken. " + sizeText(d.item) + ".");
+        }
+      } else if (d.kind === "resize") {
+        if (d.changed) { commit(); say(sizeText(d.item) + "."); }
       } else if (d.kind === "move") {
         if (d.moved) commit();
       }
@@ -535,14 +695,56 @@ window.GaussicaCanvas = (function () {
       if (it.t === "t" || it.t === "chip" || it.t === "nl") { selected = hit; render(); startEdit(it, false); }
     });
 
+    // --- actions on the selected item ---
+    function removeSelected() {
+      if (selected < 0) return;
+      items.splice(selected, 1);
+      selected = -1;
+      render();
+      commit();
+    }
+
+    function copySelected() {
+      const it = items[selected];
+      if (!it) return;
+      const copy = JSON.parse(JSON.stringify(it));
+      const pos = clampPos(copy, (copy.x || 0) + CELL * 2, (copy.y || 0) + CELL * 2);
+      copy.x = pos[0]; copy.y = pos[1];
+      items.push(copy);
+      selected = items.length - 1;
+      render();
+      commit();
+    }
+
+    function textSize(step) {
+      const it = items[selected];
+      if (!it || it.t !== "t") return;
+      const at = TEXT_SIZES.indexOf(it.z);   // older text (size 24) counts as the middle size
+      const next = TEXT_SIZES[Math.max(0, Math.min(TEXT_SIZES.length - 1, (at < 0 ? 1 : at) + step))];
+      it.z = next;
+      it.lh = next > 32 ? 60 : 40;
+      render();
+      commit();
+    }
+
+    function nudge(dx, dy) {
+      const it = items[selected];
+      if (!it) return;
+      const pos = clampPos(it, (it.x || 0) + dx, (it.y || 0) + dy);
+      it.x = pos[0]; it.y = pos[1];
+      render();
+      commit();
+    }
+
     stage.addEventListener("keydown", function (e) {
       if (editing) return;
+      const step = snapOn ? CELL : 2;
       if ((e.key === "Delete" || e.key === "Backspace") && selected >= 0) {
         e.preventDefault();
-        items.splice(selected, 1);
-        selected = -1;
-        render();
-        commit();
+        removeSelected();
+      } else if (selected >= 0 && tool === "select" && e.key.indexOf("Arrow") === 0) {
+        e.preventDefault();
+        nudge(e.key === "ArrowLeft" ? -step : e.key === "ArrowRight" ? step : 0, e.key === "ArrowUp" ? -step : e.key === "ArrowDown" ? step : 0);
       } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
         e.preventDefault();
         if (e.shiftKey) redo(); else undo();
@@ -592,8 +794,13 @@ window.GaussicaCanvas = (function () {
     toolbar.appendChild(swatches);
     const widthBtn = button("Tunn penna", "", function () { width = width > 3 ? 3 : 7; syncUi(); });
     widthBtn.dataset.act = "width";
-    const gridBtn = button("Rutnät", "", function () { grid = grid ? 0 : 1; render(); commit(); });
-    gridBtn.dataset.act = "grid";
+    const snapBtn = button("Fäst i rutor", "", function () {
+      snapOn = !snapOn;
+      say(snapOn ? "Text, tal och figurer fastnar på rutnätet." : "Du kan nu placera saker precis var du vill.");
+      commit();
+    });
+    snapBtn.title = "När det är på fastnar text, tal, figurer och linjer på rutnätet";
+    snapBtn.dataset.act = "snap";
     const undoBtn = button("Ångra", "", undo);
     undoBtn.dataset.act = "undo";
     const redoBtn = button("Gör om", "", redo);
@@ -607,7 +814,7 @@ window.GaussicaCanvas = (function () {
       commit();
     });
     clearBtn.dataset.act = "clear";
-    toolbar.append(widthBtn, gridBtn, undoBtn, redoBtn, clearBtn);
+    toolbar.append(widthBtn, snapBtn, undoBtn, redoBtn, clearBtn);
 
     bits.appendChild(el("span", "cv-bits-label", "Lägg till:"));
     PLACE.forEach(function (p) {
@@ -615,6 +822,17 @@ window.GaussicaCanvas = (function () {
       b.dataset.place = p.id;
       bits.appendChild(b);
     });
+
+    // actions for the marked item (shown under the paper, so the paper does not jump around)
+    const smaller = button("A−", "cv-btn-small", function () { textSize(-1); });
+    smaller.dataset.text = "1";
+    smaller.title = "Mindre text";
+    const larger = button("A+", "cv-btn-small", function () { textSize(1); });
+    larger.dataset.text = "1";
+    larger.title = "Större text";
+    const copyBtn = button("Kopiera", "cv-btn-small", copySelected);
+    const delBtn = button("Ta bort", "cv-btn-small cv-btn-danger", removeSelected);
+    selbar.append(smaller, larger, copyBtn, delBtn);
 
     history.push(serialize());
     hIdx = 0;

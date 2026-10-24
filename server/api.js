@@ -36,14 +36,14 @@ function createApi(db, options) {
 
   const q = {
     userByName: db.prepare("SELECT * FROM users WHERE username = ?"),
-    userById: db.prepare("SELECT u.*, c.name AS class_name FROM users u LEFT JOIN classes c ON c.id = u.class_id WHERE u.id = ?"),
+    userById: db.prepare("SELECT u.*, c.name AS class_name, COALESCE(cs.rewards, 1) AS rewards FROM users u LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE u.id = ?"),
     insertUser: db.prepare("INSERT INTO users (username, display_name, role, password_hash, class_id, created_at) VALUES (?, ?, ?, ?, ?, ?)"),
     classByCode: db.prepare("SELECT * FROM classes WHERE code = ?"),
     insertClass: db.prepare("INSERT INTO classes (name, code, teacher_id, created_at) VALUES (?, ?, ?, ?)"),
     insertSession: db.prepare("INSERT INTO sessions (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)"),
     sessionUser: db.prepare(
-      "SELECT u.*, c.name AS class_name FROM sessions s JOIN users u ON u.id = s.user_id " +
-      "LEFT JOIN classes c ON c.id = u.class_id WHERE s.token_hash = ? AND s.expires_at > ?"),
+      "SELECT u.*, c.name AS class_name, COALESCE(cs.rewards, 1) AS rewards FROM sessions s JOIN users u ON u.id = s.user_id " +
+      "LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE s.token_hash = ? AND s.expires_at > ?"),
     deleteSession: db.prepare("DELETE FROM sessions WHERE token_hash = ?"),
     deleteUserSessions: db.prepare("DELETE FROM sessions WHERE user_id = ?"),
     deleteOtherSessions: db.prepare("DELETE FROM sessions WHERE user_id = ? AND token_hash != ?"),
@@ -60,8 +60,10 @@ function createApi(db, options) {
       "INSERT INTO lessons (id, data, updated_at, updated_by) VALUES (?, ?, ?, ?) " +
       "ON CONFLICT (id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at, updated_by = excluded.updated_by"),
     teacherClasses: db.prepare(
-      "SELECT c.id, c.name, c.code, c.created_at, (SELECT COUNT(*) FROM users u WHERE u.class_id = c.id) AS students " +
+      "SELECT c.id, c.name, c.code, c.created_at, (SELECT COUNT(*) FROM users u WHERE u.class_id = c.id) AS students, " +
+      "COALESCE((SELECT rewards FROM class_settings WHERE class_id = c.id), 1) AS rewards " +
       "FROM classes c WHERE c.teacher_id = ? ORDER BY c.name"),
+    setRewards: db.prepare("INSERT INTO class_settings (class_id, rewards) VALUES (?, ?) ON CONFLICT (class_id) DO UPDATE SET rewards = excluded.rewards"),
     teacherStudents: db.prepare(
       "SELECT u.id, u.username, u.display_name, u.created_at, u.class_id, c.name AS class_name FROM users u " +
       "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? AND u.role = 'student' ORDER BY u.display_name"),
@@ -69,12 +71,12 @@ function createApi(db, options) {
       "SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'"),
     deleteUser: db.prepare("DELETE FROM users WHERE id = ?"),
     classOfTeacher: db.prepare("SELECT * FROM classes WHERE id = ? AND teacher_id = ?"),
-    insertAssignment: db.prepare("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"),
+    insertAssignment: db.prepare("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at, kind) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
     assignmentsForStudent: db.prepare(
-      "SELECT a.id, a.lesson_id, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
+      "SELECT a.id, a.lesson_id, a.kind, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
       "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id"),
     assignmentsForTeacher: db.prepare(
-      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
+      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
       "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
       "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id"),
     archiveAssignment: db.prepare("UPDATE assignments SET archived = 1 WHERE id = ? AND teacher_id = ?"),
@@ -168,7 +170,8 @@ function createApi(db, options) {
   function publicUser(u) {
     return {
       id: u.id, username: u.username, name: u.display_name, role: u.role,
-      classId: u.class_id || null, className: u.class_name || null, color: COLORS[u.id % COLORS.length]
+      classId: u.class_id || null, className: u.class_name || null, color: COLORS[u.id % COLORS.length],
+      rewards: u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards)
     };
   }
 
@@ -269,7 +272,7 @@ function createApi(db, options) {
 
   function publicAssignment(r) {
     return {
-      id: r.id, lessonId: r.lesson_id, note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
+      id: r.id, lessonId: r.lesson_id, kind: r.kind || "lesson", note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
       classId: r.class_id || null, className: r.class_name || null, studentId: r.student_id || null, studentName: r.student_name || null
     };
   }
@@ -370,7 +373,16 @@ function createApi(db, options) {
   // ----- teacher -----
   function listClasses(req, res) {
     const s = requireTeacher(req);
-    send(res, 200, { classes: q.teacherClasses.all(s.user.id) });
+    send(res, 200, { classes: q.teacherClasses.all(s.user.id).map(function (c) { return Object.assign({}, c, { rewards: Boolean(c.rewards) }); }) });
+  }
+
+  async function updateClass(req, res, id) {
+    const s = requireTeacher(req);
+    const cls = q.classOfTeacher.get(Number(id), s.user.id);
+    if (!cls) throw new ApiError(404, "Klassen finns inte.");
+    const b = await readJson(req, 2000);
+    if (typeof b.rewards === "boolean") q.setRewards.run(cls.id, b.rewards ? 1 : 0);
+    send(res, 200, { ok: true });
   }
 
   async function createClass(req, res) {
@@ -425,7 +437,8 @@ function createApi(db, options) {
     const dueDate = str(b.dueDate, 10);
     if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw new ApiError(400, "Ogiltigt datum.");
     const note = str(b.note, 400).trim();
-    const id = Number(q.insertAssignment.run(cls.id, studentId, s.user.id, lessonId, note, dueDate || null, nowIso()).lastInsertRowid);
+    const kind = b.kind === "practice" ? "practice" : "lesson";
+    const id = Number(q.insertAssignment.run(cls.id, studentId, s.user.id, lessonId, note, dueDate || null, nowIso(), kind).lastInsertRowid);
     send(res, 201, { id: id });
   }
 
@@ -510,6 +523,7 @@ function createApi(db, options) {
       if ((m = /^\/api\/lessons\/([^/]+)$/.exec(p)) && method === "PUT") return await putLesson(req, res, decodeURIComponent(m[1]));
       if (method === "GET" && p === "/api/teacher/classes") return listClasses(req, res);
       if (method === "POST" && p === "/api/teacher/classes") return await createClass(req, res);
+      if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "PUT") return await updateClass(req, res, m[1]);
       if (method === "GET" && p === "/api/teacher/students") return teacherStudents(req, res);
       if (method === "GET" && p === "/api/teacher/assignments") return listAssignments(req, res);
       if (method === "POST" && p === "/api/teacher/assignments") return await createAssignment(req, res);

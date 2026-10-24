@@ -103,10 +103,17 @@ window.GaussicaLocal = (function () {
     return c ? c.name : null;
   }
 
+  // Stars and badges are on unless the teacher has switched them off for the class.
+  function classRewards(classId) {
+    const c = db.classes.find(function (x) { return x.id === classId; });
+    return !c || c.rewards !== false;
+  }
+
   function publicUser(u) {
     return {
       id: u.id, username: u.username, name: u.displayName, role: u.role,
-      classId: u.classId || null, className: className(u), color: COLORS[u.id % COLORS.length]
+      classId: u.classId || null, className: className(u), color: COLORS[u.id % COLORS.length],
+      rewards: classRewards(u.classId)
     };
   }
 
@@ -163,7 +170,7 @@ window.GaussicaLocal = (function () {
     const cls = db.classes.find(function (c) { return c.id === a.classId; });
     const student = a.studentId ? db.users.find(function (u) { return u.id === a.studentId; }) : null;
     return {
-      id: a.id, lessonId: a.lessonId, note: a.note, dueDate: a.dueDate, createdAt: a.createdAt, teacher: teacher ? teacher.displayName : null,
+      id: a.id, lessonId: a.lessonId, kind: a.kind || "lesson", note: a.note, dueDate: a.dueDate, createdAt: a.createdAt, teacher: teacher ? teacher.displayName : null,
       classId: extra ? a.classId : null, className: extra && cls ? cls.name : null, studentId: extra ? a.studentId : null, studentName: extra && student ? student.displayName : null
     };
   }
@@ -304,7 +311,7 @@ window.GaussicaLocal = (function () {
     const dueDate = str(b.dueDate, 10);
     if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw ApiError(400, "Ogiltigt datum.");
     const a = { id: db.next.assignment++, classId: cls.id, studentId: studentId, teacherId: u.id, lessonId: lessonId,
-      note: str(b.note, 400).trim(), dueDate: dueDate || null, createdAt: nowIso(), archived: false };
+      note: str(b.note, 400).trim(), dueDate: dueDate || null, createdAt: nowIso(), archived: false, kind: b.kind === "practice" ? "practice" : "lesson" };
     db.assignments.push(a);
     save();
     return { id: a.id };
@@ -354,9 +361,17 @@ window.GaussicaLocal = (function () {
     const u = requireTeacher();
     return {
       classes: db.classes.filter(function (c) { return c.teacherId === u.id; }).map(function (c) {
-        return { id: c.id, name: c.name, code: c.code, created_at: c.createdAt, students: db.users.filter(function (s) { return s.classId === c.id; }).length };
+        return { id: c.id, name: c.name, code: c.code, created_at: c.createdAt, students: db.users.filter(function (s) { return s.classId === c.id; }).length, rewards: c.rewards !== false };
       }).sort(function (a, b) { return a.name.localeCompare(b.name, "sv"); })
     };
+  }
+
+  function updateClass(id, b) {
+    const u = requireTeacher();
+    const c = db.classes.find(function (x) { return x.id === Number(id) && x.teacherId === u.id; });
+    if (!c) throw ApiError(404, "Klassen finns inte.");
+    if (typeof b.rewards === "boolean") { c.rewards = b.rewards; save(); }
+    return { ok: true };
   }
 
   function createClass(b) {
@@ -441,6 +456,7 @@ window.GaussicaLocal = (function () {
     if ((m = /^\/api\/lessons\/([^/]+)$/.exec(path)) && method === "PUT") return putLesson(decodeURIComponent(m[1]), body);
     if (method === "GET" && path === "/api/teacher/classes") return listClasses();
     if (method === "POST" && path === "/api/teacher/classes") return createClass(body);
+    if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(path)) && method === "PUT") return updateClass(m[1], body);
     if (method === "GET" && path === "/api/teacher/students") return teacherStudents();
     if (method === "GET" && path === "/api/teacher/assignments") return listAssignments();
     if (method === "POST" && path === "/api/teacher/assignments") return createAssignment(body);

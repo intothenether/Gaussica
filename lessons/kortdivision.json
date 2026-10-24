@@ -1,0 +1,313 @@
+{
+  "id": "kortdivision",
+  "area": "tal",
+  "title": "Kortdivision",
+  "level": "Dela stora tal på papper · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "division-med-rest",
+    "platsvarde"
+  ],
+  "summary": "Med kortdivision delar du ett stort tal med ett litet, en plats i taget. Det som blir över förs vidare.",
+  "explanationTitle": "Dela en plats i taget",
+  "explanation": "Kortdivision är ett sätt att dela ett stort tal med ett litet tal, siffra för siffra. Du delar först tiotalen och sedan entalen. Det som blir över förs vidare till nästa plats. Exempel: 84 delat med 4. 8 tiotal delat med 4 är 2 tiotal. 4 ental delat med 4 är 1 ental. Svaret är 21. Exempel där något förs vidare: 72 delat med 3. 7 tiotal delat med 3 är 2 tiotal, och 1 tiotal blir över. Det är 10 ental, och tillsammans med 2 ental blir det 12 ental. 12 delat med 3 är 4. Svaret är 24. Kontrollera alltid med multiplikation: 3 · 24 = 72.",
+  "visual": {
+    "type": "tabell",
+    "title": "72 delat med 3 med kortdivision",
+    "headers": [
+      "Steg",
+      "Tiotal",
+      "Ental"
+    ],
+    "rows": [
+      [
+        "Talet 72",
+        "7 tiotal",
+        "2 ental"
+      ],
+      [
+        "Dela 7 med 3",
+        "2 tiotal, 1 blir över",
+        "1 tiotal är 10 ental"
+      ],
+      [
+        "Ental nu",
+        "",
+        "10 + 2 = 12 ental"
+      ],
+      [
+        "Dela 12 med 3",
+        "",
+        "4 ental"
+      ],
+      [
+        "Svar",
+        "2 tiotal",
+        "4 ental, alltså 24"
+      ]
+    ]
+  },
+  "rule": "Dela en plats i taget. Det som blir över förs vidare som tio gånger så många.",
+  "ruleLabel": "KORTDIVISION",
+  "example": "96 delat med 4: 9 tiotal delat med 4 är 2 tiotal, och 1 blir över. 1 tiotal och 6 ental är 16 ental. 16 delat med 4 är 4. Svar: 24.",
+  "practice": [
+    {
+      "id": "tvasiffrigt",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "q": [
+          11,
+          24
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q"
+        }
+      ],
+      "prompt": "Räkna ut {n}/{d} med kortdivision.",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {d} · {q} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=floor(q/10)",
+            "=floor(q/10)*10"
+          ],
+          "message": "Du har delat tiotalen men inte entalen. Dela också entalen, tillsammans med det som blev över från tiotalen."
+        }
+      ]
+    },
+    {
+      "id": "tresiffrigt",
+      "for": [
+        "word-1",
+        "word-2"
+      ],
+      "vars": {
+        "d": [
+          2,
+          6
+        ],
+        "q": [
+          30,
+          150
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q"
+        }
+      ],
+      "prompt": "Räkna ut {n}/{d} med kortdivision.",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {d} · {q} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=q+1",
+            "=q-1"
+          ],
+          "message": "Nästan! Kontrollera med multiplikation: {d} gånger ditt svar ska bli {n}."
+        }
+      ]
+    },
+    {
+      "id": "nolla",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ],
+        "d": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "q",
+          "expr": "100*a+c"
+        },
+        {
+          "name": "n",
+          "expr": "d*(100*a+c)"
+        }
+      ],
+      "prompt": "Räkna ut {n}/{d} med kortdivision.",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! Tiotalen ger 0 tiotal i svaret, så det blir {q}. Kontroll: {d} · {q} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=10*a+c"
+          ],
+          "message": "Du har glömt en nolla. Det blir 0 tiotal i svaret, så siffrorna ska ha en nolla emellan."
+        }
+      ]
+    },
+    {
+      "id": "lador",
+      "for": [
+        "word-0",
+        "word-1",
+        "word-2"
+      ],
+      "pick": {
+        "sak": [
+          "äpplen",
+          "kulor",
+          "kronor"
+        ]
+      },
+      "vars": {
+        "d": [
+          3,
+          8
+        ],
+        "q": [
+          12,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q"
+        }
+      ],
+      "prompt": "{n} {$sak} delas lika i {d} lådor. Hur många {$sak} hamnar i varje låda?",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {n}/{d} = {q}. Kontroll: {d} · {q} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n+d"
+          ],
+          "message": "Du har lagt ihop talen. Här ska du dela {n} lika i {d} lådor."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 84/4 med kortdivision.",
+    "answer": [
+      "21"
+    ],
+    "correct": "Rätt! 8 tiotal delat med 4 är 2 tiotal och 4 ental delat med 4 är 1 ental. Svar: 21.",
+    "feedback": [
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "Du har delat tiotalen men inte entalen. 8 tiotal delat med 4 är 2 tiotal, och 4 ental delat med 4 är 1 ental."
+      },
+      {
+        "answers": [
+          "20"
+        ],
+        "message": "Du har delat 8 tiotal med 4 men glömt entalen. 4 ental delat med 4 är 1 ental."
+      },
+      {
+        "answers": [
+          "88"
+        ],
+        "message": "88 är 84 + 4. Här ska du dela."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "96 äpplen delas lika i 4 lådor. Hur många äpplen hamnar i varje låda?",
+      "answer": [
+        "24"
+      ],
+      "correct": "Rätt! 9 tiotal delat med 4 är 2 tiotal och 1 blir över. 16 ental delat med 4 är 4. Svar: 24.",
+      "feedback": [
+        {
+          "answers": [
+            "22",
+            "23",
+            "25"
+          ],
+          "message": "Nästan! Kontrollera med multiplikation: 4 gånger ditt svar ska bli 96."
+        },
+        {
+          "answers": [
+            "100"
+          ],
+          "message": "100 är 96 + 4. Här ska du dela 96 lika i 4 lådor."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett rep är 135 meter långt. Det klipps i 5 lika långa bitar. Hur många meter är varje bit?",
+      "answer": [
+        "27"
+      ],
+      "correct": "Rätt! 13 tiotal delat med 5 är 2 tiotal och 3 blir över. 35 ental delat med 5 är 7. Svar: 27.",
+      "feedback": [
+        {
+          "answers": [
+            "130"
+          ],
+          "message": "130 är 135 − 5. Här ska du dela 135 i 5 lika bitar."
+        },
+        {
+          "answers": [
+            "25",
+            "26",
+            "28"
+          ],
+          "message": "Nästan! Kontrollera med multiplikation: 5 gånger ditt svar ska bli 135."
+        }
+      ]
+    },
+    {
+      "prompt": "Sex vänner delar lika på 156 kronor. Hur många kronor får var och en?",
+      "answer": [
+        "26"
+      ],
+      "correct": "Rätt! 15 tiotal delat med 6 är 2 tiotal och 3 blir över. 36 ental delat med 6 är 6. Svar: 26.",
+      "feedback": [
+        {
+          "answers": [
+            "25",
+            "27"
+          ],
+          "message": "Nästan! Kontrollera med multiplikation: 6 gånger ditt svar ska bli 156."
+        },
+        {
+          "answers": [
+            "150"
+          ],
+          "message": "150 är 156 − 6. Här ska du dela 156 lika på 6 vänner."
+        }
+      ]
+    }
+  ]
+}

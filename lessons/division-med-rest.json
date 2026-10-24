@@ -1,0 +1,346 @@
+{
+  "id": "division-med-rest",
+  "area": "tal",
+  "title": "Division med rest",
+  "level": "När det inte går jämnt ut · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": [
+    "division",
+    "multiplikationstabellen"
+  ],
+  "summary": "Ibland går det inte att dela lika utan att något blir över. Det som blir över kallas rest.",
+  "explanationTitle": "Det som blir över kallas rest",
+  "explanation": "Om du delar 17 kakor lika på 5 barn får varje barn 3 kakor, och 2 kakor blir över. Vi skriver: 17 delat med 5 är 3 rest 2. Resten är alltid mindre än talet du delar med. Annars kunde du ha delat ut en gång till. Så här hittar du svaret: leta upp den närmaste tabellen som inte går över talet. 5 · 3 = 15 är närmast under 17, och 17 − 15 = 2. Kontrollera med multiplikation: 5 · 3 + 2 = 17.",
+  "visual": {
+    "type": "tabell",
+    "title": "Hitta närmaste tabell under talet",
+    "headers": [
+      "Dela",
+      "Närmaste tabell",
+      "Svar"
+    ],
+    "rows": [
+      [
+        "17 lika på 5",
+        "5 · 3 = 15",
+        "3 rest 2"
+      ],
+      [
+        "23 lika på 4",
+        "4 · 5 = 20",
+        "5 rest 3"
+      ],
+      [
+        "30 lika på 6",
+        "6 · 5 = 30",
+        "5, ingen rest"
+      ]
+    ]
+  },
+  "rule": "Resten är alltid mindre än talet du delar med",
+  "ruleLabel": "RESTEN",
+  "example": "23 delat med 4: 4 · 5 = 20 och 23 − 20 = 3, alltså 5 rest 3. Kontroll: 4 · 5 + 3 = 23.",
+  "practice": [
+    {
+      "id": "med-rest",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "q": [
+          2,
+          12
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-r",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q+r"
+        }
+      ],
+      "prompt": "Räkna ut {n} delat med {d}. Skriv svaret med rest, till exempel 4 rest 1.",
+      "answer": [
+        "{q} rest {r}",
+        "{q} r {r}"
+      ],
+      "correct": "Rätt! {d} · {q} = {d*q} och {n} − {d*q} = {r}. Kontroll: {d} · {q} + {r} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=q"
+          ],
+          "message": "Du har bara skrivit hur många gånger {d} går i {n}. Glöm inte att skriva resten."
+        },
+        {
+          "answers": [
+            "=r"
+          ],
+          "message": "{r} är resten. Skriv också hur många hela gånger {d} går i {n}."
+        }
+      ]
+    },
+    {
+      "id": "bara-resten",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "q": [
+          2,
+          12
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-r",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q+r"
+        }
+      ],
+      "prompt": "Vad blir resten när {n} delas med {d}?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {d} · {q} = {d*q} och {n} − {d*q} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=q"
+          ],
+          "message": "{q} är hur många gånger {d} går i {n}. Resten är det som blir över: {n} − {d*q}."
+        }
+      ]
+    },
+    {
+      "id": "dela-ut",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "sak": [
+          "bullar",
+          "kakor",
+          "äpplen",
+          "klistermärken"
+        ]
+      },
+      "vars": {
+        "d": [
+          3,
+          9
+        ],
+        "q": [
+          2,
+          8
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-r",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q+r"
+        }
+      ],
+      "prompt": "{n} {$sak} delas lika på {d} barn. Hur många {$sak} får varje barn, och hur många blir över? Skriv till exempel 4 rest 1.",
+      "answer": [
+        "{q} rest {r}",
+        "{q} r {r}"
+      ],
+      "correct": "Rätt! Varje barn får {q} och {r} blir över. Kontroll: {d} · {q} + {r} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=q"
+          ],
+          "message": "Varje barn får {q}, men något blir över. Hur många är det?"
+        },
+        {
+          "answers": [
+            "=r"
+          ],
+          "message": "{r} är det som blir över. Hur många får varje barn?"
+        }
+      ]
+    },
+    {
+      "id": "bussar",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "c": [
+          3,
+          9
+        ],
+        "k": [
+          2,
+          8
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "c-r",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "c*k+r"
+        }
+      ],
+      "prompt": "En buss rymmer {c} personer. {n} personer ska åka. Hur många bussar behövs?",
+      "answer": [
+        "=k+1"
+      ],
+      "correct": "Rätt! {k} bussar rymmer {c*k} personer, och de {r} som blir över behöver en buss till. Det blir {k+1} bussar.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} bussar rymmer bara {c*k} personer. De {r} som blir över behöver också en buss."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Dela 17 lika på 5. Hur många hela får varje, och hur många blir över? Skriv svaret som till exempel 4 rest 1.",
+    "answer": [
+      "3 rest 2",
+      "3 r 2"
+    ],
+    "correct": "Rätt! 5 · 3 = 15 och 17 − 15 = 2. Alltså 3 rest 2. Kontroll: 5 · 3 + 2 = 17.",
+    "feedback": [
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Det stämmer att varje får 3, men något blir över. Hur många är det?"
+      },
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "2 är resten. Hur många hela får varje?"
+      },
+      {
+        "answers": [
+          "3,4",
+          "3.4"
+        ],
+        "message": "Här ska du svara med rest, inte med decimaler. Skriv till exempel 4 rest 1."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "24 bullar delas lika på 5 barn. Hur många bullar får varje barn, och hur många blir över? Skriv till exempel 4 rest 1.",
+      "answer": [
+        "4 rest 4",
+        "4 r 4"
+      ],
+      "correct": "Rätt! 5 · 4 = 20 och 24 − 20 = 4. Alltså 4 rest 4.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "Varje barn får 4 bullar, men några blir över. Hur många?"
+        },
+        {
+          "answers": [
+            "5 rest 1",
+            "5 r 1"
+          ],
+          "message": "Då skulle det behövas 25 bullar. 5 · 5 = 25 är mer än 24, så varje barn får 4."
+        }
+      ]
+    },
+    {
+      "prompt": "Vad blir resten när 29 delas med 6?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! 6 · 4 = 24 och 29 − 24 = 5.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är hur många gånger 6 går i 29. Resten är det som blir över: 29 − 24."
+        },
+        {
+          "answers": [
+            "4 rest 5",
+            "4 r 5"
+          ],
+          "message": "Det stämmer, men frågan gäller bara resten."
+        }
+      ]
+    },
+    {
+      "prompt": "En bil rymmer 4 personer. 18 personer ska åka. Hur många bilar behövs?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! 4 bilar rymmer 16 personer, och de 2 som blir över behöver en bil till. Det blir 5 bilar.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 bilar rymmer 16 personer, så 2 personer blir över. De behöver också en bil."
+        },
+        {
+          "answers": [
+            "4 rest 2",
+            "4 r 2"
+          ],
+          "message": "Resten betyder att 2 personer inte får plats. De behöver en femte bil."
+        }
+      ]
+    }
+  ]
+}

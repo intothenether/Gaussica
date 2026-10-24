@@ -3,7 +3,7 @@
   "area": "tal",
   "title": "Ordningsföljd för räkneoperationer",
   "level": "Kombinera operationer rätt · ungefär åk 4–6",
-  "grade": 5,
+  "grade": 4,
   "duration": "10 min",
   "prerequisites": ["addition", "subtraktion", "multiplikation", "division"],
   "isParentLesson": true,

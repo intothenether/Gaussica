@@ -218,7 +218,10 @@
       sendAttempt(attempt);
     }
 
-    if (practice) return;
+    if (practice) {
+      if (completed) renderCoach();   // practice counts towards "Öva mer" assignments and badges
+      return;
+    }
     dirtyLessons.add(lessonId);
     scheduleSave(feedbackType ? 100 : 800);
     updateNodeProgress(lessonId);
@@ -275,7 +278,15 @@
       getCourse: function () { return course; },
       getProgress: getLessonProgress,
       openLesson: function (id, step) { window.GaussicaPlayer.open(id, typeof step === "number" ? { step: step } : undefined); },
-      markRead: markFeedbackRead
+      markRead: markFeedbackRead,
+      startPractice: function (id) { window.location.hash = "#practice/" + id; }
+    });
+    window.GaussicaRewards.init({
+      getUser: function () { return currentUser; },
+      getCourse: function () { return course; },
+      getProgress: getLessonProgress,
+      isActive: isStudent,
+      mailbox: window.GaussicaMailbox
     });
     course.areas.forEach(function (area) { areas.set(area.id, area.name); });
     validateCourse();
@@ -525,6 +536,7 @@
     if (!course || !isStudent()) {
       if (box) box.hidden = true;
       if (link) link.hidden = true;
+      window.GaussicaRewards.check();
       return;
     }
     const M = window.GaussicaMailbox;
@@ -539,6 +551,7 @@
       badge.textContent = String(total);
       link.setAttribute("aria-label", total ? "Uppdrag och meddelanden från din lärare: " + total + " nya" : "Uppdrag och meddelanden från din lärare");
     }
+    window.GaussicaRewards.check();
     const tones = M.assignedLessonIds();
     Object.keys(tones).forEach(function (id) {
       const node = graph.querySelector('[data-lesson-id="' + id + '"]');
@@ -1597,6 +1610,12 @@
           div.appendChild(makeElement("p", "", comp.prompt || ""));
           break;
           
+        case "koppla":   // static view for the editor preview; students get the interactive matching task
+          div.className = "custom-component problem-component";
+          div.appendChild(makeElement("p", "", comp.prompt || ""));
+          (comp.pairs || []).forEach(function (p) { div.appendChild(makeElement("p", "muted", p.term + " ↔ " + p.definition)); });
+          break;
+
         default:
           div.appendChild(makeElement("p", "muted", "[" + comp.type + "]"));
       }
@@ -2202,7 +2221,9 @@
       ? tools + (tools === 1 ? " pyssel" : " pyssel") + " · " + goalCount + (goalCount === 1 ? " utmaning" : " utmaningar") + " · " + questions.length + (questions.length === 1 ? " fråga" : " frågor")
       : questions.length + (questions.length === 1 ? " fråga" : " frågor") + " · " + (lesson.duration || "");
     copy.append(
-      makeElement("p", "eyebrow", (isPlay ? "PYSSLA · " : "") + (state === "complete" ? "KLAR" : state === "new" ? "REDO ATT STARTA" : "DU HAR PÅBÖRJAT")),
+      makeElement("p", "eyebrow", (isPlay ? "PYSSLA · " : "") + (state === "complete"
+        ? "KLAR" + (window.GaussicaRewards.enabled() ? " · " + window.GaussicaRewards.starsText(window.GaussicaRewards.lessonStars(lesson).stars) : "")
+        : state === "new" ? "REDO ATT STARTA" : "DU HAR PÅBÖRJAT")),
       makeElement("h3", "", countText)
     );
     const startBtn = makeElement("button", "primary-button start-button",
@@ -2641,6 +2662,12 @@
           return API.post("/api/teacher/students/" + encodeURIComponent(studentId) + "/password").then(function (r) { return r.password; });
         },
         deleteStudent: function (studentId) { return API.del("/api/teacher/students/" + encodeURIComponent(studentId)); },
+        setClassRewards: function (id, on) {
+          return API.put("/api/teacher/classes/" + encodeURIComponent(id), { rewards: Boolean(on) }).then(function () {
+            const c = teacherCache.classes.find(function (x) { return x.id === id; });
+            if (c) c.rewards = Boolean(on);
+          });
+        },
         createAssignment: function (payload) { return API.post("/api/teacher/assignments", payload); },
         archiveAssignment: function (id) { return API.del("/api/teacher/assignments/" + encodeURIComponent(id)); },
         sendFeedback: function (payload) {

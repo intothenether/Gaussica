@@ -69,14 +69,40 @@ window.GaussicaMailbox = (function () {
     return { text: "Klart senast " + due.getDate() + " " + MONTHS[due.getMonth()], tone: "calm" };
   }
 
+  // ----- practice assignments ("Öva mer") -----
+  // Done when the student has answered PRACTICE_GOAL different generated questions correctly since the
+  // assignment was created. The count comes from the answer log, so it works for teachers too.
+  const PRACTICE_GOAL = 5;
+
+  function practiceCount(attempts, lessonId, since) {
+    const from = Date.parse(since) || 0;
+    const seen = new Set();
+    (attempts || []).forEach(function (a) {
+      if (a.lessonId !== lessonId || !a.completed || String(a.taskId || "").indexOf("practice-") !== 0) return;
+      if (!window.GaussicaLesson.isSubmission(a)) return;
+      const t = Date.parse(a.timestamp);
+      if (isFinite(t) && t < from) return;
+      seen.add(a.taskId);
+    });
+    return seen.size;
+  }
+
+  function practiceSummary(count) {
+    const n = Math.min(count, PRACTICE_GOAL);
+    const statuses = [];
+    for (let i = 0; i < PRACTICE_GOAL; i++) statuses.push(i < n ? "done" : "todo");
+    return { done: n, total: PRACTICE_GOAL, fix: 0, statuses: statuses, state: n >= PRACTICE_GOAL ? "complete" : n > 0 ? "started" : "new" };
+  }
+
   // ----- data -----
   function assignments() {
     const L = window.GaussicaLesson;
     return (user().assignments || []).map(function (a) {
       const lesson = lessonById(a.lessonId);
       if (!lesson) return null;
-      const sum = L.summarize(lesson, deps.getProgress, lessons());
-      return { a: a, lesson: lesson, sum: sum, done: sum.total > 0 && sum.state === "complete", due: dueInfo(a.dueDate) };
+      const practice = a.kind === "practice";
+      const sum = practice ? practiceSummary(practiceCount(user().attempts, a.lessonId, a.createdAt)) : L.summarize(lesson, deps.getProgress, lessons());
+      return { a: a, lesson: lesson, sum: sum, practice: practice, done: sum.total > 0 && sum.state === "complete", due: dueInfo(a.dueDate) };
     }).filter(Boolean);
   }
 
@@ -123,7 +149,7 @@ window.GaussicaMailbox = (function () {
     const lesson = x.lesson;
     const card = el("article", "mb-assign is-" + x.due.tone);
     const top = el("div", "mb-assign-top");
-    top.append(el("span", "mb-pin", "📌 UPPDRAG"), el("span", "mb-due is-" + x.due.tone, x.due.text));
+    top.append(el("span", "mb-pin", x.practice ? "🔁 ÖVA MER" : "📌 UPPDRAG"), el("span", "mb-due is-" + x.due.tone, x.due.text));
     card.appendChild(top);
     card.appendChild(el("h4", "mb-assign-title", lesson.title));
     if (x.a.note) {
@@ -132,10 +158,14 @@ window.GaussicaMailbox = (function () {
       card.appendChild(note);
     }
     const started = x.sum.done > 0 || x.sum.fix > 0;
-    card.append(progressBar(x.sum), el("p", "mb-assign-count", x.sum.done + " av " + x.sum.total + " uppgifter klara"));
+    card.append(progressBar(x.sum), el("p", "mb-assign-count", x.practice
+      ? x.sum.done + " av " + x.sum.total + " övningsfrågor rätt. Det blir nya tal varje gång."
+      : x.sum.done + " av " + x.sum.total + " uppgifter klara"));
     const go = el("button", "primary-button mb-go", started ? "Fortsätt uppdraget →" : "Börja uppdraget →");
     go.type = "button";
-    go.addEventListener("click", function () { deps.openLesson(lesson.id); });
+    go.addEventListener("click", function () {
+      if (x.practice && deps.startPractice) deps.startPractice(lesson.id); else deps.openLesson(lesson.id);
+    });
     card.appendChild(go);
     return card;
   }
@@ -260,9 +290,9 @@ window.GaussicaMailbox = (function () {
     const x = openAssignments().find(function (y) { return y.a.lessonId === lessonId; });
     if (!x) return null;
     const box = el("section", "mb-banner is-" + x.due.tone);
-    box.appendChild(el("span", "mb-banner-emoji", "📌"));
+    box.appendChild(el("span", "mb-banner-emoji", x.practice ? "🔁" : "📌"));
     const copy = el("div", "mb-banner-copy");
-    copy.append(el("strong", "", "Uppdrag från " + (x.a.teacher || "din lärare") + ": gör den här lektionen"), el("span", "mb-due is-" + x.due.tone, x.due.text));
+    copy.append(el("strong", "", "Uppdrag från " + (x.a.teacher || "din lärare") + (x.practice ? ": öva mer på den här lektionen (knappen Öva mer)" : ": gör den här lektionen")), el("span", "mb-due is-" + x.due.tone, x.due.text));
     if (x.a.note) copy.appendChild(el("p", "mb-banner-note", "“" + x.a.note + "”"));
     box.appendChild(copy);
     return box;
@@ -276,6 +306,8 @@ window.GaussicaMailbox = (function () {
 
   return {
     init: init, render: render, inline: inline, banner: banner, counts: counts, openAssignments: openAssignments,
-    assignedLessonIds: assignedLessonIds, noteBubble: noteBubble, dueInfo: dueInfo, STICKERS: STICKERS
+    doneCount: function () { return assignments().filter(function (x) { return x.done; }).length; },
+    assignedLessonIds: assignedLessonIds, noteBubble: noteBubble, dueInfo: dueInfo, STICKERS: STICKERS,
+    practiceCount: practiceCount, practiceSummary: practiceSummary, PRACTICE_GOAL: PRACTICE_GOAL
   };
 }());
