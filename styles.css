@@ -4017,3 +4017,45 @@ sup.pow { font-size: .7em; line-height: 0; vertical-align: super; margin-left: .
 .fb-done-title { margin: 0; font: 800 24px "Nunito", sans-serif; }
 .fb-done-text { margin: 0 0 8px; color: var(--muted); font-size: 15px; line-height: 1.5; }
 .fb-overlay { z-index: 21000; }   /* above the login screen too */
+
+/* ---- editor for "Öva mer" templates (practice-editor.js) ---- */
+.pe-help, .pe-gallery, .pe-extra { margin: 0 0 10px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: #fff; font-size: 12px; }
+.pe-help summary, .pe-gallery summary, .pe-extra summary { cursor: pointer; font-weight: 800; color: var(--brand-dark); }
+.pe-help ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; line-height: 1.5; }
+.pe-card { margin: 0 0 12px; border: 2px solid var(--sky-line); border-radius: 12px; background: #fbfdff; }
+.pe-sum { display: flex; align-items: baseline; gap: 10px; padding: 9px 12px; cursor: pointer; list-style: none; }
+.pe-sum::-webkit-details-marker { display: none; }
+.pe-sum-id { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--brand); color: #fff; font: 800 11px "Nunito", sans-serif; }
+.pe-sum-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--muted); }
+.pe-body { display: grid; gap: 12px; padding: 4px 12px 14px; }
+.pe-bar { display: grid; gap: 8px; }
+.pe-move { display: flex; flex-wrap: wrap; gap: 6px; }
+.pe-section { display: grid; gap: 6px; }
+.pe-title { margin: 6px 0 0; font: 800 12px "Nunito", sans-serif; letter-spacing: .5px; text-transform: uppercase; color: var(--brand-dark); }
+.pe-rows { display: grid; gap: 6px; }
+.pe-row { display: grid; grid-template-columns: 1.1fr 1fr 1fr 1fr auto; gap: 6px; align-items: center; }
+.pe-row-head { font-size: 11px; font-weight: 800; color: var(--muted); }
+.pe-row-pick { grid-template-columns: 90px 1fr auto; }
+.pe-row-derive { grid-template-columns: 90px auto 1fr auto; }
+.pe-row-where { grid-template-columns: 1.6fr .7fr .7fr auto; }
+.pe-row input, .pe-section textarea, .pe-mistake textarea, .pe-bar input, .pe-extra select, .pe-extra input:not([type=checkbox]), .pe-body .le-field textarea { width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #cbd2e3; border-radius: 7px; background: #fff; font: 600 13px "Nunito", sans-serif; }
+.pe-row input.is-bad { border-color: #e0506d; background: #fff1f3; }
+.pe-eq { font-weight: 800; color: var(--muted); }
+.pe-checks { display: grid; gap: 4px; }
+.pe-mistake { display: grid; gap: 6px; padding: 8px; border: 1px dashed var(--border); border-radius: 8px; }
+.pe-samples { display: grid; gap: 8px; }
+.pe-status { padding: 8px 10px; border-radius: 8px; font-size: 12px; line-height: 1.5; }
+.pe-status ul { margin: 4px 0 0; padding-left: 18px; }
+.pe-status.is-ok { background: var(--success-soft); color: var(--success-dark); }
+.pe-status.is-warn { background: #fff3c9; color: #6b4a00; }
+.pe-status.is-bad { background: #ffe3e8; color: #9c2540; }
+.pe-sample-list { display: grid; gap: 6px; }
+.pe-sample { padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: #fff; font-size: 13px; }
+.pe-sample-prompt { margin: 0 0 4px; font-weight: 700; }
+.pe-sample-answer { margin: 4px 0 0; color: var(--success-dark); font-weight: 800; font-size: 12px; }
+.pe-sample-hint { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+.pe-fig { max-width: 240px; }
+.pe-fig .fig-svg { max-width: 240px; width: 100%; height: auto; }
+.pe-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.pe-gallery-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 8px 0; border-top: 1px solid var(--border); }
+.pe-gallery-row p { margin: 2px 0 0; }

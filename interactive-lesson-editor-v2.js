@@ -110,7 +110,8 @@ window.InteractiveEditor = (function () {
     interactive: { label: "Interaktiv modell", icon: "◔" },
     exercise: { label: "Övning (Din tur)", icon: "?" },
     word: { label: "Textuppgift", icon: "✎" },
-    patterns: { label: "Uppgiftsmönster", icon: "∞" }
+    patterns: { label: "Uppgiftsmönster", icon: "∞" },
+    practice: { label: "Övningsmallar (Öva mer)", icon: "🔁" }
   };
 
   let lesson = null;       // everything except the ordered content, which lives in `blocks`
@@ -119,6 +120,7 @@ window.InteractiveEditor = (function () {
   let isNew = false;
   let selected = "meta";   // "meta" or a block id
   let dirty = false;
+  const practiceUi = { open: {} };   // which template cards are open in the Övningsmallar pane
   let idTouched = false;
   let root = null;
   let previewQueued = false;
@@ -233,6 +235,10 @@ window.InteractiveEditor = (function () {
 
   function describe(id) {
     if (id === "meta") return { ...KIND_INFO.meta, title: lesson.title || "Namnlös lektion", sub: "" };
+    if (id === "practice") {
+      const n = (lesson.practice || []).length;
+      return { ...KIND_INFO.practice, sub: n ? n + (n === 1 ? " mall" : " mallar") + " som skapar nya frågor" : "Inga än" };
+    }
     const b = blockById(id);
     if (!b) return { label: "", icon: "", sub: "" };
     const d = b.data;
@@ -445,6 +451,7 @@ window.InteractiveEditor = (function () {
     col.replaceChildren();
 
     col.appendChild(outlineItem("meta"));
+    col.appendChild(outlineItem("practice"));
 
     const list = el("ol", "le-outline");
     blocks.forEach((b, i) => list.appendChild(outlineRow(b, i)));
@@ -628,6 +635,7 @@ window.InteractiveEditor = (function () {
 
   function buildForm(form, id) {
     if (id === "meta") return metaForm(form);
+    if (id === "practice") return practiceForm(form);
     const b = blockById(id);
     if (!b) { form.appendChild(el("p", "le-hint", "Välj ett block i listan eller i förhandsvisningen.")); return; }
     switch (b.kind) {
@@ -722,7 +730,12 @@ window.InteractiveEditor = (function () {
     });
     fs.appendChild(box);
     form.appendChild(fs);
-    form.appendChild(practiceFieldset());
+    const pf = el("fieldset", "le-fieldset");
+    pf.appendChild(el("legend", "", "Övningsmallar (Öva mer)"));
+    const n = (lesson.practice || []).length;
+    pf.appendChild(el("p", "le-hint", n ? n + (n === 1 ? " mall skapar" : " mallar skapar") + " nya frågor med nya tal. Eleven når dem med knappen Öva mer." : "Mallar skapar nya frågor med nya tal eller ord varje gång. Eleven når dem med knappen Öva mer."));
+    pf.appendChild(button("Redigera övningsmallar →", "le-btn le-btn-small", () => select("practice")));
+    form.appendChild(pf);
   }
 
   function componentForm(form, b) {
@@ -872,26 +885,33 @@ window.InteractiveEditor = (function () {
     return true;
   }
 
-  function practiceStarter() {
-    return { id: "summa", for: ["exercise"], vars: { a: [10, 99], b: [10, 99] }, derive: [{ name: "s", expr: "a+b" }],
-      prompt: "Räkna ut {a} + {b}.", answer: ["=s"], correct: "Rätt! {a} + {b} = {s}." };
+  // The pane for the lesson's "Öva mer" templates (see practice-editor.js).
+
+  function practiceTasks() {
+    const out = [];
+    let comp = 0;
+    blocks.forEach(b => {
+      if (b.kind === "exercise") out.push({ id: "exercise", label: "Din tur: " + clip(lesson.exercise.prompt) });
+      else if (b.kind === "word") out.push({ id: "word-" + (wordNumber(b) - 1), label: "Textuppgift " + wordNumber(b) + ": " + clip(b.data.prompt) });
+      if (b.kind === "component") {
+        if (b.data.type === "koppla") out.push({ id: "match-" + comp, label: "Para ihop: " + clip(b.data.prompt) });
+        comp += 1;
+      }
+    });
+    return out;
   }
 
-  function practiceFieldset() {
-    const fs = el("fieldset", "le-fieldset");
-    fs.appendChild(el("legend", "", "Övningsmallar (Öva mer)"));
-    jsonForm(fs, () => lesson.practice || [], v => { if (Array.isArray(v) && v.length) lesson.practice = v; else delete lesson.practice; },
-      "Mallar som skapar nya frågor med nya tal. Eleven når dem med knappen Öva mer, och du kan ge dem som uppdrag. De redigeras som JSON, se README.");
-    const actions = el("div", "le-row2");
-    actions.appendChild(button("Skapa av begreppskorten", "le-btn le-btn-small", () => {
-      if (practiceFromCards()) { dirty = true; renderInspector(); toast("Övningsmallar skapade."); }
-    }, "Fyller i en matchningsmall och en fråga-mall utifrån begreppskorten"));
-    actions.appendChild(button("Lägg till en räkne-mall", "le-btn le-btn-small", () => {
-      lesson.practice = (lesson.practice || []).concat([practiceStarter()]);
-      dirty = true; renderInspector(); toast("Exempelmall tillagd. Ändra talen och texten.");
-    }, "Lägger till en mall som du kan ändra"));
-    fs.appendChild(actions);
-    return fs;
+  function practiceForm(form) {
+    const PE = window.GaussicaPracticeEditor;
+    if (!PE) { form.appendChild(el("p", "le-error", "Redigeraren för övningsmallar kunde inte laddas.")); return; }
+    PE.render(form, Object.assign(practiceUi, {
+      lesson: () => lesson,
+      tasks: practiceTasks,
+      changed: () => { if (!(lesson.practice || []).length) delete lesson.practice; changed(); },
+      toast,
+      redraw: () => renderInspector(),
+      fromCards: () => { if (practiceFromCards()) { dirty = true; renderInspector(); toast("Övningsmallar skapade."); } }
+    }));
   }
 
   function row2(a, b) {
@@ -1166,6 +1186,7 @@ window.InteractiveEditor = (function () {
       add("meta", "ID:t \"" + lesson.id + "\" används redan av en annan lektion.");
     }
     if (!lesson.area) add("meta", "Välj ett område.");
+    if (window.GaussicaPracticeEditor) window.GaussicaPracticeEditor.problems(lesson).forEach(msg => add("practice", msg));
     const checkProblem = (p, key, name) => {
       if (!p.prompt || !p.prompt.trim()) add(key, name + ": frågan saknas.");
       if (!p.answer.length || !p.answer.some(a => String(a).trim())) add(key, name + ": minst ett rätt svar krävs.");
@@ -1188,6 +1209,7 @@ window.InteractiveEditor = (function () {
   // The lesson as it will be stored: content fields rebuilt from the block order.
   function serialize() {
     const out = JSON.parse(JSON.stringify(lesson));
+    if (window.GaussicaPracticeEditor && Array.isArray(out.practice)) out.practice = window.GaussicaPracticeEditor.clean(out.practice);
     out.title = out.title.trim();
     out.prerequisites = out.prerequisites.filter(Boolean);
 

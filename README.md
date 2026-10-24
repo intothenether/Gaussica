@@ -266,7 +266,18 @@ För att använda samma konton och data på både GitHub Pages och din egen dato
 - **Öva mer.** En lektion kan ha `practice`, en lista med mallar som skapar nya frågor med nya tal. Knappen finns på lektionssidan och efter en klar lektion. Frågorna rättas som vanliga frågor, loggas i lärarvyn ("Övning och repetition") men påverkar inte lektionens framsteg.
 - **Repetera.** Räknas ut från elevens svarslogg: varje fel svar ger ett poäng, varje svar som är rätt på första försöket tar bort ett. Ligger en lektion på två poäng eller mer (senaste 30 dagarna) föreslås repetition, och mallarna som eleven haft svårast med väljs oftare.
 
-En mall (se `practice.js`):
+### Övningsmallar: så skriver du dem
+
+**I lektionsredigeraren.** Öppna lektionen, välj "Övningsmallar (Öva mer)" överst i listan till vänster och gör så här:
+
+1. Öppna **Galleri** längst ned och tryck "Lägg till" på den färdiga mall som liknar det du vill ha (heltal, decimaltal, namn och saker, procent, bråk, ekvation, uttryck, figurer och så vidare).
+2. Ändra mallen i formuläret: **Slumptal** (namn, lägst, högst och eventuellt steg), **Slumpord**, **Uträknade värden**, **Villkor**, **Frågan**, **Rätt svar** och **Vanliga fel**. Texten i frågan fylls i av namnen: `{a}` blir talet a, `{$namn}` ett slumpord och `{a+b}` en uträkning.
+3. Titta på **Exempel och kontroll** under mallen. Där ser du fyra nya frågor med rätt svar, figurer och vanliga fel, och en kontroll som provar 200 frågor. Den varnar för namn som saknas, frågor som blir för lika, villkor som aldrig går att uppfylla och felsvar som egentligen är rätta. Det går inte att spara en lektion med en mall som har fel.
+4. Under "Liknar uppgiften" bockar du för vilka av lektionens uppgifter mallen motsvarar. Då får en elev som svarat fel på uppgiften fler frågor av just den typen.
+
+Under varje mall finns "Svarsform, extra tangenter och figur" och "Avancerat: mallens JSON". JSON-rutan kan ändra allt, även det formuläret inte har.
+
+**Så ser en mall ut** (samma sak som formuläret skriver, se `practice.js`):
 
 ```json
 { "id": "summa", "for": ["exercise"],
@@ -280,7 +291,33 @@ En mall (se `practice.js`):
   "feedback": [ { "answers": ["=a-b"], "message": "Du har tagit bort i stället för att lägga till." } ] }
 ```
 
-Uttrycken är samma som i pyssla-verktygen (`+ - * / ^`, `abs sqrt round floor ceil min max pow mod divcount isprime sgd primecount nextprime`). `{$namn}` fylls med ett slumpmässigt val, `{uttryck}` med ett värde (`{h|2}` ger två siffror), och `visual` kan använda `"=uttryck"` för figurer. `for` anger vilka ordinarie uppgifter mallen motsvarar, så att fel där leder till fler frågor av just den typen.
+- `vars`: `[lägst, högst]` eller `[lägst, högst, steg]`. `[100, 900, 50]` ger 100, 150, 200 och så vidare.
+- `derive`: räknas ut i ordning, så ett värde kan använda de före det.
+- `where`: talen slumpas om tills alla villkor stämmer. `{ "expr": "a-b", "min": 1 }` betyder att a ska vara större än b. `min` och `max` kan kombineras.
+- `answer`: `"=s"` ger talet s (med decimalkomma av sig självt), vanlig text får innehålla `{uttryck}`. Skriv flera svar om flera skrivsätt ska godtas: `["=r", "{r} kr"]`.
+- `feedback`: felsvar och ett meddelande. Felsvaret kan också vara ett uttryck (`"=a+b"`).
+- Uttryck: `+ - * / ^` och `abs sqrt round floor ceil min max pow mod sgd divcount isprime primecount nextprime`, samt `sin cos tan asin acos atan` (i grader) och `pi`. `{h|2}` ger två siffror, `{x|+}` visar tecken. Mycket små tal (0,0042) skrivs ut med alla decimaler.
+- Frågan får aldrig vara lika varje gång: kontrollen varnar om det bara blir färre än fem olika frågor. Lägg då till `pick` eller bredare talintervall.
+
+**Specialfall.** Allt nedan finns som färdiga mallar i galleriet. Så här fungerar de:
+
+| Vill du ha | Gör så |
+|---|---|
+| Ett svar som ord eller text | Skriv orden som rätt svar: `"answer": ["mindre"]`. Texten måste stämma tecken för tecken (stor och liten bokstav spelar ingen roll). Lägg slumpord i `pick` så att frågorna skiljer sig åt. |
+| Svar med rest | Skriv båda varianterna: `"answer": ["{q} r {r}", "{q} rest {r}"]`. |
+| Bråk eller förhållande som måste vara förkortat | `"form": "forenklat"` och svaret som `"{a}/{b}"`. Ett rätt men ofullständigt förkortat svar får tipset att förkorta mer. Lägg inte det oförkortade bråket som felsvar, det är ju också rätt. |
+| Blandad form eller bråk | `"form": "blandad"` (1 3/4) eller `"form": "brak"` (7/4). |
+| Ett uttryck med x som svar | Svaret jämförs som algebra, så `3x+12` och `12+3x` räknas lika. Skriv potenser som `x^2` och lägg till `"keys": ["^"]` så att eleven får en tangent för tecknet. Be eleven skriva "x² som x^2" i frågan. |
+| Uttryck där parentesen ska multipliceras ut | `"form": "utanparentes"`. Annars godtas `(x+3)^2` som svar på "utveckla (x+3)²". |
+| Grundpotensform | `"form": "grundpotens"`, och svaret som `["{a/10}·10^{e}", "{a/10}*10^{e}"]`. Tala om i frågan att eleven skriver `*` och `^`. |
+| Roten ur | Skriv svaret i alla former som ska godtas: `["{k}√{m}", "{k}*√{m}", "{k}sqrt({m})", "{k}*sqrt({m})"]`, och lägg till `"keys": ["√"]`. |
+| En figur | `"visual"` med en figur från tabellen över figurer ovan, där `"=a"` hämtar slumptalet a och `"{a} cm"` blir text med talet. Exempel: `{ "type": "staplar", "data": [{ "label": "Äpple", "value": "=a" }] }`. Prova figuren med menyn "Sätt in en figur" i formuläret. Siffrorna i figuren och i svaret måste komma från samma slumptal. |
+| Trigonometri | Använd `sin`, `cos`, `tan` (grader) och runda svaret: `"=round(h*sin(v)*10)/10"`. Lägg ett villkor som undviker avrundningsgränser: `{ "expr": "abs(mod(h*sin(v)*100,10)-5)", "min": 0.5 }`. |
+| Positiva heltalssvar i en ekvation | Slumpa svaret x först och bygg ekvationen baklänges med `derive` (`c = a*x+b`), så blir x alltid ett heltal. |
+| Begreppsmatchning | Använd knappen "Skapa av begreppskorten", som bygger en matchningsmall och en "vilket begrepp är det här"-mall av lektionens begreppskort. Mallen har `pool` i stället för `vars` och redigeras som JSON. |
+| Att svar med en uträkning får godtas | `"allowExpression": true` i mallen, eller inställningen "Uträkning som svar" på lektionen. |
+
+**Tips.** Håll slumptalen så att svaret blir rimligt (inga negativa tal om eleven inte kan det, inga för stora tal). Skriv gärna ett vanligt fel per vanlig missuppfattning, med ett meddelande som säger vad eleven gjorde och hur det ska vara. Provkör alltid några exempel i redigeraren innan du sparar, och kör `npm test` om du redigerar JSON-filerna direkt.
 
 ## Integritetstext
 
