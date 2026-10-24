@@ -3982,3 +3982,38 @@ sup.pow { font-size: .7em; line-height: 0; vertical-align: super; margin-left: .
 .tv-chat-reply textarea { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 2px solid var(--sky-line); border-radius: 12px; font: 600 14px "Nunito", sans-serif; resize: vertical; }
 .mb-reply { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 14px; padding: 12px 16px; border: 3px solid #ffd25e; border-radius: 18px; background: #fff3c9; font-size: 16px; }
 .mb-reply-btn { padding: 9px 18px; border: 2px solid var(--brand-dark); border-radius: 12px; background: var(--brand); color: #fff; font: 800 14px "Nunito", sans-serif; box-shadow: 0 3px 0 var(--brand-dark); cursor: pointer; }
+
+/* ---- långdivision, areamodell, trigonometri (figures.js) ---- */
+.fig-ld { font-size: 22px; font-weight: 800; }
+.fig-ld-q { fill: var(--brand); }
+.fig-ld-rest { fill: var(--coral-dark, #e0506d); }
+.fig-ld-minus { fill: var(--muted); }
+.fig-ld-line { stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+.fig-am { stroke: var(--ink); stroke-width: 2; }
+.fig-am-sq { fill: #cfe8f9; }
+.fig-am-a { fill: #ffe9b8; }
+.fig-am-b { fill: #ffd5dc; }
+.fig-am-text { font-size: 20px; font-weight: 800; }
+.fig-trig-arc { fill: none; stroke: var(--coral-dark, #e0506d); stroke-width: 3; }
+.fig-trig-angle { fill: var(--coral-dark, #e0506d); }
+
+/* ---- feedback about the site (feedback.js) ---- */
+.pl-fb { flex: none; padding: 7px 12px; border: 2px solid var(--border); border-radius: 999px; background: #fff; color: var(--muted); font: 800 12px "Nunito", sans-serif; cursor: pointer; white-space: nowrap; }
+.pl-fb:hover { background: var(--sky-soft); color: var(--ink); }
+.pl-fb.is-first { margin-left: auto; }
+@media (max-width: 700px) { .pl-fb { display: none; } }
+.fb-form { display: grid; gap: 12px; padding: 16px; overflow-y: auto; }
+.fb-intro { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+.fb-kinds { display: flex; flex-wrap: wrap; gap: 8px; }
+.fb-kind { padding: 8px 14px; border: 2px solid var(--border); border-radius: 999px; background: #fff; font: 800 13px "Nunito", sans-serif; cursor: pointer; }
+.fb-kind.is-on { border-color: var(--brand-dark); background: var(--brand); color: #fff; }
+.fb-attach { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.fb-email-label { display: grid; gap: 4px; font-size: 13px; font-weight: 800; }
+.fb-email { font-weight: 600; }
+.fb-note { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.4; }
+.fb-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.fb-done { display: grid; justify-items: center; gap: 8px; padding: 28px 20px; text-align: center; }
+.fb-done-emoji { margin: 0; font-size: 44px; }
+.fb-done-title { margin: 0; font: 800 24px "Nunito", sans-serif; }
+.fb-done-text { margin: 0 0 8px; color: var(--muted); font-size: 15px; line-height: 1.5; }
+.fb-overlay { z-index: 21000; }   /* above the login screen too */

@@ -1,0 +1,365 @@
+{
+  "id": "linjara-funktioner-km",
+  "area": "algebra",
+  "title": "Linjära funktioner: k och m",
+  "level": "Lutning och startvärde · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "funktioner"
+  ],
+  "summary": "Grafen till en linjär funktion är en rak linje. I y = kx + m visar k hur brant den är och m var den börjar.",
+  "explanationTitle": "Vad säger siffrorna i y = kx + m?",
+  "explanation": "Problemet: Två cykeluthyrningar tar betalt på olika sätt. En tar 20 kr plus 10 kr per timme, den andra tar 0 kr plus 15 kr per timme. Vi kan ställa upp en funktion för varje, men hur ser vi på formeln vilken som blir dyrast, och när? Vi behöver veta vad siffrorna i formeln betyder. Alla funktioner av typen y = kx + m har en rät linje som graf. Talet m är där linjen börjar: det är y-värdet när x är 0, alltså där linjen skär y-axeln. Det kallas startvärde. Talet k är lutningen: hur mycket y ändras när x ökar med 1. Är k positivt går linjen uppåt, är k negativt går den nedåt, och ju större k är, desto brantare är linjen. Har du två punkter på linjen räknar du ut k med ändringen i y delat med ändringen i x. Går linjen genom (0, 3) och (2, 11), ändras y med 8 när x ändras med 2, så k = 8 delat med 2 = 4.",
+  "visual": {
+    "type": "graf",
+    "title": "y = 2x + 1 och y = −x + 4",
+    "xmin": -4,
+    "xmax": 4,
+    "ymin": -4,
+    "ymax": 8,
+    "lines": [
+      {
+        "k": 2,
+        "m": 1,
+        "label": "y = 2x + 1"
+      },
+      {
+        "k": -1,
+        "m": 4,
+        "label": "y = −x + 4",
+        "tone": "brand"
+      }
+    ],
+    "points": [
+      {
+        "x": 0,
+        "y": 1,
+        "label": "m = 1"
+      },
+      {
+        "x": 0,
+        "y": 4,
+        "label": "m = 4"
+      }
+    ]
+  },
+  "rule": "y = kx + m. k är lutningen, m är startvärdet där linjen skär y-axeln",
+  "ruleLabel": "LINJENS EKVATION",
+  "example": "y = 3x − 2 har lutningen k = 3 och skär y-axeln i m = −2. När x ökar med 1 ökar y med 3.",
+  "practice": [
+    {
+      "id": "las-m",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          -3,
+          3
+        ],
+        "m": [
+          -5,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "k*k",
+          "min": 1
+        }
+      ],
+      "prompt": "Titta på linjen. I vilken punkt på y-axeln skär den? Svara med y-värdet (m).",
+      "visual": {
+        "type": "graf",
+        "xmin": -4,
+        "xmax": 4,
+        "ymin": -8,
+        "ymax": 8,
+        "lines": [
+          {
+            "k": "=k",
+            "m": "=m"
+          }
+        ]
+      },
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! Linjen skär y-axeln där x = 0, och där är y = {m}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är lutningen (k), inte startvärdet. Titta på var linjen korsar y-axeln, den lodräta axeln."
+        }
+      ]
+    },
+    {
+      "id": "las-k",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          -3,
+          3
+        ],
+        "m": [
+          -3,
+          3
+        ]
+      },
+      "where": [
+        {
+          "expr": "k*k",
+          "min": 1
+        }
+      ],
+      "prompt": "Titta på linjen. Hur mycket ändras y när x ökar med 1? Det är lutningen k.",
+      "visual": {
+        "type": "graf",
+        "xmin": -4,
+        "xmax": 4,
+        "ymin": -8,
+        "ymax": 8,
+        "lines": [
+          {
+            "k": "=k",
+            "m": "=m"
+          }
+        ]
+      },
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! När x ökar med 1 ändras y med {k}, så k = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är startvärdet där linjen skär y-axeln. Lutningen är hur mycket y ändras när x ökar med 1."
+        },
+        {
+          "answers": [
+            "=-k"
+          ],
+          "message": "Fel tecken. En linje som går uppåt har positiv lutning och en som går nedåt har negativ lutning."
+        }
+      ]
+    },
+    {
+      "id": "tva-punkter",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          1,
+          5
+        ],
+        "m": [
+          0,
+          9
+        ],
+        "x2": [
+          2,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "y2",
+          "expr": "k*x2+m"
+        }
+      ],
+      "prompt": "En rät linje går genom punkterna (0, {m}) och ({x2}, {y2}). Vad är lutningen k?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! y ändras med {y2-m} när x ändras med {x2}. k = {y2-m} delat med {x2} = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=y2-m"
+          ],
+          "message": "{y2-m} är hur mycket y ändras. Dela med hur mycket x ändras ({x2}) för att få k."
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är startvärdet, inte lutningen."
+        }
+      ]
+    },
+    {
+      "id": "taxi",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "m": [
+          5,
+          30
+        ],
+        "x": [
+          2,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "y",
+          "expr": "k*x+m"
+        }
+      ],
+      "prompt": "{$namn} hyr en cykel. Det kostar {m} kr i startavgift och {k} kr per timme. Vad kostar det att cykla i {x} timmar?",
+      "answer": [
+        "=y",
+        "{y} kr"
+      ],
+      "correct": "Rätt! y = {k}x + {m}, och med x = {x} blir y = {k} · {x} + {m} = {y} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*x"
+          ],
+          "message": "Du har glömt startavgiften {m} kr. Den läggs till en gång."
+        },
+        {
+          "answers": [
+            "=(k+m)*x"
+          ],
+          "message": "Startavgiften {m} kr betalar du bara en gång, inte varje timme."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad är m i funktionen y = 3x − 2?",
+    "answer": [
+      "−2",
+      "-2"
+    ],
+    "correct": "Rätt! m är talet utan x, och tecknet hör till talet: m = −2. Linjen skär y-axeln i −2.",
+    "feedback": [
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "Tecknet hör till m. Funktionen är y = 3x − 2, så m är −2."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "3 är k, lutningen. m är talet som står ensamt."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En linje har k = 2 och m = 5. Vad är y när x = 4?",
+      "answer": [
+        "13",
+        "y=13",
+        "y = 13"
+      ],
+      "correct": "Rätt! y = 2 · 4 + 5 = 13.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "Du har glömt m. Räkna kx + m: 2 · 4 + 5."
+        },
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "Du har räknat 2 · (4 + 5). Multiplicera först, lägg sedan till m: 2 · 4 + 5."
+        }
+      ]
+    },
+    {
+      "prompt": "En linje går genom punkterna (0, 3) och (2, 11). Vad är k?",
+      "answer": [
+        "4",
+        "k=4",
+        "k = 4"
+      ],
+      "correct": "Rätt! y ändras med 8 när x ändras med 2, så k = 8 delat med 2 = 4.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är hur mycket y ändras. Dela med hur mycket x ändras, som är 2."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är m, startvärdet. Lutningen är hur snabbt y ändras."
+        }
+      ]
+    },
+    {
+      "prompt": "Titta på grafen. Vilken lutning k har linjen?",
+      "answer": [
+        "−1",
+        "-1",
+        "k=-1",
+        "k = −1"
+      ],
+      "correct": "Rätt! När x ökar med 1 minskar y med 1, så k = −1.",
+      "feedback": [
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "Linjen går nedåt när x ökar, så k är negativt."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är m, där linjen skär y-axeln. Lutningen är hur y ändras när x ökar med 1."
+        }
+      ],
+      "visual": {
+        "type": "graf",
+        "xmin": -4,
+        "xmax": 6,
+        "ymin": -2,
+        "ymax": 8,
+        "lines": [
+          {
+            "k": -1,
+            "m": 4,
+            "label": "linjen"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,309 @@
+{
+  "id": "division-decimaltal",
+  "area": "tal",
+  "title": "Division med decimaltal",
+  "level": "Dela när det blir decimaler · ungefär åk 5",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "decimaltal-rakna",
+    "kortdivision"
+  ],
+  "summary": "Decimaltal delar du som vanliga tal. Kommatecknet i svaret står rakt över kommatecknet i talet, och du kan fortsätta dela med nollor.",
+  "explanationTitle": "Hur delar vi 7,2 på 3?",
+  "explanation": "Problemet: Tre kompisar delar lika på 7,2 kg godis. Med kortdivision kan du dela 72 på 3, men var tar kommatecknet vägen? Och vad gör du när 5 ska delas på 2 och det inte går jämnt ut, som i heltalsdivision? Svaret är att decimaltal delar du precis som vanliga tal, med en regel för kommatecknet. Dela som om kommatecknet inte fanns: 72 delat med 3 är 24. Sätt sedan kommatecknet i svaret på samma ställe som i talet du delar: 7,2 har en decimal, så svaret 2,4 har en decimal. Kontrollera med multiplikation: 2,4 · 3 = 7,2. Går det inte jämnt ut kan du fortsätta. Lägg ett kommatecken i svaret och skriv en nolla efter sista siffran: 5 är samma som 5,0. Då är 5,0 delat med 2 lika med 2,5. Du kan lägga till så många nollor du vill.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tre sätt att dela med decimaler",
+    "headers": [
+      "Räkning",
+      "Så gör du",
+      "Svar"
+    ],
+    "rows": [
+      [
+        "6,9 delat med 3",
+        "69 delat med 3 är 23. Talet har en decimal.",
+        "2,3"
+      ],
+      [
+        "0,8 delat med 4",
+        "8 delat med 4 är 2. Talet har en decimal.",
+        "0,2"
+      ],
+      [
+        "5 delat med 2",
+        "5 delat med 2 är 2 rest 1. Skriv 5,0: 10 delat med 2 är 5.",
+        "2,5"
+      ]
+    ]
+  },
+  "rule": "Dela som vanligt. Kommat i svaret står rakt över kommat i talet. Fortsätt med nollor tills det går jämnt ut",
+  "ruleLabel": "DECIMALDIVISION",
+  "example": "7,2 delat med 3: 72 delat med 3 är 24. Svaret får en decimal: 2,4. Kolla: 2,4 · 3 = 7,2.",
+  "practice": [
+    {
+      "id": "tiondelar",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "k": [
+          11,
+          89
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*k/10"
+        },
+        {
+          "name": "q",
+          "expr": "k/10"
+        }
+      ],
+      "prompt": "Räkna ut {n} delat med {d}.",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {n*10} delat med {d} är {k}, och talet har en decimal. Svaret är {q}. Kolla: {q} · {d} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "Du har glömt kommatecknet. {n} har en decimal, så svaret ska också ha en decimal."
+        },
+        {
+          "answers": [
+            "=k/100"
+          ],
+          "message": "Kommatecknet ska stå rakt över kommatecknet i {n}, alltså en decimal från slutet."
+        }
+      ]
+    },
+    {
+      "id": "vikt",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "sak": [
+          "paket",
+          "burkar",
+          "påsar"
+        ]
+      },
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "k": [
+          11,
+          59
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*k/10"
+        },
+        {
+          "name": "q",
+          "expr": "k/10"
+        }
+      ],
+      "prompt": "{d} lika tunga {$sak} väger tillsammans {n} kg. Hur mycket väger ett?",
+      "answer": [
+        "=q",
+        "{q} kg"
+      ],
+      "correct": "Rätt! {n} delat med {d} är {q}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "Du har glömt kommatecknet. Det blir en decimal i svaret också."
+        }
+      ]
+    },
+    {
+      "id": "med-nollor",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          3,
+          59
+        ]
+      },
+      "derive": [
+        {
+          "name": "q",
+          "expr": "a/2"
+        }
+      ],
+      "prompt": "Räkna ut {a} delat med 2. Skriv svaret med decimaler om det behövs.",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {a} delat med 2 är {q}. Går det inte jämnt ut skriver du en nolla efter kommatecknet och fortsätter dela.",
+      "feedback": [
+        {
+          "answers": [
+            "=floor(a/2)"
+          ],
+          "message": "Du har slutat för tidigt. Skriv {a},0 och fortsätt dela: det som blir över är hälften av 10 tiondelar."
+        }
+      ]
+    },
+    {
+      "id": "hundradelar",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "k": [
+          11,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*k/100"
+        },
+        {
+          "name": "q",
+          "expr": "k/100"
+        }
+      ],
+      "prompt": "Hur mycket är {n} delat med {d}?",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {n*100} delat med {d} är {k}. Talet har två decimaler, så svaret är {q}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k/10"
+          ],
+          "message": "Kommatecknet ska stå två steg från slutet, eftersom {n} har två decimaler."
+        },
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "Du har glömt kommatecknet. Svaret är mindre än 1."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 6,9 delat med 3.",
+    "answer": [
+      "2,3",
+      "2.3"
+    ],
+    "correct": "Rätt! 69 delat med 3 är 23. Talet har en decimal, så svaret är 2,3.",
+    "feedback": [
+      {
+        "answers": [
+          "23"
+        ],
+        "message": "Du har glömt kommatecknet. 6,9 har en decimal, så svaret ska också ha en decimal."
+      },
+      {
+        "answers": [
+          "0,23",
+          "0.23"
+        ],
+        "message": "Kommatecknet står för långt åt vänster. Det ska stå rakt över kommatecknet i 6,9, alltså en decimal från slutet."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Fyra paket väger tillsammans 9,2 kg. Hur mycket väger ett paket?",
+      "answer": [
+        "2,3",
+        "2.3",
+        "2,3 kg"
+      ],
+      "correct": "Rätt! 92 delat med 4 är 23, och talet har en decimal: 2,3 kg.",
+      "feedback": [
+        {
+          "answers": [
+            "23"
+          ],
+          "message": "Du har glömt kommatecknet. Det blir en decimal i svaret."
+        },
+        {
+          "answers": [
+            "0,23",
+            "0.23"
+          ],
+          "message": "Kommatecknet står för långt åt vänster. 9,2 har en decimal."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 5 delat med 2. Svara med decimaler.",
+      "answer": [
+        "2,5",
+        "2.5"
+      ],
+      "correct": "Rätt! 5 är samma som 5,0. 5 delat med 2 är 2 rest 1, och 10 tiondelar delat med 2 är 5 tiondelar: 2,5.",
+      "feedback": [
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "Du har slutat för tidigt. Det blir 1 över: skriv 5,0 och fortsätt dela."
+        },
+        {
+          "answers": [
+            "2,1",
+            "2.1"
+          ],
+          "message": "Resten 1 är inte 0,1. Resten är 10 tiondelar, och 10 tiondelar delat med 2 är 5 tiondelar."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 0,36 delat med 4.",
+      "answer": [
+        "0,09",
+        "0.09"
+      ],
+      "correct": "Rätt! 36 delat med 4 är 9. Talet har två decimaler, så svaret är 0,09.",
+      "feedback": [
+        {
+          "answers": [
+            "0,9",
+            "0.9"
+          ],
+          "message": "Kommatecknet ska stå två steg från slutet, eftersom 0,36 har två decimaler."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "Du har glömt kommatecknet. Svaret är mindre än 1."
+        }
+      ]
+    }
+  ]
+}

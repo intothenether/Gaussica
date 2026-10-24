@@ -1,0 +1,278 @@
+{
+  "id": "langdivision",
+  "area": "tal",
+  "title": "Långdivision",
+  "level": "Dela med tvåsiffrigt tal · ungefär åk 5",
+  "grade": 5,
+  "duration": "9 min",
+  "prerequisites": [
+    "kortdivision",
+    "multiplikation-tvasiffrigt"
+  ],
+  "summary": "När du delar med ett tvåsiffrigt tal skriver du ut varje delsteg: gissa, multiplicera, subtrahera och hämta ner nästa siffra.",
+  "explanationTitle": "Hur delar vi 378 på 14?",
+  "explanation": "Problemet: Kortdivision fungerar när du delar med ett tal som du kan tabellen för. Men hur delar du 378 kr lika på 14 elever? Det som blir över i varje steg är svårt att hålla reda på i huvudet, och 14-tabellen kan du inte utantill. Då skriver vi ut varje delsteg. Det kallas långdivision. Steg 1: Titta på så många av de första siffrorna att det blir minst 14. Här är 3 för litet, så ta 37. Steg 2: Hur många gånger ryms 14 i 37? 2 gånger, för 14 · 2 = 28. Skriv 2 i svaret. Steg 3: Subtrahera: 37 − 28 = 9. Steg 4: Hämta ner nästa siffra, 8, så du får 98. Upprepa: 14 går 7 gånger i 98, för 14 · 7 = 98, och 98 − 98 = 0. Svaret är 27. Gissa med hjälp av avrundning: 14 är nästan 10, så 37 delat med 14 är nästan 3. Blir resten större än eller lika med 14 har du gissat för lite. Resten ska alltid vara mindre än det du delar med.",
+  "visual": {
+    "type": "langdivision",
+    "title": "378 delat med 14",
+    "a": 378,
+    "b": 14
+  },
+  "rule": "Gissa, multiplicera, subtrahera, hämta ner nästa siffra. Resten är alltid mindre än det du delar med",
+  "ruleLabel": "LÅNGDIVISION",
+  "example": "378 delat med 14: 14 · 2 = 28, 37 − 28 = 9, hämta ner 8, 98 delat med 14 är 7. Svaret är 27.",
+  "practice": [
+    {
+      "id": "jamnt",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "q": [
+          12,
+          99
+        ],
+        "d": [
+          11,
+          19
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "q*d"
+        }
+      ],
+      "prompt": "Räkna ut {n} delat med {d}.",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {d} · {q} = {n}, så {n} delat med {d} är {q}.",
+      "feedback": [
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "{d} är talet du delar med. Svaret är hur många gånger {d} ryms i {n}."
+        },
+        {
+          "answers": [
+            "=q*10"
+          ],
+          "message": "Du har fått för många siffror. Gissa med avrundning: {n} delat med {d} är nästan {n} delat med 10."
+        }
+      ]
+    },
+    {
+      "id": "lador",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "sak": [
+          "äpplen",
+          "bullar",
+          "kulor"
+        ]
+      },
+      "vars": {
+        "q": [
+          12,
+          60
+        ],
+        "d": [
+          11,
+          19
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "q*d"
+        }
+      ],
+      "prompt": "Det finns {n} {$sak}. De packas {d} i varje låda. Hur många lådor blir det?",
+      "answer": [
+        "=q",
+        "{q} lådor"
+      ],
+      "correct": "Rätt! {n} delat med {d} är {q} lådor.",
+      "feedback": [
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "{d} är hur många det är i varje låda. Dela {n} med {d} för att få antalet lådor."
+        }
+      ]
+    },
+    {
+      "id": "med-rest",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "q": [
+          10,
+          60
+        ],
+        "d": [
+          11,
+          19
+        ],
+        "r": [
+          1,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "q*d+r"
+        }
+      ],
+      "prompt": "Räkna ut {n} delat med {d}. Skriv svaret med rest, till exempel 5 r 2.",
+      "answer": [
+        "{q} r {r}",
+        "{q} rest {r}"
+      ],
+      "correct": "Rätt! {d} · {q} = {q*d}, och {n} − {q*d} = {r}. Svaret är {q} rest {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=q"
+          ],
+          "message": "Du har glömt resten. {d} · {q} = {q*d}, och {r} blir över."
+        }
+      ]
+    },
+    {
+      "id": "kontroll",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "q": [
+          12,
+          40
+        ],
+        "d": [
+          11,
+          19
+        ],
+        "r": [
+          1,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "q*d+r"
+        }
+      ],
+      "prompt": "Kontrollera en division: {q} · {d} + {r}. Vilket tal är det?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! {q} · {d} = {q*d}, och {q*d} + {r} = {n}. Det är talet som delades.",
+      "feedback": [
+        {
+          "answers": [
+            "=q*d"
+          ],
+          "message": "Du har glömt att lägga till resten {r}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 252 delat med 12.",
+    "answer": [
+      "21"
+    ],
+    "correct": "Rätt! 25 delat med 12 är 2 (12 · 2 = 24), 25 − 24 = 1, hämta ner 2 och få 12. 12 delat med 12 är 1. Svaret är 21.",
+    "feedback": [
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "Du är inte klar. 25 delat med 12 ger bara första siffran. Hämta ner 2 och fortsätt."
+      },
+      {
+        "answers": [
+          "24"
+        ],
+        "message": "Kontrollera med multiplikation: 12 · 24 = 288, men talet var 252."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Klassen har 378 kr i kassan. 14 elever delar lika. Hur mycket får varje elev?",
+      "answer": [
+        "27",
+        "27 kr"
+      ],
+      "correct": "Rätt! 378 delat med 14 är 27, för 14 · 27 = 378.",
+      "feedback": [
+        {
+          "answers": [
+            "26"
+          ],
+          "message": "Kontrollera: 14 · 26 = 364, inte 378."
+        },
+        {
+          "answers": [
+            "28"
+          ],
+          "message": "Kontrollera: 14 · 28 = 392, för mycket."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 395 delat med 15. Skriv svaret med rest.",
+      "answer": [
+        "26 r 5",
+        "26 rest 5"
+      ],
+      "correct": "Rätt! 15 · 26 = 390 och 395 − 390 = 5. Svaret är 26 rest 5.",
+      "feedback": [
+        {
+          "answers": [
+            "26"
+          ],
+          "message": "Du har glömt resten. 15 · 26 = 390, så 5 blir över."
+        },
+        {
+          "answers": [
+            "27"
+          ],
+          "message": "15 · 27 = 405 är större än 395. Du har gissat för högt."
+        }
+      ]
+    },
+    {
+      "prompt": "En traktor lastar 504 kg i säckar. Varje säck rymmer 21 kg. Hur många säckar behövs?",
+      "answer": [
+        "24",
+        "24 säckar"
+      ],
+      "correct": "Rätt! 504 delat med 21 är 24, för 21 · 24 = 504.",
+      "feedback": [
+        {
+          "answers": [
+            "25"
+          ],
+          "message": "Kontrollera: 21 · 25 = 525, för mycket."
+        },
+        {
+          "answers": [
+            "23"
+          ],
+          "message": "Kontrollera: 21 · 23 = 483, för lite."
+        }
+      ]
+    }
+  ]
+}

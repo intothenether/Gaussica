@@ -75,6 +75,19 @@ npx wrangler deploy
 
 Ny databas: det räcker med `schema.sql`. Kör inte `002-assignment-kind.sql` en andra gång, då ger den felet "duplicate column name".
 
+### Version med feedback till din e-post
+
+Knappen "Skicka feedback" skickar meddelanden till dig med e-posttjänsten Resend. Skapa ett gratiskonto på resend.com med den e-postadress du vill ha feedbacken på, skapa en API-nyckel (API Keys) och kör sedan:
+
+```bash
+npx wrangler d1 execute gaussica --remote --file=migrations/004-site-feedback.sql
+npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put FEEDBACK_TO
+npx wrangler deploy
+```
+
+`RESEND_API_KEY` är nyckeln du skapade och `FEEDBACK_TO` är din e-postadress. Utan egen domän skickas mejlet från onboarding@resend.dev, och då måste `FEEDBACK_TO` vara samma adress som du registrerade Resend med. Meddelandena sparas också i databasen. Vill du läsa dem där: `npx wrangler d1 execute gaussica --remote --command "SELECT created_at, kind, text, sender FROM site_feedback ORDER BY id DESC LIMIT 20"`.
+
 ### Version med chatt mellan elev och lärare
 
 Chatten använder en ny tabell, `chat`. Eftersom den bara läggs till (ingen befintlig tabell ändras) räcker det att köra schemat eller migreringen, och den kan köras flera gånger:

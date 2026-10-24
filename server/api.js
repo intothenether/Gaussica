@@ -30,8 +30,9 @@ function createApi(db, options) {
   const loginIpLimit = sec.createLimiter(60, 15 * 60 * 1000);
   const loginUserLimit = sec.createLimiter(8, 15 * 60 * 1000);
   const registerLimit = sec.createLimiter(20, 60 * 60 * 1000);
+  const feedbackLimit = sec.createLimiter(5, 60 * 60 * 1000);
   setInterval(function () {
-    loginIpLimit.sweep(); loginUserLimit.sweep(); registerLimit.sweep();
+    loginIpLimit.sweep(); loginUserLimit.sweep(); registerLimit.sweep(); feedbackLimit.sweep();
     db.prepare("DELETE FROM sessions WHERE expires_at < ?").run(nowIso());
   }, 10 * 60 * 1000).unref();
 
@@ -89,6 +90,8 @@ function createApi(db, options) {
       "SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.teacher_id = ? ORDER BY f.id"),
     markFeedbackRead: db.prepare("UPDATE feedback SET read_at = ? WHERE id = ? AND student_id = ? AND read_at IS NULL"),
     deleteFeedback: db.prepare("DELETE FROM feedback WHERE id = ? AND teacher_id = ?"),
+    insertSiteFeedback: db.prepare("INSERT INTO site_feedback (kind, text, email, page, context, sender, agent, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
+    siteFeedbackEmailed: db.prepare("UPDATE site_feedback SET emailed = 1 WHERE id = ?"),
     classTeacher: db.prepare("SELECT teacher_id FROM classes WHERE id = ?"),
     insertChat: db.prepare("INSERT INTO chat (student_id, teacher_id, from_teacher, text, lesson_id, task_id, context, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
     chatForStudent: db.prepare(
@@ -281,6 +284,71 @@ function createApi(db, options) {
       feedback: s.user.role === "student" ? q.feedbackForStudent.all(s.user.id).map(publicFeedback) : [],
       chat: s.user.role === "student" ? q.chatForStudent.all(s.user.id).reverse().map(publicChat) : []
     });
+  }
+
+  // ----- feedback about the site, sent by e-mail to whoever runs it -----
+  // Set RESEND_API_KEY and FEEDBACK_TO (and optionally FEEDBACK_FROM) to get an e-mail for every message.
+  // Without them the messages are only saved in the table site_feedback.
+  const FEEDBACK_KINDS = { fel: "Något är fel", forslag: "Ett förslag", annat: "Något annat" };
+
+  function feedbackMailText(f) {
+    const lines = ["Ny feedback från Gaussica", "", "Typ: " + FEEDBACK_KINDS[f.kind], "", f.text, ""];
+    if (f.email) lines.push("Svarsadress: " + f.email);
+    lines.push("Från: " + f.sender);
+    if (f.page) lines.push("Sida: " + f.page);
+    if (f.context) {
+      const c = f.context;
+      const where = [c.taskName, c.lessonTitle].filter(Boolean).join(" i ");
+      if (where) lines.push("Uppgift: " + where);
+      if (c.prompt) lines.push("Fråga: " + c.prompt);
+      if (c.answer) lines.push("Svar hittills: " + c.answer);
+    }
+    if (f.agent) lines.push("Webbläsare: " + f.agent);
+    return lines.join("\n");
+  }
+
+  async function mailFeedback(f) {
+    const key = process.env.RESEND_API_KEY, to = process.env.FEEDBACK_TO;
+    if (!key || !to) return false;
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
+        body: JSON.stringify({
+          from: process.env.FEEDBACK_FROM || "Gaussica <onboarding@resend.dev>", to: [to],
+          subject: "Gaussica feedback: " + FEEDBACK_KINDS[f.kind], text: feedbackMailText(f), reply_to: f.email || undefined
+        }),
+        signal: AbortSignal.timeout(8000)
+      });
+      if (!res.ok) console.error("Feedback e-mail failed:", res.status, (await res.text()).slice(0, 200));
+      return res.ok;
+    } catch (e) {
+      console.error("Feedback e-mail failed:", e.message);
+      return false;
+    }
+  }
+
+  async function postFeedback(req, res) {
+    const b = await readJson(req, 12000);
+    if (b.website) return send(res, 201, { ok: true, emailed: false });   // hidden field only a robot fills in
+    const kind = FEEDBACK_KINDS[b.kind] ? b.kind : "annat";
+    const text = str(b.text, 2000).trim();
+    if (text.length < 3) throw new ApiError(400, "Skriv en rad eller två först.");
+    const email = str(b.email, 120).trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new ApiError(400, "E-postadressen ser inte rätt ut. Lämna fältet tomt om du inte vill ha svar.");
+    const wait = feedbackLimit.check(ip(req));
+    if (wait) throw new ApiError(429, "Du har skickat flera meddelanden på kort tid. Försök igen om en stund.");
+    const s = currentSession(req);
+    const sender = s ? s.user.display_name + " (" + (s.user.role === "teacher" ? "lärare" : "elev") + (s.user.class_name ? ", klass " + s.user.class_name : "") + ")" : "Inte inloggad";
+    const context = cleanChatContext(b.context);
+    const f = {
+      kind: kind, text: text, email: email || null, page: str(b.page, 200) || null, context: context ? JSON.parse(context) : null,
+      sender: sender, agent: str(req.headers["user-agent"], 200) || null
+    };
+    const id = Number(q.insertSiteFeedback.run(f.kind, f.text, f.email, f.page, context, f.sender, f.agent, nowIso()).lastInsertRowid);
+    const emailed = await mailFeedback(f);
+    if (emailed) q.siteFeedbackEmailed.run(id);
+    send(res, 201, { ok: true, emailed: emailed });
   }
 
   // ----- chat between a student and the teacher of their class -----
@@ -605,6 +673,7 @@ function createApi(db, options) {
       if (method === "POST" && p === "/api/me/password") return await changePassword(req, res);
       if (method === "GET" && p === "/api/me/data") return myData(req, res);
       if (method === "POST" && p === "/api/me/feedback/read") return await markRead(req, res);
+      if (method === "POST" && p === "/api/feedback") return await postFeedback(req, res);
       if (method === "POST" && p === "/api/me/chat") return await studentChat(req, res);
       if (method === "POST" && p === "/api/me/chat/read") return studentChatRead(req, res);
       if (method === "POST" && p === "/api/teacher/chat") return await teacherChat(req, res);

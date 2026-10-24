@@ -195,6 +195,10 @@ window.GaussicaAuth = (function () {
       const body = el("div", "auth-body");
       card.appendChild(body);
       if (window.GaussicaPrivacy) card.appendChild(window.GaussicaPrivacy.link("Så hanteras dina uppgifter", "pv-link auth-privacy"));
+      const fb = el("button", "pv-link auth-privacy", "Skicka feedback");
+      fb.type = "button";
+      fb.addEventListener("click", function () { if (window.GaussicaFeedback) window.GaussicaFeedback.open(null); });
+      card.appendChild(fb);
       s.appendChild(card);
 
       let mode = "login";

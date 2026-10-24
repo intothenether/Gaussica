@@ -300,6 +300,15 @@ Texten "Så hanteras dina uppgifter" (`privacy.js`) visas från sidfoten och inl
 - **Databas.** Tabellen `chat`. Node-servern uppgraderar sig själv (schemaversion 4). För Cloudflare: kör `migrations/003-chat.sql` en gång (se cloudflare/README.md). Tills dess fungerar resten av sidan som förut, och chatten svarar att den inte är påslagen.
 - **API.** `POST /api/me/chat`, `POST /api/me/chat/read`, `POST /api/teacher/chat`, `POST /api/teacher/chat/read`, `GET /api/teacher/chat/unread`. Samtalen följer med i `/api/me/data` (elev) och `/api/teacher/students` (lärare).
 
+## Feedback (e-post till dig)
+
+- **Knappen.** "Skicka feedback 📣" finns i sidfoten och uppe i varje lektion och övning. Besökaren väljer Något är fel, Ett förslag eller Något annat, skriver och kan lämna sin e-post för att få svar. Från en lektion följer frågan med (om besökaren låter den göra det), och är besökaren inloggad följer namn och klass med.
+- **E-post.** Servern skickar varje meddelande till dig via Resend (gratis för några hundra mejl i månaden). Skapa ett konto på resend.com med den adress du vill ha feedback på, skapa en API-nyckel och sätt `RESEND_API_KEY` och `FEEDBACK_TO` (din adress). Med Node-servern är det miljövariabler (`RESEND_API_KEY=… FEEDBACK_TO=… node server.js`), med Cloudflare är det secrets, se cloudflare/README.md. Utan en egen domän skickas mejlet från onboarding@resend.dev och kan bara gå till adressen du registrerade kontot med. Vill du ha en egen avsändare, sätt `FEEDBACK_FROM`.
+- **Sparas även.** Varje meddelande sparas i tabellen `site_feedback` (Node: schemaversion 5, Cloudflare: kör `migrations/004-site-feedback.sql` en gång), så inget går förlorat om mejlet inte går fram.
+- **Skydd.** Fem meddelanden per timme och adress, en dold ruta som robotar fyller i och längdgränser.
+- **Demoläge.** Utan server öppnas besökarens e-postprogram med ett färdigt meddelande till `contact` i config.js.
+- **API.** `POST /api/feedback`, öppet för alla.
+
 ## Svara med tal eller med uträkning
 
 Där ett vanligt tal väntas som svar räknas en uträkning inte: "36/6" eller "3*6" är rätt värde, men eleven får tipset att räkna ut svaret och skriva talet. Det gäller åk 3–6, där poängen är att träna på att räkna. Från åk 7 tillåts uträkningar (lutning, ekvationer, formler), eftersom räknesteget då ses som enkelt. Frågor där svaret redan är ett bråk eller ett uttryck ("1/6", "x+3") påverkas inte.
@@ -358,4 +367,7 @@ Eleverna får lätt och frivillig motivation, utan ranking och utan jämförelse
 - Nya figurer: `tradiagram`, `parallellogram` och `trapets` (se början av `figures.js`).
 - Uppställning av multiplikation med ett tvåsiffrigt tal (`"b": 23` med två siffror) visas med två rader och en slutlig addition. Figuren `vag` är en balansvåg: `{ "left": [{ "n": 7, "tone": "x" }, { "n": 3 }], "right": [{ "n": 10 }] }` ritar klossar och lutar efter vilken sida som väger mest. I en pyssla kan `n` vara ett uttryck som `"=x"`, så vågen ändras när eleven drar i ett reglage.
 
+- Figurer för åk 5 till 9: `langdivision` (`a`, `b`: hela uträkningen med produkt och rest i varje steg), `areamodell` (`cols`, `rows`, `cells`: en rektangel delad i fyra, för (x + 3)(x + 2) och (a + b)²) och `trigonometri` (`angle`, `names`, `labels` med `hyp`, `opp`, `adj` och `angle`: en rätvinklig triangel med sidorna namngivna från en vinkel).
+- Uttryck i övningsmallar kan även använda `sin`, `cos`, `tan`, `asin`, `acos` och `atan`, alla i grader. Mycket små tal skrivs ut med alla decimaler (0,0042).
+- Svarsformer (`form` på en fråga): `blandad`, `brak`, `forenklat`, `utanparentes` (ett rätt svar som fortfarande har parenteser godtas inte, för uppgifter där parenteser ska multipliceras ut) och `grundpotens` (a · 10^n med a från 1 upp till 10). Kvadratrötter kan skrivas som √2 eller sqrt(2).
 - Nya figurer för åk 4: `kroppar` (`items` med `shape`: kub, ratblock, cylinder, klot, kon, pyramid), `linjer` (`items` med `kind`: parallella, vinkelrata, skarande) och `strecktabell` (`rows` med `label` och `n`, `counts` visar antalet). Trapetsen kan visa sina parallella sidor med `"showHeight": false` och egna `labels`.

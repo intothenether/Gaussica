@@ -1,0 +1,326 @@
+{
+  "id": "rotuttryck",
+  "area": "tal",
+  "title": "Kvadratrötter och rotuttryck",
+  "level": "√ och att förenkla rötter · ungefär åk 9",
+  "grade": 9,
+  "duration": "9 min",
+  "prerequisites": [
+    "pythagoras",
+    "potenser"
+  ],
+  "summary": "Kvadratroten ur a är det positiva tal som gånger sig självt blir a. Rötter kan förenklas med regeln √(a · b) = √a · √b.",
+  "explanationTitle": "Vad är √50?",
+  "explanation": "Problemet: Med Pythagoras sats kan hypotenusan bli sidan √50. Vad är det för ett tal? Ingen kvadrat av ett heltal är 50, och ändå vill vi skriva längden på ett vettigt sätt. Kvadratroten ur ett tal a, skrivet √a, är det positiva tal som multiplicerat med sig självt blir a. Alltså är √49 = 7, för 7 · 7 = 49. Att ta roten ur är motsatsen till att kvadrera. Många rötter är inte hela tal. √2 är ungefär 1,41 och √50 är ungefär 7,07, och decimalerna slutar aldrig. Då är den exakta formen bäst. Du kan förenkla den med regeln √(a · b) = √a · √b. Skriv √50 = √(25 · 2) = √25 · √2 = 5√2. Leta efter den största kvadraten som går att dela ut. Två rötter av samma tal multiplicerade ger talet: √5 · √5 = 5. Du kan skriva roten som √ eller sqrt när du svarar, till exempel 5√2 eller 5*sqrt(2).",
+  "visual": {
+    "type": "tabell",
+    "title": "Några kvadratrötter",
+    "headers": [
+      "Rot",
+      "Värde"
+    ],
+    "rows": [
+      [
+        "√1",
+        "1"
+      ],
+      [
+        "√4",
+        "2"
+      ],
+      [
+        "√9",
+        "3"
+      ],
+      [
+        "√49",
+        "7"
+      ],
+      [
+        "√2",
+        "ungefär 1,41"
+      ],
+      [
+        "√50",
+        "5√2, ungefär 7,07"
+      ]
+    ]
+  },
+  "rule": "√a är det positiva talet som gånger sig självt blir a. √(a · b) = √a · √b",
+  "ruleLabel": "KVADRATROT",
+  "example": "√50 = √(25 · 2) = √25 · √2 = 5√2. Och √5 · √5 = 5.",
+  "practice": [
+    {
+      "id": "perfekt",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          2,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "k*k"
+        }
+      ],
+      "prompt": "Vad är √{n}?",
+      "keys": [
+        "√"
+      ],
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! {k} · {k} = {n}, så √{n} = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n/2"
+          ],
+          "message": "Du har delat med 2. Roten är det tal som multiplicerat med sig självt ger {n}."
+        },
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "{n} är talet du tar roten ur. Vilket tal gånger sig självt ger {n}?"
+        }
+      ]
+    },
+    {
+      "id": "mellan",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          10,
+          99
+        ]
+      },
+      "where": [
+        {
+          "expr": "sqrt(n)-floor(sqrt(n))",
+          "min": 0.05
+        }
+      ],
+      "derive": [
+        {
+          "name": "lo",
+          "expr": "floor(sqrt(n))"
+        }
+      ],
+      "prompt": "√{n} ligger mellan två heltal. Vilket är det lägsta?",
+      "answer": [
+        "=lo"
+      ],
+      "correct": "Rätt! {lo}² = {lo*lo} och {lo+1}² = {(lo+1)*(lo+1)}, så √{n} ligger mellan {lo} och {lo+1}.",
+      "feedback": [
+        {
+          "answers": [
+            "=lo+1"
+          ],
+          "message": "{lo+1} är det högre heltalet, och {lo+1}² = {(lo+1)*(lo+1)} är större än {n}. Svara med det lägre."
+        }
+      ]
+    },
+    {
+      "id": "forenkla",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          2,
+          6
+        ],
+        "m": [
+          2,
+          7
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(m,4)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "k*k*m"
+        }
+      ],
+      "prompt": "Förenkla √{n} så långt det går. Skriv till exempel 3√2 eller 3*sqrt(2).",
+      "keys": [
+        "√"
+      ],
+      "answer": [
+        "{k}√{m}",
+        "{k}*√{m}",
+        "{k}sqrt({m})",
+        "{k}*sqrt({m})"
+      ],
+      "correct": "Rätt! √{n} = √({k*k} · {m}) = √{k*k} · √{m} = {k}√{m}.",
+      "feedback": [
+        {
+          "answers": [
+            "{k*k}√{m}",
+            "{k*k}*√{m}"
+          ],
+          "message": "Du har tagit ut {k*k} utan att ta roten ur det. √{k*k} = {k}."
+        }
+      ]
+    },
+    {
+      "id": "produkt",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "m": [
+          2,
+          7
+        ],
+        "k": [
+          2,
+          4
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "m*k*k"
+        },
+        {
+          "name": "r",
+          "expr": "m*k"
+        }
+      ],
+      "prompt": "Räkna ut √{m} · √{t}. Svara med ett heltal.",
+      "keys": [
+        "√"
+      ],
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! √{m} · √{t} = √({m} · {t}) = √{m*t} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m+t"
+          ],
+          "message": "Du har lagt ihop talen. Rötter multiplicerar du genom att multiplicera talen under rottecknet."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad är √64?",
+    "keys": [
+      "√"
+    ],
+    "answer": [
+      "8"
+    ],
+    "correct": "Rätt! 8 · 8 = 64, så √64 = 8.",
+    "feedback": [
+      {
+        "answers": [
+          "32"
+        ],
+        "message": "Du har delat 64 med 2. Roten är det tal som gånger sig självt ger 64."
+      },
+      {
+        "answers": [
+          "4096",
+          "4 096"
+        ],
+        "message": "Du har kvadrerat 64. Att ta roten ur är motsatsen till att kvadrera."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "√20 ligger mellan två heltal. Vilket är det lägsta?",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! 4² = 16 och 5² = 25, så √20 ligger mellan 4 och 5.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5² = 25 är större än 20. Svara med det lägre heltalet."
+        },
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 är hälften av 20. Leta efter heltalet vars kvadrat är närmast under 20."
+        }
+      ]
+    },
+    {
+      "prompt": "Förenkla √18 så långt det går. Skriv till exempel 3√2 eller 3*sqrt(2).",
+      "keys": [
+        "√"
+      ],
+      "answer": [
+        "3√2",
+        "3*√2",
+        "3sqrt(2)",
+        "3*sqrt(2)"
+      ],
+      "correct": "Rätt! √18 = √(9 · 2) = √9 · √2 = 3√2.",
+      "feedback": [
+        {
+          "answers": [
+            "9√2",
+            "9*√2",
+            "9sqrt(2)",
+            "9*sqrt(2)"
+          ],
+          "message": "Du har tagit ut 9 utan att ta roten ur det. √9 = 3."
+        },
+        {
+          "answers": [
+            "2√3",
+            "2*√3",
+            "2sqrt(3)",
+            "2*sqrt(3)"
+          ],
+          "message": "Dela upp 18 som 9 · 2, inte 6 · 3 eller 3 · 6. Det är 9 som är en kvadrat."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut √5 · √5.",
+      "keys": [
+        "√"
+      ],
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! En rot gånger sig själv är talet under roten: √5 · √5 = 5.",
+      "feedback": [
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "Du har lagt ihop 5 + 5. Rötterna multipliceras, och √5 · √5 = 5."
+        },
+        {
+          "answers": [
+            "25"
+          ],
+          "message": "Du har kvadrerat 5. √5 gånger sig själv är 5."
+        }
+      ]
+    }
+  ]
+}

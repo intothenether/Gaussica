@@ -1,0 +1,338 @@
+{
+  "id": "andragradsekvationer",
+  "area": "algebra",
+  "title": "Andragradsekvationer",
+  "level": "x² och pq-formeln · ungefär åk 9",
+  "grade": 9,
+  "duration": "10 min",
+  "prerequisites": [
+    "kvadreringsreglerna",
+    "rotuttryck",
+    "ekvation"
+  ],
+  "summary": "En andragradsekvation har ett x² och kan ha två lösningar. Du löser den med kvadratrot eller med pq-formeln.",
+  "explanationTitle": "Hur löser vi x² = 49?",
+  "explanation": "Problemet: En rektangel är 2 cm längre än den är bred, och arean är 48 cm². Hur bred är den? Ekvationen blir x(x + 2) = 48, eller x² + 2x − 48 = 0. Där finns både x² och x, och det vi kan om ekvationer, att lägga till, ta bort och dela, räcker inte för att få bort x². Vi behöver en ny metod. Börja med den enklaste typen: x² = 49. Här söker du ett tal som gånger sig självt blir 49. Det finns två: 7 och −7, för (−7) · (−7) = 49. Skriv x = 7 eller x = −7, eller x = ±7. En andragradsekvation kan alltså ha två lösningar. För x² + px + q = 0 finns pq-formeln: halva p, kvadrerat, minus q, roten ur det, och sedan x = −p/2 ± √((p/2)² − q). Exempel med x² + 6x + 5 = 0: p är 6 och q är 5. Halva p är 3, och 3² = 9. 9 − 5 = 4, och √4 = 2. Då är x = −3 ± 2, alltså x = −1 eller x = −5. Kontrollera: (−1)² + 6 · (−1) + 5 = 0. Är talet under roten negativt finns ingen lösning bland vanliga tal.",
+  "visual": {
+    "type": "tabell",
+    "title": "Andragradsekvationer",
+    "headers": [
+      "Ekvation",
+      "Hur du löser den",
+      "Lösningar"
+    ],
+    "rows": [
+      [
+        "x² = 25",
+        "Ta roten ur båda sidor",
+        "x = 5 eller x = −5"
+      ],
+      [
+        "x² − 9 = 0",
+        "Flytta över 9, ta roten ur",
+        "x = 3 eller x = −3"
+      ],
+      [
+        "x² + 6x + 5 = 0",
+        "pq-formeln med p = 6 och q = 5",
+        "x = −1 eller x = −5"
+      ],
+      [
+        "x² − 7x + 12 = 0",
+        "pq-formeln med p = −7 och q = 12",
+        "x = 3 eller x = 4"
+      ]
+    ]
+  },
+  "rule": "x² = a ger x = ±√a. För x² + px + q = 0 är x = −p/2 ± √((p/2)² − q)",
+  "ruleLabel": "PQ-FORMELN",
+  "example": "x² + 6x + 5 = 0: halva p är 3, 9 − 5 = 4, roten är 2, så x = −3 ± 2, alltså −1 eller −5.",
+  "practice": [
+    {
+      "id": "rot",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          2,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "k*k"
+        }
+      ],
+      "prompt": "Lös x² = {n}. Vad är den positiva lösningen?",
+      "answer": [
+        "=k",
+        "x={k}",
+        "x = {k}"
+      ],
+      "correct": "Rätt! x = √{n} = {k}. Den andra lösningen är −{k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=-k"
+          ],
+          "message": "−{k} är också en lösning, men frågan gäller den positiva."
+        },
+        {
+          "answers": [
+            "=n/2"
+          ],
+          "message": "Du har delat med 2. Ta roten ur {n}."
+        }
+      ]
+    },
+    {
+      "id": "storre-negativ",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        },
+        {
+          "name": "q",
+          "expr": "a*b"
+        }
+      ],
+      "prompt": "Lös x² + {s}x + {q} = 0 med pq-formeln. Vilken är den större lösningen?",
+      "answer": [
+        "=-b",
+        "x=-{b}",
+        "x = −{b}"
+      ],
+      "correct": "Rätt! Halva p är {s/2}, ({s/2})² − {q} = {s*s/4-q}. Roten är {(a-b)/2}, så x = −{s/2} ± {(a-b)/2}. Den större lösningen är −{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=-a"
+          ],
+          "message": "−{a} är den mindre lösningen. Den större ligger närmast noll."
+        },
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "Fel tecken. Här är båda lösningarna negativa, eftersom x = −p/2 ± roten."
+        }
+      ]
+    },
+    {
+      "id": "rektangel",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "w": [
+          2,
+          12
+        ],
+        "d": [
+          1,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "w*(w+d)"
+        }
+      ],
+      "prompt": "En rektangel är {d} cm längre än den är bred, och arean är {n} cm². Hur bred är den?",
+      "answer": [
+        "=w",
+        "{w} cm"
+      ],
+      "correct": "Rätt! x(x + {d}) = {n} ger x² + {d}x − {n} = 0. pq-formeln ger x = {w}, för {w} · {w+d} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=w+d"
+          ],
+          "message": "{w+d} cm är längden. Frågan gäller bredden, som är {d} cm kortare."
+        },
+        {
+          "answers": [
+            "=n/d"
+          ],
+          "message": "Du har delat arean med skillnaden. Ställ upp x(x + {d}) = {n} och lös."
+        }
+      ]
+    },
+    {
+      "id": "mindre-positiv",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        },
+        {
+          "name": "q",
+          "expr": "a*b"
+        }
+      ],
+      "prompt": "Lös x² − {s}x + {q} = 0. Vilken är den mindre lösningen?",
+      "answer": [
+        "=b",
+        "x={b}",
+        "x = {b}"
+      ],
+      "correct": "Rätt! Här är p = −{s}, så halva p är −{s/2}. x = {s/2} ± {(a-b)/2}, alltså {b} eller {a}. Den mindre är {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} är den större lösningen. Frågan gäller den mindre."
+        },
+        {
+          "answers": [
+            "=-b"
+          ],
+          "message": "Fel tecken. Eftersom p är negativt är −p/2 positivt, och båda lösningarna är positiva."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Lös x² = 49. Vad är den positiva lösningen?",
+    "answer": [
+      "7",
+      "x=7",
+      "x = 7"
+    ],
+    "correct": "Rätt! x = √49 = 7. Den andra lösningen är −7.",
+    "feedback": [
+      {
+        "answers": [
+          "−7",
+          "-7"
+        ],
+        "message": "−7 är också en lösning, men frågan gäller den positiva."
+      },
+      {
+        "answers": [
+          "24,5",
+          "24.5"
+        ],
+        "message": "Du har delat 49 med 2. Ta roten ur 49."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Lös x² + 6x + 5 = 0. Vilken är den större lösningen?",
+      "answer": [
+        "−1",
+        "-1",
+        "x=-1",
+        "x = −1"
+      ],
+      "correct": "Rätt! x = −3 ± 2, alltså −1 eller −5. Den större är −1.",
+      "feedback": [
+        {
+          "answers": [
+            "−5",
+            "-5"
+          ],
+          "message": "−5 är den mindre lösningen. Den större ligger närmast noll."
+        },
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "Fel tecken. Kontrollera: 1² + 6 · 1 + 5 = 12, inte 0."
+        }
+      ]
+    },
+    {
+      "prompt": "En rektangel är 2 cm längre än den är bred, och arean är 48 cm². Hur bred är den?",
+      "answer": [
+        "6",
+        "6 cm"
+      ],
+      "correct": "Rätt! x(x + 2) = 48 ger x² + 2x − 48 = 0, och pq-formeln ger x = 6. Kontroll: 6 · 8 = 48.",
+      "feedback": [
+        {
+          "answers": [
+            "8",
+            "8 cm"
+          ],
+          "message": "8 cm är längden. Frågan gäller bredden."
+        },
+        {
+          "answers": [
+            "24",
+            "24 cm"
+          ],
+          "message": "Du har delat arean med 2. Ställ upp x(x + 2) = 48 och lös ekvationen."
+        }
+      ]
+    },
+    {
+      "prompt": "Lös x² − 7x + 12 = 0. Vilken är den mindre lösningen?",
+      "answer": [
+        "3",
+        "x=3",
+        "x = 3"
+      ],
+      "correct": "Rätt! x = 3,5 ± 0,5, alltså 3 eller 4. Den mindre är 3.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är den större lösningen. Frågan gäller den mindre."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är q, konstanten i ekvationen. Använd pq-formeln."
+        }
+      ]
+    }
+  ]
+}

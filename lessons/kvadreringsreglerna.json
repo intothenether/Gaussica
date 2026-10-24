@@ -1,0 +1,276 @@
+{
+  "id": "kvadreringsreglerna",
+  "area": "algebra",
+  "title": "Kvadreringsreglerna och konjugatregeln",
+  "level": "Tre regler som kortar ner räkningen · ungefär åk 9",
+  "grade": 9,
+  "duration": "9 min",
+  "prerequisites": [
+    "parenteser-uttryck"
+  ],
+  "summary": "(a + b)², (a − b)² och (a + b)(a − b) går att skriva ut direkt med tre regler, utan att räkna varje term.",
+  "explanationTitle": "Vad är (x + 3)²?",
+  "explanation": "Problemet: Många tror att (x + 3)² är x² + 9, men det stämmer inte. Du kan räkna ut det genom att multiplicera ut två parenteser, men samma sak dyker upp hela tiden. Finns det en genväg? Ja, för det blir samma mönster varje gång. En kvadrat med sidan a + b har arean (a + b)². Den kan delas i fyra delar: en kvadrat a², en kvadrat b² och två rektanglar a · b. Alltså är (a + b)² = a² + 2ab + b². Den mittersta termen 2ab är den som lätt glöms bort. Med minus blir den negativ: (a − b)² = a² − 2ab + b². Den tredje regeln gäller när parenteserna har samma tal men olika tecken: (a + b)(a − b) = a² − b². Mittentermerna tar ut varandra. Reglerna hjälper även i huvudet: 51² = (50 + 1)² = 2500 + 100 + 1 = 2601, och 99 · 101 = (100 − 1)(100 + 1) = 10 000 − 1 = 9999. Skriv x² som x^2 när du svarar.",
+  "visual": {
+    "type": "areamodell",
+    "title": "(a + b)² = a² + 2ab + b²",
+    "cols": [
+      "a",
+      "b"
+    ],
+    "rows": [
+      "a",
+      "b"
+    ],
+    "cells": [
+      [
+        "a²",
+        "ab"
+      ],
+      [
+        "ab",
+        "b²"
+      ]
+    ]
+  },
+  "rule": "(a + b)² = a² + 2ab + b². (a − b)² = a² − 2ab + b². (a + b)(a − b) = a² − b²",
+  "ruleLabel": "TRE REGLER",
+  "example": "(x + 3)² = x² + 6x + 9. (x + 3)(x − 3) = x² − 9.",
+  "practice": [
+    {
+      "id": "kv-plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Utveckla (x + {a})². Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x^2 + {2*a}x + {a*a}"
+      ],
+      "correct": "Rätt! (x + {a})² = x² + 2 · {a} · x + {a}² = x² + {2*a}x + {a*a}.",
+      "feedback": [
+        {
+          "answers": [
+            "x^2 + {a*a}"
+          ],
+          "message": "Du har glömt mittentermen 2ab. Här är den 2 · {a} · x = {2*a}x."
+        },
+        {
+          "answers": [
+            "x^2 + {a}x + {a*a}"
+          ],
+          "message": "Mittentermen är 2ab, alltså två gånger {a} · x, inte bara {a}x."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "id": "kv-minus",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Utveckla (x − {a})². Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x^2 − {2*a}x + {a*a}"
+      ],
+      "correct": "Rätt! (x − {a})² = x² − 2 · {a} · x + {a}² = x² − {2*a}x + {a*a}.",
+      "feedback": [
+        {
+          "answers": [
+            "x^2 − {a*a}"
+          ],
+          "message": "Det är konjugatregeln (a + b)(a − b). Här är det en kvadrat, så mittentermen −2ab finns kvar."
+        },
+        {
+          "answers": [
+            "x^2 + {2*a}x + {a*a}"
+          ],
+          "message": "Mittentermen är negativ när parentesen har minus: −{2*a}x."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "id": "konjugat",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          12
+        ]
+      },
+      "prompt": "Förenkla (x + {a})(x − {a}). Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x^2 − {a*a}"
+      ],
+      "correct": "Rätt! Mittentermerna tar ut varandra: (x + {a})(x − {a}) = x² − {a}² = x² − {a*a}.",
+      "feedback": [
+        {
+          "answers": [
+            "x^2 + {a*a}"
+          ],
+          "message": "Minustecknet ska vara kvar: x² − {a*a}."
+        },
+        {
+          "answers": [
+            "x^2 − {2*a}x + {a*a}"
+          ],
+          "message": "Det är kvadreringsregeln för (x − {a})². Här har parenteserna olika tecken, så mittentermerna tar ut varandra."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "id": "huvud",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "k": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "10*k+1"
+        }
+      ],
+      "prompt": "Räkna ut {n}² i huvudet med hjälp av ({n-1} + 1)².",
+      "answer": [
+        "=n*n"
+      ],
+      "correct": "Rätt! ({n-1} + 1)² = {(n-1)*(n-1)} + {2*(n-1)} + 1 = {n*n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=pow(n-1,2)+1"
+          ],
+          "message": "Du har glömt mittentermen 2ab = {2*(n-1)}. Räkna {(n-1)*(n-1)} + {2*(n-1)} + 1."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Utveckla (x + 4)². Skriv x² som x^2.",
+    "keys": [
+      "^"
+    ],
+    "answer": [
+      "x^2 + 8x + 16"
+    ],
+    "correct": "Rätt! x² + 2 · 4 · x + 4² = x² + 8x + 16.",
+    "feedback": [
+      {
+        "answers": [
+          "x^2 + 16"
+        ],
+        "message": "Du har glömt mittentermen. (a + b)² = a² + 2ab + b², och 2ab = 2 · 4 · x = 8x."
+      },
+      {
+        "answers": [
+          "x^2 + 4x + 16"
+        ],
+        "message": "Mittentermen är 2ab, alltså två gånger 4x: 8x."
+      }
+    ],
+    "form": "utanparentes"
+  },
+  "wordProblems": [
+    {
+      "prompt": "Utveckla (x − 5)². Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x^2 − 10x + 25"
+      ],
+      "correct": "Rätt! x² − 2 · 5 · x + 5² = x² − 10x + 25.",
+      "feedback": [
+        {
+          "answers": [
+            "x^2 − 25"
+          ],
+          "message": "Det är konjugatregelns svar. Här är det en kvadrat, så mittentermen −10x finns kvar."
+        },
+        {
+          "answers": [
+            "x^2 + 10x + 25"
+          ],
+          "message": "Mittentermen är negativ när parentesen har minus."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "prompt": "Förenkla (x + 6)(x − 6). Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x^2 − 36"
+      ],
+      "correct": "Rätt! Konjugatregeln ger x² − 6² = x² − 36.",
+      "feedback": [
+        {
+          "answers": [
+            "x^2 + 36"
+          ],
+          "message": "Det ska vara minus: x² − 36."
+        },
+        {
+          "answers": [
+            "x^2 − 12x + 36"
+          ],
+          "message": "Det är kvadreringsregeln för (x − 6)². Här har parenteserna olika tecken, så mittentermerna tar ut varandra."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "prompt": "Räkna ut 99 · 101 med hjälp av konjugatregeln (100 − 1)(100 + 1).",
+      "answer": [
+        "9999"
+      ],
+      "correct": "Rätt! 100² − 1² = 10 000 − 1 = 9999.",
+      "feedback": [
+        {
+          "answers": [
+            "10000",
+            "10 000"
+          ],
+          "message": "10 000 är 100². Dra bort 1² = 1."
+        },
+        {
+          "answers": [
+            "9900"
+          ],
+          "message": "Du har dragit bort 100. Dra bort 1² = 1."
+        }
+      ]
+    }
+  ]
+}

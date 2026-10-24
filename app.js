@@ -34,6 +34,13 @@
       if (text.indexOf("/") >= 0 && !(MS && MS.isMixed(text))) return "Det stämmer, men skriv svaret i blandad form, med hela talet först, till exempel 1 3/4.";
     } else if (form === "brak") {
       if (MS && MS.isMixed(text)) return "Det stämmer, men skriv svaret som ett bråk, utan hela tal framför.";
+    } else if (form === "utanparentes") {
+      if (/[()]/.test(text)) return "Det stämmer, men skriv uttrycket utan parentes. Multiplicera ut parentesen först.";
+    } else if (form === "grundpotens") {
+      // a number from 1 up to (not including) 10, times a power of ten: 3,5 · 10^4
+      const m = /^\s*(\d+(?:[.,]\d+)?)\s*[*·×]\s*10\s*\^\s*\(?[-−]?\d+\)?\s*$/.exec(text);
+      const lead = m ? Number(m[1].replace(",", ".")) : NaN;
+      if (!m || lead < 1 || lead >= 10) return "Det stämmer, men skriv det i grundpotensform: ett tal från 1 upp till 10 gånger en tiopotens, till exempel 3,5 · 10^4.";
     } else if (form === "forenklat") {
       const m = /^\s*(\d+)\s*[:/]\s*(\d+)\s*$/.exec(text);
       if (m) {
@@ -291,6 +298,7 @@
         renderProblem(parent, lesson, task.problem, task.id, label, opts);
       },
       openChat: function (context) { window.GaussicaChat.open(context); },
+      openFeedback: function (context) { window.GaussicaFeedback.open(context); },
       canChat: function () { return window.GaussicaChat.canChat(); },
       chatUnread: function () { return window.GaussicaChat.unread(); },
       goToLesson: function (id) { window.location.hash = "#" + id; },
@@ -308,6 +316,7 @@
       markRead: markFeedbackRead,
       startPractice: function (id) { window.location.hash = "#practice/" + id; }
     });
+    window.GaussicaFeedback.init({ getUser: function () { return currentUser; } });
     window.GaussicaChat.init({
       getUser: function () { return currentUser; },
       getMessages: function () { return (currentUser && currentUser.chat) || []; },

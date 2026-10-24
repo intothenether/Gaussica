@@ -22,7 +22,7 @@ window.GaussicaPrivacy = (function () {
     const cfg = window.GAUSSICA_CONFIG || {};
     const contact = cfg.contact ? "Kontakta " + cfg.contact + "." : "Kontakta din lärare, så hjälper hen dig vidare.";
     return [
-      ["Vad sparas?", "Ditt namn (skriv gärna bara förnamn eller ett smeknamn), ditt användarnamn, ett krypterat lösenord och vilken klass du går i. När du räknar sparas dina svar, hur många försök du behövt, det du ritat på ritytan och hur långt du kommit. Skriver du till din lärare med knappen Fråga läraren sparas meddelandet, svaret du får och vilken uppgift du tittade på."],
+      ["Vad sparas?", "Ditt namn (skriv gärna bara förnamn eller ett smeknamn), ditt användarnamn, ett krypterat lösenord och vilken klass du går i. När du räknar sparas dina svar, hur många försök du behövt, det du ritat på ritytan och hur långt du kommit. Skriver du till din lärare med knappen Fråga läraren sparas meddelandet, svaret du får och vilken uppgift du tittade på. Skickar du feedback om sidan sparas meddelandet och skickas som e-post till den som driver sidan, tillsammans med ditt namn och din klass om du är inloggad."],
       ["Varför?", "Så att du kan fortsätta där du slutade, få tips som passar dig och så att din lärare kan se hur det går och hjälpa dig."],
       ["Vem kan se det?", "Du själv och läraren som skapade din klass. Uppgifterna säljs inte, delas inte med andra och används inte till reklam."],
       ["Var sparas det?", whereStored()],

@@ -22,6 +22,9 @@
 //   trapets     { a, b, height, offset, unit, showHeight, showCopy }
 //   kroppar     { items:[{shape,label}], columns }   shapes: kub ratblock cylinder klot kon pyramid
 //   linjer      { items:[{kind,label}], columns }    kinds: parallella vinkelrata skarande
+//   langdivision { a, b }                                      long division written out, with the product and the rest of each step
+//   areamodell  { cols, rows, cells, widths, heights }          a rectangle cut in four: (x + 3)(x + 2), (a + b)^2
+//   trigonometri { angle, names, labels:{hyp,opp,adj,angle} }   right triangle with the sides named from one angle
 //   strecktabell { rows:[{label,n}], counts }        tally chart, groups of five (counts shows the number at the end of each row)
 // tallinje also takes sequence:{start,step,count}; monster takes generator:"L"|"kvadrat"|"trappa"|"rad"|"faktorer", n, only.
 
@@ -32,7 +35,7 @@ window.GaussicaFigures = (function () {
   const TYPES = {
     tallinje: "TALLINJE", numberline: "TALLINJE", rektangel: "FIGUR", kvadrat: "FIGUR", triangel: "FIGUR",
     figurer: "FIGURER", symmetri: "SYMMETRI", monster: "MÖNSTER", talrutnat: "TALRUTNÄT",
-    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", vag: "BALANSVÅG", pythagoras: "PYTHAGORAS", tradiagram: "TRÄDDIAGRAM", parallellogram: "FIGUR", trapets: "FIGUR", kroppar: "KROPPAR", linjer: "LINJER", strecktabell: "STRECKTABELL"
+    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", vag: "BALANSVÅG", pythagoras: "PYTHAGORAS", tradiagram: "TRÄDDIAGRAM", parallellogram: "FIGUR", trapets: "FIGUR", kroppar: "KROPPAR", linjer: "LINJER", strecktabell: "STRECKTABELL", langdivision: "LÅNGDIVISION", areamodell: "AREAMODELL", trigonometri: "TRIGONOMETRI"
   };
 
   function supports(type) {
@@ -1103,6 +1106,99 @@ window.GaussicaFigures = (function () {
     return wrap([svg]);
   }
 
+  // ----- long division (långdivision): the whole calculation written out -----
+  // { a, b }   a is divided by b. Each step shows the product that is subtracted and what is left (with the next digit brought down).
+  function longdivision(c) {
+    const a = Math.max(1, Math.round(Number(c.a))), d = Math.max(1, Math.round(Number(c.b)));
+    const D = digitsOf(a), L = D.length;
+    const CW = 28, RH = 30, left = 78, top = 14;
+    const q = new Array(L).fill("");
+    const steps = [];
+    let cur = 0, started = false;
+    D.forEach(function (digit, i) {
+      cur = cur * 10 + digit;
+      const qd = Math.floor(cur / d);
+      if (qd > 0) started = true;
+      if (!started) return;
+      q[i] = String(qd);
+      steps.push({ col: i, prod: qd * d, rem: cur - qd * d, next: i + 1 < L ? D[i + 1] : null });
+      cur = cur - qd * d;
+    });
+    const base = top + 62;   // baseline of the dividend row
+    const W = left + L * CW + 40, H = base + steps.length * 2 * RH + 22;
+    const svg = svgRoot(c, W, H);
+    const cx = function (col) { return left + col * CW + CW / 2; };
+    // the digits of a number, right aligned so that the last digit sits in column `col`
+    const put = function (value, col, y, cls) {
+      const ds = digitsOf(value);
+      ds.forEach(function (dig, j) { text(svg, cx(col - (ds.length - 1 - j)), y, String(dig), "fig-ld " + (cls || "")); });
+      return ds.length;
+    };
+    text(svg, left - 18, base, String(d), "fig-ld", "end");
+    s("line", { x1: left - 8, y1: base - 24, x2: left - 8, y2: base + 8, "class": "fig-ld-line" }, svg);
+    s("line", { x1: left - 8, y1: base - 24, x2: left + L * CW + 6, y2: base - 24, "class": "fig-ld-line" }, svg);
+    D.forEach(function (dig, i) { text(svg, cx(i), base, String(dig), "fig-ld"); });
+    q.forEach(function (dig, i) { if (dig !== "") text(svg, cx(i), base - 34, dig, "fig-ld fig-ld-q"); });
+    steps.forEach(function (st, j) {
+      const yProd = base + (2 * j + 1) * RH, yRem = base + (2 * j + 2) * RH;
+      const n = put(st.prod, st.col, yProd);
+      text(svg, cx(st.col - n) , yProd, "−", "fig-ld fig-ld-minus");
+      s("line", { x1: cx(st.col - n) - CW / 2 + 4, y1: yProd + 8, x2: cx(st.col) + CW / 2, y2: yProd + 8, "class": "fig-ld-line" }, svg);
+      if (st.next !== null) put(st.rem * 10 + st.next, st.col + 1, yRem);
+      else put(st.rem, st.col, yRem, "fig-ld-rest");
+    });
+    return wrap([svg]);
+  }
+
+  // ----- area model: (x + 3)(x + 2) as a rectangle cut in four -----
+  // { cols: ["x", "3"], rows: ["x", "2"], cells: [["x²", "3x"], ["2x", "6"]], widths: [0.6, 0.4], heights: [0.6, 0.4] }
+  function areamodel(c) {
+    const cols = c.cols || ["a", "b"], rows = c.rows || ["a", "b"], cells = c.cells || [["", ""], ["", ""]];
+    const wf = c.widths || [0.6, 0.4], hf = c.heights || [0.6, 0.4];
+    const W = 420, H = 300, left = 70, top = 50, gw = 300, gh = 210;
+    const svg = svgRoot(c, W, H);
+    let y = top;
+    rows.forEach(function (rlabel, r) {
+      let x = left;
+      const h = gh * hf[r];
+      cols.forEach(function (clabel, k) {
+        const w = gw * wf[k];
+        s("rect", { x: x, y: y, width: w, height: h, "class": "fig-am fig-am-" + ((r + k) % 2 === 0 ? (r === k ? "sq" : "a") : "b") }, svg);
+        text(svg, x + w / 2, y + h / 2 + 7, cells[r] && cells[r][k] !== undefined ? cells[r][k] : "", "fig-am-text");
+        if (r === 0) text(svg, x + w / 2, top - 14, clabel, "fig-dim");
+        x += w;
+      });
+      text(svg, left - 14, y + h / 2 + 5, rlabel, "fig-dim", "end");
+      y += h;
+    });
+    return wrap([svg]);
+  }
+
+  // ----- trigonometry: a right triangle with its sides named from one angle -----
+  // { angle: 30, names: true, labels: { hyp, opp, adj, angle } }   labels replace the names, e.g. { opp: "5 cm", hyp: "x" }
+  function trig(c) {
+    const deg = Math.max(10, Math.min(80, Number(c.angle) || 30));
+    const rad = deg * Math.PI / 180, cs = Math.cos(rad), sn = Math.sin(rad);
+    const W = 440, H = 270;
+    const len = Math.min(300 / cs, 170 / sn);
+    const A = [(W - len * cs) / 2, H - 56];
+    const C = [A[0] + len * cs, A[1]];
+    const B = [C[0], A[1] - len * sn];
+    const svg = svgRoot(c, W, H);
+    s("polygon", { points: [A, C, B].map(function (p) { return p.join(","); }).join(" "), "class": "fig-shape" }, svg);
+    s("path", { d: "M" + (C[0] - 14) + "," + C[1] + " V" + (C[1] - 14) + " H" + C[0], "class": "fig-right" }, svg);
+    const arc = 34;
+    s("path", { d: "M" + (A[0] + arc) + "," + A[1] + " A" + arc + "," + arc + " 0 0 0 " + (A[0] + arc * cs) + "," + (A[1] - arc * sn), "class": "fig-trig-arc" }, svg);
+    const lab = c.labels || {}, names = c.names !== false;
+    const say = function (key, fallback) { return lab[key] !== undefined ? lab[key] : (names ? fallback : ""); };
+    const mid = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+    if (say("hyp", "hypotenusa")) text(svg, mid[0] - sn * 14, mid[1] - cs * 14, say("hyp", "hypotenusa"), "fig-dim", "end");
+    if (say("opp", "motstående katet")) text(svg, C[0] + 10, (B[1] + C[1]) / 2 + 5, say("opp", "motstående katet"), "fig-dim", "start");
+    if (say("adj", "närliggande katet")) text(svg, (A[0] + C[0]) / 2, A[1] + 26, say("adj", "närliggande katet"), "fig-dim");
+    if (c.showAngle !== false) text(svg, A[0] + 60 * Math.cos(rad / 2) + 4, A[1] - 60 * Math.sin(rad / 2) + 5, lab.angle !== undefined ? lab.angle : deg + "°", "fig-dim fig-trig-angle", "start");
+    return wrap([svg]);
+  }
+
   function render(config) {
     const type = String(config.type || "").toLowerCase();
     if (type === "tallinje" || type === "numberline") return numberline(config);
@@ -1126,6 +1222,9 @@ window.GaussicaFigures = (function () {
     if (type === "kroppar") return solids(config);
     if (type === "linjer") return lines(config);
     if (type === "strecktabell") return tally(config);
+    if (type === "langdivision") return longdivision(config);
+    if (type === "areamodell") return areamodel(config);
+    if (type === "trigonometri") return trig(config);
     return null;
   }
 

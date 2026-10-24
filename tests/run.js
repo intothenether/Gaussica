@@ -92,7 +92,7 @@ async function withServer(fn) {
 
 async function api() {
   if (filter && "api".indexOf(filter) < 0) return;
-  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"]]) {
+  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"]]) {
     try {
       await withServer(async (base, code) => {
         const args = mode ? [base, mode, code] : [];

@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 
-const SCHEMA_VERSION = 4;
+const SCHEMA_VERSION = 5;
 
 function open(dbPath) {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -124,6 +124,22 @@ function migrate(db) {
       );
       CREATE INDEX chat_student ON chat (student_id, id);
       CREATE INDEX chat_teacher ON chat (teacher_id, from_teacher, read_at);
+    `);
+  }
+  if (version < 5) {
+    db.exec(`
+      CREATE TABLE site_feedback (
+        id         INTEGER PRIMARY KEY,
+        kind       TEXT NOT NULL,
+        text       TEXT NOT NULL,
+        email      TEXT,
+        page       TEXT,
+        context    TEXT,
+        sender     TEXT,
+        agent      TEXT,
+        emailed    INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL
+      );
     `);
   }
   db.exec("PRAGMA user_version = " + SCHEMA_VERSION);

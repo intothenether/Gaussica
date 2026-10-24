@@ -182,6 +182,11 @@ window.GaussicaPlayer = (function () {
       if (deps.chatUnread && deps.chatUnread()) ask.classList.add("has-news");
       top.appendChild(ask);
     }
+    if (deps.openFeedback) {
+      const fb = button("📣 Feedback", "pl-fb" + (top.querySelector(".pl-ask") ? "" : " is-first"), function () { deps.openFeedback(chatContext()); });
+      fb.title = "Hittade du ett fel eller har du en idé? Skicka feedback.";
+      top.appendChild(fb);
+    }
     return top;
   }
 

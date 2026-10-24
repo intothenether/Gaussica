@@ -32,6 +32,13 @@ window.GaussicaPyssel = (function () {
   const FUNCS = {
     abs: Math.abs, sqrt: Math.sqrt, round: Math.round, floor: Math.floor, ceil: Math.ceil,
     min: Math.min, max: Math.max, pow: Math.pow,
+    // trigonometry works in degrees, like a calculator set to "deg"
+    sin: function (d) { return Math.sin(d * Math.PI / 180); },
+    cos: function (d) { return Math.cos(d * Math.PI / 180); },
+    tan: function (d) { return Math.tan(d * Math.PI / 180); },
+    asin: function (x) { return Math.asin(x) * 180 / Math.PI; },
+    acos: function (x) { return Math.acos(x) * 180 / Math.PI; },
+    atan: function (x) { return Math.atan(x) * 180 / Math.PI; },
     mod: function (a, b) { return b === 0 ? NaN : ((a % b) + b) % b; },
     divcount: function (n) {
       n = Math.round(n);
@@ -165,6 +172,8 @@ window.GaussicaPyssel = (function () {
 
   function num(v) {
     if (!isFinite(v)) return "?";
+    // very small numbers (0,0042) would round to 0 below, so they keep their decimals
+    if (v !== 0 && Math.abs(v) < 0.005) return v.toFixed(12).replace(/0+$/, "").replace(".", ",").replace("-", "−");
     return String(Math.round(v * 100) / 100).replace(".", ",").replace("-", "−");
   }
 

@@ -1,0 +1,341 @@
+{
+  "id": "tiopotenser",
+  "area": "tal",
+  "title": "Tiopotenser och grundpotensform",
+  "level": "Mycket stora och mycket små tal · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "potenser"
+  ],
+  "summary": "Med tiopotenser skriver du mycket stora och mycket små tal kort. Grundpotensform är ett tal från 1 till 10 gånger en tiopotens.",
+  "explanationTitle": "Hur skriver vi avståndet till solen?",
+  "explanation": "Problemet: Solen ligger 150 000 000 km från jorden, och en bakterie är 0,000002 m. Så många nollor är svåra att läsa, och det är lätt att tappa en nolla när du ska jämföra eller räkna. Vi behöver ett kort och säkert skrivsätt. Det går att bygga på potenserna: 10^3 är 1000, 10^6 är en miljon. Varje steg uppåt lägger till en nolla. Går du åt andra hållet är 10^0 = 1, 10^−1 = 0,1 och 10^−2 = 0,01. Ett tal i grundpotensform skrivs a · 10^n där a är minst 1 och mindre än 10. Avståndet till solen är 1,5 · 10^8 km, för 1,5 flyttar kommatecknet 8 steg åt höger. Bakterien är 2 · 10^−6 m, för 2 flyttar kommatecknet 6 steg åt vänster. Stora tal får positiv exponent och små tal negativ exponent. Exponenten säger hur många steg kommatecknet flyttas.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tiopotenser",
+    "headers": [
+      "Tiopotens",
+      "Tal",
+      "Exempel i grundpotensform"
+    ],
+    "rows": [
+      [
+        "10^6",
+        "1 000 000",
+        "4 500 000 = 4,5 · 10^6"
+      ],
+      [
+        "10^3",
+        "1000",
+        "3200 = 3,2 · 10^3"
+      ],
+      [
+        "10^0",
+        "1",
+        ""
+      ],
+      [
+        "10^−1",
+        "0,1",
+        "0,3 = 3 · 10^−1"
+      ],
+      [
+        "10^−3",
+        "0,001",
+        "0,0042 = 4,2 · 10^−3"
+      ]
+    ]
+  },
+  "rule": "a · 10^n där a är minst 1 och mindre än 10. Stora tal: n är positivt. Små tal: n är negativt",
+  "ruleLabel": "GRUNDPOTENSFORM",
+  "example": "150 000 000 = 1,5 · 10^8. 0,00042 = 4,2 · 10^−4.",
+  "practice": [
+    {
+      "id": "stort-till-grund",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          11,
+          99
+        ],
+        "e": [
+          3,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*pow(10,e-1)"
+        }
+      ],
+      "prompt": "Skriv {n} i grundpotensform. Skriv · som * och upphöjt med ^, till exempel 3,5*10^4.",
+      "form": "grundpotens",
+      "answer": [
+        "{a/10}·10^{e}",
+        "{a/10}*10^{e}"
+      ],
+      "correct": "Rätt! Kommatecknet flyttas {e} steg: {n} = {a/10} · 10^{e}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a/10}*10^{e-1}",
+            "{a/10}·10^{e-1}"
+          ],
+          "message": "Kommatecknet ska flyttas ett steg till. Räkna stegen från högra änden till efter första siffran."
+        },
+        {
+          "answers": [
+            "{a/10}*10^{e+1}",
+            "{a/10}·10^{e+1}"
+          ],
+          "message": "Du har flyttat kommatecknet ett steg för mycket. Räkna stegen igen."
+        }
+      ]
+    },
+    {
+      "id": "grund-till-tal",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          11,
+          99
+        ],
+        "e": [
+          2,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*pow(10,e-1)"
+        }
+      ],
+      "prompt": "Skriv {a/10} · 10^{e} som ett vanligt tal, utan potens.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Flytta kommatecknet {e} steg åt höger: {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*pow(10,e)"
+          ],
+          "message": "Du har flyttat kommatecknet ett steg för långt. Flytta det exakt {e} steg."
+        },
+        {
+          "answers": [
+            "=a*pow(10,e-2)"
+          ],
+          "message": "Du har flyttat kommatecknet ett steg för lite. Flytta det exakt {e} steg."
+        }
+      ]
+    },
+    {
+      "id": "litet-till-grund",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "d": [
+          11,
+          99
+        ],
+        "e": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d/pow(10,e+1)"
+        }
+      ],
+      "prompt": "Skriv {n} i grundpotensform. Skriv · som * och upphöjt med ^, till exempel 3,5*10^-4.",
+      "form": "grundpotens",
+      "answer": [
+        "{d/10}·10^-{e}",
+        "{d/10}*10^-{e}"
+      ],
+      "correct": "Rätt! Kommatecknet flyttas {e} steg åt höger, så exponenten är −{e}: {d/10} · 10^−{e}.",
+      "feedback": [
+        {
+          "answers": [
+            "{d/10}*10^{e}",
+            "{d/10}·10^{e}"
+          ],
+          "message": "Ett litet tal har negativ exponent. Det ska vara 10^−{e}."
+        },
+        {
+          "answers": [
+            "{d/10}*10^-{e-1}",
+            "{d/10}·10^-{e-1}"
+          ],
+          "message": "Räkna stegen igen. Kommatecknet ska flyttas till efter första siffran som inte är noll."
+        }
+      ]
+    },
+    {
+      "id": "gange",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          1,
+          3
+        ],
+        "b": [
+          1,
+          3
+        ],
+        "m": [
+          2,
+          5
+        ],
+        "n": [
+          2,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*b"
+        },
+        {
+          "name": "e",
+          "expr": "m+n"
+        }
+      ],
+      "prompt": "Räkna ut ({a} · 10^{m}) · ({b} · 10^{n}). Svara i grundpotensform, till exempel 6*10^5.",
+      "form": "grundpotens",
+      "answer": [
+        "{p}·10^{e}",
+        "{p}*10^{e}"
+      ],
+      "correct": "Rätt! {a} · {b} = {p}, och 10^{m} · 10^{n} = 10^{e}. Exponenterna läggs ihop.",
+      "feedback": [
+        {
+          "answers": [
+            "{p}*10^{m*n}",
+            "{p}·10^{m*n}"
+          ],
+          "message": "Exponenterna ska läggas ihop, inte multipliceras: {m} + {n} = {e}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Skriv 4 500 000 i grundpotensform. Skriv · som * och upphöjt med ^, till exempel 3,5*10^4.",
+    "form": "grundpotens",
+    "keys": [
+      "^",
+      "·"
+    ],
+    "answer": [
+      "4,5·10^6",
+      "4,5*10^6"
+    ],
+    "correct": "Rätt! Kommatecknet flyttas 6 steg åt vänster: 4 500 000 = 4,5 · 10^6.",
+    "feedback": [
+      {
+        "answers": [
+          "4,5*10^5",
+          "4,5·10^5"
+        ],
+        "message": "Du har räknat ett steg för lite. Flytta kommatecknet från slutet till efter första siffran och räkna stegen."
+      },
+      {
+        "answers": [
+          "4,5*10^7",
+          "4,5·10^7"
+        ],
+        "message": "Du har räknat ett steg för mycket. Räkna stegen igen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Skriv 3,2 · 10^4 som ett vanligt tal, utan potens.",
+      "answer": [
+        "32000",
+        "32 000"
+      ],
+      "correct": "Rätt! Flytta kommatecknet 4 steg åt höger: 32 000.",
+      "feedback": [
+        {
+          "answers": [
+            "3200",
+            "3 200"
+          ],
+          "message": "Du har flyttat kommatecknet ett steg för lite. 10^4 är 10 000."
+        },
+        {
+          "answers": [
+            "320000",
+            "320 000"
+          ],
+          "message": "Du har flyttat kommatecknet ett steg för mycket."
+        }
+      ]
+    },
+    {
+      "prompt": "Skriv 0,0042 i grundpotensform. Skriv · som * och upphöjt med ^, till exempel 3,5*10^-4.",
+      "form": "grundpotens",
+      "keys": [
+        "^",
+        "·"
+      ],
+      "answer": [
+        "4,2·10^-3",
+        "4,2*10^-3"
+      ],
+      "correct": "Rätt! Kommatecknet flyttas 3 steg åt höger, så exponenten är −3.",
+      "feedback": [
+        {
+          "answers": [
+            "4,2*10^3",
+            "4,2·10^3"
+          ],
+          "message": "Ett litet tal har negativ exponent: 10^−3."
+        },
+        {
+          "answers": [
+            "4,2*10^-4",
+            "4,2·10^-4"
+          ],
+          "message": "Räkna stegen igen. Kommatecknet flyttas 3 steg."
+        }
+      ]
+    },
+    {
+      "prompt": "Jorden är ungefär 1,5 · 10^8 km från solen. Hur många nollor har talet om du skriver det med siffror?",
+      "answer": [
+        "7"
+      ],
+      "correct": "Rätt! 1,5 · 10^8 = 150 000 000. Det är en femma och sju nollor.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "10^8 flyttar kommatecknet 8 steg, men en av stegen används för decimalen 5. Det blir 150 000 000."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "Räkna siffrorna i 150 000 000: det är tre siffror följt av sex nollor, alltså sju nollor sammanlagt."
+        }
+      ]
+    }
+  ]
+}

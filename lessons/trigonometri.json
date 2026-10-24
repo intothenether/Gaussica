@@ -1,0 +1,427 @@
+{
+  "id": "trigonometri",
+  "area": "geometri",
+  "title": "Trigonometri: sin, cos och tan",
+  "level": "Sidor och vinklar i rätvinkliga trianglar · ungefär åk 9",
+  "grade": 9,
+  "duration": "10 min",
+  "prerequisites": [
+    "pythagoras",
+    "forhallande"
+  ],
+  "summary": "I en rätvinklig triangel bestämmer vinkeln förhållandet mellan sidorna. Sinus, cosinus och tangens ger dig det förhållandet.",
+  "explanationTitle": "Hur högt är trädet?",
+  "explanation": "Problemet: Du vill veta hur högt ett träd är, men du kan inte mäta uppåt. Du kan mäta avståndet till trädet, 20 m, och med en vinkelmätare se att toppen syns i vinkeln 35° uppåt. Pythagoras sats kräver två sidor, men här har du bara en sida och en vinkel. Vi behöver något som kopplar ihop vinklar och sidor. Det visar sig att i en rätvinklig triangel har sidornas förhållande bara med vinkeln att göra, inte med hur stor triangeln är. Kallar du vinkeln v har triangeln tre sidor: hypotenusan mitt emot den räta vinkeln, den motstående katetern mitt emot v och den närliggande katetern bredvid v. Tre förhållanden har egna namn. Sinus: sin v är motstående delat med hypotenusan. Cosinus: cos v är närliggande delat med hypotenusan. Tangens: tan v är motstående delat med närliggande. Värdena finns på miniräknaren, som måste vara inställd på grader. Trädet: tan 35° är ungefär 0,70, och tan v är höjden delat med 20 m. Höjden är 20 · 0,70 = 14 m. Vill du ha vinkeln i stället använder du sin⁻¹, cos⁻¹ eller tan⁻¹ på miniräknaren.",
+  "visual": {
+    "type": "tabs",
+    "title": "Sidorna i en rätvinklig triangel",
+    "views": [
+      {
+        "type": "trigonometri",
+        "tabTitle": "Triangeln",
+        "angle": 35,
+        "labels": {
+          "angle": "v"
+        }
+      },
+      {
+        "type": "tabell",
+        "tabTitle": "Några värden",
+        "headers": [
+          "Vinkel v",
+          "sin v",
+          "cos v",
+          "tan v"
+        ],
+        "rows": [
+          [
+            "30°",
+            "0,5",
+            "0,87",
+            "0,58"
+          ],
+          [
+            "45°",
+            "0,71",
+            "0,71",
+            "1"
+          ],
+          [
+            "60°",
+            "0,87",
+            "0,5",
+            "1,73"
+          ]
+        ]
+      }
+    ]
+  },
+  "rule": "sin v = motstående delat med hypotenusan. cos v = närliggande delat med hypotenusan. tan v = motstående delat med närliggande",
+  "ruleLabel": "SIN, COS, TAN",
+  "example": "Du står 20 m från ett träd och ser toppen i vinkeln 35°. Höjden är 20 · tan 35° ≈ 14 m.",
+  "practice": [
+    {
+      "id": "sin-kvot",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          1,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "3*k"
+        },
+        {
+          "name": "b",
+          "expr": "4*k"
+        },
+        {
+          "name": "h",
+          "expr": "5*k"
+        }
+      ],
+      "prompt": "I en rätvinklig triangel är den motstående katetern {a} cm, den närliggande {b} cm och hypotenusan {h} cm. Vad är sin v?",
+      "visual": {
+        "type": "trigonometri",
+        "angle": 37,
+        "labels": {
+          "opp": "{a} cm",
+          "adj": "{b} cm",
+          "hyp": "{h} cm",
+          "angle": "v"
+        }
+      },
+      "answer": [
+        "0,6",
+        "3/5"
+      ],
+      "correct": "Rätt! sin v är motstående delat med hypotenusan: {a} delat med {h} är 0,6.",
+      "feedback": [
+        {
+          "answers": [
+            "0,8",
+            "4/5"
+          ],
+          "message": "Det är cos v: närliggande delat med hypotenusan. sin v är motstående delat med hypotenusan."
+        },
+        {
+          "answers": [
+            "0,75",
+            "3/4"
+          ],
+          "message": "Det är tan v: motstående delat med närliggande. sin v har hypotenusan i nämnaren."
+        }
+      ]
+    },
+    {
+      "id": "motstaende",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "h": [
+          8,
+          30
+        ],
+        "v": [
+          20,
+          70,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(mod(h*sin(v)*100,10)-5)",
+          "min": 0.5
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "round(h*sin(v)*10)/10"
+        }
+      ],
+      "prompt": "Hypotenusan är {h} cm och vinkeln v är {v}°. Hur lång är den motstående katetern? Svara i cm med en decimal. Miniräknaren ska vara inställd på grader.",
+      "visual": {
+        "type": "trigonometri",
+        "angle": "=v",
+        "labels": {
+          "hyp": "{h} cm",
+          "opp": "x",
+          "angle": "{v}°"
+        }
+      },
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! sin {v}° = x delat med {h}, så x = {h} · sin {v}° ≈ {r} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=round(h*cos(v)*10)/10"
+          ],
+          "message": "Du har använt cos. Den motstående katetern hör ihop med sin: x = {h} · sin {v}°."
+        },
+        {
+          "answers": [
+            "=round(h/sin(v)*10)/10"
+          ],
+          "message": "Du har delat. sin v = x delat med {h}, så multiplicera: x = {h} · sin {v}°."
+        }
+      ]
+    },
+    {
+      "id": "trad",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "d": [
+          10,
+          40
+        ],
+        "v": [
+          20,
+          60,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(mod(d*tan(v)*100,10)-5)",
+          "min": 0.5
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "round(d*tan(v)*10)/10"
+        }
+      ],
+      "prompt": "{$namn} står {d} m från ett träd och ser toppen i vinkeln {v}° uppåt. Hur högt är trädet? Svara i meter med en decimal. Miniräknaren ska vara inställd på grader.",
+      "visual": {
+        "type": "trigonometri",
+        "angle": "=v",
+        "labels": {
+          "adj": "{d} m",
+          "opp": "höjden",
+          "angle": "{v}°"
+        },
+        "names": false
+      },
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! tan {v}° = höjden delat med {d}, så höjden är {d} · tan {v}° ≈ {r} m.",
+      "feedback": [
+        {
+          "answers": [
+            "=round(d*sin(v)*10)/10"
+          ],
+          "message": "Du har använt sin. Du känner den närliggande katetern och söker den motstående, och då använder du tan."
+        },
+        {
+          "answers": [
+            "=round(d/tan(v)*10)/10"
+          ],
+          "message": "Du har delat. tan v = höjden delat med {d}, så multiplicera: {d} · tan {v}°."
+        }
+      ]
+    },
+    {
+      "id": "vinkel",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "k": [
+          1,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "3*k"
+        },
+        {
+          "name": "h",
+          "expr": "5*k"
+        },
+        {
+          "name": "r",
+          "expr": "round(asin(3/5))"
+        }
+      ],
+      "prompt": "I en rätvinklig triangel är den motstående katetern {a} cm och hypotenusan {h} cm. Hur stor är vinkeln v? Svara i hela grader. Använd sin⁻¹ på miniräknaren.",
+      "visual": {
+        "type": "trigonometri",
+        "angle": 37,
+        "labels": {
+          "opp": "{a} cm",
+          "hyp": "{h} cm",
+          "angle": "v"
+        }
+      },
+      "answer": [
+        "=r",
+        "{r}°"
+      ],
+      "correct": "Rätt! sin v = {a} delat med {h} = 0,6, och sin⁻¹(0,6) är ungefär {r}°.",
+      "feedback": [
+        {
+          "answers": [
+            "0,6"
+          ],
+          "message": "0,6 är sin v, inte vinkeln. Använd sin⁻¹ på 0,6 för att få vinkeln i grader."
+        },
+        {
+          "answers": [
+            "=round(acos(3/5))"
+          ],
+          "message": "Du har använt cos⁻¹. Du känner motstående katet och hypotenusa, och då använder du sin⁻¹."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "I en rätvinklig triangel är den motstående katetern 6 cm, den närliggande 8 cm och hypotenusan 10 cm. Vad är sin v?",
+    "visual": {
+      "type": "trigonometri",
+      "angle": 37,
+      "labels": {
+        "opp": "6 cm",
+        "adj": "8 cm",
+        "hyp": "10 cm",
+        "angle": "v"
+      }
+    },
+    "answer": [
+      "0,6",
+      "0.6",
+      "3/5",
+      "6/10"
+    ],
+    "correct": "Rätt! sin v är motstående delat med hypotenusan: 6 delat med 10 är 0,6.",
+    "feedback": [
+      {
+        "answers": [
+          "0,8",
+          "0.8",
+          "4/5",
+          "8/10"
+        ],
+        "message": "Det är cos v: närliggande delat med hypotenusan. sin v är motstående delat med hypotenusan."
+      },
+      {
+        "answers": [
+          "0,75",
+          "0.75",
+          "3/4",
+          "6/8"
+        ],
+        "message": "Det är tan v: motstående delat med närliggande. sin v har hypotenusan i nämnaren."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du står 20 m från ett träd och ser toppen i vinkeln 35° uppåt. Hur högt är trädet? Svara i meter med en decimal. Miniräknaren ska vara inställd på grader.",
+      "answer": [
+        "14",
+        "14,0",
+        "14.0",
+        "14 m"
+      ],
+      "correct": "Rätt! tan 35° ≈ 0,7002, och höjden är 20 · 0,7002 ≈ 14,0 m.",
+      "feedback": [
+        {
+          "answers": [
+            "28,6",
+            "28.6"
+          ],
+          "message": "Du har delat 20 med tan 35°. tan v = höjden delat med 20, så multiplicera."
+        },
+        {
+          "answers": [
+            "11,5",
+            "11.5"
+          ],
+          "message": "Du har använt sin. Du känner den närliggande katetern och söker den motstående: använd tan."
+        },
+        {
+          "answers": [
+            "16,4",
+            "16.4"
+          ],
+          "message": "Du har använt cos. Den motstående katetern hör ihop med tan i det här fallet."
+        }
+      ]
+    },
+    {
+      "prompt": "Hypotenusan är 12 cm och vinkeln v är 30°. Hur lång är den motstående katetern?",
+      "answer": [
+        "6",
+        "6 cm"
+      ],
+      "correct": "Rätt! x = 12 · sin 30° = 12 · 0,5 = 6 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "10,4",
+            "10.4"
+          ],
+          "message": "Du har använt cos. Den motstående katetern hör ihop med sin."
+        },
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "Du har delat 12 med sin 30°. sin v = x delat med 12, så multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "En stege är 5 m lång och lutar mot en vägg. Stegen bildar vinkeln 60° med marken. Hur högt upp på väggen når den? Svara i meter med en decimal.",
+      "answer": [
+        "4,3",
+        "4.3",
+        "4,3 m"
+      ],
+      "correct": "Rätt! Stegen är hypotenusan, och höjden är motstående katet: 5 · sin 60° ≈ 4,3 m.",
+      "feedback": [
+        {
+          "answers": [
+            "2,5",
+            "2.5"
+          ],
+          "message": "Du har använt cos. Höjden är motstående katet till vinkeln mot marken, och då använder du sin."
+        },
+        {
+          "answers": [
+            "8,7",
+            "8.7"
+          ],
+          "message": "Du har använt tan. Stegen är hypotenusan, så använd sin."
+        }
+      ]
+    }
+  ]
+}

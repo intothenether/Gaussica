@@ -1,0 +1,355 @@
+{
+  "id": "ekvationer-bada-sidor",
+  "area": "algebra",
+  "title": "Ekvationer med x på båda sidor",
+  "level": "Samla x på ena sidan · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "ekvation"
+  ],
+  "summary": "Har ekvationen x på båda sidor samlar du först x på ena sidan. Sedan löser du den som vanligt.",
+  "explanationTitle": "Vad gör vi när x finns på båda sidor?",
+  "explanation": "Problemet: Mira har 8 kr och sparar 5 kr i veckan. Omar har 20 kr och sparar 2 kr i veckan. När har de lika mycket? Det ger ekvationen 8 + 5x = 20 + 2x, där x står på båda sidor. Det vi kan hittills, att ta bort och dela, räcker inte för att komma åt x. Idén är att göra om den till en ekvation vi redan kan, med x på bara en sida. Det gör du genom att ta bort samma sak från båda sidor. Ekvationen 5x + 3 = 2x + 15 har x-termer på båda sidor. Ta bort 2x från båda sidor, så blir det 3x + 3 = 15. Nu finns x på en sida. Ta bort 3 från båda sidor: 3x = 12. Dela med 3: x = 4. Kontrollera genom att sätta in x = 4 i båda sidorna: 5 · 4 + 3 = 23 och 2 · 4 + 15 = 23. De är lika, så svaret stämmer. Ta alltid bort den mindre x-termen. Då slipper du negativa tal.",
+  "visual": {
+    "type": "tabell",
+    "title": "5x + 3 = 2x + 15, steg för steg",
+    "headers": [
+      "Ekvation",
+      "Vad gör vi?"
+    ],
+    "rows": [
+      [
+        "5x + 3 = 2x + 15",
+        "Starten: x finns på båda sidor"
+      ],
+      [
+        "3x + 3 = 15",
+        "Ta bort 2x från båda sidor"
+      ],
+      [
+        "3x = 12",
+        "Ta bort 3 från båda sidor"
+      ],
+      [
+        "x = 4",
+        "Dela båda sidor med 3"
+      ],
+      [
+        "23 = 23",
+        "Kontroll: sätt in x = 4"
+      ]
+    ]
+  },
+  "rule": "Samla x på ena sidan och talen på andra. Gör alltid samma sak på båda sidor",
+  "ruleLabel": "BÅDA SIDOR",
+  "example": "5x + 3 = 2x + 15 ger 3x + 3 = 15, sedan 3x = 12 och x = 4. Kolla: 23 = 23.",
+  "practice": [
+    {
+      "id": "bada",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "x": [
+          1,
+          12
+        ],
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          2,
+          8
+        ],
+        "c": [
+          1,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "(a-b)*x+c"
+        }
+      ],
+      "prompt": "Lös ekvationen {a}x + {c} = {b}x + {d}.",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! Ta bort {b}x från båda sidor: {a-b}x + {c} = {d}. Sedan {a-b}x = {d-c} och x = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=d-c"
+          ],
+          "message": "{d-c} är {a-b}x. Dela med {a-b} för att få x."
+        },
+        {
+          "answers": [
+            "=(d+c)/(a+b)"
+          ],
+          "message": "Du har lagt ihop x-termerna. Ta i stället bort {b}x från båda sidor."
+        }
+      ]
+    },
+    {
+      "id": "spara",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "x": [
+          2,
+          10
+        ],
+        "a": [
+          4,
+          9
+        ],
+        "b": [
+          1,
+          3
+        ],
+        "c1": [
+          5,
+          30
+        ]
+      },
+      "derive": [
+        {
+          "name": "c2",
+          "expr": "c1+(a-b)*x"
+        }
+      ],
+      "prompt": "Mira har {c1} kr och sparar {a} kr i veckan. Omar har {c2} kr och sparar {b} kr i veckan. Efter hur många veckor har de lika mycket?",
+      "answer": [
+        "=x",
+        "{x} veckor"
+      ],
+      "correct": "Rätt! {c1} + {a}x = {c2} + {b}x ger {a-b}x = {c2-c1}, så x = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=c2-c1"
+          ],
+          "message": "{c2-c1} är skillnaden i startbelopp. Dela med skillnaden i sparande per vecka, {a-b} kr."
+        },
+        {
+          "answers": [
+            "=(c1+c2)/(a+b)"
+          ],
+          "message": "Du har lagt ihop sparandet. Ta i stället bort {b}x från båda sidor."
+        }
+      ]
+    },
+    {
+      "id": "minus",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "x": [
+          2,
+          9
+        ],
+        "a": [
+          4,
+          9
+        ],
+        "b": [
+          1,
+          3
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "(a-b)*x-c"
+        }
+      ],
+      "where": [
+        {
+          "expr": "d",
+          "min": 1
+        }
+      ],
+      "prompt": "Lös ekvationen {a}x − {c} = {b}x + {d}.",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! Ta bort {b}x: {a-b}x − {c} = {d}. Lägg till {c}: {a-b}x = {d+c}, så x = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=d+c"
+          ],
+          "message": "{d+c} är {a-b}x. Dela med {a-b} för att få x."
+        },
+        {
+          "answers": [
+            "=(d-c)/(a-b)"
+          ],
+          "message": "Minustecknet framför {c} ska du ta bort genom att lägga till {c}, inte dra ifrån."
+        }
+      ]
+    },
+    {
+      "id": "tva-x",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "x": [
+          1,
+          10
+        ],
+        "a": [
+          2,
+          7
+        ],
+        "c": [
+          1,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "(a-1)*x+c"
+        }
+      ],
+      "prompt": "Lös ekvationen {a}x + {c} = x + {d}.",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! Ta bort x från båda sidor: {a-1}x + {c} = {d}. Sedan {a-1}x = {d-c} och x = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=d-c"
+          ],
+          "message": "{d-c} är {a-1}x. Dela med {a-1}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Lös ekvationen 5x + 3 = 2x + 15.",
+    "answer": [
+      "4",
+      "x=4",
+      "x = 4"
+    ],
+    "correct": "Rätt! Ta bort 2x: 3x + 3 = 15. Ta bort 3: 3x = 12. Dela med 3: x = 4. Kolla: 23 = 23.",
+    "feedback": [
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "12 är 3x. Dela med 3 för att få x."
+      },
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "Du har bara arbetat med x-termen på ena sidan. Ta bort 2x från båda sidor först."
+      },
+      {
+        "answers": [
+          "18"
+        ],
+        "message": "Du har lagt till 3 på högersidan. Du ska ta bort 3 från båda sidor."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Lös ekvationen 4x + 1 = x + 13.",
+      "answer": [
+        "4",
+        "x=4",
+        "x = 4"
+      ],
+      "correct": "Rätt! Ta bort x: 3x + 1 = 13. Ta bort 1: 3x = 12. x = 4.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är 3x. Dela med 3."
+        },
+        {
+          "answers": [
+            "2,8",
+            "2.8"
+          ],
+          "message": "Du har lagt ihop 4x och x. Ta i stället bort x från båda sidor."
+        }
+      ]
+    },
+    {
+      "prompt": "Lös ekvationen 7x − 5 = 3x + 11.",
+      "answer": [
+        "4",
+        "x=4",
+        "x = 4"
+      ],
+      "correct": "Rätt! Ta bort 3x: 4x − 5 = 11. Lägg till 5: 4x = 16. x = 4.",
+      "feedback": [
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "16 är 4x. Dela med 4."
+        },
+        {
+          "answers": [
+            "1,6",
+            "1.6"
+          ],
+          "message": "Du har lagt ihop x-termerna. Ta bort 3x från båda sidor i stället."
+        }
+      ]
+    },
+    {
+      "prompt": "Mira har 8 kr och sparar 5 kr i veckan. Omar har 20 kr och sparar 2 kr i veckan. Efter hur många veckor har de lika mycket?",
+      "answer": [
+        "4",
+        "4 veckor"
+      ],
+      "correct": "Rätt! 8 + 5x = 20 + 2x ger 3x = 12, så x = 4. Då har båda 28 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är skillnaden i startbelopp. Dela med skillnaden i sparande, 3 kr i veckan."
+        },
+        {
+          "answers": [
+            "28"
+          ],
+          "message": "28 kr är beloppet de har då. Frågan gäller hur många veckor det tar."
+        }
+      ]
+    }
+  ]
+}

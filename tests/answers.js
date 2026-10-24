@@ -38,6 +38,25 @@ is("36/6 is a calculation", M.isCalculation("36/6"), true);
 is("6 is not a calculation", M.isCalculation("6"), false);
 is("fractions are not a plain number", M.expectsPlainNumber(["3/4"]), false);
 is("a number is a plain number", M.expectsPlainNumber(["24", "24 cm"]), true);
+// roots: 3√2 is not 2√3, and a root typed for a plain number counts as a calculation
+eq("3√2", "3*sqrt(2)", true);
+eq("2√3", "3√2", false);
+eq("9√2", "3√2", false);
+eq("√49", "7", true);
+eq("3√2", "4,24", false);
+is("√64 is a calculation", M.isCalculation("√64"), true);
+is("3√2 is not a plain number", M.expectsPlainNumber(["3√2"]), false);
+// functions are functions, not variables
+eq("x(x+1)", "x^2+x", true);
+eq("2x(x+3)", "2x^2+6x", true);
+eq("sin(0)", "0", true);
+// powers of ten
+eq("3*10^5", "300000", true);
+eq("4,2·10^-3", "0,0042", true);
+// expanding brackets: the expanded form is the same as the factored one, so the lesson asks for a form
+eq("(x+3)^2", "x^2 + 6x + 9", true);
+eq("x^2 + 6x + 9", "x^2 + 6x + 10", false);
+eq("x^2 − 10x + 25", "x^2-10x+25", true);
 
 console.log(failures ? failures + " FAILED" : "All answer checks passed");
 process.exit(failures ? 1 : 0);

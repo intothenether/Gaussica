@@ -1,0 +1,361 @@
+{
+  "id": "procentuell-forandring",
+  "area": "tal",
+  "title": "Procentuell förändring",
+  "level": "Förändringsfaktorer · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "procent-vardagen"
+  ],
+  "summary": "Med en förändringsfaktor räknar du en höjning eller sänkning i ett enda steg. Procent av olika belopp kan inte läggas ihop.",
+  "explanationTitle": "Vad blir priset efter höjningen?",
+  "explanation": "Problemet: En jacka kostar 800 kr. Först sänks priset med 25 %, och sedan höjs det med 25 %. Kostar jackan 800 kr igen? Och hur räknar du snabbt ut priset efter en höjning med 7 %, utan att först räkna 7 % och sedan lägga till? Det behövs ett sätt att räkna i ett enda steg. Vi använder en förändringsfaktor. Höjer du priset med 25 % har du kvar 100 % och får 25 % till: 125 %, alltså faktorn 1,25. Nytt värde är gammalt värde gånger faktorn: 800 · 1,25 = 1000. Sänker du med 25 % har du 75 % kvar, alltså faktorn 0,75. Faktorn är 1 plus ökningen i procent, eller 1 minus minskningen. Efter 25 % sänkning blir priset 800 · 0,75 = 600 kr. Höjer du sedan med 25 % räknar du av 600, inte av 800: 600 · 1,25 = 750 kr. Jackan är alltså billigare än förut. Procenten räknas av olika belopp, så de tar inte ut varandra. Ska du räkna ut hur många procent något har ändrats delar du ändringen med det gamla värdet: från 600 till 800 ökar priset med 200, och 200 delat med 600 är ungefär 33 %.",
+  "visual": {
+    "type": "tabell",
+    "title": "Förändringsfaktorer",
+    "headers": [
+      "Förändring",
+      "Faktor",
+      "Exempel med 200 kr"
+    ],
+    "rows": [
+      [
+        "Höjning med 25 %",
+        "1,25",
+        "200 · 1,25 = 250 kr"
+      ],
+      [
+        "Höjning med 5 %",
+        "1,05",
+        "200 · 1,05 = 210 kr"
+      ],
+      [
+        "Sänkning med 20 %",
+        "0,80",
+        "200 · 0,80 = 160 kr"
+      ],
+      [
+        "Sänkning med 3 %",
+        "0,97",
+        "200 · 0,97 = 194 kr"
+      ]
+    ]
+  },
+  "rule": "Förändringsfaktor: 1 plus ökningen, eller 1 minus minskningen. Nytt värde = gammalt värde · faktor",
+  "ruleLabel": "FÖRÄNDRINGSFAKTOR",
+  "example": "800 kr och en höjning med 25 %: 800 · 1,25 = 1000 kr. Sänkning med 25 %: 800 · 0,75 = 600 kr.",
+  "practice": [
+    {
+      "id": "hojning",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "v": [
+          100,
+          500,
+          20
+        ],
+        "p": [
+          5,
+          40,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "f",
+          "expr": "(100+p)/100"
+        },
+        {
+          "name": "r",
+          "expr": "v*(100+p)/100"
+        }
+      ],
+      "prompt": "Ett pris på {v} kr höjs med {p} %. Vad är det nya priset i kronor?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! Faktorn är {f}, och {v} · {f} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=v*p/100"
+          ],
+          "message": "{v*p/100} kr är höjningen. Lägg till den på det gamla priset, eller multiplicera med {f}."
+        },
+        {
+          "answers": [
+            "=v+p"
+          ],
+          "message": "Du har lagt till {p} kr. Höjningen är {p} % av {v} kr."
+        }
+      ]
+    },
+    {
+      "id": "sankning",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "v": [
+          100,
+          500,
+          20
+        ],
+        "p": [
+          5,
+          40,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "f",
+          "expr": "(100-p)/100"
+        },
+        {
+          "name": "r",
+          "expr": "v*(100-p)/100"
+        }
+      ],
+      "prompt": "Ett pris på {v} kr sänks med {p} %. Vad är det nya priset i kronor?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! Faktorn är {f}, och {v} · {f} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=v*p/100"
+          ],
+          "message": "{v*p/100} kr är sänkningen. Dra bort den från det gamla priset, eller multiplicera med {f}."
+        },
+        {
+          "answers": [
+            "=v-p"
+          ],
+          "message": "Du har dragit bort {p} kr. Sänkningen är {p} % av {v} kr."
+        }
+      ]
+    },
+    {
+      "id": "faktor",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "p": [
+          3,
+          95
+        ]
+      },
+      "derive": [
+        {
+          "name": "f",
+          "expr": "(100+p)/100"
+        }
+      ],
+      "prompt": "Vilken förändringsfaktor passar en ökning med {p} %? Skriv faktorn med decimalkomma.",
+      "answer": [
+        "=f"
+      ],
+      "correct": "Rätt! 100 % + {p} % = {100+p} %, och {100+p} % är {f}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p/100"
+          ],
+          "message": "{p/100} är bara ökningen. Lägg till 1 för det som finns kvar från början."
+        },
+        {
+          "answers": [
+            "=(100-p)/100"
+          ],
+          "message": "Det vore en minskning. Vid en ökning lägger du till procenten: 1 + {p/100}."
+        }
+      ]
+    },
+    {
+      "id": "andring",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "v": [
+          100,
+          800,
+          100
+        ],
+        "p": [
+          5,
+          50,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "v*(100+p)/100"
+        }
+      ],
+      "prompt": "Priset gick från {v} kr till {n} kr. Hur många procent höjdes det? Svara med bara talet.",
+      "answer": [
+        "=p",
+        "{p} %"
+      ],
+      "correct": "Rätt! Ökningen är {n-v} kr. {n-v} delat med det gamla priset {v} är {p/100}, alltså {p} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=n-v"
+          ],
+          "message": "{n-v} kr är ökningen i kronor. Dela med det gamla priset {v} för att få procent."
+        },
+        {
+          "answers": [
+            "=round((n-v)/n*100)"
+          ],
+          "message": "Du har delat med det nya priset. Dela alltid med det gamla värdet."
+        }
+      ]
+    },
+    {
+      "id": "tva-steg",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "v": [
+          100,
+          500,
+          100
+        ],
+        "p": [
+          10,
+          50,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "v*(100+p)/100*(100-p)/100"
+        }
+      ],
+      "prompt": "Ett pris på {v} kr höjs med {p} % och sänks sedan med {p} %. Vad kostar det till slut?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! {v} · {(100+p)/100} · {(100-p)/100} = {r} kr. Procenten räknas av olika belopp.",
+      "feedback": [
+        {
+          "answers": [
+            "=v"
+          ],
+          "message": "Det är inte samma pris. Sänkningen räknas av det högre priset efter höjningen, så den blir större än höjningen."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En tröja kostar 400 kr. Priset höjs med 15 %. Vad kostar tröjan efter höjningen?",
+    "answer": [
+      "460",
+      "460 kr"
+    ],
+    "correct": "Rätt! Faktorn är 1,15, och 400 · 1,15 = 460 kr.",
+    "feedback": [
+      {
+        "answers": [
+          "60",
+          "60 kr"
+        ],
+        "message": "60 kr är höjningen. Lägg till den på 400 kr, eller multiplicera med 1,15."
+      },
+      {
+        "answers": [
+          "415",
+          "415 kr"
+        ],
+        "message": "Du har lagt till 15 kr. Höjningen är 15 % av 400 kr, alltså 60 kr."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett pris på 500 kr sänks med 20 %. Vad är det nya priset?",
+      "answer": [
+        "400",
+        "400 kr"
+      ],
+      "correct": "Rätt! Faktorn är 0,80, och 500 · 0,80 = 400 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "100",
+            "100 kr"
+          ],
+          "message": "100 kr är sänkningen. Dra bort den från 500 kr, eller multiplicera med 0,80."
+        },
+        {
+          "answers": [
+            "480",
+            "480 kr"
+          ],
+          "message": "Du har dragit bort 20 kr. Sänkningen är 20 % av 500 kr, alltså 100 kr."
+        }
+      ]
+    },
+    {
+      "prompt": "En cykel kostade 800 kr och kostar nu 1000 kr. Hur många procent har priset höjts? Svara med bara talet.",
+      "answer": [
+        "25",
+        "25 %"
+      ],
+      "correct": "Rätt! Ökningen är 200 kr, och 200 delat med det gamla priset 800 är 0,25, alltså 25 %.",
+      "feedback": [
+        {
+          "answers": [
+            "200"
+          ],
+          "message": "200 kr är ökningen i kronor. Dela med det gamla priset 800 för att få procent."
+        },
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "Du har delat med det nya priset 1000. Dela med det gamla priset 800."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilken förändringsfaktor passar en sänkning med 12 %? Skriv faktorn med decimalkomma.",
+      "answer": [
+        "0,88",
+        "0.88"
+      ],
+      "correct": "Rätt! 100 % − 12 % = 88 %, och 88 % är 0,88.",
+      "feedback": [
+        {
+          "answers": [
+            "1,12",
+            "1.12"
+          ],
+          "message": "Det är faktorn för en höjning. Vid en sänkning drar du bort procenten från 1."
+        },
+        {
+          "answers": [
+            "0,12",
+            "0.12"
+          ],
+          "message": "Det är bara sänkningen. Dra bort den från 1."
+        }
+      ]
+    }
+  ]
+}

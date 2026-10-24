@@ -16,6 +16,9 @@
       .replace(/(\d+),(\d+)/g, "$1.$2")
       // Ersätt unicode-minus och tankstreck med vanligt bindestreck
       .replace(/[−–—]/g, "-")
+      // Kvadratrot: √2 och √(2) blir sqrt(2)
+      .replace(/√\s*\(/g, "sqrt(")
+      .replace(/√\s*(\d+(?:\.\d+)?|[a-z])/gi, "sqrt($1)")
       // Ersätt multiplikationstecken med asterisk
       .replace(/[·×]/g, "*")
       // Ersätt divisionstecken och kolon med snedstreck
@@ -45,7 +48,7 @@
       .replace(/(\d+)\s*(\()/g, "$1*$2")
       .replace(/(\))\s*(\()/g, "$1*$2")
       .replace(/(\))\s*([a-zA-Z])/g, "$1*$2")
-      .replace(/([a-zA-Z])\s*(\()/g, function (match, p1, p2) {
+      .replace(/([a-zA-Z]+)\s*(\()/g, function (match, p1, p2) {
         // Behåll funktionsnamn som sin, cos, sqrt osv.
         const fnNames = ["sin", "cos", "tan", "sqrt", "ln", "exp", "abs"];
         if (fnNames.includes(p1.toLowerCase())) return match;
@@ -662,7 +665,8 @@
 
   // Innehåller svaret en räkneoperation mellan tal, till exempel "36/6", "3*6", "10-4" eller "(2+3)*4"?
   function isCalculation(str) {
-    const s = bareAnswer(str).replace(/[a-zåäö²°%]/g, "");
+    if (/√|sqrt/i.test(String(str))) return true;   // a root still has to be worked out
+    const s =bareAnswer(str).replace(/[a-zåäö²°%]/g, "");
     return /[\d)][*\/+^-][\d(]/.test(s);
   }
 

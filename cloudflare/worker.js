@@ -291,6 +291,73 @@ function createApi(env, request) {
     return [200, { progress, attempts: attempts.map(attemptFromRow), assignments: assignments.map(publicAssignment), feedback: feedback.map(publicFeedback), chat: chat.reverse().map(publicChat) }];
   }
 
+  // ----- feedback about the site, sent by e-mail to whoever runs it -----
+  // Secrets: RESEND_API_KEY and FEEDBACK_TO (see cloudflare/README.md). Without them the messages are only saved.
+  const FEEDBACK_KINDS = { fel: "Något är fel", forslag: "Ett förslag", annat: "Något annat" };
+
+  function feedbackMailText(f) {
+    const lines = ["Ny feedback från Gaussica", "", "Typ: " + FEEDBACK_KINDS[f.kind], "", f.text, ""];
+    if (f.email) lines.push("Svarsadress: " + f.email);
+    lines.push("Från: " + f.sender);
+    if (f.page) lines.push("Sida: " + f.page);
+    if (f.context) {
+      const c = f.context;
+      const where = [c.taskName, c.lessonTitle].filter(Boolean).join(" i ");
+      if (where) lines.push("Uppgift: " + where);
+      if (c.prompt) lines.push("Fråga: " + c.prompt);
+      if (c.answer) lines.push("Svar hittills: " + c.answer);
+    }
+    if (f.agent) lines.push("Webbläsare: " + f.agent);
+    return lines.join("\n");
+  }
+
+  async function mailFeedback(f) {
+    if (!env.RESEND_API_KEY || !env.FEEDBACK_TO) return false;
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + env.RESEND_API_KEY },
+        body: JSON.stringify({
+          from: env.FEEDBACK_FROM || "Gaussica <onboarding@resend.dev>", to: [env.FEEDBACK_TO],
+          subject: "Gaussica feedback: " + FEEDBACK_KINDS[f.kind], text: feedbackMailText(f), reply_to: f.email || undefined
+        }),
+        signal: AbortSignal.timeout(8000)
+      });
+      if (!res.ok) console.error("Feedback e-mail failed:", res.status, (await res.text()).slice(0, 200));
+      return res.ok;
+    } catch (e) {
+      console.error("Feedback e-mail failed:", e.message);
+      return false;
+    }
+  }
+
+  async function postFeedback() {
+    const b = await readJson(request, 12000);
+    if (b.website) return [201, { ok: true, emailed: false }];   // hidden field only a robot fills in
+    const kind = FEEDBACK_KINDS[b.kind] ? b.kind : "annat";
+    const text = str(b.text, 2000).trim();
+    if (text.length < 3) throw new ApiError(400, "Skriv en rad eller två först.");
+    const email = str(b.email, 120).trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new ApiError(400, "E-postadressen ser inte rätt ut. Lämna fältet tomt om du inte vill ha svar.");
+    if (await limit("feedback:" + ip, 5, 60 * 60 * 1000)) throw new ApiError(429, "Du har skickat flera meddelanden på kort tid. Försök igen om en stund.");
+    const s = await currentSession();
+    let sender = "Inte inloggad";
+    if (s) {
+      const cls = s.user.class_id ? await one("SELECT name FROM classes WHERE id = ?", s.user.class_id) : null;
+      sender = s.user.display_name + " (" + (s.user.role === "teacher" ? "lärare" : "elev") + (cls ? ", klass " + cls.name : "") + ")";
+    }
+    const context = cleanChatContext(b.context);
+    const f = {
+      kind, text, email: email || null, page: str(b.page, 200) || null, context: context ? JSON.parse(context) : null,
+      sender, agent: str(request.headers.get("User-Agent"), 200) || null
+    };
+    // saving is best effort: an older database without the table must not stop the e-mail
+    await run("INSERT INTO site_feedback (kind, text, email, page, context, sender, agent, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      f.kind, f.text, f.email, f.page, context, f.sender, f.agent, nowIso()).catch((e) => console.error("Could not save feedback:", e.message));
+    const emailed = await mailFeedback(f);
+    return [201, { ok: true, emailed }];
+  }
+
   // ----- chat between a student and the teacher of their class -----
   const publicChat = (r) => {
     let context = null;
@@ -605,6 +672,7 @@ function createApi(env, request) {
     if (method === "POST" && p === "/api/me/password") return changePassword();
     if (method === "GET" && p === "/api/me/data") return myData();
     if (method === "POST" && p === "/api/me/feedback/read") return markRead();
+    if (method === "POST" && p === "/api/feedback") return postFeedback();
     if (method === "POST" && p === "/api/me/chat") return studentChat();
     if (method === "POST" && p === "/api/me/chat/read") return studentChatRead();
     if (method === "POST" && p === "/api/teacher/chat") return teacherChat();

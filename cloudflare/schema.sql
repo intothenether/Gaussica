@@ -89,6 +89,18 @@ CREATE TABLE IF NOT EXISTS chat (
 );
 CREATE INDEX IF NOT EXISTS chat_student ON chat (student_id, id);
 CREATE INDEX IF NOT EXISTS chat_teacher ON chat (teacher_id, from_teacher, read_at);
+CREATE TABLE IF NOT EXISTS site_feedback (
+  id         INTEGER PRIMARY KEY,
+  kind       TEXT NOT NULL,
+  text       TEXT NOT NULL,
+  email      TEXT,
+  page       TEXT,
+  context    TEXT,
+  sender     TEXT,
+  agent      TEXT,
+  emailed    INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS rate_limits (
   key          TEXT PRIMARY KEY,
   count        INTEGER NOT NULL,

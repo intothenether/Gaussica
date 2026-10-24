@@ -1,0 +1,393 @@
+{
+  "id": "multiplikation-decimaltal",
+  "area": "tal",
+  "title": "Multiplikation med decimaltal",
+  "level": "Gånger med komma · ungefär åk 5",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "decimaltal-rakna",
+    "multiplikation-uppstallning"
+  ],
+  "summary": "Multiplicera decimaltal som vanliga tal. Sedan sätter du kommatecknet så att svaret har lika många decimaler som talen tillsammans.",
+  "explanationTitle": "Vad kostar 0,4 kilo?",
+  "explanation": "Problemet: Ett kilo vindruvor kostar 30 kr, och du köper 0,4 kilo. Tabellerna går bara till hela tal, och uppställningen verkar svår med kommatecken i vägen. Hur multiplicerar du med decimaltal? Gör det i två steg. Först multiplicerar du som om kommatecknen inte fanns: 3 · 4 = 12. Sedan räknar du decimalerna. 0,4 har en decimal, och 3 har inga, så svaret ska ha en decimal: 1,2. Har båda talen en decimal blir det två decimaler: 0,3 · 0,4. Först 3 · 4 = 12, sedan två decimaler: 0,12. Svaret blir mindre än något av talen, för du tar en del av en del. Det är ett bra sätt att kolla svaret. Att multiplicera med ett tal under 1 gör svaret mindre, och att multiplicera med ett tal över 1 gör det större.",
+  "visual": {
+    "type": "tabell",
+    "title": "Räkna decimalerna",
+    "headers": [
+      "Räkning",
+      "Utan komma",
+      "Decimaler",
+      "Svar"
+    ],
+    "rows": [
+      [
+        "3 · 0,4",
+        "3 · 4 = 12",
+        "1 decimal",
+        "1,2"
+      ],
+      [
+        "0,3 · 0,4",
+        "3 · 4 = 12",
+        "2 decimaler",
+        "0,12"
+      ],
+      [
+        "1,5 · 6",
+        "15 · 6 = 90",
+        "1 decimal",
+        "9,0 = 9"
+      ],
+      [
+        "0,02 · 5",
+        "2 · 5 = 10",
+        "2 decimaler",
+        "0,10 = 0,1"
+      ]
+    ]
+  },
+  "rule": "Räkna utan komma. Svaret får lika många decimaler som talen har tillsammans",
+  "ruleLabel": "DECIMALER",
+  "example": "0,3 · 0,4: 3 · 4 = 12, och 1 + 1 = 2 decimaler, så svaret är 0,12.",
+  "practice": [
+    {
+      "id": "hel-gange-tiondel",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          11,
+          59
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "b/10"
+        },
+        {
+          "name": "r",
+          "expr": "a*b/10"
+        }
+      ],
+      "prompt": "Räkna ut {a} · {x}.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} · {b} = {a*b}, och {x} har en decimal, så svaret är {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "Du har glömt kommatecknet. {x} har en decimal, så svaret ska också ha en decimal."
+        },
+        {
+          "answers": [
+            "=a*b/100"
+          ],
+          "message": "Du har fått för många decimaler. Bara {x} har en decimal, så svaret ska ha en decimal."
+        }
+      ]
+    },
+    {
+      "id": "pris",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "sak": [
+          "äpplen",
+          "vindruvor",
+          "plommon"
+        ],
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "p": [
+          10,
+          40
+        ],
+        "w": [
+          11,
+          49
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "w/10"
+        },
+        {
+          "name": "r",
+          "expr": "p*w/10"
+        }
+      ],
+      "prompt": "{$namn} köper {x} kg {$sak}. Ett kilo kostar {p} kr. Vad kostar det?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! {p} · {x} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=p*w"
+          ],
+          "message": "Du har glömt kommatecknet. {x} kg är mer än 1 kg men mindre än 5 kg, så priset ska vara rimligt: mellan {p} och {p*5} kr."
+        },
+        {
+          "answers": [
+            "=p+x"
+          ],
+          "message": "Du har lagt ihop talen. Priset är {p} kr gånger antalet kilo."
+        }
+      ]
+    },
+    {
+      "id": "tva-decimaler",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "a/10"
+        },
+        {
+          "name": "y",
+          "expr": "b/10"
+        },
+        {
+          "name": "r",
+          "expr": "a*b/100"
+        }
+      ],
+      "prompt": "Räkna ut {x} · {y}.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} · {b} = {a*b}. Båda talen har en decimal, så svaret har två: {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b/10"
+          ],
+          "message": "Du har bara en decimal. Båda talen har en decimal, så svaret ska ha två."
+        },
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "Du har glömt kommatecknet. Svaret är mindre än 1."
+        }
+      ]
+    },
+    {
+      "id": "hundradel",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          11,
+          99
+        ],
+        "c": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "a/100"
+        },
+        {
+          "name": "r",
+          "expr": "a*c/100"
+        }
+      ],
+      "prompt": "Räkna ut {x} · {c}.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} · {c} = {a*c}, och {x} har två decimaler: {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*c/10"
+          ],
+          "message": "{x} har två decimaler, så svaret ska också ha två decimaler."
+        },
+        {
+          "answers": [
+            "=a*c"
+          ],
+          "message": "Du har glömt kommatecknet. {x} har två decimaler."
+        }
+      ]
+    },
+    {
+      "id": "storre-mindre",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          3,
+          50
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "{$namn} räknar {a} · 0,{b}. Blir svaret större eller mindre än {a}? Skriv större eller mindre.",
+      "answer": [
+        "mindre"
+      ],
+      "correct": "Rätt! 0,{b} är mindre än 1, så du tar bara en del av {a}. Svaret blir mindre än {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "större"
+          ],
+          "message": "När du multiplicerar med ett tal som är mindre än 1 blir svaret mindre. 0,{b} är mindre än 1."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 4 · 0,6.",
+    "answer": [
+      "2,4",
+      "2.4"
+    ],
+    "correct": "Rätt! 4 · 6 = 24, och 0,6 har en decimal. Svaret är 2,4.",
+    "feedback": [
+      {
+        "answers": [
+          "24"
+        ],
+        "message": "Du har glömt kommatecknet. 0,6 har en decimal, så svaret ska också ha en decimal."
+      },
+      {
+        "answers": [
+          "0,24",
+          "0.24"
+        ],
+        "message": "Bara 0,6 har en decimal, inte 4. Svaret ska ha en decimal, alltså 2,4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett paket pasta väger 0,5 kg. Du köper 7 paket. Hur många kilo pasta är det?",
+      "answer": [
+        "3,5",
+        "3.5",
+        "3,5 kg"
+      ],
+      "correct": "Rätt! 7 · 5 = 35, och 0,5 har en decimal: 3,5 kg.",
+      "feedback": [
+        {
+          "answers": [
+            "35"
+          ],
+          "message": "Du har glömt kommatecknet. 0,5 har en decimal."
+        },
+        {
+          "answers": [
+            "0,35",
+            "0.35"
+          ],
+          "message": "Du har för många decimaler. Bara 0,5 har en decimal."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 0,3 · 0,2.",
+      "answer": [
+        "0,06",
+        "0.06"
+      ],
+      "correct": "Rätt! 3 · 2 = 6, och båda talen har en decimal. Svaret har två decimaler: 0,06.",
+      "feedback": [
+        {
+          "answers": [
+            "0,6",
+            "0.6"
+          ],
+          "message": "Det ska vara två decimaler eftersom båda talen har en decimal."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Du har glömt kommatecknet. Svaret är mycket mindre än 1."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 1,2 · 0,5.",
+      "answer": [
+        "0,6",
+        "0.6"
+      ],
+      "correct": "Rätt! 12 · 5 = 60, och båda talen har en decimal, så svaret är 0,60, alltså 0,6.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Du har glömt kommatecknet. 1,2 · 0,5 är ungefär en halv, inte 6."
+        },
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "Du har glömt kommatecknet. Båda talen har en decimal, så svaret ska ha två: 0,60."
+        }
+      ]
+    }
+  ]
+}

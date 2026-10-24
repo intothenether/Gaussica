@@ -1,0 +1,343 @@
+{
+  "id": "parenteser-uttryck",
+  "area": "algebra",
+  "title": "Parenteser och förenkling",
+  "level": "Multiplicera in och samla termer · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "ekvation",
+    "potenser"
+  ],
+  "summary": "Multiplicera varje term i parentesen. Sedan samlar du lika termer, så att uttrycket blir kortare.",
+  "explanationTitle": "Hur räknar vi bort en parentes?",
+  "explanation": "Problemet: En rektangel har bredden 2 och längden x + 3. Arean är 2 · (x + 3). Men vi vill ha ett uttryck utan parentes som vi kan räkna vidare med. Hur multiplicerar vi 2 med en hel parentes? Du multiplicerar med varje term i parentesen: 2(x + 3) = 2 · x + 2 · 3 = 2x + 6. Minus fungerar likadant: 4(x − 3) = 4x − 12. Med två parenteser multiplicerar du varje term i den första med varje term i den andra: (x + 3)(x + 2) = x · x + x · 2 + 3 · x + 3 · 2 = x² + 2x + 3x + 6. Det är lätt att se i en rektangel med fyra delar. Sedan samlar du lika termer: 2x och 3x är båda x-termer och blir tillsammans 5x. Svaret är x² + 5x + 6. Du kan bara slå ihop termer som har samma bokstavsdel: x² och x är olika termer. Skriv x² som x^2 när du svarar.",
+  "visual": {
+    "type": "areamodell",
+    "title": "(x + 3)(x + 2) = x² + 3x + 2x + 6 = x² + 5x + 6",
+    "cols": [
+      "x",
+      "3"
+    ],
+    "rows": [
+      "x",
+      "2"
+    ],
+    "cells": [
+      [
+        "x²",
+        "3x"
+      ],
+      [
+        "2x",
+        "6"
+      ]
+    ]
+  },
+  "rule": "Multiplicera varje term med varje term. Samla sedan lika termer",
+  "ruleLabel": "PARENTESER",
+  "example": "2(x + 3) = 2x + 6. (x + 3)(x + 2) = x² + 3x + 2x + 6 = x² + 5x + 6.",
+  "practice": [
+    {
+      "id": "plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Förenkla {a}(x + {b}).",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{a}x + {a*b}"
+      ],
+      "correct": "Rätt! {a} · x = {a}x och {a} · {b} = {a*b}. Svaret är {a}x + {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a}x + {b}"
+          ],
+          "message": "Du har bara multiplicerat x. Multiplicera {a} med båda termerna i parentesen."
+        },
+        {
+          "answers": [
+            "{a+1}x + {a*b}",
+            "x + {a*b}"
+          ],
+          "message": "Kolla x-termen: {a} · x är {a}x."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "id": "minus",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Förenkla {a}(x − {b}).",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{a}x − {a*b}"
+      ],
+      "correct": "Rätt! {a} · x = {a}x och {a} · (−{b}) = −{a*b}. Svaret är {a}x − {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a}x − {b}"
+          ],
+          "message": "Du har bara multiplicerat x. Multiplicera {a} med båda termerna i parentesen."
+        },
+        {
+          "answers": [
+            "{a}x + {a*b}"
+          ],
+          "message": "Minustecknet framför {b} ska vara kvar: −{a*b}."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "id": "tva-par",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          1,
+          6
+        ],
+        "b": [
+          1,
+          6
+        ]
+      },
+      "prompt": "Förenkla (x + {a})(x + {b}). Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x^2 + {a+b}x + {a*b}"
+      ],
+      "correct": "Rätt! x · x = x², x · {b} + {a} · x = {a+b}x och {a} · {b} = {a*b}. Svaret är x² + {a+b}x + {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "x^2 + {a*b}"
+          ],
+          "message": "Du har glömt de två termerna med x. Multiplicera x med {b} och {a} med x och lägg ihop dem."
+        },
+        {
+          "answers": [
+            "x^2 + {a+b}x"
+          ],
+          "message": "Du har glömt sista termen: {a} · {b} = {a*b}."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "id": "samla",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          2,
+          7
+        ],
+        "b": [
+          4,
+          12
+        ],
+        "c": [
+          2,
+          7
+        ],
+        "d": [
+          1,
+          3
+        ]
+      },
+      "prompt": "Förenkla {a}x + {b} + {c}x − {d}.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{a+c}x + {b-d}"
+      ],
+      "correct": "Rätt! x-termerna: {a}x + {c}x = {a+c}x. Talen: {b} − {d} = {b-d}. Svaret är {a+c}x + {b-d}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a+c}x + {b+d}"
+          ],
+          "message": "Minustecknet framför {d} betyder att du drar ifrån: {b} − {d}."
+        },
+        {
+          "answers": [
+            "{a+c+b-d}x",
+            "{a+c+b-d}"
+          ],
+          "message": "Du kan inte lägga ihop x-termer och vanliga tal. Samla dem var för sig."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "id": "area",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "prompt": "En rektangel har sidorna (x + {a}) och {b}. Skriv arean utan parentes.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{b}x + {a*b}"
+      ],
+      "correct": "Rätt! Arean är {b}(x + {a}) = {b}x + {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "{b}x + {a}"
+          ],
+          "message": "Du har bara multiplicerat x. Multiplicera {b} med båda termerna."
+        }
+      ],
+      "form": "utanparentes"
+    }
+  ],
+  "exercise": {
+    "prompt": "Förenkla 3(x + 4).",
+    "keys": [
+      "^"
+    ],
+    "answer": [
+      "3x + 12"
+    ],
+    "correct": "Rätt! 3 · x = 3x och 3 · 4 = 12. Svaret är 3x + 12.",
+    "feedback": [
+      {
+        "answers": [
+          "3x + 4"
+        ],
+        "message": "Du har bara multiplicerat x. Multiplicera 3 med båda termerna i parentesen."
+      },
+      {
+        "answers": [
+          "3x + 7"
+        ],
+        "message": "Du har lagt ihop 3 och 4. Multiplicera 3 med 4 i stället."
+      }
+    ],
+    "form": "utanparentes"
+  },
+  "wordProblems": [
+    {
+      "prompt": "Förenkla (x + 2)(x + 5). Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x^2 + 7x + 10"
+      ],
+      "correct": "Rätt! x² + 5x + 2x + 10 = x² + 7x + 10.",
+      "feedback": [
+        {
+          "answers": [
+            "x^2 + 10"
+          ],
+          "message": "Du har glömt de två termerna med x: 5x och 2x."
+        },
+        {
+          "answers": [
+            "x^2 + 7x"
+          ],
+          "message": "Du har glömt sista termen: 2 · 5 = 10."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "prompt": "Förenkla 4(x − 3).",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "4x − 12"
+      ],
+      "correct": "Rätt! 4 · x = 4x och 4 · (−3) = −12.",
+      "feedback": [
+        {
+          "answers": [
+            "4x − 3"
+          ],
+          "message": "Du har bara multiplicerat x. Multiplicera 4 med båda termerna."
+        },
+        {
+          "answers": [
+            "4x + 12"
+          ],
+          "message": "Minustecknet ska vara kvar: −12."
+        }
+      ],
+      "form": "utanparentes"
+    },
+    {
+      "prompt": "Förenkla 2x + 5 + 3x − 1.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "5x + 4"
+      ],
+      "correct": "Rätt! 2x + 3x = 5x och 5 − 1 = 4.",
+      "feedback": [
+        {
+          "answers": [
+            "5x + 6"
+          ],
+          "message": "Minustecknet framför 1 betyder att du drar ifrån: 5 − 1 = 4."
+        },
+        {
+          "answers": [
+            "5x"
+          ],
+          "message": "Du har glömt de vanliga talen: 5 − 1 = 4."
+        }
+      ],
+      "form": "utanparentes"
+    }
+  ]
+}
