@@ -61,7 +61,7 @@
     "feedback": [
       { "answers": ["12"], "message": "Du tog bort 2 från 14 och fick 12. Bra start! Men 3x betyder 3 gånger x. Vilket tal gånger 3 blir 12?" },
       { "answers": ["16"], "message": "Det ser ut som att 2 lades till i stället för att tas bort. För att få 3x ensamt behöver du göra motsatsen på båda sidor." },
-      { "answers": ["3", "12/3"], "message": "Fundera på vad som behöver hända med 3x för att x ska stå ensamt. Hur påverkar det båda sidor?" }
+      { "answers": ["3"], "message": "Fundera på vad som behöver hända med 3x för att x ska stå ensamt. Hur påverkar det båda sidor?" }
     ]
   },
   "wordProblems": [

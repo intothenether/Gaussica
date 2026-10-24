@@ -1,0 +1,266 @@
+{
+  "id": "kombinatorik",
+  "area": "data",
+  "title": "Kombinatorik: räkna alla möjligheter",
+  "level": "Hur många olika sätt? · ungefär åk 7",
+  "grade": 7,
+  "duration": "9 min",
+  "prerequisites": [
+    "multiplikation",
+    "slump"
+  ],
+  "summary": "Med ett träddiagram och multiplikation kan du räkna alla sätt att kombinera val, utan att missa något.",
+  "explanationTitle": "Val i rad multipliceras",
+  "explanation": "Problemet: Du har 3 tröjor och 2 byxor. Hur många olika klädsel kan du göra? Du kan skriva ner alla på måfå, men det är lätt att missa något eller räkna samma sak två gånger. Och vad gör du med 10 tröjor och 8 byxor? Vi behöver ett säkert sätt att räkna alla möjligheter. Det kallas kombinatorik. Rita ett träddiagram. Varje tröja får en gren, och från varje tröja går en gren till varje par byxor. Gren för gren ser du alla klädsel: det är 3 · 2 = 6. Det kallas multiplikationsprincipen: när du gör flera val i rad multiplicerar du antalet möjligheter för varje val. Ordningen kan också vara ett val. Om tre personer ska stå i en kö kan första platsen fyllas på 3 sätt, den andra på 2 sätt och den tredje på 1 sätt. Det är 3 · 2 · 1 = 6 olika köer.",
+  "visual": {
+    "type": "tradiagram",
+    "title": "3 tröjor och 2 byxor ger 6 klädsel",
+    "root": "Start",
+    "levels": [
+      [
+        "Röd",
+        "Blå",
+        "Grön"
+      ],
+      [
+        "Jeans",
+        "Shorts"
+      ]
+    ]
+  },
+  "rule": "Antalet möjligheter för varje val multipliceras",
+  "ruleLabel": "MULTIPLIKATIONSPRINCIPEN",
+  "example": "4 tröjor och 3 byxor ger 4 · 3 = 12 klädsel. Fem personer i en kö: 5 · 4 · 3 · 2 · 1 = 120 sätt.",
+  "practice": [
+    {
+      "id": "kombinera",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "b": [
+          2,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 0
+        }
+      ],
+      "prompt": "Du har {a} tröjor och {b} byxor. Hur många olika klädsel kan du göra?",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! Varje tröja kan kombineras med varje byxa: {a} · {b} = {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop {a} och {b}. Varje tröja kan kombineras med varje byxa, så du ska multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "tre-val",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          4
+        ],
+        "b": [
+          2,
+          4
+        ],
+        "c": [
+          2,
+          4
+        ]
+      },
+      "prompt": "På en restaurang kan du välja mellan {a} förrätter, {b} huvudrätter och {c} efterrätter. Hur många olika middagar med en rätt av varje kan du få?",
+      "answer": [
+        "=a*b*c"
+      ],
+      "correct": "Rätt! {a} · {b} · {c} = {a*b*c} middagar.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b+c"
+          ],
+          "message": "Du har lagt ihop antalen. Val i rad multipliceras."
+        },
+        {
+          "answers": [
+            "=a*b",
+            "=a*c",
+            "=b*c"
+          ],
+          "message": "Du har bara tagit med två av valen. Multiplicera antalet möjligheter för alla tre valen."
+        }
+      ]
+    },
+    {
+      "id": "mynt",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "b": [
+          2,
+          5
+        ],
+        "n": [
+          2,
+          4
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "pow(b,n)"
+        }
+      ],
+      "prompt": "Du väljer en av {b} färger, {n} gånger i rad. Hur många olika sätt finns det att välja?",
+      "answer": [
+        "=v"
+      ],
+      "correct": "Rätt! Varje val har {b} möjligheter, och du väljer {n} gånger: {v} sätt.",
+      "feedback": [
+        {
+          "answers": [
+            "=b*n"
+          ],
+          "message": "Du har räknat {b} · {n}. Varje val multiplicerar antalet möjligheter, så multiplicera {b} med sig själv {n} gånger."
+        }
+      ]
+    },
+    {
+      "id": "ordning",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "sak": [
+          "personer",
+          "barn",
+          "hästar",
+          "bilar"
+        ]
+      },
+      "vars": {
+        "n": [
+          3,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "f",
+          "expr": "n*(n-1)*(n-2)*max(1,n-3)*max(1,n-4)*max(1,n-5)"
+        }
+      ],
+      "prompt": "På hur många olika sätt kan {n} {$sak} ställa sig i en rad?",
+      "answer": [
+        "=f"
+      ],
+      "correct": "Rätt! Första platsen kan fyllas på {n} sätt, nästa på {n-1} sätt och så vidare ner till 1. Det blir {f} sätt.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*n"
+          ],
+          "message": "Du har räknat {n} · {n}. Efter att en person har ställt sig finns det en person färre kvar att välja på."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Du har 3 tröjor och 2 byxor. Hur många olika klädsel kan du göra?",
+    "answer": [
+      "6"
+    ],
+    "correct": "Rätt! Varje tröja kan kombineras med båda byxorna: 3 · 2 = 6.",
+    "feedback": [
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "Du har lagt ihop 3 och 2. Varje tröja kan kombineras med varje byxa, så du ska multiplicera."
+      },
+      {
+        "answers": [
+          "32"
+        ],
+        "message": "Du har skrivit siffrorna efter varandra. Multiplicera 3 och 2."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En glass kan väljas med 4 smaker och 3 sorters strössel. Hur många olika glassar finns det?",
+      "answer": [
+        "12"
+      ],
+      "correct": "Rätt! 4 · 3 = 12 glassar.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "Du har lagt ihop 4 och 3. Varje smak kan kombineras med varje strössel, så multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "Du kastar ett mynt 3 gånger i rad. Hur många olika utfall finns det?",
+      "answer": [
+        "8"
+      ],
+      "correct": "Rätt! Varje kast har 2 möjligheter: 2 · 2 · 2 = 8.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Du har räknat 2 · 3. Varje kast dubblar antalet utfall: 2 · 2 · 2."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "Du har räknat 3 · 3. Varje kast har bara 2 möjligheter, krona eller klave."
+        }
+      ]
+    },
+    {
+      "prompt": "På hur många olika sätt kan 4 personer stå i en kö?",
+      "answer": [
+        "24"
+      ],
+      "correct": "Rätt! 4 · 3 · 2 · 1 = 24 sätt.",
+      "feedback": [
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "Du har räknat 4 · 4. Efter att en person har ställt sig finns det en färre kvar att välja på: 4 · 3 · 2 · 1."
+        },
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "Du har lagt ihop talen. Val i rad multipliceras: 4 · 3 · 2 · 1."
+        }
+      ]
+    }
+  ]
+}

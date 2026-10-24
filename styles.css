@@ -3758,3 +3758,11 @@ body.is-previewing.has-admin-toolbar { padding-top: 0; }
   .pl-learn .explanation-section .body-copy { font-size: 17px; }
 }
 sup.pow { font-size: .7em; line-height: 0; vertical-align: super; margin-left: .04em; }
+
+/* ---- träddiagram, parallellogram, trapets ---- */
+.fig-branch { stroke: var(--brand-light); stroke-width: 2.5; stroke-linecap: round; }
+.fig-tnode { fill: #e6f2fc; stroke: var(--brand); stroke-width: 2; }
+.fig-tnode.is-root { fill: var(--brand); }
+.fig-tnode.is-leaf { fill: #fff0b8; stroke: #d99a2b; }
+.fig-tnode.is-root + text { fill: #fff; }
+.fig-copy { fill: rgba(255, 140, 160, .18); stroke: #ff8ca0; stroke-width: 2.5; stroke-dasharray: 6 5; stroke-linejoin: round; }

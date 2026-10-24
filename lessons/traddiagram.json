@@ -1,0 +1,255 @@
+{
+  "id": "traddiagram",
+  "area": "data",
+  "title": "Träddiagram och chans i flera steg",
+  "level": "Chansen längs en gren · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "kombinatorik",
+    "brak-multiplikation"
+  ],
+  "summary": "I ett träddiagram skriver du chansen på varje gren. Längs en gren multiplicerar du, och mellan grenar adderar du.",
+  "explanationTitle": "Multiplicera längs grenen",
+  "explanation": "Problemet: Du kastar ett mynt två gånger. Hur stor är chansen att få krona båda gångerna? Vi vet chansen för ett kast, 1/2. Men nu är det två kast efter varandra, och vi vet inte hur chanserna hänger ihop. Vi behöver ordna alla möjliga utgångar och deras chanser. Det gör vi med ett träddiagram med chanserna skrivna på grenarna. För att få chansen för en hel gren multiplicerar du chanserna längs grenen. Krona och krona är 1/2 · 1/2 = 1/4. Vill du ha chansen för flera grenar, till exempel minst en krona, lägger du ihop grenarnas chanser: 1/4 + 1/4 + 1/4 = 3/4. Alla grenar tillsammans ska bli 1, vilket är ett bra sätt att kontrollera. Det här gäller när det ena kastet inte påverkar det andra.",
+  "visual": {
+    "type": "tradiagram",
+    "title": "Två kast: fyra grenar, varje gren har chansen 1/4",
+    "root": "Start",
+    "levels": [
+      [
+        "Krona 1/2",
+        "Klave 1/2"
+      ],
+      [
+        "Krona 1/2",
+        "Klave 1/2"
+      ]
+    ]
+  },
+  "rule": "Längs en gren: gånger. Mellan grenar: plus.",
+  "ruleLabel": "TRÄDDIAGRAM",
+  "example": "Mynt två gånger: två kronor är 1/2 · 1/2 = 1/4. Minst en krona är 1/4 + 1/4 + 1/4 = 3/4.",
+  "practice": [
+    {
+      "id": "alla-kronor",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "pow(2,n)"
+        }
+      ],
+      "prompt": "{$namn} kastar ett mynt {n} gånger. Vad är chansen att få krona alla gånger? Svara som ett bråk.",
+      "answer": [
+        "1/{v}"
+      ],
+      "correct": "Rätt! Längs grenen multiplicerar du: varje kast har chansen 1/2, så det blir 1/{v}.",
+      "feedback": [
+        {
+          "answers": [
+            "1/{2*n}"
+          ],
+          "message": "Du har lagt ihop kasten. Längs en gren multiplicerar du chanserna: 1/2 · 1/2 · ..."
+        }
+      ]
+    },
+    {
+      "id": "mynt-tarning",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "t": [
+          1,
+          6
+        ]
+      },
+      "prompt": "Du kastar ett mynt och en vanlig tärning. Vad är chansen att få krona och siffran {t}? Svara som ett bråk.",
+      "answer": [
+        "1/12"
+      ],
+      "correct": "Rätt! Chansen för krona är 1/2 och för siffran {t} är 1/6. Längs grenen: 1/2 · 1/6 = 1/12.",
+      "feedback": [
+        {
+          "answers": [
+            "2/3"
+          ],
+          "message": "Du har lagt ihop chanserna 1/2 och 1/6. Längs en gren multiplicerar du dem."
+        }
+      ]
+    },
+    {
+      "id": "kulor",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "r": [
+          1,
+          4
+        ],
+        "b": [
+          1,
+          4
+        ]
+      },
+      "prompt": "I en påse ligger {r} röda och {b} blå kulor. Du drar en kula, tittar och lägger tillbaka den. Sedan drar du en kula till. Vad är chansen att båda blir röda? Svara som ett bråk.",
+      "answer": [
+        "{r*r}/{(r+b)*(r+b)}"
+      ],
+      "correct": "Rätt! Chansen för en röd kula är {r}/{r+b}. Längs grenen: {r}/{r+b} · {r}/{r+b} = {r*r}/{(r+b)*(r+b)}.",
+      "feedback": [
+        {
+          "answers": [
+            "{r}/{r+b}"
+          ],
+          "message": "{r}/{r+b} är chansen för en röd kula. Du ska ha två röda i rad, så multiplicera chansen med sig själv."
+        }
+      ]
+    },
+    {
+      "id": "minst-en",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          4
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "pow(2,n)"
+        }
+      ],
+      "prompt": "{$namn} kastar ett mynt {n} gånger. Vad är chansen att få minst en krona? Svara som ett bråk.",
+      "answer": [
+        "{v-1}/{v}"
+      ],
+      "correct": "Rätt! Bara en gren saknar krona helt, alla klaver. Alla {v} grenar har chansen 1/{v}, så {v-1} av dem har minst en krona: {v-1}/{v}.",
+      "feedback": [
+        {
+          "answers": [
+            "1/{v}"
+          ],
+          "message": "1/{v} är chansen för bara klave. Minst en krona gäller alla andra grenar. Räkna alla grenarna som har minst en krona."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Du kastar ett mynt två gånger. Vad är chansen att få krona båda gångerna? Svara som ett bråk.",
+    "answer": [
+      "1/4"
+    ],
+    "correct": "Rätt! Längs grenen: 1/2 · 1/2 = 1/4.",
+    "feedback": [
+      {
+        "answers": [
+          "1/2"
+        ],
+        "message": "1/2 är chansen för ett kast. Du ska ha krona två gånger i rad, så multiplicera: 1/2 · 1/2."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du kastar ett mynt och en vanlig tärning. Vad är chansen att få krona och en sexa? Svara som ett bråk.",
+      "answer": [
+        "1/12"
+      ],
+      "correct": "Rätt! 1/2 · 1/6 = 1/12.",
+      "feedback": [
+        {
+          "answers": [
+            "2/3"
+          ],
+          "message": "Du har lagt ihop chanserna. Längs en gren multiplicerar du dem."
+        },
+        {
+          "answers": [
+            "1/6"
+          ],
+          "message": "1/6 är chansen för en sexa. Du ska också ha krona, så multiplicera med 1/2."
+        }
+      ]
+    },
+    {
+      "prompt": "I en påse ligger 2 röda och 1 blå kula. Du drar en kula, lägger tillbaka den och drar en till. Vad är chansen att båda blir röda? Svara som ett bråk.",
+      "answer": [
+        "4/9"
+      ],
+      "correct": "Rätt! Chansen för en röd kula är 2/3. Längs grenen: 2/3 · 2/3 = 4/9.",
+      "feedback": [
+        {
+          "answers": [
+            "2/3"
+          ],
+          "message": "2/3 är chansen för en röd kula. Du ska ha två röda i rad, så multiplicera chansen med sig själv."
+        },
+        {
+          "answers": [
+            "1/9"
+          ],
+          "message": "1/9 är chansen för två blå kulor. Räkna med chansen för röd, 2/3."
+        }
+      ]
+    },
+    {
+      "prompt": "Du kastar ett mynt två gånger. Vad är chansen att få minst en krona? Svara som ett bråk.",
+      "answer": [
+        "3/4"
+      ],
+      "correct": "Rätt! 1/4 + 1/4 + 1/4 = 3/4.",
+      "feedback": [
+        {
+          "answers": [
+            "1/4"
+          ],
+          "message": "1/4 är chansen för två kronor. Minst en krona betyder en eller två."
+        },
+        {
+          "answers": [
+            "1/2"
+          ],
+          "message": "1/2 är chansen för en krona i ett kast. Räkna alla grenar med minst en krona i två kast."
+        }
+      ]
+    }
+  ]
+}

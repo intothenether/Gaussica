@@ -1,0 +1,333 @@
+{
+  "id": "brak-blandad",
+  "area": "tal",
+  "title": "Bråk i blandad form",
+  "level": "Hela och delar tillsammans · ungefär åk 6",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "brak-likavarda",
+    "division-med-rest"
+  ],
+  "summary": "Ett bråk som är större än en hel kan skrivas med hela tal och en del: 7/4 är 1 3/4.",
+  "explanationTitle": "Hela och delar tillsammans",
+  "explanation": "Problemet: Du har 7/4 pizzor, alltså sju fjärdedelar. Hur många hela pizzor är det? Bråket 7/4 säger inte direkt hur många hela det finns, för täljaren är större än nämnaren. Vi behöver ett sätt att skriva hela och delar tillsammans. Det kallas blandad form. Ett bråk där täljaren är lika stor som eller större än nämnaren kallas ett oäkta bråk. Det är minst en hel. Du skriver det i blandad form genom att dela täljaren med nämnaren, som i division med rest: 7 delat med 4 är 1 rest 3. Det blir 1 hel och 3/4, alltså 1 3/4. Åt andra hållet gör du om blandad form till ett bråk: 1 3/4 är 1 · 4 + 3 = 7 fjärdedelar, alltså 7/4.",
+  "visual": {
+    "type": "tallinje",
+    "title": "7/4 ligger mellan 1 och 2: en hel och 3/4 till",
+    "min": 0,
+    "max": 3,
+    "step": 1,
+    "labelEvery": 1,
+    "points": [
+      {
+        "value": 1.75,
+        "label": "7/4"
+      }
+    ],
+    "jumps": [
+      {
+        "from": 1,
+        "to": 1.75,
+        "label": "3/4"
+      }
+    ]
+  },
+  "rule": "t/n: dela t med n. Hela och rest/n",
+  "ruleLabel": "BLANDAD FORM",
+  "example": "11/4: 11 delat med 4 är 2 rest 3, så det blir 2 3/4. Och 2 3/4 = (2 · 4 + 3)/4 = 11/4.",
+  "practice": [
+    {
+      "id": "till-blandad",
+      "for": [
+        "exercise"
+      ],
+      "form": "blandad",
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "w": [
+          1,
+          4
+        ],
+        "n": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-n",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "t",
+          "expr": "w*d+n"
+        }
+      ],
+      "prompt": "Skriv {t}/{d} i blandad form.",
+      "answer": [
+        "{w} {n}/{d}"
+      ],
+      "correct": "Rätt! {t} delat med {d} är {w} rest {n}. Alltså {w} {n}/{d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=w"
+          ],
+          "message": "Du har bara skrivit de hela. {t} delat med {d} är {w} rest {n}, så det blir också {n}/{d}."
+        }
+      ]
+    },
+    {
+      "id": "till-brak",
+      "for": [
+        "word-1"
+      ],
+      "form": "brak",
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "w": [
+          1,
+          4
+        ],
+        "n": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-n",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "t",
+          "expr": "w*d+n"
+        }
+      ],
+      "prompt": "Skriv {w} {n}/{d} som ett bråk.",
+      "answer": [
+        "{t}/{d}"
+      ],
+      "correct": "Rätt! {w} · {d} + {n} = {t}, så det blir {t}/{d}.",
+      "feedback": [
+        {
+          "answers": [
+            "{n}/{d}"
+          ],
+          "message": "Du har bara skrivit delen. Räkna också med de {w} hela: {w} · {d} + {n}."
+        },
+        {
+          "answers": [
+            "{w*n+d}/{d}"
+          ],
+          "message": "Gör först de hela till delar: {w} · {d}. Lägg sedan till {n}."
+        }
+      ]
+    },
+    {
+      "id": "hela",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "w": [
+          1,
+          4
+        ],
+        "n": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-n",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "t",
+          "expr": "w*d+n"
+        }
+      ],
+      "prompt": "Du har {t}/{d} pizzor. Hur många hela pizzor är det?",
+      "answer": [
+        "=w"
+      ],
+      "correct": "Rätt! {t} delat med {d} är {w} rest {n}, så det är {w} hela pizzor.",
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "{n} är resten, alltså delarna som blir över. Hur många hela går det?"
+        },
+        {
+          "answers": [
+            "=w+1"
+          ],
+          "message": "Det är nästan {w+1} pizzor, men inte riktigt. Hela pizzor är bara de som är fulla."
+        }
+      ]
+    },
+    {
+      "id": "plus-blandad",
+      "for": [
+        "word-0"
+      ],
+      "form": "blandad",
+      "vars": {
+        "d": [
+          4,
+          9
+        ],
+        "a1": [
+          1,
+          3
+        ],
+        "a2": [
+          1,
+          3
+        ],
+        "n1": [
+          1,
+          4
+        ],
+        "n2": [
+          1,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-n1-n2",
+          "min": 1
+        }
+      ],
+      "prompt": "Räkna ut {a1} {n1}/{d} + {a2} {n2}/{d}. Svara i blandad form.",
+      "answer": [
+        "{a1+a2} {n1+n2}/{d}"
+      ],
+      "correct": "Rätt! De hela: {a1} + {a2} = {a1+a2}. Delarna: {n1}/{d} + {n2}/{d} = {n1+n2}/{d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a1+a2"
+          ],
+          "message": "Du har bara lagt ihop de hela. Lägg också ihop bråken."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Skriv 7/4 i blandad form.",
+    "answer": [
+      "1 3/4"
+    ],
+    "form": "blandad",
+    "correct": "Rätt! 7 delat med 4 är 1 rest 3. Alltså 1 3/4.",
+    "feedback": [
+      {
+        "answers": [
+          "1"
+        ],
+        "message": "Du har bara skrivit de hela. 7 delat med 4 är 1 rest 3, så det blir också 3/4."
+      },
+      {
+        "answers": [
+          "3/4"
+        ],
+        "message": "Du har bara skrivit delen. Skriv också de hela."
+      },
+      {
+        "answers": [
+          "13/4"
+        ],
+        "message": "13/4 är tretton fjärdedelar. Skriv det hela talet först, sedan ett mellanrum och sedan bråket."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du har 11/4 liter saft. Hur många hela liter är det, och hur mycket blir över? Skriv i blandad form.",
+      "answer": [
+        "2 3/4"
+      ],
+      "form": "blandad",
+      "correct": "Rätt! 11 delat med 4 är 2 rest 3. Alltså 2 3/4 liter.",
+      "feedback": [
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "Du har bara skrivit de hela. Skriv också delen som blir över."
+        },
+        {
+          "answers": [
+            "3/4"
+          ],
+          "message": "Du har bara skrivit delen. Skriv också de hela."
+        }
+      ]
+    },
+    {
+      "prompt": "Skriv 2 1/3 som ett bråk.",
+      "answer": [
+        "7/3"
+      ],
+      "form": "brak",
+      "correct": "Rätt! 2 · 3 + 1 = 7, så det blir 7/3.",
+      "feedback": [
+        {
+          "answers": [
+            "1/3"
+          ],
+          "message": "Du har bara skrivit delen. Räkna också med de 2 hela."
+        },
+        {
+          "answers": [
+            "21/3"
+          ],
+          "message": "Gör de hela till tredjedelar: 2 · 3 = 6. Lägg sedan till 1."
+        }
+      ]
+    },
+    {
+      "prompt": "Du har 9/5 meter rep. Hur många hela meter är det?",
+      "answer": [
+        "1"
+      ],
+      "correct": "Rätt! 9 delat med 5 är 1 rest 4, så det är 1 hel meter och 4/5 till.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är resten. Hur många hela gånger går 5 i 9?"
+        },
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "9/5 är mindre än 2 hela. 9 delat med 5 är 1 rest 4."
+        }
+      ]
+    }
+  ]
+}

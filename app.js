@@ -26,6 +26,25 @@
     return element;
   }
 
+  // For a right answer written in the wrong form: what to tell the student (empty = fine).
+  function answerFormNote(form, raw) {
+    const MS = window.MATTE_SYMBOLIC;
+    const text = String(raw);
+    if (form === "blandad") {
+      if (text.indexOf("/") >= 0 && !(MS && MS.isMixed(text))) return "Det stämmer, men skriv svaret i blandad form, med hela talet först, till exempel 1 3/4.";
+    } else if (form === "brak") {
+      if (MS && MS.isMixed(text)) return "Det stämmer, men skriv svaret som ett bråk, utan hela tal framför.";
+    } else if (form === "forenklat") {
+      const m = /^\s*(\d+)\s*[:/]\s*(\d+)\s*$/.exec(text);
+      if (m) {
+        let a = Number(m[1]), b = Number(m[2]);
+        while (b) { const t = b; b = a % b; a = t; }
+        if (a > 1) return "Det stämmer, men du kan förenkla mer. Dela båda talen med samma tal.";
+      }
+    }
+    return "";
+  }
+
   function showError(error) {
     console.error("Kunde inte läsa kursinnehållet.", error);
     const detail = error && error.message ? String(error.message) : "";
@@ -1891,6 +1910,16 @@
         feedback.className = "feedback-message feedback-hint";
         window.GaussicaText.set(feedback, note);
         storeAnswerProgress(lesson.id, taskId, answer.value, "", note, "hint", false, "Skrev en uträkning i stället för ett svar", exercise.prompt, labelText);
+        finish(false);
+        return;
+      }
+
+      // Some questions ask for a particular way of writing the right value (form: "blandad", "brak" or "forenklat").
+      const formNote = isCorrect && exercise.form ? answerFormNote(exercise.form, rawValue) : "";
+      if (formNote) {
+        feedback.className = "feedback-message feedback-hint";
+        window.GaussicaText.set(feedback, formNote);
+        storeAnswerProgress(lesson.id, taskId, answer.value, "", formNote, "hint", false, "Skrev rätt värde på fel sätt", exercise.prompt, labelText);
         finish(false);
         return;
       }

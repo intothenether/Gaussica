@@ -71,11 +71,11 @@
   },
   "wordProblems": [
     {
-      "prompt": "En pizza är skuren i 8 lika stora bitar. Du äter 3 bitar. Vilken är täljaren och vilken är nämnaren i bråket som visar denna del?",
-      "answer": ["3", "8"],
+      "prompt": "En pizza är skuren i 8 lika stora bitar. Du äter 3 bitar. Vilket tal är täljaren i bråket som visar den delen?",
+      "answer": ["3"],
       "correct": "Precis! 3 är täljaren (bitarna du åt) och 8 är nämnaren (bitarna pizzan är skuren i).",
       "feedback": [
-        { "answers": ["8", "3"], "message": "Du har vänt på dem. Täljaren är överst: de 3 bitar du åt. Nämnaren är nederst: de 8 bitar som helheten består av." }
+        { "answers": ["8"], "message": "Du har vänt på dem. 8 är nämnaren, nederst: de 8 bitar som helheten består av. Täljaren är överst: de 3 bitar du åt." }
       ]
     }
   ]

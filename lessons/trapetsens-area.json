@@ -1,0 +1,356 @@
+{
+  "id": "trapetsens-area",
+  "area": "geometri",
+  "title": "Trapetsens area",
+  "level": "Två parallella sidor · ungefär åk 7",
+  "grade": 7,
+  "duration": "9 min",
+  "prerequisites": [
+    "parallellogrammens-area"
+  ],
+  "summary": "Arean av en trapets är hälften av summan av de parallella sidorna gånger höjden.",
+  "explanationTitle": "Två trapetser bildar en parallellogram",
+  "explanation": "Problemet: Vi kan räkna arean av en parallellogram, men en trapets har två parallella sidor som är olika långa. Toppen är inte lika lång som basen, så vi kan inte använda bas gånger höjd direkt. Vad gör vi? Vi gör som förut och gör om den till något vi kan. Vänd en kopia av trapetsen och lägg den bredvid. Tillsammans bildar de en parallellogram med basen a + b och höjden h. Parallellogrammens area är (a + b) · h, och trapetsen är hälften av den. Arean är alltså hälften av (a + b) · h. Här är a och b de parallella sidorna och h är höjden mellan dem. Med a = 4 cm, b = 8 cm och h = 5 cm blir det (4 + 8) · 5 = 60, och hälften av det är 30 cm².",
+  "visual": {
+    "type": "trapets",
+    "title": "Två trapetser bildar en parallellogram med basen a + b",
+    "a": 4,
+    "b": 8,
+    "height": 5,
+    "unit": "cm",
+    "showHeight": true,
+    "showCopy": true
+  },
+  "rule": "A = hälften av (a + b) · h",
+  "ruleLabel": "TRAPETSENS AREA",
+  "example": "a = 4, b = 8, h = 5: (4 + 8) · 5 = 60 och hälften är 30 cm².",
+  "practice": [
+    {
+      "id": "area",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          10
+        ],
+        "b": [
+          3,
+          14
+        ],
+        "h": [
+          2,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        },
+        {
+          "expr": "mod((a+b)*h,2)",
+          "equals": 0
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "(a+b)*h/2"
+        }
+      ],
+      "visual": {
+        "type": "trapets",
+        "a": "=a",
+        "b": "=b",
+        "height": "=h",
+        "unit": "cm",
+        "showHeight": true
+      },
+      "prompt": "En trapets har de parallella sidorna {a} cm och {b} cm, och höjden {h} cm. Hur stor är arean i cm²?",
+      "answer": [
+        "=r",
+        "{r} cm²"
+      ],
+      "correct": "Rätt! ({a} + {b}) · {h} = {(a+b)*h}, och hälften av det är {r} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=(a+b)*h",
+            "{(a+b)*h} cm²"
+          ],
+          "message": "Du har glömt att ta hälften. Två trapetser bildar en parallellogram med arean (a + b) · h, så en trapets är hälften av det."
+        },
+        {
+          "answers": [
+            "=a*h",
+            "{a*h} cm²"
+          ],
+          "message": "Du har bara använt den ena parallella sidan. Lägg ihop båda: {a} + {b}."
+        },
+        {
+          "answers": [
+            "=b*h",
+            "{b*h} cm²"
+          ],
+          "message": "Du har bara använt den ena parallella sidan. Lägg ihop båda: {a} + {b}."
+        }
+      ]
+    },
+    {
+      "id": "tak",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          10
+        ],
+        "b": [
+          3,
+          14
+        ],
+        "h": [
+          2,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        },
+        {
+          "expr": "mod((a+b)*h,2)",
+          "equals": 0
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "(a+b)*h/2"
+        }
+      ],
+      "prompt": "Ett tak har formen av en trapets. De parallella sidorna är {a} m och {b} m, och höjden mellan dem är {h} m. Hur många kvadratmeter är taket?",
+      "answer": [
+        "=r",
+        "{r} m²"
+      ],
+      "correct": "Rätt! ({a} + {b}) · {h}, hälften av det: {r} m².",
+      "feedback": [
+        {
+          "answers": [
+            "=(a+b)*h",
+            "{(a+b)*h} m²"
+          ],
+          "message": "Du har glömt att ta hälften av (a + b) · h."
+        }
+      ]
+    },
+    {
+      "id": "hojd-saknas",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          8
+        ],
+        "b": [
+          3,
+          12
+        ],
+        "h": [
+          2,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "(a+b)*h/2"
+        },
+        {
+          "name": "s",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "En trapets har arean {r} cm² och de parallella sidorna {a} cm och {b} cm. Hur hög är den?",
+      "answer": [
+        "=h",
+        "{h} cm"
+      ],
+      "correct": "Rätt! 2 · {r} = {2*r}, och {2*r}/{s} = {h} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=r/(a+b)",
+            "{r/(a+b)} cm"
+          ],
+          "message": "Du har glömt att dubbla arean. Arean är hälften av (a + b) · h, så (a + b) · h är 2 · {r}."
+        }
+      ]
+    },
+    {
+      "id": "parallellogram",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          2,
+          8
+        ],
+        "b": [
+          3,
+          12
+        ],
+        "h": [
+          2,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "(a+b)*h"
+        }
+      ],
+      "prompt": "Två likadana trapetser läggs ihop till en parallellogram. De parallella sidorna är {a} cm och {b} cm och höjden är {h} cm. Hur stor area har parallellogrammen?",
+      "answer": [
+        "=p",
+        "{p} cm²"
+      ],
+      "correct": "Rätt! Parallellogrammen har basen {a} + {b} = {a+b} och höjden {h}. Arean är {a+b} · {h} = {p} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=p/2",
+            "{p/2} cm²"
+          ],
+          "message": "Det är arean av en trapets. Parallellogrammen består av två trapetser."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En trapets har de parallella sidorna 4 cm och 8 cm, och höjden 5 cm. Hur stor är arean i cm²?",
+    "answer": [
+      "30",
+      "30 cm²"
+    ],
+    "correct": "Rätt! (4 + 8) · 5 = 60, och hälften av det är 30 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "60",
+          "60 cm²"
+        ],
+        "message": "Du har glömt att ta hälften. Två trapetser bildar en parallellogram med arean (a + b) · h, så en trapets är hälften av det."
+      },
+      {
+        "answers": [
+          "20",
+          "20 cm²"
+        ],
+        "message": "Du har bara använt den ena parallella sidan. Lägg ihop båda: 4 + 8."
+      },
+      {
+        "answers": [
+          "40",
+          "40 cm²"
+        ],
+        "message": "Du har bara använt den ena parallella sidan. Lägg ihop båda: 4 + 8."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En trapets har parallella sidor på 6 cm och 10 cm, och höjden 4 cm. Hur stor är arean?",
+      "answer": [
+        "32",
+        "32 cm²"
+      ],
+      "correct": "Rätt! (6 + 10) · 4 = 64, och hälften är 32 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "64",
+            "64 cm²"
+          ],
+          "message": "Du har glömt att ta hälften av (a + b) · h."
+        },
+        {
+          "answers": [
+            "24",
+            "24 cm²"
+          ],
+          "message": "Du har bara använt den ena parallella sidan. Lägg ihop 6 och 10."
+        },
+        {
+          "answers": [
+            "40",
+            "40 cm²"
+          ],
+          "message": "Du har bara använt den ena parallella sidan. Lägg ihop 6 och 10."
+        }
+      ]
+    },
+    {
+      "prompt": "En trapets har arean 24 cm² och de parallella sidorna 5 cm och 7 cm. Hur hög är den?",
+      "answer": [
+        "4",
+        "4 cm"
+      ],
+      "correct": "Rätt! Dubbla arean är 48, och 48/12 = 4 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "2",
+            "2 cm"
+          ],
+          "message": "Du har glömt att dubbla arean. (a + b) · h är 2 · 24 = 48."
+        }
+      ]
+    },
+    {
+      "prompt": "Två likadana trapetser läggs ihop till en parallellogram. De parallella sidorna är 3 cm och 9 cm och höjden är 5 cm. Hur stor area har parallellogrammen?",
+      "answer": [
+        "60",
+        "60 cm²"
+      ],
+      "correct": "Rätt! Basen är 3 + 9 = 12 och höjden är 5. Arean är 12 · 5 = 60 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "30",
+            "30 cm²"
+          ],
+          "message": "Det är arean av en trapets. Parallellogrammen består av två trapetser."
+        },
+        {
+          "answers": [
+            "135",
+            "135 cm²"
+          ],
+          "message": "Du har multiplicerat 3, 9 och 5. Lägg ihop de parallella sidorna först."
+        }
+      ]
+    }
+  ]
+}

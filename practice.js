@@ -174,6 +174,7 @@ window.GaussicaPractice = (function () {
       });
       const problem = { prompt: r.prompt, answer: answer, correct: r.correct, feedback: feedback };
       if (typeof template.allowExpression === "boolean") problem.allowExpression = template.allowExpression;
+      if (typeof template.form === "string") problem.form = template.form;
       if (Array.isArray(template.keys)) problem.keys = template.keys;
       if (r.visual) problem.visual = r.visual;
       if (r.visuals) problem.visuals = r.visuals;

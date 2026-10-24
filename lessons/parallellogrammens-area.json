@@ -1,0 +1,281 @@
+{
+  "id": "parallellogrammens-area",
+  "area": "geometri",
+  "title": "Parallellogrammens area",
+  "level": "Gör om till en rektangel · ungefär åk 6",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "rektangelns-area",
+    "triangelns-area"
+  ],
+  "summary": "Arean av en parallellogram är basen gånger höjden, precis som för en rektangel.",
+  "explanationTitle": "Klipp och flytta en triangel",
+  "explanation": "Problemet: Vi kan räkna ut arean av en rektangel och av en triangel. Men en parallellogram är sned, och rutor passar inte in i den. Hur stor yta täcker den? Klipp av en triangel i ena änden och flytta den till andra änden. Då blir parallellogrammen en rektangel med samma bas och samma höjd. Därför är arean bas gånger höjd: A = b · h. Höjden är det vinkelräta avståndet mellan basen och den motsatta sidan, inte den sneda sidan. Titta på bilden: den streckade lodräta linjen är höjden. Är basen 8 cm och höjden 5 cm blir arean 8 · 5 = 40 cm². Den sneda sidan behövs inte för arean. Den behövs bara för omkretsen.",
+  "visual": {
+    "type": "parallellogram",
+    "title": "Klipp och flytta: parallellogrammen blir en rektangel",
+    "base": 8,
+    "height": 5,
+    "shift": 3,
+    "unit": "cm",
+    "showHeight": true,
+    "showRect": true
+  },
+  "rule": "A = b · h, där höjden är vinkelrät mot basen",
+  "ruleLabel": "PARALLELLOGRAMMENS AREA",
+  "example": "Basen 10 cm och höjden 4 cm: 10 · 4 = 40 cm². Den sneda sidan på 5 cm används inte.",
+  "practice": [
+    {
+      "id": "area",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          3,
+          12
+        ],
+        "h": [
+          2,
+          9
+        ]
+      },
+      "visual": {
+        "type": "parallellogram",
+        "base": "=b",
+        "height": "=h",
+        "unit": "cm",
+        "showHeight": true
+      },
+      "prompt": "En parallellogram har basen {b} cm och höjden {h} cm. Hur stor är arean i cm²?",
+      "answer": [
+        "=b*h",
+        "{b*h} cm²"
+      ],
+      "correct": "Rätt! A = b · h = {b} · {h} = {b*h} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=b+h"
+          ],
+          "message": "Du har lagt ihop basen och höjden. Arean får du genom att multiplicera dem."
+        },
+        {
+          "answers": [
+            "=2*(b+h)"
+          ],
+          "message": "Det är som en omkrets. Arean är basen gånger höjden."
+        }
+      ]
+    },
+    {
+      "id": "sned-sida",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "b": [
+          4,
+          12
+        ],
+        "h": [
+          2,
+          8
+        ],
+        "r": [
+          1,
+          4
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "h+r"
+        }
+      ],
+      "prompt": "En parallellogram har basen {b} cm, höjden {h} cm och en sned sida på {s} cm. Hur stor är arean?",
+      "answer": [
+        "=b*h",
+        "{b*h} cm²"
+      ],
+      "correct": "Rätt! Arean är basen gånger höjden: {b} · {h} = {b*h} cm². Den sneda sidan används inte.",
+      "feedback": [
+        {
+          "answers": [
+            "=b*s",
+            "{b*s} cm²"
+          ],
+          "message": "Du har använt den sneda sidan. Höjden är det vinkelräta avståndet mellan basen och den motsatta sidan, så använd {h}."
+        }
+      ]
+    },
+    {
+      "id": "hojd-saknas",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "b": [
+          3,
+          10
+        ],
+        "h": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "b*h"
+        }
+      ],
+      "prompt": "En parallellogram har arean {a} cm² och basen {b} cm. Hur hög är den?",
+      "answer": [
+        "=h",
+        "{h} cm"
+      ],
+      "correct": "Rätt! A = b · h, så h = {a}/{b} = {h} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=a",
+            "{a} cm"
+          ],
+          "message": "{a} är arean. Höjden får du genom att dela arean med basen."
+        }
+      ]
+    },
+    {
+      "id": "dubbel-bas",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          10,
+          60,
+          2
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "2*a"
+        }
+      ],
+      "prompt": "En parallellogram har arean {a} cm². Basen dubbleras, men höjden är densamma. Hur stor blir arean?",
+      "answer": [
+        "=r",
+        "{r} cm²"
+      ],
+      "correct": "Rätt! Arean är basen gånger höjden. Dubbleras basen dubbleras arean: 2 · {a} = {r} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=a",
+            "{a} cm²"
+          ],
+          "message": "Arean ändras när basen ändras. Basen blir dubbelt så stor, så arean också."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En parallellogram har basen 8 cm och höjden 5 cm. Hur stor är arean i cm²?",
+    "answer": [
+      "40",
+      "40 cm²"
+    ],
+    "correct": "Rätt! A = b · h = 8 · 5 = 40 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "13",
+          "13 cm²"
+        ],
+        "message": "Du har lagt ihop basen och höjden. Arean får du genom att multiplicera dem."
+      },
+      {
+        "answers": [
+          "26",
+          "26 cm²"
+        ],
+        "message": "Det är som en omkrets. Arean är basen gånger höjden."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En parallellogram har basen 10 cm, höjden 4 cm och en sned sida på 5 cm. Hur stor är arean?",
+      "answer": [
+        "40",
+        "40 cm²"
+      ],
+      "correct": "Rätt! 10 · 4 = 40 cm². Den sneda sidan används inte.",
+      "feedback": [
+        {
+          "answers": [
+            "50",
+            "50 cm²"
+          ],
+          "message": "Du har använt den sneda sidan. Höjden är vinkelrät mot basen, så använd 4."
+        },
+        {
+          "answers": [
+            "14",
+            "14 cm²"
+          ],
+          "message": "Du har lagt ihop basen och höjden. Multiplicera dem."
+        }
+      ]
+    },
+    {
+      "prompt": "En parallellogram har arean 36 cm² och basen 9 cm. Hur hög är den?",
+      "answer": [
+        "4",
+        "4 cm"
+      ],
+      "correct": "Rätt! h = 36/9 = 4 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "324"
+          ],
+          "message": "Du har multiplicerat arean och basen. Höjden får du genom att dela arean med basen."
+        },
+        {
+          "answers": [
+            "27"
+          ],
+          "message": "Du har dragit ifrån. Dela arean med basen."
+        }
+      ]
+    },
+    {
+      "prompt": "En parallellogram har basen 6 cm och höjden 6 cm. Hur stor är arean?",
+      "answer": [
+        "36",
+        "36 cm²"
+      ],
+      "correct": "Rätt! 6 · 6 = 36 cm². Det är lika stor area som en kvadrat med sidan 6 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "12",
+            "12 cm²"
+          ],
+          "message": "Du har lagt ihop basen och höjden. Multiplicera dem."
+        },
+        {
+          "answers": [
+            "24",
+            "24 cm²"
+          ],
+          "message": "Det är som en omkrets. Arean är basen gånger höjden."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,343 @@
+{
+  "id": "proportionalitet",
+  "area": "algebra",
+  "title": "Proportionalitet",
+  "level": "När allt växer lika snabbt · ungefär åk 7",
+  "grade": 7,
+  "duration": "9 min",
+  "prerequisites": [
+    "forhallande",
+    "multiplikation"
+  ],
+  "summary": "I ett proportionellt samband blir en storhet dubbelt så stor när den andra blir dubbelt så stor. Då kan du räkna med värdet för 1.",
+  "explanationTitle": "Dubbelt så mycket ger dubbelt så mycket",
+  "explanation": "Problemet: 2 kg äpplen kostar 30 kr. Vad kostar 5 kg? Vi kan inte bara lägga till 3 kr för de tre extra kilona, och vi vill inte pröva oss fram. Vi behöver veta hur priset hänger ihop med vikten. När dubbelt så många kilo kostar dubbelt så mycket kallas sambandet proportionalitet. Då är kvoten mellan priset och vikten alltid densamma. Här är 30 delat med 2 lika med 15 kr per kilo. Det talet kallas proportionalitetskonstanten, eller enhetspriset. Priset för 5 kg är 5 · 15 = 75 kr. Så räknar du för varje proportionellt samband: ta reda på värdet för 1 och multiplicera. I en graf blir ett proportionellt samband en rak linje genom origo, för 0 kg kostar 0 kr. Går linjen inte genom origo, som för en taxi med startavgift, är det inte proportionalitet.",
+  "visual": {
+    "type": "graf",
+    "title": "Priset på äpplen: en rak linje genom origo",
+    "xmin": 0,
+    "xmax": 6,
+    "ymin": 0,
+    "ymax": 90,
+    "lines": [
+      {
+        "k": 15,
+        "m": 0
+      }
+    ],
+    "points": [
+      {
+        "x": 2,
+        "y": 30,
+        "label": "(2, 30)"
+      },
+      {
+        "x": 5,
+        "y": 75,
+        "label": "(5, 75)"
+      }
+    ]
+  },
+  "rule": "y = k · x, där k = y/x är samma hela tiden",
+  "ruleLabel": "PROPORTIONALITET",
+  "example": "2 kg kostar 30 kr. 1 kg kostar 30/2 = 15 kr. 5 kg kostar 5 · 15 = 75 kr.",
+  "practice": [
+    {
+      "id": "enhetspris",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          2,
+          6
+        ],
+        "u": [
+          5,
+          40,
+          5
+        ],
+        "m": [
+          1,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-n)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "t",
+          "expr": "n*u"
+        },
+        {
+          "name": "r",
+          "expr": "m*u"
+        }
+      ],
+      "prompt": "{n} kg äpplen kostar {t} kr. Vad kostar {m} kg?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! 1 kg kostar {t}/{n} = {u} kr. {m} kg kostar {m} · {u} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=t+(m-n)",
+            "{t+(m-n)} kr"
+          ],
+          "message": "Du har lagt till skillnaden i kilo. Priset växer med lika mycket för varje kilo, så ta reda på priset för 1 kg först."
+        },
+        {
+          "answers": [
+            "=u",
+            "{u} kr"
+          ],
+          "message": "{u} kr är priset för 1 kg. Multiplicera med {m}."
+        },
+        {
+          "answers": [
+            "=m*t",
+            "{m*t} kr"
+          ],
+          "message": "Du har multiplicerat priset med antalet kilo. Priset för {n} kg är redan {t} kr. Hitta först priset för 1 kg."
+        }
+      ]
+    },
+    {
+      "id": "tabell",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          2,
+          12
+        ],
+        "m": [
+          4,
+          12
+        ]
+      },
+      "prompt": "I ett proportionellt samband är y = {k} när x = 1, y = {2*k} när x = 2 och y = {3*k} när x = 3. Vad är y när x = {m}?",
+      "answer": [
+        "=k*m"
+      ],
+      "correct": "Rätt! y är alltid {k} gånger x. {k} · {m} = {k*m}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är x-värdet. Här är y alltid {k} gånger så stort som x."
+        }
+      ]
+    },
+    {
+      "id": "recept",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "p": [
+          2,
+          6
+        ],
+        "u": [
+          2,
+          5
+        ],
+        "q": [
+          2,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(q-p)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "a",
+          "expr": "u*p"
+        },
+        {
+          "name": "r",
+          "expr": "u*q"
+        }
+      ],
+      "prompt": "Ett recept för {p} personer använder {a} dl mjöl. Hur många dl mjöl behövs för {q} personer?",
+      "answer": [
+        "=r",
+        "{r} dl"
+      ],
+      "correct": "Rätt! Per person går det åt {a}/{p} = {u} dl. {q} personer behöver {q} · {u} = {r} dl.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+(q-p)",
+            "{a+(q-p)} dl"
+          ],
+          "message": "Du har lagt till lika många dl som personerna ökade. Mjölet växer med samma mängd för varje person, så hitta först mängden för 1 person."
+        }
+      ]
+    },
+    {
+      "id": "graf-k",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "x": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "y",
+          "expr": "k*x"
+        }
+      ],
+      "visual": {
+        "type": "graf",
+        "xmin": 0,
+        "xmax": 7,
+        "ymin": 0,
+        "ymax": "=7*k",
+        "lines": [
+          {
+            "k": "=k",
+            "m": 0
+          }
+        ],
+        "points": [
+          {
+            "x": "=x",
+            "y": "=y"
+          }
+        ]
+      },
+      "prompt": "Linjen visar ett proportionellt samband. Punkten ({x}, {y}) ligger på linjen. Hur mycket ökar y när x ökar med 1?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! {y}/{x} = {k}. Varje steg 1 i x ger {k} steg i y.",
+      "feedback": [
+        {
+          "answers": [
+            "=y"
+          ],
+          "message": "{y} är y-värdet i punkten. Dela det med x-värdet {x} för att se hur mycket y ökar per steg i x."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "2 kg äpplen kostar 30 kr. Vad kostar 5 kg?",
+    "answer": [
+      "75",
+      "75 kr"
+    ],
+    "correct": "Rätt! 1 kg kostar 30/2 = 15 kr. 5 kg kostar 5 · 15 = 75 kr.",
+    "feedback": [
+      {
+        "answers": [
+          "33",
+          "33 kr"
+        ],
+        "message": "Du har lagt till 3 kr för de tre extra kilona. Priset växer med lika mycket för varje kilo, och det är 15 kr per kilo."
+      },
+      {
+        "answers": [
+          "45",
+          "45 kr"
+        ],
+        "message": "45 kr är priset för de 3 extra kilona. Du ska ha priset för 5 kg i alltihop."
+      },
+      {
+        "answers": [
+          "15",
+          "15 kr"
+        ],
+        "message": "15 kr är priset för 1 kg. Multiplicera med 5 kg."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "3 liter saft kostar 36 kr. Vad kostar 7 liter?",
+      "answer": [
+        "84",
+        "84 kr"
+      ],
+      "correct": "Rätt! 1 liter kostar 36/3 = 12 kr. 7 liter kostar 7 · 12 = 84 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "40",
+            "40 kr"
+          ],
+          "message": "Du har lagt till 4 kr för de fyra extra litrarna. Hitta först priset för 1 liter."
+        },
+        {
+          "answers": [
+            "12",
+            "12 kr"
+          ],
+          "message": "12 kr är priset för 1 liter. Multiplicera med 7."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett recept för 4 personer använder 6 dl mjöl. Hur många dl mjöl behövs för 10 personer?",
+      "answer": [
+        "15",
+        "15 dl"
+      ],
+      "correct": "Rätt! Per person går det åt 6/4 = 1,5 dl. För 10 personer: 10 · 1,5 = 15 dl.",
+      "feedback": [
+        {
+          "answers": [
+            "12",
+            "12 dl"
+          ],
+          "message": "Du har lagt till 6 dl för de sex extra personerna. Hitta först mängden för 1 person."
+        },
+        {
+          "answers": [
+            "24",
+            "24 dl"
+          ],
+          "message": "Du har multiplicerat 4 och 6. Hitta först mängden för 1 person."
+        }
+      ]
+    },
+    {
+      "prompt": "En taxi kostar 40 kr i startavgift plus 20 kr per kilometer. 2 km kostar 80 kr och 4 km kostar 120 kr. Hur många gånger så mycket kostar 4 km som 2 km? Svara med ett tal.",
+      "answer": [
+        "1,5",
+        "1.5"
+      ],
+      "correct": "Rätt! 120/80 = 1,5. Dubbla sträckan ger inte dubbla priset, på grund av startavgiften. Det är alltså inte proportionalitet.",
+      "feedback": [
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "Det vore så om det var proportionalitet. Men startavgiften på 40 kr gör att priset inte dubbleras. Räkna 120 delat med 80."
+        }
+      ]
+    }
+  ]
+}

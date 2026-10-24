@@ -271,9 +271,21 @@
 
   // --- Symbolisk ekvivalensprövning ---
   // Jämför två matematiska uttryck med multi-point random sampling
+  // "1 3/4" is one and three quarters. Written as an improper fraction it is (7/4).
+  const MIXED = /^\s*(\d+)\s+(\d+)\s*\/\s*(\d+)\s*$/;
+
+  function isMixed(str) { return MIXED.test(String(str === undefined || str === null ? "" : str)); }
+
+  function mixedToImproper(str) {
+    const m = MIXED.exec(String(str));
+    return m ? "(" + (Number(m[1]) * Number(m[3]) + Number(m[2])) + "/" + m[3] + ")" : str;
+  }
+
   function areEquivalent(studentInput, expectedInput) {
     if (studentInput === undefined || studentInput === null) return false;
     if (expectedInput === undefined || expectedInput === null) return false;
+    studentInput = mixedToImproper(studentInput);
+    expectedInput = mixedToImproper(expectedInput);
 
     // 1. Direkt stränglikhet (normaliserad)
     const normStudent = cleanMathString(studentInput).toLowerCase().replace(/\s+/g, "");
@@ -665,6 +677,7 @@
     stripUnits: stripUnits,
     isPlainNumber: isPlainNumber,
     isCalculation: isCalculation,
+    isMixed: isMixed,
     expectsPlainNumber: expectsPlainNumber,
     tokenize: tokenize,
     parse: parse,

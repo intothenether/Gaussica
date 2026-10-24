@@ -4,7 +4,8 @@
   "private": true,
   "description": "Gaussica, lärstig i matematik med konton och lagring",
   "scripts": {
-    "start": "node --disable-warning=ExperimentalWarning server.js"
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "test": "node --disable-warning=ExperimentalWarning tests/run.js"
   },
   "engines": {
     "node": ">=22.13"

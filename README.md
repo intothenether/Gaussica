@@ -338,3 +338,11 @@ Eleverna får lätt och frivillig motivation, utan ranking och utan jämförelse
 - **Pythagoras** (`type: "pythagoras"`): `{ "a": 3, "b": 4, "unit": "cm", "hideC": true }` ritar en rätvinklig triangel med en kvadrat på varje sida. `hideA`, `hideB` och `hideC` döljer en längd som eleven ska räkna ut.
 - **Potenser i text.** Skriv `2^5`, `x^2` eller `(a+b)^2` så visas exponenten upphöjd, i alla texter, uppgifter och återkoppling.
 - **Frågetexten** är större i lektionsläget, så att uppgifterna är lättare att läsa.
+
+## Tester och mappar
+
+- `npm test` kör alla kontroller: syntax i alla skript, alla lektioner (index, förkunskaper, svar och ledtrådar, inga × eller långa tankstreck), de genererade övningsfrågorna, hur svar jämförs och serverns API (startas på en ledig port med en tillfällig databas, så `data/` rörs aldrig). GitHub kör samma tester före varje publicering, så en trasig lektion stoppar publiceringen. Kör bara en del med till exempel `node tests/run.js lessons`.
+- `tests/api-*.js` och `tests/practice.js` går också att köra var för sig. Cloudflare-API:t testas separat med `wrangler dev` (se `cloudflare/README.md`).
+- Äldre statusrapporter och planer ligger i `docs/archive/`. Äldre skript och oanvända filer ligger i `dev/archive/`. `docs/` har guiderna för GitHub Pages och lärare, och `docs/logo-proposals/` har logotypförslagen.
+- Nya svarsformer: `"form": "blandad"`, `"brak"` eller `"forenklat"` på en fråga kräver att rätt värde skrivs på ett visst sätt (1 3/4, 7/4 eller 2:3). Blandad form som `1 3/4` förstås som 7/4.
+- Nya figurer: `tradiagram`, `parallellogram` och `trapets` (se början av `figures.js`).

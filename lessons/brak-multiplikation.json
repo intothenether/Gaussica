@@ -1,0 +1,314 @@
+{
+  "id": "brak-multiplikation",
+  "area": "tal",
+  "title": "Multiplikation av bråk",
+  "level": "Del av en del · ungefär åk 7",
+  "grade": 7,
+  "duration": "9 min",
+  "prerequisites": [
+    "brak-rakna",
+    "brak-likavarda"
+  ],
+  "summary": "Bråk multiplicerar du genom att multiplicera täljarna med varandra och nämnarna med varandra.",
+  "explanationTitle": "Täljare gånger täljare",
+  "explanation": "Problemet: Du har 3/4 av en chokladkaka och äter hälften av det. Hur stor del av hela kakan är det? Vi kan räkna en del av ett antal, som 3/4 av 12. Men nu är det en del av ett bråk, och det vet vi inte hur man räknar. Vi behöver ett sätt att multiplicera bråk. Du multiplicerar täljarna med varandra och nämnarna med varandra: 1/2 · 3/4 = (1 · 3)/(2 · 4) = 3/8. Du kan se det i en bild. Dela kakan i 4 delar och ta 3. Dela sedan varje del i 2. Då är kakan delad i 8 delar, och du har 3 av dem. Ett heltal kan du skriva som ett bråk: 3 = 3/1, så 3 · 2/5 = 6/5. Du kan förkorta svaret, eller förkorta före: 2/3 · 3/4 = 6/12 = 1/2. När båda bråken är mindre än 1 blir svaret mindre än båda.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tre exempel",
+    "headers": [
+      "Räkning",
+      "Täljarna",
+      "Nämnarna",
+      "Svar"
+    ],
+    "rows": [
+      [
+        "1/2 · 3/4",
+        "1 · 3 = 3",
+        "2 · 4 = 8",
+        "3/8"
+      ],
+      [
+        "2/3 · 3/5",
+        "2 · 3 = 6",
+        "3 · 5 = 15",
+        "6/15 = 2/5"
+      ],
+      [
+        "3 · 2/5",
+        "3 · 2 = 6",
+        "1 · 5 = 5",
+        "6/5"
+      ]
+    ]
+  },
+  "rule": "Täljare gånger täljare, nämnare gånger nämnare",
+  "ruleLabel": "BRÅK GÅNGER BRÅK",
+  "example": "2/3 · 3/4 = 6/12 = 1/2. Och 4 · 3/5 = 12/5.",
+  "practice": [
+    {
+      "id": "brak-gange-brak",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          6
+        ],
+        "c": [
+          1,
+          4
+        ],
+        "d": [
+          2,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        },
+        {
+          "expr": "d-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*c"
+        },
+        {
+          "name": "m",
+          "expr": "b*d"
+        }
+      ],
+      "prompt": "Räkna ut {a}/{b} · {c}/{d}.",
+      "answer": [
+        "{n}/{m}"
+      ],
+      "correct": "Rätt! {a} · {c} = {n} och {b} · {d} = {m}. Svar: {n}/{m}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a*d+c*b}/{b*d}"
+          ],
+          "message": "Du har räknat som vid addition. Vid multiplikation multiplicerar du täljarna med varandra och nämnarna med varandra."
+        }
+      ]
+    },
+    {
+      "id": "heltal-gange-brak",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          2,
+          6
+        ],
+        "a": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "Räkna ut {n} · {a}/{b}.",
+      "answer": [
+        "{n*a}/{b}"
+      ],
+      "correct": "Rätt! {n} = {n}/1, så täljarna blir {n} · {a} = {n*a} och nämnarna 1 · {b} = {b}. Svar: {n*a}/{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "{n*a}/{n*b}"
+          ],
+          "message": "Du har multiplicerat både täljare och nämnare med {n}. Heltalet multiplicerar bara täljaren."
+        }
+      ]
+    },
+    {
+      "id": "del-av-bit",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "{$namn} har {a}/{b} av en pizza kvar och äter hälften av det. Hur stor del av hela pizzan äter {$namn}?",
+      "answer": [
+        "{a}/{2*b}"
+      ],
+      "correct": "Rätt! Hälften är 1/2, och 1/2 · {a}/{b} = {a}/{2*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a}/{b}"
+          ],
+          "message": "Det är hela resten. {$namn} äter bara hälften av den, alltså 1/2 · {a}/{b}."
+        }
+      ]
+    },
+    {
+      "id": "forkorta",
+      "for": [
+        "word-2"
+      ],
+      "form": "forenklat",
+      "vars": {
+        "a": [
+          1,
+          3
+        ],
+        "b": [
+          2,
+          5
+        ],
+        "d": [
+          4,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "g",
+          "expr": "sgd(a,d)"
+        }
+      ],
+      "prompt": "Räkna ut {a}/{b} · {b}/{d} och skriv svaret i enklaste form. Skriv bråket.",
+      "answer": [
+        "{a/g}/{d/g}"
+      ],
+      "correct": "Rätt! {b} finns både i en täljare och en nämnare och tar ut varandra. Svar: {a/g}/{d/g}.",
+      "feedback": []
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 1/2 · 3/4.",
+    "answer": [
+      "3/8"
+    ],
+    "correct": "Rätt! 1 · 3 = 3 och 2 · 4 = 8. Svar: 3/8.",
+    "feedback": [
+      {
+        "answers": [
+          "4/6",
+          "2/3"
+        ],
+        "message": "Du har lagt ihop täljarna och nämnarna. Vid multiplikation multiplicerar du dem: 1 · 3 och 2 · 4."
+      },
+      {
+        "answers": [
+          "3/4"
+        ],
+        "message": "Det är bråket du började med. Ta hälften av det, alltså 1/2 · 3/4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Mira har 3/4 av en chokladkaka kvar och äter hälften av det. Hur stor del av hela kakan äter hon? Svara som ett bråk.",
+      "answer": [
+        "3/8"
+      ],
+      "correct": "Rätt! 1/2 · 3/4 = 3/8 av hela kakan.",
+      "feedback": [
+        {
+          "answers": [
+            "3/4"
+          ],
+          "message": "Det är hela resten. Hon äter bara hälften av den."
+        },
+        {
+          "answers": [
+            "1/2"
+          ],
+          "message": "Hälften av hela kakan vore 1/2, men hon har bara 3/4 kvar att äta av."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 3 · 2/5.",
+      "answer": [
+        "6/5"
+      ],
+      "correct": "Rätt! 3 · 2 = 6, och nämnaren är kvar: 6/5. Det är också 1 1/5.",
+      "feedback": [
+        {
+          "answers": [
+            "6/15"
+          ],
+          "message": "Du har multiplicerat både täljare och nämnare med 3. Heltalet multiplicerar bara täljaren."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Du har glömt nämnaren 5. Svaret är 6/5."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 2/3 · 3/4 och skriv svaret i enklaste form. Skriv bråket.",
+      "answer": [
+        "1/2"
+      ],
+      "form": "forenklat",
+      "correct": "Rätt! 2/3 · 3/4 = 6/12, och 6/12 förkortat med 6 är 1/2.",
+      "feedback": [
+        {
+          "answers": [
+            "2/3"
+          ],
+          "message": "Det är första bråket. Multiplicera täljarna med varandra och nämnarna med varandra."
+        }
+      ]
+    }
+  ]
+}

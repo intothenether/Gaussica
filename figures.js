@@ -16,6 +16,9 @@
 //   klocka      { h, m, digital }                                                    analog clock
 //   uppstallning { op:"+"|"-"|"*"|"/", a, b }   column arithmetic, shown step by step (b is a single digit for * and /)
 //   pythagoras  { a, b, unit, hideA, hideB, hideC, areas }   right triangle with a square on each side
+//   tradiagram  { levels:[[val, val], [val, val]], root }    tree diagram, one list of choices per step
+//   parallellogram { base, height, shift, unit, showHeight, showRect }
+//   trapets     { a, b, height, offset, unit, showHeight, showCopy }
 // tallinje also takes sequence:{start,step,count}; monster takes generator:"L"|"kvadrat"|"trappa"|"rad"|"faktorer", n, only.
 
 window.GaussicaFigures = (function () {
@@ -25,7 +28,7 @@ window.GaussicaFigures = (function () {
   const TYPES = {
     tallinje: "TALLINJE", numberline: "TALLINJE", rektangel: "FIGUR", kvadrat: "FIGUR", triangel: "FIGUR",
     figurer: "FIGURER", symmetri: "SYMMETRI", monster: "MÖNSTER", talrutnat: "TALRUTNÄT",
-    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", pythagoras: "PYTHAGORAS"
+    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", pythagoras: "PYTHAGORAS", tradiagram: "TRÄDDIAGRAM", parallellogram: "FIGUR", trapets: "FIGUR"
   };
 
   function supports(type) {
@@ -780,6 +783,118 @@ window.GaussicaFigures = (function () {
     return wrap([svg]);
   }
 
+  // ----- tree diagram: every branch of a series of choices -----
+  // { levels: [["krona","klave"], ["krona","klave"]], root: "Start" }   one list of choices per step
+  function tradiagram(c) {
+    const levels = (c.levels || []).map(function (l) { return l.map(String); }).filter(function (l) { return l.length; });
+    const leafCount = levels.reduce(function (n, l) { return n * l.length; }, 1);
+    const ROW = 38, PADY = 18;
+    const widths = [c.root === false ? 0 : 58].concat(levels.map(function (l) {
+      return Math.max.apply(null, l.map(function (t) { return t.length; })) * 9 + 26;
+    }));
+    const GAP = 46;
+    const W = widths.reduce(function (s, w) { return s + w; }, 0) + GAP * levels.length + 20;
+    const H = Math.max(120, leafCount * ROW + 2 * PADY);
+    const svg = svgRoot(c, W, H);
+    const xs = [];
+    let x = 10;
+    widths.forEach(function (w) { xs.push(x); x += w + GAP; });
+
+    let leaf = 0;
+    const edges = [], nodes = [];
+    function build(depth, path) {   // returns y of this node
+      let y;
+      if (depth === levels.length) {
+        y = PADY + ROW / 2 + leaf * ROW;
+        leaf += 1;
+        return { y: y, id: nodes.length };
+      }
+      const kids = levels[depth].map(function (label) {
+        const child = build(depth + 1, path.concat(label));
+        nodes.push({ depth: depth + 1, y: child.y, label: label, leaf: depth + 1 === levels.length });
+        return child;
+      });
+      y = (kids[0].y + kids[kids.length - 1].y) / 2;
+      kids.forEach(function (k) { edges.push({ from: depth, y1: y, y2: k.y }); });
+      return { y: y };
+    }
+    const root = build(0, []);
+    edges.forEach(function (e) {
+      s("line", { x1: xs[e.from] + widths[e.from], y1: e.y1, x2: xs[e.from + 1], y2: e.y2, "class": "fig-branch" }, svg);
+    });
+    if (widths[0]) {
+      s("rect", { x: xs[0], y: root.y - 15, width: widths[0], height: 30, rx: 15, "class": "fig-tnode is-root" }, svg);
+      text(svg, xs[0] + widths[0] / 2, root.y + 5, c.root || "Start", "fig-dim");
+    }
+    nodes.forEach(function (n) {
+      s("rect", { x: xs[n.depth], y: n.y - 15, width: widths[n.depth], height: 30, rx: 15, "class": "fig-tnode" + (n.leaf ? " is-leaf" : "") }, svg);
+      text(svg, xs[n.depth] + widths[n.depth] / 2, n.y + 5, n.label, "fig-dim");
+    });
+    return wrap([svg]);
+  }
+
+  // ----- parallelogram: base, height and the slanted sides -----
+  // { base, height, shift, unit, showHeight, showRect, labels:{base,height,side} }
+  function parallelogram(c) {
+    const b = Number(c.base), ht = Number(c.height);
+    const shift = c.shift !== undefined ? Number(c.shift) : Math.round(b / 3 * 10) / 10;
+    const unit = c.unit ? " " + c.unit : "";
+    const lab = c.labels || {};
+    const sc = Math.min(40, 300 / (b + shift), 170 / ht);
+    const W = 460, H = ht * sc + 96;
+    const x0 = (W - (b + shift) * sc) / 2, yb = 30 + ht * sc, yt = 30;
+    const A = [x0, yb], B = [x0 + b * sc, yb], C = [x0 + (b + shift) * sc, yt], D = [x0 + shift * sc, yt];
+    const svg = svgRoot(c, W, H);
+    if (c.showRect) s("rect", { x: D[0], y: yt, width: b * sc, height: ht * sc, "class": "fig-dash" }, svg);
+    s("polygon", { points: [A, B, C, D].map(function (p) { return p.join(","); }).join(" "), "class": "fig-shape" }, svg);
+    if (c.showHeight !== false) {
+      s("line", { x1: D[0], y1: yt, x2: D[0], y2: yb, "class": "fig-axisline" }, svg);
+      const q = 10;
+      s("path", { d: "M" + (D[0] + q) + " " + yb + " v-" + q + " h-" + q, "class": "fig-right" }, svg);
+      text(svg, D[0] - 8, (yt + yb) / 2 + 5, lab.height || ("h = " + fmt(ht) + unit), "fig-dim", "end");
+    }
+    text(svg, (A[0] + B[0]) / 2, yb + 26, lab.base || ("b = " + fmt(b) + unit), "fig-dim");
+    if (lab.side) text(svg, (A[0] + D[0]) / 2 - 12, (A[1] + D[1]) / 2, lab.side, "fig-dim", "end");
+    return wrap([svg]);
+  }
+
+  // ----- trapezoid: two parallel sides a (top) and b (bottom) and the height -----
+  // { a, b, height, offset, unit, showHeight, showCopy, labels:{a,b,height} }
+  function trapezoid(c) {
+    const a = Number(c.a), b = Number(c.b), ht = Number(c.height);
+    const off = c.offset !== undefined ? Number(c.offset) : (b - a) / 2;
+    const unit = c.unit ? " " + c.unit : "";
+    const lab = c.labels || {};
+    const yb0 = ht, yt0 = 0;   // unscaled: y grows downwards
+    const P0 = [[0, yb0], [b, yb0], [off + a, yt0], [off, yt0]];
+    let copy0 = null;
+    if (c.showCopy) {   // the same trapezoid turned half a turn around the middle of the right leg
+      const mx = (P0[1][0] + P0[2][0]) / 2, my = (P0[1][1] + P0[2][1]) / 2;
+      copy0 = P0.map(function (p) { return [2 * mx - p[0], 2 * my - p[1]]; });
+    }
+    const all = P0.concat(copy0 || []);
+    const minX = Math.min.apply(null, all.map(function (p) { return p[0]; })), maxX = Math.max.apply(null, all.map(function (p) { return p[0]; }));
+    const W = 500, H = ht * 40 + 96;
+    const sc = Math.min(40, (W - 40) / (maxX - minX), 170 / ht);
+    const svg = svgRoot(c, W, ht * sc + 96);
+    const ox = (W - (maxX - minX) * sc) / 2 - minX * sc, oy = 30;
+    const T = function (p) { return [ox + p[0] * sc, oy + p[1] * sc]; };
+    const pts = function (list) { return list.map(function (p) { return T(p).join(","); }).join(" "); };
+    if (copy0) s("polygon", { points: pts(copy0), "class": "fig-copy" }, svg);
+    s("polygon", { points: pts(P0), "class": "fig-shape" }, svg);
+    const P = P0.map(T);
+    if (c.showHeight !== false) {
+      const hx = P[3][0], yt = P[3][1], yb = P[0][1];
+      s("line", { x1: hx, y1: yt, x2: hx, y2: yb, "class": "fig-axisline" }, svg);
+      const q = 10;
+      s("path", { d: "M" + (hx + q) + " " + yb + " v-" + q + " h-" + q, "class": "fig-right" }, svg);
+      text(svg, hx - 8, (yt + yb) / 2 + 5, lab.height || ("h = " + fmt(ht) + unit), "fig-dim", "end");
+    }
+    text(svg, (P[3][0] + P[2][0]) / 2, P[3][1] - 8, lab.a || ("a = " + fmt(a) + unit), "fig-dim");
+    text(svg, (P[0][0] + P[1][0]) / 2, P[0][1] + 26, lab.b || ("b = " + fmt(b) + unit), "fig-dim");
+    return wrap([svg]);
+  }
+
   function render(config) {
     const type = String(config.type || "").toLowerCase();
     if (type === "tallinje" || type === "numberline") return numberline(config);
@@ -796,6 +911,9 @@ window.GaussicaFigures = (function () {
     if (type === "klocka") return clock(config);
     if (type === "uppstallning") return uppstallning(config);
     if (type === "pythagoras") return pythagoras(config);
+    if (type === "tradiagram") return tradiagram(config);
+    if (type === "parallellogram") return parallelogram(config);
+    if (type === "trapets") return trapezoid(config);
     return null;
   }
 
