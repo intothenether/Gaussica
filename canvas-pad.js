@@ -112,8 +112,10 @@ window.GaussicaCanvas = (function () {
       }
       case "op": {
         s("circle", { cx: 20, cy: 20, r: 20, fill: col.v }, g);
-        const t = s("text", { x: 20, y: 29, "text-anchor": "middle", fill: "#fff", "font-size": 26, "font-weight": 800, "font-family": FONT }, g);
-        t.textContent = it.s || "+";
+        const sign = it.s === "×" ? "·" : (it.s || "+");   // always the multiplication dot
+        const dot = sign === "·";
+        const t = s("text", { x: 20, y: dot ? 32 : 29, "text-anchor": "middle", fill: "#fff", "font-size": dot ? 44 : 26, "font-weight": 800, "font-family": FONT }, g);
+        t.textContent = sign;
         break;
       }
       case "dot":
@@ -203,7 +205,7 @@ window.GaussicaCanvas = (function () {
     { id: "chip", label: "Tal", make: function () { return { t: "chip", s: "" }; }, edit: true },
     { id: "plus", label: "+", make: function () { return { t: "op", s: "+" }; } },
     { id: "minus", label: "−", make: function () { return { t: "op", s: "−" }; } },
-    { id: "times", label: "×", make: function () { return { t: "op", s: "×" }; } },
+    { id: "times", label: "·", make: function () { return { t: "op", s: "·" }; } },
     { id: "div", label: "÷", make: function () { return { t: "op", s: "÷" }; } },
     { id: "eq", label: "=", make: function () { return { t: "op", s: "=" }; } },
     { id: "dot", label: "Prick", make: function () { return { t: "dot" }; } },

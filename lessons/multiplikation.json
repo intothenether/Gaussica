@@ -8,10 +8,10 @@
   "prerequisites": ["addition"],
   "summary": "Multiplikation är ett snabbt sätt att räkna lika stora grupper. En bild med rader och kolumner visar varför ordningen kan bytas.",
   "explanationTitle": "Flera lika stora grupper",
-  "explanation": "Problemet: Hur många kulor är det i 7 påsar med 8 kulor i varje? Du kan skriva 8 + 8 + 8 + 8 + 8 + 8 + 8, men det är långt och lätt att tappa bort sig. Vi behöver ett kortare sätt att skriva lika stora grupper. Sju grupper med åtta saker i varje grupp är 8 + 8 + 8 + 8 + 8 + 8 + 8. Multiplikation skriver samma upprepade addition kortare: 7 × 8.",
-  "rule": "7 × 8 = 7 grupper med 8 = 56",
+  "explanation": "Problemet: Hur många kulor är det i 7 påsar med 8 kulor i varje? Du kan skriva 8 + 8 + 8 + 8 + 8 + 8 + 8, men det är långt och lätt att tappa bort sig. Vi behöver ett kortare sätt att skriva lika stora grupper. Sju grupper med åtta saker i varje grupp är 8 + 8 + 8 + 8 + 8 + 8 + 8. Multiplikation skriver samma upprepade addition kortare: 7 · 8.",
+  "rule": "7 · 8 = 7 grupper med 8 = 56",
   "ruleLabel": "UPPREPAD ADDITION",
-  "example": "En rektangel med 7 rader och 8 kolumner har 56 rutor. Att vända rektangeln visar att 7 × 8 och 8 × 7 ger samma antal.",
+  "example": "En rektangel med 7 rader och 8 kolumner har 56 rutor. Att vända rektangeln visar att 7 · 8 och 8 · 7 ger samma antal.",
   "practice": [
     {
       "id": "grupper",
@@ -70,7 +70,7 @@
   "exercise": {
     "prompt": "Hur många saker finns i 7 lika stora grupper med 8 saker i varje?",
     "answer": ["56"],
-    "correct": "Precis! Sju grupper med åtta blir 7 × 8 = 56.",
+    "correct": "Precis! Sju grupper med åtta blir 7 · 8 = 56.",
     "feedback": [
       { "answers": ["15"], "message": "15 är 7 + 8, alltså två tal lagda ihop. Här finns åtta saker i var och en av sju grupper. Lägg ihop åtta sju gånger." },
       { "answers": ["48"], "message": "Kontrollera antalet grupper och hur många som finns i varje. Det är 7 grupper med 8 i varje, inte 6 grupper." }
@@ -80,16 +80,16 @@
     {
       "prompt": "Fyra bord har plats för 6 elever vardera. Hur många elever får plats sammanlagt?",
       "answer": ["24"],
-      "correct": "Rätt! Fyra grupper med sex platser blir 4 × 6 = 24 platser.",
+      "correct": "Rätt! Fyra grupper med sex platser blir 4 · 6 = 24 platser.",
       "feedback": [
         { "answers": ["10"], "message": "10 är 4 + 6. Här finns sex platser vid vart och ett av fyra bord, alltså fyra lika stora grupper." },
-        { "answers": ["20"], "message": "Räkna alla fyra borden: 6 + 6 + 6 + 6. Du kan också räkna 4 × 6." }
+        { "answers": ["20"], "message": "Räkna alla fyra borden: 6 + 6 + 6 + 6. Du kan också räkna 4 · 6." }
       ]
     },
     {
       "prompt": "En låda rymmer 8 pennor. Hur många pennor ryms i 9 likadana lådor?",
       "answer": ["72"],
-      "correct": "Precis! 9 lådor med 8 pennor i varje blir 9 × 8 = 72.",
+      "correct": "Precis! 9 lådor med 8 pennor i varje blir 9 · 8 = 72.",
       "feedback": [
         { "answers": ["17"], "message": "17 är 9 + 8. Räkna i stället åtta pennor för varje låda, nio gånger." },
         { "answers": ["64"], "message": "Kontrollera antalet lådor: det är 9 lådor, inte 8. Varje låda innehåller 8 pennor." }

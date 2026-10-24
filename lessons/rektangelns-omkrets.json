@@ -19,7 +19,7 @@
     "unit": "cm",
     "sides": "all",
     "outline": true,
-    "title": "Rektangel 7 cm × 3 cm"
+    "title": "Rektangel 7 cm · 3 cm"
   },
   "rule": "O = 2 · (längd + bredd)",
   "ruleLabel": "REKTANGELNS OMKRETS",

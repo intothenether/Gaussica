@@ -68,7 +68,7 @@
     {
       "prompt": "En taxi tar 40 kr i startavgift och 12 kr per kilometer. Vad kostar en resa på 5 km?",
       "answer": ["100", "100 kr"],
-      "correct": "Rätt! 40 kr + 12 kr × 5 = 100 kr.",
+      "correct": "Rätt! 40 kr + 12 kr · 5 = 100 kr.",
       "feedback": [
         { "answers": ["60"], "message": "60 kr är sträckpriset för 5 km. Lägg också till taxins fasta startavgift på 40 kr." },
         { "answers": ["52"], "message": "52 kr är startavgiften plus priset för 1 km. Multiplicera 12 kr med alla 5 kilometer." }
@@ -77,7 +77,7 @@
     {
       "prompt": "Ett ljus är 18 cm långt och brinner ner 2 cm varje timme. Hur långt är det efter 4 timmar?",
       "answer": ["10", "10 cm"],
-      "correct": "Precis! Fyra timmar förbrukar 4 × 2 = 8 cm, så 18 − 8 = 10 cm återstår.",
+      "correct": "Precis! Fyra timmar förbrukar 4 · 2 = 8 cm, så 18 − 8 = 10 cm återstår.",
       "feedback": [
         { "answers": ["8"], "message": "8 cm är hur mycket som brunnit ner. Ta bort den längden från ljusets ursprungliga 18 cm." },
         { "answers": ["16"], "message": "Du har räknat bort 2 cm en gång. Ljuset brinner 2 cm per timme i 4 timmar." }

@@ -586,7 +586,7 @@ window.GaussicaFigures = (function () {
       final += " Kolla med överslag: ungefär " + rounded + " · " + m + " = " + (rounded * m) + ". Svaret ska ligga nära det.";
     }
     frames.push(snap(final, -1));
-    return { n: n, frames: frames, op: "×", top: A, bottom: digitsOf(m) };
+    return { n: n, frames: frames, op: "·", top: A, bottom: digitsOf(m) };
   }
 
   function framesDiv(c) {

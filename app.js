@@ -2060,7 +2060,7 @@
       const c = randomInt(params.minC, params.maxC);
       
       const templates = pattern.templates || [];
-      const template = templates[Math.floor(Math.random() * templates.length)] || "{a} + {b} × {c} = ?";
+      const template = templates[Math.floor(Math.random() * templates.length)] || "{a} + {b} · {c} = ?";
       
       let prompt = template.replace('{a}', a).replace('{b}', b).replace('{c}', c);
       let answer;
@@ -2068,11 +2068,11 @@
       // Determine operation order
       if (pattern.parameters.operatorSequence[0] === 'multiplication') {
         // Multiplication first: a + b*c or a - b*c or b*c + a, etc.
-        if (prompt.includes('×') && prompt.includes('+')) {
+        if (prompt.includes('·') && prompt.includes('+')) {
           answer = a + (b * c); // or other combo
           if (template.includes('{c} + {a}')) answer = c + (a * b);
-          if (template.includes('{b} × {c} + {a}')) answer = (b * c) + a;
-        } else if (prompt.includes('×') && prompt.includes('-')) {
+          if (template.includes('{b} · {c} + {a}')) answer = (b * c) + a;
+        } else if (prompt.includes('·') && prompt.includes('-')) {
           answer = a - (b * c);
         }
       } else if (pattern.parameters.operatorSequence[0] === 'division') {
@@ -2098,21 +2098,21 @@
       const c = randomInt(params.minC, params.maxC);
       
       const templates = pattern.templates || [];
-      const template = templates[Math.floor(Math.random() * templates.length)] || "({a} + {b}) × {c} = ?";
+      const template = templates[Math.floor(Math.random() * templates.length)] || "({a} + {b}) · {c} = ?";
       
       const prompt = template.replace('{a}', a).replace('{b}', b).replace('{c}', c);
       let answer;
       
       // Handle parentheses: (a + b) * c, (a - b) * c, etc.
-      if (template.includes('({a} + {b})') && template.includes('× {c}')) {
+      if (template.includes('({a} + {b})') && template.includes('· {c}')) {
         answer = (a + b) * c;
-      } else if (template.includes('{c} × ({a} + {b})')) {
+      } else if (template.includes('{c} · ({a} + {b})')) {
         answer = c * (a + b);
-      } else if (template.includes('({b} + {a})') && template.includes('× {c}')) {
+      } else if (template.includes('({b} + {a})') && template.includes('· {c}')) {
         answer = (b + a) * c;
-      } else if (template.includes('({a} - {b})') && template.includes('× {c}')) {
+      } else if (template.includes('({a} - {b})') && template.includes('· {c}')) {
         answer = (a - b) * c;
-      } else if (template.includes('{c} × ({a} - {b})')) {
+      } else if (template.includes('{c} · ({a} - {b})')) {
         answer = c * (a - b);
       } else if (template.includes('({a} + {b}) - {c}')) {
         answer = (a + b) - c;

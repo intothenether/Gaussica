@@ -72,7 +72,7 @@
     {
       "prompt": "En jacka kostar 200 kr. Priset sänks med 10 %. Hur många kronor är rabatten?",
       "answer": ["20", "20 kr"],
-      "correct": "Rätt! 10 % av 200 kr är 0,10 × 200 = 20 kr.",
+      "correct": "Rätt! 10 % av 200 kr är 0,10 · 200 = 20 kr.",
       "feedback": [
         { "answers": ["10"], "message": "10 är själva procentsatsen. Räkna ut 10 hundradelar av priset 200 kr." },
         { "answers": ["190"], "message": "190 kr är det nya priset efter rabatten. Frågan gäller hur många kronor rabatten är." }

@@ -8,7 +8,7 @@
   "prerequisites": ["multiplikation", "enheter"],
   "summary": "Area mäter hur mycket plats en yta täcker. För en rektangel räknar vi rader och kolumner av lika stora rutor.",
   "explanationTitle": "Längd gånger bredd räknar rutorna",
-  "explanation": "Problemet: Hur stor golvyta ska en matta täcka? Med en linjal kan vi mäta längder, men längd säger inte hur stor yta något täcker. Vi behöver ett sätt att mäta ytor. Vi mäter dem i rutor. En rektangel som är 8 cm lång och 5 cm bred rymmer 8 kolumner med 5 kvadratcentimeter-rutor i varje. Därför är arean 8 × 5 = 40 kvadratcentimeter.",
+  "explanation": "Problemet: Hur stor golvyta ska en matta täcka? Med en linjal kan vi mäta längder, men längd säger inte hur stor yta något täcker. Vi behöver ett sätt att mäta ytor. Vi mäter dem i rutor. En rektangel som är 8 cm lång och 5 cm bred rymmer 8 kolumner med 5 kvadratcentimeter-rutor i varje. Därför är arean 8 · 5 = 40 kvadratcentimeter.",
   "rule": "A = längd · bredd",
   "ruleLabel": "REKTANGELNS AREA",
   "example": "Area skrivs i kvadratenheter, till exempel cm². Omkrets mäter kanten runt formen och använder vanliga längdenheter.",
@@ -58,7 +58,7 @@
   "exercise": {
     "prompt": "En rektangel är 8 cm lång och 5 cm bred. Vad är arean i cm²?",
     "answer": ["40", "40 cm2", "40cm2", "40 cm²", "40cm²"],
-    "correct": "Rätt! 8 cm × 5 cm = 40 cm².",
+    "correct": "Rätt! 8 cm · 5 cm = 40 cm².",
     "feedback": [
       { "answers": ["26", "26 cm"], "message": "26 cm är omkretsen: 8 + 5 + 8 + 5. Area räknar rutorna inuti genom att multiplicera längd med bredd." },
       { "answers": ["13", "13 cm2"], "message": "13 är längd och bredd adderade. För att räkna hur många kvadratrutor som täcker ytan multiplicerar du 8 med 5." }
@@ -68,7 +68,7 @@
     {
       "prompt": "En matta är 4 m lång och 3 m bred. Hur stor yta täcker mattan?",
       "answer": ["12", "12 m2", "12m2", "12 m²", "12m²"],
-      "correct": "Rätt! 4 m × 3 m = 12 m².",
+      "correct": "Rätt! 4 m · 3 m = 12 m².",
       "feedback": [
         { "answers": ["14", "14 m"], "message": "14 meter är mattans omkrets. För ytan multiplicerar du längden med bredden." },
         { "answers": ["7"], "message": "7 är längden och bredden adderade. Tänk på hur många kvadratmeter-rutor som täcker mattan." }
@@ -77,7 +77,7 @@
     {
       "prompt": "En rektangulär odlingslåda är 6 m lång och 2 m bred. Hur många kvadratmeter jord täcker den?",
       "answer": ["12", "12 m2", "12m2", "12 m²", "12m²"],
-      "correct": "Precis! 6 × 2 = 12 kvadratmeter.",
+      "correct": "Precis! 6 · 2 = 12 kvadratmeter.",
       "feedback": [
         { "answers": ["16", "16 m"], "message": "16 meter är omkretsen. För att hitta ytan inuti lådan multiplicerar du längden med bredden." },
         { "answers": ["8"], "message": "8 är 6 + 2. Area räknas i kvadratenheter och hittas genom att multiplicera sidornas längder." }

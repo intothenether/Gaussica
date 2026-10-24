@@ -797,7 +797,7 @@ window.GaussicaTeacher = (function () {
       if (wrong.length) {
         const chips = el("div", "tv-chips");
         chips.appendChild(el("span", "tv-muted", "Vanliga felsvar:"));
-        wrong.forEach(function (w) { chips.appendChild(el("span", "tv-pill is-wrong", w[0] + " ×" + w[1])); });
+        wrong.forEach(function (w) { chips.appendChild(el("span", "tv-pill is-wrong", w[0] + " (" + w[1] + " gånger)")); });
         li.appendChild(chips);
       }
       const who = t.students.filter(function (s) { return s.row.status !== "done"; }).map(function (s) { return s.student.name; });

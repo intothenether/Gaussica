@@ -537,7 +537,7 @@
         return {
           code: "ORDER_OF_OPERATIONS",
           title: "Räkneordningsfel (precedens)",
-          explanation: "Multiplikation ska alltid räknas före addition! Beräkna först sträckpriset 12 × 5 = 60 kr, och lägg sedan till startavgiften 40 kr: 40 + 60 = 100 kr."
+          explanation: "Multiplikation ska alltid räknas före addition! Beräkna först sträckpriset 12 · 5 = 60 kr, och lägg sedan till startavgiften 40 kr: 40 + 60 = 100 kr."
         };
       }
       if (sNum === 10 && eNum === 9) {

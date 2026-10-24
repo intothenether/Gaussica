@@ -68,7 +68,7 @@
     {
       "prompt": "Ett tal multipliceras med 3 och sedan läggs 2 till. Resultatet blir 14. Vilket är talet?",
       "answer": ["4"],
-      "correct": "Rätt! 3 × 4 + 2 = 14.",
+      "correct": "Rätt! 3 · 4 + 2 = 14.",
       "feedback": [
         { "answers": ["12"], "message": "12 är resultatet efter att du tagit bort 2. Dela sedan 12 med 3 för att hitta talet." },
         { "answers": ["16"], "message": "Börja med att ta bort 2 från resultatet 14. Gör sedan motsatsen till att multiplicera med 3." }
