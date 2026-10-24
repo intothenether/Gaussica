@@ -1,0 +1,347 @@
+{
+  "id": "pythagoras",
+  "area": "geometri",
+  "title": "Pythagoras sats",
+  "level": "Sidorna i en rätvinklig triangel · ungefär åk 8–9",
+  "grade": 8,
+  "duration": "10 min",
+  "prerequisites": [
+    "potenser",
+    "triangeln"
+  ],
+  "summary": "I en rätvinklig triangel hänger sidorna ihop: kvadraterna på kateterna är tillsammans lika stora som kvadraten på hypotenusan.",
+  "explanationTitle": "Hur lång är den sneda sidan?",
+  "explanation": "Problemet: Med linjal kan vi mäta längder, och vi kan räkna ut areor på kvadrater, rektanglar och trianglar. Men hur lång är den sneda sidan i en rätvinklig triangel, om vi bara känner de två andra sidorna? Det går inte att mäta en stege som står mot en vägg. Vi behöver ett sätt att räkna ut längden. Det visar sig att areor på kvadrater hjälper oss. I en rätvinklig triangel kallas de två korta sidorna kateter. Den längsta sidan, mitt emot den räta vinkeln, kallas hypotenusa. Pythagoras sats säger att kvadraterna på kateterna tillsammans har lika stor area som kvadraten på hypotenusan: a^2 + b^2 = c^2. Titta på bilden. Kateterna är 3 och 4, så 3^2 + 4^2 = 9 + 16 = 25. Då är c^2 = 25 och c = √25 = 5. Vill du räkna ut en katet gör du tvärtom: a^2 = c^2 − b^2. Satsen gäller bara i rätvinkliga trianglar. Tal som 3, 4, 5 och 5, 12, 13 kallas pythagoreiska trippel.",
+  "visual": {
+    "type": "pythagoras",
+    "a": 3,
+    "b": 4,
+    "unit": "cm",
+    "title": "3^2 + 4^2 = 5^2"
+  },
+  "rule": "a^2 + b^2 = c^2, där c är hypotenusan",
+  "ruleLabel": "PYTHAGORAS SATS",
+  "example": "Kateterna 6 och 8: 6^2 + 8^2 = 36 + 64 = 100, så hypotenusan är √100 = 10.",
+  "practice": [
+    {
+      "id": "hypotenusa",
+      "for": [
+        "exercise",
+        "word-1"
+      ],
+      "vars": {
+        "m": [
+          2,
+          5
+        ],
+        "n": [
+          1,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "m-n",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "a",
+          "expr": "m*m-n*n"
+        },
+        {
+          "name": "b",
+          "expr": "2*m*n"
+        },
+        {
+          "name": "c",
+          "expr": "m*m+n*n"
+        }
+      ],
+      "visual": {
+        "type": "pythagoras",
+        "a": "=a",
+        "b": "=b",
+        "hideC": true,
+        "unit": "cm"
+      },
+      "prompt": "En rätvinklig triangel har kateterna {a} cm och {b} cm. Hur lång är hypotenusan?",
+      "answer": [
+        "=c",
+        "{c} cm"
+      ],
+      "correct": "Rätt! {a}^2 + {b}^2 = {a*a} + {b*b} = {c*c}, och √{c*c} = {c}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b",
+            "{a+b} cm"
+          ],
+          "message": "Du har lagt ihop kateterna. Räkna a^2 + b^2 och ta sedan kvadratroten."
+        },
+        {
+          "answers": [
+            "=a*a+b*b",
+            "{a*a+b*b} cm"
+          ],
+          "message": "{a*a+b*b} är c^2, inte c. Ta kvadratroten för att få hypotenusan."
+        }
+      ]
+    },
+    {
+      "id": "katet",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "m": [
+          2,
+          5
+        ],
+        "n": [
+          1,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "m-n",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "a",
+          "expr": "m*m-n*n"
+        },
+        {
+          "name": "b",
+          "expr": "2*m*n"
+        },
+        {
+          "name": "c",
+          "expr": "m*m+n*n"
+        }
+      ],
+      "visual": {
+        "type": "pythagoras",
+        "a": "=a",
+        "b": "=b",
+        "hideB": true,
+        "unit": "cm"
+      },
+      "prompt": "En rätvinklig triangel har hypotenusan {c} cm och en katet på {a} cm. Hur lång är den andra kateten?",
+      "answer": [
+        "=b",
+        "{b} cm"
+      ],
+      "correct": "Rätt! {c}^2 − {a}^2 = {c*c} − {a*a} = {b*b}, och √{b*b} = {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=c-a",
+            "{c-a} cm"
+          ],
+          "message": "Du har dragit ifrån längderna. Räkna c^2 − a^2 och ta sedan kvadratroten."
+        },
+        {
+          "answers": [
+            "=c*c-a*a",
+            "{c*c-a*a} cm"
+          ],
+          "message": "{c*c-a*a} är b^2, inte b. Ta kvadratroten för att få kateten."
+        }
+      ]
+    },
+    {
+      "id": "area",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          3,
+          12
+        ],
+        "b": [
+          3,
+          12
+        ]
+      },
+      "prompt": "Kvadraterna på kateterna i en rätvinklig triangel har areorna {a*a} cm² och {b*b} cm². Hur stor area har kvadraten på hypotenusan?",
+      "answer": [
+        "=a*a+b*b"
+      ],
+      "correct": "Rätt! Areorna läggs ihop: {a*a} + {b*b} = {a*a+b*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} är summan av sidorna. Lägg ihop areorna, alltså {a*a} och {b*b}."
+        }
+      ]
+    },
+    {
+      "id": "stege",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "m": [
+          2,
+          5
+        ],
+        "n": [
+          1,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "m-n",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "a",
+          "expr": "m*m-n*n"
+        },
+        {
+          "name": "h",
+          "expr": "2*m*n"
+        },
+        {
+          "name": "c",
+          "expr": "m*m+n*n"
+        }
+      ],
+      "prompt": "En stege är {c} meter lång. Foten står {a} meter från en lodrät vägg. Hur högt upp på väggen når stegen?",
+      "answer": [
+        "=h",
+        "{h} m"
+      ],
+      "correct": "Rätt! Stegen är hypotenusa. {c}^2 − {a}^2 = {c*c-a*a} och √{c*c-a*a} = {h}.",
+      "feedback": [
+        {
+          "answers": [
+            "=c-a",
+            "{c-a} m"
+          ],
+          "message": "Du har dragit ifrån längderna. Räkna c^2 − a^2 och ta sedan kvadratroten."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En rätvinklig triangel har kateterna 6 cm och 8 cm. Hur lång är hypotenusan?",
+    "answer": [
+      "10",
+      "10 cm"
+    ],
+    "correct": "Rätt! 6^2 + 8^2 = 36 + 64 = 100, och √100 = 10.",
+    "feedback": [
+      {
+        "answers": [
+          "14",
+          "14 cm"
+        ],
+        "message": "Du har lagt ihop kateterna. Räkna 6^2 + 8^2 och ta sedan kvadratroten."
+      },
+      {
+        "answers": [
+          "100",
+          "100 cm"
+        ],
+        "message": "100 är c^2, inte c. Ta kvadratroten för att få hypotenusan."
+      },
+      {
+        "answers": [
+          "2",
+          "2 cm"
+        ],
+        "message": "Du har dragit ifrån. Hypotenusan är den längsta sidan, så den blir längre än kateterna."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En stege är 5 meter lång. Foten står 3 meter från en lodrät vägg. Hur högt upp på väggen når stegen?",
+      "answer": [
+        "4",
+        "4 m"
+      ],
+      "correct": "Rätt! 5^2 − 3^2 = 25 − 9 = 16, och √16 = 4.",
+      "feedback": [
+        {
+          "answers": [
+            "8",
+            "8 m"
+          ],
+          "message": "Du har lagt ihop längderna. Stegen är hypotenusa. Räkna 5^2 − 3^2 och ta kvadratroten."
+        },
+        {
+          "answers": [
+            "2",
+            "2 m"
+          ],
+          "message": "Du har dragit ifrån längderna. Räkna 5^2 − 3^2 och ta kvadratroten."
+        },
+        {
+          "answers": [
+            "16",
+            "16 m"
+          ],
+          "message": "16 är b^2, inte b. Ta kvadratroten."
+        }
+      ]
+    },
+    {
+      "prompt": "En rektangel är 12 cm bred och 5 cm hög. Hur lång är diagonalen?",
+      "answer": [
+        "13",
+        "13 cm"
+      ],
+      "correct": "Rätt! Diagonalen är hypotenusa: 12^2 + 5^2 = 144 + 25 = 169, och √169 = 13.",
+      "feedback": [
+        {
+          "answers": [
+            "17",
+            "17 cm"
+          ],
+          "message": "Du har lagt ihop sidorna. Räkna 12^2 + 5^2 och ta sedan kvadratroten."
+        },
+        {
+          "answers": [
+            "169",
+            "169 cm"
+          ],
+          "message": "169 är c^2, inte c. Ta kvadratroten."
+        }
+      ]
+    },
+    {
+      "prompt": "Kvadraterna på kateterna i en rätvinklig triangel har areorna 9 cm² och 16 cm². Hur stor area har kvadraten på hypotenusan?",
+      "answer": [
+        "25"
+      ],
+      "correct": "Rätt! Areorna läggs ihop: 9 + 16 = 25.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är 3 + 4, kateternas längder. Lägg ihop areorna 9 och 16."
+        },
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är hypotenusans längd, inte kvadratens area. Lägg ihop areorna 9 och 16."
+        }
+      ]
+    }
+  ]
+}

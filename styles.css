@@ -3704,3 +3704,57 @@ body.is-previewing.has-admin-toolbar { padding-top: 0; }
 .cv-handle[data-mode="line"] { cursor: crosshair; }
 .cv-handle-dot { fill: #fff; stroke: var(--brand); stroke-width: 3; }
 .cv-handle:hover .cv-handle-dot { fill: var(--brand-light); }
+
+/* ---- uppställning (figures.js): räkna steg för steg ---- */
+.up { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.up-stage { padding: 18px 26px 14px; border: 2px solid var(--border); border-radius: 16px; background: #fffdf7; overflow-x: auto; max-width: 100%; }
+.up-grid { display: inline-flex; flex-direction: column; font-family: "Nunito", system-ui, sans-serif; font-weight: 800; color: var(--ink); }
+.up-row { display: flex; align-items: stretch; }
+.up-c { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.45em; height: 1.45em; font-size: 2.3rem; line-height: 1; }
+.up-side { width: 1.2em; }
+.up-op { color: var(--brand); font-size: 2rem; }
+.up-small-cell { flex-direction: column; height: 1.3em; font-size: 2.3rem; }
+.up-small { font-size: .5em; line-height: 1; font-weight: 900; color: var(--coral-dark); }
+.up-small.is-borrow { color: #a8324d; }
+.up-marks .up-small-cell:not(:empty) .up-small { background: #ffe8ec; border-radius: 6px; padding: 1px 5px; }
+.up-line { border-top: 4px solid var(--ink); }
+.up-res { color: var(--brand); }
+.up-hi, .up-c.is-hi { background: #fff0b8; }
+.up-c.is-hi.up-res { animation: up-pop .35s ease-out; }
+.up-small-cell.is-hi { background: #fff0b8; border-radius: 8px 8px 0 0; }
+.up-grid.is-div .up-c { width: 1.7em; }
+.up-grid.is-div .up-side { width: 1.3em; }
+.up-bracket { color: var(--ink); font-size: 2.6rem; font-weight: 400; transform: scaleY(1.3); }
+.up-divisor { color: var(--pink-deep, #e0506d); }
+.up-grid.is-div .up-dividend .up-digit { padding-top: 0; }
+.up-grid.is-div .up-small { position: absolute; left: .12em; top: .05em; font-size: .42em; }
+.up-rest { display: inline-flex; align-items: center; padding-left: .5em; font-size: 1.4rem; color: var(--brand); white-space: nowrap; }
+.up-caption { margin: 0; min-height: 3.4em; max-width: 36em; padding: 12px 16px; border-radius: 12px; background: var(--sky-soft); color: var(--ink); font: 700 1.15rem/1.5 "Nunito", sans-serif; text-align: center; }
+.up-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 10px; }
+.up-btn { padding: 9px 16px; border: 2px solid var(--border); border-radius: 12px; background: #fff; color: var(--ink); font: 800 .95rem "Nunito", sans-serif; cursor: pointer; }
+.up-btn:hover:not(:disabled) { background: var(--sky-soft); }
+.up-btn:disabled { opacity: .4; cursor: default; }
+.up-btn-main { border-color: var(--brand-dark); background: var(--brand); color: #fff; }
+.up-btn-main:hover:not(:disabled) { background: var(--brand-light); }
+.up-btn-quiet { color: var(--muted); }
+.up-count { color: var(--muted); font: 700 .85rem "Nunito", sans-serif; }
+@keyframes up-pop { 0% { transform: scale(.6); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .up-c.is-hi.up-res { animation: none; } }
+@media (max-width: 520px) { .up-c { font-size: 1.8rem; } .up-small-cell { font-size: 1.8rem; } .up-stage { padding: 12px 10px; } .up-caption { font-size: 1.02rem; } }
+
+/* ---- Pythagoras ---- */
+.fig-sq { stroke-width: 3; stroke-linejoin: round; }
+.fig-sq-a { fill: #cfe8f8; stroke: #4fa8dc; }
+.fig-sq-b { fill: #ffdce4; stroke: #e0506d; }
+.fig-sq-c { fill: #fff0b8; stroke: #d99a2b; }
+
+/* ---- större frågetext ---- */
+.exercise > h3 { font-size: 26px; line-height: 1.5; }
+.pl-question .exercise > h3 { font-size: 30px; line-height: 1.45; }
+.pl-learn .explanation-section .body-copy { font-size: 18px; line-height: 1.75; }
+@media (max-width: 640px) {
+  .exercise > h3 { font-size: 23px; }
+  .pl-question .exercise > h3 { font-size: 25px; }
+  .pl-learn .explanation-section .body-copy { font-size: 17px; }
+}
+sup.pow { font-size: .7em; line-height: 0; vertical-align: super; margin-left: .04em; }

@@ -10,43 +10,14 @@
     "platsvarde"
   ],
   "summary": "Med kortdivision delar du ett stort tal med ett litet, en plats i taget. Det som blir över förs vidare.",
-  "explanationTitle": "Dela en plats i taget",
-  "explanation": "Kortdivision är ett sätt att dela ett stort tal med ett litet tal, siffra för siffra. Du delar först tiotalen och sedan entalen. Det som blir över förs vidare till nästa plats. Exempel: 84 delat med 4. 8 tiotal delat med 4 är 2 tiotal. 4 ental delat med 4 är 1 ental. Svaret är 21. Exempel där något förs vidare: 72 delat med 3. 7 tiotal delat med 3 är 2 tiotal, och 1 tiotal blir över. Det är 10 ental, och tillsammans med 2 ental blir det 12 ental. 12 delat med 3 är 4. Svaret är 24. Kontrollera alltid med multiplikation: 3 · 24 = 72.",
+  "explanationTitle": "Hur delar vi stora tal utan att pröva oss fram?",
+  "explanation": "Problemet: Med tabellerna går det bra att räkna 42 delat med 6. Men hur delar du 156 lika på 6, utan att pröva dig fram? Vi kan dela upp talet i hundratal, tiotal och ental och dela dem ett i taget. Det som blir över förs vidare. Det kallas kortdivision. Kortdivision är ett sätt att dela stora tal på papper. Du delar en siffra i taget, från vänster till höger. Steg 1: Skriv talet som ska delas under en linje och talet du delar med till vänster. Steg 2: Titta på första siffran. Går den att dela med talet? Skriv då hur många gånger det går, ovanför siffran. Går det inte, skriv resten som en liten siffra framför nästa siffra, så att de blir ett tal. Steg 3: Blir något över, skriv det som en liten siffra framför nästa siffra. Då blir de två siffrorna ett nytt tal. Till exempel blir 1 framför 2 talet 12. Steg 4: Dela det nya talet och upprepa tills alla siffror är använda. Tryck på Nästa steg i bilden nedan och följ med när 72 delas med 3.",
   "visual": {
-    "type": "tabell",
-    "title": "72 delat med 3 med kortdivision",
-    "headers": [
-      "Steg",
-      "Tiotal",
-      "Ental"
-    ],
-    "rows": [
-      [
-        "Talet 72",
-        "7 tiotal",
-        "2 ental"
-      ],
-      [
-        "Dela 7 med 3",
-        "2 tiotal, 1 blir över",
-        "1 tiotal är 10 ental"
-      ],
-      [
-        "Ental nu",
-        "",
-        "10 + 2 = 12 ental"
-      ],
-      [
-        "Dela 12 med 3",
-        "",
-        "4 ental"
-      ],
-      [
-        "Svar",
-        "2 tiotal",
-        "4 ental, alltså 24"
-      ]
-    ]
+    "type": "uppstallning",
+    "op": "/",
+    "a": 72,
+    "b": 3,
+    "title": "72 delat med 3 steg för steg"
   },
   "rule": "Dela en plats i taget. Det som blir över förs vidare som tio gånger så många.",
   "ruleLabel": "KORTDIVISION",
@@ -309,5 +280,24 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "uppstallning",
+      "op": "/",
+      "a": 156,
+      "b": 6,
+      "title": "Ett exempel till: 156 delat med 6"
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }

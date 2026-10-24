@@ -11,7 +11,7 @@
   ],
   "summary": "Ett decimaltal har en decimalkomma. Siffrorna efter kommat är delar av en hel: tiondelar, hundradelar och så vidare.",
   "explanationTitle": "Efter kommat kommer delar av en hel",
-  "explanation": "Talet 3,47 har 3 hela, 4 tiondelar och 7 hundradelar. Varje plats efter kommat är tio gånger mindre än platsen före. På tallinjen ligger 3,5 precis mitt emellan 3 och 4.",
+  "explanation": "Problemet: Vad finns mellan 3 och 4 på tallinjen? Och hur skriver du 2,5 liter eller 3 kronor och 47 öre? Hela tal räcker inte. Vi behöver ett sätt att skriva tal mellan heltalen. Det är decimaltal. Talet 3,47 har 3 hela, 4 tiondelar och 7 hundradelar. Varje plats efter kommat är tio gånger mindre än platsen före. På tallinjen ligger 3,5 precis mitt emellan 3 och 4.",
   "visuals": [
     {
       "type": "tallinje",

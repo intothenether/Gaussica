@@ -1,0 +1,310 @@
+{
+  "id": "pengar-vaxel",
+  "area": "matning",
+  "title": "Pengar och växel",
+  "level": "Betala och få tillbaka · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "addition",
+    "subtraktion"
+  ],
+  "summary": "Växel är det du får tillbaka när du betalar mer än det kostar. Du kan räkna den genom att räkna uppåt.",
+  "explanationTitle": "Räkna uppåt till det du betalade",
+  "explanation": "Problemet: Du köper en bok för 37 kronor och betalar med en 50-lapp. Hur mycket ska du få tillbaka? Du kan subtrahera, men många räknar lättare uppåt, som kassapersonalen gör. Vi behöver ett snabbt sätt att hitta skillnaden. Det kallas att räkna upp växeln. Växel är det du får tillbaka när du betalar mer än det kostar. Räkna från priset upp till nästa tiotal: från 37 till 40 är det 3. Räkna sedan vidare till det du betalade: från 40 till 50 är det 10. Växeln är 3 + 10 = 13 kronor. Du kan också subtrahera: 50 − 37 = 13. Kontrollera alltid: priset plus växeln ska bli det du betalade.",
+  "visual": {
+    "type": "tallinje",
+    "title": "Från 37 upp till 50",
+    "min": 30,
+    "max": 50,
+    "step": 1,
+    "labelEvery": 5,
+    "points": [
+      {
+        "value": 37,
+        "label": "pris"
+      },
+      {
+        "value": 50,
+        "label": "betalar"
+      }
+    ],
+    "jumps": [
+      {
+        "from": 37,
+        "to": 40,
+        "label": "+3"
+      },
+      {
+        "from": 40,
+        "to": 50,
+        "label": "+10"
+      }
+    ]
+  },
+  "rule": "Pris + växel = det du betalar",
+  "ruleLabel": "VÄXEL",
+  "example": "Pris 62 kr, du betalar 100 kr. 62 + 8 = 70 och 70 + 30 = 100. Växeln är 8 + 30 = 38 kr.",
+  "practice": [
+    {
+      "id": "vaxel",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          1,
+          2
+        ],
+        "p": [
+          11,
+          98
+        ]
+      },
+      "where": [
+        {
+          "expr": "50*b-p",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "pay",
+          "expr": "50*b"
+        },
+        {
+          "name": "v",
+          "expr": "50*b-p"
+        }
+      ],
+      "prompt": "Något kostar {p} kr. Du betalar med {pay} kr. Hur mycket får du tillbaka?",
+      "answer": [
+        "=v",
+        "{v} kr"
+      ],
+      "correct": "Rätt! {p} + {v} = {pay}, så växeln är {v} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=pay+p",
+            "{pay+p} kr"
+          ],
+          "message": "Du har lagt ihop pengarna. Växeln är det du betalar minus priset."
+        }
+      ]
+    },
+    {
+      "id": "tva-varor",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          5,
+          30
+        ],
+        "b": [
+          5,
+          30
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "a+b"
+        },
+        {
+          "name": "v",
+          "expr": "100-a-b"
+        }
+      ],
+      "prompt": "Du köper en bulle för {a} kr och en saft för {b} kr. Du betalar med 100 kr. Hur mycket får du tillbaka?",
+      "answer": [
+        "=v",
+        "{v} kr"
+      ],
+      "correct": "Rätt! Först {a} + {b} = {t} kr. Sedan 100 − {t} = {v} kr i växel.",
+      "feedback": [
+        {
+          "answers": [
+            "=t",
+            "{t} kr"
+          ],
+          "message": "{t} kr är vad du betalar för varorna. Du ska räkna ut växeln, alltså 100 minus {t}."
+        }
+      ]
+    },
+    {
+      "id": "mynt",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "10*a+5*b"
+        }
+      ],
+      "prompt": "Du har {a} tior och {b} femmor. Hur många kronor har du?",
+      "answer": [
+        "=s",
+        "{s} kr"
+      ],
+      "correct": "Rätt! {a} tior är {10*a} kr och {b} femmor är {5*b} kr. Tillsammans {s} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} är antalet mynt, inte kronorna. Varje tia är värd 10 kr och varje femma 5 kr."
+        }
+      ]
+    },
+    {
+      "id": "upp-till-tiotal",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "t": [
+          1,
+          9
+        ],
+        "u": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "10*t+u"
+        },
+        {
+          "name": "r",
+          "expr": "10-u"
+        }
+      ],
+      "prompt": "Något kostar {p} kr. Hur många kronor är det från {p} upp till nästa tiotal?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! Från {p} till {10*t+10} är det {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=u"
+          ],
+          "message": "{u} är entalssiffran i {p}. Räkna hur många steg som saknas upp till nästa tiotal."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En bok kostar 37 kr. Du betalar med 50 kr. Hur mycket får du tillbaka?",
+    "answer": [
+      "13",
+      "13 kr"
+    ],
+    "correct": "Rätt! 37 + 3 = 40 och 40 + 10 = 50. Växeln är 3 + 10 = 13 kr.",
+    "feedback": [
+      {
+        "answers": [
+          "87",
+          "87 kr"
+        ],
+        "message": "Du har lagt ihop 50 och 37. Växeln är det du betalar minus priset."
+      },
+      {
+        "answers": [
+          "3",
+          "3 kr"
+        ],
+        "message": "3 kr är bara hoppet upp till 40. Fortsätt upp till 50 och lägg ihop hoppen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En glass kostar 24 kr. Du betalar med en 50-lapp. Hur mycket får du tillbaka?",
+      "answer": [
+        "26",
+        "26 kr"
+      ],
+      "correct": "Rätt! 24 + 6 = 30 och 30 + 20 = 50. Växeln är 6 + 20 = 26 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "74",
+            "74 kr"
+          ],
+          "message": "Du har lagt ihop 50 och 24. Växeln är det du betalar minus priset."
+        },
+        {
+          "answers": [
+            "36",
+            "36 kr"
+          ],
+          "message": "Nästan! Kontrollera: 24 + din växel ska bli 50."
+        }
+      ]
+    },
+    {
+      "prompt": "Mira köper ett suddgummi för 8 kr och en penna för 15 kr. Hon betalar med 50 kr. Hur mycket får hon tillbaka?",
+      "answer": [
+        "27",
+        "27 kr"
+      ],
+      "correct": "Rätt! 8 + 15 = 23 kr, och 50 − 23 = 27 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "23",
+            "23 kr"
+          ],
+          "message": "23 kr är vad hon betalar för sakerna. Räkna ut växeln: 50 minus 23."
+        },
+        {
+          "answers": [
+            "73",
+            "73 kr"
+          ],
+          "message": "Du har lagt ihop 50 och 23. Växeln är det du betalar minus priset."
+        }
+      ]
+    },
+    {
+      "prompt": "Du har 3 tior och 4 femmor. Hur många kronor har du?",
+      "answer": [
+        "50",
+        "50 kr"
+      ],
+      "correct": "Rätt! 3 tior är 30 kr och 4 femmor är 20 kr. Tillsammans 50 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är antalet mynt, inte kronorna. En tia är värd 10 kr och en femma 5 kr."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är 3 · 4. Räkna 3 · 10 och 4 · 5 och lägg ihop."
+        }
+      ]
+    }
+  ]
+}

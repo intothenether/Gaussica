@@ -11,7 +11,7 @@
   ],
   "summary": "En gemensam delare är ett tal som är delare till båda av två tal.",
   "explanationTitle": "Leta efter delare som finns i båda listorna",
-  "explanation": "Delarna till 12 är 1, 2, 3, 4, 6 och 12. Delarna till 18 är 1, 2, 3, 6, 9 och 18. Talen som finns i båda listorna, 1, 2, 3 och 6, är gemensamma delare till 12 och 18. Talet 1 är alltid en gemensam delare.",
+  "explanation": "Problemet: 12 kakor och 18 kakor ska packas i lika stora paket så att inget blir över. Vilka paketstorlekar fungerar för båda? Vi vill veta vad talen har gemensamt. Delarna till 12 är 1, 2, 3, 4, 6 och 12. Delarna till 18 är 1, 2, 3, 6, 9 och 18. Talen som finns i båda listorna, 1, 2, 3 och 6, är gemensamma delare till 12 och 18. Talet 1 är alltid en gemensam delare.",
   "visual": {
     "type": "tabell",
     "title": "Delare till 12 och 18",

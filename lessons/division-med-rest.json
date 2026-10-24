@@ -10,8 +10,8 @@
     "multiplikationstabellen"
   ],
   "summary": "Ibland går det inte att dela lika utan att något blir över. Det som blir över kallas rest.",
-  "explanationTitle": "Det som blir över kallas rest",
-  "explanation": "Om du delar 17 kakor lika på 5 barn får varje barn 3 kakor, och 2 kakor blir över. Vi skriver: 17 delat med 5 är 3 rest 2. Resten är alltid mindre än talet du delar med. Annars kunde du ha delat ut en gång till. Så här hittar du svaret: leta upp den närmaste tabellen som inte går över talet. 5 · 3 = 15 är närmast under 17, och 17 − 15 = 2. Kontrollera med multiplikation: 5 · 3 + 2 = 17.",
+  "explanationTitle": "Vad gör vi när det inte går jämnt ut?",
+  "explanation": "Problemet: Hittills har vi delat tal som går jämnt ut, till exempel 15 delat med 5. Men vad händer när 17 kakor ska delas på 5 barn? Det går inte jämnt ut, och ändå vill vi veta både hur många varje barn får och hur många som blir över. Vi behöver ett sätt att skriva det som blir över. Det kallas rest. Om du delar 17 kakor lika på 5 barn får varje barn 3 kakor, och 2 kakor blir över. Vi skriver: 17 delat med 5 är 3 rest 2. Resten är alltid mindre än talet du delar med. Annars kunde du ha delat ut en gång till. Så här hittar du svaret: leta upp den närmaste tabellen som inte går över talet. 5 · 3 = 15 är närmast under 17, och 17 − 15 = 2. Kontrollera med multiplikation: 5 · 3 + 2 = 17.",
   "visual": {
     "type": "tabell",
     "title": "Hitta närmaste tabell under talet",

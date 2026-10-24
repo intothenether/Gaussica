@@ -9,8 +9,8 @@
     "tallinjen"
   ],
   "summary": "Negativa tal är tal som är mindre än noll. Du ser dem på en termometer när det är kallt.",
-  "explanationTitle": "Tal som är mindre än noll",
-  "explanation": "Negativa tal skrivs med ett minustecken framför, till exempel −3. Du ser dem på en termometer när det är kallare än noll grader: −5 grader är fem grader under noll. På tallinjen ligger de negativa talen till vänster om noll. Ju längre åt vänster ett tal ligger, desto mindre är det. Därför är −8 mindre än −2, fast 8 är större än 2. När temperaturen stiger går du åt höger på tallinjen, och när den sjunker går du åt vänster. Exempel: det är −3 grader och blir 5 grader varmare. Du går 5 steg åt höger från −3 och hamnar på 2.",
+  "explanationTitle": "Hur skriver vi tal som är mindre än noll?",
+  "explanation": "Problemet: På tallinjen har vi hittills börjat på noll. Men en termometer kan visa att det är kallare än noll. Hur skriver vi fem grader under noll? Och hur jämför vi två sådana temperaturer? De tal vi kan hittills räcker inte. Lösningen är negativa tal. Negativa tal skrivs med ett minustecken framför, till exempel −3. Du ser dem på en termometer när det är kallare än noll grader: −5 grader är fem grader under noll. På tallinjen ligger de negativa talen till vänster om noll. Ju längre åt vänster ett tal ligger, desto mindre är det. Därför är −8 mindre än −2, fast 8 är större än 2. När temperaturen stiger går du åt höger på tallinjen, och när den sjunker går du åt vänster. Exempel: det är −3 grader och blir 5 grader varmare. Du går 5 steg åt höger från −3 och hamnar på 2.",
   "visual": {
     "type": "tallinje",
     "title": "−3 grader och 5 grader varmare blir 2 grader",

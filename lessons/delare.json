@@ -12,7 +12,7 @@
   ],
   "summary": "En delare till ett tal är ett tal som delar det utan rest. 3 är en delare till 12 eftersom 12/3 = 4.",
   "explanationTitle": "Alla sätt att göra lika stora grupper",
-  "explanation": "Med 12 rutor kan du lägga rader på flera sätt: 1 · 12, 2 · 6 och 3 · 4. Talen som ingår, 1, 2, 3, 4, 6 och 12, är delare till 12. Delarna kommer i par: 1 och 12, 2 och 6, 3 och 4. Ett tal är alltid delbart med 1 och med sig självt.",
+  "explanation": "Problemet: 12 kakor ska delas lika utan att något blir över. Hur många barn kan det vara? Och vad händer med 13 kakor? Vi behöver veta vilka tal som går att dela lika. Det är delare. Med 12 rutor kan du lägga rader på flera sätt: 1 · 12, 2 · 6 och 3 · 4. Talen som ingår, 1, 2, 3, 4, 6 och 12, är delare till 12. Delarna kommer i par: 1 och 12, 2 och 6, 3 och 4. Ett tal är alltid delbart med 1 och med sig självt.",
   "visual": {
     "type": "monster",
     "title": "12 rutor på tre sätt",

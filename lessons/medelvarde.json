@@ -12,7 +12,7 @@
   ],
   "summary": "Medelvärdet säger vilket tal alla skulle få om värdena delades lika. Du får det genom att addera alla värden och dela med antalet.",
   "explanationTitle": "Lägg ihop och dela lika",
-  "explanation": "Tre vänner har 4, 6 och 8 kort. Lägg ihop: 4 + 6 + 8 = 18. Dela lika på 3: 18/3 = 6. Medelvärdet är 6 kort. Hade alla haft lika många kort hade de haft 6 var.",
+  "explanation": "Problemet: Tre vänner har 4, 6 och 8 kort, olika många. Hur kan vi beskriva hur många de har i vanliga fall, med ett enda tal? Vi vill ha ett tal som sammanfattar hela gruppen. Tre vänner har 4, 6 och 8 kort. Lägg ihop: 4 + 6 + 8 = 18. Dela lika på 3: 18/3 = 6. Medelvärdet är 6 kort. Hade alla haft lika många kort hade de haft 6 var.",
   "visual": {
     "type": "stapeldiagram",
     "title": "Kort per vän",

@@ -8,7 +8,7 @@
   "prerequisites": ["geometriska-figurer"],
   "summary": "En vinkel beskriver hur mycket två strålar vrider sig från varandra. Vinklar mäts i grader.",
   "explanationTitle": "Vinkelstorlek handlar om öppningen",
-  "explanation": "En rät vinkel är 90°. En spetsig vinkel är mindre än 90° och en trubbig vinkel är större än 90° men mindre än 180°. Vinklarnas längd på ritningen ändrar inte själva öppningen.",
+  "explanation": "Problemet: Två dörrar kan stå öppna olika mycket, och två saxar kan öppna sig olika långt. Hur beskriver vi hur mycket något är öppet eller vridet? Längden på sidorna avgör inte, så vi behöver ett eget mått för öppningen. Det kallas vinkel. En rät vinkel är 90°. En spetsig vinkel är mindre än 90° och en trubbig vinkel är större än 90° men mindre än 180°. Vinklarnas längd på ritningen ändrar inte själva öppningen.",
   "rule": "rät vinkel = 90° · rak vinkel = 180° · helt varv = 360°",
   "ruleLabel": "JÄMFÖR VINKLAR",
   "example": "Om en vinkel är 35° större än en rät vinkel blir den 90° + 35° = 125° och är trubbig.",

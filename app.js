@@ -1539,6 +1539,10 @@
         parent.appendChild(renderConceptCards(comp));
         return;
       }
+      if (window.GaussicaFigures && window.GaussicaFigures.supports(comp.type)) {   // a figure used as a block between the text
+        parent.appendChild(renderVisualComponent(comp));
+        return;
+      }
       const div = makeElement("div", "custom-component component-" + comp.type);
       
       switch (comp.type) {

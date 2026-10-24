@@ -8,7 +8,7 @@
   "prerequisites": ["rakneordning", "uttryck-med-x"],
   "summary": "En ekvation är en balans. Det du gör på ena sidan måste du också göra på den andra.",
   "explanationTitle": "Likhetstecknet betyder samma värde",
-  "explanation": "Ekvationen 3x + 2 = 14 säger att vänster och höger sida väger lika. Börja med att ta bort 2 från båda sidor. Dela sedan båda sidor med 3 för att hitta x.",
+  "explanation": "Problemet: Med x + 3 = 10 kunde vi räkna baklänges. Men vad gör du med 3x + 2 = 14, där x ingår i flera steg? Att pröva sig fram tar lång tid. Vi behöver en metod som alltid fungerar. Den utgår från att båda sidor väger lika. Ekvationen 3x + 2 = 14 säger att vänster och höger sida väger lika. Börja med att ta bort 2 från båda sidor. Dela sedan båda sidor med 3 för att hitta x.",
   "rule": "3x + 2 = 14  →  3x = 12  →  x = 4",
   "ruleLabel": "BALANSPRINCIPEN",
   "example": "Om du bara ändrar ena sidan är balansen bruten, precis som en våg som bara får en extra vikt på ena sidan.",

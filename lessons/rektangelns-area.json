@@ -12,7 +12,7 @@
   ],
   "summary": "Arean av en rektangel är antalet kvadratrutor inuti: rader gånger kolumner.",
   "explanationTitle": "Räkna rutorna med multiplikation",
-  "explanation": "En rektangel som är 6 cm lång och 4 cm bred kan täckas av 4 rader med 6 rutor i varje. Det blir 4 · 6 = 24 rutor, så arean är 24 cm².",
+  "explanation": "Problemet: Hur många rutor täcker en rektangel som är 6 cm lång och 4 cm bred? Att rita och räkna alla rutor tar tid. Finns det en genväg? En rektangel som är 6 cm lång och 4 cm bred kan täckas av 4 rader med 6 rutor i varje. Det blir 4 · 6 = 24 rutor, så arean är 24 cm².",
   "visual": {
     "type": "rektangel",
     "w": 6,

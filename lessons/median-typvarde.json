@@ -1,0 +1,380 @@
+{
+  "id": "median-typvarde",
+  "area": "data",
+  "title": "Median och typvärde",
+  "level": "Vad är vanligt? · ungefär åk 6–7",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "medelvarde"
+  ],
+  "summary": "Medelvärdet kan bli missvisande när ett värde sticker ut. Median och typvärde ger andra bilder av vad som är vanligt.",
+  "explanationTitle": "Tre sätt att säga vad som är vanligt",
+  "explanation": "Problemet: Fem elever har 3, 4, 4, 5 och 40 kort. Medelvärdet är 11. Men ingen av dem har ungefär 11 kort! Ett enda stort värde drar upp medelvärdet och ger en missvisande bild. Vi behöver andra sätt att beskriva vad som är vanligt. Typvärde är det värde som förekommer flest gånger. Median är det mittersta värdet när du har ordnat talen i storleksordning. I 3, 4, 4, 5, 40 är både typvärdet och medianen 4. Är antalet värden jämnt finns två mittersta tal, och medianen ligger mitt emellan dem. I 2, 4, 6, 10 är medianen mitt emellan 4 och 6, alltså 5. Variationsbredden visar hur spridda värdena är: största värdet minus minsta värdet. I 3, 4, 4, 5, 40 är den 40 − 3 = 37.",
+  "visual": {
+    "type": "staplar",
+    "title": "Kort per elev. Medelvärdet 11 passar ingen.",
+    "data": [
+      {
+        "label": "A",
+        "value": 3
+      },
+      {
+        "label": "B",
+        "value": 4
+      },
+      {
+        "label": "C",
+        "value": 4
+      },
+      {
+        "label": "D",
+        "value": 5
+      },
+      {
+        "label": "E",
+        "value": 40
+      }
+    ],
+    "max": 40,
+    "line": {
+      "value": 11,
+      "label": "medelvärde 11"
+    }
+  },
+  "rule": "Typvärde: vanligast. Median: mitten. Variationsbredd: störst minus minst.",
+  "ruleLabel": "LÄGESMÅTT",
+  "example": "3, 5, 5, 8, 9: typvärdet är 5, medianen är 5 och variationsbredden är 9 − 3 = 6.",
+  "practice": [
+    {
+      "id": "median-udda",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          1,
+          5
+        ],
+        "c": [
+          1,
+          5
+        ],
+        "d": [
+          1,
+          5
+        ],
+        "e": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "x1",
+          "expr": "a"
+        },
+        {
+          "name": "x2",
+          "expr": "a+b"
+        },
+        {
+          "name": "x3",
+          "expr": "a+b+c"
+        },
+        {
+          "name": "x4",
+          "expr": "a+b+c+d"
+        },
+        {
+          "name": "x5",
+          "expr": "a+b+c+d+e"
+        },
+        {
+          "name": "m",
+          "expr": "(a+a+b+a+b+c+a+b+c+d+a+b+c+d+e)/5"
+        }
+      ],
+      "prompt": "Vad är medianen av {x3}, {x1}, {x5}, {x2}, {x4}?",
+      "answer": [
+        "=x3"
+      ],
+      "correct": "Rätt! I storleksordning är talen {x1}, {x2}, {x3}, {x4}, {x5}. Det mittersta är {x3}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är medelvärdet. Median är det mittersta värdet när talen står i storleksordning."
+        }
+      ]
+    },
+    {
+      "id": "typvarde",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "prompt": "Vad är typvärdet av {a}, {b}, {a}, {c}, {a}, {b}?",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! {a} förekommer 3 gånger, {b} förekommer 2 gånger och {c} förekommer 1 gång. Typvärdet är {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} förekommer 2 gånger, men typvärdet är det värde som förekommer flest gånger."
+        }
+      ]
+    },
+    {
+      "id": "variationsbredd",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          1,
+          5
+        ],
+        "c": [
+          1,
+          5
+        ],
+        "d": [
+          1,
+          5
+        ],
+        "e": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "x1",
+          "expr": "a"
+        },
+        {
+          "name": "x2",
+          "expr": "a+b"
+        },
+        {
+          "name": "x3",
+          "expr": "a+b+c"
+        },
+        {
+          "name": "x4",
+          "expr": "a+b+c+d"
+        },
+        {
+          "name": "x5",
+          "expr": "a+b+c+d+e"
+        },
+        {
+          "name": "r",
+          "expr": "b+c+d+e"
+        }
+      ],
+      "prompt": "Vad är variationsbredden av {x4}, {x2}, {x5}, {x1}, {x3}?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Största värdet är {x5} och minsta värdet är {x1}. {x5} − {x1} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x5"
+          ],
+          "message": "{x5} är det största värdet. Variationsbredd är största värdet minus minsta värdet."
+        }
+      ]
+    },
+    {
+      "id": "median-jamn",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          1,
+          5
+        ],
+        "c": [
+          1,
+          5
+        ],
+        "d": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "x1",
+          "expr": "a"
+        },
+        {
+          "name": "x2",
+          "expr": "a+b"
+        },
+        {
+          "name": "x3",
+          "expr": "a+b+c"
+        },
+        {
+          "name": "x4",
+          "expr": "a+b+c+d"
+        },
+        {
+          "name": "m",
+          "expr": "(2*a+2*b+c)/2"
+        }
+      ],
+      "prompt": "Vad är medianen av {x4}, {x1}, {x3}, {x2}?",
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! I storleksordning är talen {x1}, {x2}, {x3}, {x4}. Medianen ligger mitt emellan {x2} och {x3}, alltså {m}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x2",
+            "=x3"
+          ],
+          "message": "Det är fyra tal, så det finns två mittersta. Medianen ligger mitt emellan dem."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad är medianen av 7, 3, 12, 5, 1?",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! I storleksordning är talen 1, 3, 5, 7, 12. Det mittersta är 5.",
+    "feedback": [
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "12 står i mitten av listan som den är skriven, men du måste först ordna talen i storleksordning."
+      },
+      {
+        "answers": [
+          "5,6",
+          "5.6"
+        ],
+        "message": "5,6 är medelvärdet. Median är det mittersta värdet när talen står i storleksordning."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Sex elever fick poängen 6, 8, 6, 9, 6 och 8 på ett prov. Vad är typvärdet?",
+      "answer": [
+        "6"
+      ],
+      "correct": "Rätt! 6 förekommer 3 gånger, flest gånger. Typvärdet är 6.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 förekommer 2 gånger, men typvärdet är det värde som förekommer flest gånger."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "9 förekommer bara 1 gång. Typvärdet är det som förekommer flest gånger."
+        }
+      ]
+    },
+    {
+      "prompt": "Fem elever har 3, 4, 6, 7 och 40 kort. Medelvärdet är 12. Vad är medianen?",
+      "answer": [
+        "6"
+      ],
+      "correct": "Rätt! Talen står redan i storleksordning, och det mittersta är 6. Medianen påverkas inte av 40.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är medelvärdet. Median är det mittersta värdet."
+        },
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "40 är det största värdet. Median är det mittersta värdet."
+        }
+      ]
+    },
+    {
+      "prompt": "Ordna talen 4, 10, 6 och 2 i storleksordning. Vad är medianen?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! I storleksordning: 2, 4, 6, 10. Medianen ligger mitt emellan 4 och 6, alltså 5.",
+      "feedback": [
+        {
+          "answers": [
+            "5,5",
+            "5.5"
+          ],
+          "message": "5,5 är medelvärdet. Median är mitt emellan de två mittersta talen."
+        },
+        {
+          "answers": [
+            "6",
+            "4"
+          ],
+          "message": "Det är fyra tal, så det finns två mittersta. Medianen ligger mitt emellan dem."
+        }
+      ]
+    }
+  ]
+}

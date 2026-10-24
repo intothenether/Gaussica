@@ -8,7 +8,7 @@
   "prerequisites": ["rektangelns-omkrets", "decimaltal"],
   "summary": "En cirkels omkrets är sträckan hela vägen runt. Den beror på cirkelns diameter och talet pi.",
   "explanationTitle": "Pi kopplar ihop diameter och omkrets",
-  "explanation": "För varje cirkel är omkretsen ungefär 3,14 gånger diametern. Diametern går tvärs över cirkeln genom mitten. Om du känner radien använder du två radier som diameter.",
+  "explanation": "Problemet: Hur långt är det runt en cirkel? Du kan inte lägga en linjal mot en kurva, och det finns inga raka sidor att lägga ihop. Men det finns ett samband mellan hur långt det är runt och hur långt det är tvärs över. För varje cirkel är omkretsen ungefär 3,14 gånger diametern. Diametern går tvärs över cirkeln genom mitten. Om du känner radien använder du två radier som diameter.",
   "rule": "O = π · d = 2 · π · r",
   "ruleLabel": "CIRKELNS OMKRETS",
   "example": "En cirkel med diameter 10 cm har omkretsen ungefär 3,14 × 10 = 31,4 cm.",

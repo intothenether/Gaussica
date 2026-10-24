@@ -11,7 +11,7 @@
   ],
   "summary": "Ett primtal är ett tal större än 1 som bara har två delare: 1 och talet självt.",
   "explanationTitle": "Primtal går inte att dela upp",
-  "explanation": "Talet 7 kan bara skrivas som 1 · 7, så dess delare är 1 och 7. Det gör 7 till ett primtal. Talet 8 har delarna 1, 2, 4 och 8 och är därför inte ett primtal. Talet 1 är inte heller ett primtal, eftersom det bara har en delare. Talet 2 är det enda jämna primtalet.",
+  "explanation": "Problemet: Vissa tal, som 8 och 12, kan delas upp i mindre faktorer. Finns det tal som inte går att dela upp? Ja, och de är byggstenarna till alla andra tal. De kallas primtal. Talet 7 kan bara skrivas som 1 · 7, så dess delare är 1 och 7. Det gör 7 till ett primtal. Talet 8 har delarna 1, 2, 4 och 8 och är därför inte ett primtal. Talet 1 är inte heller ett primtal, eftersom det bara har en delare. Talet 2 är det enda jämna primtalet.",
   "visual": {
     "type": "talrutnat",
     "title": "Primtalen mellan 1 och 30",

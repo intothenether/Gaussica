@@ -11,7 +11,7 @@
   ],
   "summary": "Slump betyder att vi inte kan veta på förhand vad som händer. Chansen kan ändå beskrivas med tal, till exempel 1 av 6.",
   "explanationTitle": "Chans är önskade utfall av alla utfall",
-  "explanation": "När du kastar en vanlig tärning finns 6 lika troliga utfall: 1, 2, 3, 4, 5 och 6. Chansen att få en femma är 1 av 6, alltså 1/6. Chansen att få ett jämnt tal är 3 av 6, eftersom 2, 4 och 6 är jämna, och 3/6 = 1/2. Något säkert har sannolikheten 1 och något omöjligt har sannolikheten 0.",
+  "explanation": "Problemet: Du kastar en tärning. Blir det en femma? Du kan inte veta, men vissa saker är mer troliga än andra. Hur beskriver vi hur troligt något är med ett tal? Vi behöver ett mått på chans. När du kastar en vanlig tärning finns 6 lika troliga utfall: 1, 2, 3, 4, 5 och 6. Chansen att få en femma är 1 av 6, alltså 1/6. Chansen att få ett jämnt tal är 3 av 6, eftersom 2, 4 och 6 är jämna, och 3/6 = 1/2. Något säkert har sannolikheten 1 och något omöjligt har sannolikheten 0.",
   "visual": {
     "type": "stapeldiagram",
     "title": "Resultat av 60 tärningskast",

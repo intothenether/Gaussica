@@ -8,7 +8,7 @@
   "prerequisites": ["multiplikation"],
   "summary": "Multiplikationstabellen visar vad lika stora grupper blir. Med mönster och knep lär du dig tabellerna snabbare.",
   "explanationTitle": "Tabellerna hänger ihop",
-  "explanation": "4 · 6 betyder 4 grupper med 6 i varje, alltså 24. Det går lika bra att räkna 6 · 4, för ordningen spelar ingen roll. Därför behöver du bara lära dig hälften av tabellen. Mönster hjälper också: tvåans tabell är dubbelt så mycket, femmans tabell slutar alltid på 5 eller 0 och i tians tabell sätter du bara en nolla efter talet. Nians tabell är en tia minus ett: 9 · 6 är 10 · 6 − 6 = 54.",
+  "explanation": "Problemet: Det tar lång tid att räkna ut varje multiplikation från början. Vad är 7 · 8? Om vi kunde svaren utantill skulle vi räkna mycket snabbare. Men det är över hundra tal att lära sig! Bra nyhet: tabellerna hänger ihop, så du behöver lära dig mycket mindre. 4 · 6 betyder 4 grupper med 6 i varje, alltså 24. Det går lika bra att räkna 6 · 4, för ordningen spelar ingen roll. Därför behöver du bara lära dig hälften av tabellen. Mönster hjälper också: tvåans tabell är dubbelt så mycket, femmans tabell slutar alltid på 5 eller 0 och i tians tabell sätter du bara en nolla efter talet. Nians tabell är en tia minus ett: 9 · 6 är 10 · 6 − 6 = 54.",
   "visual": {
     "type": "talrutnat",
     "title": "Femmans tabell: 5, 10, 15, … slutar alltid på 5 eller 0",

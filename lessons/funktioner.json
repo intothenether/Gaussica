@@ -8,7 +8,7 @@
   "prerequisites": ["ekvation"],
   "summary": "En funktion visar hur ett värde förändras när ett annat värde ändras, som en regel mellan in och ut.",
   "explanationTitle": "En regel som kopplar ihop två värden",
-  "explanation": "I funktionen y = 2x + 1 ger varje värde på x precis ett värde på y. Om x ökar med 1 ökar y med 2. Talet framför x berättar hur snabbt sambandet förändras.",
+  "explanation": "Problemet: En taxi kostar 40 kr plus 20 kr per kilometer. Hur mycket kostar 7 kilometer, och 12? Vi vill inte räkna om från början varje gång. Vi behöver en regel som kopplar ihop avståndet och priset. Det är en funktion. I funktionen y = 2x + 1 ger varje värde på x precis ett värde på y. Om x ökar med 1 ökar y med 2. Talet framför x berättar hur snabbt sambandet förändras.",
   "rule": "x = 3  →  y = 2 · 3 + 1 = 7",
   "ruleLabel": "FUNKTIONEN y = 2x + 1",
   "example": "Tänk en maskin: stoppa in ett x, multiplicera med 2 och lägg till 1. Maskinen ger alltid ett y.",

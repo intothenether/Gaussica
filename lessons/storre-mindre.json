@@ -8,7 +8,7 @@
   "prerequisites": ["platsvarde"],
   "summary": "Med tecknen > och < jämför du tal. Tecknet öppnar sig alltid mot det tal som är störst.",
   "explanationTitle": "Krokodilen vill ha det största",
-  "explanation": "Tecknet > betyder större än och < betyder mindre än. Tänk dig att tecknet är en krokodilmun som alltid vill äta det största talet. Därför öppnar sig tecknet mot det största talet: 8 > 3 och 3 < 8. Är talen lika stora skriver vi = i stället. För tal med flera siffror jämför du siffran längst till vänster först: 347 > 298 eftersom 3 hundratal är fler än 2 hundratal. Under svarsrutan finns knappar för tecknen, så du slipper leta på tangentbordet.",
+  "explanation": "Problemet: Vi vill kunna skriva att ett tal är större än ett annat utan att skriva en hel mening varje gång. Det ska också vara lätt att se direkt vilket som är störst. Därför finns två små tecken. Tecknet > betyder större än och < betyder mindre än. Tänk dig att tecknet är en krokodilmun som alltid vill äta det största talet. Därför öppnar sig tecknet mot det största talet: 8 > 3 och 3 < 8. Är talen lika stora skriver vi = i stället. För tal med flera siffror jämför du siffran längst till vänster först: 347 > 298 eftersom 3 hundratal är fler än 2 hundratal. Under svarsrutan finns knappar för tecknen, så du slipper leta på tangentbordet.",
   "visual": {
     "type": "tallinje",
     "title": "8 ligger längre åt höger än 3, så 8 > 3",

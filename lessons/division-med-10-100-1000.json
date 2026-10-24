@@ -10,8 +10,8 @@
     "platsvarde"
   ],
   "summary": "Att dela med 1, 10, 100 och 1000 är en genväg: talet blir 1, 10, 100 eller 1000 gånger mindre.",
-  "explanationTitle": "Ta bort nollor",
-  "explanation": "När du delar ett tal med 1 händer ingenting. Talet är kvar som det var: 36/1 = 36. När du delar med 10 blir varje siffra tio gånger mindre. Då flyttar alla siffror ett steg åt höger i platsvärdestabellen. Slutar talet på noll kan du i stället ta bort en nolla: 450/10 = 45. Att dela med 100 tar bort två nollor och att dela med 1000 tar bort tre nollor: 4500/100 = 45 och 4000/1000 = 4. Division är motsatsen till multiplikation, så 45 · 100 = 4500 och 4500/100 = 45.",
+  "explanationTitle": "Finns det en genväg när vi delar med 10, 100 och 1000?",
+  "explanation": "Problemet: Att dela 45000 med 100 med kortdivision eller tabeller är en lång väg. Ändå delar vi ofta med just 10, 100 och 1000, till exempel när vi byter enhet. Finns det en genväg? Ja, för vårt talsystem bygger på tiotal. Det räcker att titta på nollorna. När du delar ett tal med 1 händer ingenting. Talet är kvar som det var: 36/1 = 36. När du delar med 10 blir varje siffra tio gånger mindre. Då flyttar alla siffror ett steg åt höger i platsvärdestabellen. Slutar talet på noll kan du i stället ta bort en nolla: 450/10 = 45. Att dela med 100 tar bort två nollor och att dela med 1000 tar bort tre nollor: 4500/100 = 45 och 4000/1000 = 4. Division är motsatsen till multiplikation, så 45 · 100 = 4500 och 4500/100 = 45.",
   "visual": {
     "type": "tabell",
     "title": "Dela 45000",

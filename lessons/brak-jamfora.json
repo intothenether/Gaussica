@@ -9,7 +9,7 @@
   "prerequisites": ["brak-del"],
   "summary": "Hur vet man vilket bråk som är större? 3/4 eller 2/3?",
   "explanationTitle": "Samma nämnare gör det enkelt att jämföra",
-  "explanation": "Om två bråk har samma nämnare behöver du bara jämföra täljarna. 3/4 är större än 2/4 för att 3 > 2. Om nämnarna är olika gör du dem lika stora först.",
+  "explanation": "Problemet: Vem fick mest, den som fick 3/4 eller den som fick 2/3? Bråken ser olika ut, och vi kan inte jämföra dem direkt som vanliga tal. Vi behöver ett sätt att göra dem jämförbara. Om två bråk har samma nämnare behöver du bara jämföra täljarna. 3/4 är större än 2/4 för att 3 > 2. Om nämnarna är olika gör du dem lika stora först.",
   "rule": "Gör nämnarna lika stora, sedan jämför täljarna.",
   "ruleLabel": "JÄMFÖRA BRÅK",
   "example": "Vilken är större: 1/2 eller 1/4? Eftersom båda har samma täljare (1), behöver vi bara titta på nämnaren. 1/2 är större än 1/4.",

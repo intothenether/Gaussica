@@ -1,0 +1,316 @@
+{
+  "id": "subtraktion-uppstallning",
+  "area": "tal",
+  "title": "Subtraktion med uppställning",
+  "level": "Dra ifrån på papper och låna · ungefär åk 3–4",
+  "grade": 3,
+  "duration": "8 min",
+  "prerequisites": [
+    "subtraktion",
+    "addition-uppstallning"
+  ],
+  "summary": "Med uppställning drar du ifrån en plats i taget. Går det inte lånar du 1 från platsen till vänster.",
+  "explanationTitle": "Vad gör vi när det inte går att dra ifrån?",
+  "explanation": "Problemet: Med uppställning kan du lägga ihop stora tal. Men i 52 − 27 går det inte att dra 7 ental från 2 ental. Vad gör vi då? Vi behöver fler ental att räkna med, utan att talets värde ändras. Lösningen är att låna ett tiotal. Vid subtraktion med uppställning drar du ifrån en plats i taget, från höger till vänster. Det större talet står överst. Steg 1: Skriv talen under varandra, ental under ental och tiotal under tiotal. Steg 2: Dra ifrån entalen. Går det inte, eftersom det nedre talet är större? Då lånar du 1 tiotal från platsen till vänster. 1 tiotal är 10 ental, så vid entalen skriver du +10 och vid tiotalet skriver du −1. Steg 3: Dra ifrån nästa plats. Kom ihåg att den har blivit 1 mindre om du lånade. Steg 4: Kontrollera med addition: svaret plus det nedre talet ska bli det övre talet. Tryck på Nästa steg i bilden nedan och följ med när 74 − 38 räknas ut. Det andra exemplet, 503 − 278, är extra klurigt eftersom det står en nolla i mitten.",
+  "visual": {
+    "type": "uppstallning",
+    "op": "-",
+    "a": 74,
+    "b": 38,
+    "title": "74 − 38 steg för steg"
+  },
+  "components": [
+    {
+      "type": "uppstallning",
+      "op": "-",
+      "a": 503,
+      "b": 278,
+      "title": "Ett klurigare exempel: 503 − 278"
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
+  "rule": "Går det inte att dra ifrån? Låna 1 från platsen till vänster.",
+  "ruleLabel": "LÅNA",
+  "example": "52 − 27: 2 − 7 går inte, så låna 1 tiotal. 12 − 7 = 5. Tiotalet är nu 4, och 4 − 2 = 2. Svar: 25.",
+  "practice": [
+    {
+      "id": "lan",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "t1": [
+          3,
+          9
+        ],
+        "t2": [
+          1,
+          6
+        ],
+        "u1": [
+          0,
+          5
+        ],
+        "u2": [
+          6,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "t1-t2",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "a",
+          "expr": "10*t1+u1"
+        },
+        {
+          "name": "b",
+          "expr": "10*t2+u2"
+        },
+        {
+          "name": "r",
+          "expr": "10*t1+u1-10*t2-u2"
+        }
+      ],
+      "prompt": "Räkna ut {a} − {b} med uppställning.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {u1} − {u2} går inte. Låna 1 tiotal: {10+u1} − {u2} = {10+u1-u2}. Svar: {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=10*(t1-t2)+(u2-u1)"
+          ],
+          "message": "Entalen: {u1} − {u2} går inte. Då lånar du 1 tiotal. Dra inte det mindre talet från det större. Och kom ihåg att tiotalet blir 1 mindre."
+        }
+      ]
+    },
+    {
+      "id": "tre-siffror",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          200,
+          999
+        ],
+        "b": [
+          100,
+          899
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-b",
+          "min": 1
+        }
+      ],
+      "prompt": "Räkna ut {a} − {b} med uppställning.",
+      "answer": [
+        "=a-b"
+      ],
+      "correct": "Rätt! {a} − {b} = {a-b}. Kontroll: {a-b} + {b} = {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. Här ska du dra ifrån."
+        }
+      ]
+    },
+    {
+      "id": "kvar",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          200,
+          900
+        ],
+        "b": [
+          100,
+          800
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-b",
+          "min": 1
+        }
+      ],
+      "prompt": "{$namn} har {a} kronor och köper något för {b} kronor. Hur många kronor har {$namn} kvar?",
+      "answer": [
+        "=a-b",
+        "{a-b} kr"
+      ],
+      "correct": "Rätt! {a} − {b} = {a-b} kronor.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. {$namn} betalar, så pengarna blir färre. Dra ifrån."
+        }
+      ]
+    },
+    {
+      "id": "kontroll",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          300,
+          900
+        ],
+        "b": [
+          101,
+          299
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a-b"
+        }
+      ],
+      "prompt": "{$namn} har räknat ut {a} − {b} = {r}. Hur kontrollerar {$namn} med addition? Räkna ut {r} + {b}.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! {r} + {b} = {a}. Det är samma tal som i början, så subtraktionen stämmer.",
+      "feedback": [
+        {
+          "answers": [
+            "=r-b"
+          ],
+          "message": "Du har dragit ifrån. Kontrollen använder addition: lägg ihop {r} och {b}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 52 − 27 med uppställning.",
+    "answer": [
+      "25"
+    ],
+    "correct": "Rätt! 2 − 7 går inte, så du lånar 1 tiotal. 12 − 7 = 5. Tiotalet är nu 4 och 4 − 2 = 2. Svar: 25.",
+    "feedback": [
+      {
+        "answers": [
+          "35"
+        ],
+        "message": "Du har fått 35. Antingen drog du det mindre talet från det större i entalen (7 − 2), eller glömde du att tiotalet blev 1 mindre efter att du lånade."
+      },
+      {
+        "answers": [
+          "79"
+        ],
+        "message": "79 är 52 + 27. Här ska du dra ifrån."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Omar har 82 kronor. Han köper en bok för 46 kronor. Hur många kronor har han kvar?",
+      "answer": [
+        "36",
+        "36 kr"
+      ],
+      "correct": "Rätt! 2 − 6 går inte, så du lånar: 12 − 6 = 6. Tiotalet är nu 7 och 7 − 4 = 3. Svar: 36 kronor.",
+      "feedback": [
+        {
+          "answers": [
+            "44",
+            "44 kr"
+          ],
+          "message": "Du har dragit det mindre entalet från det större (6 − 2). 2 − 6 går inte, så du ska låna 1 tiotal."
+        },
+        {
+          "answers": [
+            "128",
+            "128 kr"
+          ],
+          "message": "Du har lagt ihop talen. Omar betalar, så pengarna blir färre. Dra ifrån."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett tåg har 503 platser. 278 platser är upptagna. Hur många platser är lediga?",
+      "answer": [
+        "225"
+      ],
+      "correct": "Rätt! Du lånar genom nollan: 13 − 8 = 5, 9 − 7 = 2 och 4 − 2 = 2. Svar: 225.",
+      "feedback": [
+        {
+          "answers": [
+            "375"
+          ],
+          "message": "Du har dragit det mindre talet från det större i varje kolumn. När det övre talet är mindre ska du låna från platsen till vänster."
+        },
+        {
+          "answers": [
+            "781"
+          ],
+          "message": "Du har lagt ihop talen. Här ska du dra ifrån."
+        }
+      ]
+    },
+    {
+      "prompt": "Mira har räknat ut 410 − 186 = 224. Hur kan hon kontrollera svaret med addition? Räkna ut 224 + 186.",
+      "answer": [
+        "410"
+      ],
+      "correct": "Rätt! 224 + 186 = 410. Det är samma tal som i början, så subtraktionen stämmer.",
+      "feedback": [
+        {
+          "answers": [
+            "38"
+          ],
+          "message": "Du har dragit ifrån. Kontrollen använder addition: lägg ihop 224 och 186."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,408 @@
+{
+  "id": "procent-vardagen",
+  "area": "tal",
+  "title": "Procent i vardagen",
+  "level": "Rabatt, prishöjning och andel · ungefär åk 6–8",
+  "grade": 6,
+  "duration": "9 min",
+  "prerequisites": [
+    "procent"
+  ],
+  "summary": "Med procent kan du räkna ut rabatter och prishöjningar, och hur stor andel något är av en helhet.",
+  "explanationTitle": "Hur räknar vi ut en rabatt i huvudet?",
+  "explanation": "Problemet: Vi vet att procent betyder hundradelar. Men i affären står det 25 % rabatt, och du vill snabbt veta vad det blir i kronor, utan miniräknare. Hur gör du? Nyckeln är att bygga på de procent som är lätta. Några procent är lätta att räkna ut i huvudet. 50 % är hälften, 25 % är en fjärdedel och 10 % är en tiondel. 1 % är en hundradel. Andra procent bygger du av dem: 30 % är tre gånger 10 %. Vid en rabatt tar du bort procentbeloppet från priset. Vid en prishöjning lägger du till det. Rabatt 20 % på 150 kr: 10 % är 15 kr, 20 % är 30 kr, och det nya priset blir 150 − 30 = 120 kr. Vill du veta hur många procent en del är av en helhet delar du delen med helheten och multiplicerar med 100: 6 av 25 är 6/25 = 24/100, alltså 24 %.",
+  "visual": {
+    "type": "tabell",
+    "title": "Procent av 80 kr i huvudet",
+    "headers": [
+      "Procent",
+      "Så räknar du",
+      "Av 80 kr"
+    ],
+    "rows": [
+      [
+        "50 %",
+        "Hälften",
+        "40 kr"
+      ],
+      [
+        "25 %",
+        "En fjärdedel",
+        "20 kr"
+      ],
+      [
+        "10 %",
+        "En tiondel",
+        "8 kr"
+      ],
+      [
+        "30 %",
+        "Tre gånger 10 %",
+        "24 kr"
+      ],
+      [
+        "1 %",
+        "En hundradel",
+        "0,8 kr"
+      ]
+    ]
+  },
+  "rule": "Rabatt: priset minus procentbeloppet. Höjning: priset plus procentbeloppet.",
+  "ruleLabel": "RABATT OCH HÖJNING",
+  "example": "Rabatt 20 % på 150 kr: 10 % är 15 kr, 20 % är 30 kr, nytt pris 120 kr. Höjning 10 % på 800 kr: 10 % är 80 kr, nytt pris 880 kr.",
+  "practice": [
+    {
+      "id": "huvudrakning",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "m": [
+          1,
+          9
+        ],
+        "t": [
+          20,
+          400,
+          20
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "10*m"
+        },
+        {
+          "name": "r",
+          "expr": "m*t/10"
+        }
+      ],
+      "prompt": "Räkna i huvudet. Hur mycket är {p} % av {t}?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! 10 % av {t} är {t/10}, så {p} % är {m} gånger det: {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=t/10"
+          ],
+          "message": "{t/10} är 10 % av {t}. Du ska ta {m} gånger så mycket."
+        }
+      ]
+    },
+    {
+      "id": "rabatt-kr",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "sak": [
+          "En jacka",
+          "En väska",
+          "Ett spel",
+          "Ett par skor"
+        ]
+      },
+      "vars": {
+        "p": [
+          10,
+          50,
+          5
+        ],
+        "t": [
+          40,
+          400,
+          20
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "p*t/100"
+        },
+        {
+          "name": "n",
+          "expr": "t-p*t/100"
+        }
+      ],
+      "prompt": "{$sak} kostar {t} kr. Det är {p} % rabatt. Vad kostar det nu?",
+      "answer": [
+        "=n",
+        "{n} kr"
+      ],
+      "correct": "Rätt! Rabatten är {d} kr, och {t} − {d} = {n} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=d",
+            "{d} kr"
+          ],
+          "message": "{d} kr är rabatten. Ta bort den från priset för att få det nya priset."
+        },
+        {
+          "answers": [
+            "=t+d"
+          ],
+          "message": "Rabatt betyder att priset blir lägre, inte högre."
+        }
+      ]
+    },
+    {
+      "id": "hojning",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "sak": [
+          "En cykel",
+          "En telefon",
+          "Ett par skor",
+          "En dator"
+        ]
+      },
+      "vars": {
+        "p": [
+          5,
+          30,
+          5
+        ],
+        "t": [
+          100,
+          800,
+          100
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "p*t/100"
+        },
+        {
+          "name": "n",
+          "expr": "t+p*t/100"
+        }
+      ],
+      "prompt": "{$sak} kostar {t} kr. Priset höjs med {p} %. Vad kostar det efter höjningen?",
+      "answer": [
+        "=n",
+        "{n} kr"
+      ],
+      "correct": "Rätt! Höjningen är {d} kr, och {t} + {d} = {n} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=d",
+            "{d} kr"
+          ],
+          "message": "{d} kr är höjningen. Lägg till den till det gamla priset."
+        },
+        {
+          "answers": [
+            "=t-d"
+          ],
+          "message": "Höjs betyder att priset blir högre. Lägg till i stället för att ta bort."
+        }
+      ]
+    },
+    {
+      "id": "andel",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "y": [
+          10,
+          50
+        ],
+        "x": [
+          1,
+          49
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(x*100,y)",
+          "equals": 0
+        },
+        {
+          "expr": "y-x",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "pct",
+          "expr": "x*100/y"
+        }
+      ],
+      "prompt": "En klass har {y} elever. {x} av dem har glasögon. Hur många procent av eleverna har glasögon?",
+      "answer": [
+        "=pct",
+        "{pct} %"
+      ],
+      "correct": "Rätt! {x}/{y} = {pct}/100, alltså {pct} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=x"
+          ],
+          "message": "{x} är antalet elever. Du ska räkna ut hur många procent det är av {y} elever."
+        }
+      ]
+    },
+    {
+      "id": "hela",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "p": [
+          10,
+          50,
+          5
+        ],
+        "w": [
+          40,
+          400,
+          20
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "p*w/100"
+        }
+      ],
+      "prompt": "{$namn} sparar {p} % av sin veckopeng. Det blir {d} kr. Hur stor är veckopengen?",
+      "answer": [
+        "=w",
+        "{w} kr"
+      ],
+      "correct": "Rätt! {p} % är {d} kr, så hela veckopengen är {w} kr. Kontroll: {p} % av {w} = {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=d*p"
+          ],
+          "message": "Du har multiplicerat. {d} kr är bara {p} % av veckopengen, så hela beloppet är större än {d}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En tröja kostar 200 kr. Det är 25 % rabatt. Vad kostar tröjan nu?",
+    "answer": [
+      "150",
+      "150 kr"
+    ],
+    "correct": "Rätt! 25 % är en fjärdedel, och en fjärdedel av 200 är 50. Priset blir 200 − 50 = 150 kr.",
+    "feedback": [
+      {
+        "answers": [
+          "50",
+          "50 kr"
+        ],
+        "message": "50 kr är rabatten. Ta bort den från priset för att få det nya priset."
+      },
+      {
+        "answers": [
+          "250",
+          "250 kr"
+        ],
+        "message": "Rabatt betyder att priset blir lägre. Ta bort rabatten i stället för att lägga till."
+      },
+      {
+        "answers": [
+          "175",
+          "175 kr"
+        ],
+        "message": "Du har tagit bort 25 kr, men 25 % av 200 är 50 kr. 25 % är en fjärdedel."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett par skor kostar 800 kr. Priset höjs med 10 %. Vad kostar skorna efter höjningen?",
+      "answer": [
+        "880",
+        "880 kr"
+      ],
+      "correct": "Rätt! 10 % av 800 är 80, och 800 + 80 = 880 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "80",
+            "80 kr"
+          ],
+          "message": "80 kr är höjningen. Lägg till den till det gamla priset."
+        },
+        {
+          "answers": [
+            "720",
+            "720 kr"
+          ],
+          "message": "Priset höjs, så det blir högre. Lägg till 80 i stället för att ta bort."
+        }
+      ]
+    },
+    {
+      "prompt": "Av 25 elever i en klass har 6 elever glasögon. Hur många procent är det?",
+      "answer": [
+        "24",
+        "24 %"
+      ],
+      "correct": "Rätt! 6/25 = 24/100, alltså 24 %.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är antalet elever. Du ska räkna ut hur många procent det är av 25 elever."
+        },
+        {
+          "answers": [
+            "25",
+            "25 %"
+          ],
+          "message": "25 är hela klassen. Räkna 6/25 som hundradelar: 6/25 = 24/100."
+        }
+      ]
+    },
+    {
+      "prompt": "Mira sparar 20 % av sin veckopeng. Det blir 30 kr. Hur stor är veckopengen?",
+      "answer": [
+        "150",
+        "150 kr"
+      ],
+      "correct": "Rätt! 20 % är en femtedel. Då är hela veckopengen 5 · 30 = 150 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Du har delat 30 med 5. Men 30 kr är en femtedel, så hela veckopengen är 5 gånger så mycket."
+        },
+        {
+          "answers": [
+            "600",
+            "600 kr"
+          ],
+          "message": "Du har multiplicerat med 20. 30 kr är 20 %, en femtedel, så veckopengen är 5 gånger 30."
+        }
+      ]
+    }
+  ]
+}

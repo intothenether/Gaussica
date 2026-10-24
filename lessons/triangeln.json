@@ -23,7 +23,7 @@
   ],
   "summary": "En triangel har tre sidor. Omkretsen är summan av sidorna, och arean är hälften av bas gånger höjd.",
   "explanationTitle": "Från rektangeln till triangeln",
-  "explanation": "Omkretsen räknar du ut genom att lägga ihop sidorna. För arean använder du det du lärt dig om rektangeln: en triangel är hälften så stor som en rektangel med samma bas och höjd.",
+  "explanation": "Problemet: En triangel har sneda kanter, och rutor passar inte in i den. Hur räknar vi ut hur stor yta den täcker? Vi kan utnyttja det vi redan kan om rektanglar. Omkretsen räknar du ut genom att lägga ihop sidorna. För arean använder du det du lärt dig om rektangeln: en triangel är hälften så stor som en rektangel med samma bas och höjd.",
   "rule": "O = a + b + c och A = (bas · höjd)/2",
   "ruleLabel": "TRIANGELNS FORMLER",
   "example": "Sidorna 3, 4 och 5 cm ger omkretsen 12 cm. Bas 6 cm och höjd 4 cm ger arean (6 · 4)/2 = 12 cm².",

@@ -9,7 +9,7 @@
   "prerequisites": ["brak-del"],
   "summary": "Olika bråk kan representera samma värde. 1/2 är lika mycket som 2/4.",
   "explanationTitle": "Samma värde, olika utseende",
-  "explanation": "Om vi delar något i 2 lika stora delar och tar 1, får vi 1/2. Om vi delar samma sak i 4 lika stora delar och tar 2, får vi 2/4. Det är samma mängd! Båda bråken är likvärdiga.",
+  "explanation": "Problemet: Du får 1/2 av en pizza och en kompis får 2/4. Vem fick mest? Bråken ser olika ut, men kan de vara lika mycket? Om vi delar något i 2 lika stora delar och tar 1, får vi 1/2. Om vi delar samma sak i 4 lika stora delar och tar 2, får vi 2/4. Det är samma mängd! Båda bråken är likvärdiga.",
   "rule": "Om du multiplicerar eller dividerar både täljare och nämnare med samma tal får du ett likvärdigt bråk.",
   "ruleLabel": "LIKVÄRDIGA BRÅK",
   "example": "1/2 = 2/4 = 3/6 = 4/8. Alla är likvärdiga. Vi kan förlänga (gånger 2, 3, 4...) eller förkorta (dela med samma tal).",

@@ -8,7 +8,7 @@
   "prerequisites": [],
   "summary": "Tallinjen visar talen i ordning på en rak linje. Ju längre åt höger ett tal ligger, desto större är det.",
   "explanationTitle": "Avstånd och ordning på samma linje",
-  "explanation": "På en tallinje har varje tal sin egen plats. Talen växer åt höger och minskar åt vänster, och avståndet mellan två streck är alltid lika stort. Därför kan du hitta ett tal genom att utgå från ett tal du känner och räkna steg.",
+  "explanation": "Problemet: Hur visar vi var ett tal ligger, och hur långt det är mellan två tal? Siffror ensamma säger inget om avstånd. Vi behöver en bild där varje tal har sin egen plats. Det är tallinjen. På en tallinje har varje tal sin egen plats. Talen växer åt höger och minskar åt vänster, och avståndet mellan två streck är alltid lika stort. Därför kan du hitta ett tal genom att utgå från ett tal du känner och räkna steg.",
   "visual": {
     "type": "tallinje",
     "title": "Från 6 hoppar vi 8 steg",

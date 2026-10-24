@@ -12,7 +12,7 @@
   ],
   "summary": "Omkretsen är längden runt hela figuren. I en kvadrat är alla fyra sidor lika långa.",
   "explanationTitle": "Gå ett varv runt kvadraten",
-  "explanation": "Går du runt en kvadrat med sidan 4 cm blir det 4 + 4 + 4 + 4 = 16 cm. Eftersom alla sidor är lika långa kan du också räkna 4 · 4 = 16 cm. Omkretsen mäts i längdenheter som cm och m.",
+  "explanation": "Problemet: Hur mycket staket behövs runt en kvadratisk täppa med sidan 4 meter? Du kan gå runt och lägga ihop sidorna, men eftersom alla sidor är lika långa finns en genväg. Går du runt en kvadrat med sidan 4 cm blir det 4 + 4 + 4 + 4 = 16 cm. Eftersom alla sidor är lika långa kan du också räkna 4 · 4 = 16 cm. Omkretsen mäts i längdenheter som cm och m.",
   "visual": {
     "type": "kvadrat",
     "w": 4,

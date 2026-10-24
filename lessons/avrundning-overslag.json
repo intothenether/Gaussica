@@ -1,0 +1,287 @@
+{
+  "id": "avrundning-overslag",
+  "area": "tal",
+  "title": "Avrundning och överslag",
+  "level": "Räkna ungefär · ungefär åk 4",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": [
+    "platsvarde",
+    "addition"
+  ],
+  "summary": "Ibland räcker det att veta ungefär. Då byter du talen mot närliggande tiotal eller hundratal.",
+  "explanationTitle": "Gör talen enklare",
+  "explanation": "Problemet: Du har 100 kr och vill veta om det räcker till en tröja för 39 kr och en mössa för 52 kr. Du behöver inte det exakta svaret, bara om det räcker. Att räkna exakt tar tid, och ofta räcker det att veta ungefär. Vi behöver göra talen enklare. Det kallas att avrunda. Att avrunda är att byta ett tal mot ett närliggande tal med nollor på slutet, till exempel ett tiotal eller ett hundratal. Titta på siffran till höger om den plats du avrundar till. Är den 0, 1, 2, 3 eller 4 avrundar du nedåt. Är den 5, 6, 7, 8 eller 9 avrundar du uppåt. 38 avrundas till 40 och 342 avrundas till 300. Med avrundade tal gör du en överslagsräkning: 39 + 52 är ungefär 40 + 50 = 90. Då vet du att 100 kr räcker. Ett överslag är också ett bra sätt att kontrollera att ett exakt svar är rimligt.",
+  "visual": {
+    "type": "tallinje",
+    "title": "34 avrundas ned till 30, 38 avrundas upp till 40",
+    "min": 30,
+    "max": 40,
+    "step": 1,
+    "labelEvery": 5,
+    "points": [
+      {
+        "value": 34
+      },
+      {
+        "value": 38
+      }
+    ],
+    "jumps": [
+      {
+        "from": 34,
+        "to": 30,
+        "label": "ned"
+      },
+      {
+        "from": 38,
+        "to": 40,
+        "label": "upp"
+      }
+    ]
+  },
+  "rule": "Siffran till höger: 0 till 4 nedåt, 5 till 9 uppåt",
+  "ruleLabel": "AVRUNDA",
+  "example": "47 avrundas till 50. 43 avrundas till 40. 350 avrundas till närmaste hundratal är 400.",
+  "practice": [
+    {
+      "id": "tiotal",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          11,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "round(a/10)*10"
+        }
+      ],
+      "prompt": "Avrunda {a} till närmaste tiotal.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Entalssiffran i {a} är {mod(a,10)}, så {a} avrundas till {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=floor(a/10)*10"
+          ],
+          "message": "Titta på entalssiffran {mod(a,10)}. Den är 5 eller mer, så du ska avrunda uppåt."
+        },
+        {
+          "answers": [
+            "=ceil(a/10)*10"
+          ],
+          "message": "Titta på entalssiffran {mod(a,10)}. Den är mindre än 5, så du ska avrunda nedåt."
+        }
+      ]
+    },
+    {
+      "id": "hundratal",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          101,
+          999
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "round(a/100)*100"
+        }
+      ],
+      "prompt": "Avrunda {a} till närmaste hundratal.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Tiotalssiffran i {a} är {mod(floor(a/10),10)}, så {a} avrundas till {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=floor(a/100)*100"
+          ],
+          "message": "Titta på tiotalssiffran {mod(floor(a/10),10)}. Den är 5 eller mer, så du ska avrunda uppåt."
+        },
+        {
+          "answers": [
+            "=ceil(a/100)*100"
+          ],
+          "message": "Titta på tiotalssiffran {mod(floor(a/10),10)}. Den är mindre än 5, så du ska avrunda nedåt."
+        },
+        {
+          "answers": [
+            "=round(a/10)*10"
+          ],
+          "message": "Du har avrundat till tiotal. Här ska du avrunda till närmaste hundratal."
+        }
+      ]
+    },
+    {
+      "id": "overslag-plus",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          21,
+          89
+        ],
+        "b": [
+          21,
+          89
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "round(a/10)*10+round(b/10)*10"
+        }
+      ],
+      "prompt": "Gör en överslagsräkning: ungefär hur mycket är {a} + {b}? Avrunda båda talen till närmaste tiotal.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} avrundas till {round(a/10)*10} och {b} till {round(b/10)*10}. Överslaget är {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} är det exakta svaret. Vid en överslagsräkning räknar du med de avrundade talen."
+        }
+      ]
+    },
+    {
+      "id": "overslag-minus",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          61,
+          99
+        ],
+        "b": [
+          21,
+          59
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "round(a/10)*10-round(b/10)*10"
+        }
+      ],
+      "prompt": "Gör en överslagsräkning: ungefär hur mycket är {a} − {b}? Avrunda båda talen till närmaste tiotal.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} avrundas till {round(a/10)*10} och {b} till {round(b/10)*10}. Överslaget är {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a-b"
+          ],
+          "message": "{a-b} är det exakta svaret. Vid en överslagsräkning räknar du med de avrundade talen."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Avrunda 38 till närmaste tiotal.",
+    "answer": [
+      "40"
+    ],
+    "correct": "Rätt! Entalssiffran är 8, som är 5 eller mer. Då avrundar du uppåt till 40.",
+    "feedback": [
+      {
+        "answers": [
+          "30"
+        ],
+        "message": "Entalssiffran är 8. Den är 5 eller mer, så du ska avrunda uppåt, inte nedåt."
+      },
+      {
+        "answers": [
+          "38"
+        ],
+        "message": "Talet är oförändrat. Avrunda till närmaste tiotal, alltså 30 eller 40."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Avrunda 342 till närmaste hundratal.",
+      "answer": [
+        "300"
+      ],
+      "correct": "Rätt! Tiotalssiffran är 4, som är mindre än 5. Då avrundar du nedåt till 300.",
+      "feedback": [
+        {
+          "answers": [
+            "400"
+          ],
+          "message": "Tiotalssiffran är 4, som är mindre än 5. Då avrundar du nedåt, inte uppåt."
+        },
+        {
+          "answers": [
+            "340"
+          ],
+          "message": "Du har avrundat till tiotal. Här ska du avrunda till hundratal."
+        }
+      ]
+    },
+    {
+      "prompt": "En tröja kostar 39 kr och en mössa kostar 52 kr. Gör en överslagsräkning med närmaste tiotal. Ungefär hur mycket kostar de tillsammans?",
+      "answer": [
+        "90",
+        "90 kr"
+      ],
+      "correct": "Rätt! 39 avrundas till 40 och 52 till 50. 40 + 50 = 90 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "91",
+            "91 kr"
+          ],
+          "message": "91 kr är det exakta priset. Vid ett överslag räknar du med de avrundade talen 40 och 50."
+        },
+        {
+          "answers": [
+            "80",
+            "80 kr"
+          ],
+          "message": "Nästan! 39 avrundas till 40, inte 30. Räkna 40 + 50."
+        }
+      ]
+    },
+    {
+      "prompt": "Mira räknade 48 + 37 och fick 135. Gör en överslagsräkning med närmaste tiotal. Vilket tal ska svaret ligga nära?",
+      "answer": [
+        "90"
+      ],
+      "correct": "Rätt! 48 avrundas till 50 och 37 till 40. 50 + 40 = 90, så 135 kan inte stämma.",
+      "feedback": [
+        {
+          "answers": [
+            "85"
+          ],
+          "message": "85 är det exakta svaret. Ett överslag använder avrundade tal: 50 + 40."
+        },
+        {
+          "answers": [
+            "135"
+          ],
+          "message": "135 är det Mira fick. Gör ett eget överslag med de avrundade talen 50 och 40."
+        }
+      ]
+    }
+  ]
+}

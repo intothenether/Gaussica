@@ -8,7 +8,7 @@
   "prerequisites": ["addition", "subtraktion", "multiplikation"],
   "summary": "Ibland vet vi inte talet än. Då skriver vi x i stället och räknar baklänges för att hitta det.",
   "explanationTitle": "x är ett tal vi inte känner än",
-  "explanation": "Bokstaven x står för ett tal som vi vill ta reda på. Uttrycket x + 3 = 10 betyder: vilket tal plus 3 blir 10? Du hittar det genom att räkna baklänges: 10 − 3 = 7, så x = 7. Skriver du 2x betyder det 2 · x, två gånger talet. Om x är 5 är 2x lika med 10. Du kan alltid kontrollera svaret genom att sätta in det: 7 + 3 = 10 stämmer.",
+  "explanation": "Problemet: Vi kan räkna ut ett svar när vi vet alla tal. Men tänk dig att ett tal saknas: Jag tänker på ett tal. Lägger jag till 3 blir det 10. Hur skriver vi talet som vi inte känner? Vi behöver en platshållare. Den är x. Bokstaven x står för ett tal som vi vill ta reda på. Uttrycket x + 3 = 10 betyder: vilket tal plus 3 blir 10? Du hittar det genom att räkna baklänges: 10 − 3 = 7, så x = 7. Skriver du 2x betyder det 2 · x, två gånger talet. Om x är 5 är 2x lika med 10. Du kan alltid kontrollera svaret genom att sätta in det: 7 + 3 = 10 stämmer.",
   "visual": {
     "type": "tallinje",
     "title": "x + 3 = 10: vilket tal ger 10 när vi hoppar 3 steg?",

@@ -8,7 +8,7 @@
   "prerequisites": ["brak", "decimaltal"],
   "summary": "Procent betyder hundradelar. Det gör det lätt att jämföra andelar av olika helheter.",
   "explanationTitle": "Procent betyder per hundra",
-  "explanation": "25 procent betyder 25 av 100 lika stora delar. Det är samma andel som 25/100 och som 1/4. Procent, bråk och decimaltal är olika sätt att beskriva samma andel.",
+  "explanation": "Problemet: I butiken står det 25 % rabatt, och på nyheterna säger de att 10 % av eleverna har glasögon. Hur jämför vi andelar av helt olika stora helheter? Bråk går, men det är svårt när nämnarna är olika. Vi behöver en gemensam skala. Det är procent. 25 procent betyder 25 av 100 lika stora delar. Det är samma andel som 25/100 och som 1/4. Procent, bråk och decimaltal är olika sätt att beskriva samma andel.",
   "rule": "25 % = 25/100 = 1/4 = 0,25",
   "ruleLabel": "SAMMA ANDEL, OLIKA SKRIVSÄTT",
   "example": "Om en helhet delas i fyra lika stora delar är varje del 25 procent av helheten.",

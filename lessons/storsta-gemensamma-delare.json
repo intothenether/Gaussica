@@ -11,7 +11,7 @@
   ],
   "summary": "SGD är det största tal som delar två tal utan rest. Den används för att förkorta bråk och dela upp saker rättvist.",
   "explanationTitle": "Välj den största gemensamma delaren",
-  "explanation": "De gemensamma delarna till 12 och 18 är 1, 2, 3 och 6. Det största av dem är 6, så SGD(12, 18) = 6. Då kan båda talen delas i grupper om 6: 12 = 2 · 6 och 18 = 3 · 6. Med SGD kan du förkorta bråk: 12/18 blir 2/3 när täljare och nämnare delas med 6.",
+  "explanation": "Problemet: Du vill förkorta bråket 12/18 så mycket som möjligt, i ett enda steg. Då behöver du det största talet som går att dela båda talen med. Det ska hittas systematiskt, inte genom att pröva. Det är SGD. De gemensamma delarna till 12 och 18 är 1, 2, 3 och 6. Det största av dem är 6, så SGD(12, 18) = 6. Då kan båda talen delas i grupper om 6: 12 = 2 · 6 och 18 = 3 · 6. Med SGD kan du förkorta bråk: 12/18 blir 2/3 när täljare och nämnare delas med 6.",
   "visual": {
     "type": "tabell",
     "title": "SGD av 12 och 18",

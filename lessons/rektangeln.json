@@ -23,7 +23,7 @@
   ],
   "summary": "En rektangel har två långsidor och två kortsidor. Omkretsen är kanten runt och arean är rutorna inuti.",
   "explanationTitle": "Samma idéer som för kvadraten",
-  "explanation": "En rektangel har en längd och en bredd som kan vara olika stora. Då räknar du omkretsen och arean med båda måtten i stället för bara en sida.",
+  "explanation": "Problemet: Vi kan räkna omkrets och area på en kvadrat. Men en rektangel har två olika sidor. Fungerar våra regler fortfarande? Vi anpassar dem. En rektangel har en längd och en bredd som kan vara olika stora. Då räknar du omkretsen och arean med båda måtten i stället för bara en sida.",
   "rule": "O = 2 · (längd + bredd) och A = längd · bredd",
   "ruleLabel": "REKTANGELNS FORMLER",
   "example": "Längd 7 cm och bredd 3 cm ger omkretsen 2 · (7 + 3) = 20 cm och arean 7 · 3 = 21 cm².",

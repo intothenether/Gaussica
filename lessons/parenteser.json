@@ -9,7 +9,7 @@
   "prerequisites": ["addition", "subtraktion", "multiplikation", "operatorsordning"],
   "summary": "Parenteser säger 'räkna mig först!' De låter oss ändra ordningen och göra det som normalt skulle komma senare faktiskt först.",
   "explanationTitle": "Parenteser bryter normal räkneordning",
-  "explanation": "Normalt gör vi multiplikation före addition. Men om vi skriver (2 + 3) × 4, säger parenteserna 'först (2 + 3), sedan multiplikation'. Utan parenteser skulle 2 + 3 × 4 = 14. Med parenteser: (2 + 3) × 4 = 20. Parenteser är som att säga 'detta är viktigare, gör det först!'",
+  "explanation": "Problemet: Räkneordningen säger att gånger görs före plus. Men tänk om vi vill lägga ihop 2 och 3 först och sedan multiplicera med 4? Utan hjälp säger reglerna något annat. Vi behöver ett sätt att säga: gör den här delen först. Det är parenteser. Normalt gör vi multiplikation före addition. Men om vi skriver (2 + 3) × 4, säger parenteserna 'först (2 + 3), sedan multiplikation'. Utan parenteser skulle 2 + 3 × 4 = 14. Med parenteser: (2 + 3) × 4 = 20. Parenteser är som att säga 'detta är viktigare, gör det först!'",
   "rule": "1. Allt inuti parenteser räknas FÖRST\n2. Sedan följer normal räkneordning",
   "ruleLabel": "PARENTESER FÖRST",
   "example": "Utan parenteser: 2 + 3 × 5 = 2 + 15 = 17. Med parenteser: (2 + 3) × 5 = 5 × 5 = 25.",

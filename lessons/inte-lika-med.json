@@ -8,7 +8,7 @@
   "prerequisites": ["addition","storre-mindre"],
   "summary": "Tecknet = säger att båda sidor är lika mycket. Tecknet ≠ säger att de är olika.",
   "explanationTitle": "Samma värde eller inte?",
-  "explanation": "Likhetstecknet = betyder att det som står på båda sidor är lika mycket. 3 + 4 = 7 stämmer, för båda sidorna är 7. Tecknet ≠ läses ”är inte lika med” och betyder att sidorna är olika mycket, till exempel 3 + 4 ≠ 8. Räkna ut båda sidorna först och jämför. Är värdena olika sätter du ≠ och är de lika sätter du =. Tänk på att ≠ inte säger vilken sida som är störst. Det visar < och > i stället. Du skriver ≠ med knappen under svarsrutan, eller så skriver du !=.",
+  "explanation": "Problemet: Ibland vill vi skriva att två saker inte är lika mycket, till exempel att 3 + 4 och 8 är olika. Med likhetstecknet kan vi bara säga att något är lika. Vi behöver ett tecken för motsatsen. Likhetstecknet = betyder att det som står på båda sidor är lika mycket. 3 + 4 = 7 stämmer, för båda sidorna är 7. Tecknet ≠ läses ”är inte lika med” och betyder att sidorna är olika mycket, till exempel 3 + 4 ≠ 8. Räkna ut båda sidorna först och jämför. Är värdena olika sätter du ≠ och är de lika sätter du =. Tänk på att ≠ inte säger vilken sida som är störst. Det visar < och > i stället. Du skriver ≠ med knappen under svarsrutan, eller så skriver du !=.",
   "visual": {
     "type": "staplar",
     "title": "3 + 4 och 3 + 5 är olika: 3 + 4 ≠ 3 + 5",

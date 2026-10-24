@@ -11,7 +11,7 @@
   ],
   "summary": "Arean visar hur stor yta en figur täcker. Vi räknar hur många kvadratrutor som ryms inuti.",
   "explanationTitle": "Rutor i rader och kolumner",
-  "explanation": "En kvadrat med sidan 4 cm kan täckas av 4 rader med 4 rutor, och varje ruta är 1 cm². Det blir 4 · 4 = 16 rutor, så arean är 16 cm². Area mäts i kvadratenheter som cm² och m².",
+  "explanation": "Problemet: Hur mycket gräsmatta behövs för en kvadrat med sidan 4 meter? Längden runt hjälper inte här. Vi behöver veta hur många rutor ytan täcker. Det är area. En kvadrat med sidan 4 cm kan täckas av 4 rader med 4 rutor, och varje ruta är 1 cm². Det blir 4 · 4 = 16 rutor, så arean är 16 cm². Area mäts i kvadratenheter som cm² och m².",
   "visual": {
     "type": "kvadrat",
     "w": 4,

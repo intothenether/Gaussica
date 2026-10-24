@@ -1,0 +1,426 @@
+{
+  "id": "ekvationssystem",
+  "area": "algebra",
+  "title": "Ekvationssystem",
+  "level": "Två ekvationer med två okända · ungefär åk 8–9",
+  "grade": 9,
+  "duration": "10 min",
+  "prerequisites": [
+    "ekvation",
+    "funktioner"
+  ],
+  "summary": "Med två ledtrådar kan du hitta två okända tal. Lösningen är den punkt där två linjer skär varandra.",
+  "explanationTitle": "Vad gör vi när det finns två okända tal?",
+  "explanation": "Problemet: Med en ekvation kan vi hitta ett okänt tal, som x i x + 3 = 10. Men tänk dig att två tal har summan 10 och skillnaden 4. Nu finns det två okända, och ekvationen x + y = 10 ensam har många lösningar. Vi behöver båda ledtrådarna tillsammans. Ibland finns det två okända tal, x och y, och två ekvationer som båda måste stämma. Det kallas ett ekvationssystem. Exempel: x + y = 10 och x − y = 4. Du kan lösa det med additionsmetoden: lägg ihop ekvationerna. Då försvinner y, för y och −y tar ut varandra. Det blir 2x = 14, alltså x = 7. Sätt in x = 7 i en av ekvationerna: 7 + y = 10, så y = 3. Kontrollera i båda: 7 + 3 = 10 och 7 − 3 = 4. Du kan också använda substitution. Om y = 2x och x + y = 12 sätter du in 2x i stället för y. Då blir x + 2x = 12, alltså 3x = 12 och x = 4. Då är y = 8. I ett koordinatsystem är varje ekvation en rät linje, och lösningen är punkten där linjerna skär varandra.",
+  "visual": {
+    "type": "graf",
+    "title": "x + y = 10 och x − y = 4 skär varandra i (7, 3)",
+    "xmin": 0,
+    "xmax": 10,
+    "ymin": -4,
+    "ymax": 10,
+    "lines": [
+      {
+        "k": -1,
+        "m": 10,
+        "label": "y = 10 − x"
+      },
+      {
+        "k": 1,
+        "m": -4,
+        "label": "y = x − 4",
+        "tone": "brand"
+      }
+    ],
+    "points": [
+      {
+        "x": 7,
+        "y": 3,
+        "label": "(7, 3)"
+      }
+    ]
+  },
+  "rule": "Få en okänd att försvinna, lös den andra och sätt in svaret",
+  "ruleLabel": "LÖSNING",
+  "example": "x + y = 10 och x − y = 4. Addera: 2x = 14, så x = 7. Sedan är y = 10 − 7 = 3. Kontroll: 7 − 3 = 4.",
+  "practice": [
+    {
+      "id": "addition-x",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "x": [
+          3,
+          15
+        ],
+        "y": [
+          1,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "x-y",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "x+y"
+        },
+        {
+          "name": "d",
+          "expr": "x-y"
+        }
+      ],
+      "prompt": "Lös ekvationssystemet: x + y = {s} och x − y = {d}. Vad är x?",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! Addera ekvationerna: 2x = {s+d}, så x = {x}. Kontroll: {x} + {y} = {s} och {x} − {y} = {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=y"
+          ],
+          "message": "{y} är y. Frågan gäller x. Addera ekvationerna så försvinner y: 2x = {s+d}."
+        },
+        {
+          "answers": [
+            "=s+d"
+          ],
+          "message": "{s+d} är 2x. Dela med 2 för att få x."
+        }
+      ]
+    },
+    {
+      "id": "addition-y",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "x": [
+          3,
+          15
+        ],
+        "y": [
+          1,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "x-y",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "x+y"
+        },
+        {
+          "name": "d",
+          "expr": "x-y"
+        }
+      ],
+      "prompt": "Lös ekvationssystemet: x + y = {s} och x − y = {d}. Vad är y?",
+      "answer": [
+        "=y",
+        "y={y}",
+        "y = {y}"
+      ],
+      "correct": "Rätt! Först x = {x}. Sedan är y = {s} − {x} = {y}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x"
+          ],
+          "message": "{x} är x. Frågan gäller y. Sätt in x i x + y = {s}."
+        }
+      ]
+    },
+    {
+      "id": "tva-tal",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "x": [
+          5,
+          30
+        ],
+        "y": [
+          1,
+          25
+        ]
+      },
+      "where": [
+        {
+          "expr": "x-y",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "x+y"
+        },
+        {
+          "name": "d",
+          "expr": "x-y"
+        }
+      ],
+      "prompt": "Två tal har summan {s} och skillnaden {d}. Vilket är det största talet?",
+      "answer": [
+        "=x"
+      ],
+      "correct": "Rätt! Talen är {x} och {y}. Summan är {s} och skillnaden är {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=y"
+          ],
+          "message": "{y} är det minsta talet. Frågan gäller det största."
+        },
+        {
+          "answers": [
+            "=s+d"
+          ],
+          "message": "{s+d} är två gånger det största talet. Dela med 2."
+        }
+      ]
+    },
+    {
+      "id": "substitution",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "k": [
+          2,
+          5
+        ],
+        "x": [
+          2,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "y",
+          "expr": "k*x"
+        },
+        {
+          "name": "t",
+          "expr": "x+k*x"
+        }
+      ],
+      "prompt": "Lös ekvationssystemet: y = {k}x och x + y = {t}. Vad är x?",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! Sätt in y = {k}x: x + {k}x = {t}, alltså {k+1}x = {t} och x = {x}. Då är y = {y}.",
+      "feedback": [
+        {
+          "answers": [
+            "=y"
+          ],
+          "message": "{y} är y. Sätt in y = {k}x i den andra ekvationen: x + {k}x = {t}, alltså {k+1}x = {t}."
+        }
+      ]
+    },
+    {
+      "id": "pris",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          2,
+          5
+        ],
+        "p": [
+          3,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "p*(k+1)"
+        },
+        {
+          "name": "b",
+          "expr": "k*p"
+        }
+      ],
+      "prompt": "Ett block kostar {k} gånger så mycket som en penna. Tillsammans kostar de {t} kr. Vad kostar pennan?",
+      "answer": [
+        "=p",
+        "{p} kr"
+      ],
+      "correct": "Rätt! Pennan är p och blocket är {k}p. p + {k}p = {k+1}p = {t}, så p = {p} kr. Blocket kostar {b} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=b",
+            "{b} kr"
+          ],
+          "message": "{b} kr är vad blocket kostar. Frågan gäller pennan."
+        }
+      ]
+    },
+    {
+      "id": "skarning",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "x": [
+          1,
+          8
+        ],
+        "a": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "b",
+          "expr": "2*x+a"
+        }
+      ],
+      "prompt": "Linjerna y = x + {a} och y = {b} − x skär varandra. Vilket x-värde har skärningspunkten?",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! Sätt linjerna lika: x + {a} = {b} − x, så 2x = {b-a} och x = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b-a"
+          ],
+          "message": "Sätt linjerna lika: x + {a} = {b} − x, så 2x = {b-a}. Dela med 2."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Lös ekvationssystemet: x + y = 10 och x − y = 4. Vad är x?",
+    "answer": [
+      "7",
+      "x=7",
+      "x = 7"
+    ],
+    "correct": "Rätt! Addera ekvationerna: 2x = 14, så x = 7. Kontroll: 7 + 3 = 10 och 7 − 3 = 4.",
+    "feedback": [
+      {
+        "answers": [
+          "3",
+          "y=3",
+          "y = 3"
+        ],
+        "message": "3 är y. Frågan gäller x. Addera ekvationerna så försvinner y: 2x = 14."
+      },
+      {
+        "answers": [
+          "14"
+        ],
+        "message": "14 är 2x. Dela med 2 för att få x."
+      },
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "10 är summan x + y. Addera ekvationerna: 2x = 14, så x = 7."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Två tal har summan 20 och skillnaden 6. Vilket är det största talet?",
+      "answer": [
+        "13"
+      ],
+      "correct": "Rätt! Talen är 13 och 7. Summan är 20 och skillnaden är 6.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är det minsta talet. Frågan gäller det största."
+        },
+        {
+          "answers": [
+            "26"
+          ],
+          "message": "26 är två gånger det största talet (20 + 6). Dela med 2."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett block kostar 3 gånger så mycket som en penna. Tillsammans kostar de 24 kr. Vad kostar pennan?",
+      "answer": [
+        "6",
+        "6 kr"
+      ],
+      "correct": "Rätt! Pennan är p och blocket är 3p. p + 3p = 4p = 24, så p = 6 kr. Blocket kostar 18 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "18",
+            "18 kr"
+          ],
+          "message": "18 kr är vad blocket kostar. Frågan gäller pennan."
+        },
+        {
+          "answers": [
+            "8",
+            "8 kr"
+          ],
+          "message": "Du har delat 24 med 3. Men p + 3p = 4p, så dela 24 med 4."
+        }
+      ]
+    },
+    {
+      "prompt": "Linjerna y = x + 2 och y = 8 − x skär varandra. Vilket x-värde har skärningspunkten?",
+      "answer": [
+        "3",
+        "x=3",
+        "x = 3"
+      ],
+      "correct": "Rätt! x + 2 = 8 − x, så 2x = 6 och x = 3. Då är y = 5.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är y-värdet. Frågan gäller x."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är 2x. Dela med 2."
+        },
+        {
+          "answers": [
+            "(3,5)",
+            "(3, 5)"
+          ],
+          "message": "Det stämmer, men frågan gäller bara x-värdet."
+        }
+      ]
+    }
+  ]
+}

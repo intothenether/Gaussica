@@ -11,7 +11,7 @@
   ],
   "summary": "Omkretsen av en rektangel är längden av alla fyra sidor tillsammans: två längder och två bredder.",
   "explanationTitle": "Två längder och två bredder",
-  "explanation": "Går du runt en rektangel som är 7 cm lång och 3 cm bred blir det 7 + 3 + 7 + 3 = 20 cm. Du kan räkna snabbare genom att lägga ihop längd och bredd och ta det dubbelt: 2 · (7 + 3) = 20.",
+  "explanation": "Problemet: Hur långt är det runt en rektangel som är 7 cm lång och 3 cm bred? Sidorna är inte lika, så vi kan inte bara multiplicera med 4. Vad gör vi i stället? Går du runt en rektangel som är 7 cm lång och 3 cm bred blir det 7 + 3 + 7 + 3 = 20 cm. Du kan räkna snabbare genom att lägga ihop längd och bredd och ta det dubbelt: 2 · (7 + 3) = 20.",
   "visual": {
     "type": "rektangel",
     "w": 7,

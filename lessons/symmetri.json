@@ -10,7 +10,7 @@
   ],
   "summary": "En figur är symmetrisk om du kan vika den på mitten så att de två halvorna täcker varandra.",
   "explanationTitle": "Symmetrilinjen är som en spegel",
-  "explanation": "Tänk dig att du ställer en spegel längs en linje i figuren. Ser spegelbilden ut precis som den andra halvan är figuren symmetrisk, och linjen kallas symmetrilinje. En kvadrat har fyra symmetrilinjer, en rektangel har två och en liksidig triangel har tre.",
+  "explanation": "Problemet: Fjärilar och hjärtan ser likadana ut på båda sidor. Hur kan vi vara säkra på att en figur är likadan på båda sidor? Vi behöver ett sätt att kontrollera det. Det är symmetri. Tänk dig att du ställer en spegel längs en linje i figuren. Ser spegelbilden ut precis som den andra halvan är figuren symmetrisk, och linjen kallas symmetrilinje. En kvadrat har fyra symmetrilinjer, en rektangel har två och en liksidig triangel har tre.",
   "visual": {
     "type": "symmetri",
     "title": "Symmetrilinjer",

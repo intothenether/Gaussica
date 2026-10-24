@@ -12,7 +12,7 @@
   ],
   "summary": "Skala 1:100 betyder att 1 cm på ritningen är 100 cm i verkligheten. Med skala kan stora saker ritas på små papper.",
   "explanationTitle": "Ett steg på ritningen är många steg i verkligheten",
-  "explanation": "Skalan 1:50 betyder att allt i verkligheten är 50 gånger större än på ritningen. En soffa som är 200 cm lång blir 200/50 = 4 cm på ritningen. Går du åt andra hållet multiplicerar du: 4 cm på ritningen är 4 · 50 = 200 cm i verkligheten.",
+  "explanation": "Problemet: En soffa får inte plats på ett papper i verklig storlek. Hur ritar vi stora saker på ett litet papper så att allt får rätt proportioner? Vi behöver en regel för hur mycket allt förminskas. Det är skala. Skalan 1:50 betyder att allt i verkligheten är 50 gånger större än på ritningen. En soffa som är 200 cm lång blir 200/50 = 4 cm på ritningen. Går du åt andra hållet multiplicerar du: 4 cm på ritningen är 4 · 50 = 200 cm i verkligheten.",
   "visual": {
     "type": "tabell",
     "title": "Skala 1:50",

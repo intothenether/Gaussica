@@ -8,7 +8,7 @@
   "prerequisites": ["multiplikation", "enheter"],
   "summary": "Area mäter hur mycket plats en yta täcker. För en rektangel räknar vi rader och kolumner av lika stora rutor.",
   "explanationTitle": "Längd gånger bredd räknar rutorna",
-  "explanation": "En rektangel som är 8 cm lång och 5 cm bred rymmer 8 kolumner med 5 kvadratcentimeter-rutor i varje. Därför är arean 8 × 5 = 40 kvadratcentimeter.",
+  "explanation": "Problemet: Hur stor golvyta ska en matta täcka? Med en linjal kan vi mäta längder, men längd säger inte hur stor yta något täcker. Vi behöver ett sätt att mäta ytor. Vi mäter dem i rutor. En rektangel som är 8 cm lång och 5 cm bred rymmer 8 kolumner med 5 kvadratcentimeter-rutor i varje. Därför är arean 8 × 5 = 40 kvadratcentimeter.",
   "rule": "A = längd · bredd",
   "ruleLabel": "REKTANGELNS AREA",
   "example": "Area skrivs i kvadratenheter, till exempel cm². Omkrets mäter kanten runt formen och använder vanliga längdenheter.",

@@ -12,7 +12,7 @@
   ],
   "summary": "En triangel fyller hälften av en rektangel med samma bas och höjd. Därför är arean bas · höjd/2.",
   "explanationTitle": "Rita in rektangeln",
-  "explanation": "Rita en rektangel runt triangeln så att triangelns bas är rektangelns botten och toppen når den övre kanten. Triangeln täcker precis hälften av rektangeln. Är basen 8 cm och höjden 5 cm har rektangeln arean 8 · 5 = 40 cm², och triangeln 40/2 = 20 cm². Höjden mäts rakt upp, i rät vinkel mot basen. Det är inte samma sak som en av de lutande sidorna.",
+  "explanation": "Problemet: Hur stor yta täcker en triangel? Vi kan räkna rutor i en rektangel, men triangelns sneda sidor passar inte i rutorna. Men vi kan göra om triangeln till något vi redan kan räkna på. Rita en rektangel runt triangeln så att triangelns bas är rektangelns botten och toppen når den övre kanten. Triangeln täcker precis hälften av rektangeln. Är basen 8 cm och höjden 5 cm har rektangeln arean 8 · 5 = 40 cm², och triangeln 40/2 = 20 cm². Höjden mäts rakt upp, i rät vinkel mot basen. Det är inte samma sak som en av de lutande sidorna.",
   "visual": {
     "type": "triangel",
     "base": 8,

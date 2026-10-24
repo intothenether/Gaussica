@@ -8,7 +8,7 @@
   "prerequisites": ["addition", "subtraktion"],
   "summary": "Diagram gör det lättare att jämföra information. Läs rubriken, enheterna och skalan innan du drar slutsatser.",
   "explanationTitle": "Läs skalan innan du jämför staplar",
-  "explanation": "En klass röstade på favoritfrukt. Äpple fick 12 röster, päron 8, banan 5 och apelsin 3. Staplarna visar antalet röster. Samma information kan visas som stapeldiagram, cirkeldiagram eller i en tabell. Skillnaden mellan två värden får du genom subtraktion.",
+  "explanation": "Problemet: En klass har röstat på favoritfrukt, och vi har en lång lista med svar. Det är svårt att se vad de flesta valde. Hur kan vi visa siffrorna så att skillnaden syns direkt? En klass röstade på favoritfrukt. Äpple fick 12 röster, päron 8, banan 5 och apelsin 3. Staplarna visar antalet röster. Samma information kan visas som stapeldiagram, cirkeldiagram eller i en tabell. Skillnaden mellan två värden får du genom subtraktion.",
   "visual": {
     "type": "tabs",
     "title": "Klassens favoritfrukt",

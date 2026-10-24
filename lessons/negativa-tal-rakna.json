@@ -1,0 +1,355 @@
+{
+  "id": "negativa-tal-rakna",
+  "area": "tal",
+  "title": "Räkna med negativa tal",
+  "level": "Addera och subtrahera på tallinjen · ungefär åk 5–6",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "negativa-tal",
+    "subtraktion"
+  ],
+  "summary": "Plus går åt höger på tallinjen och minus åt vänster, även när du startar under noll.",
+  "explanationTitle": "Hur räknar vi med tal under noll?",
+  "explanation": "Problemet: Vi kan skriva tal under noll, men hur räknar vi med dem? Vad är −4 + 7, eller 2 − 6? Vi har varken tabeller eller uppställning för det. Men vi har tallinjen, och den fortsätter åt vänster förbi noll. Lösningen är att räkna som på tallinjen. På tallinjen går du åt höger när du adderar och åt vänster när du subtraherar. Det gäller även under noll. −4 + 7: börja på −4 och gå 7 steg åt höger. Du hamnar på 3. 2 − 6: börja på 2 och gå 6 steg åt vänster. Du hamnar på −4. Att lägga till ett negativt tal är som att dra ifrån: 2 + (−5) = 2 − 5 = −3. Att dra ifrån ett negativt tal är som att lägga till: 4 − (−3) = 4 + 3 = 7. Minus och minus blir alltså plus.",
+  "visual": {
+    "type": "tallinje",
+    "title": "2 − 6 = −4: gå 6 steg åt vänster från 2",
+    "min": -10,
+    "max": 10,
+    "step": 1,
+    "labelEvery": 1,
+    "points": [
+      {
+        "value": 2,
+        "label": "start"
+      },
+      {
+        "value": -4
+      }
+    ],
+    "jumps": [
+      {
+        "from": 2,
+        "to": -4,
+        "label": "−6"
+      }
+    ]
+  },
+  "rule": "Plus: åt höger. Minus: åt vänster. Minus ett minustal: åt höger.",
+  "ruleLabel": "TALLINJEN",
+  "example": "−4 + 7 = 3. 2 − 6 = −4. 2 + (−5) = −3. 4 − (−3) = 7.",
+  "practice": [
+    {
+      "id": "plus-fran-minus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "s": [
+          -9,
+          -1
+        ],
+        "u": [
+          1,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "s+u"
+        }
+      ],
+      "prompt": "Räkna ut {s} + {u}.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Från {s} går du {u} steg åt höger och hamnar på {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s-u"
+          ],
+          "message": "Plus betyder åt höger på tallinjen, inte åt vänster."
+        },
+        {
+          "answers": [
+            "=abs(s)+u"
+          ],
+          "message": "Börja på {s}, som ligger under noll. Gå {u} steg åt höger."
+        }
+      ]
+    },
+    {
+      "id": "minus-under-noll",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "s": [
+          -9,
+          5
+        ],
+        "d": [
+          2,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "s-d",
+          "max": -1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "s-d"
+        }
+      ],
+      "prompt": "Räkna ut {s} − {d}.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Från {s} går du {d} steg åt vänster och hamnar på {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s+d"
+          ],
+          "message": "Minus betyder åt vänster på tallinjen, så du ska ta bort {d}."
+        },
+        {
+          "answers": [
+            "=d-s"
+          ],
+          "message": "Gå {d} steg åt vänster från {s}. Svaret ligger under noll, så det är ett negativt tal."
+        }
+      ]
+    },
+    {
+      "id": "ubat",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "s": [
+          -30,
+          -5
+        ],
+        "u": [
+          2,
+          25
+        ]
+      },
+      "where": [
+        {
+          "expr": "s+u",
+          "max": -1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "s+u"
+        }
+      ],
+      "prompt": "En ubåt är på djupet {s} meter, alltså under ytan. Den stiger {u} meter. Vilket tal visar var ubåten är nu?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Stiger betyder åt höger på tallinjen: {s} + {u} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s-u"
+          ],
+          "message": "Stiger betyder uppåt, mot noll, alltså åt höger på tallinjen. Du ska lägga till {u}."
+        }
+      ]
+    },
+    {
+      "id": "plus-minustal",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a-b"
+        }
+      ],
+      "prompt": "Räkna ut {a} + ({0-b}).",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Att lägga till {0-b} är samma som att dra ifrån {b}: {a} − {b} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a} + ({0-b}) är samma sak som {a} − {b}. Du lägger till ett minustal, alltså går du åt vänster."
+        }
+      ]
+    },
+    {
+      "id": "minus-minustal",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          1,
+          12
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "Räkna ut {a} − ({0-b}).",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Att dra ifrån {0-b} är samma som att lägga till {b}: {a} + {b} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a-b"
+          ],
+          "message": "Att dra ifrån ett minustal är som att lägga till. Minus och minus blir plus."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut −4 + 7.",
+    "answer": [
+      "3"
+    ],
+    "correct": "Rätt! Från −4 går du 7 steg åt höger: −3, −2, −1, 0, 1, 2, 3. Svar: 3.",
+    "feedback": [
+      {
+        "answers": [
+          "-11",
+          "−11"
+        ],
+        "message": "Du har gått åt vänster. Plus betyder åt höger på tallinjen."
+      },
+      {
+        "answers": [
+          "11"
+        ],
+        "message": "Du har lagt ihop 4 och 7. Men −4 ligger under noll. Gå 7 steg åt höger från −4."
+      },
+      {
+        "answers": [
+          "-3",
+          "−3"
+        ],
+        "message": "Nästan! Gå 7 steg åt höger från −4: −3, −2, −1, 0, 1, 2, 3."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En ubåt är på djupet −20 meter. Den stiger 12 meter. Vilket tal visar var ubåten är nu?",
+      "answer": [
+        "-8",
+        "−8"
+      ],
+      "correct": "Rätt! Stiger betyder åt höger: −20 + 12 = −8.",
+      "feedback": [
+        {
+          "answers": [
+            "-32",
+            "−32"
+          ],
+          "message": "Du har gått åt vänster. Stiger betyder uppåt, mot noll, alltså åt höger."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "Talet har rätt storlek men fel tecken. Ubåten är fortfarande under ytan, så svaret är negativt."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 2 + (−5).",
+      "answer": [
+        "-3",
+        "−3"
+      ],
+      "correct": "Rätt! Att lägga till −5 är samma som att dra ifrån 5: 2 − 5 = −3.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "Du har lagt ihop 2 och 5. Men att lägga till −5 är som att dra ifrån 5."
+        },
+        {
+          "answers": [
+            "-7",
+            "−7"
+          ],
+          "message": "Du har räknat 5 steg åt vänster från −2, men du började på 2."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "Talet har rätt storlek men fel tecken. 2 − 5 hamnar under noll."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 4 − (−3).",
+      "answer": [
+        "7"
+      ],
+      "correct": "Rätt! Att dra ifrån −3 är samma som att lägga till 3: 4 + 3 = 7.",
+      "feedback": [
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "Du har dragit ifrån 3. Men att dra ifrån ett minustal är som att lägga till: minus och minus blir plus."
+        },
+        {
+          "answers": [
+            "-7",
+            "−7"
+          ],
+          "message": "Börja på 4 och gå 3 steg åt höger, inte åt vänster. Minus och minus blir plus."
+        },
+        {
+          "answers": [
+            "-1",
+            "−1"
+          ],
+          "message": "Att dra ifrån ett minustal är som att lägga till 3. Gå åt höger från 4."
+        }
+      ]
+    }
+  ]
+}

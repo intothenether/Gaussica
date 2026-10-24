@@ -1,0 +1,328 @@
+{
+  "id": "potenser",
+  "area": "tal",
+  "title": "Potenser",
+  "level": "Upprepad multiplikation · ungefär åk 7–9",
+  "grade": 7,
+  "duration": "9 min",
+  "prerequisites": [
+    "multiplikation",
+    "rakneordning"
+  ],
+  "summary": "En potens är ett kort sätt att skriva en multiplikation där samma tal upprepas.",
+  "explanationTitle": "Hur skriver vi samma tal gånger sig självt många gånger?",
+  "explanation": "Problemet: Hur skriver du 2 · 2 · 2 · 2 · 2 · 2 · 2 · 2 · 2 · 2? Det tar plats, och det är lätt att tappa räkningen på tvåorna. Och vad gör du med tio tior, eller hundra? Gångertecknet räcker inte till när samma tal upprepas många gånger. Vi behöver ett kort skrivsätt. Det kallas potens. En potens är ett kort sätt att skriva en multiplikation där samma tal upprepas. 2 · 2 · 2 · 2 skriver du 2^4. Talet 2 kallas bas och talet 4 kallas exponent. Exponenten säger hur många gånger basen är en faktor. Alltså är 2^4 = 2 · 2 · 2 · 2 = 16. Det är inte samma sak som 2 · 4. Några potenser har egna namn: x^2 läses x i kvadrat och x^3 läses x i kub. Två särfall är bra att kunna. Ett tal upphöjt till 1 är talet själv, 5^1 = 5. Ett tal upphöjt till 0 är alltid 1, 5^0 = 1. Potenser med basen 10 är extra användbara: 10^2 = 100 och 10^3 = 1000. Exponenten visar hur många nollor det är. Kvadratroten är motsatsen till kvadrat: √25 = 5, eftersom 5^2 = 25.",
+  "visual": {
+    "type": "tabell",
+    "title": "Potenser och vad de betyder",
+    "headers": [
+      "Potens",
+      "Räkna så här",
+      "Värde"
+    ],
+    "rows": [
+      [
+        "2^3",
+        "2 · 2 · 2",
+        "8"
+      ],
+      [
+        "3^2",
+        "3 · 3",
+        "9"
+      ],
+      [
+        "5^3",
+        "5 · 5 · 5",
+        "125"
+      ],
+      [
+        "10^4",
+        "10 · 10 · 10 · 10",
+        "10000"
+      ],
+      [
+        "7^1",
+        "7",
+        "7"
+      ],
+      [
+        "7^0",
+        "Alltid 1",
+        "1"
+      ]
+    ]
+  },
+  "rule": "a^n = a · a · … · a, med n stycken a",
+  "ruleLabel": "POTENS",
+  "example": "2^5 = 2 · 2 · 2 · 2 · 2 = 32. Och 10^3 = 10 · 10 · 10 = 1000.",
+  "practice": [
+    {
+      "id": "berakna",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          2,
+          9
+        ],
+        "n": [
+          2,
+          4
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "pow(b,n)"
+        }
+      ],
+      "prompt": "Räkna ut {b}^{n}.",
+      "answer": [
+        "=v"
+      ],
+      "correct": "Rätt! {b}^{n} betyder att {b} multipliceras med sig själv {n} gånger. Det blir {v}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b*n"
+          ],
+          "message": "{b}^{n} är inte {b} · {n}. Exponenten säger hur många gånger {b} multipliceras med sig själv."
+        },
+        {
+          "answers": [
+            "=pow(n,b)"
+          ],
+          "message": "Basen är {b} och exponenten är {n}. Du har bytt plats på dem."
+        }
+      ]
+    },
+    {
+      "id": "kvadrat",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "x": [
+          3,
+          15
+        ]
+      },
+      "prompt": "Räkna ut {x}^2.",
+      "answer": [
+        "=x*x"
+      ],
+      "correct": "Rätt! {x}^2 = {x} · {x} = {x*x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*x"
+          ],
+          "message": "{x}^2 betyder {x} · {x}, inte 2 · {x}."
+        }
+      ]
+    },
+    {
+      "id": "tiopotens",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "e": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "pow(10,e)"
+        }
+      ],
+      "prompt": "Räkna ut 10^{e}.",
+      "answer": [
+        "=v"
+      ],
+      "correct": "Rätt! Exponenten {e} visar hur många nollor det är: 10^{e} = {v}.",
+      "feedback": [
+        {
+          "answers": [
+            "=10*e"
+          ],
+          "message": "10^{e} är 10 multiplicerat med sig själv {e} gånger. Exponenten visar hur många nollor det blir."
+        }
+      ]
+    },
+    {
+      "id": "upphojt-noll",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          2,
+          20
+        ]
+      },
+      "prompt": "Räkna ut {b}^0.",
+      "answer": [
+        "1"
+      ],
+      "correct": "Rätt! Ett tal upphöjt till 0 är alltid 1.",
+      "feedback": [
+        {
+          "answers": [
+            "=0",
+            "=b"
+          ],
+          "message": "Ett tal upphöjt till 0 är alltid 1, vilket tal det än är."
+        }
+      ]
+    },
+    {
+      "id": "upphojt-ett",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          2,
+          20
+        ]
+      },
+      "prompt": "Räkna ut {b}^1.",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! Ett tal upphöjt till 1 är talet själv: {b}^1 = {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=1"
+          ],
+          "message": "Du har svarat som för upphöjt till 0. Upphöjt till 1 betyder att talet är med en gång, alltså talet själv."
+        }
+      ]
+    },
+    {
+      "id": "rot",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "k": [
+          2,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "q",
+          "expr": "k*k"
+        }
+      ],
+      "prompt": "Vad är √{q}? Alltså vilket tal multiplicerat med sig självt blir {q}?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! {k} · {k} = {q}, så √{q} = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=q/2"
+          ],
+          "message": "Det är hälften. Kvadratroten är det tal som ger {q} när det multipliceras med sig självt."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 2^5.",
+    "answer": [
+      "32"
+    ],
+    "correct": "Rätt! 2^5 = 2 · 2 · 2 · 2 · 2 = 32.",
+    "feedback": [
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "Du har räknat 2 · 5. Exponenten 5 säger att 2 ska multipliceras med sig själv 5 gånger."
+      },
+      {
+        "answers": [
+          "25"
+        ],
+        "message": "Du har räknat 5^2. Basen är 2 och exponenten är 5. Du har bytt plats på dem."
+      },
+      {
+        "answers": [
+          "16",
+          "64"
+        ],
+        "message": "Nästan! Skriv ut det: 2 · 2 · 2 · 2 · 2. Räkna femton tvåor, en i taget."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En kvadrat har sidan 9 cm. Arean är sidan gånger sidan, alltså 9^2. Hur många kvadratcentimeter är arean?",
+      "answer": [
+        "81"
+      ],
+      "correct": "Rätt! 9^2 = 9 · 9 = 81.",
+      "feedback": [
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "Du har räknat 9 · 2. 9^2 betyder 9 · 9."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 10^4.",
+      "answer": [
+        "10000"
+      ],
+      "correct": "Rätt! 10^4 = 10 · 10 · 10 · 10 = 10000. Exponenten 4 visar att det är fyra nollor.",
+      "feedback": [
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "Du har räknat 10 · 4. Exponenten 4 visar hur många nollor det blir."
+        },
+        {
+          "answers": [
+            "1000"
+          ],
+          "message": "Det är en nolla för lite. Exponenten 4 betyder fyra nollor."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket tal multiplicerat med sig självt blir 49? Skriv talet.",
+      "answer": [
+        "7"
+      ],
+      "correct": "Rätt! 7 · 7 = 49, så √49 = 7.",
+      "feedback": [
+        {
+          "answers": [
+            "98"
+          ],
+          "message": "Du har dubblat 49. Leta efter ett tal som multiplicerat med sig självt blir 49."
+        },
+        {
+          "answers": [
+            "24",
+            "25"
+          ],
+          "message": "Du har delat 49 med 2. Leta efter ett tal som multiplicerat med sig självt blir 49."
+        }
+      ]
+    }
+  ]
+}

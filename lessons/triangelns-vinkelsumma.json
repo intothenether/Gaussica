@@ -1,0 +1,277 @@
+{
+  "id": "triangelns-vinkelsumma",
+  "area": "geometri",
+  "title": "Vinkelsumman i en triangel",
+  "level": "Räkna ut en vinkel utan att mäta · ungefär åk 6",
+  "grade": 6,
+  "duration": "7 min",
+  "prerequisites": [
+    "vinklar",
+    "triangeln"
+  ],
+  "summary": "I varje triangel är de tre vinklarna tillsammans 180°. Känner du två vinklar kan du räkna ut den tredje.",
+  "explanationTitle": "Alltid 180 grader",
+  "explanation": "Problemet: Du vill veta alla tre vinklarna i en triangel. Att mäta alla med gradskiva tar tid, och mätningen blir aldrig exakt. Men tänk om det finns ett samband, så att du kan räkna ut den sista vinkeln när du känner två? Det finns det. I varje triangel är de tre vinklarna tillsammans 180°. Det gäller alla trianglar, stora som små. Du kan se varför: klipp av hörnen och lägg dem bredvid varandra, så bildar de en rak linje, och en rak linje är 180°. Känner du två vinklar får du den tredje genom att dra ifrån: 180° − 50° − 60° = 70°. I en rätvinklig triangel är en vinkel 90°, så de två andra är tillsammans 90°. I en liksidig triangel är alla vinklar lika stora: 180° delat med 3 är 60°.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tre trianglar, samma summa",
+    "headers": [
+      "Vinkel A",
+      "Vinkel B",
+      "Vinkel C",
+      "Summa"
+    ],
+    "rows": [
+      [
+        "50°",
+        "60°",
+        "70°",
+        "180°"
+      ],
+      [
+        "90°",
+        "30°",
+        "60°",
+        "180°"
+      ],
+      [
+        "60°",
+        "60°",
+        "60°",
+        "180°"
+      ]
+    ]
+  },
+  "rule": "A + B + C = 180°",
+  "ruleLabel": "VINKELSUMMA",
+  "example": "Vinklarna 40° och 75°: 180° − 40° − 75° = 65°.",
+  "practice": [
+    {
+      "id": "tredje",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          20,
+          80
+        ],
+        "b": [
+          20,
+          80
+        ]
+      },
+      "where": [
+        {
+          "expr": "a+b",
+          "max": 150
+        }
+      ],
+      "derive": [
+        {
+          "name": "c",
+          "expr": "180-a-b"
+        }
+      ],
+      "prompt": "I en triangel är två vinklar {a}° och {b}°. Hur stor är den tredje vinkeln?",
+      "answer": [
+        "=c",
+        "{c}°",
+        "{c} grader"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b}, och 180 − {a+b} = {c}. Den tredje vinkeln är {c}°.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b",
+            "{a+b}°"
+          ],
+          "message": "{a+b}° är de två vinklarna tillsammans. Dra ifrån dem från 180°."
+        },
+        {
+          "answers": [
+            "=180-a",
+            "=180-b"
+          ],
+          "message": "Du har bara dragit ifrån en av vinklarna. Dra ifrån båda från 180°."
+        }
+      ]
+    },
+    {
+      "id": "ratvinklig",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          20,
+          70
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "90-a"
+        }
+      ],
+      "prompt": "I en rätvinklig triangel är en av de spetsiga vinklarna {a}°. Hur stor är den andra spetsiga vinkeln?",
+      "answer": [
+        "=c",
+        "{c}°",
+        "{c} grader"
+      ],
+      "correct": "Rätt! Den räta vinkeln är 90°. De två andra är tillsammans 90°, så 90 − {a} = {c}.",
+      "feedback": [
+        {
+          "answers": [
+            "=180-a"
+          ],
+          "message": "Du har dragit ifrån från 180°, men en vinkel är redan 90°. De två andra är tillsammans 90°."
+        }
+      ]
+    },
+    {
+      "id": "likbent",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          30,
+          80
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "180-2*a"
+        }
+      ],
+      "prompt": "I en likbent triangel är de två lika stora vinklarna {a}° var. Hur stor är den tredje vinkeln?",
+      "answer": [
+        "=c",
+        "{c}°",
+        "{c} grader"
+      ],
+      "correct": "Rätt! {a} + {a} = {2*a}, och 180 − {2*a} = {c}.",
+      "feedback": [
+        {
+          "answers": [
+            "=180-a"
+          ],
+          "message": "Du har bara dragit ifrån en av de lika stora vinklarna. Dra ifrån båda."
+        },
+        {
+          "answers": [
+            "=2*a"
+          ],
+          "message": "{2*a}° är de två lika stora vinklarna tillsammans. Dra ifrån dem från 180°."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "I en triangel är två vinklar 50° och 60°. Hur stor är den tredje vinkeln?",
+    "answer": [
+      "70",
+      "70°",
+      "70 grader"
+    ],
+    "correct": "Rätt! 50 + 60 = 110, och 180 − 110 = 70. Den tredje vinkeln är 70°.",
+    "feedback": [
+      {
+        "answers": [
+          "110",
+          "110°"
+        ],
+        "message": "110° är de två vinklarna tillsammans. Dra ifrån dem från 180°."
+      },
+      {
+        "answers": [
+          "130",
+          "130°",
+          "120",
+          "120°"
+        ],
+        "message": "Du har bara dragit ifrån en av vinklarna. Dra ifrån båda från 180°."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "I en rätvinklig triangel är en spetsig vinkel 35°. Hur stor är den andra spetsiga vinkeln?",
+      "answer": [
+        "55",
+        "55°",
+        "55 grader"
+      ],
+      "correct": "Rätt! De två spetsiga vinklarna är tillsammans 90°, så 90 − 35 = 55.",
+      "feedback": [
+        {
+          "answers": [
+            "145",
+            "145°"
+          ],
+          "message": "Du har dragit ifrån från 180°, men den räta vinkeln är redan 90°. De andra två är tillsammans 90°."
+        },
+        {
+          "answers": [
+            "90",
+            "90°"
+          ],
+          "message": "90° är den räta vinkeln. Frågan gäller den andra spetsiga vinkeln."
+        }
+      ]
+    },
+    {
+      "prompt": "I en liksidig triangel är alla vinklar lika stora. Hur stor är varje vinkel?",
+      "answer": [
+        "60",
+        "60°",
+        "60 grader"
+      ],
+      "correct": "Rätt! 180 delat med 3 är 60, så varje vinkel är 60°.",
+      "feedback": [
+        {
+          "answers": [
+            "180",
+            "180°"
+          ],
+          "message": "180° är summan av alla tre vinklar. Dela den lika på tre vinklar."
+        },
+        {
+          "answers": [
+            "90",
+            "90°"
+          ],
+          "message": "90° är en rät vinkel. Dela 180° lika på tre vinklar."
+        }
+      ]
+    },
+    {
+      "prompt": "I en likbent triangel är de två lika stora vinklarna 40° var. Hur stor är den tredje vinkeln?",
+      "answer": [
+        "100",
+        "100°",
+        "100 grader"
+      ],
+      "correct": "Rätt! 40 + 40 = 80, och 180 − 80 = 100.",
+      "feedback": [
+        {
+          "answers": [
+            "140",
+            "140°"
+          ],
+          "message": "Du har bara dragit ifrån en av de lika stora vinklarna. Dra ifrån båda."
+        },
+        {
+          "answers": [
+            "80",
+            "80°"
+          ],
+          "message": "80° är de två lika stora vinklarna tillsammans. Dra ifrån dem från 180°."
+        }
+      ]
+    }
+  ]
+}

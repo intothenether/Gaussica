@@ -1,0 +1,309 @@
+{
+  "id": "volym",
+  "area": "matning",
+  "title": "Volym",
+  "level": "Hur mycket rymmer en låda? · ungefär åk 5–6",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "rektangelns-area",
+    "multiplikation"
+  ],
+  "summary": "Volym säger hur mycket rum något tar eller rymmer. För en låda räknar du längd gånger bredd gånger höjd.",
+  "explanationTitle": "Lager på lager av kuber",
+  "explanation": "Problemet: Area säger hur stor en yta är. Men hur mycket vatten rymmer ett akvarium, eller hur många sockerbitar får plats i en låda? Det är inte en yta, för lådan har också höjd. Vi behöver ett sätt att mäta hur mycket rum något tar. Det kallas volym. Volym mäts i kubikenheter, som kubikcentimeter (cm³) och kubikmeter (m³). En kubikcentimeter är en liten kub som är 1 cm på alla håll. Volymen är hur många sådana kuber som får plats. För ett rätblock, en låda med raka sidor, räknar du först hur många kuber som får plats i botten: längd gånger bredd. Sedan räknar du hur många lager det blir: höjden. Volym = längd · bredd · höjd. Ett block som är 4 cm långt, 3 cm brett och 2 cm högt har volymen 4 · 3 · 2 = 24 cm³. Vätskor mäts ofta i liter. 1 liter är 1000 cm³.",
+  "visual": {
+    "type": "tabell",
+    "title": "Botten gånger höjd",
+    "headers": [
+      "Längd",
+      "Bredd",
+      "Höjd",
+      "Kuber i botten",
+      "Volym"
+    ],
+    "rows": [
+      [
+        "4 cm",
+        "3 cm",
+        "2 cm",
+        "4 · 3 = 12",
+        "12 · 2 = 24 cm³"
+      ],
+      [
+        "5 cm",
+        "2 cm",
+        "3 cm",
+        "5 · 2 = 10",
+        "10 · 3 = 30 cm³"
+      ]
+    ]
+  },
+  "rule": "Volym = längd · bredd · höjd",
+  "ruleLabel": "VOLYM",
+  "example": "En låda som är 10 cm lång, 5 cm bred och 4 cm hög har volymen 10 · 5 · 4 = 200 cm³.",
+  "practice": [
+    {
+      "id": "volym",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "l": [
+          2,
+          12
+        ],
+        "b": [
+          2,
+          10
+        ],
+        "h": [
+          2,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "l*b*h"
+        },
+        {
+          "name": "g",
+          "expr": "l*b"
+        }
+      ],
+      "prompt": "Ett block är {l} cm långt, {b} cm brett och {h} cm högt. Hur stor är volymen i cm³?",
+      "answer": [
+        "=v",
+        "{v} cm³",
+        "{v} cm3"
+      ],
+      "correct": "Rätt! Botten rymmer {l} · {b} = {g} kuber, och det är {h} lager. {g} · {h} = {v} cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "=l+b+h"
+          ],
+          "message": "Du har lagt ihop måtten. Volymen får du genom att multiplicera längd, bredd och höjd."
+        },
+        {
+          "answers": [
+            "=g",
+            "{g} cm³",
+            "{g} cm3"
+          ],
+          "message": "{g} är bara kuberna i botten. Multiplicera också med höjden, alltså antalet lager."
+        }
+      ]
+    },
+    {
+      "id": "kub",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "s": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "s*s*s"
+        }
+      ],
+      "prompt": "Hur stor volym har en kub med sidan {s} cm?",
+      "answer": [
+        "=v",
+        "{v} cm³",
+        "{v} cm3"
+      ],
+      "correct": "Rätt! I en kub är längd, bredd och höjd lika långa: {s} · {s} · {s} = {v} cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "=s*s"
+          ],
+          "message": "{s*s} är arean av en sida. Multiplicera med {s} en gång till."
+        },
+        {
+          "answers": [
+            "=3*s"
+          ],
+          "message": "Du har multiplicerat {s} med 3. Volymen är {s} · {s} · {s}."
+        }
+      ]
+    },
+    {
+      "id": "hojd-saknas",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "l": [
+          2,
+          10
+        ],
+        "b": [
+          2,
+          8
+        ],
+        "h": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "l*b*h"
+        }
+      ],
+      "prompt": "En låda har volymen {v} cm³. Botten är {l} cm lång och {b} cm bred. Hur hög är lådan?",
+      "answer": [
+        "=h",
+        "{h} cm"
+      ],
+      "correct": "Rätt! Botten har arean {l} · {b} = {l*b}. {v}/{l*b} = {h}, så lådan är {h} cm hög.",
+      "feedback": [
+        {
+          "answers": [
+            "=l*b"
+          ],
+          "message": "{l*b} är bottenarean. Dela volymen {v} med bottenarean för att få höjden."
+        }
+      ]
+    },
+    {
+      "id": "liter",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "k": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "k*1000"
+        }
+      ],
+      "prompt": "En låda rymmer {v} cm³ vatten. 1 liter är 1000 cm³. Hur många liter är det?",
+      "answer": [
+        "=k",
+        "{k} liter"
+      ],
+      "correct": "Rätt! {v}/1000 = {k} liter.",
+      "feedback": [
+        {
+          "answers": [
+            "=v"
+          ],
+          "message": "{v} är kubikcentimeter. 1000 cm³ är 1 liter, så dela med 1000."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Ett block är 4 cm långt, 3 cm brett och 2 cm högt. Hur stor är volymen i cm³?",
+    "answer": [
+      "24",
+      "24 cm³",
+      "24 cm3"
+    ],
+    "correct": "Rätt! Botten rymmer 4 · 3 = 12 kuber, och det är 2 lager. 12 · 2 = 24 cm³.",
+    "feedback": [
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "Du har lagt ihop måtten. Volymen får du genom att multiplicera längd, bredd och höjd."
+      },
+      {
+        "answers": [
+          "12",
+          "12 cm³",
+          "12 cm3"
+        ],
+        "message": "12 är bara kuberna i botten. Multiplicera också med höjden 2, alltså antalet lager."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En kartong är 10 cm lång, 5 cm bred och 4 cm hög. Hur många kubikcentimeter rymmer den?",
+      "answer": [
+        "200",
+        "200 cm³",
+        "200 cm3"
+      ],
+      "correct": "Rätt! 10 · 5 = 50 kuber i botten, och 4 lager: 50 · 4 = 200 cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "19"
+          ],
+          "message": "Du har lagt ihop måtten. Multiplicera dem i stället."
+        },
+        {
+          "answers": [
+            "50",
+            "50 cm³",
+            "50 cm3"
+          ],
+          "message": "50 är kuberna i botten. Multiplicera också med höjden 4."
+        }
+      ]
+    },
+    {
+      "prompt": "En kub har sidan 3 cm. Hur stor är volymen?",
+      "answer": [
+        "27",
+        "27 cm³",
+        "27 cm3"
+      ],
+      "correct": "Rätt! 3 · 3 · 3 = 27 cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "9",
+            "9 cm²"
+          ],
+          "message": "9 är arean av en sida. Multiplicera med 3 en gång till för att få volymen."
+        },
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "Du har räknat 3 · 2 · 3. Alla tre måtten är 3."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett akvarium rymmer 60000 cm³ vatten. 1 liter är 1000 cm³. Hur många liter är det?",
+      "answer": [
+        "60",
+        "60 liter"
+      ],
+      "correct": "Rätt! 60000/1000 = 60 liter.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Du har tagit bort fyra nollor. Dela med 1000 tar bort tre nollor."
+        },
+        {
+          "answers": [
+            "600"
+          ],
+          "message": "Du har tagit bort två nollor. Dela med 1000 tar bort tre nollor."
+        }
+      ]
+    }
+  ]
+}

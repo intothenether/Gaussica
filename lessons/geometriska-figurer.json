@@ -8,7 +8,7 @@
   "prerequisites": [],
   "summary": "Figurer får sina namn efter hur många sidor och hörn de har. En triangel har tre, en kvadrat har fyra.",
   "explanationTitle": "Räkna sidor och hörn",
-  "explanation": "En sida är en rak kant och ett hörn är där två sidor möts. En triangel har 3 sidor och 3 hörn, en fyrhörning har 4 och en femhörning har 5. En cirkel har ingen rak sida och inget hörn.",
+  "explanation": "Problemet: Hur beskriver vi en form så att en kompis vet vilken du menar utan att se den? Vi behöver ord för det som skiljer figurer åt, som sidor och hörn. En sida är en rak kant och ett hörn är där två sidor möts. En triangel har 3 sidor och 3 hörn, en fyrhörning har 4 och en femhörning har 5. En cirkel har ingen rak sida och inget hörn.",
   "visual": {
     "type": "figurer",
     "title": "Några vanliga figurer",

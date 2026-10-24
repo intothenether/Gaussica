@@ -1,0 +1,276 @@
+{
+  "id": "addition-uppstallning",
+  "area": "tal",
+  "title": "Addition med uppställning",
+  "level": "Lägg ihop stora tal på papper · ungefär åk 3–4",
+  "grade": 3,
+  "duration": "7 min",
+  "prerequisites": [
+    "addition",
+    "platsvarde"
+  ],
+  "summary": "Med uppställning lägger du ihop stora tal en plats i taget, med entalen först.",
+  "explanationTitle": "Hur lägger vi ihop stora tal?",
+  "explanation": "Problemet: Med tallinjen och huvudräkning går det bra att räkna 38 + 47. Men hur gör du med 478 + 356? Det blir många steg, och det är lätt att tappa bort sig. Vi behöver en metod som fungerar för tal av vilken storlek som helst. Lösningen heter uppställning. Uppställning är ett sätt att räkna stora tal på papper. Du lägger ihop en plats i taget, från höger till vänster. Steg 1: Skriv talen under varandra så att entalen står under entalen, tiotalen under tiotalen och hundratalen under hundratalen. Steg 2: Lägg ihop entalen. Blir det tio eller mer skriver du entalssiffran under strecket och minns tiotalet. Minnessiffran skriver du som en liten siffra ovanför nästa plats. Steg 3: Lägg ihop tiotalen och minnessiffran. Upprepa tills alla platser är klara. Steg 4: Kolla att svaret är rimligt med en överslagsräkning. Tryck på Nästa steg i bilden nedan och följ med när 478 + 356 räknas ut.",
+  "visual": {
+    "type": "uppstallning",
+    "op": "+",
+    "a": 478,
+    "b": 356,
+    "title": "478 + 356 steg för steg"
+  },
+  "components": [
+    {
+      "type": "uppstallning",
+      "op": "+",
+      "a": 285,
+      "b": 149,
+      "title": "Ett exempel till: 285 + 149"
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
+  "rule": "Börja med entalen. Blir det tio eller mer: skriv entalssiffran och minns tiotalet.",
+  "ruleLabel": "UPPSTÄLLNING",
+  "example": "38 + 47: 8 + 7 = 15, skriv 5 och minns 1. Sedan 3 + 4 + 1 = 8. Svar: 85.",
+  "practice": [
+    {
+      "id": "tva-tal",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          12,
+          89
+        ],
+        "b": [
+          12,
+          89
+        ]
+      },
+      "prompt": "Räkna ut {a} + {b} med uppställning.",
+      "answer": [
+        "=a+b"
+      ],
+      "correct": "Rätt! Entalen: {mod(a,10)} + {mod(b,10)} = {mod(a,10)+mod(b,10)}. Svaret är {a+b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(floor(a/10)+floor(b/10))*10+mod(mod(a,10)+mod(b,10),10)"
+          ],
+          "message": "Du glömde minnessiffran. När entalen blir tio eller mer minns du tiotalet och lägger till det på tiotalen."
+        }
+      ]
+    },
+    {
+      "id": "tre-siffror",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          101,
+          799
+        ],
+        "b": [
+          101,
+          799
+        ]
+      },
+      "prompt": "Räkna ut {a} + {b} med uppställning.",
+      "answer": [
+        "=a+b"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a-b",
+            "=b-a"
+          ],
+          "message": "Du har dragit ifrån. Här ska du lägga ihop talen."
+        }
+      ]
+    },
+    {
+      "id": "samlingen",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ],
+        "sak": [
+          "klistermärken",
+          "kort",
+          "pärlor",
+          "kulor"
+        ]
+      },
+      "vars": {
+        "a": [
+          120,
+          480
+        ],
+        "b": [
+          120,
+          480
+        ]
+      },
+      "prompt": "{$namn} har {a} {$sak} och får {b} till. Hur många {$sak} har {$namn} sammanlagt?",
+      "answer": [
+        "=a+b"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a-b",
+            "=b-a"
+          ],
+          "message": "Du har dragit ifrån. {$namn} får fler, så du ska lägga ihop."
+        }
+      ]
+    },
+    {
+      "id": "overslag",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "t": [
+          2,
+          8
+        ],
+        "u": [
+          1,
+          4
+        ],
+        "s": [
+          2,
+          8
+        ],
+        "v": [
+          6,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "10*t+u"
+        },
+        {
+          "name": "b",
+          "expr": "10*s+v"
+        },
+        {
+          "name": "r",
+          "expr": "10*t+10*(s+1)"
+        }
+      ],
+      "prompt": "Gör en överslagsräkning: avrunda {a} och {b} till närmaste tiotal och räkna ut ungefär hur mycket {a} + {b} är.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} avrundas till {10*t} och {b} till {10*s+10}. Överslaget är {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} är det exakta svaret. Vid en överslagsräkning räknar du med de avrundade talen."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 38 + 47 med uppställning.",
+    "answer": [
+      "85"
+    ],
+    "correct": "Rätt! 8 + 7 = 15, skriv 5 och minns 1. 3 + 4 + 1 = 8. Svar: 85.",
+    "feedback": [
+      {
+        "answers": [
+          "75"
+        ],
+        "message": "Du glömde minnessiffran. 8 + 7 = 15: skriv 5 och minns tiotalet 1. Lägg till det på tiotalen."
+      },
+      {
+        "answers": [
+          "715"
+        ],
+        "message": "Skriv bara entalssiffran 5 och minns tiotalet 1. Lägg sedan till 1 när du räknar tiotalen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Elsa har 256 klistermärken och får 189 till. Hur många klistermärken har hon sammanlagt?",
+      "answer": [
+        "445"
+      ],
+      "correct": "Rätt! 6 + 9 = 15, skriv 5 och minns 1. 5 + 8 + 1 = 14, skriv 4 och minns 1. 2 + 1 + 1 = 4. Svar: 445.",
+      "feedback": [
+        {
+          "answers": [
+            "335",
+            "345",
+            "435"
+          ],
+          "message": "Du glömde en minnessiffra. När en plats blir tio eller mer minns du tiotalet och lägger till det på nästa plats."
+        }
+      ]
+    },
+    {
+      "prompt": "En bok har 348 sidor och en annan bok har 275 sidor. Hur många sidor är det tillsammans?",
+      "answer": [
+        "623"
+      ],
+      "correct": "Rätt! 8 + 5 = 13, skriv 3 och minns 1. 4 + 7 + 1 = 12, skriv 2 och minns 1. 3 + 2 + 1 = 6. Svar: 623.",
+      "feedback": [
+        {
+          "answers": [
+            "513",
+            "523",
+            "613"
+          ],
+          "message": "Du glömde en minnessiffra. När en plats blir tio eller mer minns du tiotalet och lägger till det på nästa plats."
+        }
+      ]
+    },
+    {
+      "prompt": "Du vill veta ungefär hur mycket 38 + 47 är. Avrunda talen till närmaste tiotal och räkna ut svaret.",
+      "answer": [
+        "90"
+      ],
+      "correct": "Rätt! 38 avrundas till 40 och 47 till 50. 40 + 50 = 90.",
+      "feedback": [
+        {
+          "answers": [
+            "85"
+          ],
+          "message": "85 är det exakta svaret. Vid en överslagsräkning räknar du med de avrundade talen 40 och 50."
+        }
+      ]
+    }
+  ]
+}

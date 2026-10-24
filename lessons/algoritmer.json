@@ -11,8 +11,8 @@
     "multiplikation"
   ],
   "summary": "En algoritm är en lista med steg som du följer i rätt ordning. Ordningen avgör vilket svar du får.",
-  "explanationTitle": "Följ stegen i ordning",
-  "explanation": "En algoritm är en lista med steg som du följer i exakt rätt ordning för att lösa ett problem. Ett recept är en algoritm. Uppställning är också en algoritm. Datorer följer algoritmer. En bra algoritm är tydlig: varje steg säger precis vad du ska göra, och om du följer den får du alltid rätt svar. Exempel: starta med 4, dubbla talet och lägg till 3. Då blir det 4, sedan 8 och sist 11. Ibland upprepas ett steg: starta med 5 och upprepa 3 gånger att lägga till 2. Då får du 7, 9 och 11. Ordningen är viktig. Om du lägger till 3 först (4 + 3 = 7) och dubblar sedan blir svaret 14, inte 11.",
+  "explanationTitle": "Hur berättar vi exakt hur man räknar?",
+  "explanation": "Problemet: Vi har lärt oss många metoder, som uppställning, kortdivision och överslag. Men hur kan vi beskriva en metod så tydligt att en kompis, eller en dator, kan följa den utan att tänka själv? Det vi behöver är en lista med steg som alltid ger rätt svar. Det kallas en algoritm. En algoritm är en lista med steg som du följer i exakt rätt ordning för att lösa ett problem. Ett recept är en algoritm. Uppställning är också en algoritm. Datorer följer algoritmer. En bra algoritm är tydlig: varje steg säger precis vad du ska göra, och om du följer den får du alltid rätt svar. Exempel: starta med 4, dubbla talet och lägg till 3. Då blir det 4, sedan 8 och sist 11. Ibland upprepas ett steg: starta med 5 och upprepa 3 gånger att lägga till 2. Då får du 7, 9 och 11. Ordningen är viktig. Om du lägger till 3 först (4 + 3 = 7) och dubblar sedan blir svaret 14, inte 11.",
   "visual": {
     "type": "tabell",
     "title": "Algoritm: starta med 4, dubbla, lägg till 3",

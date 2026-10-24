@@ -11,7 +11,7 @@
   ],
   "summary": "Omkretsen av en triangel är längden av alla tre sidor tillsammans.",
   "explanationTitle": "Gå runt alla tre sidorna",
-  "explanation": "En triangel har tre sidor som kan vara olika långa. Har sidorna längderna 5 cm, 6 cm och 7 cm är omkretsen 5 + 6 + 7 = 18 cm. I en liksidig triangel är alla sidor lika långa, så där är omkretsen 3 gånger sidan.",
+  "explanation": "Problemet: Hur långt är det runt en triangel? Den har tre sidor som kan vara olika långa, så vi har ingen genväg som för kvadraten. Vad gör vi då? En triangel har tre sidor som kan vara olika långa. Har sidorna längderna 5 cm, 6 cm och 7 cm är omkretsen 5 + 6 + 7 = 18 cm. I en liksidig triangel är alla sidor lika långa, så där är omkretsen 3 gånger sidan.",
   "visual": {
     "type": "triangel",
     "base": 6,

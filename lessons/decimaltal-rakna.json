@@ -1,0 +1,320 @@
+{
+  "id": "decimaltal-rakna",
+  "area": "tal",
+  "title": "Räkna med decimaltal",
+  "level": "Komma under komma · ungefär åk 5",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "decimaltal",
+    "addition-uppstallning"
+  ],
+  "summary": "Decimaltal lägger du ihop och drar ifrån med uppställning, om du ställer upp komma under komma.",
+  "explanationTitle": "Komma under komma",
+  "explanation": "Problemet: Du har sprungit 2,5 km på lördagen och 1,75 km på söndagen. Hur långt har du sprungit tillsammans? Vi kan skriva decimaltal, men hur lägger vi ihop dem? Talen har olika många decimaler, och det är lätt att lägga ihop fel platser. Vi behöver ställa upp dem så att rätt platser möts. Decimaltal lägger du ihop och drar ifrån med uppställning, precis som vanliga tal. Nyckeln är att ställa upp kommatecknet under kommatecknet. Då hamnar tiondelar under tiondelar och hundradelar under hundradelar. Fyll gärna ut med nollor så att talen har lika många decimaler: 2,5 blir 2,50. Räkna sedan som vanligt från höger, och sätt kommatecknet i svaret rakt under de andra. 2,50 + 1,75 = 4,25. Vid multiplikation med ett heltal räknar du som vanligt och ger svaret lika många decimaler som decimaltalet har: 3 · 1,5 = 4,5.",
+  "visual": {
+    "type": "tabell",
+    "title": "2,50 + 1,75: komma under komma",
+    "headers": [
+      "Tal",
+      "Ental",
+      "Tiondelar",
+      "Hundradelar"
+    ],
+    "rows": [
+      [
+        "2,50",
+        "2",
+        "5",
+        "0"
+      ],
+      [
+        "+ 1,75",
+        "1",
+        "7",
+        "5"
+      ],
+      [
+        "= 4,25",
+        "4",
+        "2",
+        "5"
+      ]
+    ]
+  },
+  "rule": "Ställ upp komma under komma, och räkna sedan som vanligt",
+  "ruleLabel": "DECIMALTAL",
+  "example": "3,4 + 2,65 = 3,40 + 2,65 = 6,05. Och 5,6 − 2,35 = 5,60 − 2,35 = 3,25.",
+  "practice": [
+    {
+      "id": "plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          11,
+          99
+        ],
+        "b": [
+          11,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "a/10"
+        },
+        {
+          "name": "y",
+          "expr": "b/10"
+        },
+        {
+          "name": "s",
+          "expr": "(a+b)/10"
+        }
+      ],
+      "prompt": "Räkna ut {x} + {y}.",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! Tiondelarna läggs ihop med tiondelar och entalen med ental. {x} + {y} = {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(a+b)/100",
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop siffrorna som om kommatecknet inte fanns. Ställ upp komma under komma och sätt kommatecknet i svaret."
+        }
+      ]
+    },
+    {
+      "id": "olika-decimaler",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          11,
+          59
+        ],
+        "b": [
+          101,
+          299
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "a/10"
+        },
+        {
+          "name": "y",
+          "expr": "b/100"
+        },
+        {
+          "name": "s",
+          "expr": "a/10+b/100"
+        }
+      ],
+      "prompt": "Räkna ut {x} + {y}.",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! Skriv {x} med två decimaler och ställ upp komma under komma. Då blir summan {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(a+b)/100",
+            "=(a+b)/10",
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop siffrorna som om kommatecknet inte fanns. {x} har en decimal och {y} har två. Ställ upp komma under komma."
+        }
+      ]
+    },
+    {
+      "id": "minus",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          51,
+          99
+        ],
+        "b": [
+          11,
+          50
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "a/10"
+        },
+        {
+          "name": "y",
+          "expr": "b/10"
+        },
+        {
+          "name": "s",
+          "expr": "(a-b)/10"
+        }
+      ],
+      "prompt": "Räkna ut {x} − {y}.",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! {x} − {y} = {s}. Kontroll: {s} + {y} = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(a-b)/100",
+            "=a-b"
+          ],
+          "message": "Du har dragit ifrån siffrorna som om kommatecknet inte fanns. Ställ upp komma under komma."
+        }
+      ]
+    },
+    {
+      "id": "gange-heltal",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          11,
+          49
+        ],
+        "n": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "a/10"
+        },
+        {
+          "name": "s",
+          "expr": "a*n/10"
+        }
+      ],
+      "prompt": "En flaska rymmer {x} liter. Hur många liter rymmer {n} flaskor?",
+      "answer": [
+        "=s",
+        "{s} liter"
+      ],
+      "correct": "Rätt! {n} · {a} = {a*n}. {x} har en decimal, så svaret får en decimal: {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*n"
+          ],
+          "message": "Du har glömt kommatecknet. {x} har en decimal, så svaret ska också ha en decimal."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 2,5 + 1,75.",
+    "answer": [
+      "4,25",
+      "4.25"
+    ],
+    "correct": "Rätt! 2,50 + 1,75: hundradelar 0 + 5 = 5, tiondelar 5 + 7 = 12 (skriv 2, minns 1), ental 2 + 1 + 1 = 4. Svar: 4,25.",
+    "feedback": [
+      {
+        "answers": [
+          "200",
+          "2"
+        ],
+        "message": "Du har lagt ihop 25 och 175 som om kommatecknet inte fanns. 2,5 har en decimal och 1,75 har två. Ställ upp komma under komma och skriv 2,50."
+      },
+      {
+        "answers": [
+          "3,25",
+          "3.25"
+        ],
+        "message": "Du glömde minnessiffran när tiondelarna blev 12. Skriv 2 och minns 1 till entalen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Mira springer 2,4 km på lördagen och 3,8 km på söndagen. Hur många kilometer springer hon tillsammans?",
+      "answer": [
+        "6,2",
+        "6.2",
+        "6,2 km"
+      ],
+      "correct": "Rätt! Tiondelar: 4 + 8 = 12, skriv 2 och minns 1. Ental: 2 + 3 + 1 = 6. Svar: 6,2 km.",
+      "feedback": [
+        {
+          "answers": [
+            "5,2",
+            "5.2"
+          ],
+          "message": "Du glömde minnessiffran när tiondelarna blev 12."
+        },
+        {
+          "answers": [
+            "62"
+          ],
+          "message": "Du har glömt kommatecknet i svaret. Sätt det under de andra kommatecknen."
+        }
+      ]
+    },
+    {
+      "prompt": "En vattenflaska rymmer 1,5 liter. Hur många liter rymmer 4 flaskor?",
+      "answer": [
+        "6",
+        "6 liter"
+      ],
+      "correct": "Rätt! 4 · 15 = 60, och 1,5 har en decimal, så svaret är 6,0 = 6 liter.",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "Du har glömt kommatecknet. 1,5 har en decimal, så svaret ska ha en decimal."
+        },
+        {
+          "answers": [
+            "5,5",
+            "5.5"
+          ],
+          "message": "Du har lagt ihop 1,5 och 4. Det är 4 flaskor med 1,5 liter i varje, så du ska multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "Du har 5,60 m tyg och klipper bort 2,35 m. Hur många meter är kvar?",
+      "answer": [
+        "3,25",
+        "3.25",
+        "3,25 m"
+      ],
+      "correct": "Rätt! 5,60 − 2,35: hundradelar 0 − 5 går inte, så du lånar. Svar: 3,25 m.",
+      "feedback": [
+        {
+          "answers": [
+            "7,95",
+            "7.95"
+          ],
+          "message": "Du har lagt ihop talen. Du klipper bort tyg, så det blir mindre kvar."
+        },
+        {
+          "answers": [
+            "325"
+          ],
+          "message": "Du har glömt kommatecknet i svaret. Sätt det under de andra kommatecknen."
+        }
+      ]
+    }
+  ]
+}

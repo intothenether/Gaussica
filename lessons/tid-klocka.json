@@ -8,7 +8,7 @@
   "prerequisites": ["addition", "subtraktion"],
   "summary": "Klockan delar en timme i 60 minuter. När vi räknar tid behöver vi därför växla mellan minuter och timmar.",
   "explanationTitle": "En timme är 60 minuter",
-  "explanation": "Klockan visar 14:35. Fyrtio minuter senare har 25 minuter gått fram till 15:00 och ytterligare 15 minuter till 15:15. Tiden skrivs med timmar och minuter, inte som hundratal.",
+  "explanation": "Problemet: Klockan visar 14:35. Hur lång tid är det till 15:15? Du kan inte räkna som med vanliga tal, för en timme är inte 100 minuter. Vi behöver räkna med timmar och minuter på ett eget sätt. Klockan visar 14:35. Fyrtio minuter senare har 25 minuter gått fram till 15:00 och ytterligare 15 minuter till 15:15. Tiden skrivs med timmar och minuter, inte som hundratal.",
   "rule": "60 minuter = 1 timme",
   "ruleLabel": "TID VÄXLAR VID 60",
   "example": "Från 14:35 till 15:00 är det 25 minuter. Lägg till de återstående 15 minuterna för att få 40 minuter totalt.",

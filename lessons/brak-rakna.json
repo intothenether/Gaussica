@@ -1,0 +1,438 @@
+{
+  "id": "brak-rakna",
+  "area": "tal",
+  "title": "Räkna med bråk",
+  "level": "Addera, subtrahera och ta del av ett antal · ungefär åk 5–6",
+  "grade": 5,
+  "duration": "9 min",
+  "prerequisites": [
+    "brak-likavarda",
+    "addition",
+    "subtraktion"
+  ],
+  "summary": "Bråk med samma nämnare kan du lägga ihop och dra ifrån direkt. Du kan också räkna ut en del av ett antal.",
+  "explanationTitle": "Hur räknar vi när talen är bråk?",
+  "explanation": "Problemet: Vi kan jämföra bråk och skriva samma värde på olika sätt. Men vad är 2/7 + 3/7? Och hur mycket är 3/4 av 12? Vi har hittills bara jämfört bråk, inte räknat med dem. Bra nyhet: delar av samma storlek går att räkna precis som vanliga saker. Har bråken samma nämnare är delarna lika stora, så du räknar bara täljarna: 2/7 + 3/7 = 5/7. Nämnaren ändras inte. På samma sätt är 5/7 − 2/7 = 3/7. Har bråken olika nämnare måste du först göra delarna lika stora. För att räkna ut 1/2 + 1/4 förlänger du 1/2 till 2/4. Sedan är 2/4 + 1/4 = 3/4. Du kan också räkna ut en del av ett antal. 3/4 av 12: dela först 12 i 4 lika delar (12/4 = 3) och ta sedan 3 sådana delar (3 · 3 = 9).",
+  "visual": {
+    "type": "tabell",
+    "title": "Tre sätt att räkna med bråk",
+    "headers": [
+      "Räkning",
+      "Så gör du",
+      "Svar"
+    ],
+    "rows": [
+      [
+        "2/7 + 3/7",
+        "Lägg ihop täljarna, behåll nämnaren",
+        "5/7"
+      ],
+      [
+        "1/2 + 1/4",
+        "Förläng 1/2 till 2/4 först",
+        "3/4"
+      ],
+      [
+        "3/4 av 12",
+        "12/4 = 3 och 3 · 3 = 9",
+        "9"
+      ]
+    ]
+  },
+  "rule": "Samma nämnare: räkna täljarna och behåll nämnaren",
+  "ruleLabel": "BRÅK MED SAMMA NÄMNARE",
+  "example": "4/9 + 2/9 = 6/9. 5/8 − 3/8 = 2/8. Olika nämnare: 1/2 + 1/4 = 2/4 + 1/4 = 3/4.",
+  "practice": [
+    {
+      "id": "plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          4,
+          12
+        ],
+        "a": [
+          1,
+          5
+        ],
+        "c": [
+          1,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+c"
+        }
+      ],
+      "prompt": "Räkna ut {a}/{b} + {c}/{b}.",
+      "answer": [
+        "{s}/{b}"
+      ],
+      "correct": "Rätt! Delarna är lika stora, så du lägger ihop täljarna: {a} + {c} = {s}. Svar: {s}/{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "{s}/{2*b}"
+          ],
+          "message": "Du har lagt ihop både täljare och nämnare. Nämnaren visar storleken på delarna och ändras inte."
+        }
+      ]
+    },
+    {
+      "id": "minus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          4,
+          12
+        ],
+        "a": [
+          3,
+          11
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        },
+        {
+          "expr": "a-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a-c"
+        }
+      ],
+      "prompt": "Räkna ut {a}/{b} − {c}/{b}.",
+      "answer": [
+        "{s}/{b}"
+      ],
+      "correct": "Rätt! {a} − {c} = {s}. Nämnaren {b} ändras inte. Svar: {s}/{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a+c}/{b}"
+          ],
+          "message": "Du har lagt ihop täljarna. Här ska du dra ifrån."
+        }
+      ]
+    },
+    {
+      "id": "olika-namnare",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "x": [
+          1,
+          5
+        ],
+        "y": [
+          1,
+          5
+        ],
+        "d": [
+          2,
+          6
+        ],
+        "m": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-x",
+          "min": 1
+        },
+        {
+          "expr": "d*m-x*m-y",
+          "min": 1
+        },
+        {
+          "expr": "d*m-y",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "D",
+          "expr": "d*m"
+        },
+        {
+          "name": "N",
+          "expr": "x*m+y"
+        }
+      ],
+      "prompt": "Räkna ut {x}/{d} + {y}/{D}.",
+      "answer": [
+        "{N}/{D}"
+      ],
+      "correct": "Rätt! Förläng {x}/{d} med {m}. Då blir det {x*m}/{D}. Sedan är {x*m}/{D} + {y}/{D} = {N}/{D}.",
+      "feedback": [
+        {
+          "answers": [
+            "{x+y}/{d+D}"
+          ],
+          "message": "Du har lagt ihop både täljare och nämnare. Förläng först det ena bråket så att nämnarna blir lika."
+        }
+      ]
+    },
+    {
+      "id": "pizza",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "b": [
+          6,
+          12
+        ],
+        "a": [
+          1,
+          5
+        ],
+        "c": [
+          1,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+c"
+        }
+      ],
+      "prompt": "En pizza är delad i {b} lika stora bitar. Omar äter {a} bitar och Mira äter {c} bitar. Hur stor del av pizzan har de ätit tillsammans? Svara som ett bråk.",
+      "answer": [
+        "{s}/{b}"
+      ],
+      "correct": "Rätt! {a} + {c} = {s} bitar av {b}. Det är {s}/{b} av pizzan.",
+      "feedback": [
+        {
+          "answers": [
+            "{s}/{2*b}"
+          ],
+          "message": "Pizzan är fortfarande delad i {b} bitar. Nämnaren ändras inte, bara täljaren."
+        }
+      ]
+    },
+    {
+      "id": "kvar",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "b": [
+          4,
+          12
+        ],
+        "a": [
+          3,
+          11
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        },
+        {
+          "expr": "a-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a-c"
+        }
+      ],
+      "prompt": "Du har {a}/{b} liter saft. Du dricker {c}/{b} liter. Hur mycket saft är kvar? Svara som ett bråk.",
+      "answer": [
+        "{s}/{b}"
+      ],
+      "correct": "Rätt! {a} − {c} = {s}, så det är {s}/{b} liter kvar.",
+      "feedback": [
+        {
+          "answers": [
+            "{a+c}/{b}"
+          ],
+          "message": "Du har lagt ihop mängderna. Du dricker saft, så det som är kvar blir mindre."
+        }
+      ]
+    },
+    {
+      "id": "del-av-antal",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "b": [
+          2,
+          10
+        ],
+        "a": [
+          1,
+          9
+        ],
+        "k": [
+          2,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "b*k"
+        },
+        {
+          "name": "r",
+          "expr": "a*k"
+        }
+      ],
+      "prompt": "Hur mycket är {a}/{b} av {n}?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {n}/{b} = {k} och {a} · {k} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är 1/{b} av {n}. Du behöver {a} sådana delar, så multiplicera med {a}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 2/7 + 3/7.",
+    "answer": [
+      "5/7"
+    ],
+    "correct": "Rätt! Delarna är lika stora, så du lägger ihop täljarna: 2 + 3 = 5. Svar: 5/7.",
+    "feedback": [
+      {
+        "answers": [
+          "5/14"
+        ],
+        "message": "Du har lagt ihop både täljare och nämnare. Nämnaren visar storleken på delarna och ändras inte."
+      },
+      {
+        "answers": [
+          "1/7"
+        ],
+        "message": "Du har dragit ifrån. Här ska du lägga ihop täljarna."
+      },
+      {
+        "answers": [
+          "6/7",
+          "4/7"
+        ],
+        "message": "Nästan! Räkna täljarna igen: 2 + 3."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Omar äter 1/4 av en pizza och Mira äter 2/4. Hur stor del av pizzan har de ätit tillsammans? Svara som ett bråk.",
+      "answer": [
+        "3/4"
+      ],
+      "correct": "Rätt! 1 + 2 = 3, så de har ätit 3/4 av pizzan.",
+      "feedback": [
+        {
+          "answers": [
+            "3/8"
+          ],
+          "message": "Du har lagt ihop nämnarna. Pizzan är fortfarande delad i 4 delar, så nämnaren ändras inte."
+        },
+        {
+          "answers": [
+            "1/4"
+          ],
+          "message": "Du har dragit ifrån. De äter tillsammans, så du ska lägga ihop."
+        }
+      ]
+    },
+    {
+      "prompt": "Elsa har 1/2 liter saft. Hon dricker 1/4 liter. Hur mycket saft är kvar? Svara som ett bråk.",
+      "answer": [
+        "1/4"
+      ],
+      "correct": "Rätt! 1/2 är samma som 2/4, och 2/4 − 1/4 = 1/4.",
+      "feedback": [
+        {
+          "answers": [
+            "3/4"
+          ],
+          "message": "Du har lagt ihop. Elsa dricker saft, så det blir mindre kvar. Förläng 1/2 till 2/4 och dra ifrån."
+        },
+        {
+          "answers": [
+            "1/2"
+          ],
+          "message": "Det var så mycket hon hade från början. Dra ifrån det hon drack."
+        }
+      ]
+    },
+    {
+      "prompt": "Det finns 20 äpplen. 3/4 av dem är röda. Hur många äpplen är röda?",
+      "answer": [
+        "15"
+      ],
+      "correct": "Rätt! 20/4 = 5 och 3 · 5 = 15.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är 1/4 av 20. Du behöver 3 sådana delar, så multiplicera med 3."
+        },
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "Du har multiplicerat 20 med 3. Dela först 20 i 4 lika delar."
+        }
+      ]
+    }
+  ]
+}

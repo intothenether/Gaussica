@@ -11,7 +11,7 @@
   ],
   "summary": "I ett växande mönster läggs det till lika mycket varje gång. Räknar du bitarna i varje figur får du en talföljd.",
   "explanationTitle": "Se hur mönstret växer",
-  "explanation": "Titta på hur figur 1, 2 och 3 skiljer sig åt. Här läggs 2 nya rutor till i varje figur: 3, 5, 7. Då kan du förutsäga figur 4 utan att rita den: 7 + 2 = 9.",
+  "explanation": "Problemet: En figur byggs av rutor, och varje steg lägger till nya rutor. Hur många rutor har figur 10, utan att vi ritar alla tio? Vi behöver hitta mönstret och räkna med det. Titta på hur figur 1, 2 och 3 skiljer sig åt. Här läggs 2 nya rutor till i varje figur: 3, 5, 7. Då kan du förutsäga figur 4 utan att rita den: 7 + 2 = 9.",
   "visual": {
     "type": "monster",
     "title": "Rosa rutor är nya i varje figur",

@@ -11,7 +11,7 @@
   ],
   "summary": "En talföljd är tal i en bestämd ordning. Hittar du regeln kan du säga vilket tal som kommer härnäst.",
   "explanationTitle": "Hitta skillnaden mellan talen",
-  "explanation": "I talföljden 3, 7, 11, 15 ökar varje tal med 4. Regeln är ”lägg till 4”. När du känner regeln kan du fortsätta så långt du vill: efter 15 kommer 19. Ibland dubblas talen i stället, som i 1, 2, 4, 8.",
+  "explanation": "Problemet: Du ser talen 3, 7, 11, 15. Vilket tal kommer sen, och efter det? Du vill inte gissa. Vi behöver hitta regeln bakom talen, så att vi kan fortsätta hur långt som helst. I talföljden 3, 7, 11, 15 ökar varje tal med 4. Regeln är ”lägg till 4”. När du känner regeln kan du fortsätta så långt du vill: efter 15 kommer 19. Ibland dubblas talen i stället, som i 1, 2, 4, 8.",
   "visual": {
     "type": "tallinje",
     "title": "Talföljden 3, 7, 11, 15, 19",

@@ -7,36 +7,18 @@
   "duration": "8 min",
   "prerequisites": [
     "multiplikationstabellen",
-    "platsvarde"
+    "platsvarde",
+    "addition-uppstallning"
   ],
   "summary": "När talen blir stora ställer du upp multiplikationen och räknar en plats i taget, med entalen först.",
-  "explanationTitle": "Ental först, sedan tiotal",
-  "explanation": "Vid uppställning skriver du talen under varandra så att entalen står över entalen. Sedan multiplicerar du det nedre talet med varje siffra i det övre, och du börjar längst till höger med entalen. Blir produkten tio eller mer skriver du bara entalssiffran och minns tiotalen. Tiotalen lägger du till i nästa steg. Exempel: 34 · 6. Först 6 · 4 = 24. Skriv 4 och minns 2. Sedan 6 · 3 = 18 och 18 + 2 = 20. Svaret är 204. Gör gärna en överslagsräkning först: 30 · 6 = 180, så svaret ska vara lite större än 180.",
+  "explanationTitle": "Hur multiplicerar vi större tal?",
+  "explanation": "Problemet: Multiplikationstabellen räcker bara till 10 · 10. Men hur räknar du 34 · 6 eller 274 · 6? Att lägga ihop 34 sex gånger i huvudet är långsamt och lätt att göra fel på. Vi kan dela upp talet i ental, tiotal och hundratal och använda tabellerna på en del i taget. Det är precis vad uppställning gör. Uppställning är ett sätt att multiplicera stora tal på papper. Du räknar en siffra i taget, från höger till vänster. Steg 1: Skriv talen under varandra, med entalen under varandra. Steg 2: Multiplicera det lilla talet med entalssiffran. Skriv entalssiffran av svaret under strecket. Steg 3: Blev svaret tio eller mer? Då minns du tiotalen och skriver dem som en liten siffra ovanför nästa siffra. Steg 4: Multiplicera med nästa siffra och lägg till minnessiffran. Upprepa tills alla siffror är klara. Tryck på Nästa steg i bilden nedan och följ med när 34 · 6 räknas ut.",
   "visual": {
-    "type": "tabell",
-    "title": "34 · 6 steg för steg",
-    "headers": [
-      "Steg",
-      "Räkna",
-      "Skriv"
-    ],
-    "rows": [
-      [
-        "1. Entalen",
-        "6 · 4 = 24",
-        "Skriv 4 och minns 2"
-      ],
-      [
-        "2. Tiotalen",
-        "6 · 3 = 18 och 18 + 2 = 20",
-        "Skriv 20"
-      ],
-      [
-        "Svar",
-        "",
-        "204"
-      ]
-    ]
+    "type": "uppstallning",
+    "op": "*",
+    "a": 34,
+    "b": 6,
+    "title": "34 · 6 steg för steg"
   },
   "rule": "Ental först. Skriv entalssiffran och minns tiotalen.",
   "ruleLabel": "UPPSTÄLLNING",
@@ -290,5 +272,24 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "uppstallning",
+      "op": "*",
+      "a": 274,
+      "b": 6,
+      "title": "Ett exempel till: 274 · 6"
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }

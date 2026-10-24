@@ -14,6 +14,8 @@
 //   graf        { xmin,xmax,ymin,ymax, lines:[{k,m,label}], points:[{x,y,label}] }  coordinate system with straight lines
 //   hundrarutor { filled, label }                                                    10 x 10 grid with the first n squares filled
 //   klocka      { h, m, digital }                                                    analog clock
+//   uppstallning { op:"+"|"-"|"*"|"/", a, b }   column arithmetic, shown step by step (b is a single digit for * and /)
+//   pythagoras  { a, b, unit, hideA, hideB, hideC, areas }   right triangle with a square on each side
 // tallinje also takes sequence:{start,step,count}; monster takes generator:"L"|"kvadrat"|"trappa"|"rad"|"faktorer", n, only.
 
 window.GaussicaFigures = (function () {
@@ -23,7 +25,7 @@ window.GaussicaFigures = (function () {
   const TYPES = {
     tallinje: "TALLINJE", numberline: "TALLINJE", rektangel: "FIGUR", kvadrat: "FIGUR", triangel: "FIGUR",
     figurer: "FIGURER", symmetri: "SYMMETRI", monster: "MÖNSTER", talrutnat: "TALRUTNÄT",
-    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA"
+    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", pythagoras: "PYTHAGORAS"
   };
 
   function supports(type) {
@@ -465,6 +467,319 @@ window.GaussicaFigures = (function () {
     return wrapEl;
   }
 
+  // ----- uppställning: written column arithmetic, shown one step at a time -----
+  const PLACES = ["ental", "tiotal", "hundratal", "tusental", "tiotusental", "hundratusental", "miljonental"];
+
+  function digitsOf(n) {
+    return String(Math.max(0, Math.round(Number(n)))).split("").map(Number);
+  }
+
+  function place(p) { return PLACES[p] || "plats " + (p + 1); }
+
+  function digitAt(D, p) { return p < D.length ? D[D.length - 1 - p] : 0; }
+
+  // Every frame: { caption, hi (column from the left, or -1), res: [text per column], marks: { column: [text] } }
+  function framesAdd(c) {
+    const a = Number(c.a), b = Number(c.b), sum = a + b;
+    const A = digitsOf(a), B = digitsOf(b), R = digitsOf(sum);
+    const n = Math.max(A.length, B.length, R.length);
+    const res = new Array(n).fill("");
+    const marks = {};
+    const snap = function (caption, hi) { return { caption: caption, hi: hi, res: res.slice(), marks: JSON.parse(JSON.stringify(marks)) }; };
+    const frames = [snap("Ställ upp talen under varandra: ental under ental, tiotal under tiotal.", -1)];
+    const len = Math.max(A.length, B.length);
+    let carry = 0;
+    for (let p = 0; p < n; p++) {
+      const col = n - 1 - p;
+      if (p >= len) {
+        res[col] = String(carry);
+        frames.push(snap("Det blir " + carry + " " + place(p) + " över. Skriv " + carry + " längst till vänster.", col));
+        break;
+      }
+      const da = digitAt(A, p), db = digitAt(B, p);
+      const s = da + db + carry, digit = s % 10, cout = Math.floor(s / 10);
+      let cap = cap1(place(p)) + ": " + da + " + " + db + (carry ? " + " + carry + " (minnessiffran)" : "") + " = " + s + ". ";
+      cap += cout ? "Skriv " + digit + " och minns " + cout + "." : "Skriv " + digit + ".";
+      res[col] = String(digit);
+      if (cout && col > 0) marks[col - 1] = [String(cout)];
+      frames.push(snap(cap, col));
+      carry = cout;
+    }
+    frames.push(snap("Klart! " + a + " + " + b + " = " + sum + ".", -1));
+    return { n: n, frames: frames, op: "+", top: A, bottom: B };
+  }
+
+  function framesSub(c) {
+    let a = Number(c.a), b = Number(c.b);
+    if (b > a) { const t = a; a = b; b = t; }
+    const diff = a - b;
+    const A = digitsOf(a), B = digitsOf(b), R = digitsOf(diff);
+    const n = A.length;
+    const res = new Array(n).fill("");
+    const marks = {};
+    const snap = function (caption, hi) { return { caption: caption, hi: hi, res: res.slice(), marks: JSON.parse(JSON.stringify(marks)) }; };
+    const frames = [snap("Ställ upp talen under varandra: ental under ental, tiotal under tiotal. Det större talet står överst.", -1)];
+    let borrowIn = 0;
+    for (let p = 0; p < n; p++) {
+      const col = n - 1 - p;
+      const ta = digitAt(A, p), tb = digitAt(B, p);
+      const eff = ta - borrowIn;
+      const borrow = eff < tb ? 1 : 0;
+      const top = borrow ? eff + 10 : eff;
+      const digit = top - tb;
+      let cap = cap1(place(p)) + ": ";
+      if (borrowIn && eff < 0) {
+        cap += "Här lånade du 1 nyss, men " + ta + " går inte att minska med 1. Låna 1 " + place(p + 1) + ". 1 " + place(p + 1) + " är 10 " + place(p) + ", och 10 − 1 = " + (eff + 10) + ". ";
+        cap += (eff + 10) + " − " + tb + " = " + digit + ". Skriv " + digit + ".";
+        marks[col] = (marks[col] || []).concat(["+10"]);
+        if (col > 0) marks[col - 1] = (marks[col - 1] || []).concat(["−1"]);
+      } else {
+      if (borrowIn) cap += "Här lånade du 1 nyss, så " + ta + " är nu " + eff + ". ";
+      if (borrow) {
+        cap += eff + " − " + tb + " går inte. Låna 1 " + place(p + 1) + ". 1 " + place(p + 1) + " är 10 " + place(p) + ", så " + eff + " blir " + (eff + 10) + ". ";
+        cap += (eff + 10) + " − " + tb + " = " + digit + ". Skriv " + digit + ".";
+        marks[col] = (marks[col] || []).concat(["+10"]);
+        if (col > 0) marks[col - 1] = (marks[col - 1] || []).concat(["−1"]);
+      } else {
+        cap += eff + " − " + tb + " = " + digit + ". Skriv " + digit + ".";
+      }
+      }
+      if (p < R.length) res[col] = String(digit);
+      else cap = cap.replace(/Skriv \d+\.$/, "Svaret börjar inte med en nolla, så du skriver inget här.");
+      frames.push(snap(cap, col));
+      borrowIn = borrow;
+    }
+    frames.push(snap("Klart! " + a + " − " + b + " = " + diff + ". Kontrollera med addition: " + diff + " + " + b + " = " + a + ".", -1));
+    return { n: n, frames: frames, op: "−", top: A, bottom: B };
+  }
+
+  function framesMul(c) {
+    const a = Number(c.a), m = Number(c.b), prod = a * m;
+    const A = digitsOf(a), R = digitsOf(prod);
+    const n = Math.max(A.length, R.length);
+    const res = new Array(n).fill("");
+    const marks = {};
+    const snap = function (caption, hi) { return { caption: caption, hi: hi, res: res.slice(), marks: JSON.parse(JSON.stringify(marks)) }; };
+    const frames = [snap("Ställ upp talen under varandra. Det lilla talet står under entalen. Du multiplicerar det med en siffra i taget, från höger.", -1)];
+    let carry = 0;
+    A.slice().reverse().forEach(function (da, p) {
+      const col = n - 1 - p;
+      const last = p === A.length - 1;
+      const own = da * m, total = own + carry, digit = total % 10, cout = Math.floor(total / 10);
+      let cap = cap1(place(p)) + ": " + m + " · " + da + " = " + own;
+      if (carry) cap += ", och " + own + " + " + carry + " (minnessiffran) = " + total;
+      cap += ". ";
+      if (last) {
+        cap += "Det är sista siffran, så skriv hela " + total + ".";
+        digitsOf(total).reverse().forEach(function (d, j) { res[col - j] = String(d); });
+      } else {
+        cap += cout ? "Skriv " + digit + " och minns " + cout + "." : "Skriv " + digit + ".";
+        res[col] = String(digit);
+        if (cout) marks[col - 1] = [String(cout)];
+      }
+      frames.push(snap(cap, col));
+      carry = cout;
+    });
+    let final = "Klart! " + a + " · " + m + " = " + prod + ".";
+    if (A.length >= 2) {
+      const unit = Math.pow(10, A.length - 1), rounded = Math.round(a / unit) * unit;
+      final += " Kolla med överslag: ungefär " + rounded + " · " + m + " = " + (rounded * m) + ". Svaret ska ligga nära det.";
+    }
+    frames.push(snap(final, -1));
+    return { n: n, frames: frames, op: "×", top: A, bottom: digitsOf(m) };
+  }
+
+  function framesDiv(c) {
+    const a = Number(c.a), d = Number(c.b);
+    const D = digitsOf(a), L = D.length;
+    const q = new Array(L).fill("");
+    const carries = {};
+    const snap = function (caption, hi, extra) {
+      return Object.assign({ caption: caption, hi: hi, res: q.slice(), marks: JSON.parse(JSON.stringify(carries)) }, extra || {});
+    };
+    const frames = [snap("Ställ upp talen: " + a + " ska delas med " + d + ". Du delar en siffra i taget, från vänster.", -1)];
+    let r = 0, started = false;
+    D.forEach(function (digit, i) {
+      const pl = place(L - 1 - i);
+      const cur = r * 10 + digit;
+      const qd = Math.floor(cur / d), rem = cur % d;
+      let cap = "";
+      if (i > 0 && r > 0) cap += r + " " + place(L - i) + " blir " + (r * 10) + " " + pl + ". " + (r * 10) + " + " + digit + " = " + cur + " " + pl + ". ";
+      cap += cur + " " + pl + " delat med " + d;
+      if (qd === 0 && !started) {
+        cap += " går inte, för " + cur + " är mindre än " + d + ". Gå vidare till nästa siffra.";
+      } else {
+        started = true;
+        cap += " är " + qd + (rem ? ", och " + rem + " blir över." : ".") + " Skriv " + qd + " i svaret.";
+        q[i] = String(qd);
+      }
+      if (i < L - 1 && rem > 0) carries[i + 1] = [String(rem)];
+      r = rem;
+      frames.push(snap(cap, i));
+    });
+    const Q = String(Math.floor(a / d));
+    frames.push(snap(r > 0
+      ? "Det blir " + r + " över. Svaret är " + Q + " rest " + r + "."
+      : "Klart! " + a + " delat med " + d + " är " + Q + ". Kontrollera: " + d + " · " + Q + " = " + a + ".", -1, { rest: r }));
+    return { n: L, frames: frames, op: "/", top: D, divisor: d };
+  }
+
+  function cap1(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  function upModel(c) {
+    const op = String(c.op || "+");
+    if (op === "-" || op === "−") return framesSub(c);
+    if (op === "*" || op === "·" || op === "×") return framesMul(c);
+    if (op === "/" || op === "÷" || op === ":") return framesDiv(c);
+    return framesAdd(c);
+  }
+
+  function cellEl(cls, text) {
+    const e = document.createElement("span");
+    e.className = "up-c " + cls;
+    if (text !== undefined && text !== "") e.textContent = text;
+    return e;
+  }
+
+  function drawUp(model, frame) {
+    const n = model.n;
+    const grid = document.createElement("div");
+    grid.className = "up-grid" + (model.op === "/" ? " is-div" : "");
+    const row = function (cls) { const r = document.createElement("div"); r.className = "up-row " + cls; grid.appendChild(r); return r; };
+    const hi = function (col) { return col === frame.hi ? " is-hi" : ""; };
+
+    if (model.op === "/") {
+      const qrow = row("up-q");
+      qrow.appendChild(cellEl("up-side", ""));
+      qrow.appendChild(cellEl("up-side", ""));
+      for (let i = 0; i < n; i++) qrow.appendChild(cellEl("up-digit up-res" + hi(i), frame.res[i]));
+      if (frame.rest) qrow.appendChild(cellEl("up-rest", "rest " + frame.rest));
+      const drow = row("up-dividend");
+      drow.appendChild(cellEl("up-side up-divisor", String(model.divisor)));
+      drow.appendChild(cellEl("up-side up-bracket", ")"));
+      for (let i = 0; i < n; i++) {
+        const cell = cellEl("up-digit up-line" + hi(i), String(model.top[i]));
+        const m = frame.marks[i];
+        if (m && m.length) {
+          const small = document.createElement("span");
+          small.className = "up-small";
+          small.textContent = m[0];
+          cell.appendChild(small);
+        }
+        drow.appendChild(cell);
+      }
+      return grid;
+    }
+
+    const marksRow = row("up-marks");
+    marksRow.appendChild(cellEl("up-side", ""));
+    for (let col = 0; col < n; col++) {
+      const cell = cellEl("up-small-cell" + hi(col), "");
+      (frame.marks[col] || []).forEach(function (t) {
+        const s = document.createElement("span");
+        s.className = "up-small" + (/^[+−]/.test(t) ? " is-borrow" : "");
+        s.textContent = t;
+        cell.appendChild(s);
+      });
+      marksRow.appendChild(cell);
+    }
+    const put = function (cls, digits, opText) {
+      const r = row(cls);
+      r.appendChild(cellEl("up-side up-op", opText || ""));
+      for (let col = 0; col < n; col++) {
+        const p = n - 1 - col;
+        const has = p < digits.length;
+        r.appendChild(cellEl("up-digit" + hi(col), has ? String(digits[digits.length - 1 - p]) : ""));
+      }
+    };
+    put("up-top", model.top, "");
+    put("up-bottom", model.bottom, model.op);
+    const rr = row("up-result");
+    rr.appendChild(cellEl("up-side", ""));
+    for (let col = 0; col < n; col++) rr.appendChild(cellEl("up-digit up-res up-line" + hi(col), frame.res[col]));
+    return grid;
+  }
+
+  function uppstallning(c) {
+    const model = upModel(c);
+    const box = document.createElement("div");
+    box.className = "up";
+    box.setAttribute("role", "group");
+    box.setAttribute("aria-label", c.alt || c.title || "Uppställning steg för steg");
+    const stage = document.createElement("div");
+    stage.className = "up-stage";
+    const caption = document.createElement("p");
+    caption.className = "up-caption";
+    caption.setAttribute("aria-live", "polite");
+    const controls = document.createElement("div");
+    controls.className = "up-controls";
+    const prev = document.createElement("button");
+    prev.type = "button"; prev.className = "up-btn"; prev.textContent = "← Förra steget";
+    const next = document.createElement("button");
+    next.type = "button"; next.className = "up-btn up-btn-main"; next.textContent = "Nästa steg →";
+    const again = document.createElement("button");
+    again.type = "button"; again.className = "up-btn up-btn-quiet"; again.textContent = "Börja om";
+    const count = document.createElement("span");
+    count.className = "up-count";
+    controls.append(prev, next, again, count);
+    box.append(stage, caption, controls);
+    let at = Math.max(0, Math.min(model.frames.length - 1, Number(c.start) || 0));
+    function draw() {
+      const frame = model.frames[at];
+      stage.replaceChildren(drawUp(model, frame));
+      caption.textContent = frame.caption;
+      count.textContent = "Steg " + (at + 1) + " av " + model.frames.length;
+      prev.disabled = at === 0;
+      next.disabled = at === model.frames.length - 1;
+      again.hidden = at === 0;
+    }
+    prev.addEventListener("click", function () { if (at > 0) { at -= 1; draw(); } });
+    next.addEventListener("click", function () { if (at < model.frames.length - 1) { at += 1; draw(); } });
+    again.addEventListener("click", function () { at = 0; draw(); });
+    draw();
+    return wrap([box]);
+  }
+
+  // ----- Pythagoras: a right triangle with a square on each side -----
+  function pythagoras(c) {
+    const a = Number(c.a), b = Number(c.b);
+    const hyp = Math.sqrt(a * a + b * b);
+    const unit = c.unit ? " " + c.unit : "";
+    const lab = c.labels || {};
+    // right angle at the origin, leg a along x, leg b along y (up)
+    const B = [a, 0], C = [0, -b];
+    const nx = b, ny = -a;   // outward direction for the hypotenuse square (length = hyp)
+    const pts = [[0, 0], B, C, [0, a], [a, a], [-b, 0], [-b, -b], [B[0] + nx, B[1] + ny], [C[0] + nx, C[1] + ny]];
+    const xs = pts.map(function (p) { return p[0]; }), ys = pts.map(function (p) { return p[1]; });
+    const minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs), minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+    const W = 460, H = 380, P = 16;
+    const sc = Math.min((W - 2 * P) / (maxX - minX), (H - 2 * P) / (maxY - minY));
+    const ox = (W - (maxX - minX) * sc) / 2 - minX * sc, oy = (H - (maxY - minY) * sc) / 2 - minY * sc;
+    const X = function (p) { return ox + p[0] * sc; }, Y = function (p) { return oy + p[1] * sc; };
+    const poly = function (list, cls) {
+      return s("polygon", { points: list.map(function (p) { return X(p) + "," + Y(p); }).join(" "), "class": cls }, svg);
+    };
+    const svg = svgRoot(c, W, H);
+    poly([[0, 0], [0, a], [a, a], [a, 0]], "fig-sq fig-sq-a");
+    poly([[0, 0], [-b, 0], [-b, -b], [0, -b]], "fig-sq fig-sq-b");
+    poly([B, C, [C[0] + nx, C[1] + ny], [B[0] + nx, B[1] + ny]], "fig-sq fig-sq-c");
+    poly([[0, 0], B, C], "fig-shape");
+    const q = 10;
+    s("path", { d: "M" + (X([0, 0]) + q) + " " + Y([0, 0]) + " v-" + q + " h-" + q, "class": "fig-right" }, svg);
+    const showArea = c.areas !== false;
+    const nameA = lab.a || "a", nameB = lab.b || "b", nameC = lab.c || "c";
+    const r2 = function (v) { return String(Math.round(v * 100) / 100).replace(".", ","); };
+    // each square says how long its side is and how big its area is
+    const say = function (center, name, side, hidden, area) {
+      text(svg, X(center), Y(center) - 6, name + (hidden ? " = ?" : " = " + r2(side) + unit), "fig-dim");
+      text(svg, X(center), Y(center) + 16, showArea && !hidden ? name + "² = " + r2(area) : name + "²", "fig-dim");
+    };
+    say([a / 2, a / 2], nameA, a, c.hideA, a * a);
+    say([-b / 2, -b / 2], nameB, b, c.hideB, b * b);
+    say([(B[0] + C[0]) / 2 + nx / 2, (B[1] + C[1]) / 2 + ny / 2], nameC, hyp, c.hideC, a * a + b * b);
+    return wrap([svg]);
+  }
+
   function render(config) {
     const type = String(config.type || "").toLowerCase();
     if (type === "tallinje" || type === "numberline") return numberline(config);
@@ -479,6 +794,8 @@ window.GaussicaFigures = (function () {
     if (type === "graf") return graph(config);
     if (type === "hundrarutor") return hundred(config);
     if (type === "klocka") return clock(config);
+    if (type === "uppstallning") return uppstallning(config);
+    if (type === "pythagoras") return pythagoras(config);
     return null;
   }
 

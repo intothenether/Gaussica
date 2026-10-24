@@ -1,0 +1,259 @@
+{
+  "id": "cirkelns-area",
+  "area": "geometri",
+  "title": "Cirkelns area",
+  "level": "Hur stor yta täcker en cirkel? · ungefär åk 8–9",
+  "grade": 8,
+  "duration": "8 min",
+  "prerequisites": [
+    "omkrets",
+    "potenser"
+  ],
+  "summary": "Cirkelns area är ungefär 3,14 gånger radien gånger radien.",
+  "explanationTitle": "Radien i kvadrat gånger pi",
+  "explanation": "Problemet: Vi kan räkna ut hur långt det är runt en cirkel med hjälp av pi. Men hur stor yta täcker en pizza eller en rund matta? Det finns inga rutor som passar i en kurva, och omkretsen säger inte hur mycket yta som finns inuti. Vi behöver ett sätt att räkna ytan. Det visar sig att den hänger ihop med kvadraten på radien. Cirkelns area är ungefär 3,14 gånger radien i kvadrat: A = π · r^2. Radien är avståndet från mitten ut till kanten, alltså hälften av diametern. En cirkel med radien 5 cm har arean 3,14 · 5^2 = 3,14 · 25 = 78,5 cm². Räkna först ut r^2, multiplicera sedan med 3,14. Har cirkeln diametern 10 cm är radien 5 cm. Ett vanligt fel är att multiplicera radien med 2 i stället för att kvadrera den: r^2 betyder r · r.",
+  "visual": {
+    "type": "tabell",
+    "title": "Dubblar du radien blir arean fyra gånger så stor",
+    "headers": [
+      "Radie r",
+      "r^2",
+      "Area ≈ 3,14 · r^2"
+    ],
+    "rows": [
+      [
+        "1 cm",
+        "1",
+        "3,14 cm²"
+      ],
+      [
+        "2 cm",
+        "4",
+        "12,56 cm²"
+      ],
+      [
+        "3 cm",
+        "9",
+        "28,26 cm²"
+      ],
+      [
+        "10 cm",
+        "100",
+        "314 cm²"
+      ]
+    ]
+  },
+  "rule": "A = π · r^2, med π ≈ 3,14",
+  "ruleLabel": "CIRKELNS AREA",
+  "example": "Radien 4 cm: A ≈ 3,14 · 4^2 = 3,14 · 16 = 50,24 cm².",
+  "practice": [
+    {
+      "id": "area-av-radie",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "r": [
+          2,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "3.14*r*r"
+        }
+      ],
+      "prompt": "En cirkel har radien {r} cm. Hur stor är arean? Använd 3,14 som pi.",
+      "answer": [
+        "=a",
+        "{a} cm²"
+      ],
+      "correct": "Rätt! {r}^2 = {r*r}, och 3,14 · {r*r} = {a} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=3.14*2*r"
+          ],
+          "message": "Du har räknat omkretsen, 2 · π · r. Arean är π · r^2."
+        },
+        {
+          "answers": [
+            "=3.14*r"
+          ],
+          "message": "Du har glömt att kvadrera radien. r^2 betyder {r} · {r}."
+        },
+        {
+          "answers": [
+            "=r*r"
+          ],
+          "message": "{r*r} är r^2. Multiplicera också med 3,14."
+        }
+      ]
+    },
+    {
+      "id": "fran-diameter",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "d": [
+          4,
+          20,
+          2
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "d/2"
+        },
+        {
+          "name": "a",
+          "expr": "3.14*(d/2)*(d/2)"
+        }
+      ],
+      "prompt": "En pizza har diametern {d} cm. Hur stor area har den? Använd 3,14 som pi.",
+      "answer": [
+        "=a",
+        "{a} cm²"
+      ],
+      "correct": "Rätt! Radien är hälften av diametern: {r} cm. 3,14 · {r}^2 = {a} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=3.14*d*d"
+          ],
+          "message": "Du har använt diametern i stället för radien. Radien är hälften av diametern, {r} cm."
+        }
+      ]
+    },
+    {
+      "id": "matta",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "r": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "3.14*r*r"
+        }
+      ],
+      "prompt": "En rund matta har radien {r} m. Hur många kvadratmeter täcker den? Använd 3,14 som pi.",
+      "answer": [
+        "=a",
+        "{a} m²"
+      ],
+      "correct": "Rätt! 3,14 · {r}^2 = 3,14 · {r*r} = {a} m².",
+      "feedback": [
+        {
+          "answers": [
+            "=3.14*r"
+          ],
+          "message": "Du har glömt att kvadrera radien. r^2 betyder {r} · {r}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En cirkel har radien 5 cm. Hur stor är arean? Använd 3,14 som pi.",
+    "answer": [
+      "78,5",
+      "78.5",
+      "78,5 cm²"
+    ],
+    "correct": "Rätt! 5^2 = 25, och 3,14 · 25 = 78,5 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "31,4",
+          "31.4"
+        ],
+        "message": "31,4 är omkretsen. Arean är 3,14 · r^2."
+      },
+      {
+        "answers": [
+          "15,7",
+          "15.7"
+        ],
+        "message": "Du har räknat 3,14 · 5. Radien ska kvadreras först: 5 · 5 = 25."
+      },
+      {
+        "answers": [
+          "25"
+        ],
+        "message": "25 är r^2. Multiplicera också med 3,14."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En pizza har diametern 20 cm. Hur stor area har den? Använd 3,14 som pi.",
+      "answer": [
+        "314",
+        "314 cm²"
+      ],
+      "correct": "Rätt! Radien är 10 cm. 10^2 = 100, och 3,14 · 100 = 314 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "1256"
+          ],
+          "message": "Du har använt diametern 20 i stället för radien 10. Radien är hälften av diametern."
+        },
+        {
+          "answers": [
+            "62,8",
+            "62.8"
+          ],
+          "message": "62,8 är omkretsen. Arean är 3,14 · r^2."
+        }
+      ]
+    },
+    {
+      "prompt": "En rund matta har radien 2 m. Hur många kvadratmeter täcker den? Använd 3,14 som pi.",
+      "answer": [
+        "12,56",
+        "12.56",
+        "12,56 m²"
+      ],
+      "correct": "Rätt! 2^2 = 4, och 3,14 · 4 = 12,56 m².",
+      "feedback": [
+        {
+          "answers": [
+            "6,28",
+            "6.28"
+          ],
+          "message": "Du har glömt att kvadrera radien. r^2 betyder r · r, alltså 2 · 2."
+        }
+      ]
+    },
+    {
+      "prompt": "Cirkel A har radien 3 cm och cirkel B har radien 6 cm. Hur många gånger så stor area har B jämfört med A?",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! Radien dubbleras, men arean beror på r^2. 6^2 = 36 och 3^2 = 9, och 36/9 = 4.",
+      "feedback": [
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "Radien blir dubbelt så stor, men arean beror på radien i kvadrat. Räkna 6^2 och 3^2."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "Du har dubblat två gånger för mycket. Räkna 6^2 delat med 3^2."
+        }
+      ]
+    }
+  ]
+}
