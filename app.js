@@ -28,8 +28,10 @@
 
   function showError(error) {
     console.error("Kunde inte läsa kursinnehållet.", error);
+    const detail = error && error.message ? String(error.message) : "";
     graph.replaceChildren(makeElement("p", "course-error",
-      "Kursinnehållet kunde inte läsas. Kontrollera att lessons/index.json och alla listade lektionsfiler finns och är giltig JSON."));
+      "Kursinnehållet kunde inte läsas. Kontrollera att lessons/index.json och alla listade lektionsfiler finns och är giltig JSON." +
+      (detail ? " Felet var: " + detail : "") + " Prova att ladda om sidan med Ctrl+F5."));
     panel.replaceChildren(makeElement("p", "course-error", "Lektionerna kunde inte laddas."));
   }
 
@@ -228,7 +230,8 @@
   }
 
   async function loadCourse() {
-    const response = await fetch("./lessons/index.json");
+    // "no-cache" makes the browser check with the server first, so a new index is never mixed with old lesson files
+    const response = await fetch("./lessons/index.json", { cache: "no-cache" });
     if (!response.ok) throw new Error("Kursindexet svarade med " + response.status);
     const manifest = await response.json();
     if (!manifest || !Array.isArray(manifest.lessons) || !Array.isArray(manifest.areas)) {
@@ -236,7 +239,7 @@
     }
 
     const lessons = await Promise.all(manifest.lessons.map(async function (path) {
-      const lessonResponse = await fetch("./lessons/" + path);
+      const lessonResponse = await fetch("./lessons/" + path, { cache: "no-cache" });
       if (!lessonResponse.ok) throw new Error(path + " svarade med " + lessonResponse.status);
       return lessonResponse.json();
     }));
