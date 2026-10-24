@@ -16,9 +16,13 @@
 //   klocka      { h, m, digital }                                                    analog clock
 //   uppstallning { op:"+"|"-"|"*"|"/", a, b }   column arithmetic, shown step by step (b is a single digit for * and /)
 //   pythagoras  { a, b, unit, hideA, hideB, hideC, areas }   right triangle with a square on each side
+//   vag         { left:[{n,tone}], right:[{n,tone}], leftLabel, rightLabel }   balance scale with blocks (tone "x" = pink)
 //   tradiagram  { levels:[[val, val], [val, val]], root }    tree diagram, one list of choices per step
 //   parallellogram { base, height, shift, unit, showHeight, showRect }
 //   trapets     { a, b, height, offset, unit, showHeight, showCopy }
+//   kroppar     { items:[{shape,label}], columns }   shapes: kub ratblock cylinder klot kon pyramid
+//   linjer      { items:[{kind,label}], columns }    kinds: parallella vinkelrata skarande
+//   strecktabell { rows:[{label,n}], counts }        tally chart, groups of five (counts shows the number at the end of each row)
 // tallinje also takes sequence:{start,step,count}; monster takes generator:"L"|"kvadrat"|"trappa"|"rad"|"faktorer", n, only.
 
 window.GaussicaFigures = (function () {
@@ -28,7 +32,7 @@ window.GaussicaFigures = (function () {
   const TYPES = {
     tallinje: "TALLINJE", numberline: "TALLINJE", rektangel: "FIGUR", kvadrat: "FIGUR", triangel: "FIGUR",
     figurer: "FIGURER", symmetri: "SYMMETRI", monster: "MÖNSTER", talrutnat: "TALRUTNÄT",
-    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", pythagoras: "PYTHAGORAS", tradiagram: "TRÄDDIAGRAM", parallellogram: "FIGUR", trapets: "FIGUR"
+    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", vag: "BALANSVÅG", pythagoras: "PYTHAGORAS", tradiagram: "TRÄDDIAGRAM", parallellogram: "FIGUR", trapets: "FIGUR", kroppar: "KROPPAR", linjer: "LINJER", strecktabell: "STRECKTABELL"
   };
 
   function supports(type) {
@@ -557,6 +561,7 @@ window.GaussicaFigures = (function () {
   }
 
   function framesMul(c) {
+    if (Number(c.b) >= 10) return framesMul2(c);
     const a = Number(c.a), m = Number(c.b), prod = a * m;
     const A = digitsOf(a), R = digitsOf(prod);
     const n = Math.max(A.length, R.length);
@@ -590,6 +595,105 @@ window.GaussicaFigures = (function () {
     }
     frames.push(snap(final, -1));
     return { n: n, frames: frames, op: "·", top: A, bottom: digitsOf(m) };
+  }
+
+  // Multiplying with a two-digit number: one row per digit, then the rows are added.
+  function framesMul2(c) {
+    const a = Number(c.a), b = Number(c.b), prod = a * b;
+    const A = digitsOf(a), Bd = digitsOf(b), R = digitsOf(prod);
+    const d0 = Bd[Bd.length - 1], d1 = Bd[Bd.length - 2];
+    const P1 = a * d0, P2 = a * d1 * 10;
+    const n = Math.max(R.length, digitsOf(P1).length, digitsOf(P2).length);
+    const p1 = new Array(n).fill(""), p2 = new Array(n).fill(""), res = new Array(n).fill("");
+    let marks = {};
+    const snap = function (caption, hi) {
+      return { caption: caption, hi: hi, res: res.slice(), p1: p1.slice(), p2: p2.slice(), marks: JSON.parse(JSON.stringify(marks)) };
+    };
+    const frames = [snap("Ställ upp talen under varandra. Du multiplicerar " + a + " med en siffra i " + b + " i taget: först entalssiffran " + d0 + ", sedan tiotalssiffran " + d1 + ".", -1)];
+
+    // one row: a times one digit of b, written `shift` columns further to the left
+    function row(target, digit, shift, intro) {
+      let carry = 0;
+      A.slice().reverse().forEach(function (da, p) {
+        const topCol = n - 1 - p, col = topCol - shift;
+        const last = p === A.length - 1;
+        const own = da * digit, total = own + carry, out = total % 10, cout = Math.floor(total / 10);
+        let cap = (p === 0 && intro ? intro + " " : "") + cap1(place(p)) + ": " + digit + " · " + da + " = " + own;
+        if (carry) cap += ", och " + own + " + " + carry + " (minnessiffran) = " + total;
+        cap += ". ";
+        if (last) {
+          cap += "Det är sista siffran, så skriv hela " + total + ".";
+          digitsOf(total).reverse().forEach(function (d, j) { target[col - j] = String(d); });
+        } else {
+          cap += cout ? "Skriv " + out + " och minns " + cout + "." : "Skriv " + out + ".";
+          target[col] = String(out);
+          if (cout) marks[topCol - 1] = [String(cout)];
+        }
+        frames.push(snap(cap, shift ? [topCol, col] : col));
+        carry = cout;
+      });
+    }
+    row(p1, d0, 0, "");
+    marks = {};
+    p2[n - 1] = "0";
+    frames.push(snap("Nu multiplicerar du med tiotalssiffran " + d1 + ". Det är tiotal, så du börjar med en nolla på entalsplatsen.", n - 1));
+    row(p2, d1, 1, "");
+
+    // add the two rows
+    marks = {};
+    let carry = 0;
+    for (let p = 0; p < n; p++) {
+      const col = n - 1 - p;
+      const x = Number(p1[col] || 0), y = Number(p2[col] || 0);
+      if (p >= R.length) break;
+      const s = x + y + carry, out = s % 10, cout = Math.floor(s / 10);
+      let cap = cap1(place(p)) + ": " + x + " + " + y + (carry ? " + " + carry + " (minnessiffran)" : "") + " = " + s + ". ";
+      const lastCol = p === R.length - 1;
+      cap += lastCol ? "Skriv " + s + "." : cout ? "Skriv " + out + " och minns " + cout + "." : "Skriv " + out + ".";
+      res[col] = String(lastCol ? s : out);
+      if (cout && col > 0 && !lastCol) marks[col - 1] = [String(cout)];
+      frames.push(snap(p === 0 ? "Lägg ihop raderna. " + cap : cap, col));
+      carry = cout;
+    }
+    const r1 = Math.round(a / Math.pow(10, A.length - 1)) * Math.pow(10, A.length - 1), r2 = Math.round(b / 10) * 10;
+    frames.push(snap("Klart! " + a + " · " + b + " = " + prod + ". Kolla med överslag: ungefär " + r1 + " · " + r2 + " = " + (r1 * r2) + ". Svaret ska ligga nära det.", -1));
+    return { n: n, frames: frames, op: "·", top: A, bottom: Bd, partial: true };
+  }
+
+  // ----- balance scale: the same on both sides, or not -----
+  // { left: [{ n, tone }], right: [{ n, tone }], leftLabel, rightLabel }   n = how many blocks, tone "x" makes them pink
+  function scale(c) {
+    const count = function (parts) { return (parts || []).reduce(function (sum, p) { return sum + Math.max(0, Math.min(40, Math.round(Number(p.n) || 0))); }, 0); };
+    const L = count(c.left), R = count(c.right);
+    const W = 480, H = 330, px = 240, py = 70, half = 170;
+    const tilt = Math.max(-12, Math.min(12, (R - L) * 2));   // degrees, clockwise: the right side goes down
+    const balanced = L === R && L > 0;
+    const svg = svgRoot(c, W, H);
+    const a = tilt * Math.PI / 180;
+    const ends = [[px - half * Math.cos(a), py - half * Math.sin(a)], [px + half * Math.cos(a), py + half * Math.sin(a)]];
+    s("polygon", { points: (px - 46) + ",300 " + (px + 46) + ",300 " + px + "," + py, "class": "fig-bal-stand" }, svg);
+    s("line", { x1: ends[0][0], y1: ends[0][1], x2: ends[1][0], y2: ends[1][1], "class": "fig-bal-beam" + (balanced ? " is-ok" : "") }, svg);
+    s("circle", { cx: px, cy: py, r: 9, "class": "fig-bal-pivot" }, svg);
+    [[ends[0], c.left, c.leftLabel], [ends[1], c.right, c.rightLabel]].forEach(function (side) {
+      const ex = side[0][0], ey = side[0][1], plateY = ey + 120;
+      s("line", { x1: ex - 56, y1: plateY - 100 + 100, x2: ex, y2: ey, "class": "fig-bal-string" }, svg);
+      s("line", { x1: ex + 56, y1: plateY, x2: ex, y2: ey, "class": "fig-bal-string" }, svg);
+      s("rect", { x: ex - 64, y: plateY, width: 128, height: 8, rx: 4, "class": "fig-bal-plate" + (balanced ? " is-ok" : "") }, svg);
+      const blocks = [];
+      (side[1] || []).forEach(function (part) {
+        const n = Math.max(0, Math.min(40, Math.round(Number(part.n) || 0)));
+        for (let i = 0; i < n; i++) blocks.push(part.tone === "x");
+      });
+      const cols = 6, size = 20;
+      blocks.forEach(function (isX, i) {
+        const colIdx = i % cols, rowIdx = Math.floor(i / cols);
+        const inRow = Math.min(cols, blocks.length - rowIdx * cols);
+        s("rect", { x: ex - inRow * size / 2 + colIdx * size + 1, y: plateY - (rowIdx + 1) * size + 1, width: size - 2, height: size - 2, rx: 3, "class": "fig-bal-block" + (isX ? " is-x" : "") }, svg);
+      });
+      if (side[2]) text(svg, ex, plateY + 32, side[2], "fig-dim");
+    });
+    if (balanced) text(svg, px, 322, "I balans", "fig-dim fig-bal-ok");
+    return wrap([svg]);
   }
 
   function framesDiv(c) {
@@ -649,7 +753,7 @@ window.GaussicaFigures = (function () {
     const grid = document.createElement("div");
     grid.className = "up-grid" + (model.op === "/" ? " is-div" : "");
     const row = function (cls) { const r = document.createElement("div"); r.className = "up-row " + cls; grid.appendChild(r); return r; };
-    const hi = function (col) { return col === frame.hi ? " is-hi" : ""; };
+    const hi = function (col) { return col === frame.hi || (Array.isArray(frame.hi) && frame.hi.indexOf(col) >= 0) ? " is-hi" : ""; };
 
     if (model.op === "/") {
       const qrow = row("up-q");
@@ -688,7 +792,7 @@ window.GaussicaFigures = (function () {
     }
     const put = function (cls, digits, opText) {
       const r = row(cls);
-      r.appendChild(cellEl("up-side up-op", opText || ""));
+      r.appendChild(cellEl("up-side up-op" + (opText === "·" ? " is-dot" : ""), opText || ""));
       for (let col = 0; col < n; col++) {
         const p = n - 1 - col;
         const has = p < digits.length;
@@ -697,6 +801,14 @@ window.GaussicaFigures = (function () {
     };
     put("up-top", model.top, "");
     put("up-bottom", model.bottom, model.op);
+    if (model.partial) {   // one row for each digit of the lower number
+      const r1 = row("up-result");
+      r1.appendChild(cellEl("up-side", ""));
+      for (let col = 0; col < n; col++) r1.appendChild(cellEl("up-digit up-res up-line" + hi(col), frame.p1[col]));
+      const r2 = row("up-result");
+      r2.appendChild(cellEl("up-side up-op", "+"));
+      for (let col = 0; col < n; col++) r2.appendChild(cellEl("up-digit up-res" + hi(col), frame.p2[col]));
+    }
     const rr = row("up-result");
     rr.appendChild(cellEl("up-side", ""));
     for (let col = 0; col < n; col++) rr.appendChild(cellEl("up-digit up-res up-line" + hi(col), frame.res[col]));
@@ -895,6 +1007,102 @@ window.GaussicaFigures = (function () {
     return wrap([svg]);
   }
 
+  // ----- solids (kroppar): a row of simple drawings -----
+  // { items: [{ shape: "kub" | "ratblock" | "cylinder" | "klot" | "kon" | "pyramid", label }], columns }
+  function solid(svg, shape, cx, cy) {   // cx, cy: top left of a 150 x 125 cell
+    const g = s("g", { transform: "translate(" + cx + " " + cy + ")" }, svg);
+    const poly = function (pts, cls) { return s("polygon", { points: pts.map(function (p) { return p.join(","); }).join(" "), "class": cls }, g); };
+    if (shape === "kub" || shape === "ratblock") {
+      const w = shape === "kub" ? 60 : 92, h = shape === "kub" ? 60 : 48, dx = 24, dy = -22, x = 20, y = 48;
+      poly([[x, y], [x + dx, y + dy], [x + dx + w, y + dy], [x + w, y]], "fig-k fig-k-top");
+      poly([[x + w, y], [x + w + dx, y + dy], [x + w + dx, y + dy + h], [x + w, y + h]], "fig-k fig-k-side");
+      poly([[x, y], [x + w, y], [x + w, y + h], [x, y + h]], "fig-k fig-k-front");
+    } else if (shape === "cylinder") {
+      const rx = 38, ry = 12, x0 = 75 - rx, x1 = 75 + rx, top = 36, bottom = 96;
+      s("path", { d: "M" + x0 + "," + top + " L" + x0 + "," + bottom + " A" + rx + "," + ry + " 0 0 0 " + x1 + "," + bottom + " L" + x1 + "," + top + " Z", "class": "fig-k fig-k-front" }, g);
+      s("ellipse", { cx: 75, cy: top, rx: rx, ry: ry, "class": "fig-k fig-k-top" }, g);
+    } else if (shape === "klot") {
+      s("circle", { cx: 75, cy: 62, r: 44, "class": "fig-k fig-k-front" }, g);
+      s("ellipse", { cx: 75, cy: 62, rx: 44, ry: 12, "class": "fig-k-line" }, g);
+      s("ellipse", { cx: 60, cy: 44, rx: 10, ry: 6, "class": "fig-k-shine", transform: "rotate(-30 60 44)" }, g);
+    } else if (shape === "kon") {
+      const rx = 40, ry = 12, base = 100;
+      s("path", { d: "M75,14 L" + (75 - rx) + "," + base + " A" + rx + "," + ry + " 0 0 0 " + (75 + rx) + "," + base + " Z", "class": "fig-k fig-k-front" }, g);
+      s("ellipse", { cx: 75, cy: base, rx: rx, ry: ry, "class": "fig-k fig-k-top" }, g);
+    } else if (shape === "pyramid") {
+      const A = [28, 104], B = [100, 104], C = [128, 84], D = [56, 84], P = [78, 14];
+      poly([P, B, C], "fig-k fig-k-side");
+      poly([P, A, B], "fig-k fig-k-front");
+      s("line", { x1: D[0], y1: D[1], x2: A[0], y2: A[1], "class": "fig-k-hidden" }, g);
+      s("line", { x1: D[0], y1: D[1], x2: C[0], y2: C[1], "class": "fig-k-hidden" }, g);
+      s("line", { x1: D[0], y1: D[1], x2: P[0], y2: P[1], "class": "fig-k-hidden" }, g);
+    }
+  }
+
+  function solids(c) {
+    const items = c.items || [];
+    const cols = Math.max(1, Math.min(items.length, c.columns || 3));
+    const rows = Math.ceil(items.length / cols);
+    const svg = svgRoot(c, cols * 150 + 10, rows * 160 + 6);
+    items.forEach(function (it, i) {
+      const col = i % cols, row = Math.floor(i / cols);
+      solid(svg, it.shape, 5 + col * 150, 6 + row * 160);
+      text(svg, 5 + col * 150 + 75, 6 + row * 160 + 142, it.label || it.shape, "fig-dim");
+    });
+    return wrap([svg]);
+  }
+
+  // ----- lines: parallel, perpendicular, crossing -----
+  // { items: [{ kind: "parallella" | "vinkelrata" | "skarande", label }] }
+  function lines(c) {
+    const items = c.items || [];
+    const cols = Math.max(1, Math.min(items.length, c.columns || 3));
+    const rows = Math.ceil(items.length / cols);
+    const svg = svgRoot(c, cols * 160 + 10, rows * 140 + 6);
+    items.forEach(function (it, i) {
+      const col = i % cols, row = Math.floor(i / cols);
+      const g = s("g", { transform: "translate(" + (5 + col * 160) + " " + (6 + row * 140) + ")" }, svg);
+      if (it.kind === "parallella") {
+        s("line", { x1: 12, y1: 36, x2: 148, y2: 36, "class": "fig-lin" }, g);
+        s("line", { x1: 12, y1: 78, x2: 148, y2: 78, "class": "fig-lin" }, g);
+        [36, 78].forEach(function (y) { s("polyline", { points: "78,"+ (y - 6) + " 84," + y + " 78," + (y + 6), "class": "fig-lin-mark" }, g); });
+      } else if (it.kind === "vinkelrata") {
+        s("line", { x1: 12, y1: 78, x2: 148, y2: 78, "class": "fig-lin" }, g);
+        s("line", { x1: 80, y1: 12, x2: 80, y2: 108, "class": "fig-lin" }, g);
+        s("path", { d: "M80,64 H94 V78", "class": "fig-right" }, g);
+      } else {
+        s("line", { x1: 18, y1: 100, x2: 142, y2: 22, "class": "fig-lin" }, g);
+        s("line", { x1: 18, y1: 30, x2: 142, y2: 92, "class": "fig-lin" }, g);
+      }
+      text(g, 80, 128, it.label || "", "fig-dim");
+    });
+    return wrap([svg]);
+  }
+
+  // ----- tally chart (strecktabell): groups of five -----
+  // { rows: [{ label, n }] }
+  function tally(c) {
+    const rows = c.rows || [];
+    const W = 480, ROWH = 42;
+    const svg = svgRoot(c, W, rows.length * ROWH + 12);
+    rows.forEach(function (r, i) {
+      const y = 10 + i * ROWH;
+      text(svg, 8, y + 25, r.label || "", "fig-dim", "start");
+      let n = Math.max(0, Math.round(Number(r.n) || 0));
+      let x = 120;
+      while (n > 0) {
+        const k = Math.min(5, n);
+        const four = Math.min(4, k);
+        for (let j = 0; j < four; j++) s("line", { x1: x + j * 9, y1: y + 6, x2: x + j * 9, y2: y + 30, "class": "fig-tally" }, svg);
+        if (k === 5) s("line", { x1: x - 5, y1: y + 27, x2: x + 4 * 9 - 4 + 4, y2: y + 9, "class": "fig-tally" }, svg);
+        x += k === 5 ? 54 : four * 9 + 20;
+        n -= k;
+      }
+      if (c.counts) text(svg, W - 10, y + 25, String(Math.round(Number(r.n) || 0)), "fig-dim", "end");
+    });
+    return wrap([svg]);
+  }
+
   function render(config) {
     const type = String(config.type || "").toLowerCase();
     if (type === "tallinje" || type === "numberline") return numberline(config);
@@ -911,9 +1119,13 @@ window.GaussicaFigures = (function () {
     if (type === "klocka") return clock(config);
     if (type === "uppstallning") return uppstallning(config);
     if (type === "pythagoras") return pythagoras(config);
+    if (type === "vag") return scale(config);
     if (type === "tradiagram") return tradiagram(config);
     if (type === "parallellogram") return parallelogram(config);
     if (type === "trapets") return trapezoid(config);
+    if (type === "kroppar") return solids(config);
+    if (type === "linjer") return lines(config);
+    if (type === "strecktabell") return tally(config);
     return null;
   }
 

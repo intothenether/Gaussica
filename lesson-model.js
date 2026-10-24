@@ -58,7 +58,7 @@ window.GaussicaLesson = (function () {
   }
 
   // Interactive "pyssla" tools (see pyssel.js). They can declare challenges (goals) that count as tasks.
-  const TOOL_TYPES = { pyssel: true, ritrutnat: true, primtalssil: true, tarning: true };
+  const TOOL_TYPES = { pyssel: true, ritrutnat: true, primtalssil: true, tarning: true, robot: true };
 
   function isTool(c) {
     return Boolean(c && TOOL_TYPES[c.type]);

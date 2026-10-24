@@ -68,7 +68,7 @@
     const data = await API.get("/api/me/data");
     currentUser = Object.assign({}, user, {
       lessonProgress: data.progress || {}, attempts: data.attempts || [],
-      assignments: data.assignments || [], feedback: data.feedback || []
+      assignments: data.assignments || [], feedback: data.feedback || [], chat: data.chat || []
     });
     lessonProgress = currentUser.lessonProgress;
     window.GaussicaUser = currentUser;
@@ -290,18 +290,30 @@
       renderQuestion: function (parent, lesson, task, label, opts) {
         renderProblem(parent, lesson, task.problem, task.id, label, opts);
       },
+      openChat: function (context) { window.GaussicaChat.open(context); },
+      canChat: function () { return window.GaussicaChat.canChat(); },
+      chatUnread: function () { return window.GaussicaChat.unread(); },
       goToLesson: function (id) { window.location.hash = "#" + id; },
       goToPlayer: function (id) { window.location.hash = "#play/" + id; },
       hasPractice: function (id) { const l = course.lessons.find(function (x) { return x.id === id; }); return window.GaussicaPractice.has(l); },
       startPractice: function (id) { window.location.hash = "#practice/" + id; }
     });
     window.GaussicaMailbox.init({
+      openChat: function (context) { window.GaussicaChat.open(context); },
+      chatUnread: function () { return window.GaussicaChat.unread(); },
       getUser: function () { return currentUser; },
       getCourse: function () { return course; },
       getProgress: getLessonProgress,
       openLesson: function (id, step) { window.GaussicaPlayer.open(id, typeof step === "number" ? { step: step } : undefined); },
       markRead: markFeedbackRead,
       startPractice: function (id) { window.location.hash = "#practice/" + id; }
+    });
+    window.GaussicaChat.init({
+      getUser: function () { return currentUser; },
+      getMessages: function () { return (currentUser && currentUser.chat) || []; },
+      send: sendChatMessage,
+      markRead: markChatRead,
+      refresh: refreshChat
     });
     window.GaussicaRewards.init({
       getUser: function () { return currentUser; },
@@ -551,6 +563,7 @@
 
   // The badge in the top bar, the big box under it and the pins on assigned lessons in the graph.
   function renderInbox() {
+    updateChatLink();
     const box = document.getElementById("mailbox");
     const link = document.getElementById("mail-link");
     Array.prototype.forEach.call(graph.querySelectorAll(".gn-pin"), function (p) { p.remove(); });
@@ -595,6 +608,50 @@
     renderCoach();
   }
 
+  // ----- chat with the teacher -----
+  function sendChatMessage(payload) {
+    return API.post("/api/me/chat", payload).then(function (r) {
+      (currentUser.chat = currentUser.chat || []).push({
+        id: r.id, studentId: String(currentUser.id), fromTeacher: false, text: payload.text, lessonId: payload.lessonId || null, taskId: payload.taskId || null,
+        context: payload.context || null, createdAt: new Date().toISOString(), read: true
+      });
+      return r;
+    });
+  }
+
+  function markChatRead() {
+    let changed = false;
+    (currentUser.chat || []).forEach(function (m) { if (m.fromTeacher && !m.read) { m.read = true; changed = true; } });
+    if (!changed) return;
+    API.post("/api/me/chat/read", {}).catch(function () { /* shown as unread again next time */ });
+    updateChatLink();
+    if (course) renderInbox();
+  }
+
+  function refreshChat() {
+    return API.get("/api/me/data").then(function (data) {
+      currentUser.chat = data.chat || [];
+      updateChatLink();
+      if (course) renderInbox();
+    });
+  }
+
+  function updateChatLink() {
+    const link = document.getElementById("chat-link");
+    if (!link) return;
+    const show = Boolean(currentUser) && window.GaussicaChat.canChat() && !previewAsStudent;
+    link.hidden = !show;
+    const n = show ? window.GaussicaChat.unread() : 0;
+    const badge = link.querySelector(".mail-badge");
+    badge.hidden = n === 0;
+    badge.textContent = String(n);
+    link.classList.toggle("has-news", n > 0);
+    link.setAttribute("aria-label", n ? "Fråga läraren: " + n + (n === 1 ? " nytt svar" : " nya svar") : "Fråga läraren");
+  }
+
+  const chatLink = document.getElementById("chat-link");
+  if (chatLink) chatLink.addEventListener("click", function () { window.GaussicaChat.open(null); });
+
   // Picks up new assignments and comments without a page reload.
   async function refreshInbox() {
     if (!isStudent() || document.visibilityState === "hidden") return;
@@ -602,6 +659,7 @@
       const data = await API.get("/api/me/data");
       currentUser.assignments = data.assignments || [];
       currentUser.feedback = data.feedback || [];
+      currentUser.chat = data.chat || [];
       renderCoach();
     } catch (e) { /* offline: try again next time */ }
   }
@@ -2197,6 +2255,7 @@
       renderVisualsFor(parent, lesson);
     } else if (key === "rule") {
       const rule = makeElement("div", "rule-card");
+      rule.style.setProperty("--rule-color", "var(--area-" + lesson.area + ", var(--brand))");   // the card takes the colour of the lesson's area
       rule.append(
         makeElement("span", "rule-label", lesson.ruleLabel),
         makeElement("span", "rule-equation", lesson.rule),
@@ -2469,6 +2528,7 @@
     if (!currentUser || currentUser.role !== "teacher") return;
     document.querySelectorAll(".admin-top-link, .footer-admin-link").forEach(function (a) { a.hidden = false; });
     applyPreviewUi();
+    refreshTeacherChat();
   }
 
   function renderStudentProfileBar() {
@@ -2656,6 +2716,39 @@
     URL.revokeObjectURL(url);
   }
 
+  // Unanswered questions show as a badge on the teacher link, also while the teacher is somewhere else on the site.
+  function countTeacherChat() {
+    return teacherCache.students.reduce(function (n, s) {
+      return n + (s.chat || []).filter(function (m) { return !m.fromTeacher && !m.read; }).length;
+    }, 0);
+  }
+
+  let shownTeacherChat = 0;
+  function showTeacherChatCount(n) {
+    shownTeacherChat = n;
+    const link = document.getElementById("admin-top-link");
+    const badge = link && link.querySelector(".mail-badge");
+    if (!badge) return;
+    badge.hidden = n === 0;
+    badge.textContent = String(n);
+    link.setAttribute("aria-label", n ? "Lärarvy: " + n + (n === 1 ? " ny fråga från en elev" : " nya frågor från elever") : "Lärarvy");
+  }
+
+  async function refreshTeacherChat() {
+    if (!currentUser || currentUser.role !== "teacher" || document.visibilityState === "hidden") return;
+    try {
+      const r = await API.get("/api/teacher/chat/unread");
+      const grew = r.unread > shownTeacherChat;
+      showTeacherChatCount(r.unread);
+      // on the teacher page, new questions appear by themselves unless the teacher is in the middle of writing an answer
+      const onAdmin = (window.location.hash || "").indexOf("#admin") === 0 && adminPage && !adminPage.hidden;
+      const typing = adminPage && Array.prototype.some.call(adminPage.querySelectorAll("textarea"), function (t) { return t.value.trim(); });
+      if (grew && onAdmin && !typing) renderAdminPage(true);
+    } catch (e) { /* offline or an older server: no badge */ }
+  }
+  setInterval(refreshTeacherChat, 60000);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") refreshTeacherChat(); });
+
   // refetch: true loads fresh data from the server; false redraws from what is already loaded.
   async function renderAdminPage(refetch) {
     if (!adminPage) return;
@@ -2675,6 +2768,7 @@
           })
         ]);
         teacherCache = { students: results[0].students, classes: results[1].classes, assignments: results[2].assignments, inboxUnavailable: Boolean(results[2].unavailable) };
+        showTeacherChatCount(countTeacherChat());
       } catch (err) {
         adminPage.replaceChildren(makeElement("p", "course-error", "Kunde inte hämta elevdata: " + err.message));
         return;
@@ -2719,6 +2813,24 @@
         deleteFeedback: function (id) {
           return API.del("/api/teacher/feedback/" + encodeURIComponent(id)).then(function () {
             teacherCache.students.forEach(function (s) { s.feedback = (s.feedback || []).filter(function (f) { return f.id !== id; }); });
+          });
+        },
+        sendChat: function (payload) {
+          return API.post("/api/teacher/chat", payload).then(function (r) {
+            const student = teacherCache.students.find(function (s) { return s.id === String(payload.studentId); });
+            if (student) {
+              (student.chat = student.chat || []).forEach(function (m) { if (!m.fromTeacher) m.read = true; });
+              student.chat.push({ id: r.id, studentId: student.id, fromTeacher: true, text: payload.text, lessonId: null, taskId: null, context: null, createdAt: new Date().toISOString(), read: false });
+            }
+            showTeacherChatCount(countTeacherChat());
+            return r;
+          });
+        },
+        markChatRead: function (studentId) {
+          return API.post("/api/teacher/chat/read", { studentId: studentId }).then(function () {
+            const student = teacherCache.students.find(function (s) { return s.id === String(studentId); });
+            if (student) (student.chat || []).forEach(function (m) { if (!m.fromTeacher) m.read = true; });
+            showTeacherChatCount(countTeacherChat());
           });
         }
       }

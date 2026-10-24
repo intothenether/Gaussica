@@ -1,0 +1,413 @@
+{
+  "id": "likhet-balansvag",
+  "area": "algebra",
+  "title": "Likhet och balansvåg",
+  "level": "Lika mycket på båda sidor · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "inte-lika-med",
+    "uttryck-med-x"
+  ],
+  "summary": "Likhetstecknet säger att båda sidor är lika mycket. Det kan du tänka dig som en balansvåg.",
+  "explanationTitle": "Vad betyder egentligen likhetstecknet?",
+  "explanation": "Problemet: Många tror att = betyder att svaret kommer härnäst, som i 7 + 3 = 10. Men vad menar vi då med 7 + 3 = 5 + 5? Och hur ska vi hitta det okända talet i x + 3 = 10? Vi behöver en bild som visar vad likhetstecknet egentligen säger. Tänk dig en balansvåg. Likhetstecknet betyder att det är lika mycket på båda sidor, så vågen står i balans. För att kolla om en likhet stämmer räknar du ut båda sidorna och jämför. 7 + 3 och 5 + 5 är båda 10, så vågen balanserar. För att hitta x i x + 3 = 10 gör du samma sak på båda sidor. Ta bort 3 från båda: x = 7. Prova själv i vågen nedan. Dra x tills vågen balanserar.",
+  "visual": {
+    "type": "vag",
+    "title": "x + 3 = 10 balanserar när x är 7",
+    "left": [
+      {
+        "n": 7,
+        "tone": "x"
+      },
+      {
+        "n": 3
+      }
+    ],
+    "right": [
+      {
+        "n": 10
+      }
+    ],
+    "leftLabel": "x + 3",
+    "rightLabel": "10"
+  },
+  "components": [
+    {
+      "type": "pyssel",
+      "title": "Balansera vågen",
+      "intro": "De rosa klossarna är x. Dra i reglaget tills vågen står i balans.",
+      "params": [
+        {
+          "name": "x",
+          "label": "x",
+          "min": 0,
+          "max": 12,
+          "step": 1,
+          "value": 2
+        }
+      ],
+      "view": {
+        "type": "vag",
+        "left": [
+          {
+            "n": "=x",
+            "tone": "x"
+          },
+          {
+            "n": 3
+          }
+        ],
+        "right": [
+          {
+            "n": 10
+          }
+        ],
+        "leftLabel": "x + 3",
+        "rightLabel": "10"
+      },
+      "readouts": [
+        {
+          "text": "Vänster: {x} + 3 = {x+3}. Höger: 10."
+        },
+        {
+          "when": {
+            "expr": "x+3-10",
+            "equals": 0
+          },
+          "text": "✓ Lika mycket på båda sidor. x = {x}!"
+        }
+      ],
+      "goals": [
+        {
+          "id": "balans",
+          "text": "Lös x + 3 = 10.",
+          "conditions": [
+            {
+              "expr": "x+3",
+              "equals": 10
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
+  "rule": "Likhetstecknet betyder lika mycket. Gör samma sak på båda sidor.",
+  "ruleLabel": "BALANSVÅGEN",
+  "example": "x + 3 = 10. Ta bort 3 från båda sidor: x = 7. Kontroll: 7 + 3 = 10.",
+  "practice": [
+    {
+      "id": "ruta",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          3,
+          15
+        ],
+        "b": [
+          2,
+          12
+        ],
+        "c": [
+          1,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "a+b-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a+b-c"
+        }
+      ],
+      "prompt": "Vilket tal ska stå i rutan så att vågen balanserar? {a} + {b} = {c} + □",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Vänster sida är {a+b}. {c} + {r} = {a+b} också.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} är vänster sida. Rutan ska fylla ut höger sida så att den också blir {a+b}: {c} + □."
+        },
+        {
+          "answers": [
+            "=a+b+c"
+          ],
+          "message": "Du har lagt ihop alla tre talen. Båda sidorna ska bli lika mycket, och vänster sida är {a+b}."
+        }
+      ]
+    },
+    {
+      "id": "x-plus",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "x": [
+          2,
+          15
+        ],
+        "a": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "x+a"
+        }
+      ],
+      "prompt": "Vad är x om x + {a} = {s}?",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! Ta bort {a} från båda sidor: x = {s} − {a} = {x}. Kontroll: {x} + {a} = {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s+a"
+          ],
+          "message": "Du har lagt ihop talen. Ta i stället bort {a} från båda sidor."
+        }
+      ]
+    },
+    {
+      "id": "x-minus",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "r": [
+          2,
+          15
+        ],
+        "a": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "r+a"
+        }
+      ],
+      "prompt": "Vad är x om x − {a} = {r}?",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! Lägg till {a} på båda sidor: x = {r} + {a} = {x}. Kontroll: {x} − {a} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=r-a"
+          ],
+          "message": "Du har tagit bort {a}. Här ska du lägga till {a} på båda sidor, för att få x ensamt."
+        }
+      ]
+    },
+    {
+      "id": "sant",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          3,
+          15
+        ],
+        "b": [
+          2,
+          12
+        ],
+        "c": [
+          1,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "a+b-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "a+b-c"
+        }
+      ],
+      "prompt": "Stämmer det? {a} + {b} = {c} + {d}. Skriv ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! Båda sidorna är {a+b}, så vågen balanserar.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Räkna båda sidorna: {a} + {b} = {a+b} och {c} + {d} = {c+d}. De är lika."
+        }
+      ]
+    },
+    {
+      "id": "sant-nej",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          3,
+          15
+        ],
+        "b": [
+          2,
+          12
+        ],
+        "c": [
+          1,
+          10
+        ],
+        "j": [
+          1,
+          3
+        ]
+      },
+      "where": [
+        {
+          "expr": "a+b-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "a+b-c+j"
+        }
+      ],
+      "prompt": "Stämmer det? {a} + {b} = {c} + {d}. Skriv ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Vänster sida är {a+b} och höger sida är {c+d}. De är inte lika, så vågen balanserar inte.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Räkna båda sidorna: {a} + {b} = {a+b} och {c} + {d} = {c+d}. De är olika."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vilket tal ska stå i rutan så att vågen balanserar? 8 + 5 = 9 + □",
+    "answer": [
+      "4"
+    ],
+    "correct": "Rätt! Vänster sida är 13. 9 + 4 = 13 också.",
+    "feedback": [
+      {
+        "answers": [
+          "13"
+        ],
+        "message": "13 är vänster sida. Rutan ska fylla ut höger sida så att den också blir 13: 9 + □."
+      },
+      {
+        "answers": [
+          "22"
+        ],
+        "message": "Du har lagt ihop alla tre talen. Båda sidorna ska bli lika mycket, och vänster sida är 13."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vad är x om x + 6 = 15?",
+      "answer": [
+        "9",
+        "x=9",
+        "x = 9"
+      ],
+      "correct": "Rätt! Ta bort 6 från båda sidor: x = 15 − 6 = 9. Kontroll: 9 + 6 = 15.",
+      "feedback": [
+        {
+          "answers": [
+            "21"
+          ],
+          "message": "Du har lagt ihop 6 och 15. Ta i stället bort 6 från båda sidor."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är talet som läggs till. Vilket tal plus 6 blir 15?"
+        }
+      ]
+    },
+    {
+      "prompt": "Stämmer det? 7 + 3 = 5 + 4. Skriv ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Vänster sida är 10 och höger sida är 9. De är inte lika.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Räkna båda sidorna: 7 + 3 = 10 och 5 + 4 = 9. De är olika."
+        }
+      ]
+    },
+    {
+      "prompt": "Vad är x om x − 4 = 9?",
+      "answer": [
+        "13",
+        "x=13",
+        "x = 13"
+      ],
+      "correct": "Rätt! Lägg till 4 på båda sidor: x = 9 + 4 = 13. Kontroll: 13 − 4 = 9.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "Du har tagit bort 4. Här ska du lägga till 4 på båda sidor."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "9 är högersidan. Vilket tal minus 4 blir 9?"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,362 @@
+{
+  "id": "fyrhorningar-linjer",
+  "area": "geometri",
+  "title": "Fyrhörningar och parallella linjer",
+  "level": "Kvadrat, rektangel, romb och trapets · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "geometriska-figurer",
+    "vinklar"
+  ],
+  "summary": "Parallella linjer möts aldrig, och vinkelräta linjer möts i en rät vinkel. Med dem kan du skilja fyrhörningarna åt.",
+  "explanationTitle": "Hur skiljer vi fyrhörningar åt?",
+  "explanation": "Problemet: Kvadrat, rektangel, parallellogram, romb och trapets har alla fyra sidor. Att räkna sidorna hjälper inte, för svaret är alltid 4. Vi behöver beskriva hur sidorna ligger i förhållande till varandra. Två linjer är parallella om de alltid är lika långt från varandra, så de möts aldrig, som två räls. Två linjer är vinkelräta om de möts i en rät vinkel, alltså 90 grader. Nu går fyrhörningarna att skilja åt. En kvadrat har fyra lika långa sidor, fyra räta vinklar och två par parallella sidor. En rektangel har fyra räta vinklar och två par parallella sidor, men bara motstående sidor är lika långa. Ett parallellogram har två par parallella sidor men inga räta vinklar. En romb har fyra lika långa sidor och två par parallella sidor, men inga räta vinklar. Ett trapets har bara ett par parallella sidor.",
+  "visual": {
+    "type": "tabs",
+    "title": "Linjer och fyrhörningar",
+    "views": [
+      {
+        "type": "linjer",
+        "tabTitle": "Linjer",
+        "items": [
+          {
+            "kind": "parallella",
+            "label": "Parallella"
+          },
+          {
+            "kind": "vinkelrata",
+            "label": "Vinkelräta"
+          },
+          {
+            "kind": "skarande",
+            "label": "Skär varandra"
+          }
+        ]
+      },
+      {
+        "type": "figurer",
+        "tabTitle": "Fyrhörningar",
+        "items": [
+          {
+            "shape": "kvadrat",
+            "label": "Kvadrat"
+          },
+          {
+            "shape": "rektangel",
+            "label": "Rektangel"
+          },
+          {
+            "shape": "parallellogram",
+            "label": "Parallellogram"
+          },
+          {
+            "shape": "romb",
+            "label": "Romb"
+          }
+        ]
+      },
+      {
+        "type": "trapets",
+        "tabTitle": "Trapets",
+        "a": 3,
+        "b": 5,
+        "height": 3,
+        "showHeight": false,
+        "labels": {
+          "a": "parallell",
+          "b": "parallell"
+        }
+      }
+    ]
+  },
+  "rule": "Parallella sidor möts aldrig. Vinkelräta sidor möts i 90 grader",
+  "ruleLabel": "FYRHÖRNINGAR",
+  "example": "En rektangel har två par parallella sidor och fyra räta vinklar. Ett trapets har bara ett par parallella sidor.",
+  "practice": [
+    {
+      "id": "par-kvadrat",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "2*n"
+        }
+      ],
+      "prompt": "{$namn} ritar {n} kvadrater. Hur många par parallella sidor finns det i alla kvadraterna tillsammans?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! En kvadrat har 2 par parallella sidor, och {n} · 2 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=4*n"
+          ],
+          "message": "Det är antalet sidor. Sidorna bildar par, två och två, så en kvadrat har 2 par."
+        },
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "En kvadrat har 2 par parallella sidor, inte 1. Både de vågräta och de lodräta sidorna är parallella."
+        }
+      ]
+    },
+    {
+      "id": "par-trapets",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "n"
+        }
+      ],
+      "prompt": "{$namn} ritar {n} trapetser. Hur många par parallella sidor finns det i alla trapetserna tillsammans?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Ett trapets har bara 1 par parallella sidor, och {n} · 1 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*n"
+          ],
+          "message": "Ett trapets har bara ett par parallella sidor. Det andra paret lutar mot varandra."
+        },
+        {
+          "answers": [
+            "=4*n"
+          ],
+          "message": "Det är antalet sidor. Ett trapets har bara 1 par parallella sidor."
+        }
+      ]
+    },
+    {
+      "id": "rata-vinklar",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "4*n"
+        }
+      ],
+      "prompt": "{$namn} ritar {n} rektanglar. Hur många räta vinklar finns det i alla rektanglarna tillsammans?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! En rektangel har 4 räta vinklar, och {n} · 4 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*n"
+          ],
+          "message": "Det är antalet par av sidor. Varje hörn i en rektangel är en rät vinkel, så det blir 4 per rektangel."
+        }
+      ]
+    },
+    {
+      "id": "gradtal",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "prompt": "{$namn} ritar två vinkelräta linjer. Hur stor är vinkeln mellan dem i grader?",
+      "answer": [
+        "90",
+        "90 grader",
+        "90°"
+      ],
+      "correct": "Rätt! Vinkelräta linjer möts i en rät vinkel, och den är 90 grader.",
+      "feedback": [
+        {
+          "answers": [
+            "180",
+            "180°"
+          ],
+          "message": "180 grader är en rak vinkel, alltså en rak linje. En rät vinkel är hälften av det."
+        },
+        {
+          "answers": [
+            "45",
+            "45°"
+          ],
+          "message": "45 grader är hälften av en rät vinkel. En rät vinkel är 90 grader."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur många par parallella sidor har en rektangel?",
+    "answer": [
+      "2"
+    ],
+    "correct": "Rätt! De två långa sidorna är parallella, och de två korta sidorna är parallella. Det är 2 par.",
+    "feedback": [
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "4 är antalet sidor. Sidorna bildar par, två och två."
+      },
+      {
+        "answers": [
+          "1"
+        ],
+        "message": "Det är trapetsens svar. I en rektangel är både de långa och de korta sidorna parallella."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vilken fyrhörning har bara ett par parallella sidor?",
+      "answer": [
+        "trapets",
+        "trapetsen",
+        "ett trapets"
+      ],
+      "correct": "Rätt! Ett trapets har ett par parallella sidor, de andra två sidorna lutar mot varandra.",
+      "feedback": [
+        {
+          "answers": [
+            "rektangel",
+            "rektangeln",
+            "kvadrat",
+            "kvadraten"
+          ],
+          "message": "Rektangeln och kvadraten har två par parallella sidor."
+        },
+        {
+          "answers": [
+            "parallellogram",
+            "parallellogrammet",
+            "romb",
+            "romben"
+          ],
+          "message": "Parallellogrammet och romben har också två par parallella sidor."
+        }
+      ]
+    },
+    {
+      "prompt": "Figuren har fyra lika långa sidor, två par parallella sidor och inga räta vinklar. Vilken figur är det?",
+      "answer": [
+        "romb",
+        "romben",
+        "en romb"
+      ],
+      "correct": "Rätt! En romb har fyra lika långa sidor och sneda vinklar.",
+      "feedback": [
+        {
+          "answers": [
+            "kvadrat",
+            "kvadraten"
+          ],
+          "message": "En kvadrat har fyra räta vinklar, men här finns inga räta vinklar."
+        },
+        {
+          "answers": [
+            "parallellogram",
+            "parallellogrammet"
+          ],
+          "message": "I ett parallellogram är det bara motstående sidor som är lika långa. Här är alla fyra sidor lika långa."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilken fyrhörning har fyra lika långa sidor och fyra räta vinklar?",
+      "answer": [
+        "kvadrat",
+        "kvadraten",
+        "en kvadrat"
+      ],
+      "correct": "Rätt! En kvadrat är den enda fyrhörningen som har både lika långa sidor och räta vinklar.",
+      "feedback": [
+        {
+          "answers": [
+            "romb",
+            "romben"
+          ],
+          "message": "En romb har fyra lika långa sidor, men vinklarna är sneda. Här ska alla vinklar vara räta."
+        },
+        {
+          "answers": [
+            "rektangel",
+            "rektangeln"
+          ],
+          "message": "I en rektangel är bara motstående sidor lika långa. Här ska alla fyra sidor vara lika långa."
+        }
+      ]
+    }
+  ]
+}

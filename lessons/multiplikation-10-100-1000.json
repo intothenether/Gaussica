@@ -1,0 +1,360 @@
+{
+  "id": "multiplikation-10-100-1000",
+  "area": "tal",
+  "title": "Multiplikation med 10, 100 och 1000",
+  "level": "Lägg på nollor · ungefär åk 4",
+  "grade": 4,
+  "duration": "6 min",
+  "prerequisites": [
+    "multiplikationstabellen",
+    "platsvarde"
+  ],
+  "summary": "Att multiplicera med 10, 100 och 1000 är en genväg: varje siffra flyttas åt vänster och nollor fyller på.",
+  "explanationTitle": "Hur räknar vi 34 · 100 utan uppställning?",
+  "explanation": "Problemet: Hur mycket är 34 · 100? Tabellerna går bara till 10 · 10, och uppställning med många nollor tar lång tid. Ändå multiplicerar vi ofta med just 10, 100 och 1000, till exempel när vi byter enhet eller räknar pengar. Finns det en genväg? Ja, för vårt talsystem bygger på tiotal. Att multiplicera med 10 gör varje siffra tio gånger mer värd. Siffrorna flyttar ett steg åt vänster i platsvärdestabellen, och en nolla fyller entalsplatsen: 34 · 10 = 340. Med 100 flyttar siffrorna två steg, alltså två nollor: 34 · 100 = 3400. Med 1000 blir det tre nollor: 34 · 1000 = 34000. Det är motsatsen till division: 3400/100 = 34. Du kan också räkna med tiotal: 30 · 20 är 3 · 2 = 6 med två nollor efter, alltså 600.",
+  "visual": {
+    "type": "tabell",
+    "title": "Multiplicera 34",
+    "headers": [
+      "Räkning",
+      "Svar",
+      "Vad händer?"
+    ],
+    "rows": [
+      [
+        "34 · 1",
+        "34",
+        "Inget ändras"
+      ],
+      [
+        "34 · 10",
+        "340",
+        "En nolla på slutet"
+      ],
+      [
+        "34 · 100",
+        "3400",
+        "Två nollor"
+      ],
+      [
+        "34 · 1000",
+        "34000",
+        "Tre nollor"
+      ]
+    ]
+  },
+  "rule": "Multiplicera med 10, 100 eller 1000: lägg på 1, 2 eller 3 nollor",
+  "ruleLabel": "NOLLORNA",
+  "example": "46 · 100 = 4600. Och 30 · 20: 3 · 2 = 6, och två nollor ger 600.",
+  "practice": [
+    {
+      "id": "gange-10",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          11,
+          999
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*10"
+        }
+      ],
+      "prompt": "Räkna ut {a} · 10.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Lägg på en nolla: {a} · 10 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*100"
+          ],
+          "message": "Du har lagt på två nollor. Att multiplicera med 10 ger en nolla."
+        },
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "Talet är oförändrat. Att multiplicera med 10 gör talet tio gånger större."
+        },
+        {
+          "answers": [
+            "=a+10"
+          ],
+          "message": "Du har lagt ihop. Här ska du multiplicera: lägg på en nolla."
+        }
+      ]
+    },
+    {
+      "id": "gange-100",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*100"
+        }
+      ],
+      "prompt": "Räkna ut {a} · 100.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Lägg på två nollor: {a} · 100 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Du har bara lagt på en nolla. Att multiplicera med 100 ger två nollor."
+        },
+        {
+          "answers": [
+            "=a*1000"
+          ],
+          "message": "Du har lagt på tre nollor. Att multiplicera med 100 ger två."
+        }
+      ]
+    },
+    {
+      "id": "gange-1000",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*1000"
+        }
+      ],
+      "prompt": "Räkna ut {a} · 1000.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Lägg på tre nollor: {a} · 1000 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*100"
+          ],
+          "message": "Du har bara lagt på två nollor. Att multiplicera med 1000 ger tre nollor."
+        },
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Du har bara lagt på en nolla. Att multiplicera med 1000 ger tre nollor."
+        }
+      ]
+    },
+    {
+      "id": "tiotal",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "x": [
+          2,
+          9
+        ],
+        "y": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "x*y*100"
+        }
+      ],
+      "prompt": "Räkna ut {x*10} · {y*10}.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {x} · {y} = {x*y}, och båda talen har en nolla. Två nollor ger {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x*y*10"
+          ],
+          "message": "Du har bara lagt på en nolla. Båda talen slutar på noll, så det blir två nollor."
+        },
+        {
+          "answers": [
+            "=x*y"
+          ],
+          "message": "Du har glömt nollorna. Räkna {x} · {y} och lägg sedan på nollorna."
+        }
+      ]
+    },
+    {
+      "id": "paskar",
+      "for": [
+        "word-0",
+        "word-1"
+      ],
+      "pick": {
+        "sak": [
+          "kulor",
+          "pärlor",
+          "klistermärken"
+        ]
+      },
+      "vars": {
+        "a": [
+          2,
+          40
+        ],
+        "e": [
+          1,
+          3
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "pow(10,e)"
+        },
+        {
+          "name": "r",
+          "expr": "a*pow(10,e)"
+        }
+      ],
+      "prompt": "Det ligger {a} {$sak} i varje påse. Hur många {$sak} finns det i {d} påsar?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} · {d} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+d"
+          ],
+          "message": "Du har lagt ihop talen. Det är {d} påsar med {a} i varje, så du ska multiplicera."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 46 · 10.",
+    "answer": [
+      "460"
+    ],
+    "correct": "Rätt! Lägg på en nolla: 46 · 10 = 460.",
+    "feedback": [
+      {
+        "answers": [
+          "46"
+        ],
+        "message": "Talet är oförändrat. Att multiplicera med 10 gör talet tio gånger större."
+      },
+      {
+        "answers": [
+          "4600"
+        ],
+        "message": "Du har lagt på två nollor. Att multiplicera med 10 ger en nolla."
+      },
+      {
+        "answers": [
+          "56"
+        ],
+        "message": "Du har lagt ihop talen. Här ska du multiplicera: lägg på en nolla."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En låda rymmer 24 böcker. Hur många böcker finns det i 100 lådor?",
+      "answer": [
+        "2400"
+      ],
+      "correct": "Rätt! Lägg på två nollor: 24 · 100 = 2400.",
+      "feedback": [
+        {
+          "answers": [
+            "240"
+          ],
+          "message": "Du har bara lagt på en nolla. Att multiplicera med 100 ger två nollor."
+        },
+        {
+          "answers": [
+            "24000"
+          ],
+          "message": "Du har lagt på tre nollor. Att multiplicera med 100 ger två."
+        },
+        {
+          "answers": [
+            "124"
+          ],
+          "message": "Du har lagt ihop. Det är 100 lådor med 24 böcker i varje, så du ska multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett paket innehåller 35 kort. En affär har 1000 paket. Hur många kort finns det i affären?",
+      "answer": [
+        "35000"
+      ],
+      "correct": "Rätt! Lägg på tre nollor: 35 · 1000 = 35000.",
+      "feedback": [
+        {
+          "answers": [
+            "3500"
+          ],
+          "message": "Du har bara lagt på två nollor. Att multiplicera med 1000 ger tre."
+        },
+        {
+          "answers": [
+            "350"
+          ],
+          "message": "Du har bara lagt på en nolla. Att multiplicera med 1000 ger tre."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 30 · 40.",
+      "answer": [
+        "1200"
+      ],
+      "correct": "Rätt! 3 · 4 = 12, och två nollor ger 1200.",
+      "feedback": [
+        {
+          "answers": [
+            "120"
+          ],
+          "message": "Du har bara lagt på en nolla. Båda talen slutar på noll, så det blir två nollor."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "Du har glömt nollorna. 3 · 4 = 12, sedan lägger du på två nollor."
+        },
+        {
+          "answers": [
+            "70"
+          ],
+          "message": "Du har lagt ihop talen. Här ska du multiplicera."
+        }
+      ]
+    }
+  ]
+}

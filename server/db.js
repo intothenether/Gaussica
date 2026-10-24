@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4;
 
 function open(dbPath) {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -106,6 +106,24 @@ function migrate(db) {
         rewards  INTEGER NOT NULL DEFAULT 1
       );
       ALTER TABLE assignments ADD COLUMN kind TEXT NOT NULL DEFAULT 'lesson';
+    `);
+  }
+  if (version < 4) {
+    db.exec(`
+      CREATE TABLE chat (
+        id           INTEGER PRIMARY KEY,
+        student_id   INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        teacher_id   INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        from_teacher INTEGER NOT NULL DEFAULT 0,
+        text         TEXT NOT NULL,
+        lesson_id    TEXT,
+        task_id      TEXT,
+        context      TEXT,
+        created_at   TEXT NOT NULL,
+        read_at      TEXT
+      );
+      CREATE INDEX chat_student ON chat (student_id, id);
+      CREATE INDEX chat_teacher ON chat (teacher_id, from_teacher, read_at);
     `);
   }
   db.exec("PRAGMA user_version = " + SCHEMA_VERSION);

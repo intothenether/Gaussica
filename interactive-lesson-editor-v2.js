@@ -78,6 +78,10 @@ window.InteractiveEditor = (function () {
     tarning: {
       label: "Tärning", icon: "⚄",
       create: () => ({ type: "tarning", title: "Kasta tärning", intro: "Kasta många gånger och jämför med vad man väntar sig.", kind: "tarning", sides: 6, goal: { id: "kasta", text: "Kasta minst 100 gånger.", minRolls: 100 } })
+    },
+    robot: {
+      label: "Robot", icon: "🤖",
+      create: () => ({ type: "robot", title: "Styr roboten", intro: "Bygg ett program som tar roboten till stjärnan.", cols: 6, rows: 4, start: { x: 0, y: 3, dir: 1 }, target: { x: 5, y: 3 }, walls: [], goal: { id: "robot", text: "Ta roboten till stjärnan." } })
     }
   };
 
@@ -1059,6 +1063,7 @@ window.InteractiveEditor = (function () {
         break;
       case "rule": {
         const rule = mk("div", "rule-card");
+        rule.style.setProperty("--rule-color", "var(--area-" + lesson.area + ", var(--brand))");
         rule.append(mk("span", "rule-label", lesson.ruleLabel || ""), mk("span", "rule-equation", lesson.rule || ""), mk("span", "rule-example", lesson.example || ""));
         box.appendChild(rule);
         break;

@@ -1,0 +1,213 @@
+{
+  "id": "pyssla-robot",
+  "kind": "pyssel",
+  "area": "algebra",
+  "title": "Pyssla: styr roboten",
+  "level": "Programmera med enkla kommandon · ungefär åk 4",
+  "grade": 4,
+  "duration": "10 min",
+  "prerequisites": [
+    "algoritmer"
+  ],
+  "summary": "Bygg ett program av enkla kommandon och låt roboten gå till stjärnan. Ordningen och antalet upprepningar avgör vart den kommer.",
+  "explanationTitle": "Hur berättar man för en robot vart den ska?",
+  "explanation": "Problemet: Du kan säga till en kompis \"gå till affären\", och kompisen hittar dit. En robot kan inte det. Den gör exakt det du säger, ett steg i taget, och ingenting annat. Hur beskriver man en väg så noga att en robot kan följa den? Med ett program, alltså en lista med enkla kommandon i rätt ordning. Det är en algoritm som en dator förstår. Här har roboten tre kommandon: gå framåt ett steg, sväng höger och sväng vänster. Ordningen spelar roll. \"Gå framåt, sväng höger\" ger en annan väg än \"sväng höger, gå framåt\". Ofta upprepar du samma kommando flera gånger. Då slipper du skriva det om och om igen: klicka på ett kommando i programmet för att låta roboten upprepa det. Gör roboten fel? Då har programmet ett fel, och att hitta felet kallas att felsöka. Ändra programmet och kör igen.",
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "comp:2",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
+  "components": [
+    {
+      "type": "robot",
+      "title": "Nivå 1: rakt fram",
+      "intro": "Roboten tittar åt höger. Bygg ett program som tar den till stjärnan.",
+      "cols": 6,
+      "rows": 3,
+      "start": {
+        "x": 0,
+        "y": 2,
+        "dir": 1
+      },
+      "target": {
+        "x": 5,
+        "y": 2
+      },
+      "walls": [],
+      "goal": {
+        "id": "niva1",
+        "text": "Ta roboten till stjärnan."
+      }
+    },
+    {
+      "type": "robot",
+      "title": "Nivå 2: med en sväng",
+      "intro": "Roboten tittar uppåt. Använd upprepning så att programmet blir kort.",
+      "cols": 6,
+      "rows": 5,
+      "start": {
+        "x": 0,
+        "y": 4,
+        "dir": 0
+      },
+      "target": {
+        "x": 5,
+        "y": 0
+      },
+      "walls": [],
+      "goal": {
+        "id": "niva2",
+        "text": "Ta roboten till stjärnan med högst 3 kommandon.",
+        "maxCommands": 3
+      }
+    },
+    {
+      "type": "robot",
+      "title": "Nivå 3: runt muren",
+      "intro": "De grå rutorna är en mur. Roboten måste gå runt den.",
+      "cols": 6,
+      "rows": 5,
+      "start": {
+        "x": 0,
+        "y": 4,
+        "dir": 0
+      },
+      "target": {
+        "x": 0,
+        "y": 0
+      },
+      "walls": [
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        }
+      ],
+      "goal": {
+        "id": "niva3",
+        "text": "Ta roboten runt muren med högst 8 kommandon.",
+        "maxCommands": 8
+      }
+    }
+  ],
+  "exercise": {
+    "prompt": "Roboten tittar uppåt. Du ger den kommandot \"sväng höger\" två gånger. Vilket håll tittar roboten åt?",
+    "answer": [
+      "ner",
+      "nedåt",
+      "ned",
+      "neråt"
+    ],
+    "correct": "Rätt! Först tittar roboten åt höger, sedan nedåt. Två svängar höger är ett halvt varv.",
+    "feedback": [
+      {
+        "answers": [
+          "höger"
+        ],
+        "message": "Efter en sväng höger tittar roboten åt höger. Svänger den en gång till tittar den nedåt."
+      },
+      {
+        "answers": [
+          "upp",
+          "uppåt"
+        ],
+        "message": "Då skulle roboten ha gjort ett helt varv. Två svängar höger är ett halvt varv."
+      },
+      {
+        "answers": [
+          "vänster"
+        ],
+        "message": "Höger sväng två gånger går inte åt vänster. Rita upp det: upp, höger, ner."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Roboten tittar åt höger. Hur många gånger måste den svänga höger för att titta åt vänster?",
+      "answer": [
+        "2",
+        "2 gånger"
+      ],
+      "correct": "Rätt! Höger, sedan ner, sedan vänster: två svängar åt höger.",
+      "feedback": [
+        {
+          "answers": [
+            "1",
+            "1 gång"
+          ],
+          "message": "En sväng höger från höger ger nedåt. Det behövs en sväng till."
+        },
+        {
+          "answers": [
+            "3",
+            "3 gånger"
+          ],
+          "message": "Tre svängar ger uppåt. Vänster nås redan efter två svängar."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett program är: gå framåt 3 gånger, sväng höger, gå framåt 2 gånger. Hur många steg framåt går roboten sammanlagt?",
+      "answer": [
+        "5",
+        "5 steg"
+      ],
+      "correct": "Rätt! 3 + 2 = 5 steg. Svängen är inget steg framåt.",
+      "feedback": [
+        {
+          "answers": [
+            "6",
+            "6 steg"
+          ],
+          "message": "Du har multiplicerat 3 · 2. Stegen ska läggas ihop: 3 + 2."
+        },
+        {
+          "answers": [
+            "6 kommandon"
+          ],
+          "message": "Du har räknat med svängen. Den är inget steg framåt."
+        }
+      ]
+    },
+    {
+      "prompt": "Roboten ska gå fyra steg framåt. Du vill skriva det kort med upprepning. Hur många gånger ska kommandot \"gå framåt\" upprepas?",
+      "answer": [
+        "4",
+        "4 gånger"
+      ],
+      "correct": "Rätt! Ett kommando upprepat 4 gånger ger fyra steg framåt.",
+      "feedback": [
+        {
+          "answers": [
+            "1",
+            "1 gång"
+          ],
+          "message": "En gång ger bara ett steg. Roboten ska gå fyra steg."
+        },
+        {
+          "answers": [
+            "3",
+            "3 gånger"
+          ],
+          "message": "Tre gånger ger tre steg. Roboten ska gå fyra steg."
+        }
+      ]
+    }
+  ]
+}

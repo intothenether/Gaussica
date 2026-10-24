@@ -74,3 +74,14 @@ npx wrangler deploy
 ```
 
 Ny databas: det räcker med `schema.sql`. Kör inte `002-assignment-kind.sql` en andra gång, då ger den felet "duplicate column name".
+
+### Version med chatt mellan elev och lärare
+
+Chatten använder en ny tabell, `chat`. Eftersom den bara läggs till (ingen befintlig tabell ändras) räcker det att köra schemat eller migreringen, och den kan köras flera gånger:
+
+```bash
+npx wrangler d1 execute gaussica --remote --file=migrations/003-chat.sql
+npx wrangler deploy
+```
+
+Hinner du inte köra migreringen före `deploy` fungerar resten av sidan som vanligt. Chatten svarar då att den inte är påslagen.

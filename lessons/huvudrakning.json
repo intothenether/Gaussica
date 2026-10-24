@@ -1,0 +1,294 @@
+{
+  "id": "huvudrakning",
+  "area": "tal",
+  "title": "Huvudräkning: smarta knep",
+  "level": "Dela upp, runda och dubbla · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "addition",
+    "multiplikationstabellen"
+  ],
+  "summary": "Med några knep kan du räkna svåra tal i huvudet: dela upp talen, runda och justera, dubbla och halvera.",
+  "explanationTitle": "Hur räknar vi 37 + 48 utan papper?",
+  "explanation": "Problemet: Vad är 37 + 48, eller 14 · 6? Du har inget papper, och uppställning går inte att göra i huvudet. Att räkna steg för steg på fingrarna tar för lång tid. Vi behöver knep som gör talen enklare. Knep 1: dela upp talen. 37 + 48 är 30 + 40 = 70 och 7 + 8 = 15, tillsammans 85. Knep 2: runda och justera. 49 + 36 är nästan 50 + 36 = 86, men du lade till 1 för mycket, så svaret är 85. Knep 3: dela upp vid multiplikation. 14 · 6 är 10 · 6 + 4 · 6 = 60 + 24 = 84. Knep 4: dubbla och halvera. 16 · 5 är hälften av 16 gånger 10, alltså 8 · 10 = 80. Välj det knep som passar talen.",
+  "visual": {
+    "type": "tabell",
+    "title": "Fyra knep",
+    "headers": [
+      "Knep",
+      "Räkning",
+      "Så gör du"
+    ],
+    "rows": [
+      [
+        "Dela upp",
+        "37 + 48",
+        "30 + 40 = 70, 7 + 8 = 15, svar 85"
+      ],
+      [
+        "Runda och justera",
+        "49 + 36",
+        "50 + 36 = 86, minus 1 = 85"
+      ],
+      [
+        "Dela upp gånger",
+        "14 · 6",
+        "10 · 6 = 60, 4 · 6 = 24, svar 84"
+      ],
+      [
+        "Dubbla och halvera",
+        "16 · 5",
+        "halva 16 är 8, 8 · 10 = 80"
+      ]
+    ]
+  },
+  "rule": "Gör talen enklare: dela upp, runda, dubbla eller halvera",
+  "ruleLabel": "SMARTA KNEP",
+  "example": "49 + 36: 50 + 36 = 86, och eftersom 49 är 1 mindre än 50 tar du bort 1: 85.",
+  "practice": [
+    {
+      "id": "dela-upp-plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          21,
+          79
+        ],
+        "b": [
+          21,
+          79
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "Räkna i huvudet: {a} + {b}.",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! Tiotalen: {10*floor(a/10)} + {10*floor(b/10)} = {10*floor(a/10)+10*floor(b/10)}. Entalen: {mod(a,10)} + {mod(b,10)} = {mod(a,10)+mod(b,10)}. Svar: {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(floor(a/10)+floor(b/10))*10+mod(mod(a,10)+mod(b,10),10)"
+          ],
+          "message": "Du glömde att entalen blev tio eller mer. Tiotalet från entalen ska med: lägg ihop tiotalen och entalen var för sig."
+        }
+      ]
+    },
+    {
+      "id": "runda-justera",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "t": [
+          3,
+          10
+        ],
+        "b": [
+          11,
+          60
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "10*t-1"
+        },
+        {
+          "name": "s",
+          "expr": "10*t-1+b"
+        }
+      ],
+      "prompt": "Räkna i huvudet: {a} + {b}. Tips: {a} är nästan {a+1}.",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! {a+1} + {b} = {a+1+b}, och {a} är 1 mindre än {a+1}, så svaret är {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+1+b"
+          ],
+          "message": "Du räknade med {a+1} och glömde att ta bort 1 i slutet. Det gick åt 1 mindre."
+        }
+      ]
+    },
+    {
+      "id": "dela-upp-gange",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          12,
+          19
+        ],
+        "m": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*m"
+        }
+      ],
+      "prompt": "Räkna i huvudet: {a} · {m}. Tips: dela upp {a} i 10 och {a-10}.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! 10 · {m} = {10*m} och {a-10} · {m} = {(a-10)*m}. Tillsammans {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=10*m"
+          ],
+          "message": "Du har bara räknat 10 · {m}. Räkna också {a-10} · {m} och lägg ihop."
+        }
+      ]
+    },
+    {
+      "id": "dubbla-halvera",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "h": [
+          6,
+          24
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "2*h"
+        },
+        {
+          "name": "r",
+          "expr": "h*10"
+        }
+      ],
+      "prompt": "Räkna i huvudet: {a} · 5. Tips: halvera {a} och multiplicera med 10.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Hälften av {a} är {h}, och {h} · 10 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Du har multiplicerat med 10 utan att halvera. Hälften av {a} är {h}."
+        },
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "Du har bara halverat. Multiplicera sedan med 10: {h} · 10."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna i huvudet: 37 + 48.",
+    "answer": [
+      "85"
+    ],
+    "correct": "Rätt! 30 + 40 = 70 och 7 + 8 = 15. Tillsammans 85.",
+    "feedback": [
+      {
+        "answers": [
+          "75"
+        ],
+        "message": "Du glömde att 7 + 8 = 15 är tio eller mer. Tiotalet från entalen ska med."
+      },
+      {
+        "answers": [
+          "84",
+          "86"
+        ],
+        "message": "Nästan! Räkna tiotalen och entalen var för sig: 30 + 40 och 7 + 8."
+      },
+      {
+        "answers": [
+          "95"
+        ],
+        "message": "Du har lagt till tiotalet två gånger. Räkna 70 + 15."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Räkna i huvudet: 49 + 36. Tips: 49 är nästan 50.",
+      "answer": [
+        "85"
+      ],
+      "correct": "Rätt! 50 + 36 = 86, och 49 är 1 mindre än 50, så svaret är 85.",
+      "feedback": [
+        {
+          "answers": [
+            "86"
+          ],
+          "message": "Du räknade med 50 och glömde att ta bort 1 i slutet."
+        },
+        {
+          "answers": [
+            "95"
+          ],
+          "message": "Du har lagt till 10 för mycket. 50 + 36 = 86, minus 1."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna i huvudet: 14 · 6. Tips: dela upp 14 i 10 och 4.",
+      "answer": [
+        "84"
+      ],
+      "correct": "Rätt! 10 · 6 = 60 och 4 · 6 = 24. Tillsammans 84.",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "Du har bara räknat 10 · 6. Räkna också 4 · 6 och lägg ihop."
+        },
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "Du har bara räknat 4 · 6. Räkna också 10 · 6 och lägg ihop."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna i huvudet: 16 · 5. Tips: halvera 16 och multiplicera med 10.",
+      "answer": [
+        "80"
+      ],
+      "correct": "Rätt! Hälften av 16 är 8, och 8 · 10 = 80.",
+      "feedback": [
+        {
+          "answers": [
+            "160"
+          ],
+          "message": "Du har multiplicerat 16 med 10. Halvera först: hälften av 16 är 8."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "Du har bara halverat. Multiplicera sedan med 10."
+        }
+      ]
+    }
+  ]
+}

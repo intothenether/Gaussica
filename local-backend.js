@@ -29,7 +29,7 @@ window.GaussicaLocal = (function () {
 
   // ----- storage -----
   function empty() {
-    return { users: [], classes: [], progress: {}, attempts: [], lessons: {}, assignments: [], feedback: [], next: { user: 1, cls: 1, attempt: 1, assignment: 1, feedback: 1 }, session: null };
+    return { users: [], classes: [], progress: {}, attempts: [], lessons: {}, assignments: [], feedback: [], chat: [], next: { user: 1, cls: 1, attempt: 1, assignment: 1, feedback: 1, chat: 1 }, session: null };
   }
 
   function load() {
@@ -348,6 +348,87 @@ window.GaussicaLocal = (function () {
     return { ok: true };
   }
 
+  // ----- chat between a student and the teacher of their class -----
+  const CHAT_UNANSWERED_MAX = 6;
+
+  function publicChat(c) {
+    return {
+      id: c.id, studentId: String(c.studentId), fromTeacher: c.fromTeacher, text: c.text,
+      lessonId: c.lessonId || null, taskId: c.taskId || null, context: c.context || null, createdAt: c.createdAt, read: Boolean(c.readAt)
+    };
+  }
+
+  function cleanChatContext(c) {
+    if (!c || typeof c !== "object") return null;
+    const out = {};
+    ["prompt", "answer", "lessonTitle", "taskName", "correctAnswer"].forEach(function (k) {
+      if (c[k] !== undefined && c[k] !== null && String(c[k]).trim()) out[k] = str(c[k], k === "prompt" ? 600 : 200);
+    });
+    if (Number.isInteger(c.tries) && c.tries >= 0) out.tries = Math.min(c.tries, 99);
+    if (["done", "fix", "todo", "read"].indexOf(c.status) >= 0) out.status = c.status;
+    return Object.keys(out).length ? out : null;
+  }
+
+  function studentChat(b) {
+    const u = requireUser();
+    if (u.role !== "student") throw ApiError(403, "Bara elever kan skriva till läraren här.");
+    const cls = u.classId && db.classes.find(function (c) { return c.id === u.classId; });
+    if (!cls) throw ApiError(400, "Du är inte med i någon klass än.");
+    const text = str(b.text, 600).trim();
+    if (!text) throw ApiError(400, "Skriv något först.");
+    const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
+    const taskId = b.taskId ? str(b.taskId, 80) : null;
+    if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw ApiError(400, "Ogiltigt id.");
+    let open = 0;
+    db.chat.filter(function (c) { return c.studentId === u.id; }).forEach(function (c) { open = c.fromTeacher ? 0 : open + 1; });
+    if (open >= CHAT_UNANSWERED_MAX) throw ApiError(429, "Du har redan skickat flera meddelanden. Vänta tills din lärare har svarat.");
+    const c = { id: db.next.chat++, studentId: u.id, teacherId: cls.teacherId, fromTeacher: false, text: text, lessonId: lessonId, taskId: taskId,
+      context: cleanChatContext(b.context), createdAt: nowIso(), readAt: null };
+    db.chat.push(c);
+    save();
+    return { id: c.id };
+  }
+
+  function studentChatRead() {
+    const u = requireUser();
+    const now = nowIso();
+    db.chat.forEach(function (c) { if (c.studentId === u.id && c.fromTeacher && !c.readAt) c.readAt = now; });
+    save();
+    return { ok: true };
+  }
+
+  function markChatReadByTeacher(studentId, teacherId) {
+    const now = nowIso();
+    db.chat.forEach(function (c) { if (c.studentId === studentId && c.teacherId === teacherId && !c.fromTeacher && !c.readAt) c.readAt = now; });
+  }
+
+  function teacherChat(b) {
+    const t = requireTeacher();
+    const student = studentOfTeacher(Number(b.studentId), t.id);
+    if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
+    const text = str(b.text, 600).trim();
+    if (!text) throw ApiError(400, "Skriv något först.");
+    const c = { id: db.next.chat++, studentId: student.id, teacherId: t.id, fromTeacher: true, text: text, lessonId: null, taskId: null, context: null, createdAt: nowIso(), readAt: null };
+    db.chat.push(c);
+    markChatReadByTeacher(student.id, t.id);   // answering means having read
+    save();
+    return { id: c.id };
+  }
+
+  function teacherChatRead(b) {
+    const t = requireTeacher();
+    const student = studentOfTeacher(Number(b.studentId), t.id);
+    if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
+    markChatReadByTeacher(student.id, t.id);
+    save();
+    return { ok: true };
+  }
+
+  function teacherChatUnread() {
+    const t = requireTeacher();
+    return { unread: db.chat.filter(function (c) { return c.teacherId === t.id && !c.fromTeacher && !c.readAt; }).length };
+  }
+
   function markRead(b) {
     const u = requireUser();
     const ids = Array.isArray(b.ids) ? b.ids.slice(0, 100) : [];
@@ -398,7 +479,8 @@ window.GaussicaLocal = (function () {
         return {
           id: String(s.id), username: s.username, name: s.displayName, "class": className(s), classId: s.classId,
           color: COLORS[s.id % COLORS.length], createdAt: s.createdAt, lessonProgress: progressOf(s.id), attempts: attemptsOf(s.id),
-          feedback: db.feedback.filter(function (f) { return f.studentId === s.id && f.teacherId === u.id; }).map(function (f) { return publicFeedback(f, true); })
+          feedback: db.feedback.filter(function (f) { return f.studentId === s.id && f.teacherId === u.id; }).map(function (f) { return publicFeedback(f, true); }),
+          chat: db.chat.filter(function (c) { return c.studentId === s.id && c.teacherId === u.id; }).slice(-300).map(publicChat)
         };
       });
     return { students: students };
@@ -423,6 +505,7 @@ window.GaussicaLocal = (function () {
     db.attempts = db.attempts.filter(function (a) { return a.userId !== student.id; });
     delete db.progress[student.id];
     db.feedback = db.feedback.filter(function (f) { return f.studentId !== student.id; });
+    db.chat = db.chat.filter(function (c) { return c.studentId !== student.id; });
     db.assignments = db.assignments.filter(function (a) { return a.studentId !== student.id; });
     save();
     return { ok: true };
@@ -446,10 +529,16 @@ window.GaussicaLocal = (function () {
           return !a.archived && a.classId === u.classId && (!a.studentId || a.studentId === u.id);
         }).sort(byDue).map(function (a) { return publicAssignment(a, false); }) : [],
         feedback: isStudent ? db.feedback.filter(function (f) { return f.studentId === u.id; }).sort(function (a, b) { return b.id - a.id; }).slice(0, 200)
-          .map(function (f) { return publicFeedback(f, false); }) : []
+          .map(function (f) { return publicFeedback(f, false); }) : [],
+        chat: isStudent ? db.chat.filter(function (c) { return c.studentId === u.id; }).slice(-200).map(publicChat) : []
       };
     }
     if (method === "POST" && path === "/api/me/feedback/read") return markRead(body);
+    if (method === "POST" && path === "/api/me/chat") return studentChat(body);
+    if (method === "POST" && path === "/api/me/chat/read") return studentChatRead();
+    if (method === "POST" && path === "/api/teacher/chat") return teacherChat(body);
+    if (method === "POST" && path === "/api/teacher/chat/read") return teacherChatRead(body);
+    if (method === "GET" && path === "/api/teacher/chat/unread") return teacherChatUnread();
     if ((m = /^\/api\/progress\/([^/]+)$/.exec(path)) && method === "PUT") return putProgress(decodeURIComponent(m[1]), body);
     if (method === "POST" && path === "/api/attempts") return postAttempt(body);
     if (method === "GET" && path === "/api/lessons") { requireUser(); return { lessons: Object.keys(db.lessons).map(function (k) { return copy(db.lessons[k]); }) }; }

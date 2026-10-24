@@ -5,6 +5,7 @@
 //   ritrutnat    draw on a grid, optionally mirrored (symmetry)
 //   primtalssil  Eratosthenes' sieve: strike out multiples to find the primes
 //   tarning      dice / coin simulator with a live bar chart
+//   robot        build a program of step commands that moves a robot to the star
 //
 // Everything is declarative JSON. Formulas are written as text and evaluated by the small,
 // safe evaluator below (no eval). In a figure config, a string like "=l*b" becomes a number
@@ -21,7 +22,7 @@
 window.GaussicaPyssel = (function () {
   "use strict";
 
-  const TYPES = { pyssel: "PYSSLA", ritrutnat: "RITA", primtalssil: "PRIMTALSSIL", tarning: "SLUMP" };
+  const TYPES = { pyssel: "PYSSLA", ritrutnat: "RITA", primtalssil: "PRIMTALSSIL", tarning: "SLUMP", robot: "ROBOT" };
 
   function supports(type) {
     return Object.prototype.hasOwnProperty.call(TYPES, String(type || "").toLowerCase());
@@ -548,12 +549,190 @@ window.GaussicaPyssel = (function () {
     return root;
   }
 
+  // ===== robot: build a program from a few commands and run it =====
+  // { type: "robot", title, intro, cols, rows, start: { x, y, dir }, target: { x, y }, walls: [{ x, y }], goal: { id, text, maxCommands } }
+  // dir: 0 up, 1 right, 2 down, 3 left. A command can be repeated (click it in the program to change how many times).
+  function robot(comp, ctx) {
+    const root = card(comp, "robot");
+    const cols = Math.max(3, Math.min(10, comp.cols || 6)), rows = Math.max(3, Math.min(8, comp.rows || 5));
+    const start = comp.start || { x: 0, y: rows - 1, dir: 1 };
+    const target = comp.target || { x: cols - 1, y: 0 };
+    const walls = new Set((comp.walls || []).map(function (w) { return w.x + "," + w.y; }));
+    const goal = comp.goal;
+    const maxCommands = goal && goal.maxCommands ? goal.maxCommands : null;
+    const CMD = {
+      fram: { label: "Gå framåt", icon: "↑" },
+      hoger: { label: "Sväng höger", icon: "↱" },
+      vanster: { label: "Sväng vänster", icon: "↰" }
+    };
+    const NS = "http://www.w3.org/2000/svg";
+    const CELLPX = 52;
+
+    let program = [];
+    let pos = { x: start.x, y: start.y, dir: start.dir || 0 };
+    let running = false;
+    let timer = null;
+
+    const board = document.createElementNS(NS, "svg");
+    board.setAttribute("viewBox", "0 0 " + cols * CELLPX + " " + rows * CELLPX);
+    board.setAttribute("class", "py-robot-board");
+    board.setAttribute("role", "img");
+    board.setAttribute("aria-label", "Rutnät med roboten och en stjärna");
+    const palette = el("div", "py-robot-palette");
+    const list = el("ol", "py-robot-program");
+    list.setAttribute("aria-label", "Ditt program");
+    const status = el("p", "py-status");
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    const actions = el("div", "py-controls-row");
+    root.append(board, palette, el("h5", "py-goals-title", "Ditt program"), list, actions, status);
+    const goalUi = goal ? goalList([goal], ctx) : null;
+    if (goalUi) { root.appendChild(el("h5", "py-goals-title", "Uppdrag")); root.appendChild(goalUi.element); root.appendChild(goalUi.status); }
+
+    function svgEl(tag, attrs, parent) {
+      const e = document.createElementNS(NS, tag);
+      Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function draw() {
+      board.replaceChildren();
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          svgEl("rect", { x: x * CELLPX + 1, y: y * CELLPX + 1, width: CELLPX - 2, height: CELLPX - 2, rx: 6, "class": walls.has(x + "," + y) ? "py-robot-wall" : "py-robot-cell" }, board);
+        }
+      }
+      const star = svgEl("text", { x: target.x * CELLPX + CELLPX / 2, y: target.y * CELLPX + CELLPX / 2 + 10, "text-anchor": "middle", "class": "py-robot-star" }, board);
+      star.textContent = "⭐";
+      const g = svgEl("g", { transform: "translate(" + (pos.x * CELLPX + CELLPX / 2) + " " + (pos.y * CELLPX + CELLPX / 2) + ") rotate(" + pos.dir * 90 + ")" }, board);
+      svgEl("rect", { x: -15, y: -15, width: 30, height: 30, rx: 8, "class": "py-robot-body" }, g);
+      svgEl("polygon", { points: "0,-22 9,-12 -9,-12", "class": "py-robot-nose" }, g);
+      svgEl("circle", { cx: -6, cy: -3, r: 3.2, "class": "py-robot-eye" }, g);
+      svgEl("circle", { cx: 6, cy: -3, r: 3.2, "class": "py-robot-eye" }, g);
+    }
+
+    function listProgram() {
+      list.replaceChildren();
+      if (!program.length) {
+        list.appendChild(el("li", "py-robot-empty", "Tryck på knapparna ovan för att bygga ett program."));
+        return;
+      }
+      program.forEach(function (step, i) {
+        const li = el("li", "py-robot-step");
+        const main = el("button", "py-robot-chip", CMD[step.c].icon + " " + CMD[step.c].label + (step.n > 1 ? " (" + step.n + " gånger)" : ""));
+        main.type = "button";
+        main.title = "Klicka för att upprepa kommandot fler gånger";
+        main.disabled = running;
+        main.addEventListener("click", function () { step.n = step.n >= 5 ? 1 : step.n + 1; changed("Kommandot upprepas " + step.n + (step.n === 1 ? " gång." : " gånger.")); });
+        const del = el("button", "py-robot-del", "✕");
+        del.type = "button";
+        del.disabled = running;
+        del.setAttribute("aria-label", "Ta bort kommandot");
+        del.addEventListener("click", function () { program.splice(i, 1); changed(""); });
+        li.append(main, del);
+        list.appendChild(li);
+      });
+    }
+
+    function reset() {
+      clearTimeout(timer);
+      running = false;
+      pos = { x: start.x, y: start.y, dir: start.dir || 0 };
+    }
+
+    function changed(message) {
+      reset();
+      draw();
+      listProgram();
+      runBtn.disabled = !program.length;
+      status.textContent = message || "";
+    }
+
+    function steps() {
+      const out = [];
+      program.forEach(function (step, i) { for (let k = 0; k < step.n; k++) out.push({ c: step.c, i: i }); });
+      return out;
+    }
+
+    function finish() {
+      running = false;
+      listProgram();
+      runBtn.disabled = !program.length;
+      if (pos.x === target.x && pos.y === target.y) {
+        if (maxCommands && program.length > maxCommands) {
+          status.textContent = "Roboten kom fram, men du använde " + program.length + " kommandon. Försök med högst " + maxCommands + ". Tips: ett kommando kan upprepas.";
+        } else {
+          status.textContent = "✓ Roboten kom fram till stjärnan med " + program.length + (program.length === 1 ? " kommando!" : " kommandon!");
+          status.classList.add("is-ok");
+          if (goal && !goalUi.isDone(goal.id)) goalUi.complete(goal);
+        }
+      } else {
+        status.textContent = "Roboten stannade här. Stjärnan är kvar. Ändra programmet och kör igen.";
+      }
+    }
+
+    function run() {
+      if (running || !program.length) return;
+      reset();
+      draw();
+      status.classList.remove("is-ok");
+      status.textContent = "Roboten kör…";
+      running = true;
+      listProgram();
+      runBtn.disabled = true;
+      const todo = steps();
+      let at = 0;
+      (function tick() {
+        if (at >= todo.length) { finish(); return; }
+        const cmd = todo[at++].c;
+        if (cmd === "hoger") pos.dir = (pos.dir + 1) % 4;
+        else if (cmd === "vanster") pos.dir = (pos.dir + 3) % 4;
+        else {
+          const dx = [0, 1, 0, -1][pos.dir], dy = [-1, 0, 1, 0][pos.dir];
+          const nx = pos.x + dx, ny = pos.y + dy;
+          if (nx < 0 || ny < 0 || nx >= cols || ny >= rows || walls.has(nx + "," + ny)) {
+            draw();
+            running = false;
+            listProgram();
+            runBtn.disabled = !program.length;
+            status.textContent = "Roboten körde in i " + (walls.has(nx + "," + ny) ? "en vägg" : "kanten") + ". Ändra programmet och kör igen.";
+            return;
+          }
+          pos.x = nx; pos.y = ny;
+        }
+        draw();
+        timer = setTimeout(tick, 380);
+      }());
+    }
+
+    Object.keys(CMD).forEach(function (c) {
+      const b = button(CMD[c].icon + " " + CMD[c].label, "py-btn py-robot-btn", function () {
+        if (running) return;
+        if (program.length && program[program.length - 1].c === c && c === "fram") { program[program.length - 1].n = Math.min(5, program[program.length - 1].n + 1); }
+        else program.push({ c: c, n: 1 });
+        changed("");
+      });
+      palette.appendChild(b);
+    });
+    const runBtn = button("▶ Kör", "py-btn", run);
+    runBtn.disabled = true;
+    actions.append(runBtn,
+      button("Börja om", "py-btn py-btn-ghost", function () { changed(""); }),
+      button("Rensa programmet", "py-btn py-btn-ghost", function () { program = []; changed(""); }));
+    if (maxCommands) status.textContent = "Du får använda högst " + maxCommands + " kommandon.";
+    draw();
+    listProgram();
+    return root;
+  }
+
   function render(comp, ctx) {
     const type = String(comp.type).toLowerCase();
     if (type === "pyssel") return pyssel(comp, ctx);
     if (type === "ritrutnat") return ritrutnat(comp, ctx);
     if (type === "primtalssil") return sil(comp, ctx);
     if (type === "tarning") return tarning(comp, ctx);
+    if (type === "robot") return robot(comp, ctx);
     return null;
   }
 

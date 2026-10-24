@@ -8,6 +8,7 @@ const COOKIE = "gs";
 const SESSION_DAYS = 30;
 const COLORS = ["#425b9a", "#ef6f88", "#4fa8dc", "#8a74c9", "#d99a2b", "#2f9d88", "#7a8db8"];
 const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
+const CHAT_UNANSWERED_MAX = 6;   // a student can send this many messages in a row before the teacher has answered
 const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -88,6 +89,17 @@ function createApi(db, options) {
       "SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.teacher_id = ? ORDER BY f.id"),
     markFeedbackRead: db.prepare("UPDATE feedback SET read_at = ? WHERE id = ? AND student_id = ? AND read_at IS NULL"),
     deleteFeedback: db.prepare("DELETE FROM feedback WHERE id = ? AND teacher_id = ?"),
+    classTeacher: db.prepare("SELECT teacher_id FROM classes WHERE id = ?"),
+    insertChat: db.prepare("INSERT INTO chat (student_id, teacher_id, from_teacher, text, lesson_id, task_id, context, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
+    chatForStudent: db.prepare(
+      "SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at FROM chat WHERE student_id = ? ORDER BY id DESC LIMIT 200"),
+    chatForTeacher: db.prepare(
+      "SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at FROM chat WHERE teacher_id = ? ORDER BY id DESC LIMIT 1000"),
+    chatUnanswered: db.prepare(
+      "SELECT COUNT(*) AS n FROM chat WHERE student_id = ? AND from_teacher = 0 AND id > COALESCE((SELECT MAX(id) FROM chat WHERE student_id = ? AND from_teacher = 1), 0)"),
+    chatReadByStudent: db.prepare("UPDATE chat SET read_at = ? WHERE student_id = ? AND from_teacher = 1 AND read_at IS NULL"),
+    chatReadByTeacher: db.prepare("UPDATE chat SET read_at = ? WHERE student_id = ? AND teacher_id = ? AND from_teacher = 0 AND read_at IS NULL"),
+    chatUnreadForTeacher: db.prepare("SELECT COUNT(*) AS n FROM chat WHERE teacher_id = ? AND from_teacher = 0 AND read_at IS NULL"),
     getSetting: db.prepare("SELECT value FROM settings WHERE key = ?"),
     setSetting: db.prepare("INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value")
   };
@@ -266,8 +278,82 @@ function createApi(db, options) {
     send(res, 200, {
       progress: progressOf(s.user.id), attempts: attemptsOf(s.user.id),
       assignments: student ? q.assignmentsForStudent.all(s.user.class_id, s.user.id).map(publicAssignment) : [],
-      feedback: s.user.role === "student" ? q.feedbackForStudent.all(s.user.id).map(publicFeedback) : []
+      feedback: s.user.role === "student" ? q.feedbackForStudent.all(s.user.id).map(publicFeedback) : [],
+      chat: s.user.role === "student" ? q.chatForStudent.all(s.user.id).reverse().map(publicChat) : []
     });
+  }
+
+  // ----- chat between a student and the teacher of their class -----
+  function publicChat(r) {
+    let context = null;
+    try { context = r.context ? JSON.parse(r.context) : null; } catch (e) { /* skip corrupt context */ }
+    return {
+      id: r.id, studentId: String(r.student_id), fromTeacher: Boolean(r.from_teacher), text: r.text,
+      lessonId: r.lesson_id || null, taskId: r.task_id || null, context: context, createdAt: r.created_at, read: Boolean(r.read_at)
+    };
+  }
+
+  // What the student was looking at when they wrote. Everything is length limited.
+  function cleanChatContext(c) {
+    if (!c || typeof c !== "object") return null;
+    const out = {};
+    ["prompt", "answer", "lessonTitle", "taskName", "correctAnswer"].forEach(function (k) {
+      if (c[k] !== undefined && c[k] !== null && String(c[k]).trim()) out[k] = str(c[k], k === "prompt" ? 600 : 200);
+    });
+    if (Number.isInteger(c.tries) && c.tries >= 0) out.tries = Math.min(c.tries, 99);
+    if (["done", "fix", "todo", "read"].indexOf(c.status) >= 0) out.status = c.status;
+    return Object.keys(out).length ? JSON.stringify(out) : null;
+  }
+
+  async function studentChat(req, res) {
+    const s = requireUser(req);
+    if (s.user.role !== "student") throw new ApiError(403, "Bara elever kan skriva till läraren här.");
+    if (!s.user.class_id) throw new ApiError(400, "Du är inte med i någon klass än.");
+    const teacher = q.classTeacher.get(s.user.class_id);
+    if (!teacher) throw new ApiError(400, "Klassen har ingen lärare.");
+    const b = await readJson(req, 8000);
+    const text = str(b.text, 600).trim();
+    if (!text) throw new ApiError(400, "Skriv något först.");
+    const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
+    const taskId = b.taskId ? str(b.taskId, 80) : null;
+    if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw new ApiError(400, "Ogiltigt id.");
+    if (q.chatUnanswered.get(s.user.id, s.user.id).n >= CHAT_UNANSWERED_MAX) {
+      throw new ApiError(429, "Du har redan skickat flera meddelanden. Vänta tills din lärare har svarat.");
+    }
+    const id = Number(q.insertChat.run(s.user.id, teacher.teacher_id, 0, text, lessonId, taskId, cleanChatContext(b.context), nowIso()).lastInsertRowid);
+    send(res, 201, { id: id });
+  }
+
+  function studentChatRead(req, res) {
+    const s = requireUser(req);
+    q.chatReadByStudent.run(nowIso(), s.user.id);
+    send(res, 200, { ok: true });
+  }
+
+  async function teacherChat(req, res) {
+    const s = requireTeacher(req);
+    const b = await readJson(req, 5000);
+    const student = q.studentOfTeacher.get(Number(b.studentId), s.user.id);
+    if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
+    const text = str(b.text, 600).trim();
+    if (!text) throw new ApiError(400, "Skriv något först.");
+    const id = Number(q.insertChat.run(student.id, s.user.id, 1, text, null, null, null, nowIso()).lastInsertRowid);
+    q.chatReadByTeacher.run(nowIso(), student.id, s.user.id);   // answering means having read
+    send(res, 201, { id: id });
+  }
+
+  async function teacherChatRead(req, res) {
+    const s = requireTeacher(req);
+    const b = await readJson(req, 2000);
+    const student = q.studentOfTeacher.get(Number(b.studentId), s.user.id);
+    if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
+    q.chatReadByTeacher.run(nowIso(), student.id, s.user.id);
+    send(res, 200, { ok: true });
+  }
+
+  function teacherChatUnread(req, res) {
+    const s = requireTeacher(req);
+    send(res, 200, { unread: q.chatUnreadForTeacher.get(s.user.id).n });
   }
 
   function publicAssignment(r) {
@@ -404,9 +490,11 @@ function createApi(db, options) {
     const s = requireTeacher(req);
     const sent = {};
     q.feedbackForTeacher.all(s.user.id).forEach(function (r) { (sent[r.student_id] = sent[r.student_id] || []).push(publicFeedback(r)); });
+    const chat = {};
+    q.chatForTeacher.all(s.user.id).reverse().forEach(function (r) { (chat[r.student_id] = chat[r.student_id] || []).push(publicChat(r)); });
     const students = q.teacherStudents.all(s.user.id).map(function (u) {
       return {
-        feedback: sent[u.id] || [],
+        feedback: sent[u.id] || [], chat: chat[u.id] || [],
         id: String(u.id), username: u.username, name: u.display_name, class: u.class_name, classId: u.class_id,
         color: COLORS[u.id % COLORS.length], createdAt: u.created_at,
         lessonProgress: progressOf(u.id), attempts: attemptsOf(u.id)
@@ -517,6 +605,11 @@ function createApi(db, options) {
       if (method === "POST" && p === "/api/me/password") return await changePassword(req, res);
       if (method === "GET" && p === "/api/me/data") return myData(req, res);
       if (method === "POST" && p === "/api/me/feedback/read") return await markRead(req, res);
+      if (method === "POST" && p === "/api/me/chat") return await studentChat(req, res);
+      if (method === "POST" && p === "/api/me/chat/read") return studentChatRead(req, res);
+      if (method === "POST" && p === "/api/teacher/chat") return await teacherChat(req, res);
+      if (method === "POST" && p === "/api/teacher/chat/read") return await teacherChatRead(req, res);
+      if (method === "GET" && p === "/api/teacher/chat/unread") return teacherChatUnread(req, res);
       if ((m = /^\/api\/progress\/([^/]+)$/.exec(p)) && method === "PUT") return await putProgress(req, res, decodeURIComponent(m[1]));
       if (method === "POST" && p === "/api/attempts") return await postAttempt(req, res);
       if (method === "GET" && p === "/api/lessons") return listLessons(req, res);

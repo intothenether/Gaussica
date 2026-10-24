@@ -1,0 +1,426 @@
+{
+  "id": "stora-tal",
+  "area": "tal",
+  "title": "Stora tal",
+  "level": "Tusental, miljoner och därefter · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "platsvarde"
+  ],
+  "summary": "Stora tal delar du i grupper om tre siffror. Då kan du läsa, skriva och jämföra dem.",
+  "explanationTitle": "Hur läser vi tal som 3 482 106?",
+  "explanation": "Problemet: Hur många invånare har en stor stad, och hur långt är det till månen? Sådana tal har många siffror, och 3482106 är svårt att läsa när siffrorna står tätt. Vi behöver ett sätt att dela upp dem. Det gör vi i grupper om tre siffror, från höger, med ett litet mellanrum emellan: 3 482 106. Varje grupp har ett namn. Längst till höger är ental, tiotal och hundratal. Nästa grupp är tusental, och sedan kommer miljoner. Talet 3 482 106 läses tre miljoner fyrahundraåttiotvå tusen etthundrasex. Platsen avgör vad en siffra är värd. I 3 482 106 står 4 på hundratusentalsplatsen, så den är värd 400 000. När du jämför två tal är det med flest siffror störst. Har de lika många siffror jämför du från vänster, siffra för siffra.",
+  "visual": {
+    "type": "tabell",
+    "title": "3 482 106 i platsvärdestabellen",
+    "headers": [
+      "Miljoner",
+      "Hundra-tusental",
+      "Tio-tusental",
+      "Tusental",
+      "Hundratal",
+      "Tiotal",
+      "Ental"
+    ],
+    "rows": [
+      [
+        "3",
+        "4",
+        "8",
+        "2",
+        "1",
+        "0",
+        "6"
+      ]
+    ]
+  },
+  "rule": "Dela stora tal i grupper om tre siffror, från höger",
+  "ruleLabel": "STORA TAL",
+  "example": "3 482 106 är 3 miljoner, 482 tusen och 106. Siffran 4 är värd 400 000.",
+  "practice": [
+    {
+      "id": "skriv-med-siffror",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "m": [
+          1,
+          9
+        ],
+        "t": [
+          100,
+          999
+        ],
+        "e": [
+          100,
+          999
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "m*1000000+t*1000+e"
+        }
+      ],
+      "prompt": "Skriv talet med siffror: {m} miljoner, {t} tusen och {e}.",
+      "answer": [
+        "=n",
+        "{m} {t} {e}"
+      ],
+      "correct": "Rätt! {m} miljoner, {t} tusen och {e} blir {m} {t} {e}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m*1000+t"
+          ],
+          "message": "Du har glömt de sista tre siffrorna. Efter tusen kommer {e}."
+        },
+        {
+          "answers": [
+            "=m*100000+t*1000+e"
+          ],
+          "message": "Miljoner har sju siffror tillsammans med resten. {t} tusen blir tre siffror i en egen grupp."
+        }
+      ]
+    },
+    {
+      "id": "varde-tusental",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ],
+        "d": [
+          1,
+          9
+        ],
+        "e": [
+          100,
+          999
+        ]
+      },
+      "prompt": "Vilket värde har siffran på tusentalsplatsen i talet {a} {b}{c}{d} {e}?",
+      "answer": [
+        "=d*1000"
+      ],
+      "correct": "Rätt! Siffran på tusentalsplatsen är {d}, och den är värd {d*1000}.",
+      "feedback": [
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "{d} är siffran. Frågan gäller värdet, och siffran står på tusentalsplatsen."
+        },
+        {
+          "answers": [
+            "=d*100"
+          ],
+          "message": "Då har du tagit hundratalsplatsen. Tusentalsplatsen är nästa plats åt vänster."
+        }
+      ]
+    },
+    {
+      "id": "varde-tiotusental",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ],
+        "d": [
+          1,
+          9
+        ],
+        "e": [
+          100,
+          999
+        ]
+      },
+      "prompt": "Vilket värde har siffran på tiotusentalsplatsen i talet {a} {b}{c}{d} {e}?",
+      "answer": [
+        "=c*10000"
+      ],
+      "correct": "Rätt! Siffran på tiotusentalsplatsen är {c}, och den är värd {c*10000}.",
+      "feedback": [
+        {
+          "answers": [
+            "=c"
+          ],
+          "message": "{c} är siffran. Frågan gäller värdet, och siffran står på tiotusentalsplatsen."
+        },
+        {
+          "answers": [
+            "=c*1000"
+          ],
+          "message": "Då har du tagit tusentalsplatsen. Tiotusentalsplatsen är nästa plats åt vänster."
+        }
+      ]
+    },
+    {
+      "id": "varde-hundratusental",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ],
+        "d": [
+          1,
+          9
+        ],
+        "e": [
+          100,
+          999
+        ]
+      },
+      "prompt": "Vilket värde har siffran på hundratusentalsplatsen i talet {a} {b}{c}{d} {e}?",
+      "answer": [
+        "=b*100000"
+      ],
+      "correct": "Rätt! Siffran på hundratusentalsplatsen är {b}, och den är värd {b*100000}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} är siffran. Frågan gäller värdet, och siffran står på hundratusentalsplatsen."
+        },
+        {
+          "answers": [
+            "=b*10000"
+          ],
+          "message": "Då har du tagit tiotusentalsplatsen. Hundratusentalsplatsen är nästa plats åt vänster."
+        }
+      ]
+    },
+    {
+      "id": "storst",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a1": [
+          10,
+          99
+        ],
+        "a2": [
+          100,
+          999
+        ],
+        "b1": [
+          10,
+          99
+        ],
+        "b2": [
+          100,
+          999
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a1-b1)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "A",
+          "expr": "a1*1000+a2"
+        },
+        {
+          "name": "B",
+          "expr": "b1*1000+b2"
+        },
+        {
+          "name": "m",
+          "expr": "max(a1*1000+a2,b1*1000+b2)"
+        },
+        {
+          "name": "k",
+          "expr": "min(a1*1000+a2,b1*1000+b2)"
+        }
+      ],
+      "prompt": "Vilket tal är störst: {a1} {a2} eller {b1} {b2}? Skriv talet.",
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! Båda har fem siffror, så du jämför från vänster. {m} är större än {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "Det är det mindre talet. Jämför siffrorna från vänster: den första skillnaden avgör."
+        }
+      ]
+    },
+    {
+      "id": "fler",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "p": [
+          101,
+          999
+        ],
+        "q": [
+          10,
+          99
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "(p-q)*1000"
+        }
+      ],
+      "prompt": "En stad har {p} 000 invånare. En annan stad har {q} 000 invånare. Hur många fler invånare har den större staden?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {p} − {q} = {p-q}, och det är tusental, alltså {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p-q"
+          ],
+          "message": "Du har räknat med tusental men glömt att det är tusen. Skriv talet med tre nollor efter."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Skriv talet med siffror: 3 miljoner, 482 tusen och 106.",
+    "answer": [
+      "3482106",
+      "3 482 106"
+    ],
+    "correct": "Rätt! 3 miljoner, 482 tusen och 106 blir 3 482 106.",
+    "feedback": [
+      {
+        "answers": [
+          "3482"
+        ],
+        "message": "Du har glömt de sista siffrorna. Efter tusen kommer 106."
+      },
+      {
+        "answers": [
+          "3000482106",
+          "30482106"
+        ],
+        "message": "Varje grupp efter miljonerna har exakt tre siffror: 482 och 106."
+      },
+      {
+        "answers": [
+          "3482000"
+        ],
+        "message": "Du har glömt 106 på slutet. Skriv ut alla tre grupperna."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vilket värde har siffran 4 i talet 3 482 106?",
+      "answer": [
+        "400000"
+      ],
+      "correct": "Rätt! 4 står på hundratusentalsplatsen, så den är värd 400 000.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är siffran. Frågan gäller värdet, som beror på platsen."
+        },
+        {
+          "answers": [
+            "40000"
+          ],
+          "message": "Då har du tagit tiotusentalsplatsen. 4 står en plats längre åt vänster."
+        },
+        {
+          "answers": [
+            "4000"
+          ],
+          "message": "Då har du tagit tusentalsplatsen. 4 står två platser längre åt vänster."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket tal är störst: 98 765 eller 102 345? Skriv talet.",
+      "answer": [
+        "102345"
+      ],
+      "correct": "Rätt! 102 345 har sex siffror och 98 765 har fem, så det första är störst.",
+      "feedback": [
+        {
+          "answers": [
+            "98765"
+          ],
+          "message": "Det är det mindre talet. Det som har flest siffror är störst."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket tal kommer direkt efter 99 999?",
+      "answer": [
+        "100000"
+      ],
+      "correct": "Rätt! Efter 99 999 kommer 100 000, första sexsiffriga talet.",
+      "feedback": [
+        {
+          "answers": [
+            "99998"
+          ],
+          "message": "Det är talet före. Du ska ha talet efter, ett mer."
+        },
+        {
+          "answers": [
+            "1000000"
+          ],
+          "message": "Det är en nolla för mycket. Efter 99 999 kommer 100 000."
+        },
+        {
+          "answers": [
+            "100"
+          ],
+          "message": "Du har tagit bort för många nollor. Efter 99 999 kommer 100 000."
+        }
+      ]
+    }
+  ]
+}

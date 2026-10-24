@@ -1,0 +1,297 @@
+{
+  "id": "brak-tallinje",
+  "area": "tal",
+  "title": "Bråk på tallinjen och del av antal",
+  "level": "Var ligger ett bråk? · ungefär åk 4",
+  "grade": 4,
+  "duration": "9 min",
+  "prerequisites": [
+    "brak-del",
+    "tallinjen",
+    "division"
+  ],
+  "summary": "Bråk har egna platser på tallinjen mellan heltalen. Du kan också ta en del av ett antal, till exempel 3/4 av 20.",
+  "explanationTitle": "Var ligger 3/4, och hur mycket är 3/4 av 20?",
+  "explanation": "Problemet: Du vet vad täljare och nämnare betyder. Men var ligger 3/4 på tallinjen? Och hur mycket är 3/4 av 20 kronor? Bråk är inte bara en bit av en pizza. De är också tal med en egen plats, och de kan beskriva en del av ett antal. På tallinjen delar du sträckan mellan 0 och 1 i lika många delar som nämnaren säger. 3/4 ligger vid det tredje strecket när sträckan är delad i fyra delar. För att ta en del av ett antal dividerar du först med nämnaren och multiplicerar sedan med täljaren. 1/4 av 20 är 20/4 = 5. Då är 3/4 av 20 tre gånger 5, alltså 15. Tiondelar har ett eget skrivsätt. 3/10 skriver vi som decimaltal: 0,3.",
+  "visual": {
+    "type": "tallinje",
+    "title": "Bråk mellan 0 och 1",
+    "min": 0,
+    "max": 1,
+    "step": 0.25,
+    "labelEvery": 1,
+    "points": [
+      {
+        "value": 0.25,
+        "label": "1/4"
+      },
+      {
+        "value": 0.5,
+        "label": "2/4"
+      },
+      {
+        "value": 0.75,
+        "label": "3/4"
+      }
+    ]
+  },
+  "rule": "En del av ett antal: dividera med nämnaren, multiplicera med täljaren",
+  "ruleLabel": "DEL AV ANTAL",
+  "example": "3/4 av 20: 20 delat med 4 är 5, och 3 · 5 = 15. Och 7/10 skrivs 0,7.",
+  "practice": [
+    {
+      "id": "stambrak-av-antal",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          2,
+          10
+        ],
+        "k": [
+          2,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "b*k"
+        }
+      ],
+      "prompt": "Hur mycket är 1/{b} av {n}?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! 1/{b} av {n} är {n} delat med {b}, alltså {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*b"
+          ],
+          "message": "Du har multiplicerat. En del av ett antal får du genom att dividera med nämnaren {b}."
+        }
+      ]
+    },
+    {
+      "id": "brak-av-antal",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "sak": [
+          "kronor",
+          "klistermärken",
+          "kulor"
+        ]
+      },
+      "vars": {
+        "a": [
+          2,
+          5
+        ],
+        "b": [
+          3,
+          8
+        ],
+        "k": [
+          2,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "b*k"
+        },
+        {
+          "name": "r",
+          "expr": "a*k"
+        }
+      ],
+      "prompt": "Hur mycket är {a}/{b} av {n} {$sak}?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! 1/{b} av {n} är {k}. Du ska ha {a} sådana delar: {a} · {k} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är 1/{b} av {n}. Du behöver {a} sådana delar, så multiplicera med {a}."
+        }
+      ]
+    },
+    {
+      "id": "tallinje-plats",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "b": [
+          4,
+          10
+        ],
+        "a": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "Sträckan mellan 0 och 1 på en tallinje är delad i {b} lika delar. Vilket bråk ligger vid strecket nummer {a}, räknat från 0?",
+      "answer": [
+        "{a}/{b}"
+      ],
+      "correct": "Rätt! Strecket nummer {a} av {b} delar är {a}/{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "{b}/{a}"
+          ],
+          "message": "Du har bytt plats på täljaren och nämnaren. Nämnaren är hur många delar sträckan är delad i."
+        }
+      ]
+    },
+    {
+      "id": "tiondel-decimal",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "a/10"
+        }
+      ],
+      "prompt": "Skriv {a}/10 som decimaltal.",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! {a} tiondelar skrivs {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} är täljaren. Tiondelar skrivs med en decimal: {a}/10 är 0,{a}."
+        },
+        {
+          "answers": [
+            "=a/100"
+          ],
+          "message": "Det är hundradelar. Tiondelar har bara en siffra efter kommatecknet."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur mycket är 1/4 av 20?",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! 20 delat med 4 är 5.",
+    "feedback": [
+      {
+        "answers": [
+          "80"
+        ],
+        "message": "Du har multiplicerat. En del av ett antal får du genom att dividera med nämnaren 4."
+      },
+      {
+        "answers": [
+          "16"
+        ],
+        "message": "Du har dragit ifrån 4. Dividera 20 med 4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Mira har 20 kr. Hon spenderar 3/4 av dem. Hur många kronor spenderar hon?",
+      "answer": [
+        "15",
+        "15 kr"
+      ],
+      "correct": "Rätt! 1/4 av 20 är 5, och 3 · 5 = 15 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "5",
+            "5 kr"
+          ],
+          "message": "5 kr är 1/4 av 20. Hon spenderar 3 sådana delar, så multiplicera med 3."
+        },
+        {
+          "answers": [
+            "60",
+            "60 kr"
+          ],
+          "message": "Du har multiplicerat 20 med 3. Dividera först med 4."
+        }
+      ]
+    },
+    {
+      "prompt": "Sträckan mellan 0 och 1 på en tallinje är delad i 5 lika delar. Vilket bråk ligger vid strecket nummer 3, räknat från 0?",
+      "answer": [
+        "3/5"
+      ],
+      "correct": "Rätt! Strecket nummer 3 av 5 delar är 3/5.",
+      "feedback": [
+        {
+          "answers": [
+            "5/3"
+          ],
+          "message": "Du har bytt plats på täljaren och nämnaren. Nämnaren är hur många delar sträckan är delad i."
+        },
+        {
+          "answers": [
+            "1/5"
+          ],
+          "message": "Det är det första strecket. Du ska ha det tredje."
+        }
+      ]
+    },
+    {
+      "prompt": "Skriv 7/10 som decimaltal.",
+      "answer": [
+        "0,7",
+        "0.7"
+      ],
+      "correct": "Rätt! 7 tiondelar skrivs 0,7.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är täljaren. Tiondelar skrivs med en decimal: 0,7."
+        },
+        {
+          "answers": [
+            "0,07",
+            "0.07"
+          ],
+          "message": "Det är hundradelar. Tiondelar har bara en siffra efter kommatecknet."
+        }
+      ]
+    }
+  ]
+}

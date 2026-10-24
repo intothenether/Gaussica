@@ -225,12 +225,13 @@ window.GaussicaMailbox = (function () {
     const notes = feedback();
     const fresh = notes.filter(function (f) { return !f.read; });
     const shownNotes = fresh.concat(notes.filter(function (f) { return f.read; }).slice(0, 3));
+    const replies = deps.chatUnread ? deps.chatUnread() : 0;   // answers to questions the student asked in the chat
 
     // keep the box open/closed state of the "klara uppdrag" list while it redraws
     const wasOpen = container.querySelector(".mb-done-list") && container.querySelector(".mb-done-list").open;
 
     container.replaceChildren();
-    if (!open.length && !fresh.length) {   // nothing to do: stay out of the way (done items live in the lesson panels)
+    if (!open.length && !fresh.length && !replies) {   // nothing to do: stay out of the way (done items live in the lesson panels)
       container.hidden = true;
       return;
     }
@@ -243,9 +244,20 @@ window.GaussicaMailbox = (function () {
     const bits = [];
     if (open.length) bits.push(open.length === 1 ? "1 uppdrag" : open.length + " uppdrag");
     if (fresh.length) bits.push(fresh.length === 1 ? "1 nytt meddelande" : fresh.length + " nya meddelanden");
+    if (replies) bits.push(replies === 1 ? "1 svar på din fråga" : replies + " svar på dina frågor");
     title.appendChild(el("p", "mb-sub", "Du har " + bits.join(" och ") + "."));
     head.appendChild(title);
     container.appendChild(head);
+
+    if (replies) {
+      const reply = el("div", "mb-reply");
+      reply.appendChild(el("strong", "", "💬 Din lärare har svarat på din fråga"));
+      const read = el("button", "mb-reply-btn", "Läs svaret →");
+      read.type = "button";
+      read.addEventListener("click", function () { deps.openChat(null); });
+      reply.appendChild(read);
+      container.appendChild(reply);
+    }
 
     const grid = el("div", "mb-grid" + (open.length && shownNotes.length ? " is-two" : ""));
     if (open.length) {

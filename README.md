@@ -230,6 +230,7 @@ och kräver ingen byggkedja.
   - `ritrutnat`: spegelritning på rutnät (`cols`, `rows`, `preset`, `goal.minCells`, `autoMirror`).
   - `primtalssil`: Eratosthenes såll (`to`, `goal`).
   - `tarning`: tärning/mynt (`goal.minRolls`).
+  - `robot`: bygg ett program av kommandona framåt, höger och vänster (`cols`, `rows`, `start` med `dir` 0 upp, 1 höger, 2 ner, 3 vänster, `target`, `walls`, `goal.maxCommands`). Klicka på ett kommando i programmet för att upprepa det (1 till 5 gånger).
 - Uttryck: `"=expr"` ger ett tal, `"{expr}"` fylls i i text. Funktioner: abs, sqrt, round, floor, ceil, min, max, pow, mod, divcount, isprime, sgd samt `pi`.
 - Villkor i mål: `{expr, equals|min|max, tol}` eller `{all:[...]}`.
 - Utmaningar räknas som uppgifter i framsteg och lärarvyn.
@@ -292,6 +293,13 @@ Texten "Så hanteras dina uppgifter" (`privacy.js`) visas från sidfoten och inl
 - **Elevens vy.** Uppdrag och nya meddelanden visas i en stor rosa ruta överst på sidan, med en knapp i toppmenyn ("📬 Uppdrag" med antal), en rosa "UPPDRAG"-flagga på lektionen i grafen, en remsa på lektionssidan och hälsningen ovanför just den fråga den gäller. Knappen i hero-rutan blir "Gör uppdraget →". Sidan hämtar nytt var andra minut och när fliken blir synlig igen.
 - **Databas.** Två nya tabeller, `assignments` och `feedback`. Node-servern uppgraderar sig själv. För Cloudflare: kör `npx wrangler d1 execute gaussica --remote --file=schema.sql` en gång och sedan `npx wrangler deploy` (se `cloudflare/README.md`).
 
+## Fråga läraren (chatt)
+
+- **Eleven.** Knappen "💬 Fråga läraren" finns i toppmenyn och uppe i varje lektion och övning. Skriver eleven därifrån följer uppgiften med: lektionen, frågan, det eleven hunnit svara och om det blev rätt eller fel. Eleven kan bocka ur "Visa läraren vilken uppgift jag tittar på". Svaret syns i samma ruta, med en gul remsa överst på sidan och en prick på knappen. En elev kan skicka sex meddelanden i rad innan läraren hunnit svara.
+- **Läraren.** Rutan "💬 Frågor från elever" högst upp i lärarvyn visar varje samtal, med de olästa först, och uppgiften eleven tittade på under varje fråga. Svara direkt där, markera som läst eller tryck "Visa elevens svar". Ett svar räknas också som läst. Knappen "Lärarvy" visar antalet obesvarade frågor, och sidan hämtar nytt varje minut (utan att skriva över ett svar som du håller på att skriva).
+- **Databas.** Tabellen `chat`. Node-servern uppgraderar sig själv (schemaversion 4). För Cloudflare: kör `migrations/003-chat.sql` en gång (se cloudflare/README.md). Tills dess fungerar resten av sidan som förut, och chatten svarar att den inte är påslagen.
+- **API.** `POST /api/me/chat`, `POST /api/me/chat/read`, `POST /api/teacher/chat`, `POST /api/teacher/chat/read`, `GET /api/teacher/chat/unread`. Samtalen följer med i `/api/me/data` (elev) och `/api/teacher/students` (lärare).
+
 ## Svara med tal eller med uträkning
 
 Där ett vanligt tal väntas som svar räknas en uträkning inte: "36/6" eller "3*6" är rätt värde, men eleven får tipset att räkna ut svaret och skriva talet. Det gäller åk 3–6, där poängen är att träna på att räkna. Från åk 7 tillåts uträkningar (lutning, ekvationer, formler), eftersom räknesteget då ses som enkelt. Frågor där svaret redan är ett bråk eller ett uttryck ("1/6", "x+3") påverkas inte.
@@ -348,3 +356,6 @@ Eleverna får lätt och frivillig motivation, utan ranking och utan jämförelse
 - Äldre statusrapporter och planer ligger i `docs/archive/`. Äldre skript och oanvända filer ligger i `dev/archive/`. `docs/` har guiderna för GitHub Pages och lärare, och `docs/logo-proposals/` har logotypförslagen.
 - Nya svarsformer: `"form": "blandad"`, `"brak"` eller `"forenklat"` på en fråga kräver att rätt värde skrivs på ett visst sätt (1 3/4, 7/4 eller 2:3). Blandad form som `1 3/4` förstås som 7/4.
 - Nya figurer: `tradiagram`, `parallellogram` och `trapets` (se början av `figures.js`).
+- Uppställning av multiplikation med ett tvåsiffrigt tal (`"b": 23` med två siffror) visas med två rader och en slutlig addition. Figuren `vag` är en balansvåg: `{ "left": [{ "n": 7, "tone": "x" }, { "n": 3 }], "right": [{ "n": 10 }] }` ritar klossar och lutar efter vilken sida som väger mest. I en pyssla kan `n` vara ett uttryck som `"=x"`, så vågen ändras när eleven drar i ett reglage.
+
+- Nya figurer för åk 4: `kroppar` (`items` med `shape`: kub, ratblock, cylinder, klot, kon, pyramid), `linjer` (`items` med `kind`: parallella, vinkelrata, skarande) och `strecktabell` (`rows` med `label` och `n`, `counts` visar antalet). Trapetsen kan visa sina parallella sidor med `"showHeight": false` och egna `labels`.

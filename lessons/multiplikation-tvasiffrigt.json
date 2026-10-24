@@ -1,0 +1,326 @@
+{
+  "id": "multiplikation-tvasiffrigt",
+  "area": "tal",
+  "title": "Multiplikation med tvåsiffrigt tal",
+  "level": "Uppställning med två rader · ungefär åk 4",
+  "grade": 4,
+  "duration": "10 min",
+  "prerequisites": [
+    "multiplikation-uppstallning",
+    "multiplikation-10-100-1000"
+  ],
+  "summary": "När det nedre talet har två siffror multiplicerar du med en siffra i taget och lägger ihop raderna.",
+  "explanationTitle": "Hur räknar vi 23 · 14?",
+  "explanation": "Problemet: Med uppställning kan du multiplicera med en siffra, som 274 · 6. Men hur räknar du 23 · 14, där det nedre talet har två siffror? Tabellerna räcker inte och en enda rad går inte att skriva. Idén är att dela upp 14 i 4 och 10, för 23 · 14 = 23 · 4 + 23 · 10. Det betyder två rader i uppställningen. Steg 1: Multiplicera med entalssiffran 4 och skriv svaret på första raden. Steg 2: Multiplicera med tiotalssiffran 1. Det är tiotal, så skriv först en nolla på entalsplatsen, sedan resten av svaret på andra raden. Steg 3: Lägg ihop raderna. Tryck på Nästa steg i bilden och följ med när 23 · 14 räknas ut. Gör gärna ett överslag först: 20 · 10 = 200, så svaret ska vara lite större.",
+  "visual": {
+    "type": "uppstallning",
+    "op": "*",
+    "a": 23,
+    "b": 14,
+    "title": "23 · 14 steg för steg"
+  },
+  "components": [
+    {
+      "type": "uppstallning",
+      "op": "*",
+      "a": 47,
+      "b": 36,
+      "title": "Ett exempel till: 47 · 36"
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
+  "rule": "Först entalssiffran, sedan tiotalssiffran med en nolla. Lägg ihop raderna.",
+  "ruleLabel": "TVÅ RADER",
+  "example": "23 · 14: 23 · 4 = 92 och 23 · 10 = 230. Tillsammans 92 + 230 = 322.",
+  "practice": [
+    {
+      "id": "tva-gange-tva",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          12,
+          49
+        ],
+        "t": [
+          1,
+          3
+        ],
+        "u": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "b",
+          "expr": "10*t+u"
+        },
+        {
+          "name": "r",
+          "expr": "a*(10*t+u)"
+        }
+      ],
+      "prompt": "Räkna ut {a} · {b} med uppställning.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} · {u} = {a*u} och {a} · {10*t} = {a*10*t}. Tillsammans {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*u"
+          ],
+          "message": "Du har bara multiplicerat med entalssiffran {u}. Multiplicera också med tiotalet {t}0 och lägg ihop raderna."
+        },
+        {
+          "answers": [
+            "=a*u+a*t"
+          ],
+          "message": "Du glömde nollan på andra raden. {t} är tiotal, så det ska bli {t}0: {a} · {10*t}."
+        },
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. Här ska du multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "forpackningar",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "sak": [
+          "klasser",
+          "lådor",
+          "bussar"
+        ]
+      },
+      "vars": {
+        "a": [
+          12,
+          29
+        ],
+        "n": [
+          11,
+          24
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*n"
+        }
+      ],
+      "prompt": "Det finns {n} {$sak} med {a} personer i varje. Hur många personer är det sammanlagt?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} · {n} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+n"
+          ],
+          "message": "Du har lagt ihop {a} och {n}. Det är {n} grupper med {a} i varje, så multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "pris",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          12,
+          49
+        ],
+        "n": [
+          11,
+          19
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*n"
+        }
+      ],
+      "prompt": "Ett paket kostar {a} kr. Du köper {n} paket. Vad kostar det sammanlagt?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! {a} · {n} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*mod(n,10)",
+            "=a*(n-10)"
+          ],
+          "message": "Du har bara räknat med entalssiffran. Räkna också med tiotalet, 10 · {a}, och lägg ihop."
+        }
+      ]
+    },
+    {
+      "id": "overslag",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "t": [
+          2,
+          9
+        ],
+        "u": [
+          1,
+          4
+        ],
+        "s": [
+          2,
+          9
+        ],
+        "v": [
+          1,
+          4
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "10*t+u"
+        },
+        {
+          "name": "b",
+          "expr": "10*s+v"
+        },
+        {
+          "name": "r",
+          "expr": "100*t*s"
+        }
+      ],
+      "prompt": "Gör ett överslag: avrunda {a} och {b} till närmaste tiotal och räkna ut ungefär hur mycket {a} · {b} är.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} avrundas till {10*t} och {b} till {10*s}. {10*t} · {10*s} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "{a*b} är det exakta svaret. Vid ett överslag räknar du med de avrundade talen."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Räkna ut 23 · 14 med uppställning.",
+    "answer": [
+      "322"
+    ],
+    "correct": "Rätt! 23 · 4 = 92 och 23 · 10 = 230. Tillsammans 92 + 230 = 322.",
+    "feedback": [
+      {
+        "answers": [
+          "92"
+        ],
+        "message": "Du har bara multiplicerat med 4. Multiplicera också med tiotalet 10 och lägg ihop raderna."
+      },
+      {
+        "answers": [
+          "115"
+        ],
+        "message": "Du glömde nollan på andra raden. 1 är tiotal, så det ska bli 23 · 10 = 230."
+      },
+      {
+        "answers": [
+          "37"
+        ],
+        "message": "Du har lagt ihop talen. Här ska du multiplicera."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En skola har 23 klasser med 14 elever i varje. Hur många elever är det på skolan?",
+      "answer": [
+        "322"
+      ],
+      "correct": "Rätt! 23 · 4 = 92 och 23 · 10 = 230. Tillsammans 322 elever.",
+      "feedback": [
+        {
+          "answers": [
+            "37"
+          ],
+          "message": "Du har lagt ihop 23 och 14. Det är 23 klasser med 14 elever i varje, så multiplicera."
+        },
+        {
+          "answers": [
+            "92"
+          ],
+          "message": "Du har bara multiplicerat med 4. Multiplicera också med 10 och lägg ihop."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett paket kostar 35 kr. Du köper 12 paket. Vad kostar de sammanlagt?",
+      "answer": [
+        "420",
+        "420 kr"
+      ],
+      "correct": "Rätt! 35 · 2 = 70 och 35 · 10 = 350. Tillsammans 420 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "70",
+            "70 kr"
+          ],
+          "message": "Du har bara multiplicerat med 2. Multiplicera också med 10 och lägg ihop."
+        },
+        {
+          "answers": [
+            "47",
+            "47 kr"
+          ],
+          "message": "Du har lagt ihop 35 och 12. Du ska multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "Räkna ut 47 · 36 med uppställning.",
+      "answer": [
+        "1692"
+      ],
+      "correct": "Rätt! 47 · 6 = 282 och 47 · 30 = 1410. Tillsammans 282 + 1410 = 1692.",
+      "feedback": [
+        {
+          "answers": [
+            "282"
+          ],
+          "message": "Du har bara multiplicerat med 6. Multiplicera också med 30 och lägg ihop raderna."
+        },
+        {
+          "answers": [
+            "1410"
+          ],
+          "message": "Du har bara tagit tiotalssiffran. Multiplicera också med 6 och lägg ihop raderna."
+        }
+      ]
+    }
+  ]
+}

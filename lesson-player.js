@@ -176,7 +176,33 @@ window.GaussicaPlayer = (function () {
     });
     const title = el("span", "pl-title", isSession() ? state.session.title : l.title);
     top.append(close, bar, title);
+    if (deps.canChat && deps.canChat()) {
+      const ask = button("💬 Fråga läraren", "pl-ask", function () { deps.openChat(chatContext()); });
+      ask.title = "Skriv till din lärare. Läraren ser vilken uppgift du tittar på.";
+      if (deps.chatUnread && deps.chatUnread()) ask.classList.add("has-news");
+      top.appendChild(ask);
+    }
     return top;
+  }
+
+  // What the student is looking at right now, sent along with a message to the teacher.
+  function chatContext() {
+    const st = state.steps[state.index];
+    const lessonId = isSession() ? (st && st.lessonId) : state.lessonId;
+    const l = lessonId ? deps.getLesson(lessonId) : null;
+    const ctx = { lessonId: l ? l.id : null, lessonTitle: l ? l.title : "" };
+    if (st && st.type === "question") {
+      const e = entryOf(st, lessonId);
+      const typed = document.querySelector(".pl-foot input[name=answer]");
+      ctx.taskId = st.task.id;
+      ctx.taskName = isSession() ? "Fråga " + st.number : (st.task.name || "Fråga " + st.number);
+      ctx.prompt = st.task.problem && st.task.problem.prompt ? String(st.task.problem.prompt) : "";
+      ctx.answer = (typed && typed.value.trim()) || (e && e.answer ? String(e.answer) : "");
+      ctx.status = statusOf(st, lessonId);
+    } else if (st && st.type === "learn") {
+      ctx.taskName = "Förklaringen";
+    }
+    return ctx;
   }
 
   // The bottom bar is always visible. On a question screen it also holds the hint (feedback) and the answer

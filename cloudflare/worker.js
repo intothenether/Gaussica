@@ -6,6 +6,7 @@ const SESSION_DAYS = 30;
 const COLORS = ["#425b9a", "#ef6f88", "#4fa8dc", "#8a74c9", "#d99a2b", "#2f9d88", "#7a8db8"];
 const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const CHAT_UNANSWERED_MAX = 6;   // a student can send this many messages in a row before the teacher has answered
 const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const PBKDF2_ITERATIONS = 100000;   // the most Workers allow
@@ -274,7 +275,7 @@ function createApi(env, request) {
   async function myData() {
     const s = await requireUser();
     const isStudent = s.user.role === "student";
-    const [progress, attempts, assignments, feedback] = await Promise.all([
+    const [progress, attempts, assignments, feedback, chat] = await Promise.all([
       progressOf(s.user.id),
       all("SELECT id, data, created_at FROM attempts WHERE user_id = ? ORDER BY id", s.user.id),
       isStudent && s.user.class_id ? all(
@@ -283,9 +284,91 @@ function createApi(env, request) {
         s.user.class_id, s.user.id) : [],
       isStudent ? all(
         "SELECT f.id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at, u.display_name AS teacher FROM feedback f " +
-        "JOIN users u ON u.id = f.teacher_id WHERE f.student_id = ? ORDER BY f.id DESC LIMIT 200", s.user.id) : []
+        "JOIN users u ON u.id = f.teacher_id WHERE f.student_id = ? ORDER BY f.id DESC LIMIT 200", s.user.id) : [],
+      // An older database without the chat table must not break the rest of the page.
+      isStudent ? all("SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at FROM chat WHERE student_id = ? ORDER BY id DESC LIMIT 200", s.user.id).catch(() => []) : []
     ]);
-    return [200, { progress, attempts: attempts.map(attemptFromRow), assignments: assignments.map(publicAssignment), feedback: feedback.map(publicFeedback) }];
+    return [200, { progress, attempts: attempts.map(attemptFromRow), assignments: assignments.map(publicAssignment), feedback: feedback.map(publicFeedback), chat: chat.reverse().map(publicChat) }];
+  }
+
+  // ----- chat between a student and the teacher of their class -----
+  const publicChat = (r) => {
+    let context = null;
+    try { context = r.context ? JSON.parse(r.context) : null; } catch (e) { /* skip corrupt context */ }
+    return {
+      id: r.id, studentId: String(r.student_id), fromTeacher: Boolean(r.from_teacher), text: r.text,
+      lessonId: r.lesson_id || null, taskId: r.task_id || null, context, createdAt: r.created_at, read: Boolean(r.read_at)
+    };
+  };
+
+  // What the student was looking at when they wrote. Everything is length limited.
+  function cleanChatContext(c) {
+    if (!c || typeof c !== "object") return null;
+    const out = {};
+    ["prompt", "answer", "lessonTitle", "taskName", "correctAnswer"].forEach((k) => {
+      if (c[k] !== undefined && c[k] !== null && String(c[k]).trim()) out[k] = str(c[k], k === "prompt" ? 600 : 200);
+    });
+    if (Number.isInteger(c.tries) && c.tries >= 0) out.tries = Math.min(c.tries, 99);
+    if (["done", "fix", "todo", "read"].indexOf(c.status) >= 0) out.status = c.status;
+    return Object.keys(out).length ? JSON.stringify(out) : null;
+  }
+
+  const chatMissing = (err) => { throw /no such table/i.test(String(err && err.message)) ? new ApiError(503, "Chatten är inte påslagen på servern än.") : err; };
+
+  async function studentChat() {
+    const s = await requireUser();
+    if (s.user.role !== "student") throw new ApiError(403, "Bara elever kan skriva till läraren här.");
+    if (!s.user.class_id) throw new ApiError(400, "Du är inte med i någon klass än.");
+    const teacher = await one("SELECT teacher_id FROM classes WHERE id = ?", s.user.class_id);
+    if (!teacher) throw new ApiError(400, "Klassen har ingen lärare.");
+    const b = await readJson(request, 8000);
+    const text = str(b.text, 600).trim();
+    if (!text) throw new ApiError(400, "Skriv något först.");
+    const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
+    const taskId = b.taskId ? str(b.taskId, 80) : null;
+    if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw new ApiError(400, "Ogiltigt id.");
+    try {
+      const open = await one(
+        "SELECT COUNT(*) AS n FROM chat WHERE student_id = ? AND from_teacher = 0 AND id > COALESCE((SELECT MAX(id) FROM chat WHERE student_id = ? AND from_teacher = 1), 0)",
+        s.user.id, s.user.id);
+      if (open.n >= CHAT_UNANSWERED_MAX) throw new ApiError(429, "Du har redan skickat flera meddelanden. Vänta tills din lärare har svarat.");
+      const res = await run("INSERT INTO chat (student_id, teacher_id, from_teacher, text, lesson_id, task_id, context, created_at) VALUES (?, ?, 0, ?, ?, ?, ?, ?)",
+        s.user.id, teacher.teacher_id, text, lessonId, taskId, cleanChatContext(b.context), nowIso());
+      return [201, { id: res.meta.last_row_id }];
+    } catch (err) { return chatMissing(err); }
+  }
+
+  async function studentChatRead() {
+    const s = await requireUser();
+    await run("UPDATE chat SET read_at = ? WHERE student_id = ? AND from_teacher = 1 AND read_at IS NULL", nowIso(), s.user.id).catch(() => null);
+    return [200, { ok: true }];
+  }
+
+  async function teacherChat() {
+    const s = await requireTeacher();
+    const b = await readJson(request, 5000);
+    const student = await studentOfTeacher(b.studentId, s.user.id);
+    const text = str(b.text, 600).trim();
+    if (!text) throw new ApiError(400, "Skriv något först.");
+    try {
+      const res = await run("INSERT INTO chat (student_id, teacher_id, from_teacher, text, created_at) VALUES (?, ?, 1, ?, ?)", student.id, s.user.id, text, nowIso());
+      await run("UPDATE chat SET read_at = ? WHERE student_id = ? AND teacher_id = ? AND from_teacher = 0 AND read_at IS NULL", nowIso(), student.id, s.user.id);   // answering means having read
+      return [201, { id: res.meta.last_row_id }];
+    } catch (err) { return chatMissing(err); }
+  }
+
+  async function teacherChatRead() {
+    const s = await requireTeacher();
+    const b = await readJson(request, 2000);
+    const student = await studentOfTeacher(b.studentId, s.user.id);
+    await run("UPDATE chat SET read_at = ? WHERE student_id = ? AND teacher_id = ? AND from_teacher = 0 AND read_at IS NULL", nowIso(), student.id, s.user.id).catch(() => null);
+    return [200, { ok: true }];
+  }
+
+  async function teacherChatUnread() {
+    const s = await requireTeacher();
+    const r = await one("SELECT COUNT(*) AS n FROM chat WHERE teacher_id = ? AND from_teacher = 0 AND read_at IS NULL", s.user.id).catch(() => ({ n: 0 }));
+    return [200, { unread: r.n }];
   }
 
   async function markRead() {
@@ -395,15 +478,18 @@ function createApi(env, request) {
 
   async function teacherStudents() {
     const s = await requireTeacher();
-    const [students, progressRows, attemptRows, feedbackRows] = await Promise.all([
+    const [students, progressRows, attemptRows, feedbackRows, chatRows] = await Promise.all([
       all("SELECT u.id, u.username, u.display_name, u.created_at, u.class_id, c.name AS class_name FROM users u " +
         "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? AND u.role = 'student' ORDER BY u.display_name", s.user.id),
       all("SELECT p.user_id, p.lesson_id, p.data FROM progress p JOIN users u ON u.id = p.user_id " +
         "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ?", s.user.id),
       all("SELECT a.id, a.user_id, a.data, a.created_at FROM attempts a JOIN users u ON u.id = a.user_id " +
         "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? ORDER BY a.id", s.user.id),
-      all("SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.teacher_id = ? ORDER BY f.id", s.user.id)
+      all("SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.teacher_id = ? ORDER BY f.id", s.user.id),
+      all("SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at FROM chat WHERE teacher_id = ? ORDER BY id DESC LIMIT 1000", s.user.id).catch(() => [])
     ]);
+    const chat = {};
+    chatRows.reverse().forEach((r) => { (chat[r.student_id] = chat[r.student_id] || []).push(publicChat(r)); });
     const sent = {};
     feedbackRows.forEach((r) => { (sent[r.student_id] = sent[r.student_id] || []).push(publicFeedback(r)); });
     const progress = {}, attempts = {};
@@ -414,7 +500,7 @@ function createApi(env, request) {
     return [200, { students: students.map((u) => ({
       id: String(u.id), username: u.username, name: u.display_name, "class": u.class_name, classId: u.class_id,
       color: COLORS[u.id % COLORS.length], createdAt: u.created_at,
-      lessonProgress: progress[u.id] || {}, attempts: attempts[u.id] || [], feedback: sent[u.id] || []
+      lessonProgress: progress[u.id] || {}, attempts: attempts[u.id] || [], feedback: sent[u.id] || [], chat: chat[u.id] || []
     })) }];
   }
 
@@ -496,6 +582,7 @@ function createApi(env, request) {
     const s = await requireTeacher();
     const student = await studentOfTeacher(studentId, s.user.id);
     await db.batch([
+      db.prepare("DELETE FROM chat WHERE student_id = ?").bind(student.id),
       db.prepare("DELETE FROM attempts WHERE user_id = ?").bind(student.id),
       db.prepare("DELETE FROM progress WHERE user_id = ?").bind(student.id),
       db.prepare("DELETE FROM sessions WHERE user_id = ?").bind(student.id),
@@ -518,6 +605,11 @@ function createApi(env, request) {
     if (method === "POST" && p === "/api/me/password") return changePassword();
     if (method === "GET" && p === "/api/me/data") return myData();
     if (method === "POST" && p === "/api/me/feedback/read") return markRead();
+    if (method === "POST" && p === "/api/me/chat") return studentChat();
+    if (method === "POST" && p === "/api/me/chat/read") return studentChatRead();
+    if (method === "POST" && p === "/api/teacher/chat") return teacherChat();
+    if (method === "POST" && p === "/api/teacher/chat/read") return teacherChatRead();
+    if (method === "GET" && p === "/api/teacher/chat/unread") return teacherChatUnread();
     if ((m = /^\/api\/progress\/([^/]+)$/.exec(p)) && method === "PUT") return putProgress(decodeURIComponent(m[1]));
     if (method === "POST" && p === "/api/attempts") return postAttempt();
     if (method === "GET" && p === "/api/lessons") return listLessons();

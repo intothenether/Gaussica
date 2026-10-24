@@ -1,0 +1,395 @@
+{
+  "id": "kroppar",
+  "area": "geometri",
+  "title": "Kroppar",
+  "level": "Kuber, cylindrar och klot · ungefär åk 4",
+  "grade": 4,
+  "duration": "7 min",
+  "prerequisites": [
+    "geometriska-figurer"
+  ],
+  "summary": "Kroppar är figurer du kan hålla i handen. De har ytor, kanter och hörn som du kan räkna.",
+  "explanationTitle": "Vad är skillnaden mellan en figur och en kropp?",
+  "explanation": "Problemet: Med kvadrater, rektanglar och cirklar kan vi beskriva en teckning på papper. Men en tärning, en burk och en boll ligger inte platt. De tar plats och går att hålla i. Vad kallar vi sådana föremål, och hur beskriver vi dem? De kallas kroppar. En kropp beskriver du med tre saker. Ytor är det du kan känna på utsidan, och de kan vara platta eller böjda. Kanter är linjerna där två ytor möts. Hörn är de spetsiga punkterna där kanter möts. En kub har 6 ytor, 12 kanter och 8 hörn, och det har en rätblock också. En cylinder har 2 platta ytor och 1 böjd, 2 kanter och inga hörn. Ett klot har bara 1 böjd yta, inga kanter och inga hörn, så det rullar åt alla håll. En kon har 1 platt och 1 böjd yta, 1 kant och 1 hörn. En fyrkantig pyramid har 5 ytor, 8 kanter och 5 hörn.",
+  "visual": {
+    "type": "tabs",
+    "title": "Några vanliga kroppar",
+    "views": [
+      {
+        "type": "kroppar",
+        "tabTitle": "Kropparna",
+        "items": [
+          {
+            "shape": "kub",
+            "label": "Kub"
+          },
+          {
+            "shape": "ratblock",
+            "label": "Rätblock"
+          },
+          {
+            "shape": "cylinder",
+            "label": "Cylinder"
+          },
+          {
+            "shape": "klot",
+            "label": "Klot"
+          },
+          {
+            "shape": "kon",
+            "label": "Kon"
+          },
+          {
+            "shape": "pyramid",
+            "label": "Pyramid"
+          }
+        ]
+      },
+      {
+        "type": "tabell",
+        "tabTitle": "Tabell",
+        "headers": [
+          "Kropp",
+          "Ytor",
+          "Kanter",
+          "Hörn"
+        ],
+        "rows": [
+          [
+            "Kub",
+            "6",
+            "12",
+            "8"
+          ],
+          [
+            "Rätblock",
+            "6",
+            "12",
+            "8"
+          ],
+          [
+            "Cylinder",
+            "3",
+            "2",
+            "0"
+          ],
+          [
+            "Klot",
+            "1",
+            "0",
+            "0"
+          ],
+          [
+            "Kon",
+            "2",
+            "1",
+            "1"
+          ],
+          [
+            "Pyramid",
+            "5",
+            "8",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  "rule": "Kroppar har ytor, kanter och hörn. Kub: 6 ytor, 12 kanter, 8 hörn",
+  "ruleLabel": "KROPPAR",
+  "example": "Ett klot har ingen kant och inget hörn. Därför kan det rulla.",
+  "practice": [
+    {
+      "id": "horn-kub",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          1,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "8*n"
+        }
+      ],
+      "prompt": "{$namn} har {n} kuber. Hur många hörn har kuberna tillsammans?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! En kub har 8 hörn, och {n} · 8 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=6*n"
+          ],
+          "message": "Det är antalet ytor. En kub har 6 ytor men 8 hörn."
+        },
+        {
+          "answers": [
+            "=12*n"
+          ],
+          "message": "Det är antalet kanter. En kub har 12 kanter men 8 hörn."
+        },
+        {
+          "answers": [
+            "=8"
+          ],
+          "message": "8 är hörnen på en kub. Det finns {n} kuber, så multiplicera med {n}."
+        }
+      ]
+    },
+    {
+      "id": "kanter-block",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          7
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "12*n"
+        }
+      ],
+      "prompt": "{$namn} bygger ramar av pinnar till {n} rätblock. En pinne blir en kant. Hur många pinnar behövs?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Ett rätblock har 12 kanter, och {n} · 12 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=8*n"
+          ],
+          "message": "Det är antalet hörn. Pinnarna är kanterna, och ett rätblock har 12 kanter."
+        },
+        {
+          "answers": [
+            "=6*n"
+          ],
+          "message": "Det är antalet ytor. Pinnarna är kanterna, och ett rätblock har 12 kanter."
+        }
+      ]
+    },
+    {
+      "id": "malar-ytor",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "6*n"
+        }
+      ],
+      "prompt": "{$namn} målar alla ytor på {n} lådor som är rätblock. Hur många ytor målar {$namn}?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Ett rätblock har 6 ytor, och {n} · 6 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=12*n"
+          ],
+          "message": "Det är antalet kanter. Du ska räkna ytorna, och ett rätblock har 6 ytor."
+        },
+        {
+          "answers": [
+            "=8*n"
+          ],
+          "message": "Det är antalet hörn. Du ska räkna ytorna, och ett rätblock har 6 ytor."
+        }
+      ]
+    },
+    {
+      "id": "pyramid-ytor",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "5*n"
+        }
+      ],
+      "prompt": "{$namn} har {n} fyrkantiga pyramider. Hur många hörn har pyramiderna tillsammans?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! En fyrkantig pyramid har 5 hörn, och {n} · 5 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=4*n"
+          ],
+          "message": "Du har glömt toppen. Pyramiden har 4 hörn i botten och 1 i toppen, alltså 5."
+        },
+        {
+          "answers": [
+            "=8*n"
+          ],
+          "message": "Det är antalet kanter. Du ska räkna hörn, och en pyramid har 5 hörn."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur många hörn har en kub?",
+    "answer": [
+      "8"
+    ],
+    "correct": "Rätt! En kub har 4 hörn i botten och 4 hörn i toppen, alltså 8.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "6 är antalet ytor. Hörnen är de spetsiga punkterna, fyra i botten och fyra i toppen."
+      },
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "12 är antalet kanter. Hörnen är punkterna där kanterna möts."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Hur många kanter har ett rätblock?",
+      "answer": [
+        "12"
+      ],
+      "correct": "Rätt! Fyra kanter i botten, fyra i toppen och fyra som står upp: 12.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är antalet hörn. Kanterna är linjerna: fyra i botten, fyra i toppen och fyra som står upp."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är antalet ytor. Kanterna är linjerna där två ytor möts."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilken kropp har inga hörn och inga kanter, bara en böjd yta? Den kan rulla åt alla håll.",
+      "answer": [
+        "klot",
+        "klotet",
+        "ett klot"
+      ],
+      "correct": "Rätt! Ett klot har bara en böjd yta, så det saknar både kanter och hörn.",
+      "feedback": [
+        {
+          "answers": [
+            "cylinder",
+            "cylindern"
+          ],
+          "message": "En cylinder har kanter, nämligen de två cirklarna runt locket och botten. Den rullar bara åt ett håll."
+        },
+        {
+          "answers": [
+            "kon",
+            "konen"
+          ],
+          "message": "En kon har ett hörn i spetsen. Leta efter kroppen utan hörn."
+        }
+      ]
+    },
+    {
+      "prompt": "En fyrkantig pyramid har en kvadrat som botten och trianglar som sidor. Hur många ytor har den sammanlagt?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! 4 trianglar och 1 kvadrat ger 5 ytor.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är trianglarna. Glöm inte kvadraten i botten."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är antalet kanter. Du ska räkna ytorna: 4 trianglar och 1 kvadrat."
+        }
+      ]
+    }
+  ]
+}

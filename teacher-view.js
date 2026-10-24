@@ -7,7 +7,7 @@
 window.GaussicaTeacher = (function () {
   "use strict";
 
-  const ui = { studentId: null, lessonId: "alla", sort: "attention", classId: "alla", notice: null, assignLesson: "", assignKind: "lesson", assignClass: "", assignScroll: false };
+  const ui = { studentId: null, lessonId: "alla", sort: "attention", classId: "alla", notice: null, assignLesson: "", assignKind: "lesson", assignClass: "", assignScroll: false, threadOpen: {}, chatDraft: {} };
 
   function el(tag, className, text) {
     const e = document.createElement(tag);
@@ -164,6 +164,8 @@ window.GaussicaTeacher = (function () {
     const root = el("div", "tv");
     root.appendChild(header(ctx));
     if (ui.notice) root.appendChild(noticeBox());
+    const chat = chatSection(ctx);
+    if (chat) root.appendChild(chat);
     root.appendChild(classesSection(ctx));
     root.appendChild(assignmentsSection(ctx));
     if (ui.assignScroll) {
@@ -231,6 +233,132 @@ window.GaussicaTeacher = (function () {
       card("BEHÖVER RÄTTAS", String(sum.fix), "uppgifter med fel svar som inte lösts än", sum.fix ? "warn" : "")
     );
     return grid;
+  }
+
+  // ----- questions from students (chat) -----
+  function chatUnread(student) {
+    return (student.chat || []).filter(function (m) { return !m.fromTeacher && !m.read; }).length;
+  }
+
+  function chatTime(iso, ctx) { return iso ? ctx.formatTimestamp(iso) : ""; }
+
+  // The problem the student was working on when they wrote.
+  function chatContextCard(m, student, ctx) {
+    const c = m.context;
+    if (!c && !m.lessonId) return null;
+    const lesson = m.lessonId && ctx.course.lessons.find(function (l) { return l.id === m.lessonId; });
+    const card = el("div", "tv-chatctx");
+    const where = [];
+    if (c && c.taskName) where.push(c.taskName);
+    const lessonTitle = (c && c.lessonTitle) || (lesson && lesson.title);
+    if (lessonTitle) where.push((where.length ? "i " : "") + lessonTitle);
+    card.appendChild(el("strong", "tv-chatctx-where", "📍 " + (where.join(" ") || "Uppgiften")));
+    if (c && c.prompt) card.appendChild(el("p", "tv-chatctx-prompt", c.prompt));
+    const bits = el("div", "tv-chatctx-bits");
+    if (c && c.answer) bits.appendChild(el("span", "", "Elevens svar: " + c.answer));
+    if (c && c.status) {
+      const label = { done: "✓ Löst", fix: "Fel svar", todo: "Inte försökt än", read: "" }[c.status];
+      if (label) bits.appendChild(el("span", "tv-pill " + (c.status === "done" ? "is-done" : c.status === "fix" ? "is-fix" : "is-todo"), label));
+    }
+    if (m.taskId) {
+      const tries = (student.attempts || []).filter(function (a) {
+        return a.lessonId === m.lessonId && a.taskId === m.taskId && window.GaussicaLesson.isSubmission(a) && String(a.timestamp || "") <= String(m.createdAt || "~");
+      }).length;
+      if (tries) bits.appendChild(el("span", "tv-muted", plural(tries, "försök", "försök") + " innan"));
+    }
+    if (bits.children.length) card.appendChild(bits);
+    return card;
+  }
+
+  function chatThread(student, ctx) {
+    const box = el("section", "tv-thread-card");
+    const unread = chatUnread(student);
+    const msgs = student.chat || [];
+    const last = msgs[msgs.length - 1];
+    const details = el("details", "tv-thread" + (unread ? " has-unread" : ""));
+    details.open = ui.threadOpen[student.id] !== undefined ? ui.threadOpen[student.id] : unread > 0;
+    details.addEventListener("toggle", function () { ui.threadOpen[student.id] = details.open; });
+
+    const sum = el("summary", "tv-thread-sum");
+    const avatar = el("span", "admin-student-avatar", student.name.charAt(0).toUpperCase());
+    if (student.color) avatar.style.background = student.color;
+    const who = el("span", "tv-who");
+    who.append(el("strong", "", student.name), el("small", "", (last.fromTeacher ? "Du: " : "") + last.text.slice(0, 80) + (last.text.length > 80 ? "…" : "")));
+    sum.append(avatar, who);
+    if (unread) sum.appendChild(el("span", "tv-pill is-fix", unread === 1 ? "1 ny fråga" : unread + " nya frågor"));
+    else if (last.fromTeacher) sum.appendChild(el("span", "tv-pill is-done", "✓ Besvarad"));
+    sum.appendChild(el("span", "tv-muted tv-thread-when", chatTime(last.createdAt, ctx)));
+    details.appendChild(sum);
+
+    const body = el("div", "tv-thread-body");
+    const list = el("ol", "tv-chat-list");
+    msgs.slice(-30).forEach(function (m) {
+      const li = el("li", "tv-chat-msg " + (m.fromTeacher ? "is-teacher" : "is-student") + (!m.fromTeacher && !m.read ? " is-new" : ""));
+      li.appendChild(el("span", "tv-chat-who", m.fromTeacher ? "Du" : student.name.split(" ")[0]));
+      li.appendChild(el("span", "tv-chat-text", m.text));
+      li.appendChild(el("time", "tv-muted tv-chat-time", chatTime(m.createdAt, ctx)));
+      if (!m.fromTeacher) { const card = chatContextCard(m, student, ctx); if (card) li.appendChild(card); }
+      list.appendChild(li);
+    });
+    body.appendChild(list);
+
+    const form = el("form", "tv-chat-reply");
+    const area = el("textarea");
+    area.maxLength = 600; area.rows = 2;
+    area.placeholder = "Svara " + student.name.split(" ")[0] + "…";
+    area.setAttribute("aria-label", "Svar till " + student.name);
+    area.value = ui.chatDraft[student.id] || "";
+    area.addEventListener("input", function () { ui.chatDraft[student.id] = area.value; });
+    area.addEventListener("keydown", function (e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); form.requestSubmit(); } });
+    const error = el("p", "tv-compose-error");
+    error.hidden = true;
+    const send = button("Svara 💬", "tv-btn is-primary", function () {});
+    send.type = "submit";
+    const row = el("div", "tv-compose-actions");
+    row.appendChild(send);
+    if (unread) row.appendChild(button("✓ Markera som läst", "tv-btn", function () {
+      ctx.actions.markChatRead(student.id).then(function () { ctx.rerender(); }).catch(function (err) { error.textContent = err.message; error.hidden = false; });
+    }));
+    row.appendChild(button("Visa elevens svar", "tv-btn", function () {
+      ui.studentId = student.id;
+      ctx.rerender();
+      const d = document.querySelector(".tv-detail");
+      if (d) d.scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
+    form.append(area, error, row);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const text = area.value.trim();
+      if (!text) { error.textContent = "Skriv något först."; error.hidden = false; return; }
+      send.disabled = true;
+      ctx.actions.sendChat({ studentId: student.id, text: text }).then(function () {
+        ui.chatDraft[student.id] = "";
+        ui.threadOpen[student.id] = true;
+        ctx.rerender();
+      }).catch(function (err) { error.textContent = err.message; error.hidden = false; send.disabled = false; });
+    });
+    body.appendChild(form);
+    details.appendChild(body);
+    box.appendChild(details);
+    return box;
+  }
+
+  function chatSection(ctx) {
+    const threads = ctx.students.filter(function (s) { return (s.chat || []).length; });
+    if (!threads.length) return null;
+    threads.sort(function (a, b) {
+      return (chatUnread(b) > 0) - (chatUnread(a) > 0) ||
+        String(b.chat[b.chat.length - 1].createdAt).localeCompare(String(a.chat[a.chat.length - 1].createdAt));
+    });
+    const unread = threads.reduce(function (n, s) { return n + chatUnread(s); }, 0);
+    const section = el("section", "admin-card-section tv-section tv-chat");
+    section.id = "tv-chat";
+    const h = el("h3", "", "💬 Frågor från elever");
+    if (unread) h.appendChild(el("span", "tv-pill is-fix tv-chat-count", unread === 1 ? "1 ny" : unread + " nya"));
+    section.append(h, el("p", "admin-card-description",
+      "Här ser du vad eleverna har skrivit, och vilken uppgift de tittade på när de skrev. Svaret syns hos eleven på sidan."));
+    threads.forEach(function (s) { section.appendChild(chatThread(s, ctx)); });
+    return section;
   }
 
   function noticeBox() {

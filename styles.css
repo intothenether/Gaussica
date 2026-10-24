@@ -3844,3 +3844,141 @@ sup.pow { font-size: .7em; line-height: 0; vertical-align: super; margin-left: .
 .cv-btn-main:hover { background: var(--brand-light); }
 .cv-writebar[hidden] { display: none; }
 @media (pointer: coarse) { .cv-writebar .cv-btn-small { padding: 12px 20px; font-size: 16px; } }
+
+/* ---- Regelkort: en tydlig regel på en lapp, med färgen från lektionens område ---- */
+.rule-card, .pl-learn .rule-card {
+  --rule-color: var(--brand);
+  display: block; margin-top: 18px; padding: 0; overflow: hidden;
+  border: 3px solid var(--rule-color); border-radius: 22px; background: #fff;
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--rule-color) 35%, transparent), var(--shadow-md);
+}
+.rule-card .rule-label {
+  display: flex; align-items: center; gap: 10px; padding: 11px 20px;
+  background: var(--rule-color); color: #fff; font: 900 15px "Nunito", sans-serif; letter-spacing: 1.6px; text-transform: uppercase;
+}
+.rule-card .rule-label::before { content: "💡"; font-size: 20px; letter-spacing: 0; }
+.rule-card .rule-label:empty { display: none; }
+.rule-card .rule-equation {
+  display: block; margin: 18px 18px 10px; padding: 18px 20px; border: 2px dashed #f0c84b; border-radius: 16px;
+  background: #fff4c7; color: var(--ink); text-align: center;
+  font: 900 clamp(22px, 3.6vw, 30px)/1.4 "Nunito", sans-serif; letter-spacing: -.2px;
+}
+.rule-card .rule-example { display: block; padding: 4px 22px 20px; color: #2e3852; font: 700 17px/1.65 "Nunito", sans-serif; }
+.rule-card .rule-example::before {
+  content: "Exempel"; display: inline-block; margin-right: 10px; padding: 2px 11px; border-radius: 999px;
+  background: color-mix(in srgb, var(--rule-color) 14%, #fff); color: var(--rule-color);
+  font: 900 12px "Nunito", sans-serif; letter-spacing: 1px; text-transform: uppercase; vertical-align: 2px;
+}
+.rule-card .rule-example:empty { display: none; }
+.rule-card .rule-equation .frac, .rule-card .rule-example .frac { font-weight: 900; }
+@media (max-width: 640px) {
+  .rule-card .rule-equation { margin: 14px 12px 8px; padding: 14px 12px; }
+  .rule-card .rule-example { padding: 4px 16px 16px; font-size: 16px; }
+}
+
+/* ---- balansvåg ---- */
+.fig-bal-stand { fill: #dbe3f3; stroke: #aebbd8; stroke-width: 3; stroke-linejoin: round; }
+.fig-bal-beam { stroke: var(--brand); stroke-width: 9; stroke-linecap: round; }
+.fig-bal-beam.is-ok { stroke: var(--success); }
+.fig-bal-pivot { fill: #fff; stroke: var(--ink); stroke-width: 4; }
+.fig-bal-string { stroke: #8a98b6; stroke-width: 2; }
+.fig-bal-plate { fill: var(--brand); }
+.fig-bal-plate.is-ok { fill: var(--success); }
+.fig-bal-block { fill: var(--sky); stroke: var(--brand); stroke-width: 2; }
+.fig-bal-block.is-x { fill: var(--coral); stroke: #e0506d; }
+.fig-bal-ok { fill: var(--success-dark); font-size: 17px; }
+.up-op.is-dot { font-size: 3.4rem; line-height: .5; padding-bottom: .15em; }
+
+/* ---- kroppar, linjer, strecktabell (figures.js) ---- */
+.fig-k { stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+.fig-k-front { fill: #cfe8f9; }
+.fig-k-top { fill: #eaf6fd; }
+.fig-k-side { fill: #9fcff0; }
+.fig-k-line { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-dasharray: 4 4; }
+.fig-k-shine { fill: #fff; opacity: .7; }
+.fig-k-hidden { stroke: var(--ink); stroke-width: 1.6; stroke-dasharray: 4 4; }
+.fig-lin { stroke: var(--brand); stroke-width: 4; stroke-linecap: round; fill: none; }
+.fig-lin-mark { fill: none; stroke: var(--coral-dark, #e0506d); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.fig-tally { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+
+/* ---- robot (pyssel.js) ---- */
+.py-robot-board { display: block; width: 100%; max-width: 520px; margin: 8px auto 12px; }
+.py-robot-cell { fill: #fff; stroke: var(--sky-line); stroke-width: 1.5; }
+.py-robot-wall { fill: #8a98b6; stroke: #6b7a9b; stroke-width: 1.5; }
+.py-robot-star { font-size: 28px; }
+.py-robot-body { fill: var(--brand); stroke: var(--brand-dark); stroke-width: 2; }
+.py-robot-nose { fill: #ffd25e; stroke: var(--brand-dark); stroke-width: 1.5; stroke-linejoin: round; }
+.py-robot-eye { fill: #fff; }
+.py-robot-palette { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 8px; }
+.py-robot-btn { padding: 10px 16px; font-size: 15px; }
+.py-robot-program { list-style: none; margin: 0; padding: 10px; display: flex; flex-wrap: wrap; gap: 8px; min-height: 52px; border: 2px dashed var(--sky-line); border-radius: 14px; background: #fff; counter-reset: step; }
+.py-robot-empty { color: var(--muted); font-size: 14px; align-self: center; }
+.py-robot-step { display: inline-flex; align-items: stretch; border: 2px solid var(--brand-dark); border-radius: 12px; overflow: hidden; background: var(--sky-soft); }
+.py-robot-chip { padding: 8px 12px; border: 0; background: transparent; font: 800 14px "Nunito", sans-serif; color: var(--ink); cursor: pointer; }
+.py-robot-chip:hover:not(:disabled) { background: #fff; }
+.py-robot-del { padding: 0 10px; border: 0; border-left: 2px solid var(--brand-dark); background: #fff; color: var(--muted); font-weight: 800; cursor: pointer; }
+.py-robot-del:hover:not(:disabled) { background: #ffe3e8; color: #c0344f; }
+.py-robot button:disabled { opacity: .55; cursor: default; }
+
+/* ---- chat with the teacher (chat.js, teacher-view.js) ---- */
+.chat-link { cursor: pointer; }
+.pl-ask { flex: none; margin-left: auto; padding: 8px 14px; border: 2px solid var(--brand-dark); border-radius: 999px; background: #fff; color: var(--brand-dark); font: 800 13px "Nunito", sans-serif; cursor: pointer; white-space: nowrap; }
+.pl-ask:hover { background: var(--sky-soft); }
+.pl-ask.has-news { background: var(--brand); color: #fff; }
+.chat-overlay { position: fixed; inset: 0; z-index: 13000; display: grid; place-items: center; padding: 16px; background: rgba(31, 42, 68, .45); }
+.chat-panel { display: flex; flex-direction: column; width: min(520px, 100%); max-height: min(640px, 100%); border: 3px solid var(--brand-dark); border-radius: 22px; background: var(--cream, #fffdf7); box-shadow: 0 18px 50px rgba(31, 42, 68, .35); font-family: "Nunito", sans-serif; overflow: hidden; }
+.chat-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px; background: var(--brand); color: #fff; }
+.chat-title { margin: 0; font: 800 19px "Nunito", sans-serif; }
+.chat-close { width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .2); color: #fff; font-size: 17px; cursor: pointer; }
+.chat-close:hover { background: rgba(255, 255, 255, .35); }
+.chat-thread { flex: 1 1 auto; min-height: 120px; padding: 14px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.chat-empty { margin: auto 0; color: var(--muted); font-size: 15px; line-height: 1.55; text-align: center; }
+.chat-row { display: flex; }
+.chat-row.is-me { justify-content: flex-end; }
+.chat-bubble { display: flex; flex-direction: column; gap: 3px; max-width: 82%; padding: 9px 13px; border-radius: 16px; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+.chat-row.is-me .chat-bubble { background: var(--brand); color: #fff; border-bottom-right-radius: 4px; }
+.chat-row.is-teacher .chat-bubble { background: #fff3c9; color: var(--ink); border: 2px solid #ffe19a; border-bottom-left-radius: 4px; }
+.chat-who { font-size: 12px; color: #8a5a00; }
+.chat-about { font-size: 12px; font-weight: 800; opacity: .85; }
+.chat-text { white-space: pre-wrap; }
+.chat-time { align-self: flex-end; font-size: 11px; opacity: .7; }
+.chat-context { margin: 0 16px 8px; padding: 9px 12px; border: 2px dashed var(--sky-line); border-radius: 14px; background: var(--sky-soft); font-size: 13px; }
+.chat-context.is-off .chat-context-what { opacity: .4; text-decoration: line-through; }
+.chat-context-check { display: flex; align-items: center; gap: 8px; font-weight: 800; cursor: pointer; }
+.chat-context-what { display: grid; gap: 2px; margin-top: 6px; }
+.chat-context-prompt { color: var(--muted); }
+.chat-context-answer { font-weight: 700; }
+.chat-form { padding: 0 16px 14px; display: grid; gap: 8px; }
+.chat-input { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 2px solid var(--sky-line); border-radius: 14px; font: 600 15px "Nunito", sans-serif; resize: vertical; }
+.chat-input:focus { outline: 3px solid #b9d4ff; border-color: var(--brand); }
+.chat-error { margin: 0; color: #c0344f; font-size: 13px; font-weight: 700; }
+.chat-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.chat-hint { color: var(--muted); font-size: 12px; line-height: 1.4; }
+.chat-send { flex: none; padding: 10px 18px; border: 2px solid var(--brand-dark); border-radius: 12px; background: var(--brand); color: #fff; font: 800 14px "Nunito", sans-serif; box-shadow: 0 3px 0 var(--brand-dark); cursor: pointer; }
+.chat-send:disabled { opacity: .6; cursor: default; }
+@media (max-width: 560px) { .pl-ask { padding: 7px 10px; font-size: 12px; } }
+
+.tv-chat-count { margin-left: 10px; vertical-align: middle; }
+.tv-thread-card { margin-top: 10px; }
+.tv-thread { border: 2px solid var(--border); border-radius: 16px; background: #fff; }
+.tv-thread.has-unread { border-color: #f6c453; background: #fffbea; }
+.tv-thread-sum { display: flex; align-items: center; gap: 12px; padding: 10px 14px; cursor: pointer; list-style: none; }
+.tv-thread-sum::-webkit-details-marker { display: none; }
+.tv-thread-sum .tv-who { flex: 1 1 auto; min-width: 0; }
+.tv-thread-sum small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tv-thread-when { flex: none; font-size: 12px; }
+.tv-thread-body { padding: 4px 14px 14px; }
+.tv-chat-list { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 8px; }
+.tv-chat-msg { display: grid; gap: 3px; padding: 8px 12px; border-radius: 12px; background: var(--sky-soft); }
+.tv-chat-msg.is-teacher { background: #fff3c9; margin-left: 24px; }
+.tv-chat-msg.is-new { outline: 2px solid #f6c453; }
+.tv-chat-who { font-size: 12px; font-weight: 800; color: var(--muted); }
+.tv-chat-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.tv-chat-time { font-size: 11px; }
+.tv-chatctx { margin-top: 4px; padding: 8px 10px; border-left: 4px solid var(--brand); border-radius: 8px; background: #fff; font-size: 13px; }
+.tv-chatctx-prompt { margin: 3px 0; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+.tv-chatctx-bits { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-weight: 700; }
+.tv-chat-reply { display: grid; gap: 8px; }
+.tv-chat-reply textarea { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 2px solid var(--sky-line); border-radius: 12px; font: 600 14px "Nunito", sans-serif; resize: vertical; }
+.mb-reply { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 14px; padding: 12px 16px; border: 3px solid #ffd25e; border-radius: 18px; background: #fff3c9; font-size: 16px; }
+.mb-reply-btn { padding: 9px 18px; border: 2px solid var(--brand-dark); border-radius: 12px; background: var(--brand); color: #fff; font: 800 14px "Nunito", sans-serif; box-shadow: 0 3px 0 var(--brand-dark); cursor: pointer; }

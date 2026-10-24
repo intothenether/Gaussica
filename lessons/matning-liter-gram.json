@@ -1,0 +1,357 @@
+{
+  "id": "matning-liter-gram",
+  "area": "matning",
+  "title": "Liter, deciliter, gram och kilogram",
+  "level": "Hur mycket och hur tungt · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "enheter"
+  ],
+  "summary": "Hur mycket något rymmer mäts i liter och deciliter. Hur tungt något är mäts i gram och kilogram.",
+  "explanationTitle": "Hur mäter vi mjölk och mjöl?",
+  "explanation": "Problemet: Med linjal mäter vi hur långt något är. Men hur mycket mjölk ryms i en kanna, och hur tungt är ett paket mjöl? Det går inte att mäta med en linjal. Vi behöver nya enheter. Hur mycket något rymmer mäts i liter (l), deciliter (dl), centiliter (cl) och milliliter (ml). 1 liter är 10 dl, 100 cl eller 1000 ml. Hur tungt något är mäts i gram (g), hektogram (hg) och kilogram (kg). 1 kg är 1000 g, och 1 hg är 100 g. Att byta enhet är samma sak som att byta mellan meter och centimeter. Från en stor enhet till en liten multiplicerar du: 3 l är 3 · 10 = 30 dl. Från en liten enhet till en stor delar du: 2500 g är 2500 delat med 1000, alltså 2,5 kg. Välj en enhet som passar: kilogram för en katt, gram för en tesked salt, liter för en hink vatten och milliliter för en tesked medicin.",
+  "visual": {
+    "type": "tabell",
+    "title": "Enheter för rymd och vikt",
+    "headers": [
+      "Vad mäter vi?",
+      "Enhet",
+      "Samma som"
+    ],
+    "rows": [
+      [
+        "Hur mycket det rymmer",
+        "1 liter (l)",
+        "10 dl = 100 cl = 1000 ml"
+      ],
+      [
+        "Hur mycket det rymmer",
+        "1 deciliter (dl)",
+        "10 cl = 100 ml"
+      ],
+      [
+        "Hur tungt",
+        "1 kilogram (kg)",
+        "1000 g"
+      ],
+      [
+        "Hur tungt",
+        "1 hektogram (hg)",
+        "100 g"
+      ]
+    ]
+  },
+  "rule": "1 l = 10 dl = 1000 ml och 1 kg = 1000 g. Stor till liten: multiplicera. Liten till stor: dela",
+  "ruleLabel": "LITER OCH GRAM",
+  "example": "3 l = 3 · 10 = 30 dl. 2500 g är 2500 delat med 1000 = 2,5 kg.",
+  "practice": [
+    {
+      "id": "l-till-dl",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          30
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*10"
+        }
+      ],
+      "prompt": "Hur många deciliter är {a} liter?",
+      "answer": [
+        "=r",
+        "{r} dl"
+      ],
+      "correct": "Rätt! 1 liter är 10 dl, så {a} · 10 = {r} dl.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*100"
+          ],
+          "message": "Det är antalet centiliter. 1 liter är 10 dl, inte 100."
+        },
+        {
+          "answers": [
+            "=a*1000"
+          ],
+          "message": "Det är antalet milliliter. 1 liter är 10 dl."
+        },
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "Du har inte gjort om enheten. 1 liter är 10 dl, så multiplicera med 10."
+        }
+      ]
+    },
+    {
+      "id": "dl-till-l",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          25
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a"
+        }
+      ],
+      "prompt": "Hur många liter är {a*10} deciliter?",
+      "answer": [
+        "=r",
+        "{r} l",
+        "{r} liter"
+      ],
+      "correct": "Rätt! 10 dl är 1 liter, så {a*10} dl är {a} liter.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*100"
+          ],
+          "message": "Du har multiplicerat. Från liten till stor enhet ska du dela, alltså dela med 10."
+        },
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Det är de deciliter du började med. Dela med 10 för att få liter."
+        }
+      ]
+    },
+    {
+      "id": "kg-till-g",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*1000"
+        }
+      ],
+      "prompt": "Hur många gram är {a} kilogram?",
+      "answer": [
+        "=r",
+        "{r} g"
+      ],
+      "correct": "Rätt! 1 kg är 1000 g, så {a} · 1000 = {r} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*100"
+          ],
+          "message": "Det är antalet gram i {a} hektogram. 1 kg är 1000 g."
+        },
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Du har bara lagt på en nolla. 1 kg är 1000 g, alltså tre nollor."
+        }
+      ]
+    },
+    {
+      "id": "g-till-kg",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          2,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a"
+        }
+      ],
+      "prompt": "Hur många kilogram är {a*1000} gram?",
+      "answer": [
+        "=r",
+        "{r} kg"
+      ],
+      "correct": "Rätt! 1000 g är 1 kg, så {a*1000} g är {a} kg.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*10"
+          ],
+          "message": "Du har inte tagit bort tillräckligt många nollor. 1000 g är 1 kg, alltså tre nollor."
+        },
+        {
+          "answers": [
+            "=a*1000"
+          ],
+          "message": "Det är gram, som du började med. Dela med 1000 för att få kilogram."
+        }
+      ]
+    },
+    {
+      "id": "glas",
+      "for": [
+        "exercise",
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "d": [
+          2,
+          3
+        ],
+        "n": [
+          4,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "d*n"
+        }
+      ],
+      "prompt": "{$namn} dricker {n} glas saft. Varje glas rymmer {d} dl. Hur många deciliter dricker {$namn} sammanlagt?",
+      "answer": [
+        "=r",
+        "{r} dl"
+      ],
+      "correct": "Rätt! {n} · {d} = {r} dl.",
+      "feedback": [
+        {
+          "answers": [
+            "=n+d"
+          ],
+          "message": "Du har lagt ihop talen. Det är {n} glas med {d} dl i varje, så multiplicera."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur många deciliter är 3 liter?",
+    "answer": [
+      "30",
+      "30 dl"
+    ],
+    "correct": "Rätt! 1 liter är 10 dl, så 3 · 10 = 30 dl.",
+    "feedback": [
+      {
+        "answers": [
+          "300"
+        ],
+        "message": "300 är antalet centiliter. 1 liter är 10 dl."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Du har inte gjort om enheten. 1 liter är 10 dl, så multiplicera med 10."
+      },
+      {
+        "answers": [
+          "0,3",
+          "0.3"
+        ],
+        "message": "Du har delat. När du går från stor enhet (liter) till liten (deciliter) ska du multiplicera."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En kanna rymmer 2 liter. Du fyller små glas som rymmer 2 dl var. Hur många glas kan du fylla?",
+      "answer": [
+        "10"
+      ],
+      "correct": "Rätt! 2 liter är 20 dl, och 20 dl delat med 2 dl är 10 glas.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är 2 · 2. Gör först om 2 liter till deciliter: 2 l = 20 dl."
+        },
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "20 dl är hela kannan. Dela 20 med 2 för att få antalet glas."
+        }
+      ]
+    },
+    {
+      "prompt": "En påse mjöl väger 2 kg. Du använder 500 g. Hur många gram mjöl är kvar?",
+      "answer": [
+        "1500",
+        "1500 g"
+      ],
+      "correct": "Rätt! 2 kg är 2000 g, och 2000 − 500 = 1500 g.",
+      "feedback": [
+        {
+          "answers": [
+            "1,5",
+            "1.5",
+            "1,5 kg"
+          ],
+          "message": "1,5 är antalet kilogram. Frågan gäller gram: 1,5 kg är 1500 g."
+        },
+        {
+          "answers": [
+            "1998"
+          ],
+          "message": "Du har tagit 2000 − 2. Gör först om 500 g och 2 kg till samma enhet."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många gram är 3 kg 250 g?",
+      "answer": [
+        "3250",
+        "3250 g"
+      ],
+      "correct": "Rätt! 3 kg är 3000 g, och 3000 + 250 = 3250 g.",
+      "feedback": [
+        {
+          "answers": [
+            "325"
+          ],
+          "message": "3 kg är 3000 g, inte 300 g."
+        },
+        {
+          "answers": [
+            "3,25",
+            "3.25"
+          ],
+          "message": "3,25 är antalet kilogram. Frågan gäller gram."
+        }
+      ]
+    }
+  ]
+}

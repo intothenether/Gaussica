@@ -1,0 +1,368 @@
+{
+  "id": "strecktabell-stapeldiagram",
+  "area": "data",
+  "title": "Strecktabell och stapeldiagram",
+  "level": "Samla in svar och rita dem · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "diagram"
+  ],
+  "summary": "I en strecktabell räknar du svar med streck i grupper om fem. Siffrorna blir sedan staplar i ett stapeldiagram.",
+  "explanationTitle": "Hur räknar vi en hel klass röster?",
+  "explanation": "Problemet: Klassen röstar om favoritlek, och 25 elever ropar sina svar. Skriver du bara ner varje svar blir det en lång röra, och det är lätt att tappa räkningen. Vi behöver ett sätt att hålla reda på svaren medan de kommer in. Det gör vi med en strecktabell: för varje svar sätter du ett streck på rätt rad. Det femte strecket drar du snett över de fyra första, så blir det en grupp om fem. Då kan du räkna i femtal: 5, 10, 15 och sedan de lösa strecken. När alla har svarat räknar du strecken och får en siffra per rad. Siffrorna kan du rita som ett stapeldiagram, där höjden på varje stapel visar antalet. Då ser du direkt vilken lek som fick flest röster. Titta på skalan på sidan så att du vet vad en ruta är värd. Ibland står en ruta för 1 elev, ibland för 2.",
+  "visual": {
+    "type": "tabs",
+    "title": "Favoritlek i klassen",
+    "views": [
+      {
+        "type": "strecktabell",
+        "tabTitle": "Strecktabell",
+        "counts": true,
+        "rows": [
+          {
+            "label": "Kull",
+            "n": 8
+          },
+          {
+            "label": "Tafatt",
+            "n": 12
+          },
+          {
+            "label": "Fotboll",
+            "n": 5
+          }
+        ]
+      },
+      {
+        "type": "staplar",
+        "tabTitle": "Stapeldiagram",
+        "data": [
+          {
+            "label": "Kull",
+            "value": 8
+          },
+          {
+            "label": "Tafatt",
+            "value": 12
+          },
+          {
+            "label": "Fotboll",
+            "value": 5
+          }
+        ],
+        "max": 12
+      }
+    ]
+  },
+  "rule": "Fem streck blir en grupp. Höjden på staplen visar antalet",
+  "ruleLabel": "STRECKTABELL",
+  "example": "Streck i femtal: 5, 10, 15 och sedan de lösa strecken. 12 streck är två femmor och 2 lösa.",
+  "practice": [
+    {
+      "id": "las-streck",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "lek": [
+          "kull",
+          "tafatt",
+          "kurragömma",
+          "hoppa rep"
+        ]
+      },
+      "vars": {
+        "a": [
+          3,
+          19
+        ],
+        "b": [
+          3,
+          19
+        ]
+      },
+      "prompt": "Titta på strecktabellen. Hur många elever valde {$lek}?",
+      "visual": {
+        "type": "strecktabell",
+        "rows": [
+          {
+            "label": "{$lek}",
+            "n": "=a"
+          },
+          {
+            "label": "Fotboll",
+            "n": "=b"
+          }
+        ]
+      },
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Räkna femmorna och de lösa strecken: {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=floor(a/5)"
+          ],
+          "message": "Det är antalet femmor. Varje grupp är 5 streck, så multiplicera och lägg till de lösa."
+        },
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "Det är en annan rad. Titta på raden för {$lek}."
+        }
+      ]
+    },
+    {
+      "id": "summa-streck",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          3,
+          15
+        ],
+        "b": [
+          3,
+          15
+        ],
+        "c": [
+          3,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b+c"
+        }
+      ],
+      "prompt": "Titta på strecktabellen. Hur många elever svarade sammanlagt?",
+      "visual": {
+        "type": "strecktabell",
+        "rows": [
+          {
+            "label": "Kull",
+            "n": "=a"
+          },
+          {
+            "label": "Tafatt",
+            "n": "=b"
+          },
+          {
+            "label": "Fotboll",
+            "n": "=c"
+          }
+        ]
+      },
+      "answer": [
+        "=s",
+        "{s} elever"
+      ],
+      "correct": "Rätt! {a} + {b} + {c} = {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=max(a,b,c)"
+          ],
+          "message": "Det är den högsta raden. Du ska lägga ihop alla tre raderna."
+        }
+      ]
+    },
+    {
+      "id": "fler-stapel",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          9,
+          14
+        ],
+        "b": [
+          3,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a-b"
+        }
+      ],
+      "prompt": "Titta på diagrammet. Hur många fler valde kull än fotboll?",
+      "visual": {
+        "type": "staplar",
+        "data": [
+          {
+            "label": "Kull",
+            "value": "=a"
+          },
+          {
+            "label": "Fotboll",
+            "value": "=b"
+          }
+        ],
+        "max": 14
+      },
+      "answer": [
+        "=r",
+        "{r} elever"
+      ],
+      "correct": "Rätt! {a} − {b} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Det är summan av staplarna. Du ska jämföra dem, alltså räkna skillnaden."
+        }
+      ]
+    },
+    {
+      "id": "skala",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "s": [
+          2,
+          5
+        ],
+        "k": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "s*k"
+        }
+      ],
+      "prompt": "I ett stapeldiagram står 1 ruta för {s} elever. Stapeln för tafatt är {k} rutor hög. Hur många elever valde tafatt?",
+      "answer": [
+        "=r",
+        "{r} elever"
+      ],
+      "correct": "Rätt! {k} rutor och {s} elever per ruta ger {k} · {s} = {r} elever.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "Det är antalet rutor. Varje ruta står för {s} elever, så multiplicera."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Titta på strecktabellen. Hur många elever valde hund?",
+    "answer": [
+      "9"
+    ],
+    "correct": "Rätt! En hel femma är 5 streck och sedan 4 lösa streck: 5 + 4 = 9.",
+    "feedback": [
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 är bara den överstrukna gruppen. Räkna även de 4 lösa strecken."
+      },
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "4 är bara de lösa strecken. Lägg till den överstrukna gruppen om 5."
+      }
+    ],
+    "visual": {
+      "type": "strecktabell",
+      "rows": [
+        {
+          "label": "Katt",
+          "n": 6
+        },
+        {
+          "label": "Hund",
+          "n": 9
+        },
+        {
+          "label": "Fisk",
+          "n": 4
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Äpple fick 12 röster, banan fick 7 och päron fick 9. Hur många elever röstade sammanlagt?",
+      "answer": [
+        "28",
+        "28 elever"
+      ],
+      "correct": "Rätt! 12 + 7 + 9 = 28.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är bara röster på äpple. Lägg ihop alla tre."
+        },
+        {
+          "answers": [
+            "19"
+          ],
+          "message": "Du har lagt ihop två av frukterna. Glöm inte den tredje."
+        }
+      ]
+    },
+    {
+      "prompt": "Du ritar ett stapeldiagram där 1 ruta står för 2 elever. Banan fick 8 röster. Hur många rutor hög blir stapeln?",
+      "answer": [
+        "4",
+        "4 rutor"
+      ],
+      "correct": "Rätt! 8 röster delat med 2 röster per ruta ger 4 rutor.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är antalet röster. En ruta står för 2 röster, så dela 8 med 2."
+        },
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "Du har multiplicerat. Här ska du dela antalet röster med 2."
+        }
+      ]
+    },
+    {
+      "prompt": "En strecktabell visar 13 röster. Hur många lösa streck blir det över när du har ritat alla hela femmor?",
+      "answer": [
+        "3",
+        "3 streck"
+      ],
+      "correct": "Rätt! Två femmor är 10 streck, och 13 − 10 = 3 lösa streck.",
+      "feedback": [
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "2 är antalet hela femmor. Det som blir över är 13 − 10."
+        },
+        {
+          "answers": [
+            "13"
+          ],
+          "message": "13 är alla röster. Dra bort de hela femmorna, som är 10 streck."
+        }
+      ]
+    }
+  ]
+}
