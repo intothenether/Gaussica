@@ -2648,7 +2648,7 @@ body.le-open { overflow: hidden; }
 
 /* ========== LESSON PLAYER (full-screen, one question at a time) ========== */
 body.player-open { overflow: hidden; }
-.player { position: fixed; inset: 0; z-index: 12000; background: var(--cream); font-family: "Nunito", sans-serif; }
+.player { position: fixed; inset: 0; top: var(--vv-top, 0px); bottom: auto; height: var(--vv-h, 100%); z-index: 12000; background: var(--cream); font-family: "Nunito", sans-serif; }
 .player[hidden] { display: none; }
 .pl-shell { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%; }
 .pl-top { display: flex; align-items: center; gap: 16px; padding: 14px 20px; max-width: 980px; width: 100%; margin: 0 auto; box-sizing: border-box; }
@@ -2665,8 +2665,13 @@ body.player-open { overflow: hidden; }
 .pl-eyebrow { margin-bottom: 14px; }
 .pl-learn > * + * { margin-top: 20px; }
 .pl-learn .explanation-section { margin-top: 0; }
-.pl-learn .explanation-section h3 { font-size: 24px; line-height: 1.3; margin: 8px 0 12px; }
-.pl-learn .explanation-section .body-copy { font-size: 16px; line-height: 1.75; color: #333d54; }
+.pl-learn .explanation-section h3 { font-size: 28px; line-height: 1.25; margin: 8px 0 16px; }
+.pl-learn .explanation-section .body-copy { margin: 0 0 14px; font-size: 19px; line-height: 1.7; color: #2b354d; }
+.pl-learn .explanation-section .pl-tag-problem { margin-bottom: 8px; }
+@media (max-width: 640px) {
+  .pl-learn .explanation-section h3 { font-size: 24px; }
+  .pl-learn .explanation-section .body-copy { font-size: 18px; line-height: 1.65; }
+}
 .pl-learn .rule-card { padding: 18px 20px; }
 .pl-question .exercise, .pl-question .word-problem { margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
 .pl-question .exercise > h3 { font-size: 24px; line-height: 1.45; margin: 0 0 22px; }
@@ -4059,3 +4064,70 @@ sup.pow { font-size: .7em; line-height: 0; vertical-align: super; margin-left: .
 .pe-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
 .pe-gallery-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 8px 0; border-top: 1px solid var(--border); }
 .pe-gallery-row p { margin: 2px 0 0; }
+
+/* ---- phones: the visible area, the on-screen keyboard and the folded drawing area (viewport.js) ---- */
+/* Full-screen boxes follow the visible area, so they are not hidden behind the keyboard. */
+.chat-overlay, .fb-overlay { top: var(--vv-top, 0px); bottom: auto; height: var(--vv-h, 100%); }
+.auth-screen { top: var(--vv-top, 0px); bottom: auto; height: var(--vv-h, 100%); }
+
+.pl-foot-q { display: none; }
+.scratchpad-toggle { display: none; }
+@media (max-width: 640px) {
+  .scratchpad-toggle { display: inline-flex; margin-left: auto; padding: 5px 14px; border: 2px solid var(--border); border-radius: 999px; background: #fff; color: var(--brand-dark); font: 800 12px "Nunito", sans-serif; cursor: pointer; }
+  .canvas-box .scratchpad-header { align-items: center; }
+  .canvas-box.is-collapsed .cv, .canvas-box.is-collapsed .scratchpad-hint { display: none; }
+  .canvas-box.is-collapsed .scratchpad-header { margin-bottom: 0; }
+  .canvas-box.is-collapsed { padding-block: 10px; }
+}
+
+/* Compact lesson player while the keyboard is open, and on a phone held sideways: the question stays in view
+   next to the answer field, and everything else makes room. */
+html:is(.is-keyboard, .is-short) .pl-top { padding: 6px 10px; gap: 8px; }
+html:is(.is-keyboard, .is-short) .pl-title, html:is(.is-keyboard, .is-short) .pl-ask, html:is(.is-keyboard, .is-short) .pl-fb { display: none; }
+html:is(.is-keyboard, .is-short) .pl-close { width: 32px; height: 32px; }
+html:is(.is-keyboard, .is-short) .pl-seg { height: 8px; border-radius: 4px; }
+html:is(.is-keyboard, .is-short) .pl-main { padding: 8px 12px 16px; }
+html:is(.is-keyboard, .is-short) .pl-question .exercise > h3 { font-size: 17px; margin: 0 0 10px; }
+html:is(.is-keyboard, .is-short) .pl-question .exercise > .eyebrow { display: none; }
+html:is(.is-keyboard, .is-short) .scratchpad-hint { display: none; }
+html:is(.is-keyboard, .is-short) .pl-foot { padding: 8px 10px; max-height: calc(var(--vv-h, 100vh) * .55); }
+html:is(.is-keyboard, .is-short) .pl-foot-q { display: block; margin: 0 0 6px; max-height: 3.4em; overflow: hidden; font: 800 15px/1.35 "Nunito", sans-serif; color: var(--ink); }
+html:is(.is-keyboard, .is-short) .pl-foot.is-correct .pl-foot-q { display: none; }
+html:is(.is-keyboard, .is-short) .pl-foot-feedback { margin: 0 0 6px; }
+html:is(.is-keyboard, .is-short) .pl-foot-feedback .feedback-message { padding: 6px 10px; font-size: 13px; line-height: 1.4; max-height: 3.8em; }
+html:is(.is-keyboard, .is-short) .pl-foot-msg { display: none; }
+html:is(.is-keyboard, .is-short) .pl-foot:not(.is-correct) .pl-foot-actions { display: none; }
+html:is(.is-keyboard, .is-short) .pl-foot-answer { flex: 1 1 100%; order: 1; }
+html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-form { flex-wrap: nowrap; gap: 8px; }
+html:is(.is-keyboard, .is-short) .pl-foot-answer .final-answer-field { flex: 1 1 auto; }
+html:is(.is-keyboard, .is-short) .pl-foot-answer .final-answer-label { display: none; }
+html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-form input { height: 44px; font-size: 17px; }
+html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-button { flex: 0 0 auto; min-height: 44px; padding-inline: 14px; }
+html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-keys { margin: 0 0 6px; }
+
+/* ---- lesson introduction: tag for the problem ---- */
+.pl-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; font: 800 12px "Nunito", sans-serif; letter-spacing: .8px; text-transform: uppercase; }
+.pl-tag-problem { background: #fff3c9; border: 2px solid #ffd25e; color: #7a5200; }
+
+/* ---- the rules sheet and the buttons in the top bar of the player ---- */
+.pl-top-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: none; }
+.pl-top-actions .pl-ask, .pl-top-actions .pl-fb { margin-left: 0; }
+.pl-rules { flex: none; padding: 8px 14px; border: 2px solid #f6c453; border-radius: 999px; background: #fff3c9; color: #7a5200; font: 800 13px "Nunito", sans-serif; cursor: pointer; white-space: nowrap; }
+.pl-rules:hover { background: #ffe9a0; }
+@media (max-width: 520px) {
+  .pl-top-actions .pl-btn-label { display: none; }
+  .pl-top-actions .pl-ask, .pl-top-actions .pl-rules { padding: 7px 11px; font-size: 16px; }
+}
+.rules-overlay { z-index: 13500; }
+.rules-panel { max-height: min(720px, 100%); }
+.rules-body { flex: 1 1 auto; min-height: 0; padding: 14px 16px; overflow-y: auto; display: grid; gap: 14px; align-content: start; }
+.rules-lesson { margin: 0; color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; }
+.rules-body .rule-card { margin: 0; }
+.rules-more { border: 2px solid var(--sky-line); border-radius: 14px; background: #fff; padding: 10px 14px; }
+.rules-more summary { cursor: pointer; font-weight: 800; color: var(--brand-dark); }
+.rules-explanation { margin-top: 10px; }
+.rules-explanation .explanation-section h3 { font-size: 20px; margin: 6px 0 10px; }
+.rules-explanation .explanation-section .body-copy { font-size: 16px; line-height: 1.65; margin: 0 0 10px; }
+.rules-explanation .explanation-section .eyebrow { display: none; }
+.rules-done { margin: 0 16px 14px; justify-self: stretch; }
+html:is(.is-keyboard, .is-short) .pl-rules .pl-btn-label { display: none; }

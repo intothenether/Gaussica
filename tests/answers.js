@@ -38,6 +38,13 @@ is("36/6 is a calculation", M.isCalculation("36/6"), true);
 is("6 is not a calculation", M.isCalculation("6"), false);
 is("fractions are not a plain number", M.expectsPlainNumber(["3/4"]), false);
 is("a number is a plain number", M.expectsPlainNumber(["24", "24 cm"]), true);
+// upper and lower case: a phone that capitalises the first letter must not make a right answer wrong
+eq("X=4", "x=4", true);
+eq("X = 4", "4", true);
+eq("Ja", "ja", true);
+eq("Romb", "romb", true);
+eq("5 R 2", "5 r 2", true);
+eq("3X+12", "3x+12", true);
 // roots: 3√2 is not 2√3, and a root typed for a plain number counts as a calculation
 eq("3√2", "3*sqrt(2)", true);
 eq("2√3", "3√2", false);

@@ -45,7 +45,7 @@ window.GaussicaCanvas = (function () {
   }
 
   function parse(value) {
-    const empty = { g: 1, sn: 1, view: { x: 0, y: 0, z: 1 }, items: [] };
+    const empty = { g: 1, sn: 1, view: { x: 0, y: 0, z: 1 }, hasView: false, items: [] };
     if (!value) return empty;
     try {
       const d = typeof value === "string" ? JSON.parse(value) : value;
@@ -53,7 +53,7 @@ window.GaussicaCanvas = (function () {
         const vw = d.vw || {};
         const num = function (v, dflt) { return Number.isFinite(Number(v)) && v !== null && v !== "" ? Number(v) : dflt; };
         return {
-          g: 1, sn: d.sn === 0 ? 0 : 1,
+          g: 1, sn: d.sn === 0 ? 0 : 1, hasView: Boolean(d.vw),
           view: { x: Math.max(-LIM, Math.min(LIM, num(vw.x, 0))), y: Math.max(-LIM, Math.min(LIM, num(vw.y, 0))), z: Math.max(ZMIN, Math.min(ZMAX, num(vw.z, 1))) },
           items: d.items.filter(function (i) { return i && typeof i.t === "string"; })
         };
@@ -308,12 +308,21 @@ window.GaussicaCanvas = (function () {
     return Boolean(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
   }
 
+  // On a narrow screen the whole 800-unit-wide paper is squeezed into a few hundred pixels, and the squares become
+  // too small to tap where you want. A new drawing therefore starts zoomed in, so that a square is about 20 pixels.
+  function homeZoom() {
+    const width = Math.min(window.innerWidth - 56, 700);   // roughly the width of the drawing area
+    if (!(width > 0) || width >= 560) return 1;
+    return Math.round(Math.max(1, Math.min(2.5, 20 / (CELL * width / W))) * 100) / 100;
+  }
+
   function create(options) {
     options = options || {};
     const initial = parse(options.value);
+    const home = homeZoom();
     let items = initial.items;
     let snapOn = Boolean(initial.sn);
-    let vx = initial.view.x, vy = initial.view.y, zoom = initial.view.z;   // which part of the endless paper is shown
+    let vx = initial.view.x, vy = initial.view.y, zoom = initial.hasView ? initial.view.z : home;   // which part of the endless paper is shown
     let tool = "select";
     let color = 0;
     let width = 3;
@@ -468,7 +477,7 @@ window.GaussicaCanvas = (function () {
     }
 
     function goHome() {
-      vx = 0; vy = 0; zoom = 1;
+      vx = 0; vy = 0; zoom = home;
       applyView(true);
       emitSoon();
     }
@@ -830,6 +839,10 @@ window.GaussicaCanvas = (function () {
       const input = el("input", "cv-edit");
       input.type = "text";
       input.maxLength = it.t === "chip" ? 12 : 300;
+      input.setAttribute("autocapitalize", "none");
+      input.setAttribute("autocorrect", "off");
+      input.setAttribute("autocomplete", "off");
+      input.spellcheck = false;
       input.setAttribute("aria-label", it.t === "nl" ? "Tallinjens start och slut" : "Text");
       let left = (it.x || 0), top = (it.y || 0), w = 220, size = 22;
       if (it.t === "t") { size = it.z || 24; top = (it.y || 0) - size; input.value = it.s || ""; w = Math.max(180, (String(it.s || "").length + 4) * size * 0.58); }

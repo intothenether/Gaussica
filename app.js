@@ -1909,7 +1909,18 @@
       makeElement("span", "scratchpad-heading", "Rityta")
     );
     const scratchSubtitle = makeElement("span", "scratchpad-hint", "Rita, skriv och lägg ut saker. Din lärare kan se hur du tänkte.");
-    scratchHeader.append(scratchTitle, scratchSubtitle);
+    // On a phone the drawing area is folded away until it is needed (unless something is already drawn), so that
+    // the question and the answer field fit on the screen together. Wider screens always show it.
+    const scratchToggle = makeElement("button", "scratchpad-toggle");
+    scratchToggle.type = "button";
+    const setScratchOpen = function (open) {
+      scratchBox.classList.toggle("is-collapsed", !open);
+      scratchToggle.textContent = open ? "Dölj ▴" : "Rita ▾";
+      scratchToggle.setAttribute("aria-expanded", String(open));
+    };
+    setScratchOpen(!(window.matchMedia("(max-width: 640px)").matches && window.GaussicaCanvas.isEmpty(saved.canvas || "")));
+    scratchToggle.addEventListener("click", function () { setScratchOpen(scratchBox.classList.contains("is-collapsed")); });
+    scratchHeader.append(scratchTitle, scratchSubtitle, scratchToggle);
     const pad = window.GaussicaCanvas.create({
       value: saved.canvas || "",
       onChange: function (json) { storeCanvas(lesson.id, taskId, json); }
@@ -1929,6 +1940,11 @@
     answer.id = "answer-" + lesson.id + "-" + taskId;
     answer.name = "answer";
     answer.autocomplete = "off";
+    // A phone must not turn x = 4 into X = 4 or "romb" into another word. (Answers are also compared without regard
+    // to upper and lower case, see symbolic-math.js, in case a keyboard does it anyway.)
+    answer.setAttribute("autocapitalize", "none");
+    answer.setAttribute("autocorrect", "off");
+    answer.spellcheck = false;
     answer.placeholder = "Skriv ditt svar här";
     answer.required = true;
     answer.value = saved.answer || "";
@@ -2257,9 +2273,33 @@
 
   // ============ END PATTERN GENERATION ============
 
-  function renderBlock(parent, lesson, key) {
+  // The explanation as a section: the title, a "Problemet" tag when the text begins with the problem, and short paragraphs.
+  // A page of a long explanation (step.part of step.parts) shows only its part of the text.
+  function renderExplanation(parent, lesson, step) {
+    const L = window.GaussicaLesson;
+    const parts = L.explanationParts ? L.explanationParts(lesson.explanation) : [[String(lesson.explanation || "")]];
+    const paragraphs = step && step.parts ? (parts[step.part] || []) : parts.reduce(function (all, p) { return all.concat(p); }, []);
+    const paged = step && step.parts > 1;
+    const section = makeElement("section", "explanation-section");
+    section.appendChild(makeElement("p", "eyebrow", "FÖRSTÅ IDÉN" + (paged ? " · DEL " + (step.part + 1) + " AV " + step.parts : "")));
+    section.appendChild(makeElement("h3", "", lesson.explanationTitle || "Förklaring"));
+    paragraphs.forEach(function (text, i) {
+      let body = text;
+      if (i === 0 && (!paged || step.part === 0)) {
+        const m = /^\s*Problemet:\s*/i.exec(body);
+        if (m) {
+          body = body.slice(m[0].length);
+          section.appendChild(makeElement("span", "pl-tag pl-tag-problem", "🧩 Problemet"));
+        }
+      }
+      section.appendChild(makeElement("p", "body-copy", body));
+    });
+    parent.appendChild(section);
+  }
+
+  function renderBlock(parent, lesson, key, step) {
     if (key === "explanation") {
-      addSection(parent, "FÖRSTÅ IDÉN", lesson.explanationTitle, lesson.explanation);
+      renderExplanation(parent, lesson, step);
     } else if (key === "visual") {
       renderVisualsFor(parent, lesson);
     } else if (key === "rule") {

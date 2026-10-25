@@ -134,6 +134,68 @@ window.GaussicaLesson = (function () {
 
   // The lesson as a sequence of screens for the player: consecutive reading blocks are
   // grouped into one "learn" step; every answerable task is its own "question" step.
+  // ----- a long explanation is read on several pages -----
+  const ABBREVIATIONS = ["t.ex", "bl.a", "d.v.s", "dvs", "m.m", "m.fl", "osv", "ca", "resp", "inkl", "jfr", "nr", "kl", "kap"];
+
+  // The sentences of a text, with a flag for the ones that start a new paragraph (a blank line before them).
+  function sentencesOf(text) {
+    const out = [];
+    String(text || "").trim().split(/\n{2,}/).forEach(function (para) {
+      const t = para.replace(/\s+/g, " ").trim();
+      let start = 0, first = true;
+      for (let i = 0; i < t.length; i++) {
+        const c = t.charAt(i);
+        if (c !== "." && c !== "!" && c !== "?") continue;
+        let j = i + 1;
+        while (j < t.length && /["”)»]/.test(t.charAt(j))) j += 1;
+        if (j < t.length && t.charAt(j) !== " ") continue;           // 3.5, 2.4 or an abbreviation without a space
+        const k = j + 1;
+        if (k >= t.length) break;
+        if (!/[A-ZÅÄÖ0-9"“(]/.test(t.charAt(k))) continue;          // the next sentence starts with a capital letter or a number
+        if (c === "." && ABBREVIATIONS.indexOf(t.slice(start, i).split(" ").pop().toLowerCase()) >= 0) continue;
+        out.push({ s: t.slice(start, j), para: first });
+        first = false;
+        start = k;
+        i = k - 1;
+      }
+      if (t.slice(start)) out.push({ s: t.slice(start), para: first });
+    });
+    return out;
+  }
+
+  // The explanation cut into pages (a page is a list of paragraphs). Short texts stay on one page. Longer texts are
+  // cut between sentences into pages of about 380 characters, and a page is shown in short paragraphs.
+  function explanationParts(text) {
+    const sentences = sentencesOf(text);
+    const total = sentences.reduce(function (n, x) { return n + x.s.length + 1; }, 0);
+    const pages = [];
+    if (total <= 560) pages.push(sentences);
+    else {
+      const n = Math.ceil(total / 380), target = total / n;
+      let page = [], len = 0;
+      sentences.forEach(function (x) {
+        if (page.length && len >= target * 0.6 && (len + x.s.length > target * 1.15 || (x.para && len >= target * 0.8))) { pages.push(page); page = []; len = 0; }
+        page.push(x);
+        len += x.s.length + 1;
+      });
+      if (page.length) pages.push(page);
+      if (pages.length > 1 && pages[pages.length - 1].reduce(function (m, x) { return m + x.s.length; }, 0) < 120) {
+        const tail = pages.pop();
+        pages[pages.length - 1] = pages[pages.length - 1].concat(tail);
+      }
+    }
+    return pages.map(function (page) {
+      const paragraphs = [];
+      let current = "";
+      page.forEach(function (x) {
+        if (current && (x.para || current.length + x.s.length > 260)) { paragraphs.push(current); current = ""; }
+        current += (current ? " " : "") + x.s;
+      });
+      if (current) paragraphs.push(current);
+      return paragraphs;
+    });
+  }
+
   function steps(l) {
     const out = [];
     const taskList = tasks(l);
@@ -144,6 +206,13 @@ window.GaussicaLesson = (function () {
       if (task) {
         group = null;
         out.push({ type: "question", key: key, task: task });
+      } else if (key === "explanation" && l.explanation && String(l.explanation).trim()) {
+        // a long explanation gets a page per part; the blocks after it (figure, rule) follow on the last page
+        const parts = explanationParts(l.explanation);
+        parts.forEach(function (paragraphs, i) {
+          group = { type: "learn", keys: ["explanation"], titles: [blockTitle(l, key)], part: i, parts: parts.length };
+          out.push(group);
+        });
       } else {
         // every interactive tool gets a page of its own
         const tool = key.indexOf("comp:") === 0 && isTool((l.components || [])[Number(key.slice(5))]);
@@ -276,6 +345,6 @@ window.GaussicaLesson = (function () {
     return g >= 10 ? "GYMNASIET" : "ÅK " + g;
   }
 
-  return { isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, allowsExpression: allowsExpression, gradeLabel: gradeLabel, steps: steps, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
+  return { isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, allowsExpression: allowsExpression, gradeLabel: gradeLabel, steps: steps, explanationParts: explanationParts, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
     summarize: summarize, describe: describe, hasVisual: hasVisual, isTaskComponent: isTaskComponent, isMatchComponent: isMatchComponent };
 }());

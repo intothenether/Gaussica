@@ -105,6 +105,7 @@ window.GaussicaPlayer = (function () {
 
   function close() {
     if (!deps) return;
+    rulesOverlay = null;
     deps.container.hidden = true;
     deps.container.replaceChildren();
     document.body.classList.remove("player-open");
@@ -127,6 +128,7 @@ window.GaussicaPlayer = (function () {
   function render() {
     const l = isSession() ? null : lesson();
     const c = deps.container;
+    rulesOverlay = null;
     c.replaceChildren();
     const shell = el("div", "pl-shell");
     shell.setAttribute("role", "dialog");
@@ -176,18 +178,84 @@ window.GaussicaPlayer = (function () {
     });
     const title = el("span", "pl-title", isSession() ? state.session.title : l.title);
     top.append(close, bar, title);
+
+    // buttons on the right: the rules (without leaving the lesson), a question to the teacher, and feedback
+    const actions = el("div", "pl-top-actions");
+    const labelled = function (icon, text, className, onClick, tip) {
+      const b = button("", className, onClick);
+      b.append(el("span", "pl-btn-icon", icon), el("span", "pl-btn-label", " " + text));
+      b.title = tip;
+      b.setAttribute("aria-label", text + ". " + tip);
+      return b;
+    };
+    if (rulesLesson()) actions.appendChild(labelled("💡", "Regler", "pl-rules", openRules, "Se regeln och förklaringen igen utan att lämna lektionen."));
     if (deps.canChat && deps.canChat()) {
-      const ask = button("💬 Fråga läraren", "pl-ask", function () { deps.openChat(chatContext()); });
-      ask.title = "Skriv till din lärare. Läraren ser vilken uppgift du tittar på.";
+      const ask = labelled("💬", "Fråga läraren", "pl-ask", function () { deps.openChat(chatContext()); }, "Skriv till din lärare. Läraren ser vilken uppgift du tittar på.");
       if (deps.chatUnread && deps.chatUnread()) ask.classList.add("has-news");
-      top.appendChild(ask);
+      actions.appendChild(ask);
     }
-    if (deps.openFeedback) {
-      const fb = button("📣 Feedback", "pl-fb" + (top.querySelector(".pl-ask") ? "" : " is-first"), function () { deps.openFeedback(chatContext()); });
-      fb.title = "Hittade du ett fel eller har du en idé? Skicka feedback.";
-      top.appendChild(fb);
-    }
+    if (deps.openFeedback) actions.appendChild(labelled("📣", "Feedback", "pl-fb", function () { deps.openFeedback(chatContext()); }, "Hittade du ett fel eller har du en idé? Skicka feedback."));
+    top.appendChild(actions);
     return top;
+  }
+
+  // ----- the rules and the explanation, to look at again without leaving the lesson -----
+  // The lesson whose rules apply to what is on screen (in a practice round every question has its own lesson).
+  function rulesLesson() {
+    if (!state) return null;
+    const st = state.steps[state.index];
+    const l = isSession() ? (st && st.lessonId ? deps.getLesson(st.lessonId) : null) : lesson();
+    return l && (l.rule || l.explanation) ? l : null;
+  }
+
+  let rulesOverlay = null;
+
+  function closeRules() {
+    if (!rulesOverlay) return;
+    rulesOverlay.remove();
+    rulesOverlay = null;
+    const back = deps.container.querySelector(".pl-rules");
+    if (back) back.focus();
+  }
+
+  function openRules() {
+    const l = rulesLesson();
+    if (!l) return;
+    closeRules();
+    rulesOverlay = el("div", "chat-overlay rules-overlay");
+    const panel = el("div", "chat-panel rules-panel");
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-modal", "true");
+    panel.setAttribute("aria-label", "Regler och förklaring");
+    const head = el("header", "chat-head");
+    head.appendChild(el("h2", "chat-title", "💡 Regler och tips"));
+    const x = el("button", "chat-close", "✕");
+    x.type = "button";
+    x.setAttribute("aria-label", "Stäng");
+    x.addEventListener("click", closeRules);
+    head.appendChild(x);
+    const body = el("div", "rules-body");
+    body.appendChild(el("p", "rules-lesson", l.title));
+    if (l.rule) deps.renderBlock(body, l, "rule");
+    if (l.visual) deps.renderBlock(body, l, "visual");
+    if (l.explanation) {
+      const more = el("details", "rules-more");
+      more.open = !l.rule;   // a lesson without a rule card shows the explanation straight away
+      more.appendChild(el("summary", "", "Läs förklaringen igen"));
+      const text = el("div", "pl-learn rules-explanation");
+      deps.renderBlock(text, l, "explanation");
+      more.appendChild(text);
+      body.appendChild(more);
+    }
+    const done = el("button", "chat-send rules-done", "Tillbaka till uppgiften");
+    done.type = "button";
+    done.addEventListener("click", closeRules);
+    panel.append(head, body, done);
+    rulesOverlay.appendChild(panel);
+    rulesOverlay.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closeRules(); } });
+    rulesOverlay.addEventListener("mousedown", function (e) { if (e.target === rulesOverlay) closeRules(); });
+    deps.container.appendChild(rulesOverlay);
+    done.focus({ preventScroll: true });
   }
 
   // What the student is looking at right now, sent along with a message to the teacher.
@@ -221,6 +289,7 @@ window.GaussicaPlayer = (function () {
     actions.forEach(function (a) { acts.appendChild(a); });
     const row = el("div", "pl-foot-row");
     if (state.hosts) {
+      foot.appendChild(state.hosts.question);
       foot.appendChild(state.hosts.feedback);
       row.append(msg, state.hosts.answer, acts);
     } else {
@@ -239,7 +308,7 @@ window.GaussicaPlayer = (function () {
       state.visited.add(state.index);
       card.appendChild(el("p", "eyebrow pl-eyebrow", l.kind === "pyssel" ? "PYSSLA" : l.kind === "begrepp" ? "BEGREPP" : "LÄR DIG"));
       const body = el("div", "pl-learn");
-      st.keys.forEach(function (key) { deps.renderBlock(body, l, key); });
+      st.keys.forEach(function (key) { deps.renderBlock(body, l, key, st); });
       card.appendChild(body);
       const nextStep = state.steps[state.index + 1];
       const next = button(nextStep && nextStep.type === "question" ? "Börja med frågorna →" : "Fortsätt →",
@@ -256,7 +325,11 @@ window.GaussicaPlayer = (function () {
       : "FRÅGA " + st.number + " AV " + st.total;
     const holder = el("div", "pl-question");
     card.appendChild(holder);
-    state.hosts = { answer: el("div", "pl-foot-answer"), feedback: el("div", "pl-foot-feedback") };
+    state.hosts = { answer: el("div", "pl-foot-answer"), feedback: el("div", "pl-foot-feedback"), question: el("div", "pl-foot-q") };
+    // the question is repeated above the answer field. It is only shown while the on-screen keyboard is open,
+    // when the question itself has scrolled out of the small visible area.
+    const promptText = st.task.problem && st.task.problem.prompt ? String(st.task.problem.prompt) : "";
+    if (window.GaussicaText) window.GaussicaText.set(state.hosts.question, promptText); else state.hosts.question.textContent = promptText;
     const next = button("Fortsätt →", "pl-btn pl-btn-primary", function () { go(state.index + 1); });
     const skip = button("Hoppa över", "pl-btn pl-btn-ghost", function () { go(state.index + 1); });
 

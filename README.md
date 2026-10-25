@@ -346,6 +346,22 @@ Texten "Så hanteras dina uppgifter" (`privacy.js`) visas från sidfoten och inl
 - **Demoläge.** Utan server öppnas besökarens e-postprogram med ett färdigt meddelande till `contact` i config.js.
 - **API.** `POST /api/feedback`, öppet för alla.
 
+## Introduktionssidor och regler i lektionen
+
+- **Introduktionen delas upp.** En lång förklaring läses på flera sidor ("Del 1 av 3"). Texten delas mellan meningar (`explanationParts` i `lesson-model.js`, förkortningar som t.ex. och decimaler som 3,5 räknas inte som meningsslut) i sidor på ungefär 380 tecken, och varje sida visas i korta stycken. En text under ca 560 tecken är en enda sida. Figur och regelruta kommer på sista sidan. Texten är större än förut (19 px, 18 px på mobil).
+- **"Problemet:".** Börjar förklaringen med "Problemet:" tas ordet bort ur texten och visas som en gul etikett, 🧩 Problemet, ovanför problemtexten.
+- **Regler när som helst.** Knappen 💡 Regler uppe till höger i lektionen och övningen öppnar en ruta med regelrutan, figuren och en hopfälld "Läs förklaringen igen" (öppen direkt om lektionen saknar regel). Rutan stänger man med Tillbaka till uppgiften, ✕, Esc eller ett tryck utanför, och uppgiften och svaret är kvar. I en övningsrunda visas regeln för just den frågans lektion.
+
+## Mobil och tangentbord
+
+- **Följer det som syns.** `viewport.js` mäter den del av skärmen som är synlig (`visualViewport`) och skriver `--vv-h` och `--vv-top` på `<html>`. Lektionsspelaren, chatten, feedbackrutan och inloggningen använder dem i stället för 100 %, så de inte hamnar bakom tangentbordet. Metataggen `interactive-widget=resizes-content` gör samma sak åt Android.
+- **Kompakt läge.** När ett textfält har fokus och den synliga höjden krympt (tangentbordet är uppe), eller på en mobil som hålls på tvären, får `<html>` klassen `is-keyboard` eller `is-short`. Då krymper spelaren: översta fältet visar bara förloppet och ✕, frågan upprepas ovanför svarsfältet, tipset begränsas till två rader, svarsfältet och knappen delar en rad, och Tillbaka och Hoppa över döljs tills tangentbordet försvinner.
+- **Ritytan.** På skärmar under 640 px är ritytan ihopfälld ("Rita ▾") tills eleven öppnar den, om inget är ritat. Bredare skärmar visar den alltid.
+- **Inzoomad rityta.** En ny teckning börjar inzoomad på smala skärmar, så att en ruta blir ungefär 20 bildpunkter och det går att trycka där man vill. Knappen med procenttalet går tillbaka till den storleken och ⤢ visar allt som är ritat. Sparade teckningar öppnas som de lämnades.
+- **Svarsfält.** Svarsfältet och textrutorna på ritytan har autoversaler, autokorrigering och stavningskontroll avstängda, så att telefonen inte gör om x = 4 till X = 4. Rättningen ignorerar dessutom stora och små bokstäver (`symbolic-math.js`).
+- **Fokus.** Ett fält som får fokus rullas fram om det skulle hamna bakom tangentbordet.
+- Fungerar bara på riktiga telefoner fullt ut: testa gärna med tangentbordet uppe på både Android och iPhone.
+
 ## Svara med tal eller med uträkning
 
 Där ett vanligt tal väntas som svar räknas en uträkning inte: "36/6" eller "3*6" är rätt värde, men eleven får tipset att räkna ut svaret och skriva talet. Det gäller åk 3–6, där poängen är att träna på att räkna. Från åk 7 tillåts uträkningar (lutning, ekvationer, formler), eftersom räknesteget då ses som enkelt. Frågor där svaret redan är ett bråk eller ett uttryck ("1/6", "x+3") påverkas inte.

@@ -113,6 +113,7 @@ async function api() {
   run("practice questions", "tests/practice.js");
   run("answer rules", "tests/answers.js");
   run("practice editor", "tests/practice-editor.js");
+  run("explanation pages", "tests/explanation-pages.js");
   await api();
   const failed = results.filter((r) => !r.ok);
   console.log("\n" + (failed.length ? failed.length + " of " + results.length + " checks FAILED" : "All " + results.length + " checks passed"));
