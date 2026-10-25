@@ -12,7 +12,7 @@ npx wrangler d1 create gaussica --jurisdiction eu
 ```
 
 1. Kopiera `database_id` som skrivs ut till `wrangler.toml`.
-2. Kontrollera `ALLOWED_ORIGINS` i `wrangler.toml`. Där ska din GitHub Pages-adress stå (utan avslutande `/`), och `http://localhost:8000` om du kör sidan lokalt.
+2. Kontrollera `ALLOWED_ORIGINS` i `wrangler.toml`. Där ska varje adress sidan nås på stå, utan avslutande `/`: egen domän (till exempel `https://gaussica.se` och `https://www.gaussica.se`) och GitHub Pages-adressen. Lägg även dit `http://localhost:8000` om du kör sidan lokalt.
 
 ```bash
 npx wrangler d1 execute gaussica --remote --file=schema.sql
