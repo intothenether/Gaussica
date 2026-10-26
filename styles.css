@@ -3543,7 +3543,7 @@ body { background: var(--cream); }
 .match-item.is-done.match-term { color: var(--ink); }
 .match-no { position: absolute; top: -11px; right: -8px; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--brand); color: #fff; font: 900 14px "Nunito", sans-serif; }
 .match-item.pair0 { border-color: #4f8fd6; background: #eaf3fd; box-shadow: 0 4px 0 #4f8fd6; } .pair0 .match-no { background: #4f8fd6; }
-.match-item.pair1 { border-color: #e0506d; background: #ffeef1; box-shadow: 0 4px 0 #e0506d; } .pair1 .match-no { background: #e0506d; }
+.match-item.pair1 { border-color: #6aa84f; background: #eef7e6; box-shadow: 0 4px 0 #6aa84f; } .pair1 .match-no { background: #6aa84f; }
 .match-item.pair2 { border-color: #2f9d88; background: #e8f6f2; box-shadow: 0 4px 0 #2f9d88; } .pair2 .match-no { background: #2f9d88; }
 .match-item.pair3 { border-color: #e0861f; background: #fff3e2; box-shadow: 0 4px 0 #e0861f; } .pair3 .match-no { background: #e0861f; }
 .match-item.pair4 { border-color: #7a56c7; background: #f1ecfb; box-shadow: 0 4px 0 #7a56c7; } .pair4 .match-no { background: #7a56c7; }
