@@ -6,7 +6,12 @@
   "level": "Begrepp · ungefär åk 4",
   "grade": 4,
   "duration": "8 min",
-  "prerequisites": ["addition","subtraktion","multiplikation","division"],
+  "prerequisites": [
+    "addition",
+    "subtraktion",
+    "multiplikation",
+    "division"
+  ],
   "summary": "Lär dig vad räknesätten och deras svar heter, så att du kan prata om matte med rätt ord.",
   "explanationTitle": "Rätt ord gör matten lättare",
   "explanation": "I matte har nästan allt ett eget ord. Räknesätten heter addition, subtraktion, multiplikation och division, och när du räknar addera, subtrahera, multiplicera och dividera du. Svaren har egna namn också, och talen man räknar med heter termer och faktorer. När du kan orden blir det lättare att förstå uppgifter och förklara hur du tänker. Läs begreppskorten först. Sedan kopplar du ihop varje begrepp med rätt förklaring.",
@@ -36,7 +41,11 @@
           "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck.",
           "example": "12/3"
         },
-        {"term":"summa","definition":"Svaret på en addition.","example":"I 3 + 4 = 7 är 7 summan."},
+        {
+          "term": "summa",
+          "definition": "Svaret på en addition.",
+          "example": "I 3 + 4 = 7 är 7 summan."
+        },
         {
           "term": "differens",
           "definition": "Svaret på en subtraktion.",
@@ -47,7 +56,11 @@
           "definition": "Svaret på en multiplikation.",
           "example": "I 4 · 3 = 12 är 12 produkten."
         },
-        {"term":"kvot","definition":"Svaret på en division.","example":"I 12/3 = 4 är 4 kvoten."},
+        {
+          "term": "kvot",
+          "definition": "Svaret på en division.",
+          "example": "I 12/3 = 4 är 4 kvoten."
+        },
         {
           "term": "term",
           "definition": "Ett av talen som läggs ihop i en addition.",
@@ -64,7 +77,10 @@
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
       "pairs": [
-        {"term":"addition","definition":"Räknesättet där man lägger ihop tal, man adderar. Tecknet är +."},
+        {
+          "term": "addition",
+          "definition": "Räknesättet där man lägger ihop tal, man adderar. Tecknet är +."
+        },
         {
           "term": "subtraktion",
           "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −."
@@ -77,31 +93,102 @@
           "term": "division",
           "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck."
         },
-        {"term":"summa","definition":"Svaret på en addition."}
+        {
+          "term": "summa",
+          "definition": "Svaret på en addition."
+        }
       ]
     },
     {
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 2).",
       "pairs": [
-        {"term":"differens","definition":"Svaret på en subtraktion."},
-        {"term":"produkt","definition":"Svaret på en multiplikation."},
-        {"term":"kvot","definition":"Svaret på en division."},
-        {"term":"term","definition":"Ett av talen som läggs ihop i en addition."},
-        {"term":"faktor","definition":"Ett av talen som multipliceras i en multiplikation."}
+        {
+          "term": "differens",
+          "definition": "Svaret på en subtraktion."
+        },
+        {
+          "term": "produkt",
+          "definition": "Svaret på en multiplikation."
+        },
+        {
+          "term": "kvot",
+          "definition": "Svaret på en division."
+        },
+        {
+          "term": "term",
+          "definition": "Ett av talen som läggs ihop i en addition."
+        },
+        {
+          "term": "faktor",
+          "definition": "Ett av talen som multipliceras i en multiplikation."
+        }
+      ]
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "Summan är svaret på en addition.",
+          "answer": true,
+          "explain": "I 3 + 4 = 7 är 7 summan."
+        },
+        {
+          "text": "I 12/3 = 4 är 4 produkten.",
+          "answer": false,
+          "explain": "Svaret på en division kallas kvot. 4 är kvoten."
+        },
+        {
+          "text": "I 3 · 4 kallas 3 och 4 faktorer.",
+          "answer": true,
+          "explain": "Faktorerna är talen som multipliceras."
+        },
+        {
+          "text": "I 9 − 4 = 5 är 5 summan.",
+          "answer": false,
+          "explain": "5 är differensen, svaret på en subtraktion."
+        },
+        {
+          "text": "Termer är de tal som läggs ihop i en addition.",
+          "answer": true,
+          "explain": "I 3 + 4 är 3 och 4 termer."
+        },
+        {
+          "text": "Att dividera betyder att lägga ihop lika stora grupper.",
+          "answer": false,
+          "explain": "Att lägga ihop lika stora grupper är multiplikation. Att dividera är att dela upp lika."
+        }
       ]
     }
   ],
-  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "comp:2",
+    "comp:3",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
   "practice": [
     {
       "id": "koppla",
-      "for": ["match-1","match-2"],
+      "for": [
+        "match-1",
+        "match-2"
+      ],
       "mode": "koppla",
       "size": 4,
       "prompt": "Para ihop begreppen med rätt förklaring.",
       "pool": [
-        {"term":"addition","definition":"Räknesättet där man lägger ihop tal, man adderar. Tecknet är +."},
+        {
+          "term": "addition",
+          "definition": "Räknesättet där man lägger ihop tal, man adderar. Tecknet är +."
+        },
         {
           "term": "subtraktion",
           "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −."
@@ -114,21 +201,47 @@
           "term": "division",
           "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck."
         },
-        {"term":"summa","definition":"Svaret på en addition."},
-        {"term":"differens","definition":"Svaret på en subtraktion."},
-        {"term":"produkt","definition":"Svaret på en multiplikation."},
-        {"term":"kvot","definition":"Svaret på en division."},
-        {"term":"term","definition":"Ett av talen som läggs ihop i en addition."},
-        {"term":"faktor","definition":"Ett av talen som multipliceras i en multiplikation."}
+        {
+          "term": "summa",
+          "definition": "Svaret på en addition."
+        },
+        {
+          "term": "differens",
+          "definition": "Svaret på en subtraktion."
+        },
+        {
+          "term": "produkt",
+          "definition": "Svaret på en multiplikation."
+        },
+        {
+          "term": "kvot",
+          "definition": "Svaret på en division."
+        },
+        {
+          "term": "term",
+          "definition": "Ett av talen som läggs ihop i en addition."
+        },
+        {
+          "term": "faktor",
+          "definition": "Ett av talen som multipliceras i en multiplikation."
+        }
       ]
     },
     {
       "id": "fraga",
-      "for": ["exercise","word-0","word-1"],
+      "for": [
+        "exercise",
+        "word-0",
+        "word-1"
+      ],
       "mode": "fraga",
       "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
       "pool": [
-        {"term":"addition","definition":"Räknesättet där man lägger ihop tal, man adderar. Tecknet är +.","alt":[]},
+        {
+          "term": "addition",
+          "definition": "Räknesättet där man lägger ihop tal, man adderar. Tecknet är +.",
+          "alt": []
+        },
         {
           "term": "subtraktion",
           "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −.",
@@ -144,30 +257,134 @@
           "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck.",
           "alt": []
         },
-        {"term":"summa","definition":"Svaret på en addition.","alt":["summan"]},
-        {"term":"differens","definition":"Svaret på en subtraktion.","alt":["differensen"]},
-        {"term":"produkt","definition":"Svaret på en multiplikation.","alt":["produkten"]},
-        {"term":"kvot","definition":"Svaret på en division.","alt":["kvoten"]},
-        {"term":"term","definition":"Ett av talen som läggs ihop i en addition.","alt":["termer","termen"]},
+        {
+          "term": "summa",
+          "definition": "Svaret på en addition.",
+          "alt": [
+            "summan"
+          ]
+        },
+        {
+          "term": "differens",
+          "definition": "Svaret på en subtraktion.",
+          "alt": [
+            "differensen"
+          ]
+        },
+        {
+          "term": "produkt",
+          "definition": "Svaret på en multiplikation.",
+          "alt": [
+            "produkten"
+          ]
+        },
+        {
+          "term": "kvot",
+          "definition": "Svaret på en division.",
+          "alt": [
+            "kvoten"
+          ]
+        },
+        {
+          "term": "term",
+          "definition": "Ett av talen som läggs ihop i en addition.",
+          "alt": [
+            "termer",
+            "termen"
+          ]
+        },
         {
           "term": "faktor",
           "definition": "Ett av talen som multipliceras i en multiplikation.",
-          "alt": ["faktorer","faktorn"]
+          "alt": [
+            "faktorer",
+            "faktorn"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "santfalskt",
+      "for": [
+        "sf-3"
+      ],
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "Summan är svaret på en addition.",
+          "answer": true,
+          "explain": "I 3 + 4 = 7 är 7 summan."
+        },
+        {
+          "text": "I 12/3 = 4 är 4 produkten.",
+          "answer": false,
+          "explain": "Svaret på en division kallas kvot. 4 är kvoten."
+        },
+        {
+          "text": "I 3 · 4 kallas 3 och 4 faktorer.",
+          "answer": true,
+          "explain": "Faktorerna är talen som multipliceras."
+        },
+        {
+          "text": "I 9 − 4 = 5 är 5 summan.",
+          "answer": false,
+          "explain": "5 är differensen, svaret på en subtraktion."
+        },
+        {
+          "text": "Termer är de tal som läggs ihop i en addition.",
+          "answer": true,
+          "explain": "I 3 + 4 är 3 och 4 termer."
+        },
+        {
+          "text": "Att dividera betyder att lägga ihop lika stora grupper.",
+          "answer": false,
+          "explain": "Att lägga ihop lika stora grupper är multiplikation. Att dividera är att dela upp lika."
+        },
+        {
+          "text": "I 4 · 3 = 12 är 12 produkten.",
+          "answer": true,
+          "explain": "Produkten är svaret på en multiplikation."
+        },
+        {
+          "text": "I 3 + 4 är 3 och 4 faktorer.",
+          "answer": false,
+          "explain": "Talen i en addition kallas termer. Faktorer finns i en multiplikation."
+        },
+        {
+          "text": "I 12/3 = 4 är 4 kvoten.",
+          "answer": true,
+          "explain": "Kvoten är svaret på en division."
+        },
+        {
+          "text": "Subtraktion betyder att man lägger ihop tal.",
+          "answer": false,
+          "explain": "Att lägga ihop är addition. Subtraktion är att ta bort ett tal från ett annat."
         }
       ]
     }
   ],
   "exercise": {
     "prompt": "Vad kallas svaret på en addition? Skriv begreppet.",
-    "answer": ["summa","summan"],
+    "answer": [
+      "summa",
+      "summan"
+    ],
     "correct": "Rätt! Summa: Svaret på en addition.",
     "feedback": [
       {
-        "answers": ["produkt","produkten"],
+        "answers": [
+          "produkt",
+          "produkten"
+        ],
         "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs begreppskorten igen."
       },
       {
-        "answers": ["differens","differensen"],
+        "answers": [
+          "differens",
+          "differensen"
+        ],
         "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs begreppskorten igen."
       }
     ]
@@ -175,30 +392,50 @@
   "wordProblems": [
     {
       "prompt": "Talen 6 och 5 läggs ihop: 6 + 5 = 11. Vad kallas 6 och 5? Skriv begreppet.",
-      "answer": ["term","termer","termen"],
+      "answer": [
+        "term",
+        "termer",
+        "termen"
+      ],
       "correct": "Rätt! Term: Ett av talen som läggs ihop i en addition.",
       "feedback": [
         {
-          "answers": ["faktor","faktorer","faktorn"],
+          "answers": [
+            "faktor",
+            "faktorer",
+            "faktorn"
+          ],
           "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["summa","summan"],
+          "answers": [
+            "summa",
+            "summan"
+          ],
           "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]
     },
     {
       "prompt": "I 7 · 3 = 21 kallas 21 något särskilt. Vad då? Skriv begreppet.",
-      "answer": ["produkt","produkten"],
+      "answer": [
+        "produkt",
+        "produkten"
+      ],
       "correct": "Rätt! Produkt: Svaret på en multiplikation.",
       "feedback": [
         {
-          "answers": ["summa","summan"],
+          "answers": [
+            "summa",
+            "summan"
+          ],
           "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["kvot","kvoten"],
+          "answers": [
+            "kvot",
+            "kvoten"
+          ],
           "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]

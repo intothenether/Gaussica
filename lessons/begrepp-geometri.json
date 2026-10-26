@@ -6,7 +6,9 @@
   "level": "Begrepp · ungefär åk 4",
   "grade": 4,
   "duration": "8 min",
-  "prerequisites": ["geometriska-figurer"],
+  "prerequisites": [
+    "geometriska-figurer"
+  ],
   "summary": "Hörn, sida, rät vinkel, omkrets och area: orden du behöver för att prata om former.",
   "explanationTitle": "Orden för former",
   "explanation": "När du beskriver en figur använder du ord som hörn, sida och vinkel. Du kan också mäta den: omkretsen är längden runt figuren och arean är hur stor yta den täcker. Läs begreppskorten, och para sedan ihop varje ord med rätt förklaring.",
@@ -62,9 +64,18 @@
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
       "pairs": [
-        {"term":"hörn","definition":"Platsen där två sidor i en figur möts."},
-        {"term":"sida","definition":"En rak linje som begränsar en figur."},
-        {"term":"rät vinkel","definition":"En vinkel som är exakt 90 grader, som hörnet på ett papper."},
+        {
+          "term": "hörn",
+          "definition": "Platsen där två sidor i en figur möts."
+        },
+        {
+          "term": "sida",
+          "definition": "En rak linje som begränsar en figur."
+        },
+        {
+          "term": "rät vinkel",
+          "definition": "En vinkel som är exakt 90 grader, som hörnet på ett papper."
+        },
         {
           "term": "parallella linjer",
           "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts."
@@ -83,23 +94,88 @@
           "term": "månghörning",
           "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning."
         },
-        {"term":"omkrets","definition":"Längden runt en figurs ytterkant."},
-        {"term":"area","definition":"Hur stor yta en figur täcker, mätt i kvadratenheter."}
+        {
+          "term": "omkrets",
+          "definition": "Längden runt en figurs ytterkant."
+        },
+        {
+          "term": "area",
+          "definition": "Hur stor yta en figur täcker, mätt i kvadratenheter."
+        }
+      ]
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "En triangel har tre hörn.",
+          "answer": true,
+          "explain": "Tri betyder tre: tre sidor och tre hörn."
+        },
+        {
+          "text": "En rät vinkel är 180 grader.",
+          "answer": false,
+          "explain": "En rät vinkel är 90 grader. 180 grader är en rak vinkel."
+        },
+        {
+          "text": "Omkrets är längden runt en figurs ytterkant.",
+          "answer": true,
+          "explain": "En kvadrat med sidan 3 cm har omkretsen 4 · 3 = 12 cm."
+        },
+        {
+          "text": "Area mäts i centimeter.",
+          "answer": false,
+          "explain": "Area mäts i kvadratenheter, till exempel cm². Centimeter använder man för längd."
+        },
+        {
+          "text": "Parallella linjer möts aldrig.",
+          "answer": true,
+          "explain": "De har alltid samma avstånd mellan sig."
+        },
+        {
+          "text": "En kvadrat har bara en symmetrilinje.",
+          "answer": false,
+          "explain": "En kvadrat har fyra symmetrilinjer."
+        }
       ]
     }
   ],
-  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "comp:2",
+    "comp:3",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
   "practice": [
     {
       "id": "koppla",
-      "for": ["match-1","match-2"],
+      "for": [
+        "match-1",
+        "match-2"
+      ],
       "mode": "koppla",
       "size": 4,
       "prompt": "Para ihop begreppen med rätt förklaring.",
       "pool": [
-        {"term":"hörn","definition":"Platsen där två sidor i en figur möts."},
-        {"term":"sida","definition":"En rak linje som begränsar en figur."},
-        {"term":"rät vinkel","definition":"En vinkel som är exakt 90 grader, som hörnet på ett papper."},
+        {
+          "term": "hörn",
+          "definition": "Platsen där två sidor i en figur möts."
+        },
+        {
+          "term": "sida",
+          "definition": "En rak linje som begränsar en figur."
+        },
+        {
+          "term": "rät vinkel",
+          "definition": "En vinkel som är exakt 90 grader, som hörnet på ett papper."
+        },
         {
           "term": "parallella linjer",
           "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts."
@@ -112,54 +188,170 @@
           "term": "månghörning",
           "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning."
         },
-        {"term":"omkrets","definition":"Längden runt en figurs ytterkant."},
-        {"term":"area","definition":"Hur stor yta en figur täcker, mätt i kvadratenheter."}
+        {
+          "term": "omkrets",
+          "definition": "Längden runt en figurs ytterkant."
+        },
+        {
+          "term": "area",
+          "definition": "Hur stor yta en figur täcker, mätt i kvadratenheter."
+        }
       ]
     },
     {
       "id": "fraga",
-      "for": ["exercise","word-0","word-1"],
+      "for": [
+        "exercise",
+        "word-0",
+        "word-1"
+      ],
       "mode": "fraga",
       "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
       "pool": [
-        {"term":"hörn","definition":"Platsen där två sidor i en figur möts.","alt":["hörnet","hörnen"]},
-        {"term":"sida","definition":"En rak linje som begränsar en figur.","alt":["sidan","sidor"]},
+        {
+          "term": "hörn",
+          "definition": "Platsen där två sidor i en figur möts.",
+          "alt": [
+            "hörnet",
+            "hörnen"
+          ]
+        },
+        {
+          "term": "sida",
+          "definition": "En rak linje som begränsar en figur.",
+          "alt": [
+            "sidan",
+            "sidor"
+          ]
+        },
         {
           "term": "rät vinkel",
           "definition": "En vinkel som är exakt 90 grader, som hörnet på ett papper.",
-          "alt": ["rät"]
+          "alt": [
+            "rät"
+          ]
         },
         {
           "term": "parallella linjer",
           "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts.",
-          "alt": ["parallella","parallell"]
+          "alt": [
+            "parallella",
+            "parallell"
+          ]
         },
         {
           "term": "symmetrilinje",
           "definition": "En linje som delar en figur i två delar som är varandras spegelbilder.",
-          "alt": ["symmetrilinjen"]
+          "alt": [
+            "symmetrilinjen"
+          ]
         },
         {
           "term": "månghörning",
           "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning.",
-          "alt": ["månghörningen"]
+          "alt": [
+            "månghörningen"
+          ]
         },
-        {"term":"omkrets","definition":"Längden runt en figurs ytterkant.","alt":["omkretsen"]},
-        {"term":"area","definition":"Hur stor yta en figur täcker, mätt i kvadratenheter.","alt":["arean"]}
+        {
+          "term": "omkrets",
+          "definition": "Längden runt en figurs ytterkant.",
+          "alt": [
+            "omkretsen"
+          ]
+        },
+        {
+          "term": "area",
+          "definition": "Hur stor yta en figur täcker, mätt i kvadratenheter.",
+          "alt": [
+            "arean"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "santfalskt",
+      "for": [
+        "sf-3"
+      ],
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "En triangel har tre hörn.",
+          "answer": true,
+          "explain": "Tri betyder tre: tre sidor och tre hörn."
+        },
+        {
+          "text": "En rät vinkel är 180 grader.",
+          "answer": false,
+          "explain": "En rät vinkel är 90 grader. 180 grader är en rak vinkel."
+        },
+        {
+          "text": "Omkrets är längden runt en figurs ytterkant.",
+          "answer": true,
+          "explain": "En kvadrat med sidan 3 cm har omkretsen 4 · 3 = 12 cm."
+        },
+        {
+          "text": "Area mäts i centimeter.",
+          "answer": false,
+          "explain": "Area mäts i kvadratenheter, till exempel cm². Centimeter använder man för längd."
+        },
+        {
+          "text": "Parallella linjer möts aldrig.",
+          "answer": true,
+          "explain": "De har alltid samma avstånd mellan sig."
+        },
+        {
+          "text": "En kvadrat har bara en symmetrilinje.",
+          "answer": false,
+          "explain": "En kvadrat har fyra symmetrilinjer."
+        },
+        {
+          "text": "Hörnen i en rektangel är räta vinklar.",
+          "answer": true,
+          "explain": "Varje hörn i en rektangel är 90 grader."
+        },
+        {
+          "text": "En månghörning kan ha runda sidor.",
+          "answer": false,
+          "explain": "En månghörning har bara raka sidor. En cirkel är ingen månghörning."
+        },
+        {
+          "text": "Ett hörn är platsen där två sidor möts.",
+          "answer": true,
+          "explain": "En kvadrat har fyra hörn."
+        },
+        {
+          "text": "Ett hörn är en rak linje som begränsar en figur.",
+          "answer": false,
+          "explain": "En rak linje som begränsar en figur kallas sida. Ett hörn är där två sidor möts."
+        }
       ]
     }
   ],
   "exercise": {
     "prompt": "Vad kallas längden runt en figur? Skriv begreppet.",
-    "answer": ["omkrets","omkretsen"],
+    "answer": [
+      "omkrets",
+      "omkretsen"
+    ],
     "correct": "Rätt! Omkrets: Längden runt en figurs ytterkant.",
     "feedback": [
       {
-        "answers": ["area","arean"],
+        "answers": [
+          "area",
+          "arean"
+        ],
         "message": "Area betyder: Hur stor yta en figur täcker, mätt i kvadratenheter. Det är inte det som frågas. Läs begreppskorten igen."
       },
       {
-        "answers": ["sida","sidan","sidor"],
+        "answers": [
+          "sida",
+          "sidan",
+          "sidor"
+        ],
         "message": "Sida betyder: En rak linje som begränsar en figur. Det är inte det som frågas. Läs begreppskorten igen."
       }
     ]
@@ -167,30 +359,51 @@
   "wordProblems": [
     {
       "prompt": "Vad kallas platsen där två sidor i en figur möts? Skriv begreppet.",
-      "answer": ["hörn","hörnet","hörnen"],
+      "answer": [
+        "hörn",
+        "hörnet",
+        "hörnen"
+      ],
       "correct": "Rätt! Hörn: Platsen där två sidor i en figur möts.",
       "feedback": [
         {
-          "answers": ["sida","sidan","sidor"],
+          "answers": [
+            "sida",
+            "sidan",
+            "sidor"
+          ],
           "message": "Sida betyder: En rak linje som begränsar en figur. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["area","arean"],
+          "answers": [
+            "area",
+            "arean"
+          ],
           "message": "Area betyder: Hur stor yta en figur täcker, mätt i kvadratenheter. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]
     },
     {
       "prompt": "Vad kallas en vinkel som är exakt 90 grader? Skriv begreppet.",
-      "answer": ["rät vinkel","rät"],
+      "answer": [
+        "rät vinkel",
+        "rät"
+      ],
       "correct": "Rätt! Rät vinkel: En vinkel som är exakt 90 grader, som hörnet på ett papper.",
       "feedback": [
         {
-          "answers": ["hörn","hörnet","hörnen"],
+          "answers": [
+            "hörn",
+            "hörnet",
+            "hörnen"
+          ],
           "message": "Hörn betyder: Platsen där två sidor i en figur möts. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["symmetrilinje","symmetrilinjen"],
+          "answers": [
+            "symmetrilinje",
+            "symmetrilinjen"
+          ],
           "message": "Symmetrilinje betyder: En linje som delar en figur i två delar som är varandras spegelbilder. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]

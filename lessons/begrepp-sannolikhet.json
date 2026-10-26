@@ -103,6 +103,44 @@
           "definition": "Två saker som har lika stor chans att hända."
         }
       ]
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "Ett kast med en tärning är ett försök.",
+          "answer": true,
+          "explain": "Ett försök är en gång du gör något där slumpen bestämmer."
+        },
+        {
+          "text": "Det är omöjligt att få en sexa på en vanlig tärning.",
+          "answer": false,
+          "explain": "En sexa kan hända. Omöjligt är det som aldrig kan hända, som att få en sjua."
+        },
+        {
+          "text": "Något som alltid händer är säkert.",
+          "answer": true,
+          "explain": "Det är säkert att en tärning visar ett tal från 1 till 6."
+        },
+        {
+          "text": "En vanlig tärning har sju utfall.",
+          "answer": false,
+          "explain": "En vanlig tärning har sex utfall: 1, 2, 3, 4, 5 och 6."
+        },
+        {
+          "text": "Om en påse har 9 blå kulor och 1 röd är det troligt att du drar en röd.",
+          "answer": false,
+          "explain": "Det finns många fler blå kulor, så det är troligt att du drar en blå."
+        },
+        {
+          "text": "Det är lika troligt att få krona som klave när du singlar slant.",
+          "answer": true,
+          "explain": "Båda har lika stor chans."
+        }
+      ]
     }
   ],
   "layout": [
@@ -110,6 +148,7 @@
     "comp:0",
     "comp:1",
     "comp:2",
+    "comp:3",
     "exercise",
     "word:0",
     "word:1",
@@ -226,6 +265,67 @@
           "alt": [
             "lika trolig"
           ]
+        }
+      ]
+    },
+    {
+      "id": "santfalskt",
+      "for": [
+        "sf-3"
+      ],
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "Ett kast med en tärning är ett försök.",
+          "answer": true,
+          "explain": "Ett försök är en gång du gör något där slumpen bestämmer."
+        },
+        {
+          "text": "Det är omöjligt att få en sexa på en vanlig tärning.",
+          "answer": false,
+          "explain": "En sexa kan hända. Omöjligt är det som aldrig kan hända, som att få en sjua."
+        },
+        {
+          "text": "Något som alltid händer är säkert.",
+          "answer": true,
+          "explain": "Det är säkert att en tärning visar ett tal från 1 till 6."
+        },
+        {
+          "text": "En vanlig tärning har sju utfall.",
+          "answer": false,
+          "explain": "En vanlig tärning har sex utfall: 1, 2, 3, 4, 5 och 6."
+        },
+        {
+          "text": "Om en påse har 9 blå kulor och 1 röd är det troligt att du drar en röd.",
+          "answer": false,
+          "explain": "Det finns många fler blå kulor, så det är troligt att du drar en blå."
+        },
+        {
+          "text": "Det är lika troligt att få krona som klave när du singlar slant.",
+          "answer": true,
+          "explain": "Båda har lika stor chans."
+        },
+        {
+          "text": "Chans säger hur lätt det är att något händer.",
+          "answer": true,
+          "explain": "Chansen att få en femma på en tärning är 1 av 6."
+        },
+        {
+          "text": "Slump betyder att man kan veta i förväg vad som händer.",
+          "answer": false,
+          "explain": "Slump betyder att man inte kan veta i förväg."
+        },
+        {
+          "text": "Utfallen när du kastar en tärning är 1, 2, 3, 4, 5 och 6.",
+          "answer": true,
+          "explain": "Varje tal är ett utfall."
+        },
+        {
+          "text": "Ett utfall är en gång du gör något där slumpen bestämmer.",
+          "answer": false,
+          "explain": "Det är ett försök. Ett utfall är ett av sätten ett försök kan sluta på."
         }
       ]
     }

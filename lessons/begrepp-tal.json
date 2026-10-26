@@ -6,7 +6,9 @@
   "level": "Begrepp · ungefär åk 3",
   "grade": 3,
   "duration": "8 min",
-  "prerequisites": ["platsvarde"],
+  "prerequisites": [
+    "platsvarde"
+  ],
   "summary": "Siffra, tal, ental, tiotal och jämnt eller udda: lär dig orden för hur tal är uppbyggda.",
   "explanationTitle": "Siffror bygger tal",
   "explanation": "Med de tio siffrorna 0 till 9 kan vi skriva alla tal. Platsen en siffra står på bestämmer vad den är värd: ental, tiotal, hundratal eller tusental. Tal kan också vara jämna eller udda. Läs begreppskorten och testa sedan om du kan para ihop orden med rätt förklaring.",
@@ -84,8 +86,14 @@
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 2).",
       "pairs": [
-        {"term":"hundratal","definition":"Platsen där siffran visar hur många hundra det finns."},
-        {"term":"tusental","definition":"Platsen där siffran visar hur många tusen det finns."},
+        {
+          "term": "hundratal",
+          "definition": "Platsen där siffran visar hur många hundra det finns."
+        },
+        {
+          "term": "tusental",
+          "definition": "Platsen där siffran visar hur många tusen det finns."
+        },
         {
           "term": "jämnt tal",
           "definition": "Ett tal som går att dela upp i par utan att något blir över. Det slutar på 0, 2, 4, 6 eller 8."
@@ -95,13 +103,63 @@
           "definition": "Ett tal som inte går att dela upp i par, det blir en över. Det slutar på 1, 3, 5, 7 eller 9."
         }
       ]
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "Siffran 5 i talet 538 står på hundratalsplatsen.",
+          "answer": true,
+          "explain": "I 538 är 5 hundratalssiffran, och talet har 5 hundratal."
+        },
+        {
+          "text": "Talet 407 har tre siffror: 4, 0 och 7.",
+          "answer": true,
+          "explain": "Med siffrorna 4, 0 och 7 skriver vi talet 407."
+        },
+        {
+          "text": "Talet 38 är ett udda tal.",
+          "answer": false,
+          "explain": "38 slutar på 8, så det är ett jämnt tal."
+        },
+        {
+          "text": "Siffran längst till höger i ett tal står på entalsplatsen.",
+          "answer": true,
+          "explain": "Den siffran visar hur många enskilda ettor det finns."
+        },
+        {
+          "text": "Ett tal som slutar på 5 är ett jämnt tal.",
+          "answer": false,
+          "explain": "Jämna tal slutar på 0, 2, 4, 6 eller 8. Ett tal som slutar på 5 är udda."
+        },
+        {
+          "text": "I talet 2 538 betyder siffran 2 tvåhundra.",
+          "answer": false,
+          "explain": "2:an står på tusentalsplatsen, så den betyder 2 tusen."
+        }
+      ]
     }
   ],
-  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "comp:2",
+    "comp:3",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
   "practice": [
     {
       "id": "koppla",
-      "for": ["match-1","match-2"],
+      "for": [
+        "match-1",
+        "match-2"
+      ],
       "mode": "koppla",
       "size": 4,
       "prompt": "Para ihop begreppen med rätt förklaring.",
@@ -122,8 +180,14 @@
           "term": "tiotal",
           "definition": "Platsen närmast till vänster om entalen. Siffran där visar hur många tior det finns."
         },
-        {"term":"hundratal","definition":"Platsen där siffran visar hur många hundra det finns."},
-        {"term":"tusental","definition":"Platsen där siffran visar hur många tusen det finns."},
+        {
+          "term": "hundratal",
+          "definition": "Platsen där siffran visar hur många hundra det finns."
+        },
+        {
+          "term": "tusental",
+          "definition": "Platsen där siffran visar hur många tusen det finns."
+        },
         {
           "term": "jämnt tal",
           "definition": "Ett tal som går att dela upp i par utan att något blir över. Det slutar på 0, 2, 4, 6 eller 8."
@@ -136,7 +200,11 @@
     },
     {
       "id": "fraga",
-      "for": ["exercise","word-0","word-1"],
+      "for": [
+        "exercise",
+        "word-0",
+        "word-1"
+      ],
       "mode": "fraga",
       "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
       "pool": [
@@ -148,52 +216,149 @@
         {
           "term": "tal",
           "definition": "Något som visar hur många eller hur mycket. Ett tal skrivs med en eller flera siffror.",
-          "alt": ["tal"]
+          "alt": [
+            "tal"
+          ]
         },
         {
           "term": "ental",
           "definition": "Platsen längst till höger i ett tal. Siffran där visar hur många enskilda ettor det finns.",
-          "alt": ["entalen","entalet","entalsplatsen"]
+          "alt": [
+            "entalen",
+            "entalet",
+            "entalsplatsen"
+          ]
         },
         {
           "term": "tiotal",
           "definition": "Platsen närmast till vänster om entalen. Siffran där visar hur många tior det finns.",
-          "alt": ["tiotalen","tiotalet","tiotalsplatsen"]
+          "alt": [
+            "tiotalen",
+            "tiotalet",
+            "tiotalsplatsen"
+          ]
         },
         {
           "term": "hundratal",
           "definition": "Platsen där siffran visar hur många hundra det finns.",
-          "alt": ["hundratalen","hundratalet","hundratalsplatsen"]
+          "alt": [
+            "hundratalen",
+            "hundratalet",
+            "hundratalsplatsen"
+          ]
         },
         {
           "term": "tusental",
           "definition": "Platsen där siffran visar hur många tusen det finns.",
-          "alt": ["tusentalen","tusentalet","tusentalsplatsen"]
+          "alt": [
+            "tusentalen",
+            "tusentalet",
+            "tusentalsplatsen"
+          ]
         },
         {
           "term": "jämnt tal",
           "definition": "Ett tal som går att dela upp i par utan att något blir över. Det slutar på 0, 2, 4, 6 eller 8.",
-          "alt": ["jämnt","jämna tal"]
+          "alt": [
+            "jämnt",
+            "jämna tal"
+          ]
         },
         {
           "term": "udda tal",
           "definition": "Ett tal som inte går att dela upp i par, det blir en över. Det slutar på 1, 3, 5, 7 eller 9.",
-          "alt": ["udda","udda tal"]
+          "alt": [
+            "udda",
+            "udda tal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "santfalskt",
+      "for": [
+        "sf-3"
+      ],
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "Siffran 5 i talet 538 står på hundratalsplatsen.",
+          "answer": true,
+          "explain": "I 538 är 5 hundratalssiffran, och talet har 5 hundratal."
+        },
+        {
+          "text": "Talet 407 har tre siffror: 4, 0 och 7.",
+          "answer": true,
+          "explain": "Med siffrorna 4, 0 och 7 skriver vi talet 407."
+        },
+        {
+          "text": "Talet 38 är ett udda tal.",
+          "answer": false,
+          "explain": "38 slutar på 8, så det är ett jämnt tal."
+        },
+        {
+          "text": "Siffran längst till höger i ett tal står på entalsplatsen.",
+          "answer": true,
+          "explain": "Den siffran visar hur många enskilda ettor det finns."
+        },
+        {
+          "text": "Ett tal som slutar på 5 är ett jämnt tal.",
+          "answer": false,
+          "explain": "Jämna tal slutar på 0, 2, 4, 6 eller 8. Ett tal som slutar på 5 är udda."
+        },
+        {
+          "text": "I talet 2 538 betyder siffran 2 tvåhundra.",
+          "answer": false,
+          "explain": "2:an står på tusentalsplatsen, så den betyder 2 tusen."
+        },
+        {
+          "text": "Talet 60 är ett jämnt tal.",
+          "answer": true,
+          "explain": "60 slutar på 0 och går att dela upp i par."
+        },
+        {
+          "text": "En siffra och ett tal är samma sak.",
+          "answer": false,
+          "explain": "Siffrorna är tecknen 0 till 9. Med siffror skriver vi tal. Talet 25 skrivs med siffrorna 2 och 5."
+        },
+        {
+          "text": "Siffran 8 i talet 538 står på entalsplatsen.",
+          "answer": true,
+          "explain": "8 är entalssiffran i 538."
+        },
+        {
+          "text": "Ett udda tal går att dela upp i par utan att något blir över.",
+          "answer": false,
+          "explain": "Ett udda tal har alltid en över. Det är jämna tal som går att dela upp i par."
         }
       ]
     }
   ],
   "exercise": {
     "prompt": "Vad kallas ett tal som slutar på 0, 2, 4, 6 eller 8? Skriv begreppet.",
-    "answer": ["jämnt tal","jämnt","jämna tal"],
+    "answer": [
+      "jämnt tal",
+      "jämnt",
+      "jämna tal"
+    ],
     "correct": "Rätt! Jämnt tal: Ett tal som går att dela upp i par utan att något blir över. Det slutar på 0, 2, 4, 6 eller 8.",
     "feedback": [
       {
-        "answers": ["udda tal","udda"],
+        "answers": [
+          "udda tal",
+          "udda"
+        ],
         "message": "Udda tal betyder: Ett tal som inte går att dela upp i par, det blir en över. Det slutar på 1, 3, 5, 7 eller 9. Det är inte det som frågas. Läs begreppskorten igen."
       },
       {
-        "answers": ["tiotal","tiotalen","tiotalet","tiotalsplatsen"],
+        "answers": [
+          "tiotal",
+          "tiotalen",
+          "tiotalet",
+          "tiotalsplatsen"
+        ],
         "message": "Tiotal betyder: Platsen närmast till vänster om entalen. Siffran där visar hur många tior det finns. Det är inte det som frågas. Läs begreppskorten igen."
       }
     ]
@@ -201,30 +366,57 @@
   "wordProblems": [
     {
       "prompt": "Vad kallas platsen längst till höger i ett tal? Skriv begreppet.",
-      "answer": ["ental","entalen","entalet","entalsplatsen"],
+      "answer": [
+        "ental",
+        "entalen",
+        "entalet",
+        "entalsplatsen"
+      ],
       "correct": "Rätt! Ental: Platsen längst till höger i ett tal. Siffran där visar hur många enskilda ettor det finns.",
       "feedback": [
         {
-          "answers": ["tiotal","tiotalen","tiotalet","tiotalsplatsen"],
+          "answers": [
+            "tiotal",
+            "tiotalen",
+            "tiotalet",
+            "tiotalsplatsen"
+          ],
           "message": "Tiotal betyder: Platsen närmast till vänster om entalen. Siffran där visar hur många tior det finns. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["siffra"],
+          "answers": [
+            "siffra"
+          ],
           "message": "Siffra betyder: Ett av tecknen 0, 1, 2, 3, 4, 5, 6, 7, 8 och 9. Med siffror skriver vi tal. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]
     },
     {
       "prompt": "I talet 5 304 står 5:an på en särskild plats. Vad kallas den platsen? Skriv begreppet.",
-      "answer": ["tusental","tusentalen","tusentalet","tusentalsplatsen"],
+      "answer": [
+        "tusental",
+        "tusentalen",
+        "tusentalet",
+        "tusentalsplatsen"
+      ],
       "correct": "Rätt! Tusental: Platsen där siffran visar hur många tusen det finns.",
       "feedback": [
         {
-          "answers": ["hundratal","hundratalen","hundratalet","hundratalsplatsen"],
+          "answers": [
+            "hundratal",
+            "hundratalen",
+            "hundratalet",
+            "hundratalsplatsen"
+          ],
           "message": "Hundratal betyder: Platsen där siffran visar hur många hundra det finns. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["ental","entalen","entalet","entalsplatsen"],
+          "answers": [
+            "ental",
+            "entalen",
+            "entalet",
+            "entalsplatsen"
+          ],
           "message": "Ental betyder: Platsen längst till höger i ett tal. Siffran där visar hur många enskilda ettor det finns. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]

@@ -6,7 +6,10 @@
   "level": "Begrepp · ungefär åk 6",
   "grade": 6,
   "duration": "8 min",
-  "prerequisites": ["medelvarde","slump"],
+  "prerequisites": [
+    "medelvarde",
+    "slump"
+  ],
   "summary": "Medelvärde, median, typvärde och sannolikhet: orden när man beskriver data och slump.",
   "explanationTitle": "Orden för data och slump",
   "explanation": "När man samlar in uppgifter beskriver man dem med några viktiga mått: medelvärde, median och typvärde. Variationsbredd visar hur utspridda värdena är. För slumpen använder man orden utfall och sannolikhet. Läs begreppskorten och para ihop dem sedan.",
@@ -62,86 +65,291 @@
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
       "pairs": [
-        {"term":"medelvärde","definition":"Summan av alla värden delad med antalet värden."},
-        {"term":"median","definition":"Mittenvärdet när alla värden står i storleksordning."},
-        {"term":"typvärde","definition":"Det värde som förekommer flest gånger."},
-        {"term":"variationsbredd","definition":"Skillnaden mellan det största och det minsta värdet."}
+        {
+          "term": "medelvärde",
+          "definition": "Summan av alla värden delad med antalet värden."
+        },
+        {
+          "term": "median",
+          "definition": "Mittenvärdet när alla värden står i storleksordning."
+        },
+        {
+          "term": "typvärde",
+          "definition": "Det värde som förekommer flest gånger."
+        },
+        {
+          "term": "variationsbredd",
+          "definition": "Skillnaden mellan det största och det minsta värdet."
+        }
       ]
     },
     {
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 2).",
       "pairs": [
-        {"term":"frekvens","definition":"Hur många gånger ett värde förekommer."},
-        {"term":"utfall","definition":"Ett möjligt resultat av ett slumpförsök."},
-        {"term":"sannolikhet","definition":"Ett mått på hur stor chansen är att något händer."},
-        {"term":"diagram","definition":"En bild som visar hur värden är fördelade."}
+        {
+          "term": "frekvens",
+          "definition": "Hur många gånger ett värde förekommer."
+        },
+        {
+          "term": "utfall",
+          "definition": "Ett möjligt resultat av ett slumpförsök."
+        },
+        {
+          "term": "sannolikhet",
+          "definition": "Ett mått på hur stor chansen är att något händer."
+        },
+        {
+          "term": "diagram",
+          "definition": "En bild som visar hur värden är fördelade."
+        }
+      ]
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "Medianen är mittenvärdet när talen står i storleksordning.",
+          "answer": true,
+          "explain": "Medianen av 2, 5 och 9 är 5."
+        },
+        {
+          "text": "Typvärdet är det värde som förekommer minst gånger.",
+          "answer": false,
+          "explain": "Typvärdet är det värde som förekommer flest gånger."
+        },
+        {
+          "text": "Variationsbredden av 2, 5 och 9 är 7.",
+          "answer": true,
+          "explain": "Variationsbredden är skillnaden mellan det största och det minsta värdet: 9 − 2 = 7."
+        },
+        {
+          "text": "Medelvärdet av 2, 4 och 6 är 6.",
+          "answer": false,
+          "explain": "2 + 4 + 6 = 12, och 12 delat med 3 är 4."
+        },
+        {
+          "text": "Sannolikhet är ett mått på hur stor chansen är att något händer.",
+          "answer": true,
+          "explain": "Sannolikheten att få en sexa på en tärning är 1/6."
+        },
+        {
+          "text": "Frekvens betyder hur stort ett värde är.",
+          "answer": false,
+          "explain": "Frekvens är hur många gånger ett värde förekommer."
+        }
       ]
     }
   ],
-  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "comp:2",
+    "comp:3",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
   "practice": [
     {
       "id": "koppla",
-      "for": ["match-1","match-2"],
+      "for": [
+        "match-1",
+        "match-2"
+      ],
       "mode": "koppla",
       "size": 4,
       "prompt": "Para ihop begreppen med rätt förklaring.",
       "pool": [
-        {"term":"medelvärde","definition":"Summan av alla värden delad med antalet värden."},
-        {"term":"median","definition":"Mittenvärdet när alla värden står i storleksordning."},
-        {"term":"typvärde","definition":"Det värde som förekommer flest gånger."},
-        {"term":"variationsbredd","definition":"Skillnaden mellan det största och det minsta värdet."},
-        {"term":"frekvens","definition":"Hur många gånger ett värde förekommer."},
-        {"term":"utfall","definition":"Ett möjligt resultat av ett slumpförsök."},
-        {"term":"sannolikhet","definition":"Ett mått på hur stor chansen är att något händer."},
-        {"term":"diagram","definition":"En bild som visar hur värden är fördelade."}
+        {
+          "term": "medelvärde",
+          "definition": "Summan av alla värden delad med antalet värden."
+        },
+        {
+          "term": "median",
+          "definition": "Mittenvärdet när alla värden står i storleksordning."
+        },
+        {
+          "term": "typvärde",
+          "definition": "Det värde som förekommer flest gånger."
+        },
+        {
+          "term": "variationsbredd",
+          "definition": "Skillnaden mellan det största och det minsta värdet."
+        },
+        {
+          "term": "frekvens",
+          "definition": "Hur många gånger ett värde förekommer."
+        },
+        {
+          "term": "utfall",
+          "definition": "Ett möjligt resultat av ett slumpförsök."
+        },
+        {
+          "term": "sannolikhet",
+          "definition": "Ett mått på hur stor chansen är att något händer."
+        },
+        {
+          "term": "diagram",
+          "definition": "En bild som visar hur värden är fördelade."
+        }
       ]
     },
     {
       "id": "fraga",
-      "for": ["exercise","word-0","word-1"],
+      "for": [
+        "exercise",
+        "word-0",
+        "word-1"
+      ],
       "mode": "fraga",
       "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
       "pool": [
         {
           "term": "medelvärde",
           "definition": "Summan av alla värden delad med antalet värden.",
-          "alt": ["medelvärdet"]
+          "alt": [
+            "medelvärdet"
+          ]
         },
         {
           "term": "median",
           "definition": "Mittenvärdet när alla värden står i storleksordning.",
-          "alt": ["medianen"]
+          "alt": [
+            "medianen"
+          ]
         },
-        {"term":"typvärde","definition":"Det värde som förekommer flest gånger.","alt":["typvärdet"]},
+        {
+          "term": "typvärde",
+          "definition": "Det värde som förekommer flest gånger.",
+          "alt": [
+            "typvärdet"
+          ]
+        },
         {
           "term": "variationsbredd",
           "definition": "Skillnaden mellan det största och det minsta värdet.",
-          "alt": ["variationsbredden"]
+          "alt": [
+            "variationsbredden"
+          ]
         },
-        {"term":"frekvens","definition":"Hur många gånger ett värde förekommer.","alt":["frekvensen"]},
-        {"term":"utfall","definition":"Ett möjligt resultat av ett slumpförsök.","alt":["utfallet"]},
+        {
+          "term": "frekvens",
+          "definition": "Hur många gånger ett värde förekommer.",
+          "alt": [
+            "frekvensen"
+          ]
+        },
+        {
+          "term": "utfall",
+          "definition": "Ett möjligt resultat av ett slumpförsök.",
+          "alt": [
+            "utfallet"
+          ]
+        },
         {
           "term": "sannolikhet",
           "definition": "Ett mått på hur stor chansen är att något händer.",
-          "alt": ["sannolikheten","chans"]
+          "alt": [
+            "sannolikheten",
+            "chans"
+          ]
         },
-        {"term":"diagram","definition":"En bild som visar hur värden är fördelade.","alt":["diagrammet"]}
+        {
+          "term": "diagram",
+          "definition": "En bild som visar hur värden är fördelade.",
+          "alt": [
+            "diagrammet"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "santfalskt",
+      "for": [
+        "sf-3"
+      ],
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "Medianen är mittenvärdet när talen står i storleksordning.",
+          "answer": true,
+          "explain": "Medianen av 2, 5 och 9 är 5."
+        },
+        {
+          "text": "Typvärdet är det värde som förekommer minst gånger.",
+          "answer": false,
+          "explain": "Typvärdet är det värde som förekommer flest gånger."
+        },
+        {
+          "text": "Variationsbredden av 2, 5 och 9 är 7.",
+          "answer": true,
+          "explain": "Variationsbredden är skillnaden mellan det största och det minsta värdet: 9 − 2 = 7."
+        },
+        {
+          "text": "Medelvärdet av 2, 4 och 6 är 6.",
+          "answer": false,
+          "explain": "2 + 4 + 6 = 12, och 12 delat med 3 är 4."
+        },
+        {
+          "text": "Sannolikhet är ett mått på hur stor chansen är att något händer.",
+          "answer": true,
+          "explain": "Sannolikheten att få en sexa på en tärning är 1/6."
+        },
+        {
+          "text": "Frekvens betyder hur stort ett värde är.",
+          "answer": false,
+          "explain": "Frekvens är hur många gånger ett värde förekommer."
+        },
+        {
+          "text": "Typvärdet av 2, 3, 3, 7 är 3.",
+          "answer": true,
+          "explain": "3 förekommer två gånger, flest av alla."
+        },
+        {
+          "text": "Medianen av 2, 5 och 9 är 7.",
+          "answer": false,
+          "explain": "Mittenvärdet i 2, 5, 9 är 5."
+        },
+        {
+          "text": "Ett diagram är en bild som visar hur värden är fördelade.",
+          "answer": true,
+          "explain": "Ett stapeldiagram visar till exempel hur många som valt varje frukt."
+        },
+        {
+          "text": "Ett utfall är en gång man gör ett slumpförsök.",
+          "answer": false,
+          "explain": "Ett utfall är ett möjligt resultat av ett försök, till exempel en sexa."
+        }
       ]
     }
   ],
   "exercise": {
     "prompt": "Vad kallas det värde som förekommer flest gånger? Skriv begreppet.",
-    "answer": ["typvärde","typvärdet"],
+    "answer": [
+      "typvärde",
+      "typvärdet"
+    ],
     "correct": "Rätt! Typvärde: Det värde som förekommer flest gånger.",
     "feedback": [
       {
-        "answers": ["median","medianen"],
+        "answers": [
+          "median",
+          "medianen"
+        ],
         "message": "Median betyder: Mittenvärdet när alla värden står i storleksordning. Det är inte det som frågas. Läs begreppskorten igen."
       },
       {
-        "answers": ["frekvens","frekvensen"],
+        "answers": [
+          "frekvens",
+          "frekvensen"
+        ],
         "message": "Frekvens betyder: Hur många gånger ett värde förekommer. Det är inte det som frågas. Läs begreppskorten igen."
       }
     ]
@@ -149,30 +357,48 @@
   "wordProblems": [
     {
       "prompt": "Vad kallas skillnaden mellan det största och det minsta värdet? Skriv begreppet.",
-      "answer": ["variationsbredd","variationsbredden"],
+      "answer": [
+        "variationsbredd",
+        "variationsbredden"
+      ],
       "correct": "Rätt! Variationsbredd: Skillnaden mellan det största och det minsta värdet.",
       "feedback": [
         {
-          "answers": ["medelvärde","medelvärdet"],
+          "answers": [
+            "medelvärde",
+            "medelvärdet"
+          ],
           "message": "Medelvärde betyder: Summan av alla värden delad med antalet värden. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["median","medianen"],
+          "answers": [
+            "median",
+            "medianen"
+          ],
           "message": "Median betyder: Mittenvärdet när alla värden står i storleksordning. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]
     },
     {
       "prompt": "Vad kallas hur många gånger ett värde förekommer? Skriv begreppet.",
-      "answer": ["frekvens","frekvensen"],
+      "answer": [
+        "frekvens",
+        "frekvensen"
+      ],
       "correct": "Rätt! Frekvens: Hur många gånger ett värde förekommer.",
       "feedback": [
         {
-          "answers": ["typvärde","typvärdet"],
+          "answers": [
+            "typvärde",
+            "typvärdet"
+          ],
           "message": "Typvärde betyder: Det värde som förekommer flest gånger. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["utfall","utfallet"],
+          "answers": [
+            "utfall",
+            "utfallet"
+          ],
           "message": "Utfall betyder: Ett möjligt resultat av ett slumpförsök. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]
