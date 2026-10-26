@@ -40,9 +40,9 @@
       }
     ]
   },
-  "rule": "Vik längs linjen: halvorna ska täcka varandra exakt",
+  "rule": "Vik längs linjen: halvorna ska täcka varandra precis",
   "ruleLabel": "SYMMETRILINJE",
-  "example": "En regelbunden månghörning med n sidor har n symmetrilinjer. En femhörning där alla sidor är lika långa har alltså 5.",
+  "example": "En kvadrat har fyra symmetrilinjer och en rektangel har två. En liksidig triangel har tre.",
   "practice": [
     {
       "id": "regelbunden",

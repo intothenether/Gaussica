@@ -223,7 +223,7 @@
           "answers": [
             "=a*b"
           ],
-          "message": "{a*b} är det exakta svaret. Vid ett överslag räknar du med de avrundade talen."
+          "message": "{a*b} är det riktiga svaret. Vid ett överslag räknar du med de avrundade talen."
         }
       ]
     }

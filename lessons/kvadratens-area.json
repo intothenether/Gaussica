@@ -20,7 +20,7 @@
     "sides": "all",
     "title": "16 rutor à 1 cm²"
   },
-  "rule": "A = sidan · sidan",
+  "rule": "Area = sidan · sidan",
   "ruleLabel": "KVADRATENS AREA",
   "example": "Sidan 5 m ger arean 5 · 5 = 25 m². Man kan också skriva sidan ”i kvadrat”: 5².",
   "practice": [

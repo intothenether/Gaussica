@@ -11,7 +11,7 @@
   ],
   "summary": "Ibland räcker det att veta ungefär. Då byter du talen mot närliggande tiotal eller hundratal.",
   "explanationTitle": "Gör talen enklare",
-  "explanation": "Problemet: Du har 100 kr och vill veta om det räcker till en tröja för 39 kr och en mössa för 52 kr. Du behöver inte det exakta svaret, bara om det räcker. Att räkna exakt tar tid, och ofta räcker det att veta ungefär. Vi behöver göra talen enklare. Det kallas att avrunda. Att avrunda är att byta ett tal mot ett närliggande tal med nollor på slutet, till exempel ett tiotal eller ett hundratal. Titta på siffran till höger om den plats du avrundar till. Är den 0, 1, 2, 3 eller 4 avrundar du nedåt. Är den 5, 6, 7, 8 eller 9 avrundar du uppåt. 38 avrundas till 40 och 342 avrundas till 300. Med avrundade tal gör du en överslagsräkning: 39 + 52 är ungefär 40 + 50 = 90. Då vet du att 100 kr räcker. Ett överslag är också ett bra sätt att kontrollera att ett exakt svar är rimligt.",
+  "explanation": "Problemet: Du har 100 kr och vill veta om det räcker till en tröja för 39 kr och en mössa för 52 kr. Du behöver inte veta svaret på kronan, bara om det räcker. Att räkna ut det precis tar tid, och ofta räcker det att veta ungefär. Vi behöver göra talen enklare. Det kallas att avrunda. Att avrunda är att byta ett tal mot ett närliggande tal med nollor på slutet, till exempel ett tiotal eller ett hundratal. Titta på siffran till höger om den plats du avrundar till. Är den 0, 1, 2, 3 eller 4 avrundar du nedåt. Är den 5, 6, 7, 8 eller 9 avrundar du uppåt. 38 avrundas till 40 och 342 avrundas till 300. Med avrundade tal gör du ett överslag: 39 + 52 är ungefär 40 + 50 = 90. Då vet du att 100 kr räcker. Ett överslag är också ett bra sätt att kontrollera att ett svar du räknat ut är rimligt.",
   "visual": {
     "type": "tallinje",
     "title": "34 avrundas ned till 30, 38 avrundas upp till 40",
@@ -145,7 +145,7 @@
           "expr": "round(a/10)*10+round(b/10)*10"
         }
       ],
-      "prompt": "Gör en överslagsräkning: ungefär hur mycket är {a} + {b}? Avrunda båda talen till närmaste tiotal.",
+      "prompt": "Gör ett överslag: ungefär hur mycket är {a} + {b}? Avrunda båda talen till närmaste tiotal.",
       "answer": [
         "=r"
       ],
@@ -155,7 +155,7 @@
           "answers": [
             "=a+b"
           ],
-          "message": "{a+b} är det exakta svaret. Vid en överslagsräkning räknar du med de avrundade talen."
+          "message": "{a+b} är det riktiga svaret. Vid ett överslag räknar du med de avrundade talen."
         }
       ]
     },
@@ -180,7 +180,7 @@
           "expr": "round(a/10)*10-round(b/10)*10"
         }
       ],
-      "prompt": "Gör en överslagsräkning: ungefär hur mycket är {a} − {b}? Avrunda båda talen till närmaste tiotal.",
+      "prompt": "Gör ett överslag: ungefär hur mycket är {a} − {b}? Avrunda båda talen till närmaste tiotal.",
       "answer": [
         "=r"
       ],
@@ -190,7 +190,7 @@
           "answers": [
             "=a-b"
           ],
-          "message": "{a-b} är det exakta svaret. Vid en överslagsräkning räknar du med de avrundade talen."
+          "message": "{a-b} är det riktiga svaret. Vid ett överslag räknar du med de avrundade talen."
         }
       ]
     }
@@ -239,7 +239,7 @@
       ]
     },
     {
-      "prompt": "En tröja kostar 39 kr och en mössa kostar 52 kr. Gör en överslagsräkning med närmaste tiotal. Ungefär hur mycket kostar de tillsammans?",
+      "prompt": "En tröja kostar 39 kr och en mössa kostar 52 kr. Gör ett överslag med närmaste tiotal. Ungefär hur mycket kostar de tillsammans?",
       "answer": [
         "90",
         "90 kr"
@@ -251,7 +251,7 @@
             "91",
             "91 kr"
           ],
-          "message": "91 kr är det exakta priset. Vid ett överslag räknar du med de avrundade talen 40 och 50."
+          "message": "91 kr är det riktiga priset. Vid ett överslag räknar du med de avrundade talen 40 och 50."
         },
         {
           "answers": [
@@ -263,7 +263,7 @@
       ]
     },
     {
-      "prompt": "Mira räknade 48 + 37 och fick 135. Gör en överslagsräkning med närmaste tiotal. Vilket tal ska svaret ligga nära?",
+      "prompt": "Mira räknade 48 + 37 och fick 135. Gör ett överslag med närmaste tiotal. Vilket tal ska svaret ligga nära?",
       "answer": [
         "90"
       ],
@@ -273,7 +273,7 @@
           "answers": [
             "85"
           ],
-          "message": "85 är det exakta svaret. Ett överslag använder avrundade tal: 50 + 40."
+          "message": "85 är det riktiga svaret. Ett överslag använder avrundade tal: 50 + 40."
         },
         {
           "answers": [

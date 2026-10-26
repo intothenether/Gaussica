@@ -7,7 +7,8 @@
   "duration": "9 min",
   "prerequisites": [
     "kortdivision",
-    "multiplikation-tvasiffrigt"
+    "multiplikation-tvasiffrigt",
+    "begrepp-rakna"
   ],
   "summary": "När du delar med ett tvåsiffrigt tal skriver du ut varje delsteg: gissa, multiplicera, subtrahera och hämta ner nästa siffra.",
   "explanationTitle": "Hur delar vi 378 på 14?",

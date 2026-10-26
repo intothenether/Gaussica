@@ -8,7 +8,8 @@
   "prerequisites": [
     "brak-likavarda",
     "addition",
-    "subtraktion"
+    "subtraktion",
+    "begrepp-rakna"
   ],
   "summary": "Bråk med samma nämnare kan du lägga ihop och dra ifrån direkt. Du kan också räkna ut en del av ett antal.",
   "explanationTitle": "Hur räknar vi när talen är bråk?",

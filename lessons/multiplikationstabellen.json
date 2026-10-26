@@ -17,7 +17,7 @@
     "columns": 10,
     "highlight": {"multiplesOf":5}
   },
-  "rule": "a · b = b · a",
+  "rule": "Du kan byta plats på talen: 3 · 7 = 7 · 3",
   "ruleLabel": "ORDNINGEN SPELAR INGEN ROLL",
   "example": "3 · 7 = 21 och 7 · 3 = 21. Kan du sjuans tabell kan du också 3 · 7.",
   "practice": [

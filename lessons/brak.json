@@ -5,7 +5,7 @@
   "level": "Koppla ihop idéer · ungefär åk 4–7",
   "grade": 4,
   "duration": "7 min",
-  "prerequisites": ["platsvarde"],
+  "prerequisites": ["platsvarde", "begrepp-rakna"],
   "isParentLesson": true,
   "subLessons": [
     {

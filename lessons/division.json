@@ -2,7 +2,7 @@
   "id": "division",
   "area": "tal",
   "title": "Division: dela lika",
-  "level": "Dela och gruppera · ungefär åk 3–6",
+  "level": "Dela lika · ungefär åk 3–6",
   "grade": 3,
   "duration": "6 min",
   "prerequisites": ["multiplikation"],
@@ -11,7 +11,7 @@
   "explanation": "Problemet: Med multiplikation vet vi hur många saker det är sammanlagt i lika stora grupper. Men tänk om vi går åt andra hållet: 56 saker ska delas lika i 7 grupper. Hur många blir det i varje grupp? Då behöver vi räkna baklänges. Det kallas division. Om 56 saker delas lika i 7 grupper frågar vi hur många saker varje grupp får. Eftersom 7 · 8 = 56 får varje grupp 8 saker.",
   "rule": "56/7 = 8 eftersom 7 · 8 = 56",
   "ruleLabel": "DIVISION OCH MULTIPLIKATION HÖR IHOP",
-  "example": "Kontrollera en division genom att multiplicera kvoten med divisorn. Om produkten blir det ursprungliga talet stämmer svaret.",
+  "example": "Kontrollera en division genom att multiplicera svaret med talet du delade med. Får du talet du började med stämmer svaret.",
   "practice": [
     {
       "id": "dela-lika",

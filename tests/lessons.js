@@ -85,6 +85,42 @@ lessons.forEach((l) => {
   });
 });
 
+// ---- vocabulary for the younger years ----
+// Some words are taught in a lesson of their own and may only be used in the lessons below it in the tree (or from year 6):
+//   addera, subtrahera and the names sum, difference, product, quotient, term and factor: "Begrepp: räknesätt och svar"
+//   utfall: "Begrepp: chans och slump"
+const VOCABULARY = [
+  { teacher: "begrepp-rakna", words: /\b(addera\w*|subtrahera\w*|differens\w*|kvot\w*|divisor\w*|produkt\w*|faktor\w*|term(?:en|er)?)\b/i, what: "addera, subtrahera, differens, kvot, produkt, faktor or term" },
+  { teacher: "begrepp-sannolikhet", words: /\butfall\w*/i, what: "utfall" }
+];
+const VISIBLE = new Set(["title", "summary", "explanation", "explanationTitle", "level", "rule", "ruleLabel", "example", "prompt", "correct", "message", "text", "intro", "definition"]);
+function visibleText(value, key, out) {
+  if (typeof value === "string") { if (VISIBLE.has(key)) out.push(value); }
+  else if (Array.isArray(value)) value.forEach((v) => visibleText(v, key, out));
+  else if (value && typeof value === "object") Object.keys(value).forEach((k) => visibleText(value[k], k, out));
+  return out;
+}
+function below(teacherId) {   // the lessons that come after teacherId in the tree
+  const set = new Set([teacherId]);
+  let again = true;
+  while (again) {
+    again = false;
+    lessons.forEach((l) => {
+      if (!set.has(l.id) && ((l.prerequisites || []).some((p) => set.has(p)) || (l.parentId && set.has(l.parentId)))) { set.add(l.id); again = true; }
+      if (set.has(l.id)) (l.subLessons || []).forEach((s) => { if (!set.has(s.id)) { set.add(s.id); again = true; } });
+    });
+  }
+  return set;
+}
+VOCABULARY.forEach((v) => {
+  const allowed = below(v.teacher);
+  lessons.forEach((l) => {
+    if (l.grade >= 6 || l.kind === "begrepp" || allowed.has(l.id)) return;
+    const hit = visibleText(l, "", []).find((s) => v.words.test(s));
+    if (hit) bad(l.id, "uses " + v.what + " but does not come after " + v.teacher + " in the tree (add it as a prerequisite or use plainer words): " + hit.slice(0, 70));
+  });
+});
+
 // ---- answers and hints ----
 let tasks = 0, hints = 0;
 function checkTask(l, name, t) {

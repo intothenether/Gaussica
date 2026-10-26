@@ -139,7 +139,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "I L-mönstret har figur n exakt 2 · n + 1 rutor. Hur många rutor har figur 12?",
+      "prompt": "I L-mönstret har varje figur 2 · figurens nummer + 1 rutor. Figur 3 har till exempel 2 · 3 + 1 = 7 rutor. Hur många rutor har figur 12?",
       "answer": [
         "25"
       ],

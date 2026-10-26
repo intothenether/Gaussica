@@ -21,7 +21,7 @@
     "outline": true,
     "title": "Omkretsen är den rosa kanten"
   },
-  "rule": "O = 4 · sidan",
+  "rule": "Omkrets = 4 · sidan",
   "ruleLabel": "KVADRATENS OMKRETS",
   "example": "Sidan 7 m ger omkretsen 4 · 7 = 28 m.",
   "practice": [

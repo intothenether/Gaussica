@@ -6,7 +6,7 @@
   "grade": 4,
   "duration": "8 min",
   "prerequisites": ["tallinjen"],
-  "summary": "Ett koordinatsystem är en karta med två tallinjer. Med två tal kan du beskriva exakt var en punkt ligger.",
+  "summary": "Ett koordinatsystem är en karta med två tallinjer. Med två tal kan du beskriva precis var en punkt ligger.",
   "explanationTitle": "Först åt höger, sedan upp",
   "explanation": "Problemet: På en tallinje kan vi ange en plats med ett enda tal. Men en karta eller en skärm är platt, och då räcker ett tal inte för att säga var något finns. Du behöver två tal. Därför finns koordinatsystemet. Ett koordinatsystem har två tallinjer: x-axeln går åt sidan och y-axeln går uppåt. De möts i origo, där båda talen är 0. En punkt beskrivs med två koordinater, skrivna (x, y). Det första talet säger hur många steg du går åt höger och det andra hur många steg du går uppåt. Punkten (3, 2) hittar du genom att gå 3 steg åt höger och sedan 2 steg upp. Ordningen är viktig: (3, 2) och (2, 3) är olika punkter. Kom ihåg: först ut genom dörren, sedan upp för trappan. Knapparna under svarsrutan hjälper dig att skriva parenteser och komma.",
   "visual": {
@@ -18,7 +18,7 @@
     "points": [{"x":3,"y":2,"label":"A (3, 2)"}],
     "title": "Punkt A: 3 steg åt höger och 2 steg upp"
   },
-  "rule": "(x, y) = (åt höger, uppåt)",
+  "rule": "Skriv först hur många steg åt höger, sedan hur många steg uppåt: (åt höger, uppåt)",
   "ruleLabel": "FÖRST ÅT SIDAN, SEDAN UPP",
   "example": "Punkten (4, 1) ligger 4 steg åt höger och 1 steg upp. Punkten (1, 4) ligger 1 steg åt höger och 4 steg upp. De är olika punkter.",
   "practice": [

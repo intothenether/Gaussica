@@ -11,7 +11,7 @@
   ],
   "summary": "Växel är det du får tillbaka när du betalar mer än det kostar. Du kan räkna den genom att räkna uppåt.",
   "explanationTitle": "Räkna uppåt till det du betalade",
-  "explanation": "Problemet: Du köper en bok för 37 kronor och betalar med en 50-lapp. Hur mycket ska du få tillbaka? Du kan subtrahera, men många räknar lättare uppåt, som kassapersonalen gör. Vi behöver ett snabbt sätt att hitta skillnaden. Det kallas att räkna upp växeln. Växel är det du får tillbaka när du betalar mer än det kostar. Räkna från priset upp till nästa tiotal: från 37 till 40 är det 3. Räkna sedan vidare till det du betalade: från 40 till 50 är det 10. Växeln är 3 + 10 = 13 kronor. Du kan också subtrahera: 50 − 37 = 13. Kontrollera alltid: priset plus växeln ska bli det du betalade.",
+  "explanation": "Problemet: Du köper en bok för 37 kronor och betalar med en 50-lapp. Hur mycket ska du få tillbaka? Du kan dra ifrån, men många räknar lättare uppåt, som kassapersonalen gör. Vi behöver ett snabbt sätt att hitta skillnaden. Det kallas att räkna upp växeln. Växel är det du får tillbaka när du betalar mer än det kostar. Räkna från priset upp till nästa tiotal: från 37 till 40 är det 3. Räkna sedan vidare till det du betalade: från 40 till 50 är det 10. Växeln är 3 + 10 = 13 kronor. Du kan också dra ifrån: 50 − 37 = 13. Kontrollera alltid: priset plus växeln ska bli det du betalade.",
   "visual": {
     "type": "tallinje",
     "title": "Från 37 upp till 50",

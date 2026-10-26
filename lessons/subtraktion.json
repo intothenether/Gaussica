@@ -2,13 +2,13 @@
   "id": "subtraktion",
   "area": "tal",
   "title": "Subtraktion: jämför och ta bort",
-  "level": "Räkna och gruppera · ungefär åk 3–5",
+  "level": "Räkna och växla · ungefär åk 3–5",
   "grade": 3,
   "duration": "7 min",
   "prerequisites": ["addition"],
-  "summary": "Subtraktion kan visa vad som blir kvar eller skillnaden mellan två tal. Positionsvärde hjälper oss att växla mellan ental, tiotal och hundratal.",
-  "explanationTitle": "Växla när en position inte räcker",
-  "explanation": "I 502 − 278 kan vi inte ta 8 ental från 2 ental. Växla därför ett hundratal till tio tiotal. Växla sedan ett av tiotalen till tio ental och subtrahera varje position.",
+  "summary": "Subtraktion kan visa vad som blir kvar eller skillnaden mellan två tal. Platsvärde hjälper oss att växla mellan ental, tiotal och hundratal.",
+  "explanationTitle": "Växla när en plats inte räcker",
+  "explanation": "I 502 − 278 kan vi inte ta 8 ental från 2 ental. Växla därför ett hundratal till tio tiotal. Växla sedan ett av tiotalen till tio ental och dra ifrån varje plats.",
   "rule": "502 − 278 = 4 hundratal, 12 tiotal, 12 ental − 278 = 224",
   "ruleLabel": "VÄXLA UTAN ATT ÄNDRA VÄRDET",
   "example": "Ett hundratal är lika mycket som tio tiotal. Växling byter namn på samma mängd. Den tar inte bort något.",
@@ -22,7 +22,7 @@
       "answer": ["=r"],
       "correct": "Rätt! {a} − {b} = {r}.",
       "feedback": [
-        {"answers":["=a+b"],"message":"Det ser ut som att du adderade. Här ska du ta bort {b} från {a}."},
+        {"answers":["=a+b"],"message":"Det ser ut som att du lade ihop. Här ska du ta bort {b} från {a}."},
         {
           "answers": ["=r+10","=r-10","=r+100","=r-100"],
           "message": "Kolla växlingen. När du lånar från nästa kolumn blir den kolumnen 1 mindre."
@@ -62,9 +62,9 @@
   "exercise": {
     "prompt": "Räkna ut 502 − 278.",
     "answer": ["224"],
-    "correct": "Ja. Genom att växla ett hundratal och sedan ett tiotal får vi 12 ental och 12 tiotal att subtrahera från.",
+    "correct": "Ja. Genom att växla ett hundratal och sedan ett tiotal får vi 12 ental och 12 tiotal att dra ifrån.",
     "feedback": [
-      { "answers": ["376"], "message": "Det ser ut som att den mindre siffran dragits från den större i varje position. Subtraktion jämför hela talen: när 2 ental inte räcker behöver du växla om ett tiotal." },
+      { "answers": ["376"], "message": "Det ser ut som att den mindre siffran dragits från den större på varje plats. Subtraktion jämför hela talen: när 2 ental inte räcker behöver du växla om ett tiotal." },
       { "answers": ["324"], "message": "Kontrollera växlingen över nollan i talet 502. Ett hundratal kan först växlas till tio tiotal, och ett av dem blir tio ental." }
     ]
   },
@@ -75,7 +75,7 @@
       "correct": "Rätt! 502 − 278 = 224 böcker.",
       "feedback": [
         { "answers": ["780"], "message": "780 får du genom att lägga ihop talen. Böcker ställs tillbaka, så antalet på vagnen minskar." },
-        { "answers": ["376"], "message": "Jämför hela talen och växla när en position inte räcker. Du kan inte alltid dra den mindre siffran från den större i varje kolumn." }
+        { "answers": ["376"], "message": "Jämför hela talen och växla när en plats inte räcker. Du kan inte alltid dra den mindre siffran från den större i varje kolumn." }
       ]
     },
     {
@@ -84,7 +84,7 @@
       "correct": "Precis! 340 − 186 = 154 lediga platser.",
       "feedback": [
         { "answers": ["526"], "message": "526 är summan av upptagna och totala platser. För att hitta lediga platser tar du de upptagna från totalen." },
-        { "answers": ["264"], "message": "Kontrollera växlingen när du subtraherar 6 ental från 0 ental och 8 tiotal från 3 tiotal." }
+        { "answers": ["264"], "message": "Kontrollera växlingen när du drar ifrån 6 ental från 0 ental och 8 tiotal från 3 tiotal." }
       ]
     }
   ]

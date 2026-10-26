@@ -7,7 +7,8 @@
   "duration": "7 min",
   "prerequisites": [
     "platsvarde",
-    "tallinjen"
+    "tallinjen",
+    "begrepp-rakna"
   ],
   "summary": "Ett decimaltal har en decimalkomma. Siffrorna efter kommat är delar av en hel: tiondelar, hundradelar och så vidare.",
   "explanationTitle": "Efter kommat kommer delar av en hel",

@@ -7,7 +7,8 @@
   "grade": 4,
   "duration": "6 min",
   "prerequisites": [
-    "kvadratens-omkrets"
+    "kvadratens-omkrets",
+    "begrepp-rakna"
   ],
   "summary": "Omkretsen av en rektangel är längden av alla fyra sidor tillsammans: två längder och två bredder.",
   "explanationTitle": "Två längder och två bredder",
@@ -21,7 +22,7 @@
     "outline": true,
     "title": "Rektangel 7 cm · 3 cm"
   },
-  "rule": "O = 2 · (längd + bredd)",
+  "rule": "Omkrets = 2 · (längd + bredd)",
   "ruleLabel": "REKTANGELNS OMKRETS",
   "example": "Längd 10 m och bredd 4 m ger 2 · (10 + 4) = 28 m. Det är samma som 10 + 4 + 10 + 4.",
   "practice": [

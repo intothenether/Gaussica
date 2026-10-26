@@ -10,7 +10,7 @@
   "summary": "Täljaren visar hur många delar vi har. Nämnaren visar hur många lika stora delar helheten består av.",
   "explanationTitle": "En bråkdel består av två tal",
   "explanation": "Problemet: Du vet att ett bråk visar en del av en helhet. Men hur läser du av 3/4, och vad betyder de två talen? Det står ett tal överst och ett nederst, och de gör olika saker. I ett bråk som 3/4 är täljaren (överst) 3 och nämnaren (nederst) 4. Nämnaren säger hur många lika stora bitar helheten är delad i. Täljaren säger hur många av dessa bitar vi plockar.",
-  "rule": "I bråket a/b är a täljaren och b nämnaren. Nämnaren kan aldrig vara 0.",
+  "rule": "Talet överst visar hur många delar du har. Talet underst visar hur många lika stora delar helheten är delad i. Talet underst kan aldrig vara 0.",
   "ruleLabel": "TÄLJARE OCH NÄMNARE",
   "example": "I 3/4 betyder det att vi delar något i 4 lika stora delar och tar 3 av dem. I 1/2 delar vi i 2 delar (en halv) och tar 1.",
   "interactive": {
@@ -61,7 +61,7 @@
     }
   ],
   "exercise": {
-    "prompt": "Vilken del är skuggad? I bråket a/b, vilket är täljaren och vilket är nämnaren?",
+    "prompt": "Vilken del är skuggad? Skriv den som ett bråk.",
     "answer": ["2/4", "1/2", "0.5", "0,5"],
     "correct": "Ja! 2 delar av 4 är skuggad. 2 är täljaren (överst), 4 är nämnaren (nederst).",
     "feedback": [

@@ -7,7 +7,7 @@
   "duration": "5 min",
   "prerequisites": [],
   "summary": "Varje siffra har ett jobb. När du ser platsvärdet blir stora tal mycket enklare att förstå.",
-  "explanationTitle": "Ett tal är byggt av positioner",
+  "explanationTitle": "Ett tal är byggt av platser",
   "explanation": "Problemet: Hur kan bara tio siffror, 0 till 9, räcka för att skriva alla tal som finns? Siffran 3 betyder olika mycket i 3, 30 och 300. Vi behöver en regel som säger vad en siffra är värd. Den regeln är platsvärde. I talet 3 482 betyder 3:an tre tusental, 4:an fyra hundratal, 8:an åtta tiotal och 2:an två ental. En siffra får sitt värde från platsen den står på.",
   "rule": "3 482 = 3 000 + 400 + 80 + 2",
   "ruleLabel": "TAL I UTVIDGAD FORM",
@@ -86,8 +86,8 @@
     "answer": ["600", "600.0", "sexhundra"],
     "correct": "Precis! 6:an står på hundratalsplatsen, så den är värd 600.",
     "feedback": [
-      { "answers": ["6"], "message": "Du hittade siffran, men inte dess värde. Titta på vilken position 6:an står på: tusental, hundratal, tiotal eller ental?" },
-      { "answers": ["60"], "message": "Du gav 6:an värdet av ett tiotal. Räkna positionerna från höger: ental, tiotal, hundratal. Vilken plats är 6:an på?" }
+      { "answers": ["6"], "message": "Du hittade siffran, men inte dess värde. Titta på vilken plats 6:an står på: tusental, hundratal, tiotal eller ental?" },
+      { "answers": ["60"], "message": "Du gav 6:an värdet av ett tiotal. Räkna platserna från höger: ental, tiotal, hundratal. Vilken plats är 6:an på?" }
     ]
   },
   "wordProblems": [

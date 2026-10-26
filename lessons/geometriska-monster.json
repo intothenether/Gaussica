@@ -144,7 +144,7 @@
       "answer": ["=r"],
       "correct": "Rätt! Rad 1 har 1 ruta, rad 2 har 2, och så vidare till {m}. Summan är {r}.",
       "feedback": [
-        {"answers":["=m*m"],"message":"Trappan är inte en hel kvadrat. Rad k har k rutor: 1 + 2 + … + {m}."}
+        {"answers":["=m*m"],"message":"Trappan är inte en hel kvadrat. Rad 1 har 1 ruta, rad 2 har 2 rutor och så vidare: 1 + 2 + … + {m}."}
       ]
     },
     {
@@ -332,7 +332,7 @@
       "answer": [
         "25"
       ],
-      "correct": "Rätt! Figur n är en kvadrat med n rader och n kolumner, så figur 5 har 5 · 5 = 25 rutor.",
+      "correct": "Rätt! Figur 5 är en kvadrat med 5 rader och 5 kolumner, så den har 5 · 5 = 25 rutor.",
       "feedback": [
         {
           "answers": [
@@ -345,7 +345,7 @@
             "15",
             "20"
           ],
-          "message": "Här ökar skillnaden för varje figur (+3, +5, +7). Använd i stället att figur n har n rader med n rutor."
+          "message": "Här ökar skillnaden för varje figur (+3, +5, +7). Använd i stället att en figur har lika många rader som figurens nummer, med lika många rutor i varje rad."
         }
       ],
       "visual": {

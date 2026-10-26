@@ -3,13 +3,13 @@
   "kind": "begrepp",
   "area": "tal",
   "title": "Begrepp: räknesätt och svar",
-  "level": "Begrepp · ungefär åk 3",
-  "grade": 3,
+  "level": "Begrepp · ungefär åk 4",
+  "grade": 4,
   "duration": "8 min",
   "prerequisites": ["addition","subtraktion","multiplikation","division"],
   "summary": "Lär dig vad räknesätten och deras svar heter, så att du kan prata om matte med rätt ord.",
   "explanationTitle": "Rätt ord gör matten lättare",
-  "explanation": "I matte har nästan allt ett eget ord. Räknesätten heter addition, subtraktion, multiplikation och division. Svaren har egna namn också, och talen man räknar med heter termer och faktorer. När du kan orden blir det lättare att förstå uppgifter och förklara hur du tänker. Läs begreppskorten först. Sedan kopplar du ihop varje begrepp med rätt förklaring.",
+  "explanation": "I matte har nästan allt ett eget ord. Räknesätten heter addition, subtraktion, multiplikation och division, och när du räknar addera, subtrahera, multiplicera och dividera du. Svaren har egna namn också, och talen man räknar med heter termer och faktorer. När du kan orden blir det lättare att förstå uppgifter och förklara hur du tänker. Läs begreppskorten först. Sedan kopplar du ihop varje begrepp med rätt förklaring.",
   "components": [
     {
       "type": "begreppskort",
@@ -18,22 +18,22 @@
       "cards": [
         {
           "term": "addition",
-          "definition": "Räknesättet där man lägger ihop tal. Tecknet är +.",
+          "definition": "Räknesättet där man lägger ihop tal, man adderar. Tecknet är +.",
           "example": "3 + 4"
         },
         {
           "term": "subtraktion",
-          "definition": "Räknesättet där man tar bort ett tal från ett annat. Tecknet är −.",
+          "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −.",
           "example": "9 − 4"
         },
         {
           "term": "multiplikation",
-          "definition": "Räknesättet där man lägger ihop lika stora grupper. Tecknet är ·.",
+          "definition": "Räknesättet där man lägger ihop lika stora grupper, man multiplicerar. Tecknet är ·.",
           "example": "4 · 3 betyder 3 + 3 + 3 + 3"
         },
         {
           "term": "division",
-          "definition": "Räknesättet där man delar upp något lika. Tecknet är ÷ eller ett bråkstreck.",
+          "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck.",
           "example": "12/3"
         },
         {"term":"summa","definition":"Svaret på en addition.","example":"I 3 + 4 = 7 är 7 summan."},
@@ -64,18 +64,18 @@
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
       "pairs": [
-        {"term":"addition","definition":"Räknesättet där man lägger ihop tal. Tecknet är +."},
+        {"term":"addition","definition":"Räknesättet där man lägger ihop tal, man adderar. Tecknet är +."},
         {
           "term": "subtraktion",
-          "definition": "Räknesättet där man tar bort ett tal från ett annat. Tecknet är −."
+          "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −."
         },
         {
           "term": "multiplikation",
-          "definition": "Räknesättet där man lägger ihop lika stora grupper. Tecknet är ·."
+          "definition": "Räknesättet där man lägger ihop lika stora grupper, man multiplicerar. Tecknet är ·."
         },
         {
           "term": "division",
-          "definition": "Räknesättet där man delar upp något lika. Tecknet är ÷ eller ett bråkstreck."
+          "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck."
         },
         {"term":"summa","definition":"Svaret på en addition."}
       ]
@@ -101,18 +101,18 @@
       "size": 4,
       "prompt": "Para ihop begreppen med rätt förklaring.",
       "pool": [
-        {"term":"addition","definition":"Räknesättet där man lägger ihop tal. Tecknet är +."},
+        {"term":"addition","definition":"Räknesättet där man lägger ihop tal, man adderar. Tecknet är +."},
         {
           "term": "subtraktion",
-          "definition": "Räknesättet där man tar bort ett tal från ett annat. Tecknet är −."
+          "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −."
         },
         {
           "term": "multiplikation",
-          "definition": "Räknesättet där man lägger ihop lika stora grupper. Tecknet är ·."
+          "definition": "Räknesättet där man lägger ihop lika stora grupper, man multiplicerar. Tecknet är ·."
         },
         {
           "term": "division",
-          "definition": "Räknesättet där man delar upp något lika. Tecknet är ÷ eller ett bråkstreck."
+          "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck."
         },
         {"term":"summa","definition":"Svaret på en addition."},
         {"term":"differens","definition":"Svaret på en subtraktion."},
@@ -128,20 +128,20 @@
       "mode": "fraga",
       "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
       "pool": [
-        {"term":"addition","definition":"Räknesättet där man lägger ihop tal. Tecknet är +.","alt":[]},
+        {"term":"addition","definition":"Räknesättet där man lägger ihop tal, man adderar. Tecknet är +.","alt":[]},
         {
           "term": "subtraktion",
-          "definition": "Räknesättet där man tar bort ett tal från ett annat. Tecknet är −.",
+          "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −.",
           "alt": []
         },
         {
           "term": "multiplikation",
-          "definition": "Räknesättet där man lägger ihop lika stora grupper. Tecknet är ·.",
+          "definition": "Räknesättet där man lägger ihop lika stora grupper, man multiplicerar. Tecknet är ·.",
           "alt": []
         },
         {
           "term": "division",
-          "definition": "Räknesättet där man delar upp något lika. Tecknet är ÷ eller ett bråkstreck.",
+          "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck.",
           "alt": []
         },
         {"term":"summa","definition":"Svaret på en addition.","alt":["summan"]},

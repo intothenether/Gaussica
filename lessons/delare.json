@@ -8,7 +8,8 @@
   "duration": "6 min",
   "prerequisites": [
     "multiplikation",
-    "division"
+    "division",
+    "begrepp-rakna"
   ],
   "summary": "En delare till ett tal är ett tal som delar det utan rest. 3 är en delare till 12 eftersom 12/3 = 4.",
   "explanationTitle": "Alla sätt att göra lika stora grupper",
@@ -34,7 +35,7 @@
       }
     ]
   },
-  "rule": "a är en delare till b om b/a går jämnt upp",
+  "rule": "Ett tal är en delare till ett annat tal om det går jämnt upp. 10 delat med 5 är 2, så 5 är en delare till 10.",
   "ruleLabel": "DELARE",
   "example": "Delarna till 10 är 1, 2, 5 och 10. Talet 4 är ingen delare eftersom 10 delat med 4 ger 2 med resten 2.",
   "practice": [

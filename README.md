@@ -352,6 +352,12 @@ Texten "Så hanteras dina uppgifter" (`privacy.js`) visas från sidfoten och inl
 - **"Problemet:".** Börjar förklaringen med "Problemet:" tas ordet bort ur texten och visas som en gul etikett, 🧩 Problemet, ovanför problemtexten.
 - **Regler när som helst.** Knappen 💡 Regler uppe till höger i lektionen och övningen öppnar en ruta med regelrutan, figuren och en hopfälld "Läs förklaringen igen" (öppen direkt om lektionen saknar regel). Rutan stänger man med Tillbaka till uppgiften, ✕, Esc eller ett tryck utanför, och uppgiften och svaret är kvar. I en övningsrunda visas regeln för just den frågans lektion.
 
+## Matematik i texten och språk för de yngre åren
+
+- **Så skrivs det.** Alla texter, frågor och tabeller visar matematik som på papper (`richtext.js`): `1/2` blir ett bråk, `x^2` och `10^-3` får upphöjt tal (även negativt och `x^(-1)`), och `√50`, `√x` och `√(a + b)` ritas med rottecken och ett streck över talet under roten, utan parenteser. Rottecknet växer med det som står under det, till exempel `√((p/2)^2 − q)`. Skriv rötter så i lektionstexterna. Eleven skriver svar som `√2` eller `sqrt(2)`.
+- **Yngre åk.** Ord införs i en lektion och används sedan bara i lektionerna nedanför den i trädet. I åk 3 undviker lektionerna svåra ord: man lägger ihop och drar ifrån, växlar (inte grupperar om), räknar på platser och gör ett överslag. Orden addera, subtrahera, summa, differens, produkt, kvot, term och faktor införs i "Begrepp: räknesätt och svar" (åk 4), och lektioner som använder dem har den som förkunskap. Platsvärde och position går bra från åk 4. Ordet utfall införs i "Begrepp: chans och slump" (åk 4), som kommer före lektionen om sannolikhet. `npm test` kontrollerar att inget av orden används i en lektion som kommer före sin begreppslektion (före åk 6).
+- **Regler utan bokstäver.** Före algebran skrivs regler med ord och tal: "Du kan byta plats på talen: 3 · 7 = 7 · 3", "Area = längd · bredd", "Omkrets = 4 · sidan". Bokstäver som a, b och n som stand-in för tal används först från åk 6 (och x som okänt tal i lektionerna om likhet och balansvåg).
+
 ## Mobil och tangentbord
 
 - **Följer det som syns.** `viewport.js` mäter den del av skärmen som är synlig (`visualViewport`) och skriver `--vv-h` och `--vv-top` på `<html>`. Lektionsspelaren, chatten, feedbackrutan och inloggningen använder dem i stället för 100 %, så de inte hamnar bakom tangentbordet. Metataggen `interactive-widget=resizes-content` gör samma sak åt Android.

@@ -5,7 +5,7 @@
   "level": "Mät och jämför · ungefär åk 3–6",
   "grade": 4,
   "duration": "7 min",
-  "prerequisites": ["addition", "subtraktion"],
+  "prerequisites": ["addition", "subtraktion", "begrepp-rakna"],
   "summary": "Enheter berättar vad ett mått betyder. Växla till samma enhet innan du jämför eller räknar med olika mått.",
   "explanationTitle": "Skriv måttet i en gemensam enhet",
   "explanation": "Problemet: Du har ett snöre som är 3 meter och ett som är 45 centimeter. Hur långa är de tillsammans? Du kan inte bara lägga ihop 3 och 45, för enheterna är olika. Vi måste kunna byta enhet. En meter är 100 centimeter. Därför är 3 meter och 45 centimeter tillsammans 300 centimeter + 45 centimeter = 345 centimeter.",

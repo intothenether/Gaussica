@@ -2,16 +2,16 @@
   "id": "addition",
   "area": "tal",
   "title": "Addition: lägg ihop tal",
-  "level": "Räkna och gruppera · ungefär åk 3–5",
+  "level": "Räkna och växla · ungefär åk 3–5",
   "grade": 3,
   "duration": "6 min",
   "prerequisites": [],
-  "summary": "Addition kombinerar mängder. När ental eller tiotal blir fler än nio grupperar vi om till nästa position.",
-  "explanationTitle": "Gruppera om när en position blir full",
-  "explanation": "Räkna 358 + 176 från entalen: 8 + 6 = 14 ental. Det är 1 tiotal och 4 ental. Lägg tiotalen och hundratalen på samma sätt och gruppera om när det behövs.",
+  "summary": "Addition lägger ihop mängder. När ental eller tiotal blir fler än nio växlar vi till nästa plats.",
+  "explanationTitle": "Växla när en plats blir full",
+  "explanation": "Räkna 358 + 176 från entalen: 8 + 6 = 14 ental. Det är 1 tiotal och 4 ental. Lägg tiotalen och hundratalen på samma sätt och växla när det behövs.",
   "rule": "358 + 176 = 400 + 120 + 14 = 534",
-  "ruleLabel": "ADDERA POSITIONSVIS",
-  "example": "Tio ental kan bytas mot ett tiotal och tio tiotal mot ett hundratal. Värdet ändras inte när vi grupperar om.",
+  "ruleLabel": "LÄGG IHOP PLATS FÖR PLATS",
+  "example": "Tio ental kan bytas mot ett tiotal och tio tiotal mot ett hundratal. Värdet ändras inte när vi växlar.",
   "practice": [
     {
       "id": "summa",
@@ -65,10 +65,10 @@
   "exercise": {
     "prompt": "Räkna ut 358 + 176.",
     "answer": ["534"],
-    "correct": "Rätt! 8 + 6 blir 14 ental, så vi grupperar om till ett tiotal och fyra ental.",
+    "correct": "Rätt! 8 + 6 blir 14 ental, så vi växlar till ett tiotal och fyra ental.",
     "feedback": [
       { "answers": ["414"], "message": "Titta på entalen: 8 + 6 är 14, inte 4. De tio extra entalen bildar ett tiotal som ska räknas med bland tiotalen." },
-      { "answers": ["424"], "message": "Entalen ger 14. När du skriver 4 ental, glöm inte att det extra tiotalet ska föras vidare till tiotalspositionen." }
+      { "answers": ["424"], "message": "Entalen ger 14. När du skriver 4 ental, glöm inte att det extra tiotalet ska föras vidare till tiotalsplatsen." }
     ]
   },
   "wordProblems": [
@@ -78,7 +78,7 @@
       "correct": "Ja! 248 + 175 = 423 frimärken.",
       "feedback": [
         { "answers": ["73"], "message": "73 är skillnaden mellan talen. Eftersom samlaren får fler frimärken ska du lägga ihop mängderna." },
-        { "answers": ["413"], "message": "Kontrollera entalen och tiotalen. När 8 + 5 blir 13 behöver ett tiotal grupperas om." }
+        { "answers": ["413"], "message": "Kontrollera entalen och tiotalen. När 8 + 5 blir 13 behöver ett tiotal växlas." }
       ]
     },
     {
@@ -87,7 +87,7 @@
       "correct": "Rätt! 136 + 189 = 325 burkar.",
       "feedback": [
         { "answers": ["53"], "message": "53 är skillnaden mellan dagsresultaten. Frågan gäller hur många de samlar tillsammans." },
-        { "answers": ["315"], "message": "Gruppera om entalen när 6 + 9 blir 15 och för över ett tiotal till nästa position." }
+        { "answers": ["315"], "message": "Växla entalen när 6 + 9 blir 15 och för över ett tiotal till nästa plats." }
       ]
     }
   ]

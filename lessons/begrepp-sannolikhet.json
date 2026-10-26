@@ -1,0 +1,332 @@
+{
+  "id": "begrepp-sannolikhet",
+  "kind": "begrepp",
+  "area": "data",
+  "title": "Begrepp: chans och slump",
+  "level": "Begrepp · ungefär åk 4",
+  "grade": 4,
+  "duration": "6 min",
+  "prerequisites": [
+    "diagram"
+  ],
+  "summary": "Orden för slump och chans: försök, utfall, säker, omöjlig och troligt. Dem behöver du innan du räknar på chans.",
+  "explanationTitle": "Ord för chans och slump",
+  "explanation": "Problemet: Du kastar en tärning och säger \"kanske blir det en sexa\". Men hur säger du hur troligt det är, så att en kompis förstår precis vad du menar? Vi behöver ord för det som händer av en slump och för hur stor chansen är. Ett försök är en gång du gör något där slumpen bestämmer, till exempel ett kast med tärningen. Det du får är ett utfall. Chansen säger hur lätt det är att något händer. Något som alltid händer är säkert, och något som aldrig kan hända är omöjligt. Allt däremellan är mer eller mindre troligt. Läs begreppskorten först. Sedan kopplar du ihop varje begrepp med rätt förklaring.",
+  "components": [
+    {
+      "type": "begreppskort",
+      "title": "Begreppen",
+      "intro": "Läs varje kort. Sedan ska du para ihop begreppen med rätt förklaring.",
+      "cards": [
+        {
+          "term": "slump",
+          "definition": "När du inte kan veta i förväg vad som kommer att hända.",
+          "example": "När du kastar en tärning är det slumpen som bestämmer vad du får."
+        },
+        {
+          "term": "försök",
+          "definition": "En gång du gör något där slumpen bestämmer.",
+          "example": "Ett kast med en tärning är ett försök."
+        },
+        {
+          "term": "utfall",
+          "definition": "Ett av de sätt som ett försök kan sluta på.",
+          "example": "Utfallen när du kastar en tärning är 1, 2, 3, 4, 5 och 6."
+        },
+        {
+          "term": "chans",
+          "definition": "Hur lätt eller svårt det är att något händer.",
+          "example": "Chansen att få en femma på en tärning är 1 av 6."
+        },
+        {
+          "term": "säker",
+          "definition": "Något som alltid händer.",
+          "example": "Det är säkert att en tärning visar ett tal från 1 till 6."
+        },
+        {
+          "term": "omöjlig",
+          "definition": "Något som aldrig kan hända.",
+          "example": "Det är omöjligt att få en sjua på en vanlig tärning."
+        },
+        {
+          "term": "troligt",
+          "definition": "Något som har stor chans att hända.",
+          "example": "Om en påse har 9 blå kulor och 1 röd är det troligt att du drar en blå."
+        },
+        {
+          "term": "lika troligt",
+          "definition": "Två saker som har lika stor chans att hända.",
+          "example": "Det är lika troligt att få krona som klave när du singlar slant."
+        }
+      ]
+    },
+    {
+      "type": "koppla",
+      "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
+      "pairs": [
+        {
+          "term": "slump",
+          "definition": "När du inte kan veta i förväg vad som kommer att hända."
+        },
+        {
+          "term": "försök",
+          "definition": "En gång du gör något där slumpen bestämmer."
+        },
+        {
+          "term": "utfall",
+          "definition": "Ett av de sätt som ett försök kan sluta på."
+        },
+        {
+          "term": "chans",
+          "definition": "Hur lätt eller svårt det är att något händer."
+        }
+      ]
+    },
+    {
+      "type": "koppla",
+      "prompt": "Para ihop begreppen med rätt förklaring (del 2).",
+      "pairs": [
+        {
+          "term": "säker",
+          "definition": "Något som alltid händer."
+        },
+        {
+          "term": "omöjlig",
+          "definition": "Något som aldrig kan hända."
+        },
+        {
+          "term": "troligt",
+          "definition": "Något som har stor chans att hända."
+        },
+        {
+          "term": "lika troligt",
+          "definition": "Två saker som har lika stor chans att hända."
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "comp:2",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
+  "practice": [
+    {
+      "id": "koppla",
+      "for": [
+        "match-1",
+        "match-2"
+      ],
+      "mode": "koppla",
+      "size": 4,
+      "prompt": "Para ihop begreppen med rätt förklaring.",
+      "pool": [
+        {
+          "term": "slump",
+          "definition": "När du inte kan veta i förväg vad som kommer att hända."
+        },
+        {
+          "term": "försök",
+          "definition": "En gång du gör något där slumpen bestämmer."
+        },
+        {
+          "term": "utfall",
+          "definition": "Ett av de sätt som ett försök kan sluta på."
+        },
+        {
+          "term": "chans",
+          "definition": "Hur lätt eller svårt det är att något händer."
+        },
+        {
+          "term": "säker",
+          "definition": "Något som alltid händer."
+        },
+        {
+          "term": "omöjlig",
+          "definition": "Något som aldrig kan hända."
+        },
+        {
+          "term": "troligt",
+          "definition": "Något som har stor chans att hända."
+        },
+        {
+          "term": "lika troligt",
+          "definition": "Två saker som har lika stor chans att hända."
+        }
+      ]
+    },
+    {
+      "id": "fraga",
+      "for": [
+        "exercise",
+        "word-0",
+        "word-1",
+        "word-2"
+      ],
+      "mode": "fraga",
+      "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
+      "pool": [
+        {
+          "term": "slump",
+          "definition": "När du inte kan veta i förväg vad som kommer att hända.",
+          "alt": [
+            "slumpen"
+          ]
+        },
+        {
+          "term": "försök",
+          "definition": "En gång du gör något där slumpen bestämmer.",
+          "alt": [
+            "försöket"
+          ]
+        },
+        {
+          "term": "utfall",
+          "definition": "Ett av de sätt som ett försök kan sluta på.",
+          "alt": [
+            "utfallet"
+          ]
+        },
+        {
+          "term": "chans",
+          "definition": "Hur lätt eller svårt det är att något händer.",
+          "alt": [
+            "chansen"
+          ]
+        },
+        {
+          "term": "säker",
+          "definition": "Något som alltid händer.",
+          "alt": [
+            "säkert"
+          ]
+        },
+        {
+          "term": "omöjlig",
+          "definition": "Något som aldrig kan hända.",
+          "alt": [
+            "omöjligt"
+          ]
+        },
+        {
+          "term": "troligt",
+          "definition": "Något som har stor chans att hända.",
+          "alt": [
+            "trolig"
+          ]
+        },
+        {
+          "term": "lika troligt",
+          "definition": "Två saker som har lika stor chans att hända.",
+          "alt": [
+            "lika trolig"
+          ]
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad kallas det när du inte kan veta i förväg vad som kommer att hända? Skriv begreppet.",
+    "answer": [
+      "slump",
+      "slumpen"
+    ],
+    "correct": "Rätt! Slump: När du inte kan veta i förväg vad som kommer att hända.",
+    "feedback": [
+      {
+        "answers": [
+          "chans",
+          "chansen"
+        ],
+        "message": "Chans betyder: Hur lätt eller svårt det är att något händer. Det är inte det som frågas. Läs begreppskorten igen."
+      },
+      {
+        "answers": [
+          "utfall",
+          "utfallet"
+        ],
+        "message": "Utfall betyder: Ett av de sätt som ett försök kan sluta på. Det är inte det som frågas. Läs begreppskorten igen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du kastar en tärning en gång. Vad kallas ett kast? Skriv begreppet.",
+      "answer": [
+        "försök",
+        "försöket"
+      ],
+      "correct": "Rätt! Försök: En gång du gör något där slumpen bestämmer.",
+      "feedback": [
+        {
+          "answers": [
+            "utfall",
+            "utfallet"
+          ],
+          "message": "Utfall betyder: Ett av de sätt som ett försök kan sluta på. Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": [
+            "slump",
+            "slumpen"
+          ],
+          "message": "Slump betyder: När du inte kan veta i förväg vad som kommer att hända. Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    },
+    {
+      "prompt": "En vanlig tärning har sex sidor. Vad kallas det att du får en trea? Skriv begreppet.",
+      "answer": [
+        "utfall",
+        "utfallet",
+        "ett utfall"
+      ],
+      "correct": "Rätt! Utfall: Ett av de sätt som ett försök kan sluta på.",
+      "feedback": [
+        {
+          "answers": [
+            "försök",
+            "försöket"
+          ],
+          "message": "Försök betyder: En gång du gör något där slumpen bestämmer. Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": [
+            "chans",
+            "chansen"
+          ],
+          "message": "Chans betyder: Hur lätt eller svårt det är att något händer. Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    },
+    {
+      "prompt": "Något kan aldrig hända, till exempel att få en sjua på en vanlig tärning. Vad kallas det? Skriv begreppet.",
+      "answer": [
+        "omöjlig",
+        "omöjligt"
+      ],
+      "correct": "Rätt! Omöjlig: Något som aldrig kan hända.",
+      "feedback": [
+        {
+          "answers": [
+            "säker",
+            "säkert"
+          ],
+          "message": "Säker betyder: Något som alltid händer. Det är inte det som frågas. Läs begreppskorten igen."
+        },
+        {
+          "answers": [
+            "troligt",
+            "trolig"
+          ],
+          "message": "Troligt betyder: Något som har stor chans att hända. Det är inte det som frågas. Läs begreppskorten igen."
+        }
+      ]
+    }
+  ]
+}

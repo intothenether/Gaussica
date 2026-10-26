@@ -4131,3 +4131,10 @@ html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-keys { margin: 0 0 6px;
 .rules-explanation .explanation-section .eyebrow { display: none; }
 .rules-done { margin: 0 16px 14px; justify-self: stretch; }
 html:is(.is-keyboard, .is-short) .pl-rules .pl-btn-label { display: none; }
+
+/* ---- square roots with a bar over the radicand (richtext.js) ---- */
+.sqrt { position: relative; display: inline-block; padding-left: .66em; white-space: nowrap; }
+.sqrt-body { display: block; padding: 0 .12em 0 .04em; border-top: .085em solid currentColor; }
+.sqrt-sign { position: absolute; left: 0; top: 0; bottom: -.12em; width: .68em; }
+.sqrt-sign svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.sqrt-sign path { stroke-width: max(1.4px, .075em); vector-effect: non-scaling-stroke; }

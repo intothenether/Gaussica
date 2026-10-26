@@ -7,7 +7,8 @@
   "duration": "7 min",
   "prerequisites": [
     "diagram",
-    "brak-del"
+    "brak-del",
+    "begrepp-sannolikhet"
   ],
   "summary": "Slump betyder att vi inte kan veta på förhand vad som händer. Chansen kan ändå beskrivas med tal, till exempel 1 av 6.",
   "explanationTitle": "Chans är önskade utfall av alla utfall",

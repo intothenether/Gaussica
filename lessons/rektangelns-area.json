@@ -21,7 +21,7 @@
     "grid": true,
     "title": "24 rutor à 1 cm²"
   },
-  "rule": "A = längd · bredd",
+  "rule": "Area = längd · bredd",
   "ruleLabel": "REKTANGELNS AREA",
   "example": "10 m · 3 m = 30 m². Area skrivs i kvadratenheter, omkrets i vanliga längdenheter.",
   "practice": [

@@ -25,7 +25,7 @@
   "summary": "En kvadrat har fyra lika långa sidor. Omkretsen mäter kanten runt, och arean mäter ytan inuti.",
   "explanationTitle": "Runt och inuti",
   "explanation": "Problemet: Du ska sätta ett staket runt en kvadratisk täppa och lägga gräsmatta på den. Staketet och gräsmattan mäts på olika sätt. Vi behöver skilja på längden runt och ytan inuti. Omkretsen är längden runt hela figuren, och arean är hur stor yta figuren täcker. Först lär du dig båda för kvadraten, där alla sidor är lika långa.",
-  "rule": "O = 4 · sidan och A = sidan · sidan",
+  "rule": "Omkrets = 4 · sidan och area = sidan · sidan",
   "ruleLabel": "KVADRATENS FORMLER",
   "example": "En kvadrat med sidan 3 cm har omkretsen 4 · 3 = 12 cm och arean 3 · 3 = 9 cm².",
   "exercise": {

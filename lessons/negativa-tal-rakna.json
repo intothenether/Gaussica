@@ -7,7 +7,8 @@
   "duration": "8 min",
   "prerequisites": [
     "negativa-tal",
-    "subtraktion"
+    "subtraktion",
+    "begrepp-rakna"
   ],
   "summary": "Plus går åt höger på tallinjen och minus åt vänster, även när du startar under noll.",
   "explanationTitle": "Hur räknar vi med tal under noll?",

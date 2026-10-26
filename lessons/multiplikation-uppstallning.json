@@ -166,7 +166,7 @@
           "expr": "10*t"
         }
       ],
-      "prompt": "Gör en överslagsräkning: avrunda {a} till närmaste tiotal och räkna ut ungefär hur mycket {a} · {b} är.",
+      "prompt": "Gör ett överslag: avrunda {a} till närmaste tiotal och räkna ut ungefär hur mycket {a} · {b} är.",
       "answer": [
         "=r*b"
       ],
@@ -176,7 +176,7 @@
           "answers": [
             "=a*b"
           ],
-          "message": "{a*b} är det exakta svaret. Vid en överslagsräkning använder du det avrundade talet {r}."
+          "message": "{a*b} är det riktiga svaret. Vid ett överslag använder du det avrundade talet {r}."
         }
       ]
     }
@@ -262,7 +262,7 @@
           "answers": [
             "208"
           ],
-          "message": "208 är det exakta svaret. Vid en överslagsräkning räknar du med det avrundade talet: 50 · 4."
+          "message": "208 är det riktiga svaret. Vid ett överslag räknar du med det avrundade talet: 50 · 4."
         },
         {
           "answers": [

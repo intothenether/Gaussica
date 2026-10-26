@@ -11,7 +11,7 @@
   ],
   "summary": "Med uppställning lägger du ihop stora tal en plats i taget, med entalen först.",
   "explanationTitle": "Hur lägger vi ihop stora tal?",
-  "explanation": "Problemet: Med tallinjen och huvudräkning går det bra att räkna 38 + 47. Men hur gör du med 478 + 356? Det blir många steg, och det är lätt att tappa bort sig. Vi behöver en metod som fungerar för tal av vilken storlek som helst. Lösningen heter uppställning. Uppställning är ett sätt att räkna stora tal på papper. Du lägger ihop en plats i taget, från höger till vänster. Steg 1: Skriv talen under varandra så att entalen står under entalen, tiotalen under tiotalen och hundratalen under hundratalen. Steg 2: Lägg ihop entalen. Blir det tio eller mer skriver du entalssiffran under strecket och minns tiotalet. Minnessiffran skriver du som en liten siffra ovanför nästa plats. Steg 3: Lägg ihop tiotalen och minnessiffran. Upprepa tills alla platser är klara. Steg 4: Kolla att svaret är rimligt med en överslagsräkning. Tryck på Nästa steg i bilden nedan och följ med när 478 + 356 räknas ut.",
+  "explanation": "Problemet: Med tallinjen och huvudräkning går det bra att räkna 38 + 47. Men hur gör du med 478 + 356? Det blir många steg, och det är lätt att tappa bort sig. Vi behöver en metod som fungerar för tal av vilken storlek som helst. Lösningen heter uppställning. Uppställning är ett sätt att räkna stora tal på papper. Du lägger ihop en plats i taget, från höger till vänster. Steg 1: Skriv talen under varandra så att entalen står under entalen, tiotalen under tiotalen och hundratalen under hundratalen. Steg 2: Lägg ihop entalen. Blir det tio eller mer skriver du entalssiffran under strecket och minns tiotalet. Minnessiffran skriver du som en liten siffra ovanför nästa plats. Steg 3: Lägg ihop tiotalen och minnessiffran. Upprepa tills alla platser är klara. Steg 4: Kolla att svaret är rimligt med ett överslag. Tryck på Nästa steg i bilden nedan och följ med när 478 + 356 räknas ut.",
   "visual": {
     "type": "uppstallning",
     "op": "+",
@@ -186,7 +186,7 @@
           "expr": "10*t+10*(s+1)"
         }
       ],
-      "prompt": "Gör en överslagsräkning: avrunda {a} och {b} till närmaste tiotal och räkna ut ungefär hur mycket {a} + {b} är.",
+      "prompt": "Gör ett överslag: avrunda {a} och {b} till närmaste tiotal och räkna ut ungefär hur mycket {a} + {b} är.",
       "answer": [
         "=r"
       ],
@@ -196,7 +196,7 @@
           "answers": [
             "=a+b"
           ],
-          "message": "{a+b} är det exakta svaret. Vid en överslagsräkning räknar du med de avrundade talen."
+          "message": "{a+b} är det riktiga svaret. Vid ett överslag räknar du med de avrundade talen."
         }
       ]
     }
@@ -268,7 +268,7 @@
           "answers": [
             "85"
           ],
-          "message": "85 är det exakta svaret. Vid en överslagsräkning räknar du med de avrundade talen 40 och 50."
+          "message": "85 är det riktiga svaret. Vid ett överslag räknar du med de avrundade talen 40 och 50."
         }
       ]
     }
