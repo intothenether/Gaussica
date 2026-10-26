@@ -1,0 +1,326 @@
+{
+  "id": "tabell-lasa",
+  "area": "data",
+  "title": "Läs en tabell",
+  "level": "Ordna och läs av svar · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "addition"
+  ],
+  "summary": "En tabell ordnar svar i rader och kolumner. Rubrikerna berättar vad siffrorna betyder.",
+  "explanationTitle": "Ordna svaren så att du ser dem",
+  "explanation": "Problemet: När många svarar på en fråga blir det rörigt om vi bara skriver upp svaren efter varandra. Hur ser vi snabbt vad flest valde? Vi behöver ordna svaren. Det gör vi i en tabell. En tabell har rader och kolumner, och rubrikerna visar vad varje kolumn betyder. Läs alltid rubrikerna först. Hitta sedan raden du vill veta något om och läs av siffran. När du jämför siffror ser du vilket svar som är störst, och hur stor skillnaden är.",
+  "visual": {
+    "type": "tabell",
+    "title": "Favoritfrukt i klassen",
+    "headers": [
+      "Frukt",
+      "Antal elever"
+    ],
+    "rows": [
+      [
+        "Äpple",
+        "8"
+      ],
+      [
+        "Banan",
+        "6"
+      ],
+      [
+        "Päron",
+        "4"
+      ]
+    ]
+  },
+  "rule": "Läs rubrikerna först. Hitta sedan rätt rad och läs av siffran.",
+  "ruleLabel": "TABELLENS REGEL",
+  "example": "Banan har 6 elever. Äpple har 2 fler än banan, eftersom 8 − 6 = 2.",
+  "practice": [
+    {
+      "id": "antal",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          15
+        ],
+        "b": [
+          2,
+          15
+        ],
+        "c": [
+          2,
+          15
+        ]
+      },
+      "prompt": "I tabellen står hur många elever som valde äpple, banan och päron. Hur många elever är det tillsammans?",
+      "visual": {
+        "type": "tabell",
+        "title": "Favoritfrukt i klassen",
+        "headers": [
+          "Frukt",
+          "Antal elever"
+        ],
+        "rows": [
+          [
+            "Äpple",
+            "{a}"
+          ],
+          [
+            "Banan",
+            "{b}"
+          ],
+          [
+            "Päron",
+            "{c}"
+          ]
+        ]
+      },
+      "answer": [
+        "=a+b+c"
+      ],
+      "correct": "Rätt! {a} + {b} + {c} = {a+b+c} elever tillsammans.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Päron saknas i din summa. Lägg ihop alla tre raderna."
+        }
+      ]
+    },
+    {
+      "id": "skillnad",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          8,
+          20
+        ],
+        "b": [
+          2,
+          7
+        ]
+      },
+      "prompt": "En tabell visar att {a} elever valde äpple och {b} elever valde päron. Hur många fler valde äpple än päron?",
+      "answer": [
+        "=a-b",
+        "{a-b} elever"
+      ],
+      "correct": "Rätt! {a} − {b} = {a-b} elever fler.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Det blir alla tillsammans. Frågan gäller skillnaden, hur många fler."
+        }
+      ]
+    },
+    {
+      "id": "flest",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          10,
+          40
+        ],
+        "b": [
+          10,
+          40
+        ],
+        "c": [
+          10,
+          40
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-b",
+          "min": 1
+        },
+        {
+          "expr": "a-c",
+          "min": 1
+        }
+      ],
+      "prompt": "Klass 3A samlar {a} flaskor, 3B samlar {b} flaskor och 3C samlar {c} flaskor. Hur många flaskor samlade klassen som samlade flest?",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! {a} är störst av talen {a}, {b} och {c}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b",
+            "=c"
+          ],
+          "message": "Jämför alla tre talen. Ett av dem är större än det du svarade."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur många elever valde päron?",
+    "answer": [
+      "4",
+      "4 elever"
+    ],
+    "correct": "Rätt! På raden för päron står 4.",
+    "feedback": [
+      {
+        "answers": [
+          "8"
+        ],
+        "message": "8 är antalet som valde äpple. Hitta raden för päron."
+      },
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "6 är antalet som valde banan. Läs raden för päron."
+      }
+    ],
+    "visual": {
+      "type": "tabell",
+      "title": "Favoritfrukt i klassen",
+      "headers": [
+        "Frukt",
+        "Antal elever"
+      ],
+      "rows": [
+        [
+          "Äpple",
+          "8"
+        ],
+        [
+          "Banan",
+          "6"
+        ],
+        [
+          "Päron",
+          "4"
+        ]
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Hur många elever är det tillsammans i tabellen med frukterna?",
+      "answer": [
+        "18",
+        "18 elever"
+      ],
+      "correct": "Rätt! 8 + 6 + 4 = 18 elever.",
+      "feedback": [
+        {
+          "answers": [
+            "14"
+          ],
+          "message": "14 är äpple och banan, men päron saknas. Lägg ihop alla tre raderna."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är bara äpple. Frågan gäller alla elever."
+        }
+      ],
+      "visual": {
+        "type": "tabell",
+        "title": "Favoritfrukt i klassen",
+        "headers": [
+          "Frukt",
+          "Antal elever"
+        ],
+        "rows": [
+          [
+            "Äpple",
+            "8"
+          ],
+          [
+            "Banan",
+            "6"
+          ],
+          [
+            "Päron",
+            "4"
+          ]
+        ]
+      }
+    },
+    {
+      "prompt": "Hur många fler elever valde äpple än päron?",
+      "answer": [
+        "4",
+        "4 elever"
+      ],
+      "correct": "Rätt! 8 − 4 = 4 elever fler.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 får du om du lägger ihop äpple och päron. Frågan gäller hur många fler som valde äpple, så jämför dem."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är antalet för äpple. Skillnaden får du genom att jämföra med päron."
+        }
+      ],
+      "visual": {
+        "type": "tabell",
+        "title": "Favoritfrukt i klassen",
+        "headers": [
+          "Frukt",
+          "Antal elever"
+        ],
+        "rows": [
+          [
+            "Äpple",
+            "8"
+          ],
+          [
+            "Banan",
+            "6"
+          ],
+          [
+            "Päron",
+            "4"
+          ]
+        ]
+      }
+    },
+    {
+      "prompt": "Tre klasser samlar flaskor. 3A samlar 24 flaskor, 3B samlar 18 flaskor och 3C samlar 31 flaskor. Vilken klass samlade flest? Svara 3A, 3B eller 3C.",
+      "answer": [
+        "3C"
+      ],
+      "correct": "Rätt! 31 är störst, så 3C samlade flest.",
+      "feedback": [
+        {
+          "answers": [
+            "31"
+          ],
+          "message": "31 är antalet flaskor. Frågan gäller vilken klass, så svara med klassens namn."
+        },
+        {
+          "answers": [
+            "3A",
+            "3B"
+          ],
+          "message": "Jämför antalen: 24, 18 och 31. Vilket är störst?"
+        }
+      ]
+    }
+  ]
+}

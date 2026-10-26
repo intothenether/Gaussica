@@ -70,6 +70,50 @@
         { "answers": ["35"], "message": "Du räknade (4 + 3) · 5 = 7 · 5 = 35. Men eleven börjar med 4 böcker (inte 4 + 3). Rätt: 3 · 5 = 15 nya, sedan 4 + 15 = 19 totalt." },
         { "answers": ["12"], "message": "Du räknade bara köpet (3 · 5 = 15) eller något annat. Eleven hade redan 4 böcker. Totalt: 4 + 15 = 19." }
       ]
+    },
+    {
+      "prompt": "Elin har 50 kr. Hon köper 3 glassar för 12 kr styck. Hur många kronor har hon kvar?",
+      "answer": [
+        "14",
+        "14 kr"
+      ],
+      "correct": "Ja! Glassarna kostar 3 · 12 = 36 kr. Sedan är 50 − 36 = 14 kr kvar.",
+      "feedback": [
+        {
+          "answers": [
+            "564"
+          ],
+          "message": "Du räknade 50 − 3 först. Multiplikation går före minus: räkna först 3 · 12 = 36 och ta sedan bort det från 50."
+        },
+        {
+          "answers": [
+            "36"
+          ],
+          "message": "36 kr är vad glassarna kostar. Frågan gäller pengarna som är kvar."
+        }
+      ]
+    },
+    {
+      "prompt": "Före en match är det 10 minuters uppvärmning. Sedan spelas 2 halvlekar på 25 minuter var. Hur många minuter tar allt tillsammans?",
+      "answer": [
+        "60",
+        "60 minuter"
+      ],
+      "correct": "Ja! 10 + 2 · 25 = 10 + 50 = 60 minuter.",
+      "feedback": [
+        {
+          "answers": [
+            "300"
+          ],
+          "message": "Du räknade (10 + 2) · 25. Halvlekarna är 2 · 25 = 50 minuter, och uppvärmningen läggs till: 10 + 50."
+        },
+        {
+          "answers": [
+            "35"
+          ],
+          "message": "35 får du om du lägger ihop 10 och 25. Det är 2 halvlekar, så räkna 2 · 25 först."
+        }
+      ]
     }
   ],
   "problemPatterns": [

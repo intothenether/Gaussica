@@ -1,0 +1,261 @@
+{
+  "id": "monster-fortsatt",
+  "area": "algebra",
+  "title": "Mönster: vad kommer sen?",
+  "level": "Se och fortsätt mönster · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "addition"
+  ],
+  "summary": "Ett mönster följer en regel. När du hittar regeln kan du säga vad som kommer härnäst.",
+  "explanationTitle": "Hitta regeln och fortsätt",
+  "explanation": "Problemet: Ibland ser vi att något upprepas eller växer på ett regelbundet sätt, men hur vet vi vad som kommer härnäst? Om vi bara gissar blir det fel ofta. Vi behöver hitta regeln. Ett mönster är något som följer en regel. Regeln kan vara att samma saker upprepas, som röd, blå, röd, blå. Den kan också vara att talen ändras lika mycket varje gång, som 2, 4, 6, 8. Titta på hur det ändras från ett steg till nästa. Använd sedan samma ändring en gång till, så får du nästa steg.",
+  "visual": {
+    "type": "tallinje",
+    "title": "3, 6, 9, 12: det blir 3 mer varje gång",
+    "min": 0,
+    "max": 18,
+    "step": 1,
+    "labelEvery": 3,
+    "points": [
+      {
+        "value": 3
+      },
+      {
+        "value": 6
+      },
+      {
+        "value": 9
+      },
+      {
+        "value": 12
+      },
+      {
+        "value": 15,
+        "label": "?"
+      }
+    ],
+    "jumps": [
+      {
+        "from": 3,
+        "to": 6,
+        "label": "+3"
+      },
+      {
+        "from": 6,
+        "to": 9,
+        "label": "+3"
+      },
+      {
+        "from": 9,
+        "to": 12,
+        "label": "+3"
+      },
+      {
+        "from": 12,
+        "to": 15,
+        "label": "+3"
+      }
+    ]
+  },
+  "rule": "Hitta ändringen från ett steg till nästa, och använd den en gång till.",
+  "ruleLabel": "MÖNSTRETS REGEL",
+  "example": "Talen 3, 6, 9, 12 ökar med 3 varje gång. Nästa tal är 12 + 3 = 15.",
+  "practice": [
+    {
+      "id": "nasta-tal",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          20
+        ],
+        "d": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Talen går {a}, {a+d}, {a+2*d}, {a+3*d}. Vilket tal kommer sen?",
+      "answer": [
+        "=a+4*d"
+      ],
+      "correct": "Rätt! Talen ökar med {d} varje gång, och {a+3*d} + {d} = {a+4*d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+3*d"
+          ],
+          "message": "Det är det sista talet som redan står där. Lägg till {d} en gång till."
+        },
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "{d} är hur mycket talen ökar. Frågan gäller nästa tal i raden."
+        }
+      ]
+    },
+    {
+      "id": "minskar",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          30,
+          60
+        ],
+        "d": [
+          2,
+          7
+        ]
+      },
+      "prompt": "Talen går {a}, {a-d}, {a-2*d}, {a-3*d}. Vilket tal kommer sen?",
+      "answer": [
+        "=a-4*d"
+      ],
+      "correct": "Rätt! Talen minskar med {d} varje gång, och {a-3*d} − {d} = {a-4*d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a-3*d+d"
+          ],
+          "message": "Talen blir mindre och mindre. Dra bort {d}, lägg inte till."
+        },
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "{d} är hur mycket talen minskar. Frågan gäller nästa tal."
+        }
+      ]
+    },
+    {
+      "id": "sparar",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          5,
+          20
+        ],
+        "d": [
+          5,
+          15
+        ]
+      },
+      "prompt": "Första veckan sparar Eli {a} kr. Varje vecka sparar hon {d} kr mer än veckan före. Hur mycket sparar hon vecka 3?",
+      "answer": [
+        "=a+2*d",
+        "{a+2*d} kr"
+      ],
+      "correct": "Rätt! Vecka 2 är {a+d} kr och vecka 3 är {a+2*d} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+d"
+          ],
+          "message": "Det är vecka 2. Lägg till {d} kr en gång till för vecka 3."
+        },
+        {
+          "answers": [
+            "=3*d"
+          ],
+          "message": "Hon sparar mer varje vecka, men börjar på {a} kr."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Talen går 5, 10, 15, 20. Vilket tal kommer sen?",
+    "answer": [
+      "25"
+    ],
+    "correct": "Rätt! Talen ökar med 5 varje gång, och 20 + 5 = 25.",
+    "feedback": [
+      {
+        "answers": [
+          "21"
+        ],
+        "message": "Titta på hur mycket talen ökar: 5 mer varje gång, inte 1 mer."
+      },
+      {
+        "answers": [
+          "30"
+        ],
+        "message": "30 hoppar över ett tal. Lägg bara till 5 en gång på 20."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ali sparar pengar. Första veckan sparar han 10 kr, andra veckan 20 kr och tredje veckan 30 kr. Om mönstret fortsätter, hur mycket sparar han fjärde veckan?",
+      "answer": [
+        "40",
+        "40 kr"
+      ],
+      "correct": "Rätt! Det blir 10 kr mer varje vecka, så 30 + 10 = 40 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är veckans nummer. Frågan gäller hur många kronor han sparar den veckan."
+        },
+        {
+          "answers": [
+            "35"
+          ],
+          "message": "Det ökar med 10 kr varje gång, inte med 5."
+        }
+      ]
+    },
+    {
+      "prompt": "En pärlkedja har pärlorna röd, blå, gul, röd, blå, gul och så vidare. Vilken färg har pärla nummer 7?",
+      "answer": [
+        "röd",
+        "röd pärla"
+      ],
+      "correct": "Rätt! Mönstret är tre pärlor långt, och pärla 7 är den första i nästa varv: röd.",
+      "feedback": [
+        {
+          "answers": [
+            "blå"
+          ],
+          "message": "Mönstret upprepas var tredje pärla. Pärla 7 är första pärlan i det tredje varvet, alltså samma färg som pärla 1."
+        },
+        {
+          "answers": [
+            "gul"
+          ],
+          "message": "Gul är pärla 3 och 6. Pärla 7 börjar ett nytt varv."
+        }
+      ]
+    },
+    {
+      "prompt": "Talen i ett mönster är 20, 17, 14, 11. Vilket tal kommer sen?",
+      "answer": [
+        "8"
+      ],
+      "correct": "Rätt! Talen minskar med 3 varje gång, och 11 − 3 = 8.",
+      "feedback": [
+        {
+          "answers": [
+            "14"
+          ],
+          "message": "14 kom tidigare i mönstret. Fortsätt åt samma håll: talen minskar med 3 varje gång."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "Talen minskar med 3, inte med 1. 11 − 3 blir något annat."
+        }
+      ]
+    }
+  ]
+}

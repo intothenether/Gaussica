@@ -1,0 +1,304 @@
+{
+  "id": "linjediagram",
+  "area": "data",
+  "title": "Linjediagram: förändring över tid",
+  "level": "Se hur något förändras · ungefär åk 5",
+  "grade": 5,
+  "duration": "7 min",
+  "prerequisites": [
+    "diagram"
+  ],
+  "summary": "Ett linjediagram visar hur något förändras över tid. Stiger linjen ökar värdet, sjunker den minskar det.",
+  "explanationTitle": "Följ linjen över tid",
+  "explanation": "Problemet: Vi mäter temperaturen varje dag. Hur ser vi om det blir varmare eller kallare, och hur snabbt det går? En tabell ger många siffror att jämföra, och det är svårt att se ändringen. Vi behöver en bild som visar förändringen. Det är ett linjediagram. Tiden ligger på den vågräta axeln och det vi mäter på den lodräta. Varje mätning blir en prick, och pricken läser du av genom att gå rakt upp från dagen och sedan åt sidan till skalan. Prickarna binds ihop med en linje, och det är linjen som visar förändringen. Bilden här visar bara prickarna. Stiger linjen ökar värdet. Sjunker linjen minskar det. En vågrät linje betyder att ingenting ändras.",
+  "visual": {
+    "type": "graf",
+    "title": "Temperatur (°C) varje dag: prickarna är mätningarna",
+    "xmin": 0,
+    "xmax": 6,
+    "ymin": 0,
+    "ymax": 12,
+    "points": [
+      {
+        "x": 1,
+        "y": 4
+      },
+      {
+        "x": 2,
+        "y": 6
+      },
+      {
+        "x": 3,
+        "y": 8
+      },
+      {
+        "x": 4,
+        "y": 8
+      },
+      {
+        "x": 5,
+        "y": 5
+      }
+    ]
+  },
+  "rule": "Uppåt betyder att värdet ökar. Nedåt betyder att det minskar. Vågrätt betyder att det är oförändrat.",
+  "ruleLabel": "LINJEDIAGRAMMETS REGEL",
+  "example": "Dag 3 var det 8 grader och dag 4 var det också 8 grader. Linjen är vågrät mellan dag 3 och 4: temperaturen ändrades inte.",
+  "practice": [
+    {
+      "id": "okning",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          10,
+          30
+        ],
+        "d": [
+          2,
+          9
+        ]
+      },
+      "prompt": "En växt är {a} cm hög första veckan och {a+d} cm hög andra veckan. Hur många centimeter växte den?",
+      "answer": [
+        "=d",
+        "{d} cm"
+      ],
+      "correct": "Rätt! {a+d} − {a} = {d} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+d"
+          ],
+          "message": "{a+d} cm är höjden andra veckan. Frågan gäller hur mycket den växte."
+        },
+        {
+          "answers": [
+            "=2*a+d"
+          ],
+          "message": "Det blir höjderna lagda ihop. Jämför dem i stället."
+        }
+      ]
+    },
+    {
+      "id": "avlasning",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "d": [
+          1,
+          4
+        ],
+        "e": [
+          1,
+          4
+        ]
+      },
+      "derive": [
+        {
+          "name": "b",
+          "expr": "a+d"
+        },
+        {
+          "name": "c",
+          "expr": "a+d+e"
+        }
+      ],
+      "prompt": "Temperaturen var {a} grader dag 1, {b} grader dag 2 och {c} grader dag 3. Hur många grader var det dag 2?",
+      "answer": [
+        "=b",
+        "{b} grader"
+      ],
+      "correct": "Rätt! Dag 2 var det {b} grader.",
+      "feedback": [
+        {
+          "answers": [
+            "=a",
+            "=c"
+          ],
+          "message": "Läs av rätt dag. Dag 2 är den andra mätningen."
+        }
+      ]
+    },
+    {
+      "id": "skillnad",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          4,
+          12
+        ],
+        "d": [
+          2,
+          8
+        ]
+      },
+      "prompt": "Temperaturen var {a} grader dag 1 och {a+d} grader dag 3. Hur många grader varmare var det dag 3?",
+      "answer": [
+        "=d",
+        "{d} grader"
+      ],
+      "correct": "Rätt! {a+d} − {a} = {d} grader.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*a+d"
+          ],
+          "message": "Frågan gäller hur mycket varmare det blev, inte temperaturerna lagda ihop."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "I diagrammet: vilken temperatur var det dag 3?",
+    "answer": [
+      "8",
+      "8 grader",
+      "8°C"
+    ],
+    "correct": "Rätt! Prickarna för dag 3 ligger vid 8 på den lodräta skalan.",
+    "feedback": [
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "3 är dagen. Temperaturen läser du av på den lodräta axeln."
+      },
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "6 grader var det dag 2. Gå till dag 3 och läs av."
+      }
+    ],
+    "visual": {
+      "type": "graf",
+      "title": "Temperatur (°C) varje dag: prickarna är mätningarna",
+      "xmin": 0,
+      "xmax": 6,
+      "ymin": 0,
+      "ymax": 12,
+      "points": [
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 6
+        },
+        {
+          "x": 3,
+          "y": 8
+        },
+        {
+          "x": 4,
+          "y": 8
+        },
+        {
+          "x": 5,
+          "y": 5
+        }
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "I diagrammet var temperaturen 4 grader dag 1 och 8 grader dag 3. Hur många grader varmare var det dag 3?",
+      "answer": [
+        "4",
+        "4 grader"
+      ],
+      "correct": "Rätt! 8 − 4 = 4 grader varmare.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 får du om du lägger ihop temperaturerna. Frågan gäller hur mycket varmare det blev."
+        },
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "2 är antalet dagar mellan dem. Frågan gäller grader."
+        }
+      ],
+      "visual": {
+        "type": "graf",
+        "title": "Temperatur (°C) varje dag: prickarna är mätningarna",
+        "xmin": 0,
+        "xmax": 6,
+        "ymin": 0,
+        "ymax": 12,
+        "points": [
+          {
+            "x": 1,
+            "y": 4
+          },
+          {
+            "x": 2,
+            "y": 6
+          },
+          {
+            "x": 3,
+            "y": 8
+          },
+          {
+            "x": 4,
+            "y": 8
+          },
+          {
+            "x": 5,
+            "y": 5
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Ett linjediagram går först uppåt och sedan nedåt. Betyder det att värdet först ökade och sedan minskade? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! Uppåt betyder ökning och nedåt betyder minskning.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Linjen går uppåt först. Uppåt betyder att värdet ökar."
+        }
+      ]
+    },
+    {
+      "prompt": "Elsa mäter sin längd: 120 cm vid 8 år, 126 cm vid 9 år och 131 cm vid 10 år. Hur många centimeter växte hon mellan 9 och 10 år?",
+      "answer": [
+        "5",
+        "5 cm"
+      ],
+      "correct": "Rätt! 131 − 126 = 5 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "11"
+          ],
+          "message": "11 är ökningen mellan 8 och 10 år (131 − 120). Frågan gäller mellan 9 och 10 år."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 cm växte hon mellan 8 och 9 år. Frågan gäller nästa år."
+        }
+      ]
+    }
+  ]
+}

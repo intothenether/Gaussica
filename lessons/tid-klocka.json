@@ -95,6 +95,22 @@
         { "answers": ["85"], "message": "85 behandlar klockslagen som vanliga heltal. Räkna minuterna från 16:15 fram till nästa hela timme." },
         { "answers": ["15"], "message": "15 är minuterna efter hel timme som träningen börjar. Räkna hur många minuter som återstår av timmen." }
       ]
+    },
+    {
+      "prompt": "Bussen går 14:25 och resan tar 35 minuter. När kommer bussen fram? Svara HH:MM.",
+      "answer": [
+        "15:00",
+        "15.00"
+      ],
+      "correct": "Ja! 14:25 plus 35 minuter är 15:00.",
+      "feedback": [
+        {
+          "answers": [
+            "14:60"
+          ],
+          "message": "Det finns inga 60 minuter på klockan. 60 minuter är en hel timme, så det blir nästa heltimme."
+        }
+      ]
     }
   ]
 }

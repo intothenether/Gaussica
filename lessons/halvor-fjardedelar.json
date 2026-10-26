@@ -1,0 +1,234 @@
+{
+  "id": "halvor-fjardedelar",
+  "area": "tal",
+  "title": "Halvor, tredjedelar och fjärdedelar",
+  "level": "Dela en helhet i lika delar · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "division"
+  ],
+  "summary": "Delar vi något i lika stora delar får varje del ett namn: en halv, en tredjedel, en fjärdedel.",
+  "explanationTitle": "Rättvisa delar",
+  "explanation": "Problemet: Två barn ska dela en pizza rättvist. Hur delar de den så att båda får lika mycket, och hur säger vi hur mycket var och en fick? Vi behöver ord för delar av en helhet. Delar vi något i två lika stora delar är varje del en halv. Delar vi i tre lika stora delar är varje del en tredjedel, och i fyra lika stora delar en fjärdedel. Delarna måste vara lika stora, annars har namnet ingen betydelse. Vi skriver en halv som 1/2: helheten är delad i 2 delar och vi tar 1 av dem. Hälften av en mängd får du genom att dela mängden lika i två grupper. Hälften av 8 äpplen är 4 äpplen.",
+  "visual": {
+    "type": "tabell",
+    "title": "Delar av en helhet",
+    "headers": [
+      "Delad i",
+      "Varje del heter",
+      "Skrivs"
+    ],
+    "rows": [
+      [
+        "2 lika delar",
+        "en halv",
+        "1/2"
+      ],
+      [
+        "3 lika delar",
+        "en tredjedel",
+        "1/3"
+      ],
+      [
+        "4 lika delar",
+        "en fjärdedel",
+        "1/4"
+      ]
+    ]
+  },
+  "rule": "Delarna måste vara lika stora. 1/2 betyder 1 av 2 lika delar.",
+  "ruleLabel": "DELAR AV EN HELHET",
+  "example": "En pizza delas i 4 lika stora bitar. En bit är en fjärdedel, 1/4. Hälften av 8 äpplen är 4 äpplen.",
+  "practice": [
+    {
+      "id": "halften",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "q": [
+          1,
+          25
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "2*q"
+        }
+      ],
+      "prompt": "Vad är hälften av {n}?",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {n} delat lika i två grupper är {q} i varje.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*2"
+          ],
+          "message": "Hälften är mindre än {n}. Dela {n} lika i två grupper."
+        },
+        {
+          "answers": [
+            "=q+1",
+            "=q-1"
+          ],
+          "message": "Kontrollera med dubbling: dubbla {q} och se om du får {n}."
+        }
+      ]
+    },
+    {
+      "id": "fjardedel",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "q": [
+          2,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "4*q"
+        }
+      ],
+      "prompt": "Vad är en fjärdedel av {n}?",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! Dela {n} lika i fyra grupper, så blir det {q} i varje.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*q"
+          ],
+          "message": "{2*q} är hälften av {n}. En fjärdedel är hälften av hälften."
+        },
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "{n} är hela mängden. En fjärdedel är en del av den."
+        }
+      ]
+    },
+    {
+      "id": "bitar",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          2,
+          6
+        ]
+      },
+      "prompt": "En kaka delas i {2*k} lika stora bitar. Hur många bitar är hälften av kakan?",
+      "answer": [
+        "=k",
+        "{k} bitar"
+      ],
+      "correct": "Rätt! Hälften av {2*k} bitar är {k} bitar.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*k"
+          ],
+          "message": "{2*k} bitar är hela kakan. Hälften är hälften så många."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad är hälften av 10?",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! Delar du 10 lika i två grupper blir det 5 i varje.",
+    "feedback": [
+      {
+        "answers": [
+          "20"
+        ],
+        "message": "Hälften är mindre än hela mängden. Dela 10 lika i två grupper."
+      },
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "Dela 10 lika i 2 grupper. Hur många blir det i varje grupp?"
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En kaka delas i 4 lika stora bitar. Hur många bitar behöver du för att få en hälften av kakan?",
+      "answer": [
+        "2",
+        "2 bitar"
+      ],
+      "correct": "Rätt! Två fjärdedelar är lika mycket som en hälften.",
+      "feedback": [
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "En bit är en fjärdedel. En hälften är större än så."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 bitar är hela kakan."
+        }
+      ]
+    },
+    {
+      "prompt": "Tre barn delar en pizza i tre lika stora delar. Vilket bråk visar en del? Skriv med bråkstreck.",
+      "answer": [
+        "1/3"
+      ],
+      "correct": "Rätt! Pizzan är delad i 3 lika delar, och en del är 1/3.",
+      "feedback": [
+        {
+          "answers": [
+            "3/1"
+          ],
+          "message": "Du har vänt på talen. Antalet delar (3) står nederst och delen du tar (1) står överst."
+        },
+        {
+          "answers": [
+            "1/2"
+          ],
+          "message": "Pizzan är delad i tre delar, inte två. Skriv 3 nederst."
+        }
+      ]
+    },
+    {
+      "prompt": "Hälften av en klass på 24 elever går på simning. Hur många elever är det?",
+      "answer": [
+        "12",
+        "12 elever"
+      ],
+      "correct": "Rätt! Hälften av 24 är 12.",
+      "feedback": [
+        {
+          "answers": [
+            "48"
+          ],
+          "message": "48 får du om du dubblar. Hälften betyder att du delar lika i två."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är en fjärdedel av 24. Hälften är större."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "id": "mata-langd",
+  "area": "matning",
+  "title": "Mäta längd: centimeter och meter",
+  "level": "Mät med linjal och måttband · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "storre-mindre"
+  ],
+  "summary": "Längd mäter vi i centimeter och meter. 1 meter är 100 centimeter.",
+  "explanationTitle": "Mät med samma enhet som alla andra",
+  "explanation": "Problemet: Hur lång är ett bord? Mäter du med handbredder får du ett svar, och någon annan med större händer får ett annat. Vi behöver en enhet som är lika för alla. Då kan vi jämföra längder och förstå varandra. Små saker mäter vi i centimeter, förkortat cm. Längre saker mäter vi i meter, förkortat m. 1 meter är 100 centimeter. När du mäter med linjal lägger du 0 mot början av det du mäter och läser av där det slutar. Räkna från 0, inte från 1.",
+  "visual": {
+    "type": "tallinje",
+    "title": "En penna mäts med linjal: den slutar vid 14",
+    "min": 0,
+    "max": 16,
+    "step": 1,
+    "labelEvery": 2,
+    "points": [
+      {
+        "value": 0,
+        "label": "start"
+      },
+      {
+        "value": 14,
+        "label": "slut"
+      }
+    ],
+    "range": {
+      "from": 0,
+      "to": 14
+    }
+  },
+  "rule": "1 m är 100 cm. Börja mäta vid 0 på linjalen.",
+  "ruleLabel": "MÄTA LÄNGD",
+  "example": "En penna börjar vid 0 och slutar vid 14 på linjalen, så den är 14 cm lång. En dörr är ungefär 2 m, alltså 200 cm.",
+  "practice": [
+    {
+      "id": "cm-av-m",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "m": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Hur många centimeter är {m} meter?",
+      "answer": [
+        "=m*100",
+        "{m*100} cm"
+      ],
+      "correct": "Rätt! 1 m är 100 cm, så {m} m är {m*100} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=m*10"
+          ],
+          "message": "1 meter är 100 centimeter, inte 10."
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är antalet meter. Frågan gäller centimeter."
+        }
+      ]
+    },
+    {
+      "id": "kvar",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          20,
+          90,
+          5
+        ]
+      },
+      "prompt": "Ett snöre är 1 m långt. Du klipper av {a} cm. Hur många centimeter är kvar?",
+      "answer": [
+        "=100-a",
+        "{100-a} cm"
+      ],
+      "correct": "Rätt! 1 m är 100 cm, och 100 − {a} = {100-a} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} cm är det du klippte av. Frågan gäller hur mycket som är kvar."
+        },
+        {
+          "answers": [
+            "=100+a"
+          ],
+          "message": "Snöret blir kortare när du klipper. Dra bort {a} från 100."
+        }
+      ]
+    },
+    {
+      "id": "langre",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          110,
+          150
+        ],
+        "d": [
+          3,
+          30
+        ]
+      },
+      "prompt": "Eva är {a} cm lång och Pär är {a+d} cm lång. Hur många centimeter längre är Pär?",
+      "answer": [
+        "=d",
+        "{d} cm"
+      ],
+      "correct": "Rätt! {a+d} − {a} = {d} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*a+d"
+          ],
+          "message": "Det blir längderna lagda ihop. Frågan gäller hur mycket längre Pär är."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur många centimeter är 3 meter?",
+    "answer": [
+      "300",
+      "300 cm"
+    ],
+    "correct": "Rätt! 1 m är 100 cm, så 3 m är 300 cm.",
+    "feedback": [
+      {
+        "answers": [
+          "30"
+        ],
+        "message": "Det blir mer än så. 1 meter är 100 centimeter, inte 10."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "3 är antalet meter. Frågan är hur många centimeter det är."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Lisa är 135 cm lång och Omar är 142 cm lång. Hur många centimeter längre är Omar?",
+      "answer": [
+        "7",
+        "7 cm"
+      ],
+      "correct": "Rätt! 142 − 135 = 7 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "277"
+          ],
+          "message": "277 får du om du lägger ihop längderna. Frågan gäller hur mycket längre Omar är."
+        },
+        {
+          "answers": [
+            "107"
+          ],
+          "message": "Kontrollera uträkningen en gång till: jämför 142 och 135 steg för steg."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett snöre är 1 m långt. Du klipper av 35 cm. Hur många centimeter är kvar?",
+      "answer": [
+        "65",
+        "65 cm"
+      ],
+      "correct": "Rätt! 1 m är 100 cm, och 100 − 35 = 65 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "35"
+          ],
+          "message": "35 cm är det du klippte av. Frågan gäller hur mycket som är kvar."
+        },
+        {
+          "answers": [
+            "135"
+          ],
+          "message": "Du klipper bort en bit, så snöret blir kortare. Dra bort 35 från 100."
+        }
+      ]
+    },
+    {
+      "prompt": "En bänk är 2 m och 50 cm lång. Hur många centimeter är det?",
+      "answer": [
+        "250",
+        "250 cm"
+      ],
+      "correct": "Rätt! 2 m är 200 cm, och 200 + 50 = 250 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "52"
+          ],
+          "message": "52 får du om du skriver siffrorna efter varandra. 2 m är 200 cm, och sedan lägger du till 50 cm."
+        },
+        {
+          "answers": [
+            "205"
+          ],
+          "message": "Kolla platsen för 50: 50 cm är fem tiotal. 200 + 50 blir något annat än 205."
+        }
+      ]
+    }
+  ]
+}

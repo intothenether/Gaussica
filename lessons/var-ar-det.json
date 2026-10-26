@@ -1,0 +1,315 @@
+{
+  "id": "var-ar-det",
+  "area": "geometri",
+  "title": "Var är det? Rutnät och riktningar",
+  "level": "Beskriv en plats exakt · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "geometriska-figurer"
+  ],
+  "summary": "I ett rutnät får varje ruta ett namn. Med rad och kolumn kan du säga exakt var något finns.",
+  "explanationTitle": "Ge varje plats ett namn",
+  "explanation": "Problemet: Hur beskriver du var något finns så att någon annan hittar det? Säger du bara där borta vet ingen vart du menar. Vi behöver ett sätt att ange en plats exakt. På en karta delar vi in marken i ett rutnät. Raderna får bokstäver och kolumnerna får siffror. Varje ruta får då ett namn, till exempel B3. Du läser först bokstaven, sedan siffran. När du ska flytta dig hjälper riktningsorden: åt höger, åt vänster, uppåt och nedåt. Att gå åt höger ändrar siffran. Att gå nedåt ändrar bokstaven.",
+  "visual": {
+    "type": "tabell",
+    "title": "En karta i ett rutnät",
+    "headers": [
+      "",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "rows": [
+      [
+        "A",
+        "",
+        "skola",
+        "",
+        ""
+      ],
+      [
+        "B",
+        "park",
+        "",
+        "",
+        "affär"
+      ],
+      [
+        "C",
+        "",
+        "",
+        "hus",
+        ""
+      ]
+    ]
+  },
+  "rule": "En ruta namnges med rad och kolumn, till exempel B3: först bokstaven, sedan siffran.",
+  "ruleLabel": "RUTNÄTETS NAMN",
+  "example": "Skolan finns i rad A, kolumn 2, alltså ruta A2. Går du 2 steg åt höger från A2 kommer du till A4.",
+  "practice": [
+    {
+      "id": "namn",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "rad": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      "vars": {
+        "c": [
+          1,
+          5
+        ]
+      },
+      "prompt": "En ruta ligger i rad {$rad} och kolumn {c}. Vad heter rutan? Skriv bokstaven först.",
+      "answer": [
+        "{$rad}{c}"
+      ],
+      "correct": "Rätt! Rad {$rad} och kolumn {c} är ruta {$rad}{c}.",
+      "feedback": [
+        {
+          "answers": [
+            "{c}{$rad}"
+          ],
+          "message": "Bokstaven kommer först, sedan siffran."
+        }
+      ]
+    },
+    {
+      "id": "steg",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "rad": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "vars": {
+        "a": [
+          1,
+          3
+        ],
+        "d": [
+          1,
+          3
+        ]
+      },
+      "prompt": "Du står i ruta {$rad}{a} och går {d} steg åt höger. Vilken ruta hamnar du i?",
+      "answer": [
+        "{$rad}{a+d}"
+      ],
+      "correct": "Rätt! Åt höger ändras siffran: {a} + {d} = {a+d}, så du hamnar i {$rad}{a+d}.",
+      "feedback": [
+        {
+          "answers": [
+            "{$rad}{a}"
+          ],
+          "message": "Då har du inte flyttat dig. Gå {d} steg åt höger och räkna med."
+        }
+      ]
+    },
+    {
+      "id": "hur-langt",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "rad": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "vars": {
+        "a": [
+          1,
+          3
+        ],
+        "d": [
+          2,
+          4
+        ]
+      },
+      "prompt": "Hur många steg åt höger går du från {$rad}{a} till {$rad}{a+d}?",
+      "answer": [
+        "=d",
+        "{d} steg"
+      ],
+      "correct": "Rätt! Från {a} till {a+d} är det {d} steg.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+d"
+          ],
+          "message": "Räkna stegen mellan rutorna, inte numret på sista rutan."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vilken ruta finns affären i? Skriv bokstaven först, sedan siffran.",
+    "answer": [
+      "B4"
+    ],
+    "correct": "Rätt! Affären står i rad B och kolumn 4, alltså B4.",
+    "feedback": [
+      {
+        "answers": [
+          "4B",
+          "4 B"
+        ],
+        "message": "Bokstaven kommer först: rad B, sedan kolumn 4."
+      },
+      {
+        "answers": [
+          "B3"
+        ],
+        "message": "Titta på siffran högst upp i tabellen. Affären står i kolumn 4, inte 3."
+      }
+    ],
+    "visual": {
+      "type": "tabell",
+      "title": "En karta i ett rutnät",
+      "headers": [
+        "",
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "rows": [
+        [
+          "A",
+          "",
+          "skola",
+          "",
+          ""
+        ],
+        [
+          "B",
+          "park",
+          "",
+          "",
+          "affär"
+        ],
+        [
+          "C",
+          "",
+          "",
+          "hus",
+          ""
+        ]
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du står vid skolan i ruta A2 på kartan. Du går 2 steg åt höger. I vilken ruta hamnar du?",
+      "answer": [
+        "A4"
+      ],
+      "correct": "Rätt! Åt höger ändras siffran: 2 + 2 = 4, och raden är kvar. Du hamnar i A4.",
+      "feedback": [
+        {
+          "answers": [
+            "A3"
+          ],
+          "message": "Du ska gå 2 steg, inte 1. Räkna: A3 är steg ett, sedan A4."
+        },
+        {
+          "answers": [
+            "C2"
+          ],
+          "message": "Åt höger ändrar siffran, inte bokstaven. Bokstaven ändras när du går uppåt eller nedåt."
+        }
+      ],
+      "visual": {
+        "type": "tabell",
+        "title": "En karta i ett rutnät",
+        "headers": [
+          "",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "rows": [
+          [
+            "A",
+            "",
+            "skola",
+            "",
+            ""
+          ],
+          [
+            "B",
+            "park",
+            "",
+            "",
+            "affär"
+          ],
+          [
+            "C",
+            "",
+            "",
+            "hus",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "prompt": "En skattkarta har rader A till D uppifrån och ned, och kolumner 1 till 5 från vänster. Skatten ligger 3 rutor åt höger om A1, på samma rad. Vilken ruta är det?",
+      "answer": [
+        "A4"
+      ],
+      "correct": "Rätt! Från kolumn 1 går du 3 steg åt höger: 2, 3, 4. Skatten finns i A4.",
+      "feedback": [
+        {
+          "answers": [
+            "A3"
+          ],
+          "message": "Räkna tre steg från 1: det blir 2, 3 och sedan 4."
+        },
+        {
+          "answers": [
+            "D1"
+          ],
+          "message": "Åt höger ändrar kolumnen (siffran). D är en rad längre ned."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många steg åt höger går du från B1 till B4?",
+      "answer": [
+        "3",
+        "3 steg"
+      ],
+      "correct": "Rätt! B1 till B2 är ett steg, sedan B3 och B4: tre steg.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "Räkna stegen mellan rutorna, inte rutorna. B1 till B2 är ett steg."
+        },
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "Du har räknat för många. Stegen är från B1 till B2, B2 till B3 och B3 till B4."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "id": "trianglar-typer",
+  "area": "geometri",
+  "title": "Olika sorters trianglar",
+  "level": "Sidor och vinklar bestämmer namnet · ungefär åk 5",
+  "grade": 5,
+  "duration": "7 min",
+  "prerequisites": [
+    "vinklar",
+    "geometriska-figurer"
+  ],
+  "summary": "Trianglar får namn efter sina sidor och sina vinklar: liksidig, likbent och rätvinklig.",
+  "explanationTitle": "Namnet berättar hur triangeln ser ut",
+  "explanation": "Problemet: Alla trianglar har tre sidor och tre hörn, men de ser inte lika ut. Hur beskriver vi skillnaden så att någon annan kan rita samma triangel? Vi tittar på sidorna och på vinklarna. En liksidig triangel har tre lika långa sidor. En likbent triangel har två lika långa sidor. En rätvinklig triangel har en vinkel som är en rät vinkel, 90°. En triangel kan ha flera egenskaper samtidigt: den kan vara både rätvinklig och likbent. När du ska namnge en triangel mäter du först sidorna och kollar sedan vinklarna.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tre sorters trianglar",
+    "headers": [
+      "Namn",
+      "Sidor",
+      "Vinklar"
+    ],
+    "rows": [
+      [
+        "Liksidig",
+        "alla tre sidor lika långa",
+        "alla vinklar lika stora"
+      ],
+      [
+        "Likbent",
+        "två sidor lika långa",
+        "två vinklar lika stora"
+      ],
+      [
+        "Rätvinklig",
+        "olika eller lika",
+        "en vinkel är 90°"
+      ]
+    ]
+  },
+  "rule": "Liksidig: tre lika sidor. Likbent: två lika sidor. Rätvinklig: en vinkel är 90°.",
+  "ruleLabel": "TRIANGLARNAS NAMN",
+  "example": "En triangel med sidorna 5 cm, 5 cm och 8 cm har två lika långa sidor, så den är likbent.",
+  "practice": [
+    {
+      "id": "likbent",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          2,
+          14
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "En triangel har sidorna {a} cm, {a} cm och {b} cm. Är den liksidig, likbent eller rätvinklig? Svara med ett av orden.",
+      "answer": [
+        "likbent"
+      ],
+      "correct": "Rätt! Två sidor är {a} cm och den tredje är {b} cm, så triangeln är likbent.",
+      "feedback": [
+        {
+          "answers": [
+            "liksidig"
+          ],
+          "message": "Den tredje sidan är {b} cm, inte {a} cm. Då är inte alla tre sidor lika."
+        },
+        {
+          "answers": [
+            "rätvinklig"
+          ],
+          "message": "Rätvinklig handlar om en vinkel på 90°. Här känner vi bara sidornas längd."
+        }
+      ]
+    },
+    {
+      "id": "liksidig",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          12
+        ]
+      },
+      "prompt": "Vad kallas en triangel där alla tre sidor är {a} cm? Svara liksidig, likbent eller rätvinklig.",
+      "answer": [
+        "liksidig"
+      ],
+      "correct": "Rätt! Alla tre sidor är lika långa, så triangeln är liksidig.",
+      "feedback": [
+        {
+          "answers": [
+            "rätvinklig"
+          ],
+          "message": "Rätvinklig handlar om en vinkel på 90°, inte om sidorna."
+        }
+      ]
+    },
+    {
+      "id": "lika-sidor",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          2,
+          14
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "En triangel har sidorna {a} cm, {a} cm och {b} cm. Hur många av sidorna är lika långa?",
+      "answer": [
+        "2"
+      ],
+      "correct": "Rätt! Två sidor är {a} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "Den tredje sidan är {b} cm. Alla tre är inte lika."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En triangel har sidorna 5 cm, 5 cm och 8 cm. Är den liksidig, likbent eller rätvinklig? Svara med ett av orden.",
+    "answer": [
+      "likbent"
+    ],
+    "correct": "Rätt! Två sidor är lika långa (5 cm), men den tredje är 8 cm. Triangeln är likbent.",
+    "feedback": [
+      {
+        "answers": [
+          "liksidig"
+        ],
+        "message": "Liksidig kräver att alla tre sidor är lika långa. Här är en sida 8 cm."
+      },
+      {
+        "answers": [
+          "rätvinklig"
+        ],
+        "message": "Rätvinklig handlar om en vinkel på 90°. Här har vi bara fått veta längden på sidorna."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En triangel har tre sidor som är 6 cm långa. Vad kallas triangeln? Svara liksidig, likbent eller rätvinklig.",
+      "answer": [
+        "liksidig"
+      ],
+      "correct": "Rätt! När alla tre sidor är lika långa är triangeln liksidig.",
+      "feedback": [
+        {
+          "answers": [
+            "rätvinklig"
+          ],
+          "message": "Rätvinklig handlar om vinklar, inte om sidornas längd. Här är alla tre sidorna lika långa."
+        }
+      ]
+    },
+    {
+      "prompt": "En triangel har en vinkel som är 90°. Vad kallas den? Svara liksidig, likbent eller rätvinklig.",
+      "answer": [
+        "rätvinklig"
+      ],
+      "correct": "Rätt! En vinkel på 90° är en rät vinkel, så triangeln är rätvinklig.",
+      "feedback": [
+        {
+          "answers": [
+            "liksidig",
+            "likbent"
+          ],
+          "message": "Liksidig och likbent handlar om hur långa sidorna är. Frågan gäller en vinkel på 90°."
+        }
+      ]
+    },
+    {
+      "prompt": "En triangel har sidorna 7 cm, 7 cm och 4 cm. Hur många av sidorna är lika långa?",
+      "answer": [
+        "2",
+        "2 sidor"
+      ],
+      "correct": "Rätt! Två av sidorna är 7 cm, och den tredje är 4 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "Den tredje sidan är 4 cm, inte 7 cm. Räkna hur många som är lika."
+        },
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "Titta igen: två av sidorna har samma längd."
+        }
+      ]
+    }
+  ]
+}

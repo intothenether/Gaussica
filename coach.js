@@ -3,9 +3,10 @@
 // submitted answers), so nothing extra is stored.
 //
 //   nextStep(ctx)    -> { kind: "continue" | "start" | "done", lesson, done, total, after }
-//   reviewPlan(ctx)  -> { lessons: [{ lesson, score }], weights: { lessonId: { templateId: weight } } }
+//   reviewPlan(ctx)  -> { lessons: [{ lesson, score }], due: [{ lesson, due, box }], weights: { lessonId: { templateId: weight } } }
 //   practiceRound(ctx, lesson, count)  -> [{ lessonId, taskId, templateId, problem }]
-//   reviewRound(ctx, count)            -> same, mixed from the lessons that need repeating
+//   reviewRound(ctx, count)            -> same, mixed from the lessons that need repeating (wrong answers lately, or due)
+//   dueReviews(ctx, now), seedReview(ctx, now), afterReview(record, outcomes, now)   spaced repetition, see below
 //
 // ctx = { lessons, student, getProgress }
 
@@ -163,6 +164,70 @@ window.GaussicaCoach = (function () {
       placement: A.placement ? { at: A.placement.at, known: A.known.size, level: A.placement.level || 0 } : null };
   }
 
+  // ----- spaced repetition -----
+  // A lesson that is finished comes back for a short refresh after 3 days, then 1, 3, 8 and 20 weeks later if it keeps
+  // going well. What is remembered is kept in the student's progress under the key "review":
+  //   { v: 1, lessons: { lessonId: { box, due, last, n } } }
+  // Nothing is lost by waiting: a lesson that is due just stays due. It only shows as a calm suggestion, never as a streak.
+  const REVIEW_KEY = "review";
+  const REVIEW_STEPS = [3 * DAY, 7 * DAY, 21 * DAY, 60 * DAY, 150 * DAY];
+
+  function reviewRecord(student) {
+    const r = student && student.lessonProgress && student.lessonProgress[REVIEW_KEY];
+    return r && r.lessons ? r : { v: 1, lessons: {} };
+  }
+
+  // Finished lessons without a place in the schedule get one. To avoid a pile of lessons being due on the same day when a
+  // student with a long history starts, they are spread out: at most two a day from today on. Returns a new record, or
+  // null when nothing changed.
+  function seedReview(ctx, now) {
+    now = now || Date.now();
+    const record = reviewRecord(ctx.student);
+    const fresh = ctx.lessons.filter(function (l) {
+      return !l.isParentLesson && PR().has(l) && !record.lessons[l.id] && summaryOf(ctx, l).state === "complete";
+    }).map(function (l) { return { lesson: l, last: lastActivity(ctx, l) || now }; }).sort(function (a, b) { return a.last - b.last; });
+    if (!fresh.length) return null;
+    const next = { v: 1, lessons: Object.assign({}, record.lessons) };
+    fresh.forEach(function (x, i) {
+      next.lessons[x.lesson.id] = { box: 0, due: Math.max(x.last + REVIEW_STEPS[0], now + Math.floor(i / 2) * DAY), last: x.last, n: 0 };
+    });
+    return next;
+  }
+
+  // The lessons that are due now, the one waiting longest first.
+  function dueReviews(ctx, now) {
+    now = now || Date.now();
+    const record = reviewRecord(ctx.student);
+    const out = [];
+    ctx.lessons.forEach(function (l) {
+      const r = record.lessons[l.id];
+      if (!r || l.isParentLesson || !PR().has(l) || r.due > now) return;
+      if (summaryOf(ctx, l).state !== "complete") return;
+      out.push({ lesson: l, due: r.due, box: r.box });
+    });
+    return out.sort(function (a, b) { return a.due - b.due; });
+  }
+
+  // outcomes: { lessonId: { n, firstTry } } for the lessons that were asked in a round. Right at once on three out of
+  // four or more: up one step. About half: the same step, but sooner. Less: back to the start, in two days.
+  function afterReview(record, outcomes, now) {
+    now = now || Date.now();
+    const next = { v: 1, lessons: Object.assign({}, (record && record.lessons) || {}) };
+    Object.keys(outcomes).forEach(function (id) {
+      const o = outcomes[id];
+      if (!o || !o.n) return;
+      const r = Object.assign({ box: 0, due: now, last: now, n: 0 }, next.lessons[id] || {});
+      const ratio = o.firstTry / o.n;
+      if (ratio >= 0.75) { r.box = Math.min(REVIEW_STEPS.length - 1, r.box + 1); r.due = now + REVIEW_STEPS[r.box]; }
+      else if (ratio >= 0.5) r.due = now + Math.round(REVIEW_STEPS[r.box] / 2);
+      else { r.box = 0; r.due = now + 2 * DAY; }
+      r.last = now;
+      r.n += 1;
+      next.lessons[id] = r;
+    });
+    return next;
+  }
+
   // ----- what to repeat -----
   function reviewPlan(ctx) {
     const weak = weaknesses(ctx);
@@ -175,7 +240,7 @@ window.GaussicaCoach = (function () {
       weights[l.id] = templateWeights(w);
     });
     lessons.sort(function (a, b) { return b.score - a.score || b.last - a.last; });
-    return { lessons: lessons, weights: weights, recent: weak };
+    return { lessons: lessons, due: dueReviews(ctx), weights: weights, recent: weak };
   }
 
   // ----- rounds of generated questions -----
@@ -200,7 +265,11 @@ window.GaussicaCoach = (function () {
 
   function reviewRound(ctx, count) {
     const plan = reviewPlan(ctx);
+    // lessons with many wrong answers lately first, then the ones that are due for a refresh
     const picked = plan.lessons.slice(0, 3);
+    plan.due.forEach(function (d) {
+      if (picked.length < 3 && !picked.some(function (p) { return p.lesson.id === d.lesson.id; })) picked.push({ lesson: d.lesson, score: 0, last: d.due });
+    });
     if (!picked.length) return [];
     count = count || 6;
     const used = {};
@@ -216,5 +285,6 @@ window.GaussicaCoach = (function () {
     return out;
   }
 
-  return { nextStep: nextStep, path: path, reviewPlan: reviewPlan, practiceRound: practiceRound, reviewRound: reviewRound, weaknesses: weaknesses };
+  return { nextStep: nextStep, path: path, reviewPlan: reviewPlan, practiceRound: practiceRound, reviewRound: reviewRound, weaknesses: weaknesses,
+    REVIEW_KEY: REVIEW_KEY, REVIEW_STEPS: REVIEW_STEPS, reviewRecord: reviewRecord, seedReview: seedReview, dueReviews: dueReviews, afterReview: afterReview };
 }());

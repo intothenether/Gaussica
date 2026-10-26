@@ -348,14 +348,53 @@ I lärarvyn, avsnittet "📝 Prov" (`prov.js`): välj lektioner, antal frågor p
 
 ## Ditt djur och mynt
 
-Mest tänkt för åk 3 till 5. Eleven väljer en mops, en katt eller en pingvin (fyra färger var), ger den ett namn och tjänar **mynt** genom att lära sig. Mynten används i butiken ("Mitt djur och butiken") till hattar, ansikte (glasögon, mustasch, clownnäsa), halsband och bakgrunder, 23 saker för 15 till 60 mynt. Djuret ritas som SVG (`pet-art.js`, inga bildfiler), rör sig lite (andas, blinkar, viftar, hoppar av glädje när man klappar det eller köper något) och rörelsen stängs av för den som bett om mindre rörelse. Logiken och skärmarna finns i `pet.js`.
+Mest tänkt för åk 3 till 5. Eleven väljer en mops, en katt eller en pingvin (fyra färger var), ger den ett namn och tjänar **mynt** genom att lära sig. Mynten används i butiken ("Mitt djur och butiken") till hattar, ansikte (glasögon, mustasch, clownnäsa), halsband och bakgrunder, 23 vanliga saker för 15 till 60 mynt, och dessutom fem **teman**, ett för varje område (Siffervännen, Mysteriet x, Formvännen, Tidsvännen och Slumpvännen) med en hatt, glasögon och ett halsband var. Delarna i ett tema öppnas när eleven klarat 2, 4 och 6 lektioner i området, och köps sedan med mynt (30 till 50). Sitter hela temat på djuret syns det med ett sken. På så sätt blir det roligt att prova lektioner i ett område man annars hoppar över. Djuret ritas som SVG (`pet-art.js`, inga bildfiler), rör sig lite (andas, blinkar, viftar, hoppar av glädje när man klappar det eller köper något) och rörelsen stängs av för den som bett om mindre rörelse. Logiken och skärmarna finns i `pet.js`.
 
 - **Mynt för att lära sig, inte för att klicka.** En klar lektion ger 10 mynt (2 till 4 till för två eller tre stjärnor). Löser eleven en fråga efter ett fel ger det 1 mynt, högst 3 per lektion, så att den som kämpar också tjänar. Öva mer och Repetera ger 1 mynt per ny fråga, högst 10 om dagen, så det lönar sig inte att spamma lätta frågor. Nivåtestet ger 5 och djuret ger 20 i present. Läraren kan ge **presentmynt**: dekalerna "5, 10 eller 25 mynt till ditt djur" bland dekalerna i meddelandena.
-- **Inget går förlorat.** Djuret är aldrig ledset eller hungrigt, det finns inga serier och inga dagliga mål, och ingen jämförelse mellan elever. Djuret säger uppmuntrande saker, och står med i lektionens nederkant ("Bra att du fortsatte!").
+- **Inget går förlorat.** Djuret är aldrig ledset eller hungrigt, det finns inga serier och inga dagliga mål, och ingen jämförelse mellan elever. Djuret pratar i en pratbubbla i lektionens nederkant: ett lugnt "Ta det lugnt, ett steg i taget" vid första frågan, uppmuntran och en påminnelse om tipset och det lösta exemplet när det blir fel, "Bra att du fortsatte!" när det blir rätt efter ett fel, och beröm när lektionen är klar. Raderna finns i `SAYINGS` i `pet.js`. Utan djur visas samma meddelanden som vanlig text.
 - **Mynten visas där de hör hemma:** på sammanfattningen när en lektion eller en runda är klar (djuret hoppar, "Du fick 14 nya mynt") och på startsidan, aldrig mitt i en fråga och aldrig i nivåtest eller prov.
 - **Ingen ändring i databasen.** Djuret (art, färg, namn, vad som köpts och har på sig) sparas i elevens framsteg under nyckeln `pet`. Mynten räknas ut från elevens egna data (klara lektioner, svarsloggen, presentdekaler) minus det som köpts, så de är de samma på alla enheter och går inte att ändra i webbläsaren. Ändras ett pris senare påverkas inte det som redan köpts, för priset som betalades sparas.
+- **Rum med möbler.** Fliken "Rum" i butiken: 21 saker att köpa (15 till 50 mynt) för väggen (4 tapeter), mattan, bädden, fönstret, hyllan, lampan, växten och leksaken. Djuret står i rummet, och rummet visas på startsidan så fort den första saken är på plats. Eleven kan välja att visa rummet eller bakgrunden. Rummet ritas av `roomSvg` i `pet-art.js`; nya saker läggs till i `ROOM_ITEMS` (plats, id, namn, pris, ritning). Rummet sparas i djurets post som `room` och `scene`.
+- **Läraren ser djuret** (`pet-teacher.js`): en kolumn "Djur" i elevlistan (djurets namn och mynt) och en ruta i elevens vy med antal mynt, köpta saker och senaste presenter. Där ger läraren mynt med en anledning (5, 10 eller 25 mynt och en kort text, med färdiga förslag som "Du gav inte upp"). Det skickas som ett meddelande med en myntdekal, så eleven ser varför.
 - **Läraren** slår av djuret för en klass med samma ruta som stjärnor och märken ("Stjärnor, märken och djur" i klasslistan).
 - Nya saker läggs till i listan `ITEMS` i `pet-art.js` (id, plats, namn, pris och ritning). `tests/pet.js` ritar alla kombinationer av djur, färg och sak och kontrollerar hur mynt tjänas.
+
+## Kursplanen (Lgr22) och bedömningsunderlag
+
+Varje lektion är kopplad till centralt innehåll i kursplanen för matematik (`lgr22.js`): 53 punkter i tre stadier (åk 1–3, 4–6, 7–9) och sex områden (taluppfattning, algebra, geometri, sannolikhet och statistik, samband och förändring, problemlösning). **Beskrivningarna av innehållet är en kort sammanfattning med egna ord, inte kursplanens text. Kontrollera dem mot Skolverket (skolverket.se, Lgr22, matematik) innan de används som dokumentation**, och ändra raderna i `CONTENT` om din skola läser innehållet på ett annat sätt. Kopplingen lektion till innehåll ligger i `MAP` i samma fil. Testet `tests/lgr22.js` kräver att varje lektion är kopplad och att varje punkt har minst en lektion, så en ny lektion måste läggas in i `MAP`. Lektioner som lärare skapar i redigeraren saknar koppling och listas som det i översikten.
+
+- **Klassen** ("📋 Kursplanen och bedömningsunderlag" i lärarvyn): per punkt hur många elever som är klara, delvis klara eller bara "verkar kunna" (nivåtestet), och hur många lektioner punkten har. Filtreras per stadium.
+- **Nedladdning (CSV, semikolon, öppnas i Excel):** en rad per elev och punkt med status, klara lektioner och andel rätt på första försöket, och en sammanfattning per elev (lektioner, uppgifter, aktiva dagar, förmågor, prov).
+- **Underlag för en elev** (knappen "📋 Bedömningsunderlag" i elevens vy): en sida att skriva ut eller spara som PDF, med översikt, vad eleven täckt av centralt innehåll, indikationer för förmågorna, provresultat, nivåtest och en ruta för lärarens egen bedömning. En punkt är **klar** när alla dess lektioner är klara, **delvis** när någon är påbörjad, och problemlösning räknas av lösta textuppgifter. Av förmågorna kan loggen visa begrepp (begreppslektionerna), metod (räkneuppgifterna), problemlösning (textuppgifterna) och kommunikation (om eleven ritat eller skrivit på ritytan). Resonemang kan inte avläsas och lämnas åt läraren.
+- Underlaget **sätter inget betyg**. Det visar vad eleven gjort på Gaussica och är ett stöd för lärarens bedömning.
+
+## Lektioner för åk 3 till 5
+
+Kopplingen till kursplanen visade luckor i de yngre årskurserna, så tolv lektioner har lagts till: Mönster (åk 3), Mäta längd (åk 3), Rutnät och riktningar (åk 3), Läs en tabell (åk 3), Halvor, tredjedelar och fjärdedelar (åk 3), Udda och jämna tal (åk 3), Säkert, möjligt, omöjligt (åk 3), Problemlösning: rita och prova (åk 4), Olika sorters trianglar (åk 5), Linjediagram (åk 5), Bråk, decimaltal och procent (åk 5) och Pris per kilo och per styck (åk 5). Alla har förklaring, regel, exempel, en uppgift, tre textuppgifter och övningsmallar för Öva mer, och följer reglerna om ord för de yngre åren.
+
+## Snabbträning
+
+"Snabbträning" på startsidan (`fluency.js`, rutten `#traning`) tränar tabellerna och räknefakta i korta rundor om 5, 10 eller 20 frågor: multiplikation och division med tabellerna (2 till 10, valfria tabeller), tiokompisar, kompisar till 20 samt plus och minus till 20, eller en blandning. Det finns ingen klocka som tickar, inga mynt och inget streck att förlora. Vad som mäts är hur rätt och hur snabbt varje faktum är (svarstiden räknas från att frågan visas), och ett svar som blir fel kommer tillbaka en gång senare i samma runda.
+
+- **Vingliga fakta kommer oftare.** Varje faktum ligger i en av fem lådor (0 till 4, enkel upprepning med mellanrum): rätt och snabbt flyttar upp en låda, rätt men långsamt håller det i minst låda 1, fel skickar det till låda 0. Valet av frågor till en runda vägs efter lådan, så vingliga fakta är med nästan varje gång och snabba sällan. Högst fyra av tio frågor är nya. Gränsen för "snabbt" är 3,5 till 6 sekunder beroende på typ (skrivtiden ingår).
+- **Eleven ser framsteg, inte poäng:** efter rundan "snabbare än förra gången" (medianen av de rätta svaren), vilka som kommer tillbaka, och "Min karta" med alla fakta i färger från inte tränad till snabb.
+- **Lagring.** I elevens framsteg under nyckeln `fluency` (statistik per faktum och de 40 senaste rundorna), så inget i databasen ändras. Läraren ser en rad i elevens vy. Logiken testas i `tests/fluency.js`.
+
+## Repetition som sitter kvar
+
+En klar lektion (med övningsmallar) får en plats i ett schema som kommer tillbaka efter 3 dagar, sedan 1, 3, 8 och 20 veckor om det går bra (`coach.js`, nyckeln `review` i elevens framsteg). Är det dags dyker lektionen upp som ett lugnt förslag i "Din väg" ("Dags att fräscha upp: …, det finns ingen brådska") och ingår i "Repetera", efter de lektioner där eleven nyligen svarat fel. Efter en runda flyttas lektionerna: rätt direkt på tre av fyra eller fler ger ett steg uppåt, ungefär hälften rätt ger samma steg men tidigare, och mest fel börjar om om två dagar. Det finns inga serier och inga krav, en lektion som väntar blir bara kvar. Elever med lång historik får sina lektioner utspridda, högst två om dagen från första dagen, så att inte allt kommer på en gång. Läraren ser antalet i schemat och hur många som är aktuella. Se `tests/spaced.js`.
+
+## Verkstad
+
+"Verkstad" (`workshop.js`, kortet på startsidan och knappen 🧰 överst i lektionsläget) har fem verktyg att bygga och prova med. Inget räknas eller sparas, och varje verktyg har en frivillig utmaning med kontroll:
+
+- **Platsvärdesblock:** hundra-, tio- och entalsblock, växla 10 till 1 och 1 till 10, talet och talet i ord. Utmaning: bygg ett tal med så få block som möjligt.
+- **Bråkstavar:** bitar från halv till tolftedel som läggs efter varandra, med summan som bråk, blandad form och decimaltal. Utmaning: bygg ett bråk med minst två olika sorters bitar (likvärdiga bråk).
+- **Tallinje:** dra kulan eller hoppa, med bågar och ekvationen ("5 + 2 = 7"). Utmaning: gå till ett mål med så få hopp som möjligt (minsta antalet räknas ut).
+- **Balansvåg:** hitta det dolda talet genom att lägga vikter, eller ta bort lika mycket från båda sidor tills x står ensamt.
+- **Rutnät:** fria rutor eller dra en rektangel, med area, omkrets och multiplikationen. Utmaning: gör en form med en viss area och omkrets.
+
+Beräkningarna bakom verktygen (växling, bråksumma, minsta antal hopp, area och omkrets) finns utan ritning i `logic` och testas i `tests/workshop.js`.
 
 ## Läsning och uppläsning
 

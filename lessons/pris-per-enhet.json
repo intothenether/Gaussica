@@ -1,0 +1,232 @@
+{
+  "id": "pris-per-enhet",
+  "area": "tal",
+  "title": "Pris per kilo och per styck",
+  "level": "Jämför priser rättvist · ungefär åk 5",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "multiplikation-tvasiffrigt",
+    "division-med-rest"
+  ],
+  "summary": "För att jämföra priser räknar du ut vad en enhet kostar, till exempel en kilo eller ett styck.",
+  "explanationTitle": "Hitta priset för en",
+  "explanation": "Problemet: Två butiker säljer samma äpplen. Den ena tar 60 kr för 3 kg och den andra 50 kr för 2 kg. Vilket är billigast? Vi kan inte jämföra direkt, eftersom mängderna är olika. Vi behöver priset för samma mängd, till exempel 1 kg. Du räknar ut det genom att dela priset lika på antalet kilo. 60 kr delat på 3 kg är 20 kr per kilo. 50 kr delat på 2 kg är 25 kr per kilo. Då ser du att den första butiken är billigast. När du känner priset för en kan du också räkna ut priset för många: multiplicera priset för en med antalet.",
+  "visual": {
+    "type": "tabell",
+    "title": "Vilket är billigast per kilo?",
+    "headers": [
+      "Butik",
+      "Mängd",
+      "Pris",
+      "Pris för 1 kg"
+    ],
+    "rows": [
+      [
+        "A",
+        "3 kg",
+        "60 kr",
+        "20 kr"
+      ],
+      [
+        "B",
+        "2 kg",
+        "50 kr",
+        "25 kr"
+      ]
+    ]
+  },
+  "rule": "Pris för en = priset delat lika på antalet. Pris för många = pris för en gånger antalet.",
+  "ruleLabel": "PRIS PER ENHET",
+  "example": "4 kg äpplen kostar 48 kr, så 1 kg kostar 12 kr. Då kostar 6 kg 6 · 12 = 72 kr.",
+  "practice": [
+    {
+      "id": "ett",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "q": [
+          2,
+          9
+        ],
+        "p": [
+          5,
+          15
+        ]
+      },
+      "prompt": "{q} kg äpplen kostar {q*p} kr. Vad kostar 1 kg?",
+      "answer": [
+        "=p",
+        "{p} kr"
+      ],
+      "correct": "Rätt! {q*p} delat lika på {q} kg är {p} kr per kg.",
+      "feedback": [
+        {
+          "answers": [
+            "=q*p"
+          ],
+          "message": "{q*p} kr är priset för alla {q} kg. Dela lika för att få priset för 1 kg."
+        },
+        {
+          "answers": [
+            "=q*p-q"
+          ],
+          "message": "Du har tagit bort {q} från {q*p}. Här ska priset delas lika på {q} kg."
+        }
+      ]
+    },
+    {
+      "id": "flera",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "q": [
+          2,
+          6
+        ],
+        "p": [
+          5,
+          15
+        ],
+        "k": [
+          7,
+          12
+        ]
+      },
+      "prompt": "{q} kg äpplen kostar {q*p} kr. Vad kostar {k} kg?",
+      "answer": [
+        "=k*p",
+        "{k*p} kr"
+      ],
+      "correct": "Rätt! 1 kg kostar {p} kr, och {k} · {p} = {k*p} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=q*p"
+          ],
+          "message": "{q*p} kr är priset för {q} kg. Räkna först priset för 1 kg."
+        },
+        {
+          "answers": [
+            "=k*q*p"
+          ],
+          "message": "Du multiplicerade hela priset. Räkna först priset för 1 kg, och multiplicera det med {k}."
+        }
+      ]
+    },
+    {
+      "id": "billigast",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "p": [
+          8,
+          14
+        ],
+        "d": [
+          1,
+          3
+        ]
+      },
+      "prompt": "Butik A säljer 3 liter mjölk för {3*p} kr. Butik B säljer 2 liter för {2*(p+d)} kr. Vilken butik är billigast per liter? Svara A eller B.",
+      "answer": [
+        "A"
+      ],
+      "correct": "Rätt! A kostar {p} kr per liter och B kostar {p+d} kr per liter.",
+      "feedback": [
+        {
+          "answers": [
+            "B"
+          ],
+          "message": "Räkna ut priset för 1 liter i båda butikerna: {3*p} delat på 3 och {2*(p+d)} delat på 2."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "4 kg äpplen kostar 48 kr. Vad kostar 1 kg?",
+    "answer": [
+      "12",
+      "12 kr"
+    ],
+    "correct": "Rätt! 48 delat lika på 4 kg är 12 kr per kg.",
+    "feedback": [
+      {
+        "answers": [
+          "192"
+        ],
+        "message": "192 får du om du multiplicerar. Priset för 1 kg är mindre än priset för 4 kg, så dela."
+      },
+      {
+        "answers": [
+          "44"
+        ],
+        "message": "Du har tagit bort 4 från 48. Här ska 48 kr delas lika på 4 kg."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "5 bullar kostar 45 kr. Vad kostar 8 bullar?",
+      "answer": [
+        "72",
+        "72 kr"
+      ],
+      "correct": "Rätt! 1 bulle kostar 9 kr, och 8 · 9 = 72 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "360"
+          ],
+          "message": "360 får du om du multiplicerar hela priset 45 med 8. Räkna först priset för en bulle."
+        },
+        {
+          "answers": [
+            "45"
+          ],
+          "message": "45 kr är priset för 5 bullar. Frågan gäller 8 bullar."
+        }
+      ]
+    },
+    {
+      "prompt": "Butik A säljer 3 liter mjölk för 36 kr. Butik B säljer 2 liter för 26 kr. Vilken butik är billigast per liter? Svara A eller B.",
+      "answer": [
+        "A"
+      ],
+      "correct": "Rätt! A kostar 12 kr per liter och B kostar 13 kr per liter.",
+      "feedback": [
+        {
+          "answers": [
+            "B"
+          ],
+          "message": "Räkna ut priset för 1 liter i båda butikerna: 36 delat på 3 och 26 delat på 2. Vilket är lägst?"
+        }
+      ]
+    },
+    {
+      "prompt": "En påse godis med 200 g kostar 30 kr. Vad kostar 600 g?",
+      "answer": [
+        "90",
+        "90 kr"
+      ],
+      "correct": "Rätt! 600 g är 3 gånger 200 g, så priset är 3 · 30 = 90 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 får du om du dubblar priset. 600 g är tre gånger så mycket som 200 g."
+        },
+        {
+          "answers": [
+            "180"
+          ],
+          "message": "180 får du om du multiplicerar med 6. 600 g är 3 gånger 200 g, inte 6 gånger."
+        }
+      ]
+    }
+  ]
+}

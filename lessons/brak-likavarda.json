@@ -87,6 +87,43 @@
       "feedback": [
         { "answers": ["1/6"], "message": "1/6 är bara hälften av det du åt. Du åt 2 bitar av 6 totalt." }
       ]
+    },
+    {
+      "prompt": "Mira äter 4 bitar av en pizza som är skuren i 8 lika stora bitar. Hur stor del äter hon? Skriv så enkelt som möjligt.",
+      "answer": [
+        "1/2"
+      ],
+      "correct": "Ja! 4/8 är lika mycket som 1/2. Hon äter hälften.",
+      "feedback": [
+        {
+          "answers": [
+            "1/4"
+          ],
+          "message": "1/4 är bara en fjärdedel. Hälften av 8 bitar är 4 bitar, så hon har ätit mer än en fjärdedel."
+        }
+      ],
+      "form": "forenklat"
+    },
+    {
+      "prompt": "En stång är delad i 3 lika långa delar. Vilket av bråken 2/6, 2/5 och 3/8 är lika stort som 1/3?",
+      "answer": [
+        "2/6"
+      ],
+      "correct": "Ja! Om du förlänger 1/3 med 2 får du 2/6.",
+      "feedback": [
+        {
+          "answers": [
+            "2/5"
+          ],
+          "message": "2/5 är större än 1/3. Förläng 1/3 med samma tal uppe och nere, så får du ett bråk med nämnaren 6."
+        },
+        {
+          "answers": [
+            "3/8"
+          ],
+          "message": "3/8 passar inte. Förläng 1/3 med 2 uppe och nere, då ser du vilket bråk det blir."
+        }
+      ]
     }
   ]
 }

@@ -371,7 +371,7 @@
       canChat: function () { return window.GaussicaChat.canChat(); },
       chatUnread: function () { return window.GaussicaChat.unread(); },
       petRibbon: function () { return window.GaussicaPet.ribbon(); },
-      petFace: function (mood) { return window.GaussicaPet.face(mood); },
+      petSay: function (kind, options) { return window.GaussicaPet.say(kind, options); },
       goToLesson: function (id) { window.location.hash = "#" + id; },
       goToPlayer: function (id) { window.location.hash = "#play/" + id; },
       hasPractice: function (id) { const l = course.lessons.find(function (x) { return x.id === id; }); return window.GaussicaPractice.has(l); },
@@ -769,6 +769,25 @@
     const card = document.getElementById("next-card");
     const hero = document.getElementById("hero-cta");
     if (course && window.GaussicaPet) window.GaussicaPet.render(document.getElementById("pet-card"));
+    const toolsCard = document.getElementById("workshop-card");
+    if (toolsCard) {
+      toolsCard.replaceChildren();
+      toolsCard.hidden = !(course && isStudent());
+      if (!toolsCard.hidden) {
+        const icon = makeElement("span", "train-icon", "🧰");
+        const copy = makeElement("div", "train-copy");
+        copy.append(makeElement("h3", "", "Verkstad"), makeElement("p", "", "Bygg och prova med platsvärdesblock, bråkstavar, tallinje, balansvåg och rutnät. Inget räknas, du bara leker och förstår."));
+        const go = makeElement("button", "primary-button train-go", "Öppna verkstaden");
+        go.type = "button";
+        go.addEventListener("click", function () { window.GaussicaWorkshop.open(); });
+        toolsCard.append(icon, copy, go);
+      }
+    }
+    const trainCard = document.getElementById("train-card");
+    if (trainCard) {
+      if (course && isStudent()) window.GaussicaFluency.renderCard(trainCard, fluencyRecord(), { open: function () { window.location.hash = "#traning"; } });
+      else trainCard.hidden = true;
+    }
     const prev = graph.querySelector(".is-next");
     if (prev) prev.classList.remove("is-next");
     if (course) renderInbox();
@@ -776,6 +795,7 @@
       if (card) card.hidden = true;
       return;
     }
+    ensureReviewSchedule();
     const next = window.GaussicaCoach.nextStep(coachContext());
     const review = window.GaussicaCoach.reviewPlan(coachContext());
     const assigned = window.GaussicaMailbox.openLessonAssignments()[0];
@@ -784,6 +804,7 @@
     window.GaussicaPathView.render(card, data, {
       assignment: assigned || null,
       reviewLessons: review.lessons,
+      dueLessons: review.due,
       placementTest: isStudent() ? function () { window.location.hash = "#nivatest"; } : null,
       start: function (id) { window.location.hash = "#play/" + id; },
       more: showLessonPanel,
@@ -809,6 +830,34 @@
     }
   }
 
+  // Spaced repetition (coach.js): finished lessons get a place in the schedule, and a round of Repetera or Öva mer moves
+  // the lessons it asked about up or down in it.
+  function saveReview(record) {
+    record.updatedAt = Date.now();
+    lessonProgress[window.GaussicaCoach.REVIEW_KEY] = record;
+    dirtyLessons.add(window.GaussicaCoach.REVIEW_KEY);
+    scheduleSave(500);
+  }
+
+  function ensureReviewSchedule() {
+    if (!course || !isStudent()) return;
+    const seeded = window.GaussicaCoach.seedReview(coachContext());
+    if (seeded) saveReview(seeded);
+  }
+
+  function recordReviewRound(items, results) {
+    const outcomes = {};
+    items.forEach(function (it) {
+      const o = outcomes[it.lessonId] || (outcomes[it.lessonId] = { n: 0, firstTry: 0 });
+      o.n += 1;
+      if ((results[it.taskId] || {}).firstTry) o.firstTry += 1;
+    });
+    // only lessons that are in the schedule (finished lessons) move
+    const record = window.GaussicaCoach.reviewRecord(currentUser);
+    Object.keys(outcomes).forEach(function (id) { if (!record.lessons[id]) delete outcomes[id]; });
+    if (Object.keys(outcomes).length) saveReview(window.GaussicaCoach.afterReview(record, outcomes, Date.now()));
+  }
+
   function openRound(kind, items, options) {
     if (!items.length) {
       window.location.hash = options.backHash;
@@ -821,6 +870,7 @@
       items: items,
       backLabel: options.backLabel,
       onExit: function () { window.location.hash = options.backHash; },
+      onDone: recordReviewRound,
       again: options.again
     });
   }
@@ -858,6 +908,28 @@
       },
       openLesson: function (id) { window.location.hash = "#play/" + id; },
       onExit: function () { window.location.hash = "#larstig"; }
+    });
+  }
+
+  // Snabbträning (fluency.js): short rounds of tables and number facts, route #traning
+  function fluencyRecord() {
+    const p = currentUser && currentUser.lessonProgress && currentUser.lessonProgress.fluency;
+    return p && p.facts ? p : { v: 1, facts: {}, sessions: [] };
+  }
+
+  function openFluency() {
+    if (!isStudent()) { window.location.hash = "#larstig"; return; }
+    window.GaussicaFluency.open({
+      container: document.querySelector("#lesson-player"),
+      getRecord: fluencyRecord,
+      save: function (record) {
+        record.updatedAt = Date.now();
+        lessonProgress.fluency = record;
+        dirtyLessons.add("fluency");
+        scheduleSave(300);
+      },
+      petSay: function (kind) { return window.GaussicaPet.say(kind); },
+      onExit: function () { window.location.hash = "#larstig"; renderCoach(); }
     });
   }
 
@@ -3211,6 +3283,14 @@
     const playId = hash.indexOf("#play/") === 0 ? hash.slice(6) : "";
     const practiceId = hash.indexOf("#practice/") === 0 ? decodeURIComponent(hash.slice(10)) : "";
     if (hash !== "#nivatest" && hash.indexOf("#prov/") !== 0) window.GaussicaTest.closeActive();
+    if (hash !== "#traning") window.GaussicaFluency.closeActive();
+    if (hash === "#traning") {
+      if (adminPage) adminPage.hidden = true;
+      if (studentView) studentView.hidden = false;
+      window.GaussicaPlayer.close(true);
+      openFluency();
+      return;
+    }
     const provMatch = /^#prov\/(\d+)$/.exec(hash);
     if (provMatch) {
       if (adminPage) adminPage.hidden = true;

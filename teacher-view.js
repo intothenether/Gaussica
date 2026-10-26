@@ -197,6 +197,7 @@ window.GaussicaTeacher = (function () {
         }
       }));
     }
+    if (window.GaussicaUnderlag) root.appendChild(window.GaussicaUnderlag.section(ctx, students));
     root.appendChild(studentTable(data, ctx));
     const hard = hardestTasks(data);
     const miscs = mistakeList(data);
@@ -876,7 +877,7 @@ window.GaussicaTeacher = (function () {
     const wrap = el("div", "tv-table-wrap");
     const table = el("table", "tv-table");
     const head = el("tr");
-    ["Elev", "Klara uppgifter", "Rätt på 1:a försöket", "Snitt försök", "Att rätta", "Senast aktiv"].forEach(function (h) {
+    ["Elev", "Klara uppgifter", "Rätt på 1:a försöket", "Snitt försök", "Att rätta", "Senast aktiv"].concat(window.GaussicaPetTeacher ? ["Djur"] : []).forEach(function (h) {
       head.appendChild(el("th", "", h));
     });
     table.appendChild(el("thead")).appendChild(head);
@@ -907,6 +908,7 @@ window.GaussicaTeacher = (function () {
       fix.appendChild(t.fix ? el("span", "tv-pill is-fix", plural(t.fix, "uppgift", "uppgifter")) : el("span", "tv-muted", "–"));
       const seen = el("td", "tv-muted", lastSeen(t.lastAt, ctx));
       tr.append(nameCell, prog, first, avg, fix, seen);
+      if (window.GaussicaPetTeacher) tr.appendChild(window.GaussicaPetTeacher.cell(a.student, ctx));
       body.appendChild(tr);
     });
     table.appendChild(body);
@@ -1018,6 +1020,7 @@ window.GaussicaTeacher = (function () {
         }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
       }),
       button("🖨 Rapport för utskrift", "tv-btn", function () { openReport(a, ctx); }),
+      window.GaussicaUnderlag ? button("📋 Bedömningsunderlag", "tv-btn", function () { window.GaussicaUnderlag.openStudent(s, ctx); }) : el("span"),
       button("Ta bort elev", "tv-btn is-danger", function () {
         if (!window.confirm("Ta bort " + s.name + " och alla elevens svar? Det går inte att ångra.")) return;
         ctx.actions.deleteStudent(s.id).then(function () {
@@ -1027,6 +1030,16 @@ window.GaussicaTeacher = (function () {
         }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
       }));
     section.appendChild(actions);
+    if (window.GaussicaPetTeacher) section.appendChild(window.GaussicaPetTeacher.detail(s, ctx));
+    if (window.GaussicaCoach) {
+      const rv = window.GaussicaCoach.reviewRecord(s);
+      const count = Object.keys(rv.lessons).length;
+      if (count) {
+        const dueNow = window.GaussicaCoach.dueReviews({ lessons: ctx.course.lessons, student: s, getProgress: function (id) { return (s.lessonProgress || {})[id]; } }).length;
+        section.appendChild(el("p", "tv-userline", "🔁 Repetition: " + count + (count === 1 ? " lektion" : " lektioner") + " i schemat, " + dueNow + " att fräscha upp nu."));
+      }
+    }
+    if (window.GaussicaFluency) section.appendChild(el("p", "tv-userline", "⚡ Snabbträning: " + window.GaussicaFluency.teacherLine(window.GaussicaFluency.recordOf(s))));
     section.appendChild(feedbackSection(s, ctx));
 
     const t = a.totals;

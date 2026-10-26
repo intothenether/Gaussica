@@ -86,6 +86,28 @@
         { "answers": ["526"], "message": "526 är summan av upptagna och totala platser. För att hitta lediga platser tar du de upptagna från totalen." },
         { "answers": ["264"], "message": "Kontrollera växlingen när du drar ifrån 6 ental från 0 ental och 8 tiotal från 3 tiotal." }
       ]
+    },
+    {
+      "prompt": "Ett lag har 450 kr i kassan och köper bollar för 175 kr. Hur mycket pengar har laget kvar?",
+      "answer": [
+        "275",
+        "275 kr"
+      ],
+      "correct": "Ja! 450 − 175 = 275 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "625"
+          ],
+          "message": "625 får du om du lägger ihop beloppen. Pengarna minskar när laget köper bollar, så du ska ta bort 175 kr."
+        },
+        {
+          "answers": [
+            "325"
+          ],
+          "message": "Du har tagit det mindre talet från det större i varje kolumn. Eftersom 0 − 5 inte går måste du växla ett tiotal."
+        }
+      ]
     }
   ]
 }

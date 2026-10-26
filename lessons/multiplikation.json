@@ -94,6 +94,27 @@
         { "answers": ["17"], "message": "17 är 9 + 8. Räkna i stället åtta pennor för varje låda, nio gånger." },
         { "answers": ["64"], "message": "Kontrollera antalet lådor: det är 9 lådor, inte 8. Varje låda innehåller 8 pennor." }
       ]
+    },
+    {
+      "prompt": "Ett tåg har 7 vagnar. I varje vagn finns 9 platser. Hur många platser har tåget?",
+      "answer": [
+        "63"
+      ],
+      "correct": "Ja! 7 · 9 = 63 platser.",
+      "feedback": [
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "16 får du om du lägger ihop 7 och 9. Det är 7 lika stora grupper med 9 platser i varje, så du ska multiplicera."
+        },
+        {
+          "answers": [
+            "54"
+          ],
+          "message": "54 är 6 · 9. Du har räknat med en vagn för lite."
+        }
+      ]
     }
   ]
 }

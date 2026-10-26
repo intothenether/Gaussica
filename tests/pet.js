@@ -19,7 +19,8 @@ const lessons = idx.lessons.map((f) => JSON.parse(fs.readFileSync(ROOT + "lesson
 // ----- the shop -----
 const ids = Art.ITEMS.map((i) => i.id);
 ok(new Set(ids).size === ids.length, "every item has its own id");
-ok(Art.ITEMS.every((i) => ["hat", "face", "neck", "bg"].includes(i.slot) && i.price >= 10 && i.price <= 100 && i.name), "every item has a slot, a name and a sensible price");
+const SLOTS = ["hat", "face", "neck", "bg"].concat(Art.ROOM_SLOTS.map((s) => s[0]));
+ok(Art.ITEMS.every((i) => SLOTS.includes(i.slot) && i.price >= 10 && i.price <= 100 && i.name), "every item has a slot, a name and a sensible price");
 ok(Art.ITEMS.filter((i) => i.price <= 20).length >= 4, "there is something cheap to buy first");
 ["hat", "face", "neck", "bg"].forEach((s) => ok(Art.ITEMS.filter((i) => i.slot === s).length >= 4, "enough things to choose from in " + s));
 
@@ -29,9 +30,10 @@ Object.keys(Art.KINDS).forEach((kind) => {
   ok(Art.KINDS[kind].colors.length === 4 && Art.KINDS[kind].names.length >= 3, kind + ": colours and names");
   Art.KINDS[kind].colors.forEach((c) => {
     Art.ITEMS.forEach((it) => {
-      const worn = {}; if (it.slot !== "bg") worn[it.slot] = it.id;
+      const worn = {}, room = {};
+      if (Art.isRoomSlot(it.slot)) room[it.slot] = it.id; else if (it.slot !== "bg") worn[it.slot] = it.id;
       ["", "happy"].forEach((mood) => {
-        const s = Art.svg({ kind: kind, color: c.id, name: "Test <b>", worn: worn, bg: it.slot === "bg" ? it.id : null }, { mood: mood });
+        const s = Art.svg({ kind: kind, color: c.id, name: "Test <b>", worn: worn, room: room, scene: Art.isRoomSlot(it.slot) ? "room" : "bg", bg: it.slot === "bg" ? it.id : null }, { mood: mood });
         drawn += 1;
         ok(/^<svg[\s\S]*<\/svg>$/.test(s) && !/NaN|undefined|null/.test(s) && !/<b>/.test(s), kind + "/" + c.id + "/" + it.id + ": clean markup");
       });
@@ -117,7 +119,48 @@ ok(gifted.total === 20 + 35, "coins from the teacher count: " + gifted.total);
 
 // every item can be afforded by someone who has worked for a while
 const stars3 = lessons.filter((l) => !l.isParentLesson).length;
-ok(stars3 * 10 > Art.ITEMS.reduce((n, i) => n + i.price, 0), "the whole shop is within reach of the course");
+ok(stars3 * 15 > Art.ITEMS.reduce((n, i) => n + i.price, 0), "the whole shop is within reach of the course (15 coins a lesson, with stars and practice)");
+
+// ----- the room -----
+ok(Art.ROOM_SLOTS.length === 8 && Art.ROOM_SLOTS.every((s) => Art.ITEMS.filter((i) => i.slot === s[0]).length >= 2), "every place in the room has at least two things to choose from");
+ok(Art.ITEMS.filter((i) => Art.isRoomSlot(i.slot)).every((i) => i.room && /viewBox/.test(Art.thumb(i.id)) && !/NaN/.test(Art.thumb(i.id))), "room things have thumbnails");
+const emptyRoom = Art.svg({ kind: "cat", color: "gra", scene: "room" });
+ok(/pet-room-svg/.test(emptyRoom) && emptyRoom.includes("translate(25 38) scale"), "an empty room is drawn with the pet in the middle");
+ok(!/pet-room-svg/.test(Art.svg({ kind: "cat", color: "gra", scene: "room" }, { bare: true })), "the bare pet has no room (small faces)");
+let rp = Pet.makePet("penguin", "rosa", "Pingo");
+ok(!rp.scene, "a new pet has no room view yet");
+let rb = Pet.buyItem(rp, "rum-matta-bla", 99);
+ok(!rb.error && rb.pet.room.rug === "rum-matta-bla" && rb.pet.scene === "room" && Pet.isOn(rb.pet, Art.item("rum-matta-bla")), "the first room thing is placed and switches the view to the room");
+const bgPet = Pet.buyItem(Pet.makePet("dog", "fawn", "x"), "bg-gras", 99).pet;
+ok(!bgPet.scene && Pet.buyItem(bgPet, "rum-kudde", 99).pet.scene === "room", "a background alone does not switch to the room");
+const keepScene = Object.assign({}, rb.pet, { scene: "bg" });
+ok(Pet.buyItem(keepScene, "rum-kudde", 99).pet.scene === "bg", "the choice of view is kept when more is bought");
+ok(!Pet.wearItem(rb.pet, "rug", null).pet.room.rug && !Pet.wearItem(rb.pet, "bed", "rum-korg").pet.room.bed, "a room thing is taken away, and one that is not owned is not placed");
+ok(!Pet.wearItem(rb.pet, "bed", "rum-matta-bla").pet.room.bed, "a thing only goes in its own place in the room");
+
+// ----- the themed sets -----
+const known = new Set(lessons.map((l) => l.area));
+ok(Art.SETS.length === 5 && Art.SETS.every((s) => known.has(s.area) && s.name && s.areaName), "one set for each of the five areas");
+Art.SETS.forEach((set) => {
+  const items = Art.ITEMS.filter((i) => i.set === set.id);
+  ok(items.length === 3 && items.map((i) => i.slot).sort().join() === "face,hat,neck", set.id + ": a hat, glasses and a necklace");
+  ok(items.every((i, n) => i.area === undefined && i.need === [2, 4, 6][n]) && items.every((i, n) => n === 0 || i.price >= items[n - 1].price), set.id + ": later pieces need more lessons and cost more");
+  ok(lessons.filter((l) => !l.isParentLesson && l.area === set.area).length >= 6, set.id + ": the area has enough lessons to unlock the whole set");
+});
+const tal = Art.item("tal-hatt"), talHals = Art.item("tal-hals");
+ok(Pet.lockOf(tal, { tal: 1 }) && Pet.lockOf(tal, { tal: 1 }).need === 2 && !Pet.lockOf(tal, { tal: 2 }) && !Pet.lockOf(Art.item("hatt-keps"), {}), "a themed piece is locked until enough lessons are finished, other pieces never");
+ok(!Pet.lockOf(tal, undefined), "without counts nothing is locked");
+let b = Pet.buyItem(pet, "tal-hatt", 99, { tal: 1 });
+ok(b.error && /2 lektioner i Tal & räkning/.test(b.error) && /klarat 1/.test(b.error), "buying a locked piece is refused: " + b.error);
+b = Pet.buyItem(pet, "tal-hatt", 99, { tal: 2 });
+ok(!b.error && b.pet.worn.hat === "tal-hatt" && b.pet.owned["tal-hatt"] === 30, "an unlocked piece is bought and put on");
+ok(Pet.buyItem(pet, "tal-hals", 99, { tal: 5 }).error, "the third piece needs six lessons");
+// finished lessons per area are counted from the progress
+const doneLesson = lessons.find((l) => l.area === "tal" && !l.isParentLesson && L.tasks(l).length);
+const prog = { [doneLesson.id]: { started: true, answers: Object.fromEntries(L.tasks(doneLesson).map((t) => [t.id, { answer: "x", feedbackType: "correct", completed: true }])) } };
+const counts = Pet.areaCounts({ lessons: lessons, getProgress: (id) => prog[id] });
+ok(counts.tal === 1 && !counts.geometri, "finished lessons are counted per area: " + JSON.stringify(counts));
+
 
 console.log(failures ? failures + " FAILED" : "All pet checks passed (" + drawn + " drawings)");
 process.exit(failures ? 1 : 0);

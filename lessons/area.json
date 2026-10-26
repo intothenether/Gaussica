@@ -82,6 +82,33 @@
         { "answers": ["16", "16 m"], "message": "16 meter är omkretsen. För att hitta ytan inuti lådan multiplicerar du längden med bredden." },
         { "answers": ["8"], "message": "8 är 6 + 2. Area räknas i kvadratenheter och hittas genom att multiplicera sidornas längder." }
       ]
+    },
+    {
+      "prompt": "En rektangulär fotbollsplan för barn är 40 m lång och 20 m bred. Hur stor är arean i m²?",
+      "answer": [
+        "800",
+        "800 m2",
+        "800m2",
+        "800 m²",
+        "800m²"
+      ],
+      "correct": "Ja! 40 · 20 = 800 m².",
+      "feedback": [
+        {
+          "answers": [
+            "120",
+            "120 m"
+          ],
+          "message": "120 m är hur långt det är runt planen. Arean får du genom att multiplicera längden med bredden."
+        },
+        {
+          "answers": [
+            "60",
+            "60 m"
+          ],
+          "message": "60 får du om du lägger ihop längden och bredden. Arean är längden gånger bredden."
+        }
+      ]
     }
   ]
 }

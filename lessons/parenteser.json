@@ -79,6 +79,28 @@
         { "answers": ["24"], "message": "Du räknade 10 + 4 · 6 = 10 + 24 = 34 eller något liknande utan att räkna de nya. Det var en ursprunglig, plus 4 nya, plus 6 nya = 10 + 4 + 6 = 20." },
         { "answers": ["14"], "message": "Du räknade 10 + 4 eller något delproblem. Det kom båda grupper: 10 + 4 + 6 = 20 fåglar sammanlagt." }
       ]
+    },
+    {
+      "prompt": "Fem elever köper varsin bok för 40 kr och varsin penna för 10 kr. Hur mycket kostar allt tillsammans?",
+      "answer": [
+        "250",
+        "250 kr"
+      ],
+      "correct": "Ja! 5 · (40 + 10) = 5 · 50 = 250 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "210"
+          ],
+          "message": "Du multiplicerade bara boken med 5. Alla fem köper både bok och penna, så räkna först (40 + 10) och multiplicera sedan med 5."
+        },
+        {
+          "answers": [
+            "55"
+          ],
+          "message": "55 är 5 + 40 + 10. Det är 5 elever som köper varsin bok och penna, så du ska multiplicera."
+        }
+      ]
     }
   ],
   "problemPatterns": [

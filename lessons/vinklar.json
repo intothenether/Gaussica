@@ -81,6 +81,30 @@
         { "answers": ["180", "180°"], "message": "180° är ett halvt varv. Ett kvarts varv är hälften av det." },
         { "answers": ["360", "360°"], "message": "360° är ett helt varv. Dela ett helt varv i fyra lika stora delar för att få ett kvarts varv." }
       ]
+    },
+    {
+      "prompt": "En klocka visar 3:00. Hur stor är vinkeln mellan timvisaren och minutvisaren?",
+      "answer": [
+        "90",
+        "90°"
+      ],
+      "correct": "Ja! Visarna bildar en rät vinkel, 90°.",
+      "feedback": [
+        {
+          "answers": [
+            "30",
+            "30°"
+          ],
+          "message": "30° är vinkeln mellan två hela timmar på klockan. Mellan 12 och 3 är det tre sådana steg."
+        },
+        {
+          "answers": [
+            "180",
+            "180°"
+          ],
+          "message": "180° är en rak vinkel, som klockan 6. Klockan 3 är det en fjärdedels varv."
+        }
+      ]
     }
   ]
 }

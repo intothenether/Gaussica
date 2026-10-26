@@ -1,0 +1,263 @@
+{
+  "id": "samma-tal-tre-satt",
+  "area": "tal",
+  "title": "Bråk, decimaltal och procent: samma tal",
+  "level": "Tre sätt att skriva samma del · ungefär åk 5",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "decimaltal",
+    "brak-del"
+  ],
+  "summary": "Hälften kan skrivas som 1/2, 0,5 och 50 %. Det är samma tal på tre sätt.",
+  "explanationTitle": "Växla mellan bråk, decimaltal och procent",
+  "explanation": "Problemet: Hälften kan skrivas som 1/2, som 0,5 och som 50 %. Hur vet vi att det är samma sak, och när är det smart att välja det ena eller det andra? Vi behöver ett sätt att växla mellan dem. Talet 100 hjälper oss: procent betyder hundradelar. Hälften är 50 av 100, alltså 50/100, 0,50 och 50 %. En fjärdedel är 25 av 100, alltså 25 %. Tre fjärdedelar är 75 %. En tiondel är 10 av 100, alltså 10 %. Dessa fyra bör du kunna utantill. När du jämför tal är det lättast att skriva dem alla på samma sätt, till exempel som procent.",
+  "visual": {
+    "type": "tabell",
+    "title": "Samma tal på tre sätt",
+    "headers": [
+      "Bråk",
+      "Decimaltal",
+      "Procent"
+    ],
+    "rows": [
+      [
+        "1/2",
+        "0,5",
+        "50 %"
+      ],
+      [
+        "1/4",
+        "0,25",
+        "25 %"
+      ],
+      [
+        "3/4",
+        "0,75",
+        "75 %"
+      ],
+      [
+        "1/10",
+        "0,1",
+        "10 %"
+      ]
+    ]
+  },
+  "rule": "Procent betyder hundradelar. 50 % = 50/100 = 0,5 = 1/2.",
+  "ruleLabel": "TRE SÄTT, SAMMA TAL",
+  "example": "1/4 är lika med 25 av 100, alltså 0,25 och 25 %.",
+  "practice": [
+    {
+      "id": "tiondelar-procent",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "t": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Hur många procent är {t}/10?",
+      "answer": [
+        "=t*10",
+        "{t*10} %",
+        "{t*10}%"
+      ],
+      "correct": "Rätt! 1/10 är 10 %, så {t}/10 är {t*10} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} är täljaren. En tiondel är 10 %, så du ska multiplicera."
+        },
+        {
+          "answers": [
+            "=t*100"
+          ],
+          "message": "Det blir för mycket. En tiondel är 10 %, inte 100 %."
+        }
+      ]
+    },
+    {
+      "id": "tiondelar",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "t": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Skriv {t}/10 som decimaltal.",
+      "answer": [
+        "=t/10"
+      ],
+      "correct": "Rätt! {t} tiondelar är {t/10}.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} är täljaren. Varje tiondel är 0,1."
+        },
+        {
+          "answers": [
+            "=t/100"
+          ],
+          "message": "En tiondel är 0,1, inte 0,01."
+        }
+      ]
+    },
+    {
+      "id": "procent-till-decimal",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "p": [
+          10,
+          90,
+          10
+        ]
+      },
+      "prompt": "Skriv {p} % som decimaltal.",
+      "answer": [
+        "=p/100"
+      ],
+      "correct": "Rätt! {p} % är {p} hundradelar, alltså {p/100}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p"
+          ],
+          "message": "{p} är procenttalet. Procent betyder hundradelar, så dela med 100."
+        },
+        {
+          "answers": [
+            "=p/10"
+          ],
+          "message": "Det blir tio gånger för stort. {p} % är {p} hundradelar."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur många procent är 1/4?",
+    "answer": [
+      "25",
+      "25 %",
+      "25%"
+    ],
+    "correct": "Rätt! En fjärdedel är 25 av 100, alltså 25 %.",
+    "feedback": [
+      {
+        "answers": [
+          "4",
+          "14"
+        ],
+        "message": "Det är inte nämnaren som ger procenten. Tänk på hur många av 100 en fjärdedel är."
+      }
+    ],
+    "visual": {
+      "type": "tabell",
+      "title": "Samma tal på tre sätt",
+      "headers": [
+        "Bråk",
+        "Decimaltal",
+        "Procent"
+      ],
+      "rows": [
+        [
+          "1/2",
+          "0,5",
+          "50 %"
+        ],
+        [
+          "1/4",
+          "0,25",
+          "25 %"
+        ],
+        [
+          "3/4",
+          "0,75",
+          "75 %"
+        ],
+        [
+          "1/10",
+          "0,1",
+          "10 %"
+        ]
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "Av 100 elever cyklar 75 till skolan. Hur stor del är det som decimaltal?",
+      "answer": [
+        "0.75",
+        "0,75"
+      ],
+      "correct": "Rätt! 75 av 100 är 0,75.",
+      "feedback": [
+        {
+          "answers": [
+            "75"
+          ],
+          "message": "75 är antalet elever. Skriv delen som decimaltal: 75 hundradelar."
+        },
+        {
+          "answers": [
+            "7.5",
+            "7,5"
+          ],
+          "message": "7,5 är tio gånger för stort. 75 hundradelar är 0,75."
+        }
+      ]
+    },
+    {
+      "prompt": "Mira har ätit 0,5 av en pizza. Hur många procent av pizzan har hon ätit?",
+      "answer": [
+        "50",
+        "50 %",
+        "50%"
+      ],
+      "correct": "Rätt! 0,5 är 50 hundradelar, alltså 50 %.",
+      "feedback": [
+        {
+          "answers": [
+            "5",
+            "5 %",
+            "5%"
+          ],
+          "message": "0,5 är fem tiondelar, vilket är 50 hundradelar. Skriv det i procent."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket är störst: 1/2, 0,4 eller 30 %? Skriv talet som det står.",
+      "answer": [
+        "1/2"
+      ],
+      "correct": "Rätt! 1/2 är 50 %, 0,4 är 40 % och 30 % är 30 %. Störst är 1/2.",
+      "feedback": [
+        {
+          "answers": [
+            "0.4",
+            "0,4"
+          ],
+          "message": "Skriv alla på samma sätt: 1/2 = 50 %, 0,4 = 40 % och 30 %. Vilket är störst?"
+        },
+        {
+          "answers": [
+            "30 %",
+            "30%"
+          ],
+          "message": "30 % är det minsta av de tre. Skriv alla som procent: 50 %, 40 % och 30 %."
+        }
+      ]
+    }
+  ]
+}

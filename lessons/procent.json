@@ -86,6 +86,30 @@
         { "answers": ["25"], "message": "25 är procentsatsen, inte antalet elever. Hitta en fjärdedel av klassens 20 elever." },
         { "answers": ["15"], "message": "15 elever kan vara resten av klassen. En fjärdedel av 20 cyklar." }
       ]
+    },
+    {
+      "prompt": "Ett par skor kostar 600 kr. Priset höjs med 10 %. Vad kostar skorna efter höjningen?",
+      "answer": [
+        "660",
+        "660 kr"
+      ],
+      "correct": "Ja! 10 % av 600 är 60 kr, och 600 + 60 = 660 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "60",
+            "60 kr"
+          ],
+          "message": "60 kr är själva höjningen. Frågan gäller det nya priset, så lägg höjningen till 600 kr."
+        },
+        {
+          "answers": [
+            "540",
+            "540 kr"
+          ],
+          "message": "540 kr är priset efter en sänkning. Här höjs priset, så du ska lägga till."
+        }
+      ]
     }
   ]
 }

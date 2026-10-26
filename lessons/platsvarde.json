@@ -108,6 +108,27 @@
         { "answers": ["3"], "message": "3 är siffran. Titta på dess plats: hur mycket är tre tusental värda?" },
         { "answers": ["300"], "message": "300 är tre hundratal. I talet 3 050 står 3:an på tusentalsplatsen." }
       ]
+    },
+    {
+      "prompt": "Mia skriver ett tal med 4 hundratal, 0 tiotal och 8 ental. Vilket tal skriver hon?",
+      "answer": [
+        "408"
+      ],
+      "correct": "Ja! 4 hundratal, 0 tiotal och 8 ental är talet 408.",
+      "feedback": [
+        {
+          "answers": [
+            "48"
+          ],
+          "message": "Du har lämnat bort tiotalet. Siffran 0 behövs som platshållare, annars hamnar siffrorna på fel plats."
+        },
+        {
+          "answers": [
+            "4008"
+          ],
+          "message": "Talet har bara tre platser: hundratal, tiotal och ental. Det blir tre siffror."
+        }
+      ]
     }
   ]
 }

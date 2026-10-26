@@ -1,0 +1,286 @@
+{
+  "id": "problemlosning-rita",
+  "area": "tal",
+  "title": "Problemlösning: rita och prova",
+  "level": "Hitta ett sätt att lösa det · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "multiplikationstabellen",
+    "addition"
+  ],
+  "summary": "När du inte vet hur du ska börja hjälper det att rita, göra en tabell eller prova dig fram.",
+  "explanationTitle": "Fyra steg och några knep",
+  "explanation": "Problemet: Vissa uppgifter säger inte vilket räknesätt du ska använda. Då är det lätt att fastna. Vad gör du när du inte vet hur du ska börja? Du kan följa fyra steg. Först förstår du uppgiften: vad vet du, och vad ska du ta reda på? Sedan väljer du ett sätt, till exempel att rita en bild, göra en tabell eller prova dig fram. Därefter räknar du. Till sist kontrollerar du om svaret passar uppgiften. Att prova fel är en del av metoden: varje försök visar om du ska ta ett större eller mindre tal nästa gång.",
+  "visual": {
+    "type": "tabell",
+    "title": "Pröva dig fram",
+    "headers": [
+      "Cyklar",
+      "Trehjulingar",
+      "Hjul"
+    ],
+    "rows": [
+      [
+        "1",
+        "4",
+        "14"
+      ],
+      [
+        "2",
+        "3",
+        "13"
+      ],
+      [
+        "3",
+        "2",
+        "12"
+      ]
+    ]
+  },
+  "rule": "1. Förstå uppgiften. 2. Välj ett sätt: rita, tabell eller prova. 3. Räkna. 4. Kontrollera svaret.",
+  "ruleLabel": "SÅ LÖSER DU ETT PROBLEM",
+  "example": "Cyklar har 2 hjul och trehjulingar har 3 hjul. 5 fordon har 12 hjul. Pröva: 3 cyklar och 2 trehjulingar ger 6 + 6 = 12 hjul. Det stämmer.",
+  "practice": [
+    {
+      "id": "hjul",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "c": [
+          1,
+          5
+        ],
+        "t": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "c+t"
+        },
+        {
+          "name": "w",
+          "expr": "2*c+3*t"
+        }
+      ],
+      "prompt": "Det finns cyklar med 2 hjul och trehjulingar med 3 hjul. Tillsammans är det {v} fordon och {w} hjul. Hur många cyklar finns det?",
+      "answer": [
+        "=c"
+      ],
+      "correct": "Rätt! {c} cyklar ger {2*c} hjul och {t} trehjulingar ger {3*t} hjul, tillsammans {w}.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} är antalet trehjulingar. Pröva och se hur många cyklar som ger {w} hjul."
+        },
+        {
+          "answers": [
+            "=v"
+          ],
+          "message": "{v} är antalet fordon tillsammans. Hur många av dem är cyklar?"
+        }
+      ]
+    },
+    {
+      "id": "baklanges",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          10,
+          50
+        ],
+        "d": [
+          3,
+          15
+        ]
+      },
+      "prompt": "Mira tänker på ett tal. Hon lägger till {d} och får {a+d}. Vilket tal tänkte hon på?",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Baklänges: {a+d} − {d} = {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+2*d"
+          ],
+          "message": "Du lade till igen. Baklänges betyder att du tar bort {d}."
+        },
+        {
+          "answers": [
+            "=a+d"
+          ],
+          "message": "{a+d} är talet efter att hon lagt till. Ta bort det hon lade till."
+        }
+      ]
+    },
+    {
+      "id": "hona",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          1,
+          4
+        ],
+        "h": [
+          2,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "k+h"
+        },
+        {
+          "name": "b",
+          "expr": "4*k+2*h"
+        }
+      ],
+      "prompt": "I en hage finns höns (2 ben) och kor (4 ben). Det är {d} djur och {b} ben. Hur många kor är det?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! {k} kor ger {4*k} ben och {h} höns ger {2*h} ben, tillsammans {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} är antalet höns. Pröva och se hur många kor som ger {b} ben tillsammans med hönsen."
+        },
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "{d} är antalet djur tillsammans. Hur många av dem är kor?"
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Det finns cyklar (2 hjul) och trehjulingar (3 hjul). Tillsammans är det 5 fordon och 12 hjul. Hur många cyklar finns det?",
+    "answer": [
+      "3",
+      "3 cyklar"
+    ],
+    "correct": "Rätt! 3 cyklar ger 6 hjul och 2 trehjulingar ger 6 hjul, tillsammans 12.",
+    "feedback": [
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "Pröva: 2 cyklar och 3 trehjulingar ger 4 + 9 = 13 hjul. Det är för många."
+      },
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 är antalet fordon tillsammans. Frågan gäller bara cyklarna."
+      }
+    ],
+    "visual": {
+      "type": "tabell",
+      "title": "Pröva dig fram",
+      "headers": [
+        "Cyklar",
+        "Trehjulingar",
+        "Hjul"
+      ],
+      "rows": [
+        [
+          "1",
+          "4",
+          "14"
+        ],
+        [
+          "2",
+          "3",
+          "13"
+        ],
+        [
+          "3",
+          "2",
+          "12"
+        ]
+      ]
+    }
+  },
+  "wordProblems": [
+    {
+      "prompt": "I en hage finns höns (2 ben) och kor (4 ben). Det är 6 djur och 16 ben tillsammans. Hur många kor är det?",
+      "answer": [
+        "2",
+        "2 kor"
+      ],
+      "correct": "Rätt! 2 kor ger 8 ben och 4 höns ger 8 ben, tillsammans 16 ben.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "Pröva: 4 kor ger 16 ben bara på korna, och hönsen ger fler ben på toppen. Det blir för många."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är antalet djur tillsammans. Hur många av dem är kor?"
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många olika tvåsiffriga tal kan du skriva med siffrorna 1, 2 och 3, om du får använda samma siffra två gånger?",
+      "answer": [
+        "9",
+        "9 tal"
+      ],
+      "correct": "Rätt! Det finns 3 val för tiotalet och 3 för entalet, tillsammans 3 · 3 = 9 tal: 11, 12, 13, 21, 22, 23, 31, 32 och 33.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Du fick använda samma siffra två gånger, så 11, 22 och 33 räknas också."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "Skriv upp talen i en lista: 11, 12, 13 och så vidare. Hur många blir det?"
+        }
+      ]
+    },
+    {
+      "prompt": "Mira tänker på ett tal. Hon lägger till 8 och får 23. Vilket tal tänkte hon på? Räkna baklänges.",
+      "answer": [
+        "15"
+      ],
+      "correct": "Rätt! Baklänges tar du bort 8 från 23, och 23 − 8 = 15.",
+      "feedback": [
+        {
+          "answers": [
+            "31"
+          ],
+          "message": "Du lade till igen. Baklänges betyder att du gör tvärtom och tar bort 8."
+        },
+        {
+          "answers": [
+            "23"
+          ],
+          "message": "23 är talet efter att Mira lagt till. Ta bort det hon lade till."
+        }
+      ]
+    }
+  ]
+}

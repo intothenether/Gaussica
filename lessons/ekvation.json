@@ -82,6 +82,28 @@
         { "answers": ["30"], "message": "30 kr är priset för de tre böckerna tillsammans efter att pennan räknats bort. Dela det med 3." },
         { "answers": ["13"], "message": "Ta först bort pennans pris 5 kr från totalen. Dela sedan återstående pris lika mellan tre böcker." }
       ]
+    },
+    {
+      "prompt": "Lisa sparar lika mycket varje vecka. Hon hade redan 50 kr, och efter 6 veckor har hon 230 kr. Hur många kronor sparar hon varje vecka?",
+      "answer": [
+        "30",
+        "30 kr"
+      ],
+      "correct": "Ja! 50 + 6x = 230 ger 6x = 180, alltså x = 30 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "280"
+          ],
+          "message": "280 är 50 + 230. Ekvationen är 50 + 6x = 230. Ta bort 50 från båda sidor först."
+        },
+        {
+          "answers": [
+            "180"
+          ],
+          "message": "180 kr är vad hon sparat under de 6 veckorna. Dela det med 6 för att få kronor per vecka."
+        }
+      ]
     }
   ]
 }

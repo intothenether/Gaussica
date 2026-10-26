@@ -123,6 +123,11 @@ async function api() {
   run("prov", "tests/prov.js");
   run("class heatmap", "tests/heatmap.js");
   run("pet", "tests/pet.js");
+  run("pet teacher", "tests/pet-teacher.js");
+  run("fluency", "tests/fluency.js");
+  run("spaced repetition", "tests/spaced.js");
+  run("workshop", "tests/workshop.js");
+  run("syllabus", "tests/lgr22.js");
   await api();
   const failed = results.filter((r) => !r.ok);
   console.log("\n" + (failed.length ? failed.length + " of " + results.length + " checks FAILED" : "All " + results.length + " checks passed"));

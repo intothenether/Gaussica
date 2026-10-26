@@ -82,6 +82,30 @@
         { "answers": ["8"], "message": "8 cm är hur mycket som brunnit ner. Ta bort den längden från ljusets ursprungliga 18 cm." },
         { "answers": ["16"], "message": "Du har räknat bort 2 cm en gång. Ljuset brinner 2 cm per timme i 4 timmar." }
       ]
+    },
+    {
+      "prompt": "En cykeluthyrning tar 30 kr i startavgift och 20 kr per timme. Vad kostar det att hyra en cykel i 3 timmar?",
+      "answer": [
+        "90",
+        "90 kr"
+      ],
+      "correct": "Ja! y = 20 · 3 + 30 = 60 + 30 = 90 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "60",
+            "60 kr"
+          ],
+          "message": "60 kr är bara priset för 3 timmar. Lägg också till startavgiften på 30 kr."
+        },
+        {
+          "answers": [
+            "150",
+            "150 kr"
+          ],
+          "message": "150 får du om du tar (30 + 20) · 3. Startavgiften betalas bara en gång, inte varje timme."
+        }
+      ]
     }
   ]
 }

@@ -191,6 +191,7 @@ window.GaussicaPlayer = (function () {
       return b;
     };
     if (rulesLesson()) actions.appendChild(labelled("💡", "Regler", "pl-rules", openRules, "Se regeln och förklaringen igen utan att lämna lektionen."));
+    if (window.GaussicaWorkshop) actions.appendChild(labelled("🧰", "Verkstad", "pl-read pl-tools", function () { window.GaussicaWorkshop.open(); }, "Bygg och prova med block, bråkstavar, tallinje, våg och rutnät."));
     if (window.GaussicaReading) actions.appendChild(labelled("Aa", "Läsning", "pl-read", function () { window.GaussicaReading.open(); }, "Textstorlek, typsnitt och uppläsning."));
     if (deps.canChat && deps.canChat()) {
       const ask = labelled("💬", "Fråga läraren", "pl-ask", function () { deps.openChat(chatContext()); }, "Skriv till din lärare. Läraren ser vilken uppgift du tittar på.");
@@ -344,16 +345,14 @@ window.GaussicaPlayer = (function () {
 
   // The bottom bar is always visible. On a question screen it also holds the hint (feedback) and the answer
   // field, so the student never has to scroll to answer. state.hosts are created once per question.
-  function footer(foot, tone, message, actions) {
+  function footer(foot, tone, message, actions, say) {
     foot.className = "pl-foot is-" + tone;
     foot.replaceChildren();
     const msg = el("div", "pl-foot-msg");
-    if (message) {
-      // the pet says it (happy when the answer was right), if the student has one
-      const face = (tone === "correct" || tone === "wrong") && deps.petFace ? deps.petFace(tone === "correct" ? "happy" : "") : null;
-      if (face) msg.appendChild(face);
-      msg.appendChild(document.createTextNode(message));
-    }
+    // the pet says it in a speech bubble if the student has one (say = { kind, ... }), otherwise it is plain text
+    const bubble = say && deps.petSay ? deps.petSay(say.kind, say) : null;
+    if (bubble) msg.appendChild(bubble);
+    else if (message) msg.textContent = message;
     const acts = el("div", "pl-foot-actions");
     actions.forEach(function (a) { acts.appendChild(a); });
     const row = el("div", "pl-foot-row");
@@ -404,7 +403,8 @@ window.GaussicaPlayer = (function () {
     const skip = button("Hoppa över", "pl-btn pl-btn-ghost", function () { go(state.index + 1); });
 
     const showSolved = function (focusNext) {
-      footer(foot, "correct", state.tries[st.key] ? "✓ Rätt! Bra att du fortsatte!" : "✓ Rätt!", [next]);
+      state.hosts.help.replaceChildren();   // no worked example is needed any more
+      footer(foot, "correct", state.tries[st.key] ? "✓ Rätt! Bra att du fortsatte!" : "✓ Rätt!", [next], { kind: state.tries[st.key] ? "rightAgain" : "right" });
       if (focusNext) next.focus();
     };
     const showWrong = function () {
@@ -415,7 +415,7 @@ window.GaussicaPlayer = (function () {
         if (example) state.hosts.help.appendChild(button("💡 Se ett löst exempel", "pl-btn pl-btn-ghost pl-example", function () { openExample(example); }));
       }
       footer(foot, "wrong", "Inte riktigt – läs tipset och prova igen" + (n > 1 ? " (försök " + (n + 1) + ")" : ""),
-        [backButton(), skip].filter(Boolean));
+        [backButton(), skip].filter(Boolean), { kind: n >= 2 ? "wrongAgain" : "wrong", example: Boolean(state.hosts.help.firstChild) });
     };
 
     deps.renderQuestion(holder, l, st.task, label, {
@@ -434,7 +434,7 @@ window.GaussicaPlayer = (function () {
 
     const e = entryOf(st);
     if (e && e.completed) showSolved(false);
-    else footer(foot, "neutral", "", [backButton(), skip].filter(Boolean));
+    else footer(foot, "neutral", "", [backButton(), skip].filter(Boolean), st.number === 1 && !(e && (e.answer || e.feedbackType)) ? { kind: "start" } : null);
     const input = foot.querySelector("input[name=answer]");
     if (input && !(e && e.completed)) input.focus({ preventScroll: true });
   }
@@ -509,11 +509,15 @@ window.GaussicaPlayer = (function () {
     }
     actions.unshift(button("Till lärstigen", open.length ? "pl-btn pl-btn-ghost" : (actions.length ? "pl-btn pl-btn-ghost" : "pl-btn pl-btn-primary"), exit));
     const back = backButton();
-    footer(foot, open.length ? "neutral" : "correct", open.length ? "" : "🎉 Lektionen är klar", (back ? [back] : []).concat(actions));
+    footer(foot, open.length ? "neutral" : "correct", open.length ? "" : "🎉 Lektionen är klar", (back ? [back] : []).concat(actions), { kind: open.length ? "open" : "done" });
   }
 
   function sessionSummary(card, foot) {
     const s = state.session;
+    if (!s.reported && s.onDone) {
+      s.reported = true;
+      try { s.onDone(s.items, s.results); } catch (e) { console.warn("Kunde inte spara repetitionen:", e); }   // the summary is shown whatever happens
+    }
     const total = state.steps.length;
     const results = state.steps.map(function (st) { return s.results[st.task.id] || {}; });
     const solved = results.filter(function (r) { return r.completed; }).length;
@@ -549,7 +553,7 @@ window.GaussicaPlayer = (function () {
     else if (s.again) actions.push(button(s.kind === "review" ? "Repetera mer →" : "Öva en runda till →", "pl-btn pl-btn-primary", function () { s.again(); }));
     actions.unshift(button(s.backLabel || "Tillbaka", missed.length || actions.length ? "pl-btn pl-btn-ghost" : "pl-btn pl-btn-primary", exit));
     const back = backButton();
-    footer(foot, missed.length ? "neutral" : "correct", missed.length ? "" : "🎉 Bra kämpat", (back ? [back] : []).concat(actions));
+    footer(foot, missed.length ? "neutral" : "correct", missed.length ? "" : "🎉 Bra kämpat", (back ? [back] : []).concat(actions), { kind: missed.length ? "open" : "done" });
   }
 
   return { init: init, open: open, openSession: openSession, close: close };

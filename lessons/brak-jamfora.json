@@ -101,6 +101,43 @@
         { "answers": ["Beatrice"], "message": "1/4 är mindre än 1/3. Mindre nämnare betyder större bitar." },
         { "answers": ["samma"], "message": "1/3 och 1/4 är inte lika stora. 1/3 av en kaka är en större bit än 1/4 av samma kaka." }
       ]
+    },
+    {
+      "prompt": "Två lika stora pizzor. Elias äter 3/4 av sin pizza och Alva äter 2/3 av sin. Vem äter mest?",
+      "answer": [
+        "Elias"
+      ],
+      "correct": "Ja! 3/4 = 9/12 och 2/3 = 8/12. Elias äter mest.",
+      "feedback": [
+        {
+          "answers": [
+            "Alva"
+          ],
+          "message": "Skriv om bråken med samma nämnare: 3/4 = 9/12 och 2/3 = 8/12. Då ser du vilket som är störst."
+        },
+        {
+          "answers": [
+            "lika",
+            "samma"
+          ],
+          "message": "De är inte lika stora. 9/12 och 8/12 skiljer sig åt."
+        }
+      ]
+    },
+    {
+      "prompt": "I klass A cyklar 5/8 av eleverna till skolan. I klass B cyklar 3/5. Vilken klass har störst del som cyklar? Svara A eller B.",
+      "answer": [
+        "A"
+      ],
+      "correct": "Ja! 5/8 = 25/40 och 3/5 = 24/40. Klass A har störst del.",
+      "feedback": [
+        {
+          "answers": [
+            "B"
+          ],
+          "message": "Gör bråken likvärdiga med nämnaren 40: 5/8 = 25/40 och 3/5 = 24/40. Jämför täljarna."
+        }
+      ]
     }
   ]
 }

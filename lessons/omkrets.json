@@ -80,6 +80,32 @@
         { "answers": ["94.2", "94,2"], "message": "Du räknade pi gånger radien. Ett helt varv runt hjulet är två gånger pi gånger radien." },
         { "answers": ["60"], "message": "60 cm är hjulets diameter. Multiplicera diametern med pi för att hitta sträckan runt hjulet." }
       ]
+    },
+    {
+      "prompt": "En rund damm har radien 5 m. Ungefär hur långt är det runt dammen? Använd π ≈ 3,14.",
+      "answer": [
+        "31.4",
+        "31,4",
+        "31.4 m",
+        "31,4 m"
+      ],
+      "correct": "Ja! Diametern är 2 · 5 = 10 m, och 3,14 · 10 = 31,4 m.",
+      "feedback": [
+        {
+          "answers": [
+            "15.7",
+            "15,7"
+          ],
+          "message": "15,7 är bara halva omkretsen. Omkretsen är π · diametern, och diametern är 2 · radien."
+        },
+        {
+          "answers": [
+            "78.5",
+            "78,5"
+          ],
+          "message": "78,5 är arean (π · r · r). Omkretsen är π · diametern."
+        }
+      ]
     }
   ]
 }

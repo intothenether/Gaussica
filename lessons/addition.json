@@ -89,6 +89,27 @@
         { "answers": ["53"], "message": "53 är skillnaden mellan dagsresultaten. Frågan gäller hur många de samlar tillsammans." },
         { "answers": ["315"], "message": "Växla entalen när 6 + 9 blir 15 och för över ett tiotal till nästa plats." }
       ]
+    },
+    {
+      "prompt": "På en bondgård finns 126 höns och 87 ankor. Hur många fåglar finns det sammanlagt?",
+      "answer": [
+        "213"
+      ],
+      "correct": "Ja! 126 + 87 = 213 fåglar.",
+      "feedback": [
+        {
+          "answers": [
+            "39"
+          ],
+          "message": "39 är skillnaden mellan antalen. Frågan gäller alla fåglar, så du ska lägga ihop mängderna."
+        },
+        {
+          "answers": [
+            "203"
+          ],
+          "message": "Titta på tiotalen igen. Entalen gav 13, så ett tiotal ska växlas och läggas till tiotalen."
+        }
+      ]
     }
   ]
 }

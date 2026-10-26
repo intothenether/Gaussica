@@ -155,11 +155,18 @@ window.GaussicaPathView = (function () {
     if (data.play) list.appendChild(card(data.play, steps.length + 1, hooks));
     if (list.children.length) root.appendChild(list);
 
-    if (hooks.reviewLessons && hooks.reviewLessons.length) {
+    const weak = hooks.reviewLessons || [];
+    const due = hooks.dueLessons || [];
+    if (weak.length || due.length) {
       const row = el("div", "next-review");
       const text = el("p", "next-review-text");
-      text.append(el("strong", "", "Repetera: "),
-        document.createTextNode("du kan behöva öva mer på " + hooks.reviewLessons.slice(0, 3).map(function (r) { return r.lesson.title; }).join(", ") + "."));
+      if (weak.length) {
+        text.append(el("strong", "", "Repetera: "),
+          document.createTextNode("du kan behöva öva mer på " + weak.slice(0, 3).map(function (r) { return r.lesson.title; }).join(", ") + "."));
+      } else {
+        text.append(el("strong", "", "Dags att fräscha upp: "),
+          document.createTextNode(due.slice(0, 3).map(function (r) { return r.lesson.title; }).join(", ") + (due.length > 3 ? " och " + (due.length - 3) + " till" : "") + ". Några frågor så sitter det kvar. Det finns ingen brådska."));
+      }
       const btn = el("button", "next-review-btn", "Repetera nu");
       btn.type = "button";
       btn.addEventListener("click", hooks.review);

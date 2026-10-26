@@ -84,6 +84,33 @@
         { "answers": ["76"], "message": "Växla först 1 meter till centimeter. Då kan du addera två mått med samma enhet." },
         { "answers": ["250"], "message": "En meter är 100 centimeter, inte 175. Skriv om metern till 100 cm och lägg till 75 cm." }
       ]
+    },
+    {
+      "prompt": "Ett paket väger 2 kg. Noa lägger till 500 g. Hur många gram väger paketet nu?",
+      "answer": [
+        "2500",
+        "2 500",
+        "2500 g",
+        "2 500 g"
+      ],
+      "correct": "Ja! 2 kg är 2 000 g, och 2 000 g + 500 g = 2 500 g.",
+      "feedback": [
+        {
+          "answers": [
+            "502"
+          ],
+          "message": "502 får du om du lägger ihop 2 och 500. Men 2 kg är 2 000 g, så skriv först om kilogrammen till gram."
+        },
+        {
+          "answers": [
+            "2.5",
+            "2,5",
+            "2.5 kg",
+            "2,5 kg"
+          ],
+          "message": "Du har svarat i kilogram. Frågan vill ha gram, och 1 kg är 1 000 g."
+        }
+      ]
     }
   ]
 }

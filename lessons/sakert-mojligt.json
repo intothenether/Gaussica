@@ -1,0 +1,190 @@
+{
+  "id": "sakert-mojligt",
+  "area": "data",
+  "title": "Säkert, möjligt, omöjligt",
+  "level": "Hur troligt är det? · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "storre-mindre"
+  ],
+  "summary": "Vi har ord för hur troligt något är: säkert, möjligt och omöjligt.",
+  "explanationTitle": "Ord för chans",
+  "explanation": "Problemet: Kan du vara säker på att det blir sol imorgon? Kan en hund prata? Vissa saker händer alltid, andra händer aldrig, och många saker kanske händer. Vi behöver ord som säger hur troligt något är. Säkert betyder att det alltid händer, till exempel att det blir söndag efter lördag. Omöjligt betyder att det aldrig kan hända, som att en tärning visar 7 när den har siffrorna 1 till 6. Möjligt betyder att det kan hända men inte måste. Du kan också jämföra. Ur en påse med nio blå kulor och en röd är det mer troligt att dra en blå än en röd, fast båda är möjliga.",
+  "visual": {
+    "type": "tabell",
+    "title": "Orden för chans",
+    "headers": [
+      "Ord",
+      "Betyder",
+      "Exempel"
+    ],
+    "rows": [
+      [
+        "Säkert",
+        "händer alltid",
+        "Efter lördag kommer söndag"
+      ],
+      [
+        "Möjligt",
+        "kan hända",
+        "Det regnar imorgon"
+      ],
+      [
+        "Omöjligt",
+        "händer aldrig",
+        "En tärning visar 7"
+      ]
+    ]
+  },
+  "rule": "Säkert händer alltid. Omöjligt händer aldrig. Möjligt kan hända men måste inte.",
+  "ruleLabel": "ORDEN FÖR CHANS",
+  "example": "En påse har bara röda kulor. Det är säkert att du drar en röd kula och omöjligt att du drar en blå.",
+  "practice": [
+    {
+      "id": "blaa",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "b": [
+          3,
+          9
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-r",
+          "min": 1
+        }
+      ],
+      "prompt": "En påse har {b} blå och {r} röda kulor. Du drar en kula utan att titta. Vilken färg är mest troligt? Svara blå eller röd.",
+      "answer": [
+        "blå"
+      ],
+      "correct": "Rätt! Det finns fler blå ({b}) än röda ({r}).",
+      "feedback": [
+        {
+          "answers": [
+            "röd"
+          ],
+          "message": "Det finns {r} röda men {b} blå kulor. Det finns flest blå."
+        }
+      ]
+    },
+    {
+      "id": "roda",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "b": [
+          1,
+          8
+        ],
+        "r": [
+          3,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "r-b",
+          "min": 1
+        }
+      ],
+      "prompt": "En påse har {b} blå och {r} röda kulor. Du drar en kula utan att titta. Vilken färg är mest troligt? Svara blå eller röd.",
+      "answer": [
+        "röd"
+      ],
+      "correct": "Rätt! Det finns fler röda ({r}) än blå ({b}).",
+      "feedback": [
+        {
+          "answers": [
+            "blå"
+          ],
+          "message": "Det finns {b} blå men {r} röda kulor. Det finns flest röda."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En påse har bara röda kulor. Du drar en kula. Är det säkert, möjligt eller omöjligt att kulan är blå?",
+    "answer": [
+      "omöjligt"
+    ],
+    "correct": "Rätt! Det finns inga blå kulor, så det är omöjligt.",
+    "feedback": [
+      {
+        "answers": [
+          "säkert"
+        ],
+        "message": "Säkert betyder att det alltid händer. Här finns inga blå kulor."
+      },
+      {
+        "answers": [
+          "möjligt"
+        ],
+        "message": "Möjligt betyder att det kan hända. Finns det någon blå kula i påsen?"
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En påse har 5 blå kulor och 1 röd kula. Du drar en kula utan att titta. Vilken färg är mest troligt att du drar? Svara blå eller röd.",
+      "answer": [
+        "blå"
+      ],
+      "correct": "Rätt! Det finns fler blå kulor, så blå är mest troligt.",
+      "feedback": [
+        {
+          "answers": [
+            "röd"
+          ],
+          "message": "Det finns bara 1 röd kula men 5 blå. Det är mest troligt att du drar den färg det finns flest av."
+        }
+      ]
+    },
+    {
+      "prompt": "En tärning har siffrorna 1 till 6. Är det säkert, möjligt eller omöjligt att den visar 7?",
+      "answer": [
+        "omöjligt"
+      ],
+      "correct": "Rätt! Siffran 7 finns inte på tärningen.",
+      "feedback": [
+        {
+          "answers": [
+            "möjligt",
+            "säkert"
+          ],
+          "message": "Titta på siffrorna som finns på tärningen: 1, 2, 3, 4, 5 och 6. Finns 7 bland dem?"
+        }
+      ]
+    },
+    {
+      "prompt": "Du kastar en tärning med siffrorna 1 till 6. Är det säkert, möjligt eller omöjligt att få ett tal som är mindre än 7?",
+      "answer": [
+        "säkert"
+      ],
+      "correct": "Rätt! Alla siffror på tärningen är mindre än 7, så det är säkert.",
+      "feedback": [
+        {
+          "answers": [
+            "möjligt"
+          ],
+          "message": "Möjligt betyder att det kan hända men inte alltid. Här är alla siffror mindre än 7."
+        },
+        {
+          "answers": [
+            "omöjligt"
+          ],
+          "message": "Det går att få ett tal mindre än 7. Faktiskt alla tärningens siffror är det."
+        }
+      ]
+    }
+  ]
+}

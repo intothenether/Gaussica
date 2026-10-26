@@ -86,6 +86,27 @@
         { "answers": ["30"], "message": "30 är 36 − 6, men frågan är hur många grupper om sex som ryms i 36." },
         { "answers": ["42"], "message": "42 är summan 36 + 6. Prova att räkna hur många sexor som tillsammans blir 36." }
       ]
+    },
+    {
+      "prompt": "Karin har 45 klistermärken. Hon lägger dem lika i 5 högar. Hur många klistermärken är det i varje hög?",
+      "answer": [
+        "9"
+      ],
+      "correct": "Ja! 45 delat lika i 5 högar ger 9 klistermärken i varje.",
+      "feedback": [
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "40 får du om du tar bort 5 från 45. Här ska 45 delas lika i 5 högar."
+        },
+        {
+          "answers": [
+            "225"
+          ],
+          "message": "225 är 45 · 5. När något delas lika blir varje del mindre än hela mängden."
+        }
+      ]
     }
   ]
 }

@@ -37,19 +37,24 @@ window.GaussicaRewards = (function () {
   function starsText(n) { return "★".repeat(n) + "☆".repeat(3 - n); }
 
   // ----- stars per lesson -----
-  function lessonStars(lesson) {
-    const sum = L().summarize(lesson, deps.getProgress, lessons());
+  // The stars of a lesson for any student (also used by the teacher view): getProgress(lessonId) is that student's progress.
+  function starsFor(lesson, student, all, getProgress) {
+    const sum = L().summarize(lesson, getProgress, all);
     if (!(sum.total > 0 && sum.state === "complete")) return { complete: false, stars: 0 };
-    const progress = deps.getProgress(lesson.id) || { answers: {} };
+    const progress = getProgress(lesson.id) || { answers: {} };
     const tasks = L().tasks(lesson).filter(function (t) { return !t.goal; });
     if (!tasks.length) return { complete: true, stars: 3 };
     let first = 0;
     tasks.forEach(function (t) {
-      const stats = L().taskStats(L().history(user(), lesson.id, t.id), progress.answers && progress.answers[t.id]);
+      const stats = L().taskStats(L().history(student, lesson.id, t.id), progress.answers && progress.answers[t.id]);
       if (stats.triesToSolve === 1 || (stats.triesToSolve === null && stats.solved && stats.submissions === 0)) first++;
     });
     const ratio = first / tasks.length;
     return { complete: true, stars: ratio === 1 ? 3 : ratio >= 0.6 ? 2 : 1 };
+  }
+
+  function lessonStars(lesson) {
+    return starsFor(lesson, user(), lessons(), deps.getProgress);
   }
 
   function overview() {
@@ -245,7 +250,7 @@ window.GaussicaRewards = (function () {
   }
 
   return {
-    init: init, enabled: enabled, lessonStars: lessonStars, starsText: starsText, check: check, celebrate: celebrate,
+    init: init, enabled: enabled, lessonStars: lessonStars, starsFor: starsFor, starsText: starsText, check: check, celebrate: celebrate,
     openCollection: openCollection, overview: overview
   };
 }());

@@ -77,6 +77,48 @@
       "feedback": [
         { "answers": ["8"], "message": "Du har vänt på dem. 8 är nämnaren, nederst: de 8 bitar som helheten består av. Täljaren är överst: de 3 bitar du åt." }
       ]
+    },
+    {
+      "prompt": "En chokladkaka har 12 rutor. Sara äter 5 rutor. Vilket bråk visar hur stor del hon har ätit? Skriv med bråkstreck.",
+      "answer": [
+        "5/12"
+      ],
+      "correct": "Ja! Sara har ätit 5 av 12 rutor, alltså 5/12.",
+      "feedback": [
+        {
+          "answers": [
+            "7/12"
+          ],
+          "message": "7/12 är den del som är kvar. Frågan gäller delen Sara har ätit."
+        },
+        {
+          "answers": [
+            "12/5"
+          ],
+          "message": "Du har vänt på dem. Nämnaren, alla delar, står underst. Täljaren, de delar du tar, står överst."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett fält är indelat i 10 lika stora rutor. 3 rutor är sådda med majs. Hur stor del av fältet är sådd med majs? Skriv som bråk.",
+      "answer": [
+        "3/10"
+      ],
+      "correct": "Ja! 3 av 10 rutor är sådda, alltså 3/10.",
+      "feedback": [
+        {
+          "answers": [
+            "7/10"
+          ],
+          "message": "7/10 är den del som inte är sådd. Frågan gäller delen med majs."
+        },
+        {
+          "answers": [
+            "10/3"
+          ],
+          "message": "Du har vänt på täljaren och nämnaren. Alla 10 rutor är nämnare, de 3 sådda rutorna är täljare."
+        }
+      ]
     }
   ]
 }
