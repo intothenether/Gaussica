@@ -13,7 +13,7 @@ window.GaussicaLocal = (function () {
   const COLORS = ["#425b9a", "#ef6f88", "#4fa8dc", "#8a74c9", "#d99a2b", "#2f9d88", "#7a8db8"];
   const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
   const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-  const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart"];
+  const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart", "mynt5", "mynt10", "mynt25"];
   const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
   function ApiError(status, message) {
@@ -170,7 +170,7 @@ window.GaussicaLocal = (function () {
     const cls = db.classes.find(function (c) { return c.id === a.classId; });
     const student = a.studentId ? db.users.find(function (u) { return u.id === a.studentId; }) : null;
     return {
-      id: a.id, lessonId: a.lessonId, kind: a.kind || "lesson", note: a.note, dueDate: a.dueDate, createdAt: a.createdAt, teacher: teacher ? teacher.displayName : null,
+      id: a.id, lessonId: a.lessonId, kind: a.kind || "lesson", config: a.config || null, note: a.note, dueDate: a.dueDate, createdAt: a.createdAt, teacher: teacher ? teacher.displayName : null,
       classId: extra ? a.classId : null, className: extra && cls ? cls.name : null, studentId: extra ? a.studentId : null, studentName: extra && student ? student.displayName : null
     };
   }
@@ -296,6 +296,15 @@ window.GaussicaLocal = (function () {
     return { assignments: db.assignments.filter(function (a) { return a.teacherId === u.id && !a.archived; }).sort(byDue).map(function (a) { return publicAssignment(a, true); }) };
   }
 
+  // The settings of a prov: { title, lessons: [ids], perLesson, minutes (0 = no time limit), showResult }
+  function cleanProv(c) {
+    if (!c || typeof c !== "object") throw ApiError(400, "Provet saknar inställningar.");
+    const lessons = (Array.isArray(c.lessons) ? c.lessons : []).map(function (x) { return str(x, 80); }).filter(function (x, i, a) { return ID_RE.test(x) && a.indexOf(x) === i; }).slice(0, 12);
+    if (!lessons.length) throw ApiError(400, "Välj minst en lektion till provet.");
+    const int = function (v, lo, hi, d) { const n = Math.round(Number(v)); return Number.isFinite(n) ? Math.max(lo, Math.min(hi, n)) : d; };
+    return { title: str(c.title, 80).trim() || "Prov", lessons: lessons, perLesson: int(c.perLesson, 1, 20, 4), minutes: int(c.minutes, 0, 240, 0), showResult: c.showResult !== false };
+  }
+
   function createAssignment(b) {
     const u = requireTeacher();
     const cls = db.classes.find(function (c) { return c.id === Number(b.classId) && c.teacherId === u.id; });
@@ -310,8 +319,10 @@ window.GaussicaLocal = (function () {
     if (!ID_RE.test(lessonId)) throw ApiError(400, "Välj en lektion.");
     const dueDate = str(b.dueDate, 10);
     if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw ApiError(400, "Ogiltigt datum.");
-    const a = { id: db.next.assignment++, classId: cls.id, studentId: studentId, teacherId: u.id, lessonId: lessonId,
-      note: str(b.note, 400).trim(), dueDate: dueDate || null, createdAt: nowIso(), archived: false, kind: b.kind === "practice" ? "practice" : "lesson" };
+    const kind = b.kind === "practice" ? "practice" : b.kind === "prov" ? "prov" : "lesson";
+    const config = kind === "prov" ? cleanProv(b.config) : null;
+    const a = { id: db.next.assignment++, classId: cls.id, studentId: studentId, teacherId: u.id, lessonId: config ? config.lessons[0] : lessonId,
+      note: str(b.note, 400).trim(), dueDate: dueDate || null, createdAt: nowIso(), archived: false, kind: kind, config: config };
     db.assignments.push(a);
     save();
     return { id: a.id };

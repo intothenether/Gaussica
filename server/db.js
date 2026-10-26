@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 
-const SCHEMA_VERSION = 5;
+const SCHEMA_VERSION = 6;
 
 function open(dbPath) {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -141,6 +141,10 @@ function migrate(db) {
         created_at TEXT NOT NULL
       );
     `);
+  }
+  if (version < 6) {
+    // a prov (generated test) is an assignment of kind 'prov' whose settings are kept here as JSON
+    db.exec("ALTER TABLE assignments ADD COLUMN config TEXT;");
   }
   db.exec("PRAGMA user_version = " + SCHEMA_VERSION);
 }

@@ -31,6 +31,7 @@ window.GaussicaPracticeEditor = (function () {
     {
       id: "summa", label: "Räkna ut (heltal)", note: "Det enklaste: två slumptal och en uträkning.",
       template: { vars: { a: [10, 99], b: [10, 99] }, derive: [{ name: "s", expr: "a+b" }], prompt: "Räkna ut {a} + {b}.", answer: ["=s"], correct: "Rätt! {a} + {b} = {s}.",
+        steps: ["Lägg ihop entalen, tiotalen och hundratalen var för sig.", "{a} + {b} = {s}"],
         feedback: [{ answers: ["=a-b"], message: "Du har tagit bort. Här ska du lägga ihop." }] }
     },
     {
@@ -54,6 +55,7 @@ window.GaussicaPracticeEditor = (function () {
       id: "procent", label: "Procent", note: "Slumpa procent och belopp i steg (tredje talet är steget), så att svaret blir ett helt tal.",
       template: { vars: { v: [100, 900, 50], p: [10, 50, 10] }, derive: [{ name: "r", expr: "v*p/100" }],
         prompt: "Hur mycket är {p} % av {v} kr?", answer: ["=r", "{r} kr"], correct: "Rätt! {p} % av {v} är {r} kr.",
+        steps: ["10 % av {v} kr är {v/10} kr.", "{p} % är {p/10} gånger så mycket.", "{p/10} · {v/10} = {r} kr."],
         feedback: [{ answers: ["=v-r"], message: "Du har dragit bort procenten. Frågan gäller hur mycket procenten är." }] }
     },
     {
@@ -83,6 +85,7 @@ window.GaussicaPracticeEditor = (function () {
       id: "ekvation", label: "Ekvation (svar kan skrivas som x = 4)", note: "Skriv flera svar: bara talet och x = talet. Slumpa x först och bygg ekvationen baklänges, så blir svaret alltid ett heltal.",
       template: { vars: { x: [1, 12], a: [2, 9], b: [1, 15] }, derive: [{ name: "c", expr: "a*x+b" }],
         prompt: "Lös ekvationen {a}x + {b} = {c}.", answer: ["=x", "x={x}", "x = {x}"], correct: "Rätt! {a}x = {c-b}, så x = {x}.",
+        steps: ["Ta bort {b} från båda sidor: {a}x = {c-b}.", "Dela båda sidor med {a}: x = {x}."],
         feedback: [{ answers: ["=c-b"], message: "{c-b} är {a}x. Dela med {a}." }] }
     },
     {
@@ -219,6 +222,7 @@ window.GaussicaPracticeEditor = (function () {
       });
     };
     [t.prompt, t.correct].forEach(text);
+    (t.steps || []).forEach(text);
     (t.statements || []).forEach(function (s) {
       text(s.text); text(s.explain);
       if (typeof s.answer === "string" && s.answer.charAt(0) === "=") scan(s.answer.slice(1));
@@ -272,7 +276,7 @@ window.GaussicaPracticeEditor = (function () {
       const q = PR().build(t, 1000 + i * 7919);
       if (!q) { fails += 1; continue; }
       prompts.add(q.prompt + JSON.stringify(q.visual || "") + JSON.stringify(q.statements || ""));
-      const strings = [q.prompt, q.correct].concat(q.answer).concat(q.feedback.map(function (f) { return f.message; }))
+      const strings = [q.prompt, q.correct].concat(q.solution || []).concat(q.answer).concat(q.feedback.map(function (f) { return f.message; }))
         .concat((q.statements || []).reduce(function (all, s) { return all.concat([s.text, s.explain || ""]); }, []));
       if (strings.some(function (s) { return /NaN|undefined|Infinity|[{}$]/.test(s); })) once("unresolved", errors, "Något i texten blev inte ifyllt (\"" + q.prompt + "\"). Kontrollera namnen på slumptal och uträknade värden.");
       if (strings.some(function (s) { return /×|—/.test(s); })) once("hygiene", warnings, "Använd · (gångerpunkten) i stället för × och undvik långa tankstreck.");
@@ -334,6 +338,8 @@ window.GaussicaPracticeEditor = (function () {
         if (t.pick && !Object.keys(t.pick).length) delete t.pick;
         ["derive", "where", "feedback", "for", "keys"].forEach(function (k) { if (Array.isArray(t[k]) && !t[k].length) delete t[k]; });
         if (Array.isArray(t.answer)) t.answer = t.answer.map(function (a) { return String(a).trim(); }).filter(Boolean);
+        if (Array.isArray(t.steps)) t.steps = t.steps.map(function (s) { return String(s).trim(); }).filter(Boolean);
+        if (Array.isArray(t.steps) && !t.steps.length) delete t.steps;
         if (!t.form) delete t.form;
         if (!t.visual) delete t.visual;
         if (!t.correct || !String(t.correct).trim()) delete t.correct;
@@ -568,6 +574,9 @@ window.GaussicaPracticeEditor = (function () {
     box.appendChild(textarea((t.answer || []).join("\n"), 3, "=s", function (v) { t.answer = lines(v); edited(); }));
     const correct = el("div");
     correct.appendChild(field("När svaret är rätt", textarea(t.correct, 2, "Rätt! {a} + {b} = {s}.", function (v) { t.correct = v; edited(); })));
+    correct.appendChild(field("Lösningssteg (valfritt, ett per rad)", textarea((t.steps || []).join("\n"), 3, "{a} + {b}: börja med entalen",
+      function (v) { const s = lines(v); if (s.length) t.steps = s; else delete t.steps; edited(); }),
+      "Visas som ett löst exempel med andra tal när en elev har svarat fel två gånger. Skriv stegen med {namn} från mallen. Finns inga steg används texten ovan."));
     box.appendChild(correct);
     return box;
   }

@@ -9,7 +9,7 @@ const SESSION_DAYS = 30;
 const COLORS = ["#425b9a", "#ef6f88", "#4fa8dc", "#8a74c9", "#d99a2b", "#2f9d88", "#7a8db8"];
 const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
 const CHAT_UNANSWERED_MAX = 6;   // a student can send this many messages in a row before the teacher has answered
-const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart"];
+const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart", "mynt5", "mynt10", "mynt25"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 class ApiError extends Error {
@@ -73,12 +73,12 @@ function createApi(db, options) {
       "SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'"),
     deleteUser: db.prepare("DELETE FROM users WHERE id = ?"),
     classOfTeacher: db.prepare("SELECT * FROM classes WHERE id = ? AND teacher_id = ?"),
-    insertAssignment: db.prepare("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at, kind) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
+    insertAssignment: db.prepare("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at, kind, config) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"),
     assignmentsForStudent: db.prepare(
-      "SELECT a.id, a.lesson_id, a.kind, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
+      "SELECT a.id, a.lesson_id, a.kind, a.config, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
       "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id"),
     assignmentsForTeacher: db.prepare(
-      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
+      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, a.config, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
       "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
       "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id"),
     archiveAssignment: db.prepare("UPDATE assignments SET archived = 1 WHERE id = ? AND teacher_id = ?"),
@@ -425,10 +425,21 @@ function createApi(db, options) {
   }
 
   function publicAssignment(r) {
+    let config = null;
+    if (r.config) { try { config = JSON.parse(r.config); } catch (e) { /* corrupt row: shown without settings */ } }
     return {
-      id: r.id, lessonId: r.lesson_id, kind: r.kind || "lesson", note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
+      id: r.id, lessonId: r.lesson_id, kind: r.kind || "lesson", config: config, note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
       classId: r.class_id || null, className: r.class_name || null, studentId: r.student_id || null, studentName: r.student_name || null
     };
+  }
+
+  // The settings of a prov: { title, lessons: [ids], perLesson, minutes (0 = no time limit), showResult }
+  function cleanProv(c) {
+    if (!c || typeof c !== "object") throw new ApiError(400, "Provet saknar inställningar.");
+    const lessons = (Array.isArray(c.lessons) ? c.lessons : []).map(function (x) { return str(x, 80); }).filter(function (x, i, a) { return ID_RE.test(x) && a.indexOf(x) === i; }).slice(0, 12);
+    if (!lessons.length) throw new ApiError(400, "Välj minst en lektion till provet.");
+    const int = function (v, lo, hi, d) { const n = Math.round(Number(v)); return Number.isFinite(n) ? Math.max(lo, Math.min(hi, n)) : d; };
+    return { title: str(c.title, 80).trim() || "Prov", lessons: lessons, perLesson: int(c.perLesson, 1, 20, 4), minutes: int(c.minutes, 0, 240, 0), showResult: c.showResult !== false };
   }
 
   function publicFeedback(r) {
@@ -593,8 +604,9 @@ function createApi(db, options) {
     const dueDate = str(b.dueDate, 10);
     if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw new ApiError(400, "Ogiltigt datum.");
     const note = str(b.note, 400).trim();
-    const kind = b.kind === "practice" ? "practice" : "lesson";
-    const id = Number(q.insertAssignment.run(cls.id, studentId, s.user.id, lessonId, note, dueDate || null, nowIso(), kind).lastInsertRowid);
+    const kind = b.kind === "practice" ? "practice" : b.kind === "prov" ? "prov" : "lesson";
+    const config = kind === "prov" ? cleanProv(b.config) : null;
+    const id = Number(q.insertAssignment.run(cls.id, studentId, s.user.id, kind === "prov" ? config.lessons[0] : lessonId, note, dueDate || null, nowIso(), kind, config ? JSON.stringify(config) : null).lastInsertRowid);
     send(res, 201, { id: id });
   }
 

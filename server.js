@@ -34,13 +34,14 @@ if (process.argv.includes("--teacher-code")) {
 // ----- static files: only what the page needs -----
 const MIME = {
   ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8",
-  ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon",
+  ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon", ".webmanifest": "application/manifest+json",
   ".md": "text/markdown; charset=utf-8"
 };
 
 // Everything index.html loads, plus the lessons folder and README. Server code and data are never served.
 function publicFiles() {
-  const files = new Set(["/index.html", "/README.md"]);
+  // sw.js and the icons are named in a script and in the manifest, not in the page itself
+  const files = new Set(["/index.html", "/README.md", "/sw.js", "/icon-192.png", "/icon-512.png"]);
   const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
   const re = /(?:src|href)="\.\/([^"#?]+)"/g;
   let m;
@@ -59,7 +60,8 @@ function currentPublic() {
 function serveStatic(req, res, pathname) {
   let rel = decodeURIComponent(pathname);
   if (rel === "/") rel = "/index.html";
-  const isLesson = /^\/lessons\/[^/]+\.json$/.test(rel);
+  // lessons/bundle.json is made for the deployed site; here the page reads the single files, which are always current
+  const isLesson = /^\/lessons\/[^/]+\.json$/.test(rel) && rel !== "/lessons/bundle.json";
   if (!currentPublic().has(rel) && !isLesson) return notFound(res);
   const file = path.join(ROOT, rel);
   if (!file.startsWith(ROOT + path.sep)) return notFound(res);

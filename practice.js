@@ -191,7 +191,8 @@ window.GaussicaPractice = (function () {
       const filled = fillPicks({
         prompt: template.prompt, answer: template.answer, correct: template.correct || "Rätt!",
         feedback: template.feedback || [], visual: template.visual, visuals: template.visuals,
-        statements: Array.isArray(template.statements) ? template.statements.map(function (s) { return { text: s.text, explain: s.explain }; }) : undefined
+        statements: Array.isArray(template.statements) ? template.statements.map(function (s) { return { text: s.text, explain: s.explain }; }) : undefined,
+        steps: Array.isArray(template.steps) ? template.steps : undefined
       }, picks);
       const r = unguard(py.resolve(guard(filled), scope));
 
@@ -220,6 +221,9 @@ window.GaussicaPractice = (function () {
       if (Array.isArray(template.keys)) problem.keys = template.keys;
       if (r.visual) problem.visual = r.visual;
       if (r.visuals) problem.visuals = r.visuals;
+      // the solution, step by step: shown as a worked example when a student is stuck (see lesson-player.js)
+      if (Array.isArray(r.steps)) problem.solution = r.steps.map(String).filter(function (s) { return s.trim(); });
+      if (problem.solution && problem.solution.some(function (s) { return /\{|\}/.test(s); })) continue;
       if (/NaN|undefined/.test(JSON.stringify(problem)) || /\{|\}/.test(problem.prompt)) continue;
       return problem;
     }

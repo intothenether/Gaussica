@@ -147,6 +147,7 @@ window.GaussicaTeacher = (function () {
 
   // ===== RENDER =====
   function render(container, ctx) {
+    ctx.setNotice = function (n) { ui.notice = n; };
     const y = window.scrollY;
     draw(container, ctx);
     if (!ui.assignScroll) window.scrollTo(0, y);
@@ -168,6 +169,8 @@ window.GaussicaTeacher = (function () {
     if (chat) root.appendChild(chat);
     root.appendChild(classesSection(ctx));
     root.appendChild(assignmentsSection(ctx));
+    if (window.GaussicaProv) root.appendChild(window.GaussicaProv.section(ctx));
+    if (window.GaussicaWorksheet) root.appendChild(window.GaussicaWorksheet.section(ctx));
     if (ui.assignScroll) {
       ui.assignScroll = false;
       setTimeout(function () { const s = document.getElementById("tv-assignments"); if (s) s.scrollIntoView({ behavior: "smooth", block: "start" }); }, 50);
@@ -182,7 +185,19 @@ window.GaussicaTeacher = (function () {
       container.appendChild(root);
       return;
     }
-    root.append(kpis(data), studentTable(data, ctx));
+    root.appendChild(kpis(data));
+    if (window.GaussicaHeatmap) {
+      root.appendChild(window.GaussicaHeatmap.section(ctx, students, {
+        classChips: function () { return classChips(ctx); },
+        selectStudent: function (id) {
+          ui.studentId = id;
+          ctx.rerender();
+          const d = document.querySelector(".tv-detail");
+          if (d) d.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }));
+    }
+    root.appendChild(studentTable(data, ctx));
     const hard = hardestTasks(data);
     const miscs = mistakeList(data);
     const grid = el("div", "tv-two");
@@ -391,7 +406,7 @@ window.GaussicaTeacher = (function () {
           ctx.actions.setClassRewards(c.id, box.checked).then(function () { ctx.rerender(); })
             .catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
         });
-        label.append(box, document.createTextNode(" Stjärnor och märken"));
+        label.append(box, document.createTextNode(" Stjärnor, märken och djur"));
         label.title = "När det är på ser eleverna stjärnor för klara lektioner och märken de kan samla. Ingen jämförelse mellan elever.";
         row.appendChild(label);
         list.appendChild(row);
@@ -547,7 +562,7 @@ window.GaussicaTeacher = (function () {
     section.appendChild(sugg);
 
     const list = el("div", "tv-assign-list");
-    const items = ctx.assignments || [];
+    const items = (ctx.assignments || []).filter(function (a) { return a.kind !== "prov"; });   // prov have their own section
     if (!items.length) list.appendChild(el("p", "tv-empty", "Inga aktiva uppdrag just nu."));
     items.forEach(function (a) { list.appendChild(assignmentCard(a, ctx)); });
     section.appendChild(list);
@@ -817,6 +832,17 @@ window.GaussicaTeacher = (function () {
     return iso ? ctx.formatTimestamp(iso) : "–";
   }
 
+  // "Klass: Alla | 4A | 4B", when the teacher has more than one class
+  function classChips(ctx) {
+    if (ctx.classes.length < 2) return null;
+    const classRow = el("div", "tv-sort");
+    classRow.appendChild(el("span", "tv-sort-label", "Klass:"));
+    [{ id: "alla", name: "Alla" }].concat(ctx.classes.map(function (c) { return { id: String(c.id), name: c.name }; })).forEach(function (c) {
+      classRow.appendChild(button(c.name, "tv-chip" + (ui.classId === c.id ? " is-on" : ""), function () { ui.classId = c.id; ctx.rerender(); }));
+    });
+    return classRow;
+  }
+
   function studentTable(data, ctx) {
     const section = el("section", "admin-card-section tv-section");
     section.append(el("h3", "", "Elever"),
@@ -973,6 +999,11 @@ window.GaussicaTeacher = (function () {
     const title = el("div");
     title.append(el("h3", "", s.name), el("p", "admin-card-description", s.class));
     title.appendChild(el("p", "tv-userline", "Användarnamn: " + s.username));
+    const placed = window.GaussicaPlacement && window.GaussicaPlacement.saved(s);
+    if (placed) {
+      title.appendChild(el("p", "tv-userline", "🎯 Nivåtest " + (placed.at ? ctx.formatTimestamp(placed.at) : "") + ": verkar kunna " + plural(placed.known.length, "lektion", "lektioner") +
+        (placed.level ? ", ungefär upp till " + window.GaussicaLesson.gradeLabel(placed.level).toLowerCase() : "") + "."));
+    }
     head.append(avatar, title);
     section.appendChild(head);
 

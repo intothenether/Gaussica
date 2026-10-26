@@ -21,7 +21,11 @@ window.GaussicaMailbox = (function () {
     rocket: { emoji: "🚀", label: "Fortsätt så!" },
     bulb: { emoji: "💡", label: "Tänk på det här" },
     party: { emoji: "🎉", label: "Grattis!" },
-    heart: { emoji: "❤️", label: "Snyggt jobbat" }
+    heart: { emoji: "❤️", label: "Snyggt jobbat" },
+    // coins for the pet (pet.js counts them for the student)
+    mynt5: { emoji: "💰", label: "5 mynt till ditt djur" },
+    mynt10: { emoji: "💰", label: "10 mynt till ditt djur" },
+    mynt25: { emoji: "💰", label: "25 mynt till ditt djur" }
   };
 
   const WEEKDAYS = ["söndag", "måndag", "tisdag", "onsdag", "torsdag", "fredag", "lördag"];
@@ -94,15 +98,28 @@ window.GaussicaMailbox = (function () {
     return { done: n, total: PRACTICE_GOAL, fix: 0, statuses: statuses, state: n >= PRACTICE_GOAL ? "complete" : n > 0 ? "started" : "new" };
   }
 
+  // ----- prov (a generated test, see prov.js) -----
+  // How far the student has come, from the record the test keeps in the student's progress.
+  function provSummary(a) {
+    const rec = window.GaussicaProv.recordOf(user(), a);
+    const config = a.config || {};
+    const total = (rec && rec.total) || (config.lessons || []).length * (config.perLesson || 1) || 1;
+    const answered = rec ? Math.min(rec.answers.length, total) : 0;
+    const statuses = [];
+    for (let i = 0; i < total && i < 30; i++) statuses.push(i < answered ? "done" : "todo");
+    return { done: answered, total: total, fix: 0, statuses: statuses, state: rec && rec.finishedAt ? "complete" : rec ? "started" : "new", rec: rec };
+  }
+
   // ----- data -----
   function assignments() {
     const L = window.GaussicaLesson;
     return (user().assignments || []).map(function (a) {
-      const lesson = lessonById(a.lessonId);
+      const prov = a.kind === "prov" && a.config;
+      const lesson = lessonById(a.lessonId) || (prov ? { id: a.lessonId, title: a.config.title } : null);
       if (!lesson) return null;
       const practice = a.kind === "practice";
-      const sum = practice ? practiceSummary(practiceCount(user().attempts, a.lessonId, a.createdAt)) : L.summarize(lesson, deps.getProgress, lessons());
-      return { a: a, lesson: lesson, sum: sum, practice: practice, done: sum.total > 0 && sum.state === "complete", due: dueInfo(a.dueDate) };
+      const sum = prov ? provSummary(a) : practice ? practiceSummary(practiceCount(user().attempts, a.lessonId, a.createdAt)) : L.summarize(lesson, deps.getProgress, lessons());
+      return { a: a, lesson: lesson, sum: sum, practice: practice, prov: Boolean(prov), done: sum.total > 0 && sum.state === "complete", due: dueInfo(a.dueDate) };
     }).filter(Boolean);
   }
 
@@ -111,6 +128,11 @@ window.GaussicaMailbox = (function () {
       const rank = { late: 0, soon: 1, calm: 2, none: 3 };
       return rank[x.due.tone] - rank[y.due.tone] || (x.a.dueDate || "9").localeCompare(y.a.dueDate || "9") || x.a.id - y.a.id;
     });
+  }
+
+  // the assignments that are about a lesson (a prov is not: it has its own page)
+  function openLessonAssignments() {
+    return openAssignments().filter(function (x) { return !x.prov; });
   }
 
   function feedback() { return user().feedback || []; }
@@ -149,22 +171,26 @@ window.GaussicaMailbox = (function () {
     const lesson = x.lesson;
     const card = el("article", "mb-assign is-" + x.due.tone);
     const top = el("div", "mb-assign-top");
-    top.append(el("span", "mb-pin", x.practice ? "🔁 ÖVA MER" : "📌 UPPDRAG"), el("span", "mb-due is-" + x.due.tone, x.due.text));
+    top.append(el("span", "mb-pin", x.prov ? "📝 PROV" : x.practice ? "🔁 ÖVA MER" : "📌 UPPDRAG"), el("span", "mb-due is-" + x.due.tone, x.due.text));
     card.appendChild(top);
-    card.appendChild(el("h4", "mb-assign-title", lesson.title));
+    card.appendChild(el("h4", "mb-assign-title", x.prov ? x.a.config.title : lesson.title));
     if (x.a.note) {
       const note = el("div", "mb-speech");
       note.append(avatar(x.a.teacher), el("p", "", x.a.note));
       card.appendChild(note);
     }
     const started = x.sum.done > 0 || x.sum.fix > 0;
-    card.append(progressBar(x.sum), el("p", "mb-assign-count", x.practice
+    const minutes = x.prov && x.a.config.minutes ? x.a.config.minutes : 0;
+    card.append(progressBar(x.sum), el("p", "mb-assign-count", x.prov
+      ? x.sum.total + " frågor" + (minutes ? " och " + minutes + " minuter" : ", ingen tidsgräns") + (started ? ". Du har svarat på " + x.sum.done + "." : ". Det är inget man kan öva inför i förväg, bara göra så bra man kan.")
+      : x.practice
       ? x.sum.done + " av " + x.sum.total + " övningsfrågor rätt. Det blir nya tal varje gång."
       : x.sum.done + " av " + x.sum.total + " uppgifter klara"));
-    const go = el("button", "primary-button mb-go", started ? "Fortsätt uppdraget →" : "Börja uppdraget →");
+    const go = el("button", "primary-button mb-go", x.prov ? (started ? "Fortsätt provet →" : "Starta provet →") : started ? "Fortsätt uppdraget →" : "Börja uppdraget →");
     go.type = "button";
     go.addEventListener("click", function () {
-      if (x.practice && deps.startPractice) deps.startPractice(lesson.id); else deps.openLesson(lesson.id);
+      if (x.prov && deps.startProv) deps.startProv(x.a.id);
+      else if (x.practice && deps.startPractice) deps.startPractice(lesson.id); else deps.openLesson(lesson.id);
     });
     card.appendChild(go);
     return card;
@@ -172,7 +198,9 @@ window.GaussicaMailbox = (function () {
 
   function doneCard(x) {
     const row = el("div", "mb-done");
-    row.append(el("span", "mb-done-check", "✓"), el("strong", "", x.lesson.title), el("span", "mb-muted", "Klart! Bra jobbat 🎉"));
+    const rec = x.prov ? x.sum.rec : null;
+    row.append(el("span", "mb-done-check", "✓"), el("strong", "", x.prov ? x.a.config.title : x.lesson.title),
+      el("span", "mb-muted", x.prov ? (x.a.config.showResult !== false && rec ? "Inlämnat: " + window.GaussicaProv.scoreOf(rec) + " av " + (rec.total || rec.answers.length) + " rätt" : "Inlämnat") : "Klart! Bra jobbat 🎉"));
     return row;
   }
 
@@ -299,7 +327,7 @@ window.GaussicaMailbox = (function () {
   }
 
   function banner(lessonId) {
-    const x = openAssignments().find(function (y) { return y.a.lessonId === lessonId; });
+    const x = openLessonAssignments().find(function (y) { return y.a.lessonId === lessonId; });
     if (!x) return null;
     const box = el("section", "mb-banner is-" + x.due.tone);
     box.appendChild(el("span", "mb-banner-emoji", x.practice ? "🔁" : "📌"));
@@ -312,12 +340,12 @@ window.GaussicaMailbox = (function () {
 
   function assignedLessonIds() {
     const out = {};
-    openAssignments().forEach(function (x) { out[x.a.lessonId] = x.due.tone; });
+    openLessonAssignments().forEach(function (x) { out[x.a.lessonId] = x.due.tone; });
     return out;
   }
 
   return {
-    init: init, render: render, inline: inline, banner: banner, counts: counts, openAssignments: openAssignments,
+    init: init, render: render, inline: inline, banner: banner, counts: counts, openAssignments: openAssignments, openLessonAssignments: openLessonAssignments,
     doneCount: function () { return assignments().filter(function (x) { return x.done; }).length; },
     assignedLessonIds: assignedLessonIds, noteBubble: noteBubble, dueInfo: dueInfo, STICKERS: STICKERS,
     practiceCount: practiceCount, practiceSummary: practiceSummary, PRACTICE_GOAL: PRACTICE_GOAL

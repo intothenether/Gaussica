@@ -7,7 +7,7 @@ const COLORS = ["#425b9a", "#ef6f88", "#4fa8dc", "#8a74c9", "#d99a2b", "#2f9d88"
 const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const CHAT_UNANSWERED_MAX = 6;   // a student can send this many messages in a row before the teacher has answered
-const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart"];
+const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart", "mynt5", "mynt10", "mynt25"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const PBKDF2_ITERATIONS = 100000;   // the most Workers allow
 
@@ -262,8 +262,17 @@ function createApi(env, request) {
     return [200, { ok: true }];
   }
 
+  // The settings of a prov: { title, lessons: [ids], perLesson, minutes (0 = no time limit), showResult }
+  function cleanProv(c) {
+    if (!c || typeof c !== "object") throw new ApiError(400, "Provet saknar inställningar.");
+    const lessons = (Array.isArray(c.lessons) ? c.lessons : []).map((x) => str(x, 80)).filter((x, i, a) => ID_RE.test(x) && a.indexOf(x) === i).slice(0, 12);
+    if (!lessons.length) throw new ApiError(400, "Välj minst en lektion till provet.");
+    const int = (v, lo, hi, d) => { const n = Math.round(Number(v)); return Number.isFinite(n) ? Math.max(lo, Math.min(hi, n)) : d; };
+    return { title: str(c.title, 80).trim() || "Prov", lessons, perLesson: int(c.perLesson, 1, 20, 4), minutes: int(c.minutes, 0, 240, 0), showResult: c.showResult !== false };
+  }
+
   const publicAssignment = (r) => ({
-    id: r.id, lessonId: r.lesson_id, kind: r.kind || "lesson", note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
+    id: r.id, lessonId: r.lesson_id, kind: r.kind || "lesson", config: parseConfig(r.config), note: r.note, dueDate: r.due_date, createdAt: r.created_at, teacher: r.teacher || null,
     classId: r.class_id || null, className: r.class_name || null, studentId: r.student_id || null, studentName: r.student_name || null
   });
 
@@ -272,16 +281,25 @@ function createApi(env, request) {
     sticker: r.sticker || null, createdAt: r.created_at, read: Boolean(r.read_at), teacher: r.teacher || null
   });
 
+  function parseConfig(text) {
+    if (!text) return null;
+    try { return JSON.parse(text); } catch (e) { return null; }
+  }
+
+  // with the prov settings when the database has them (migrations/005-prov.sql), without when it does not
+  function studentAssignments(classId, userId) {
+    const sql = (cols) => "SELECT a.id, a.lesson_id, a.kind, " + cols + "a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
+      "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id";
+    return all(sql("a.config, "), classId, userId).catch(() => all(sql(""), classId, userId));
+  }
+
   async function myData() {
     const s = await requireUser();
     const isStudent = s.user.role === "student";
     const [progress, attempts, assignments, feedback, chat] = await Promise.all([
       progressOf(s.user.id),
       all("SELECT id, data, created_at FROM attempts WHERE user_id = ? ORDER BY id", s.user.id),
-      isStudent && s.user.class_id ? all(
-        "SELECT a.id, a.lesson_id, a.kind, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
-        "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id",
-        s.user.class_id, s.user.id) : [],
+      isStudent && s.user.class_id ? studentAssignments(s.user.class_id, s.user.id) : [],
       isStudent ? all(
         "SELECT f.id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at, u.display_name AS teacher FROM feedback f " +
         "JOIN users u ON u.id = f.teacher_id WHERE f.student_id = ? ORDER BY f.id DESC LIMIT 200", s.user.id) : [],
@@ -580,10 +598,12 @@ function createApi(env, request) {
   // ----- assignments and feedback (teacher) -----
   async function listAssignments() {
     const s = await requireTeacher();
-    return [200, { assignments: (await all(
-      "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
+    const sql = (cols) => "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, " + cols + "a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
       "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
-      "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id", s.user.id)).map(publicAssignment) }];
+      "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id";
+    // a database made before prov existed has no column "config" (migrations/005-prov.sql adds it)
+    const rows = await all(sql("a.config, "), s.user.id).catch(() => all(sql(""), s.user.id));
+    return [200, { assignments: rows.map(publicAssignment) }];
   }
 
   async function createAssignment() {
@@ -602,7 +622,17 @@ function createApi(env, request) {
     const dueDate = str(b.dueDate, 10);
     if (dueDate && (!DATE_RE.test(dueDate) || Number.isNaN(Date.parse(dueDate)))) throw new ApiError(400, "Ogiltigt datum.");
     const note = str(b.note, 400).trim();
-    const kind = b.kind === "practice" ? "practice" : "lesson";
+    const kind = b.kind === "practice" ? "practice" : b.kind === "prov" ? "prov" : "lesson";
+    if (kind === "prov") {
+      const config = cleanProv(b.config);
+      try {
+        const res = await run("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at, kind, config) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          cls.id, studentId, s.user.id, config.lessons[0], note, dueDate || null, nowIso(), kind, JSON.stringify(config));
+        return [201, { id: res.meta.last_row_id }];
+      } catch (e) {
+        throw new ApiError(500, "Databasen behöver uppdateras innan prov kan skapas (migrations/005-prov.sql, se cloudflare/README.md).");
+      }
+    }
     const res = await run("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at, kind) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       cls.id, studentId, s.user.id, lessonId, note, dueDate || null, nowIso(), kind);
     return [201, { id: res.meta.last_row_id }];

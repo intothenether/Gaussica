@@ -7,13 +7,18 @@
     <meta name="description" content="Utforska matematik steg för steg, från grundskolans första tal till gymnasiets matematik.">
     <title>Gaussica: matematik som hänger ihop</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     <link rel="stylesheet" href="./styles.css">
     <script src="./viewport.js" defer></script>
+    <script src="./offline.js" defer></script>
     <script src="./config.js" defer></script>
     <script src="./local-backend.js" defer></script>
     <script src="./privacy.js" defer></script>
     <script src="./auth-view.js" defer></script>
     <script src="./richtext.js" defer></script>
+    <script src="./reading.js" defer></script>
+    <script src="./worksheet.js" defer></script>
     <script src="./lesson-model.js" defer></script>
     <script src="./canvas-pad.js" defer></script>
     <script src="./figures.js" defer></script>
@@ -25,10 +30,16 @@
     <script src="./chat.js" defer></script>
     <script src="./feedback.js" defer></script>
     <script src="./rewards.js" defer></script>
+    <script src="./pet-art.js" defer></script>
+    <script src="./pet.js" defer></script>
     <script src="./path-view.js" defer></script>
     <script src="./graph-view.js" defer></script>
     <script src="./lesson-player.js" defer></script>
+    <script src="./test-mode.js" defer></script>
+    <script src="./placement.js" defer></script>
+    <script src="./prov.js" defer></script>
     <script src="./teacher-view.js" defer></script>
+    <script src="./heatmap.js" defer></script>
     <script src="./symbolic-math.js" defer></script>
     <script src="./interactive-lesson-editor-v2.js" defer></script>
     <script src="./admin-interface.js" defer></script>
@@ -43,7 +54,9 @@
       <div class="topbar-actions">
         <div class="student-profile-bar" id="student-profile-bar"></div>
         <button type="button" class="rewards-chip" id="rewards-chip" hidden aria-label="Mina stjärnor och märken">⭐ <b>0</b></button>
+        <button type="button" class="rewards-chip pet-chip" id="pet-chip" hidden aria-label="Mitt djur och mina mynt"><span class="coin-icon" aria-hidden="true"></span> <b>0</b></button>
         <a class="mail-link" href="#uppdrag" id="mail-link" hidden><span aria-hidden="true">📬</span> Uppdrag <b class="mail-badge" hidden>0</b></a>
+        <button type="button" class="mail-link reading-link" id="reading-link" aria-label="Läsning: textstorlek, typsnitt och uppläsning"><span aria-hidden="true">Aa</span> Läsning</button>
         <button type="button" class="mail-link chat-link" id="chat-link" hidden><span aria-hidden="true">💬</span> Fråga läraren <b class="mail-badge" hidden>0</b></button>
         <button type="button" class="view-switch" id="view-switch" hidden>👀 Visa som elev</button>
         <a class="admin-top-link" href="#admin" id="admin-top-link" hidden>Lärarvy 📊 <b class="mail-badge" hidden>0</b></a>
@@ -150,6 +163,7 @@
             <p class="section-description">Utforska sambanden eller börja var du vill. Följ pilarna för att se hur idéerna bygger på varandra.</p>
           </div>
         </div>
+        <div class="pet-card" id="pet-card" hidden></div>
         <div class="next-card path-card" id="next-card" hidden aria-live="polite"></div>
         <div class="map-toggle-row" id="map-toggle-row" hidden>
           <button type="button" class="secondary-button map-toggle" id="map-toggle" aria-expanded="false" aria-controls="full-map">🗺️ Visa hela kartan</button>

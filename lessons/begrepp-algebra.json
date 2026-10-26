@@ -6,7 +6,9 @@
   "level": "Begrepp · ungefär åk 7",
   "grade": 7,
   "duration": "8 min",
-  "prerequisites": ["ekvation"],
+  "prerequisites": [
+    "ekvation"
+  ],
   "summary": "Variabel, uttryck, ekvation, koefficient och funktion: orden i algebran.",
   "explanationTitle": "Algebrans språk",
   "explanation": "Algebra använder bokstäver för tal. En bokstav som kan stå för olika tal kallas variabel. Av tal och variabler bygger man uttryck, och sätter man ett likhetstecken mellan två uttryck får man en ekvation. Funktioner beskriver hur ett tal beror på ett annat. Läs begreppskorten och koppla sedan ihop dem.",
@@ -62,42 +64,134 @@
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
       "pairs": [
-        {"term":"variabel","definition":"En bokstav som står för ett tal som kan variera eller är okänt."},
-        {"term":"uttryck","definition":"Tal, variabler och räknesätt tillsammans, utan likhetstecken."},
-        {"term":"ekvation","definition":"En likhet med en okänd som ska bestämmas."},
-        {"term":"lösning","definition":"Det värde på den okända som gör att ekvationen stämmer."}
+        {
+          "term": "variabel",
+          "definition": "En bokstav som står för ett tal som kan variera eller är okänt."
+        },
+        {
+          "term": "uttryck",
+          "definition": "Tal, variabler och räknesätt tillsammans, utan likhetstecken."
+        },
+        {
+          "term": "ekvation",
+          "definition": "En likhet med en okänd som ska bestämmas."
+        },
+        {
+          "term": "lösning",
+          "definition": "Det värde på den okända som gör att ekvationen stämmer."
+        }
       ]
     },
     {
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 2).",
       "pairs": [
-        {"term":"konstant","definition":"Ett tal som inte ändras, utan en variabel."},
-        {"term":"koefficient","definition":"Talet som multipliceras med en variabel."},
-        {"term":"funktion","definition":"En regel som ger exakt ett värde ut för varje värde in."},
+        {
+          "term": "konstant",
+          "definition": "Ett tal som inte ändras, utan en variabel."
+        },
+        {
+          "term": "koefficient",
+          "definition": "Talet som multipliceras med en variabel."
+        },
+        {
+          "term": "funktion",
+          "definition": "En regel som ger exakt ett värde ut för varje värde in."
+        },
         {
           "term": "lutning",
           "definition": "Hur mycket en rät linje stiger eller sjunker för varje steg åt höger. Kallas också k-värde."
         }
       ]
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "I 3x + 2 är x en variabel.",
+          "answer": true,
+          "explain": "x står för ett tal som kan variera eller är okänt."
+        },
+        {
+          "text": "3x + 2 = 14 är ett uttryck.",
+          "answer": false,
+          "explain": "Den har ett likhetstecken, så den är en ekvation. Ett uttryck har inget likhetstecken."
+        },
+        {
+          "text": "Lösningen till 3x + 2 = 14 är x = 4.",
+          "answer": true,
+          "explain": "3 · 4 + 2 = 14, så x = 4 gör att ekvationen stämmer."
+        },
+        {
+          "text": "I 3x + 2 är 3 en konstant.",
+          "answer": false,
+          "explain": "3 multipliceras med x, så 3 är koefficienten. Konstanten är 2."
+        },
+        {
+          "text": "I y = 2x + 1 är lutningen 2.",
+          "answer": true,
+          "explain": "Lutningen är talet som multipliceras med x."
+        },
+        {
+          "text": "En funktion kan ge två olika värden ut för samma värde in.",
+          "answer": false,
+          "explain": "En funktion ger exakt ett värde ut för varje värde in."
+        }
+      ]
     }
   ],
-  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "comp:2",
+    "comp:3",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
   "practice": [
     {
       "id": "koppla",
-      "for": ["match-1","match-2"],
+      "for": [
+        "match-1",
+        "match-2"
+      ],
       "mode": "koppla",
       "size": 4,
       "prompt": "Para ihop begreppen med rätt förklaring.",
       "pool": [
-        {"term":"variabel","definition":"En bokstav som står för ett tal som kan variera eller är okänt."},
-        {"term":"uttryck","definition":"Tal, variabler och räknesätt tillsammans, utan likhetstecken."},
-        {"term":"ekvation","definition":"En likhet med en okänd som ska bestämmas."},
-        {"term":"lösning","definition":"Det värde på den okända som gör att ekvationen stämmer."},
-        {"term":"konstant","definition":"Ett tal som inte ändras, utan en variabel."},
-        {"term":"koefficient","definition":"Talet som multipliceras med en variabel."},
-        {"term":"funktion","definition":"En regel som ger exakt ett värde ut för varje värde in."},
+        {
+          "term": "variabel",
+          "definition": "En bokstav som står för ett tal som kan variera eller är okänt."
+        },
+        {
+          "term": "uttryck",
+          "definition": "Tal, variabler och räknesätt tillsammans, utan likhetstecken."
+        },
+        {
+          "term": "ekvation",
+          "definition": "En likhet med en okänd som ska bestämmas."
+        },
+        {
+          "term": "lösning",
+          "definition": "Det värde på den okända som gör att ekvationen stämmer."
+        },
+        {
+          "term": "konstant",
+          "definition": "Ett tal som inte ändras, utan en variabel."
+        },
+        {
+          "term": "koefficient",
+          "definition": "Talet som multipliceras med en variabel."
+        },
+        {
+          "term": "funktion",
+          "definition": "En regel som ger exakt ett värde ut för varje värde in."
+        },
         {
           "term": "lutning",
           "definition": "Hur mycket en rät linje stiger eller sjunker för varje steg åt höger. Kallas också k-värde."
@@ -106,56 +200,156 @@
     },
     {
       "id": "fraga",
-      "for": ["exercise","word-0","word-1"],
+      "for": [
+        "exercise",
+        "word-0",
+        "word-1"
+      ],
       "mode": "fraga",
       "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
       "pool": [
         {
           "term": "variabel",
           "definition": "En bokstav som står för ett tal som kan variera eller är okänt.",
-          "alt": ["variabeln"]
+          "alt": [
+            "variabeln"
+          ]
         },
         {
           "term": "uttryck",
           "definition": "Tal, variabler och räknesätt tillsammans, utan likhetstecken.",
-          "alt": ["uttrycket"]
+          "alt": [
+            "uttrycket"
+          ]
         },
-        {"term":"ekvation","definition":"En likhet med en okänd som ska bestämmas.","alt":["ekvationen"]},
+        {
+          "term": "ekvation",
+          "definition": "En likhet med en okänd som ska bestämmas.",
+          "alt": [
+            "ekvationen"
+          ]
+        },
         {
           "term": "lösning",
           "definition": "Det värde på den okända som gör att ekvationen stämmer.",
-          "alt": ["lösningen"]
+          "alt": [
+            "lösningen"
+          ]
         },
-        {"term":"konstant","definition":"Ett tal som inte ändras, utan en variabel.","alt":["konstanten"]},
+        {
+          "term": "konstant",
+          "definition": "Ett tal som inte ändras, utan en variabel.",
+          "alt": [
+            "konstanten"
+          ]
+        },
         {
           "term": "koefficient",
           "definition": "Talet som multipliceras med en variabel.",
-          "alt": ["koefficienten"]
+          "alt": [
+            "koefficienten"
+          ]
         },
         {
           "term": "funktion",
           "definition": "En regel som ger exakt ett värde ut för varje värde in.",
-          "alt": ["funktionen"]
+          "alt": [
+            "funktionen"
+          ]
         },
         {
           "term": "lutning",
           "definition": "Hur mycket en rät linje stiger eller sjunker för varje steg åt höger. Kallas också k-värde.",
-          "alt": ["lutningen","k-värde","k-värdet"]
+          "alt": [
+            "lutningen",
+            "k-värde",
+            "k-värdet"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "santfalskt",
+      "for": [
+        "sf-3"
+      ],
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "I 3x + 2 är x en variabel.",
+          "answer": true,
+          "explain": "x står för ett tal som kan variera eller är okänt."
+        },
+        {
+          "text": "3x + 2 = 14 är ett uttryck.",
+          "answer": false,
+          "explain": "Den har ett likhetstecken, så den är en ekvation. Ett uttryck har inget likhetstecken."
+        },
+        {
+          "text": "Lösningen till 3x + 2 = 14 är x = 4.",
+          "answer": true,
+          "explain": "3 · 4 + 2 = 14, så x = 4 gör att ekvationen stämmer."
+        },
+        {
+          "text": "I 3x + 2 är 3 en konstant.",
+          "answer": false,
+          "explain": "3 multipliceras med x, så 3 är koefficienten. Konstanten är 2."
+        },
+        {
+          "text": "I y = 2x + 1 är lutningen 2.",
+          "answer": true,
+          "explain": "Lutningen är talet som multipliceras med x."
+        },
+        {
+          "text": "En funktion kan ge två olika värden ut för samma värde in.",
+          "answer": false,
+          "explain": "En funktion ger exakt ett värde ut för varje värde in."
+        },
+        {
+          "text": "3x + 2 är ett uttryck.",
+          "answer": true,
+          "explain": "Det har tal, en variabel och räknesätt, men inget likhetstecken."
+        },
+        {
+          "text": "En ekvation har inget likhetstecken.",
+          "answer": false,
+          "explain": "En ekvation är en likhet med en okänd, så den har likhetstecken."
+        },
+        {
+          "text": "En konstant är ett tal som inte ändras.",
+          "answer": true,
+          "explain": "I 3x + 2 är 2 en konstant."
+        },
+        {
+          "text": "Lutningen säger var linjen skär y-axeln.",
+          "answer": false,
+          "explain": "Lutningen säger hur mycket linjen stiger för varje steg åt höger. Startvärdet är där den skär y-axeln."
         }
       ]
     }
   ],
   "exercise": {
     "prompt": "Vad kallas talet som multipliceras med variabeln i 3x? Skriv begreppet.",
-    "answer": ["koefficient","koefficienten"],
+    "answer": [
+      "koefficient",
+      "koefficienten"
+    ],
     "correct": "Rätt! Koefficient: Talet som multipliceras med en variabel.",
     "feedback": [
       {
-        "answers": ["konstant","konstanten"],
+        "answers": [
+          "konstant",
+          "konstanten"
+        ],
         "message": "Konstant betyder: Ett tal som inte ändras, utan en variabel. Det är inte det som frågas. Läs begreppskorten igen."
       },
       {
-        "answers": ["variabel","variabeln"],
+        "answers": [
+          "variabel",
+          "variabeln"
+        ],
         "message": "Variabel betyder: En bokstav som står för ett tal som kan variera eller är okänt. Det är inte det som frågas. Läs begreppskorten igen."
       }
     ]
@@ -163,30 +357,48 @@
   "wordProblems": [
     {
       "prompt": "Vad kallas en bokstav som står för ett okänt eller varierande tal? Skriv begreppet.",
-      "answer": ["variabel","variabeln"],
+      "answer": [
+        "variabel",
+        "variabeln"
+      ],
       "correct": "Rätt! Variabel: En bokstav som står för ett tal som kan variera eller är okänt.",
       "feedback": [
         {
-          "answers": ["koefficient","koefficienten"],
+          "answers": [
+            "koefficient",
+            "koefficienten"
+          ],
           "message": "Koefficient betyder: Talet som multipliceras med en variabel. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["lösning","lösningen"],
+          "answers": [
+            "lösning",
+            "lösningen"
+          ],
           "message": "Lösning betyder: Det värde på den okända som gör att ekvationen stämmer. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]
     },
     {
       "prompt": "Vad kallas värdet på x som gör att en ekvation stämmer? Skriv begreppet.",
-      "answer": ["lösning","lösningen"],
+      "answer": [
+        "lösning",
+        "lösningen"
+      ],
       "correct": "Rätt! Lösning: Det värde på den okända som gör att ekvationen stämmer.",
       "feedback": [
         {
-          "answers": ["uttryck","uttrycket"],
+          "answers": [
+            "uttryck",
+            "uttrycket"
+          ],
           "message": "Uttryck betyder: Tal, variabler och räknesätt tillsammans, utan likhetstecken. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["funktion","funktionen"],
+          "answers": [
+            "funktion",
+            "funktionen"
+          ],
           "message": "Funktion betyder: En regel som ger exakt ett värde ut för varje värde in. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]

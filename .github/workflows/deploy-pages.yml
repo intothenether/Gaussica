@@ -31,10 +31,12 @@ jobs:
         run: npm test
       - name: Configure Pages
         uses: actions/configure-pages@v5
+      - name: Bundle the lessons
+        run: npm run build
       - name: Collect static files
         run: |
           mkdir _site
-          cp index.html favicon.svg logo.svg styles.css *.js _site/
+          cp index.html favicon.svg logo.svg styles.css manifest.webmanifest *.png *.js _site/
           cp -r lessons _site/
           rm -f _site/server.js
       - name: Upload site

@@ -111,6 +111,26 @@ function who() {
   r = await S.call("GET", "/api/me/data");
   ok(r.json.feedback.length === 1, "teacher can delete feedback");
 
+  // prov: an assignment of kind "prov" with its settings, and the student's own record in progress
+  r = await T.call("POST", "/api/teacher/assignments", { classId: cls.id, lessonId: "addition", kind: "prov" });
+  ok(r.status === 400, "a prov without settings is rejected");
+  r = await T.call("POST", "/api/teacher/assignments", { classId: cls.id, lessonId: "addition", kind: "prov", config: { title: "x", lessons: ["../etc"] } });
+  ok(r.status === 400, "a prov with a bad lesson id is rejected");
+  r = await T.call("POST", "/api/teacher/assignments", { classId: cls.id, lessonId: "addition", kind: "prov", config: { title: "Prov 1", lessons: ["addition", "subtraktion", "addition"], perLesson: 99, minutes: 20 }, note: "Lycka till" });
+  ok(r.status === 201, "prov created"); const pid = r.json.id;
+  r = await S.call("GET", "/api/me/data");
+  const prov = r.json.assignments.find(a => a.id === pid);
+  ok(prov && prov.kind === "prov" && prov.config.title === "Prov 1" && prov.config.lessons.length === 2 && prov.config.perLesson === 20 && prov.config.minutes === 20 && prov.config.showResult === true, "the student gets the settings, cleaned: " + JSON.stringify(prov && prov.config));
+  ok(r.json.assignments.filter(a => a.kind !== "prov").every(a => a.config === null), "other assignments have no settings");
+  r = await T.call("GET", "/api/teacher/assignments");
+  ok(r.json.assignments.some(a => a.id === pid && a.config && a.config.lessons[0] === "addition"), "the teacher list has the settings");
+  r = await S.call("PUT", "/api/progress/prov-" + pid, { data: { v: 1, assignmentId: pid, answers: [{ key: "q1", correct: true }], total: 2 } });
+  ok(r.status === 200, "the student's record is saved as progress");
+  r = await T.call("GET", "/api/teacher/students");
+  const rec = r.json.students.find(s => s.username === "elevA").lessonProgress["prov-" + pid];
+  ok(rec && rec.answers.length === 1 && rec.total === 2, "the teacher sees the record");
+  r = await T.call("DELETE", "/api/teacher/assignments/" + pid);
+
   // cleanup removes the student's data
   r = await T.call("DELETE", "/api/teacher/students/" + st1.id);
   ok(r.status === 200, "student deleted");

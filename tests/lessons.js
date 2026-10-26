@@ -19,7 +19,7 @@ idx.lessons.forEach((f) => {
   listed.add(f);
   if (!fs.existsSync(ROOT + "lessons/" + f)) bad("index", "file is listed but missing: " + f);
 });
-fs.readdirSync(ROOT + "lessons").filter((f) => f.endsWith(".json") && f !== "index.json").forEach((f) => {
+fs.readdirSync(ROOT + "lessons").filter((f) => f.endsWith(".json") && f !== "index.json" && f !== "bundle.json").forEach((f) => {
   if (!listed.has(f)) bad("index", f + " exists but is not listed in lessons/index.json");
 });
 

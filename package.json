@@ -4,6 +4,7 @@
   "private": true,
   "description": "Gaussica, lärstig i matematik med konton och lagring",
   "scripts": {
+    "build": "node scripts/build-bundle.js",
     "start": "node --disable-warning=ExperimentalWarning server.js",
     "test": "node --disable-warning=ExperimentalWarning tests/run.js"
   },

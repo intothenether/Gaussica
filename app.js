@@ -79,6 +79,43 @@
     });
     lessonProgress = currentUser.lessonProgress;
     window.GaussicaUser = currentUser;
+    restoreOutbox();
+  }
+
+  // Answers that could not be sent (no connection) are also kept in this browser, per user, so that they survive a
+  // reload or a closed tab and are sent the next time the page is open with a connection.
+  function outboxKey() { return currentUser ? "gaussica.outbox." + currentUser.id : ""; }
+
+  function saveOutbox() {
+    const key = outboxKey();
+    if (!key) return;
+    try {
+      if (!dirtyLessons.size && !pendingAttempts.length) { localStorage.removeItem(key); return; }
+      const progress = {};
+      dirtyLessons.forEach(function (id) { progress[id] = lessonProgress[id]; });
+      localStorage.setItem(key, JSON.stringify({ progress: progress, attempts: pendingAttempts }));
+    } catch (e) { /* storage full or blocked: the answers stay in memory, as before */ }
+  }
+
+  function restoreOutbox() {
+    const key = outboxKey();
+    if (!key) return;
+    let box = null;
+    try { box = JSON.parse(localStorage.getItem(key) || "null"); } catch (e) { return; }
+    if (!box) return;
+    Object.keys(box.progress || {}).forEach(function (id) {
+      const mine = box.progress[id];
+      if (!mine || typeof mine !== "object") return;
+      const theirs = lessonProgress[id];
+      if (!theirs || (mine.updatedAt || 0) >= (theirs.updatedAt || 0)) lessonProgress[id] = mine;
+      dirtyLessons.add(id);
+    });
+    (box.attempts || []).forEach(function (a) {
+      if (!a || typeof a !== "object") return;
+      pendingAttempts.push(a);
+      currentUser.attempts.push(Object.assign({ id: "att-local-" + Date.now() + "-" + pendingAttempts.length, timestamp: new Date().toISOString() }, a));
+    });
+    if (dirtyLessons.size || pendingAttempts.length) scheduleSave(500);
   }
 
   function showSaveNotice(text) {
@@ -86,11 +123,14 @@
   }
 
   function handleSaveError(error) {
+    saveOutbox();
     if (error.status === 401) {
       showSaveNotice("Du har loggats ut och dina senaste svar sparades inte. Ladda om sidan och logga in igen.");
       return;
     }
-    showSaveNotice("Kunde inte spara just nu, försöker igen om en stund…");
+    showSaveNotice(error.status === 0 && window.GaussicaOffline && window.GaussicaOffline.isOffline()
+      ? "Du är offline. Svaren sparas i den här webbläsaren och skickas när du är online igen."
+      : "Kunde inte spara just nu, försöker igen om en stund…");
     clearTimeout(retryTimer);
     retryTimer = setTimeout(function () { flushProgress(false); }, 5000);
   }
@@ -113,7 +153,7 @@
         .catch(function (err) { dirtyLessons.add(id); handleSaveError(err); }));
     });
     pendingAttempts.splice(0).forEach(function (a) { sends.push(sendAttempt(a)); });
-    return Promise.all(sends);
+    return Promise.all(sends).then(saveOutbox);
   }
 
   function sendAttempt(attempt) {
@@ -126,10 +166,16 @@
       });
   }
 
-  window.addEventListener("pagehide", function () { flushProgress(true); });
+  // What is still unsent when the page is hidden is written down first: the sending below may not get to finish.
+  function flushBeforeHide() {
+    saveOutbox();
+    flushProgress(true);
+  }
+  window.addEventListener("pagehide", flushBeforeHide);
   document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "hidden") flushProgress(true);
+    if (document.visibilityState === "hidden") flushBeforeHide();
   });
+  if (window.GaussicaOffline) window.GaussicaOffline.onOnline(function () { if (currentUser) flushProgress(false); });
 
   function getLessonProgress(id) {
     if (!lessonProgress[id]) {
@@ -255,7 +301,22 @@
     updateNodeProgress(lessonId);
   }
 
-  async function loadCourse() {
+  // The deployed site has the whole course in one file (lessons/bundle.json, made by npm run build); without it
+  // (local server, or a copy of the repository) the index and the lesson files are read one by one.
+  async function fetchBundle() {
+    try {
+      const response = await fetch("./lessons/bundle.json", { cache: "no-cache" });
+      if (!response.ok) return null;
+      const bundle = await response.json();
+      const m = bundle && bundle.manifest;
+      if (!m || !Array.isArray(m.lessons) || !Array.isArray(m.areas) || !Array.isArray(bundle.lessons) || bundle.lessons.length !== m.lessons.length) return null;
+      return bundle;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function fetchSingleFiles() {
     // "no-cache" makes the browser check with the server first, so a new index is never mixed with old lesson files
     const response = await fetch("./lessons/index.json", { cache: "no-cache" });
     if (!response.ok) throw new Error("Kursindexet svarade med " + response.status);
@@ -269,7 +330,13 @@
       if (!lessonResponse.ok) throw new Error(path + " svarade med " + lessonResponse.status);
       return lessonResponse.json();
     }));
-    course = { areas: manifest.areas, areaNotes: manifest.areaNotes || {}, lessons: lessons };
+    return { manifest: manifest, lessons: lessons };
+  }
+
+  async function loadCourse() {
+    const loaded = (await fetchBundle()) || (await fetchSingleFiles());
+    const manifest = loaded.manifest;
+    course = { areas: manifest.areas, areaNotes: manifest.areaNotes || {}, lessons: loaded.lessons };
     
     // Lessons edited or created by teachers are stored on the server and override the files.
     try {
@@ -287,6 +354,8 @@
 
     window.course = course;  // Expose to admin interface
     window.GaussicaPlayer.init({
+      workedExample: workedExampleFor,
+      renderVisuals: renderVisualsFor,
       container: document.querySelector("#lesson-player"),
       makeElement: makeElement,
       getLesson: function (id) { return course.lessons.find(function (l) { return l.id === id; }); },
@@ -301,6 +370,8 @@
       openFeedback: function (context) { window.GaussicaFeedback.open(context); },
       canChat: function () { return window.GaussicaChat.canChat(); },
       chatUnread: function () { return window.GaussicaChat.unread(); },
+      petRibbon: function () { return window.GaussicaPet.ribbon(); },
+      petFace: function (mood) { return window.GaussicaPet.face(mood); },
       goToLesson: function (id) { window.location.hash = "#" + id; },
       goToPlayer: function (id) { window.location.hash = "#play/" + id; },
       hasPractice: function (id) { const l = course.lessons.find(function (x) { return x.id === id; }); return window.GaussicaPractice.has(l); },
@@ -314,7 +385,8 @@
       getProgress: getLessonProgress,
       openLesson: function (id, step) { window.GaussicaPlayer.open(id, typeof step === "number" ? { step: step } : undefined); },
       markRead: markFeedbackRead,
-      startPractice: function (id) { window.location.hash = "#practice/" + id; }
+      startPractice: function (id) { window.location.hash = "#practice/" + id; },
+      startProv: function (id) { window.location.hash = "#prov/" + id; }
     });
     window.GaussicaFeedback.init({ getUser: function () { return currentUser; } });
     window.GaussicaChat.init({
@@ -330,6 +402,20 @@
       getProgress: getLessonProgress,
       isActive: isStudent,
       mailbox: window.GaussicaMailbox
+    });
+    window.GaussicaPet.init({
+      getUser: function () { return currentUser; },
+      getCourse: function () { return course; },
+      getProgress: getLessonProgress,
+      enabled: function () { return window.GaussicaRewards.enabled(); },
+      lessonStars: function (lesson) { return window.GaussicaRewards.lessonStars(lesson); },
+      save: function (record) {
+        record.updatedAt = Date.now();
+        lessonProgress.pet = record;
+        dirtyLessons.add("pet");
+        scheduleSave(300);
+      },
+      refresh: function () { renderCoach(); }
     });
     course.areas.forEach(function (area) { areas.set(area.id, area.name); });
     validateCourse();
@@ -501,6 +587,7 @@
       allLessons: course.lessons,
       areas: areas,
       depthOf: function (id) { return lessonDepth.get(id); },
+      placed: isStudent() ? window.GaussicaPlacement.knownSet(currentUser) : null,
       activeId: activeLessonId,
       getProgress: getLessonProgress,
       emptyText: course.areaNotes[activeArea],
@@ -581,6 +668,7 @@
       if (box) box.hidden = true;
       if (link) link.hidden = true;
       window.GaussicaRewards.check();
+      window.GaussicaPet.check();
       return;
     }
     const M = window.GaussicaMailbox;
@@ -596,6 +684,7 @@
       link.setAttribute("aria-label", total ? "Uppdrag och meddelanden från din lärare: " + total + " nya" : "Uppdrag och meddelanden från din lärare");
     }
     window.GaussicaRewards.check();
+    window.GaussicaPet.check();
     const tones = M.assignedLessonIds();
     Object.keys(tones).forEach(function (id) {
       const node = graph.querySelector('[data-lesson-id="' + id + '"]');
@@ -679,6 +768,7 @@
   function renderCoach() {
     const card = document.getElementById("next-card");
     const hero = document.getElementById("hero-cta");
+    if (course && window.GaussicaPet) window.GaussicaPet.render(document.getElementById("pet-card"));
     const prev = graph.querySelector(".is-next");
     if (prev) prev.classList.remove("is-next");
     if (course) renderInbox();
@@ -688,12 +778,13 @@
     }
     const next = window.GaussicaCoach.nextStep(coachContext());
     const review = window.GaussicaCoach.reviewPlan(coachContext());
-    const assigned = window.GaussicaMailbox.openAssignments()[0];
+    const assigned = window.GaussicaMailbox.openLessonAssignments()[0];
     const data = window.GaussicaCoach.path(coachContext(), assigned && assigned.a.lessonId);
     card.hidden = false;
     window.GaussicaPathView.render(card, data, {
       assignment: assigned || null,
       reviewLessons: review.lessons,
+      placementTest: isStudent() ? function () { window.location.hash = "#nivatest"; } : null,
       start: function (id) { window.location.hash = "#play/" + id; },
       more: showLessonPanel,
       review: function () { window.location.hash = "#review"; }
@@ -747,6 +838,49 @@
       again: function () { openRound("practice", window.GaussicaCoach.practiceRound(coachContext(), lesson, 5), options); }
     };
     openRound("practice", window.GaussicaCoach.practiceRound(coachContext(), lesson, 5), options);
+  }
+
+  // "Hitta din nivå": a short adaptive test that marks what the student already knows (placement.js)
+  function openPlacementTest() {
+    if (!isStudent()) { window.location.hash = "#larstig"; return; }
+    window.GaussicaPlacement.open({
+      container: document.querySelector("#lesson-player"),
+      lessons: function () { return course.lessons; },
+      getLesson: function (id) { return course.lessons.find(function (l) { return l.id === id; }); },
+      renderVisuals: renderVisualsFor,
+      student: currentUser,
+      save: function (result) {
+        result.updatedAt = Date.now();
+        lessonProgress.placement = result;
+        dirtyLessons.add("placement");
+        scheduleSave(100);
+        renderGraph();
+      },
+      openLesson: function (id) { window.location.hash = "#play/" + id; },
+      onExit: function () { window.location.hash = "#larstig"; }
+    });
+  }
+
+  // A prov (generated test) from the teacher: route #prov/<assignment id>
+  function openProv(id) {
+    const assignment = ((currentUser && currentUser.assignments) || []).find(function (a) { return String(a.id) === String(id) && a.kind === "prov"; });
+    if (!isStudent() || !assignment || !assignment.config) { window.location.hash = "#larstig"; return; }
+    window.GaussicaProv.open({
+      container: document.querySelector("#lesson-player"),
+      lessons: function () { return course.lessons; },
+      getLesson: function (lid) { return course.lessons.find(function (l) { return l.id === lid; }); },
+      renderVisuals: renderVisualsFor,
+      student: currentUser,
+      allowsExpression: function (lesson, problem) { return window.GaussicaLesson.allowsExpression(lesson, problem, course.lessons); },
+      formNote: answerFormNote,
+      save: function (key, record) {
+        lessonProgress[key] = record;
+        dirtyLessons.add(key);
+        scheduleSave(300);
+        window.GaussicaMailbox.render(document.getElementById("mailbox"));
+      },
+      onExit: function () { window.location.hash = "#larstig"; renderCoach(); }
+    }, assignment);
   }
 
   function openReviewSession() {
@@ -1884,6 +2018,32 @@
     }
   }
 
+  // A similar question with other numbers, from a practice template of the same lesson, to show how it is solved.
+  // The templates tied to the task (their "for") are used, or the template the question came from. Returns the question
+  // (with its solution steps if the template has them) or null when there is nothing to show.
+  function workedExampleFor(lessonId, taskId, current) {
+    const lesson = course.lessons.find(function (l) { return l.id === lessonId; });
+    const PR = window.GaussicaPractice;
+    if (!lesson || !PR) return null;
+    const list = PR.templates(lesson);
+    let ids;
+    if (PR.isPracticeId(taskId)) { const p = PR.parseId(taskId); ids = p ? [p.template] : []; }
+    else ids = list.filter(function (t) { return (t.for || []).indexOf(taskId) >= 0; }).map(function (t) { return t.id; });
+    if (!ids.length) return null;
+    const sig = function (p) { return JSON.stringify([p.prompt, p.answer, p.statements, p.pairs]); };
+    const cur = current || {};
+    for (let i = 0; i < 30; i++) {
+      const q = PR.generate(lesson, ids[i % ids.length]);
+      if (!q) continue;
+      const p = q.problem;
+      if (sig(p) === sig(cur)) continue;
+      // a numeric question must have another answer than the student's own, so that the example never gives it away
+      if (!p.statements && !p.pairs && JSON.stringify(p.answer) === JSON.stringify(cur.answer)) continue;
+      return p;
+    }
+    return null;
+  }
+
   function isTrue(x) { return x === true || /^(sant|true|ja)$/i.test(String(x)); }
 
   // True or false: a list of statements, each marked "Sant" or "Falskt", then checked together.
@@ -1904,6 +2064,10 @@
     const heading = makeElement("h3", "", exercise.prompt);
     heading.id = headingId;
     section.append(makeElement("p", "eyebrow", labelText), heading);
+    const listenTf = window.GaussicaSpeech && window.GaussicaSpeech.button(function () {
+      return exercise.prompt + " " + statements.map(function (s, i) { return "Påstående " + (i + 1) + ": " + s.text + "."; }).join(" ");
+    });
+    if (listenTf) section.appendChild(listenTf);
     section.appendChild(makeElement("p", "match-help", statements.length === 1
       ? "Välj Sant eller Falskt och tryck på Kolla svaret."
       : "Välj Sant eller Falskt för varje påstående och tryck på Kolla svaret."));
@@ -2043,6 +2207,8 @@
       makeElement("p", "eyebrow", labelText),
       heading
     );
+    const listenQ = window.GaussicaSpeech && window.GaussicaSpeech.button(function () { return exercise.prompt; });
+    if (listenQ) section.appendChild(listenQ);
     const teacherNotes = isStudent() && !isPractice(taskId) ? window.GaussicaMailbox.inline(lesson.id, taskId) : null;
     if (teacherNotes) section.appendChild(teacherNotes);
     renderVisualsFor(section, exercise);
@@ -2432,6 +2598,10 @@
     const section = makeElement("section", "explanation-section");
     section.appendChild(makeElement("p", "eyebrow", "FÖRSTÅ IDÉN" + (paged ? " · DEL " + (step.part + 1) + " AV " + step.parts : "")));
     section.appendChild(makeElement("h3", "", lesson.explanationTitle || "Förklaring"));
+    const listen = window.GaussicaSpeech && window.GaussicaSpeech.button(function () {
+      return (lesson.explanationTitle || "") + ". " + paragraphs.join(" ").replace(/^\s*Problemet:\s*/i, "Problemet: ");
+    });
+    if (listen) section.appendChild(listen);
     paragraphs.forEach(function (text, i) {
       let body = text;
       if (i === 0 && (!paged || step.part === 0)) {
@@ -2978,6 +3148,7 @@
       assignments: teacherCache.assignments,
       inboxUnavailable: teacherCache.inboxUnavailable,
       course: course,
+      renderVisuals: renderVisualsFor,
       formatTimestamp: formatTimestamp,
       rerender: function () { renderAdminPage(false); },
       refresh: function () { renderAdminPage(true); },
@@ -3039,6 +3210,22 @@
     const hash = window.location.hash || "";
     const playId = hash.indexOf("#play/") === 0 ? hash.slice(6) : "";
     const practiceId = hash.indexOf("#practice/") === 0 ? decodeURIComponent(hash.slice(10)) : "";
+    if (hash !== "#nivatest" && hash.indexOf("#prov/") !== 0) window.GaussicaTest.closeActive();
+    const provMatch = /^#prov\/(\d+)$/.exec(hash);
+    if (provMatch) {
+      if (adminPage) adminPage.hidden = true;
+      if (studentView) studentView.hidden = false;
+      window.GaussicaPlayer.close(true);
+      openProv(provMatch[1]);
+      return;
+    }
+    if (hash === "#nivatest") {
+      if (adminPage) adminPage.hidden = true;
+      if (studentView) studentView.hidden = false;
+      window.GaussicaPlayer.close(true);
+      openPlacementTest();
+      return;
+    }
     if (practiceId || hash === "#review") {
       if (adminPage) adminPage.hidden = true;
       if (studentView) studentView.hidden = false;

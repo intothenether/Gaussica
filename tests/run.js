@@ -115,6 +115,14 @@ async function api() {
   run("practice editor", "tests/practice-editor.js");
   run("explanation pages", "tests/explanation-pages.js");
   run("true/false", "tests/truefalse.js");
+  run("worked example", "tests/worked-example.js");
+  run("read aloud", "tests/speech.js");
+  run("worksheets", "tests/worksheet.js");
+  run("offline", "tests/offline.js");
+  run("placement test", "tests/placement.js");
+  run("prov", "tests/prov.js");
+  run("class heatmap", "tests/heatmap.js");
+  run("pet", "tests/pet.js");
   await api();
   const failed = results.filter((r) => !r.ok);
   console.log("\n" + (failed.length ? failed.length + " of " + results.length + " checks FAILED" : "All " + results.length + " checks passed"));

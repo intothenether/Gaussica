@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS assignments (
   due_date   TEXT,
   created_at TEXT NOT NULL,
   archived   INTEGER NOT NULL DEFAULT 0,
-  kind       TEXT NOT NULL DEFAULT 'lesson'
+  kind       TEXT NOT NULL DEFAULT 'lesson',
+  config     TEXT
 );
 CREATE INDEX IF NOT EXISTS assignments_class ON assignments (class_id, archived);
 CREATE TABLE IF NOT EXISTS feedback (

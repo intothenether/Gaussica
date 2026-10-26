@@ -6,7 +6,10 @@
   "level": "Begrepp · ungefär åk 6",
   "grade": 6,
   "duration": "8 min",
-  "prerequisites": ["primtal","gemensamma-delare"],
+  "prerequisites": [
+    "primtal",
+    "gemensamma-delare"
+  ],
   "summary": "Delare, multipel, primtal och SGD: orden som beskriver hur tal hänger ihop.",
   "explanationTitle": "Hur tal hänger ihop",
   "explanation": "Tal kan delas upp i andra tal. Ett tal som går jämnt upp i ett annat är en delare till det. Tal i multiplikationstabellen är multiplar. Primtal och sammansatta tal skiljer sig åt i hur många delare de har. Läs begreppskorten och testa dig sedan på att koppla ihop dem.",
@@ -62,13 +65,22 @@
       "type": "koppla",
       "prompt": "Para ihop begreppen med rätt förklaring (del 1).",
       "pairs": [
-        {"term":"delare","definition":"Ett tal som går jämnt upp i ett annat tal."},
-        {"term":"multipel","definition":"Ett tal som finns i ett annat tals multiplikationstabell."},
+        {
+          "term": "delare",
+          "definition": "Ett tal som går jämnt upp i ett annat tal."
+        },
+        {
+          "term": "multipel",
+          "definition": "Ett tal som finns i ett annat tals multiplikationstabell."
+        },
         {
           "term": "delbar",
           "definition": "Ett tal är delbart med ett annat om det går att dela utan att något blir över."
         },
-        {"term":"primtal","definition":"Ett tal större än 1 som bara har 1 och sig självt som delare."}
+        {
+          "term": "primtal",
+          "definition": "Ett tal större än 1 som bara har 1 och sig självt som delare."
+        }
       ]
     },
     {
@@ -79,97 +91,272 @@
           "term": "sammansatt tal",
           "definition": "Ett tal större än 1 som har fler delare än 1 och sig självt."
         },
-        {"term":"gemensam delare","definition":"Ett tal som är delare till två eller flera tal."},
-        {"term":"största gemensamma delare","definition":"Det största talet som är delare till båda talen."},
-        {"term":"rest","definition":"Det som blir över när en division inte går jämnt upp."}
+        {
+          "term": "gemensam delare",
+          "definition": "Ett tal som är delare till två eller flera tal."
+        },
+        {
+          "term": "största gemensamma delare",
+          "definition": "Det största talet som är delare till båda talen."
+        },
+        {
+          "term": "rest",
+          "definition": "Det som blir över när en division inte går jämnt upp."
+        }
+      ]
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "3 är en delare till 12.",
+          "answer": true,
+          "explain": "12 delat med 3 är 4, och inget blir över."
+        },
+        {
+          "text": "7 är ett sammansatt tal.",
+          "answer": false,
+          "explain": "7 har bara 1 och 7 som delare, så det är ett primtal."
+        },
+        {
+          "text": "12 är delbart med 4.",
+          "answer": true,
+          "explain": "12 delat med 4 är 3, och inget blir över."
+        },
+        {
+          "text": "Talet 1 är ett primtal.",
+          "answer": false,
+          "explain": "Ett primtal är större än 1. Talet 1 har bara en delare."
+        },
+        {
+          "text": "Den största gemensamma delaren till 12 och 18 är 6.",
+          "answer": true,
+          "explain": "Delarna till 12 är 1, 2, 3, 4, 6 och 12, och till 18 är 1, 2, 3, 6, 9 och 18. Störst av dem båda har är 6."
+        },
+        {
+          "text": "13 delat med 4 ger resten 3.",
+          "answer": false,
+          "explain": "4 · 3 = 12 och 13 − 12 = 1, så resten är 1."
+        }
       ]
     }
   ],
-  "layout": ["explanation","comp:0","comp:1","comp:2","exercise","word:0","word:1"],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "comp:1",
+    "comp:2",
+    "comp:3",
+    "exercise",
+    "word:0",
+    "word:1"
+  ],
   "practice": [
     {
       "id": "koppla",
-      "for": ["match-1","match-2"],
+      "for": [
+        "match-1",
+        "match-2"
+      ],
       "mode": "koppla",
       "size": 4,
       "prompt": "Para ihop begreppen med rätt förklaring.",
       "pool": [
-        {"term":"delare","definition":"Ett tal som går jämnt upp i ett annat tal."},
-        {"term":"multipel","definition":"Ett tal som finns i ett annat tals multiplikationstabell."},
+        {
+          "term": "delare",
+          "definition": "Ett tal som går jämnt upp i ett annat tal."
+        },
+        {
+          "term": "multipel",
+          "definition": "Ett tal som finns i ett annat tals multiplikationstabell."
+        },
         {
           "term": "delbar",
           "definition": "Ett tal är delbart med ett annat om det går att dela utan att något blir över."
         },
-        {"term":"primtal","definition":"Ett tal större än 1 som bara har 1 och sig självt som delare."},
+        {
+          "term": "primtal",
+          "definition": "Ett tal större än 1 som bara har 1 och sig självt som delare."
+        },
         {
           "term": "sammansatt tal",
           "definition": "Ett tal större än 1 som har fler delare än 1 och sig självt."
         },
-        {"term":"gemensam delare","definition":"Ett tal som är delare till två eller flera tal."},
-        {"term":"största gemensamma delare","definition":"Det största talet som är delare till båda talen."},
-        {"term":"rest","definition":"Det som blir över när en division inte går jämnt upp."}
+        {
+          "term": "gemensam delare",
+          "definition": "Ett tal som är delare till två eller flera tal."
+        },
+        {
+          "term": "största gemensamma delare",
+          "definition": "Det största talet som är delare till båda talen."
+        },
+        {
+          "term": "rest",
+          "definition": "Det som blir över när en division inte går jämnt upp."
+        }
       ]
     },
     {
       "id": "fraga",
-      "for": ["exercise","word-0","word-1"],
+      "for": [
+        "exercise",
+        "word-0",
+        "word-1"
+      ],
       "mode": "fraga",
       "prompt": "Vilket begrepp betyder detta? Skriv begreppet.",
       "pool": [
         {
           "term": "delare",
           "definition": "Ett tal som går jämnt upp i ett annat tal.",
-          "alt": ["delaren","delarna"]
+          "alt": [
+            "delaren",
+            "delarna"
+          ]
         },
         {
           "term": "multipel",
           "definition": "Ett tal som finns i ett annat tals multiplikationstabell.",
-          "alt": ["multipeln","multiplar"]
+          "alt": [
+            "multipeln",
+            "multiplar"
+          ]
         },
         {
           "term": "delbar",
           "definition": "Ett tal är delbart med ett annat om det går att dela utan att något blir över.",
-          "alt": ["delbart","delbarhet"]
+          "alt": [
+            "delbart",
+            "delbarhet"
+          ]
         },
         {
           "term": "primtal",
           "definition": "Ett tal större än 1 som bara har 1 och sig självt som delare.",
-          "alt": ["primtalet","ett primtal"]
+          "alt": [
+            "primtalet",
+            "ett primtal"
+          ]
         },
         {
           "term": "sammansatt tal",
           "definition": "Ett tal större än 1 som har fler delare än 1 och sig självt.",
-          "alt": ["sammansatta tal","sammansatt"]
+          "alt": [
+            "sammansatta tal",
+            "sammansatt"
+          ]
         },
         {
           "term": "gemensam delare",
           "definition": "Ett tal som är delare till två eller flera tal.",
-          "alt": ["gemensamma delare"]
+          "alt": [
+            "gemensamma delare"
+          ]
         },
         {
           "term": "största gemensamma delare",
           "definition": "Det största talet som är delare till båda talen.",
-          "alt": ["sgd"]
+          "alt": [
+            "sgd"
+          ]
         },
         {
           "term": "rest",
           "definition": "Det som blir över när en division inte går jämnt upp.",
-          "alt": ["resten"]
+          "alt": [
+            "resten"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "santfalskt",
+      "for": [
+        "sf-3"
+      ],
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "3 är en delare till 12.",
+          "answer": true,
+          "explain": "12 delat med 3 är 4, och inget blir över."
+        },
+        {
+          "text": "7 är ett sammansatt tal.",
+          "answer": false,
+          "explain": "7 har bara 1 och 7 som delare, så det är ett primtal."
+        },
+        {
+          "text": "12 är delbart med 4.",
+          "answer": true,
+          "explain": "12 delat med 4 är 3, och inget blir över."
+        },
+        {
+          "text": "Talet 1 är ett primtal.",
+          "answer": false,
+          "explain": "Ett primtal är större än 1. Talet 1 har bara en delare."
+        },
+        {
+          "text": "Den största gemensamma delaren till 12 och 18 är 6.",
+          "answer": true,
+          "explain": "Delarna till 12 är 1, 2, 3, 4, 6 och 12, och till 18 är 1, 2, 3, 6, 9 och 18. Störst av dem båda har är 6."
+        },
+        {
+          "text": "13 delat med 4 ger resten 3.",
+          "answer": false,
+          "explain": "4 · 3 = 12 och 13 − 12 = 1, så resten är 1."
+        },
+        {
+          "text": "12 är en multipel av 3.",
+          "answer": true,
+          "explain": "12 finns i 3:ans multiplikationstabell: 3 · 4 = 12."
+        },
+        {
+          "text": "5 är en multipel av 10.",
+          "answer": false,
+          "explain": "10 är en multipel av 5. 5 är en delare till 10."
+        },
+        {
+          "text": "3 är en gemensam delare till 12 och 18.",
+          "answer": true,
+          "explain": "3 går jämnt upp i både 12 och 18."
+        },
+        {
+          "text": "Ett sammansatt tal har bara 1 och sig självt som delare.",
+          "answer": false,
+          "explain": "Det har ett primtal. Ett sammansatt tal har fler delare, till exempel 12."
         }
       ]
     }
   ],
   "exercise": {
     "prompt": "Vad kallas ett tal som bara har 1 och sig självt som delare? Skriv begreppet.",
-    "answer": ["primtal","primtalet","ett primtal"],
+    "answer": [
+      "primtal",
+      "primtalet",
+      "ett primtal"
+    ],
     "correct": "Rätt! Primtal: Ett tal större än 1 som bara har 1 och sig självt som delare.",
     "feedback": [
       {
-        "answers": ["multipel","multipeln","multiplar"],
+        "answers": [
+          "multipel",
+          "multipeln",
+          "multiplar"
+        ],
         "message": "Multipel betyder: Ett tal som finns i ett annat tals multiplikationstabell. Det är inte det som frågas. Läs begreppskorten igen."
       },
       {
-        "answers": ["sammansatt tal","sammansatta tal","sammansatt"],
+        "answers": [
+          "sammansatt tal",
+          "sammansatta tal",
+          "sammansatt"
+        ],
         "message": "Sammansatt tal betyder: Ett tal större än 1 som har fler delare än 1 och sig självt. Det är inte det som frågas. Läs begreppskorten igen."
       }
     ]
@@ -177,30 +364,52 @@
   "wordProblems": [
     {
       "prompt": "Vad kallas det som blir över när man delar 13 med 4? Skriv begreppet.",
-      "answer": ["rest","resten"],
+      "answer": [
+        "rest",
+        "resten"
+      ],
       "correct": "Rätt! Rest: Det som blir över när en division inte går jämnt upp.",
       "feedback": [
         {
-          "answers": ["delare","delaren","delarna"],
+          "answers": [
+            "delare",
+            "delaren",
+            "delarna"
+          ],
           "message": "Delare betyder: Ett tal som går jämnt upp i ett annat tal. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["multipel","multipeln","multiplar"],
+          "answers": [
+            "multipel",
+            "multipeln",
+            "multiplar"
+          ],
           "message": "Multipel betyder: Ett tal som finns i ett annat tals multiplikationstabell. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]
     },
     {
       "prompt": "12 finns i 3:ans multiplikationstabell. Vad kallas 12 i förhållande till 3? Skriv begreppet.",
-      "answer": ["multipel","multipeln","multiplar"],
+      "answer": [
+        "multipel",
+        "multipeln",
+        "multiplar"
+      ],
       "correct": "Rätt! Multipel: Ett tal som finns i ett annat tals multiplikationstabell.",
       "feedback": [
         {
-          "answers": ["delare","delaren","delarna"],
+          "answers": [
+            "delare",
+            "delaren",
+            "delarna"
+          ],
           "message": "Delare betyder: Ett tal som går jämnt upp i ett annat tal. Det är inte det som frågas. Läs begreppskorten igen."
         },
         {
-          "answers": ["rest","resten"],
+          "answers": [
+            "rest",
+            "resten"
+          ],
           "message": "Rest betyder: Det som blir över när en division inte går jämnt upp. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]

@@ -335,7 +335,9 @@ window.GaussicaGraph = (function () {
       const s = summaryOf(lesson);
       const area = opts.areas.get(lesson.area) || lesson.area;
       const isActive = lesson.id === opts.activeId;
-      const button = el("button", "graph-node gn-" + kind + " state-" + s.state +
+      // a lesson the placement test found known, that the student has not opened yet
+      const placed = s.state === "new" && Boolean(opts.placed && opts.placed.has(lesson.id));
+      const button = el("button", "graph-node gn-" + kind + " state-" + s.state + (placed ? " is-placed" : "") +
         (isActive ? " is-active" : "") + (kind === "unit" && model.stepOwner.get(opts.activeId) === lesson.id ? " is-ancestor" : ""));
       button.type = "button";
       button.dataset.lessonId = lesson.id;
@@ -353,7 +355,7 @@ window.GaussicaGraph = (function () {
 
       button.appendChild(ring(kind, s.statuses, s.state));
       const face = el("span", "gn-face");
-      if (s.state === "complete") face.textContent = "✓";
+      if (s.state === "complete" || placed) face.textContent = "✓";
       else if (kind === "unit") face.appendChild(stackIcon());
       else if (kind === "pyssel") face.appendChild(sparkIcon());
       else if (kind === "step") face.textContent = String(stepIndex + 1);
@@ -379,7 +381,8 @@ window.GaussicaGraph = (function () {
       text.appendChild(el("span", "graph-node-title", lesson.title));
       const meta = kind === "unit"
         ? el("span", "graph-node-meta state-" + s.state, L.describe(s))
-        : el("span", "graph-node-meta state-" + s.state, kind === "step" ? shortStatus(s) : L.describe(s));
+        : el("span", "graph-node-meta state-" + s.state, placed ? "Verkar kunna" : kind === "step" ? shortStatus(s) : L.describe(s));
+      if (placed) { meta.classList.add("is-placed"); button.title = lesson.title + " (nivåtestet visade att du verkar kunna det här)"; }
       text.appendChild(meta);
       if (kind === "unit") text.appendChild(el("span", "graph-node-tag", "KAPITEL · " + ownerCount(lesson) + " DELMOMENT"));
       if (kind === "pyssel") text.appendChild(el("span", "graph-node-tag is-play", "PYSSLA"));

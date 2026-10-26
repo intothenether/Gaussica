@@ -92,16 +92,27 @@ window.GaussicaCoach = (function () {
     const byPath = function (a, b) { return gradeOf(a) - gradeOf(b) || index.get(a.id) - index.get(b.id); };
     const states = new Map();
     lessons.forEach(function (l) { states.set(l.id, summaryOf(ctx, l)); });
+    // what the placement test ("Hitta din nivå") found: lessons the student seems to know already count as done
+    // when deciding what is ready, and lessons near the edge of what is known come before the ones far below it
+    const placement = (window.GaussicaPlacement && ctx.student && window.GaussicaPlacement.saved(ctx.student)) || null;
+    const known = new Set(placement ? placement.known : []);
     const isDone = function (id) {
+      if (known.has(id)) return true;
       const p = ctx.lessons.find(function (x) { return x.id === id; });
       return !p || summaryOf(ctx, p).state === "complete";
     };
     const going = lessons.filter(function (l) { const s = states.get(l.id); return s.state === "started" || s.state === "fix"; })
       .sort(function (a, b) { return lastActivity(ctx, b) - lastActivity(ctx, a) || byPath(a, b); });
-    const fresh = lessons.filter(function (l) { return states.get(l.id).state === "new"; }).sort(byPath);
+    const fresh = lessons.filter(function (l) { return states.get(l.id).state === "new" && !known.has(l.id); }).sort(byPath);
+    if (placement) {
+      const edge = Number(placement.level) || 0;
+      const starts = placement.start || [];
+      const rank = function (l) { return starts.indexOf(l.id) >= 0 ? 0 : gradeOf(l) >= edge - 1 ? 1 : 2; };
+      fresh.sort(function (a, b) { return rank(a) - rank(b) || byPath(a, b); });
+    }
     const ready = fresh.filter(function (l) { return (l.prerequisites || []).every(isDone); });
     const done = lessons.filter(function (l) { return states.get(l.id).state === "complete"; });
-    return { lessons: lessons, states: states, going: going, fresh: fresh, ready: ready, done: done, isDone: isDone };
+    return { lessons: lessons, states: states, going: going, fresh: fresh, ready: ready, done: done, isDone: isDone, placement: placement, known: known };
   }
 
   function nextStep(ctx) {
@@ -148,7 +159,8 @@ window.GaussicaCoach = (function () {
     const playPool = A.going.concat(A.ready).filter(function (l) { return l.kind === "pyssel" && !taken.has(l.id); });
     const play = playPool[0] ? step("play", A.states.get(playPool[0].id).state === "new" ? "start" : "going", playPool[0]) : null;
 
-    return { now: now, later: later, play: play, doneCount: A.done.length, total: A.lessons.length, allDone: !now && A.done.length === A.lessons.length };
+    return { now: now, later: later, play: play, doneCount: A.done.length, total: A.lessons.length, allDone: !now && A.lessons.every(function (l) { return A.known.has(l.id) || A.states.get(l.id).state === "complete"; }),
+      placement: A.placement ? { at: A.placement.at, known: A.known.size, level: A.placement.level || 0 } : null };
   }
 
   // ----- what to repeat -----

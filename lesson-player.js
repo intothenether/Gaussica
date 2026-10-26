@@ -106,6 +106,7 @@ window.GaussicaPlayer = (function () {
   function close() {
     if (!deps) return;
     rulesOverlay = null;
+    if (window.GaussicaSpeech) window.GaussicaSpeech.stop();
     deps.container.hidden = true;
     deps.container.replaceChildren();
     document.body.classList.remove("player-open");
@@ -129,6 +130,7 @@ window.GaussicaPlayer = (function () {
     const l = isSession() ? null : lesson();
     const c = deps.container;
     rulesOverlay = null;
+    if (window.GaussicaSpeech) window.GaussicaSpeech.stop();
     c.replaceChildren();
     const shell = el("div", "pl-shell");
     shell.setAttribute("role", "dialog");
@@ -189,6 +191,7 @@ window.GaussicaPlayer = (function () {
       return b;
     };
     if (rulesLesson()) actions.appendChild(labelled("💡", "Regler", "pl-rules", openRules, "Se regeln och förklaringen igen utan att lämna lektionen."));
+    if (window.GaussicaReading) actions.appendChild(labelled("Aa", "Läsning", "pl-read", function () { window.GaussicaReading.open(); }, "Textstorlek, typsnitt och uppläsning."));
     if (deps.canChat && deps.canChat()) {
       const ask = labelled("💬", "Fråga läraren", "pl-ask", function () { deps.openChat(chatContext()); }, "Skriv till din lärare. Läraren ser vilken uppgift du tittar på.");
       if (deps.chatUnread && deps.chatUnread()) ask.classList.add("has-news");
@@ -210,11 +213,68 @@ window.GaussicaPlayer = (function () {
 
   let rulesOverlay = null;
 
+  // A solved question like the one the student is stuck on, with other numbers. The answer to the real question is not given.
+  function openExample(problem) {
+    closeRules();
+    rulesOverlay = el("div", "chat-overlay rules-overlay");
+    const panel = el("div", "chat-panel rules-panel");
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-modal", "true");
+    panel.setAttribute("aria-label", "Löst exempel");
+    const head = el("header", "chat-head");
+    head.appendChild(el("h2", "chat-title", "💡 Löst exempel"));
+    const x = el("button", "chat-close", "✕");
+    x.type = "button";
+    x.setAttribute("aria-label", "Stäng");
+    x.addEventListener("click", closeRules);
+    head.appendChild(x);
+    const body = el("div", "rules-body");
+    body.appendChild(el("p", "ex-intro", "Här är ett liknande tal med andra siffror, och hur man kan tänka. Titta på det och prova sedan din egen uppgift igen."));
+    const set = function (node, text) { if (window.GaussicaText) window.GaussicaText.set(node, text); else node.textContent = text; return node; };
+    const box = el("div", "ex-box");
+    box.appendChild(set(el("h3", "ex-question"), problem.prompt || ""));
+    if (deps.renderVisuals) deps.renderVisuals(box, problem);
+    if (Array.isArray(problem.statements)) {
+      const ol = el("ol", "ex-steps");
+      problem.statements.forEach(function (s) {
+        const li = el("li");
+        li.appendChild(set(el("span", "ex-statement"), s.text));
+        li.appendChild(el("strong", s.answer ? "ex-yes" : "ex-no", s.answer ? "  Sant" : "  Falskt"));
+        if (s.explain) li.appendChild(set(el("span", "ex-why"), " " + s.explain));
+        ol.appendChild(li);
+      });
+      box.appendChild(ol);
+    } else if (Array.isArray(problem.pairs)) {
+      const ul = el("ul", "ex-steps");
+      problem.pairs.forEach(function (p) { ul.appendChild(set(el("li"), p.term + ": " + p.definition)); });
+      box.appendChild(ul);
+    } else {
+      if (problem.solution && problem.solution.length) {
+        const ol = el("ol", "ex-steps");
+        problem.solution.forEach(function (line) { ol.appendChild(set(el("li"), line)); });
+        box.appendChild(ol);
+      } else if (problem.correct) {
+        box.appendChild(set(el("p", "ex-explain"), String(problem.correct).replace(/^(Rätt|Ja)[.!]\s*/, "")));
+      }
+      if (problem.answer && problem.answer[0]) box.appendChild(set(el("p", "ex-answer"), "Svar: " + problem.answer[0]));
+    }
+    body.appendChild(box);
+    const done = el("button", "chat-send rules-done", "Tillbaka till min uppgift");
+    done.type = "button";
+    done.addEventListener("click", closeRules);
+    panel.append(head, body, done);
+    rulesOverlay.appendChild(panel);
+    rulesOverlay.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closeRules(); } });
+    rulesOverlay.addEventListener("mousedown", function (e) { if (e.target === rulesOverlay) closeRules(); });
+    deps.container.appendChild(rulesOverlay);
+    done.focus({ preventScroll: true });
+  }
+
   function closeRules() {
     if (!rulesOverlay) return;
     rulesOverlay.remove();
     rulesOverlay = null;
-    const back = deps.container.querySelector(".pl-rules");
+    const back = deps.container.querySelector(".pl-example, .pl-rules");
     if (back) back.focus();
   }
 
@@ -288,13 +348,19 @@ window.GaussicaPlayer = (function () {
     foot.className = "pl-foot is-" + tone;
     foot.replaceChildren();
     const msg = el("div", "pl-foot-msg");
-    if (message) msg.textContent = message;
+    if (message) {
+      // the pet says it (happy when the answer was right), if the student has one
+      const face = (tone === "correct" || tone === "wrong") && deps.petFace ? deps.petFace(tone === "correct" ? "happy" : "") : null;
+      if (face) msg.appendChild(face);
+      msg.appendChild(document.createTextNode(message));
+    }
     const acts = el("div", "pl-foot-actions");
     actions.forEach(function (a) { acts.appendChild(a); });
     const row = el("div", "pl-foot-row");
     if (state.hosts) {
       foot.appendChild(state.hosts.question);
       foot.appendChild(state.hosts.feedback);
+      foot.appendChild(state.hosts.help);
       row.append(msg, state.hosts.answer, acts);
     } else {
       row.append(msg, acts);
@@ -329,7 +395,7 @@ window.GaussicaPlayer = (function () {
       : "FRÅGA " + st.number + " AV " + st.total;
     const holder = el("div", "pl-question");
     card.appendChild(holder);
-    state.hosts = { answer: el("div", "pl-foot-answer"), feedback: el("div", "pl-foot-feedback"), question: el("div", "pl-foot-q") };
+    state.hosts = { answer: el("div", "pl-foot-answer"), feedback: el("div", "pl-foot-feedback"), question: el("div", "pl-foot-q"), help: el("div", "pl-foot-help") };
     // the question is repeated above the answer field. It is only shown while the on-screen keyboard is open,
     // when the question itself has scrolled out of the small visible area.
     const promptText = st.task.problem && st.task.problem.prompt ? String(st.task.problem.prompt) : "";
@@ -338,11 +404,16 @@ window.GaussicaPlayer = (function () {
     const skip = button("Hoppa över", "pl-btn pl-btn-ghost", function () { go(state.index + 1); });
 
     const showSolved = function (focusNext) {
-      footer(foot, "correct", "✓ Rätt!", [next]);
+      footer(foot, "correct", state.tries[st.key] ? "✓ Rätt! Bra att du fortsatte!" : "✓ Rätt!", [next]);
       if (focusNext) next.focus();
     };
     const showWrong = function () {
       const n = state.tries[st.key] = (state.tries[st.key] || 0) + 1;
+      // after two wrong answers: a worked example of a similar question, with other numbers
+      if (n >= 2 && !state.hosts.help.firstChild && deps.workedExample) {
+        const example = deps.workedExample(isSession() ? st.lessonId : state.lessonId, st.task.id, st.task.problem);
+        if (example) state.hosts.help.appendChild(button("💡 Se ett löst exempel", "pl-btn pl-btn-ghost pl-example", function () { openExample(example); }));
+      }
       footer(foot, "wrong", "Inte riktigt – läs tipset och prova igen" + (n > 1 ? " (försök " + (n + 1) + ")" : ""),
         [backButton(), skip].filter(Boolean));
     };
@@ -401,6 +472,7 @@ window.GaussicaPlayer = (function () {
       card.appendChild(box);
       R.celebrate();
     }
+    if (!open.length && deps.petRibbon) { const ribbon = deps.petRibbon(); if (ribbon) card.appendChild(ribbon); }
     card.appendChild(el("p", "pl-summary-sub",
       qs.length ? (qs.length - open.length) + " av " + qs.length + " frågor klara" +
         (firstTry ? " · " + firstTry + " rätt på första försöket" : "") : "Du har gått igenom hela lektionen."));
@@ -449,6 +521,7 @@ window.GaussicaPlayer = (function () {
     const missed = state.steps.filter(function (st) { return !(s.results[st.task.id] || {}).completed; });
     card.appendChild(el("p", "eyebrow pl-eyebrow", s.kind === "review" ? "REPETITION KLAR" : "ÖVNING KLAR"));
     card.appendChild(el("h2", "pl-summary-title", first === total ? "Strålande!" : "Bra jobbat!"));
+    if (!missed.length && deps.petRibbon) { const ribbon = deps.petRibbon(); if (ribbon) card.appendChild(ribbon); }
     card.appendChild(el("p", "pl-summary-sub",
       solved + " av " + total + " frågor klara" + (first ? " · " + first + " rätt på första försöket" : "") +
       (missed.length ? " · " + missed.length + " kvar att lösa" : "")));

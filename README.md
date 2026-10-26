@@ -316,8 +316,62 @@ Under varje mall finns "Svarsform, extra tangenter och figur" och "Avancerat: ma
 | Positiva heltalssvar i en ekvation | Slumpa svaret x först och bygg ekvationen baklänges med `derive` (`c = a*x+b`), så blir x alltid ett heltal. |
 | Begreppsmatchning | Använd knappen "Skapa av begreppskorten", som bygger en matchningsmall och en "vilket begrepp är det här"-mall av lektionens begreppskort. Mallen har `pool` i stället för `vars` och redigeras som JSON. |
 | Att svar med en uträkning får godtas | `"allowExpression": true` i mallen, eller inställningen "Uträkning som svar" på lektionen. |
+| Ett löst exempel när eleven kört fast | `"steps": ["Lägg ihop entalen och tiotalen.", "{a} + {b} = {s}"]`, ett lösningssteg per rad (i redigeraren: "Lösningssteg"). Efter två fel i rad erbjuder spelaren "Se ett löst exempel" med en liknande fråga med andra tal, och stegen visas med talen ifyllda. Utan `steps` visas mallens rättmeddelande (`correct`) som lösning. |
 
 **Tips.** Håll slumptalen så att svaret blir rimligt (inga negativa tal om eleven inte kan det, inga för stora tal). Skriv gärna ett vanligt fel per vanlig missuppfattning, med ett meddelande som säger vad eleven gjorde och hur det ska vara. Provkör alltid några exempel i redigeraren innan du sparar, och kör `npm test` om du redigerar JSON-filerna direkt.
+
+## Hitta din nivå (nivåtest)
+
+Knappen "Hitta din nivå" överst i "Din väg" (och `#nivatest`) startar ett kort test som hittar var i lärstigen eleven ska börja (`placement.js`, `test-mode.js`). Eleven väljer årskurs och svarar på ungefär 15 till 25 genererade frågor, en i taget och utan tips. Testet går i lärstigens förkunskapsgraf som en binärsökning: en lektion prövas med två eller tre frågor. Kan eleven den räknas allt den bygger på som känt. Kan eleven den inte räknas allt som bygger på den som inte känt än. Nästa lektion som prövas är den som avgör flest av de lektioner som återstår, och högst 12 lektioner prövas. "Vet inte" avgör en lektion direkt. Frågorna kommer från lektionernas övningsmallar, så bara lektioner med mallar prövas direkt. Svaren loggas inte som försök, så nivåtestet påverkar varken "Repetera" eller lärarens statistik.
+
+- **Resultat.** Sparas i elevens framsteg under nyckeln `placement` (`{ at, grade, level, known, unknown, start }`), alltså utan ändring i databasen. Eleven ser hur många lektioner som verkar kända och vilka tre som är bästa start.
+- **Vad det ändrar.** Kända lektioner får en grön markering ("Verkar kunna") i kartan och räknas som klara när "Din väg" avgör vad som är redo, och förslagen börjar vid kanten av det eleven kan i stället för längst ned. Inget låses: eleven kan alltid öppna och göra lektionerna ändå. "Gör om testet" ersätter resultatet.
+- **Läraren** ser resultatet i elevens detaljvy och som ljusgröna rutor i klassöversikten.
+- Logiken (`GaussicaPlacement.create`) går att köra utan sida och testas i `tests/placement.js` med simulerade elever.
+
+## Prov
+
+I lärarvyn, avsnittet "📝 Prov" (`prov.js`): välj lektioner, antal frågor per lektion, tidsgräns, klass (eller en elev), sista dag och om eleven ska se resultatet direkt. Varje elev får sin egen variant (andra tal, samma varje gång för samma elev), och lektioner utan övningsmallar ger sina egna frågor till alla. Provet visas hos eleven som ett uppdrag med knappen "Starta provet".
+
+- **Under provet** (`test-mode.js`): en fråga i taget, ett svar per fråga, ingen väg tillbaka, inga tips och ingen återkoppling om det blev rätt. "Hoppa över" finns. En klocka visar tiden, och när den tar slut lämnas provet in. Eleven kan stänga fliken och fortsätta, men tiden går. Svaren rättas direkt med samma regler som i lektionerna (uträkning i stället för tal och fel skrivsätt räknas som fel).
+- **Resultat.** Läraren ser per prov hur många som lämnat in, snittet, hur varje lektion gick och per elev varje fråga med elevens svar, rätt svar och tid. Eleven ser resultatet med rätt svar om läraren valt det. Nedtaget prov försvinner från lärarens lista.
+- **Lagring.** Ett prov är ett uppdrag av typen `prov` vars inställningar ligger i den nya kolumnen `assignments.config` (Node: schemaversion 6, Cloudflare: kör `migrations/005-prov.sql` en gång, se cloudflare/README.md). Elevens svar sparas i elevens framsteg under nyckeln `prov-<uppdragets id>`, så de följer med exporten.
+- Provfrågorna loggas inte som vanliga försök och påverkar därför inte "Repetera".
+
+## Klassöversikt
+
+Överst i lärarvyn, under siffrorna: "🗺 Klassöversikt" (`heatmap.js`). Eleverna ligger längs sidan och lektionerna på tvären, i årskursordning. Varje ruta är en färg: **klar**, **klar men osäker** (nyligen fel), **pågår**, **kört fast** (fel som inte lösts eller många fel nyligen), **verkar kunna** (nivåtestet) och **inte påbörjad**. Håll musen över en ruta för detaljerna, klicka på rutan eller elevens namn för att öppna eleven, och klicka på en lektion för att se vilka som är var.
+
+- **Vem behöver dig idag?** Elever som kört fast den senaste veckan, ställt en fråga som inte besvarats, har försenade uppdrag eller inte varit aktiva på över två veckor. Med knappar för att öppna eleven eller ge Öva mer direkt.
+- **Nästa steg.** Grupper med en knapp för varje: elever som har problem med samma lektion ("Ge dessa Öva mer"), elever som är redo för nästa lektion ("Ge lektionen") och elever som inte kommit igång. Knapparna skickar vanliga uppdrag, så de syns som vanligt hos eleverna.
+- Du väljer om kartan visar lektionerna klassen arbetat med eller alla, och kan begränsa den till ett område. Klassfiltret följer med.
+
+## Ditt djur och mynt
+
+Mest tänkt för åk 3 till 5. Eleven väljer en mops, en katt eller en pingvin (fyra färger var), ger den ett namn och tjänar **mynt** genom att lära sig. Mynten används i butiken ("Mitt djur och butiken") till hattar, ansikte (glasögon, mustasch, clownnäsa), halsband och bakgrunder, 23 saker för 15 till 60 mynt. Djuret ritas som SVG (`pet-art.js`, inga bildfiler), rör sig lite (andas, blinkar, viftar, hoppar av glädje när man klappar det eller köper något) och rörelsen stängs av för den som bett om mindre rörelse. Logiken och skärmarna finns i `pet.js`.
+
+- **Mynt för att lära sig, inte för att klicka.** En klar lektion ger 10 mynt (2 till 4 till för två eller tre stjärnor). Löser eleven en fråga efter ett fel ger det 1 mynt, högst 3 per lektion, så att den som kämpar också tjänar. Öva mer och Repetera ger 1 mynt per ny fråga, högst 10 om dagen, så det lönar sig inte att spamma lätta frågor. Nivåtestet ger 5 och djuret ger 20 i present. Läraren kan ge **presentmynt**: dekalerna "5, 10 eller 25 mynt till ditt djur" bland dekalerna i meddelandena.
+- **Inget går förlorat.** Djuret är aldrig ledset eller hungrigt, det finns inga serier och inga dagliga mål, och ingen jämförelse mellan elever. Djuret säger uppmuntrande saker, och står med i lektionens nederkant ("Bra att du fortsatte!").
+- **Mynten visas där de hör hemma:** på sammanfattningen när en lektion eller en runda är klar (djuret hoppar, "Du fick 14 nya mynt") och på startsidan, aldrig mitt i en fråga och aldrig i nivåtest eller prov.
+- **Ingen ändring i databasen.** Djuret (art, färg, namn, vad som köpts och har på sig) sparas i elevens framsteg under nyckeln `pet`. Mynten räknas ut från elevens egna data (klara lektioner, svarsloggen, presentdekaler) minus det som köpts, så de är de samma på alla enheter och går inte att ändra i webbläsaren. Ändras ett pris senare påverkas inte det som redan köpts, för priset som betalades sparas.
+- **Läraren** slår av djuret för en klass med samma ruta som stjärnor och märken ("Stjärnor, märken och djur" i klasslistan).
+- Nya saker läggs till i listan `ITEMS` i `pet-art.js` (id, plats, namn, pris och ritning). `tests/pet.js` ritar alla kombinationer av djur, färg och sak och kontrollerar hur mynt tjänas.
+
+## Läsning och uppläsning
+
+Knappen "Aa Läsning" (i toppmenyn och i lektionsläget, `reading.js`) öppnar inställningar som sparas i webbläsaren (`localStorage`, nyckeln `gaussica-reading`): **textstorlek** (vanlig, större, störst), **typsnitt** (Lexend, ett typsnitt som många med lässvårigheter tycker är lätt att läsa), **luftig text** (större radavstånd och ordavstånd) och **talhastighet**. Knappen "🔊 Lyssna" vid förklaringar och frågor läser texten med webbläsarens svenska röst (`speechSynthesis`). Matematiken görs om till ord: ett bråk blir "tre fjärdedelar", `2^3` blir "2 upphöjt till 3", `·` blir "gånger" och så vidare (`GaussicaSpeech.toSpeech`, testad i `tests/speech.js`). Vilka röster som finns beror på enheten. Utan svensk röst visas en rad om det.
+
+## Arbetsblad
+
+Läraren väljer "🖨 Arbetsblad" i lärarvyn (`worksheet.js`): en eller flera lektioner, antal uppgifter per lektion och om bladet är **ett till alla**, **ett per elev i en klass** (varje elev får andra tal, namnet står på bladet) eller **flera varianter**. Uppgifterna skapas av lektionernas övningsmallar, och lektioner utan mallar ger sina egna uppgifter. Bladet har figurer, plats för uträkning (rutor eller linjer), sant eller falskt som rutor att kryssa i och matchning som numrerade begrepp mot bokstäver. **Facit** hamnar på sista sidan med alla blads svar. Tryck "Skriv ut" och välj "Spara som PDF" om du vill ha en fil. Samma alternativ ger alltid samma blad.
+
+## Offline och snabbare start
+
+- **En fil för kursen.** Vid publicering samlar `npm run build` (`scripts/build-bundle.js`) index och alla lektioner i `lessons/bundle.json`, så sidan hämtar kursen i en förfrågan i stället för över hundra. Filen skapas av GitHub-workflowen och checkas inte in (den står i `.gitignore`). Finns den inte, som när du kör `npm start` lokalt, läser sidan lektionsfilerna en och en. Den lokala servern delar medvetet inte ut bundlen, så dina ändringar syns direkt.
+- **Fungerar utan uppkoppling.** `sw.js` (registreras av `offline.js`) sparar sidans egna filer och typsnitten efter första besöket. Filerna hämtas alltid från nätet först, så en ny version används direkt när det finns uppkoppling. Allt under `/api/` och allt från databasen sparas aldrig av tjänstearbetaren.
+- **Konto och framsteg utan nät.** De tre läsningar som sidan behöver vid start (`/api/me`, `/api/me/data`, `/api/lessons`) sparas i webbläsaren och används bara när servern inte går att nå. De tas bort när eleven loggar ut.
+- **Svar utan nät.** Svar och framsteg som inte kan skickas sparas i webbläsaren (`gaussica.outbox.<användare>`) och skickas automatiskt när uppkopplingen är tillbaka, även efter att fliken stängts. En liten ruta överst visar att du är offline.
+- **Installera som app.** `manifest.webmanifest` och ikonerna `icon-192.png` och `icon-512.png` gör att sidan kan läggas på hemskärmen eller installeras från webbläsaren. Ikonerna ritas av samma former som `favicon.svg`.
 
 ## Integritetstext
 

@@ -3,7 +3,8 @@
 //
 //   GaussicaPathView.render(container, data, hooks)
 //     data  = GaussicaCoach.path(...)  { now, later[], play, doneCount, total, allDone }
-//     hooks = { start(lessonId), more(lessonId), review(), assignment (open assignment or null), reviewLessons: [] }
+//     hooks = { start(lessonId), more(lessonId), review(), assignment (open assignment or null), reviewLessons: [],
+//               placementTest() (opens "Hitta din nivå"; leave out to hide the offer) }
 
 window.GaussicaPathView = (function () {
   "use strict";
@@ -101,6 +102,32 @@ window.GaussicaPathView = (function () {
     return li;
   }
 
+  // "Hitta din nivå": a big offer to a student who has just begun, a small line otherwise
+  function placementOffer(data, hooks) {
+    const p = data.placement;
+    const go = function (label, cls) {
+      const b = el("button", cls, label);
+      b.type = "button";
+      b.addEventListener("click", hooks.placementTest);
+      return b;
+    };
+    if (!p && data.doneCount < 3) {
+      const box = el("div", "pv-placement");
+      box.appendChild(el("span", "pv-emoji", "🎯"));
+      const copy = el("div", "pv-placement-copy");
+      copy.appendChild(el("h4", "pv-title", "Hitta din nivå"));
+      copy.appendChild(el("p", "pv-sub", "Svara på några frågor, så hittar vi var du ska börja. Då slipper du börja med sådant du redan kan. Det tar ungefär 10 minuter."));
+      box.append(copy, go("Starta nivåtestet →", "primary-button pv-go"));
+      return box;
+    }
+    const row = el("p", "pv-placement-line");
+    row.appendChild(document.createTextNode(p
+      ? "🎯 Nivåtestet visade att du verkar kunna " + p.known + (p.known === 1 ? " lektion" : " lektioner") + " redan. "
+      : "🎯 Vill du hitta din nivå? "));
+    row.appendChild(go(p ? "Gör om testet" : "Gör nivåtestet", "pv-link"));
+    return row;
+  }
+
   function render(container, data, hooks) {
     container.replaceChildren();
     const root = el("div", "pv");
@@ -114,6 +141,7 @@ window.GaussicaPathView = (function () {
       : "⭐ " + data.doneCount + " av " + data.total + " lektioner klara. Ta ett steg i taget."));
     head.appendChild(title);
     root.appendChild(head);
+    if (hooks.placementTest) root.appendChild(placementOffer(data, hooks));
 
     if (data.allDone) {
       const done = el("div", "pv-alldone");

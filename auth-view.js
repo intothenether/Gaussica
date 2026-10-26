@@ -40,6 +40,31 @@ window.GaussicaAPI = (function () {
     return backend;
   }
 
+  // The last answer to the three reads that the page needs to start is kept in this browser, so that a visit
+  // without any connection can still show the account, the progress and the teacher's own lessons. Only used when
+  // the server cannot be reached at all, and removed again when the user logs out.
+  const CACHE_PREFIX = "gaussica.cache.";
+  const CACHED_PATHS = ["/api/me", "/api/me/data", "/api/lessons"];
+
+  function readCache(path) {
+    if (CACHED_PATHS.indexOf(path) < 0) return null;
+    try { return JSON.parse(window.localStorage.getItem(CACHE_PREFIX + path) || "null"); } catch (e) { return null; }
+  }
+
+  function writeCache(path, json) {
+    if (CACHED_PATHS.indexOf(path) < 0 || !json) return;
+    try {
+      const text = JSON.stringify(json);
+      if (text.length < 1500000) window.localStorage.setItem(CACHE_PREFIX + path, text);
+    } catch (e) { /* storage full or blocked */ }
+  }
+
+  function clearCache() {
+    try {
+      Object.keys(window.localStorage).filter(function (k) { return k.indexOf(CACHE_PREFIX) === 0; }).forEach(function (k) { window.localStorage.removeItem(k); });
+    } catch (e) { /* storage blocked */ }
+  }
+
   async function request(method, path, body, options) {
     if ((await detect()) === "local") {
       try {
@@ -64,6 +89,8 @@ window.GaussicaAPI = (function () {
         keepalive: Boolean(options && options.keepalive) && (!payload || payload.length < 60000)
       });
     } catch (e) {
+      const cached = method === "GET" ? readCache(path) : null;
+      if (cached) return cached;
       const err = new Error(remote ? "Kan inte nå databasen. Kontrollera internetanslutningen." : "Kan inte nå servern. Kontrollera anslutningen.");
       err.status = 0;
       throw err;
@@ -76,12 +103,14 @@ window.GaussicaAPI = (function () {
       throw err;
     }
     if (remote && json && json.token) setToken(json.token);
-    if (remote && path === "/api/logout") setToken(null);
+    if (path === "/api/logout") { if (remote) setToken(null); clearCache(); }
+    if (method === "GET") writeCache(path, json);
     return json;
   }
 
   return {
     mode: function () { return backend; },
+    clearCache: clearCache,
     request: request,
     get: function (path) { return request("GET", path); },
     post: function (path, body) { return request("POST", path, body === undefined ? {} : body); },
@@ -307,6 +336,7 @@ window.GaussicaAuth = (function () {
 
   async function logout() {
     try { await API.post("/api/logout"); } catch (e) { /* session is gone either way */ }
+    API.clearCache();
     window.location.reload();
   }
 

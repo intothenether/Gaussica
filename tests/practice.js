@@ -49,6 +49,7 @@ idx.lessons.forEach((f) => {
       if (strings.some((s) => /NaN|undefined|Infinity|[{}$]/.test(s))) { bad(where, "unresolved text: " + p.prompt); break; }
       if (/\?\?|[^\s(]\?[^\s)]/.test(p.prompt.replace(/\?\s*$/, "").replace(/□|\?\//g, ""))) { /* a lone "?" inside the prompt is fine */ }
       if (!p.answer.length) { bad(where, "no answer"); break; }
+      if (p.solution && p.solution.some((s) => /NaN|undefined|Infinity|[{}$]/.test(s))) { bad(where, "unresolved text in the solution steps: " + p.solution[0]); break; }
       p.answer.forEach((a) => { if (!S.areEquivalent(a, a)) bad(where, "answer '" + a + "' not accepted as typed"); });
       const numericOnes = p.answer.filter((a) => /^-?\d+([.,]\d+)?$/.test(a));
       numericOnes.forEach((a) => { if (!S.areEquivalent(a, numericOnes[0])) bad(where, "answers disagree: " + a + " vs " + numericOnes[0]); });
