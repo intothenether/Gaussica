@@ -102,6 +102,17 @@ window.InteractiveEditor = (function () {
     })
   };
 
+  COMPONENT_TYPES.santfalskt = {
+    label: "Sant/falskt", icon: "✓✗",
+    create: () => ({
+      type: "santfalskt", prompt: "Sant eller falskt?",
+      statements: [
+        { text: "En triangel har tre sidor.", answer: true, explain: "En triangel har tre sidor och tre hörn." },
+        { text: "En cirkel har fyra hörn.", answer: false, explain: "En cirkel har inga hörn." }
+      ]
+    })
+  };
+
   const KIND_INFO = {
     meta: { label: "Lektionsinfo", icon: "ⓘ" },
     explanation: { label: "Förklaring", icon: "¶" },
@@ -252,6 +263,7 @@ window.InteractiveEditor = (function () {
       else if (d.type === "problem") sub = d.prompt;
       else if (d.type === "begreppskort") sub = (d.cards || []).length + " begrepp";
       else if (d.type === "koppla") sub = d.prompt;
+      else if (d.type === "santfalskt") sub = (d.statements || []).length + " påståenden";
       else if (window.GaussicaLesson.isTool(d)) sub = d.title;
       return { label: info.label, icon: info.icon, sub: clip(sub) };
     }
@@ -779,6 +791,9 @@ window.InteractiveEditor = (function () {
       case "koppla":
         kopplaForm(form, c);
         break;
+      case "santfalskt":
+        santfalsktForm(form, c);
+        break;
       default:
         jsonForm(form, () => b.data, v => { b.data = v; },
           window.GaussicaLesson.isTool(b.data)
@@ -823,6 +838,70 @@ window.InteractiveEditor = (function () {
     form.appendChild(el("p", "le-hint", "Genvägar:"));
     form.appendChild(button("Skapa matchningstest av korten", "le-btn le-btn-small", () => matchFromCards(b),
       "Lägger till ett eller flera Para ihop-block med fyra begrepp i varje"));
+    form.appendChild(button("Skapa sant/falskt av korten", "le-btn le-btn-small", () => trueFalseFromCards(b),
+      "Lägger till ett Sant/falskt-block med påståenden av typen ”Begrepp betyder: förklaring”, sanna och falska om vartannat"));
+  }
+
+  // ----- true/false statements -----
+  function santfalsktForm(form, c) {
+    if (!Array.isArray(c.statements)) c.statements = [];
+    form.appendChild(field("Uppmaning", areaInput(c, "prompt", 2), "Till exempel \"Sant eller falskt?\" eller \"Vilka påståenden stämmer?\"."));
+    const mix = el("label", "le-check");
+    const cb = el("input"); cb.type = "checkbox"; cb.checked = Boolean(c.shuffle);
+    cb.addEventListener("change", () => { if (cb.checked) c.shuffle = true; else delete c.shuffle; changed(); });
+    mix.append(cb, el("span", "", "Blanda ordningen för varje elev"));
+    form.appendChild(mix);
+    const fs = el("fieldset", "le-fieldset");
+    fs.appendChild(el("legend", "", "Påståenden"));
+    fs.appendChild(el("p", "le-hint", "Eleven väljer Sant eller Falskt för varje påstående och trycker Kolla svaret. Eleven får veta hur många som är rätt, och förklaringen visas när allt stämmer. Blanda sanna och falska påståenden, annars är det lätt att gissa."));
+    const rows = el("div", "le-mistakes");
+    const draw = () => {
+      rows.replaceChildren();
+      c.statements.forEach((s, i) => {
+        const box = el("div", "le-mistake");
+        box.append(
+          field("Påstående", areaInput(s, "text", 2)),
+          field("Rätt svar", selectInput([{ value: "sant", label: "Sant" }, { value: "falskt", label: "Falskt" }], () => s.answer === false ? "falskt" : "sant", v => { s.answer = v === "sant"; })),
+          field("Förklaring (visas när eleven svarat rätt)", textInput(s, "explain")),
+          button("Ta bort", "le-btn le-btn-small le-btn-danger", () => { c.statements.splice(i, 1); draw(); changed(); }));
+        rows.appendChild(box);
+      });
+    };
+    draw();
+    fs.appendChild(rows);
+    fs.appendChild(button("+ Lägg till påstående", "le-btn le-btn-small", () => {
+      c.statements.push({ text: "", answer: true, explain: "" });
+      draw(); changed();
+    }));
+    form.appendChild(fs);
+  }
+
+  function lcfirst(t) { return t ? t.charAt(0).toLowerCase() + t.slice(1) : t; }
+  function ucfirst(t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : t; }
+
+  // True and false statements built from term cards: "Slump betyder: …" with the right explanation or another card's.
+  function statementsFromCards(cards, max) {
+    const ok = cards.filter(x => x.term && x.term.trim() && x.definition && x.definition.trim());
+    const kinds = [true, false, false, true, true, false, true, false];
+    const out = [];
+    ok.slice(0, max).forEach((card, i) => {
+      const truth = kinds[i % kinds.length];
+      const own = lcfirst(card.definition.trim());
+      const other = lcfirst(ok[(i + 1) % ok.length].definition.trim());   // the explanation of the next card
+      out.push({
+        text: ucfirst(card.term.trim()) + " betyder: " + (truth ? own : other),
+        answer: truth,
+        explain: ucfirst(card.term.trim()) + " betyder: " + own + (card.example && card.example.trim() ? " Exempel: " + card.example.trim() : "")
+      });
+    });
+    return out;
+  }
+
+  function trueFalseFromCards(b) {
+    const statements = statementsFromCards(b.data.cards || [], 6);
+    if (statements.length < 2) { toast("Skriv minst två begrepp med förklaring först."); return; }
+    insertBlock(newBlock("component", { type: "santfalskt", prompt: "Sant eller falskt?", statements: statements, shuffle: true }));
+    toast("Sant/falskt-block tillagt. Läs igenom påståendena.");
   }
 
   function kopplaForm(form, c) {
@@ -878,7 +957,17 @@ window.InteractiveEditor = (function () {
       else if (b.kind === "word") { askIds.push("word-" + word); word += 1; }
       else if (b.kind === "exercise") askIds.push("exercise");
     });
+    const sfIds = [];
+    let compIndex = 0;
+    blocks.forEach(b => { if (b.kind === "component") { if (b.data.type === "santfalskt") sfIds.push("sf-" + compIndex); compIndex += 1; } });
+    const sfPool = [];
+    pool.forEach((p, i) => {
+      const next = pool[(i + 1) % pool.length];
+      sfPool.push({ text: ucfirst(p.term) + " betyder: " + lcfirst(p.definition), answer: true, explain: ucfirst(p.term) + " betyder: " + lcfirst(p.definition) });
+      sfPool.push({ text: ucfirst(p.term) + " betyder: " + lcfirst(next.definition), answer: false, explain: ucfirst(p.term) + " betyder: " + lcfirst(p.definition) });
+    });
     lesson.practice = [
+      { id: "santfalskt", for: sfIds, mode: "santfalskt", size: 4, prompt: "Sant eller falskt?", pool: sfPool },
       { id: "koppla", for: matchIds, mode: "koppla", size: 4, prompt: "Para ihop begreppen med rätt förklaring.", pool: pool.map(p => ({ term: p.term, definition: p.definition })) },
       { id: "fraga", for: askIds, mode: "fraga", prompt: "Vilket begrepp betyder detta? Skriv begreppet.", pool: pool.map(p => ({ term: p.term, definition: p.definition, alt: [] })) }
     ];
@@ -895,6 +984,7 @@ window.InteractiveEditor = (function () {
       else if (b.kind === "word") out.push({ id: "word-" + (wordNumber(b) - 1), label: "Textuppgift " + wordNumber(b) + ": " + clip(b.data.prompt) });
       if (b.kind === "component") {
         if (b.data.type === "koppla") out.push({ id: "match-" + comp, label: "Para ihop: " + clip(b.data.prompt) });
+        if (b.data.type === "santfalskt") out.push({ id: "sf-" + comp, label: "Sant eller falskt: " + clip(b.data.prompt) });
         comp += 1;
       }
     });
@@ -1195,7 +1285,10 @@ window.InteractiveEditor = (function () {
       if (b.kind === "exercise") checkProblem(lesson.exercise, b.id, "Övningen");
       else if (b.kind === "word") checkProblem(b.data, b.id, "Textuppgift " + wordNumber(b));
       else if (b.kind === "component" && b.data.type === "problem") checkProblem(b.data, b.id, "Uppgiften");
-      else if (b.kind === "component" && b.data.type === "koppla") {
+      else if (b.kind === "component" && b.data.type === "santfalskt") {
+        const ok = (b.data.statements || []).filter(s => s.text && s.text.trim());
+        if (!ok.length) add(b.id, "Sant/falskt: skriv minst ett påstående.");
+      } else if (b.kind === "component" && b.data.type === "koppla") {
         const ok = (b.data.pairs || []).filter(p => p.term && p.term.trim() && p.definition && p.definition.trim());
         if (ok.length < 2) add(b.id, "Para ihop: minst två par med både begrepp och förklaring krävs.");
       } else if (b.kind === "component" && b.data.type === "begreppskort") {
@@ -1222,6 +1315,13 @@ window.InteractiveEditor = (function () {
       if (b.kind === "component") {
         const copy = JSON.parse(JSON.stringify(b.data));
         if (copy.type === "problem") clean(copy);
+        if (copy.type === "santfalskt") {
+          copy.statements = (copy.statements || []).filter(s => s.text && s.text.trim()).map(s => {
+            const o = { text: s.text.trim(), answer: s.answer !== false };
+            if (s.explain && s.explain.trim()) o.explain = s.explain.trim();
+            return o;
+          });
+        }
         if (copy.type === "koppla") copy.pairs = (copy.pairs || []).filter(p => p.term && p.term.trim() && p.definition && p.definition.trim());
         if (copy.type === "begreppskort") {
           copy.cards = (copy.cards || []).filter(c => c.term && c.term.trim() && c.definition && c.definition.trim());

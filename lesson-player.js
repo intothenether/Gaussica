@@ -270,6 +270,10 @@ window.GaussicaPlayer = (function () {
       ctx.taskId = st.task.id;
       ctx.taskName = isSession() ? "Fråga " + st.number : (st.task.name || "Fråga " + st.number);
       ctx.prompt = st.task.problem && st.task.problem.prompt ? String(st.task.problem.prompt) : "";
+      // a true/false task: the statements are what the question is about
+      if (st.task.problem && Array.isArray(st.task.problem.statements)) {
+        ctx.prompt += " " + st.task.problem.statements.map(function (s, i) { return (i + 1) + ". " + s.text; }).join("  ");
+      }
       ctx.answer = (typed && typed.value.trim()) || (e && e.answer ? String(e.answer) : "");
       ctx.status = statusOf(st, lessonId);
     } else if (st && st.type === "learn") {

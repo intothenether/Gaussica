@@ -1703,6 +1703,12 @@
           div.appendChild(makeElement("p", "", comp.prompt || ""));
           break;
           
+        case "santfalskt":   // static view for the editor preview; students get the interactive true/false task
+          div.className = "custom-component problem-component";
+          div.appendChild(makeElement("p", "", comp.prompt || "Sant eller falskt?"));
+          (comp.statements || []).forEach(function (s) { div.appendChild(makeElement("p", "muted", (isTrue(s.answer) ? "✓ Sant: " : "✗ Falskt: ") + s.text)); });
+          break;
+
         case "koppla":   // static view for the editor preview; students get the interactive matching task
           div.className = "custom-component problem-component";
           div.appendChild(makeElement("p", "", comp.prompt || ""));
@@ -1878,9 +1884,152 @@
     }
   }
 
+  function isTrue(x) { return x === true || /^(sant|true|ja)$/i.test(String(x)); }
+
+  // True or false: a list of statements, each marked "Sant" or "Falskt", then checked together.
+  //   exercise.statements = [{ text, answer: true | false, explain }]
+  // The student sees how many are right, not which ones, until a second try has failed. When all are right the
+  // explanations are shown. Only the checks are logged (like the matching task), so the teacher sees the tries.
+  function renderTrueFalse(parent, lesson, exercise, taskId, labelText, opts) {
+    const finish = function (isCorrect) { if (opts && opts.onResult) opts.onResult(isCorrect); };
+    questionShownAt[lesson.id + "|" + taskId] = Date.now();
+    if (isPractice(taskId)) practiceProblems[lesson.id + "|" + taskId] = exercise;
+    const saved = savedEntry(lesson.id, taskId);
+    const statements = exercise.statements;
+    const promptText = exercise.prompt + " " + statements.map(function (s, i) { return (i + 1) + ". " + s.text; }).join("  ");
+
+    const section = makeElement("section", "exercise word-problem tf-exercise");
+    const headingId = "problem-title-" + lesson.id + "-" + taskId;
+    section.setAttribute("aria-labelledby", headingId);
+    const heading = makeElement("h3", "", exercise.prompt);
+    heading.id = headingId;
+    section.append(makeElement("p", "eyebrow", labelText), heading);
+    section.appendChild(makeElement("p", "match-help", statements.length === 1
+      ? "Välj Sant eller Falskt och tryck på Kolla svaret."
+      : "Välj Sant eller Falskt för varje påstående och tryck på Kolla svaret."));
+
+    const choices = statements.map(function () { return null; });   // true, false or null (not answered)
+    // an earlier try is shown again ("1: Sant · 2: Falskt")
+    String(saved.answer || "").replace(/(\d+):\s*(Sant|Falskt)/g, function (m, n, v) {
+      const i = Number(n) - 1;
+      if (i >= 0 && i < choices.length) choices[i] = v === "Sant";
+      return m;
+    });
+
+    const order = statements.map(function (s, i) { return i; });
+    const list = makeElement("ol", "tf-list");
+    const rows = [];
+    const rowOrder = exercise.shuffle ? shuffled(order) : order;
+    const check = makeElement("button", "primary-button answer-button tf-check", "Kolla svaret");
+    check.type = "button";
+    const feedback = makeElement("p", "feedback-message", "");
+    feedback.setAttribute("role", "status");
+    feedback.setAttribute("aria-live", "polite");
+    let fails = 0;
+    let solved = false;
+
+    function paint(i) {
+      const r = rows[i];
+      r.yes.setAttribute("aria-pressed", String(choices[i] === true));
+      r.no.setAttribute("aria-pressed", String(choices[i] === false));
+      r.yes.classList.toggle("is-chosen", choices[i] === true);
+      r.no.classList.toggle("is-chosen", choices[i] === false);
+    }
+
+    function updateCheck() {
+      check.disabled = solved || choices.some(function (c) { return c === null; });
+    }
+
+    function lockSolved() {
+      solved = true;
+      rows.forEach(function (r, i) {
+        r.yes.disabled = r.no.disabled = true;
+        r.li.classList.remove("is-wrong");
+        r.li.classList.add("is-right");
+        paint(i);
+        if (statements[i].explain && !r.li.querySelector(".tf-explain")) {
+          const ex = makeElement("p", "tf-explain");
+          window.GaussicaText.set(ex, statements[i].explain);
+          r.li.appendChild(ex);
+        }
+      });
+      check.hidden = true;
+      window.GaussicaText.set(feedback, exercise.correct);
+      feedback.className = "feedback-message feedback-correct";
+    }
+
+    rowOrder.forEach(function (i, pos) {
+      const li = makeElement("li", "tf-row");
+      const text = makeElement("p", "tf-text");
+      text.appendChild(makeElement("span", "tf-no", String(pos + 1)));
+      const body = makeElement("span", "tf-body");
+      window.GaussicaText.set(body, statements[i].text);
+      text.appendChild(body);
+      const buttons = makeElement("div", "tf-buttons");
+      buttons.setAttribute("role", "group");
+      buttons.setAttribute("aria-label", "Svar på påstående " + (pos + 1));
+      const yes = makeElement("button", "tf-btn tf-yes", "Sant");
+      const no = makeElement("button", "tf-btn tf-no-btn", "Falskt");
+      [yes, no].forEach(function (b) { b.type = "button"; b.setAttribute("aria-pressed", "false"); });
+      yes.addEventListener("click", function () { choose(i, true); });
+      no.addEventListener("click", function () { choose(i, false); });
+      buttons.append(yes, no);
+      li.append(text, buttons);
+      list.appendChild(li);
+      rows[i] = { li: li, yes: yes, no: no };
+    });
+
+    function choose(i, value) {
+      if (solved) return;
+      choices[i] = choices[i] === value ? null : value;   // a second tap on the same button takes it back
+      rows[i].li.classList.remove("is-wrong");
+      feedback.className = "feedback-message";
+      feedback.textContent = "";
+      paint(i);
+      updateCheck();
+    }
+
+    check.addEventListener("click", function () {
+      if (solved || choices.some(function (c) { return c === null; })) return;
+      const wrong = [];
+      statements.forEach(function (s, i) { if (choices[i] !== isTrue(s.answer)) wrong.push(i); });
+      const answerText = choices.map(function (c, i) { return (i + 1) + ": " + (c ? "Sant" : "Falskt"); }).join(" · ");
+      if (!wrong.length) {
+        lockSolved();
+        storeAnswerProgress(lesson.id, taskId, answerText, "", exercise.correct, "correct", true, null, promptText, labelText);
+        finish(true);
+        return;
+      }
+      fails += 1;
+      const right = statements.length - wrong.length;
+      const note = statements.length === 1
+        ? "Inte riktigt. Läs påståendet en gång till och tänk efter."
+        : right + " av " + statements.length + " rätt. Läs de du är osäker på igen och ändra dem du tror är fel.";
+      // after a second failed try the wrong ones are marked, so that nobody gets stuck
+      rows.forEach(function (r, i) { r.li.classList.toggle("is-wrong", fails >= 2 && wrong.indexOf(i) >= 0); });
+      feedback.className = "feedback-message feedback-hint";
+      feedback.textContent = fails >= 2 ? note + " De markerade är fel." : note;
+      const shown = wrong.slice(0, 2).map(function (i) { return "”" + (statements[i].text.length > 60 ? statements[i].text.slice(0, 57) + "…" : statements[i].text) + "”"; }).join(" och ");
+      storeAnswerProgress(lesson.id, taskId, answerText, "", note, "hint", false, "Fel på " + shown, promptText, labelText);
+      finish(false);
+    });
+
+    section.append(list, check, feedback);
+    parent.appendChild(section);
+    rows.forEach(function (r, i) { paint(i); });
+    updateCheck();
+
+    // an already solved test is shown as solved, with the right answers
+    if (saved.completed) {
+      statements.forEach(function (s, i) { choices[i] = isTrue(s.answer); });
+      lockSolved();
+    }
+  }
+
   // opts.onResult(isCorrect) is called after each submitted answer (used by the lesson player).
   function renderProblem(parent, lesson, exercise, taskId, labelText, opts) {
     if (Array.isArray(exercise.pairs)) return renderMatching(parent, lesson, exercise, taskId, labelText, opts);
+    if (Array.isArray(exercise.statements)) return renderTrueFalse(parent, lesson, exercise, taskId, labelText, opts);
     const finish = function (isCorrect) { if (opts && opts.onResult) opts.onResult(isCorrect); };
     questionShownAt[lesson.id + "|" + taskId] = Date.now();
     const saved = savedEntry(lesson.id, taskId);

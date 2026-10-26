@@ -24,18 +24,24 @@ idx.lessons.forEach((f) => {
     if (ids.has(t.id)) bad(where, "duplicate template id"); ids.add(t.id);
     if (!/^[A-Za-z0-9_-]+$/.test(t.id)) bad(where, "template id has odd characters");
     (t.for || []).forEach((k) => {
-      const ok = k === "exercise" || /^match-\d+$/.test(k) || /^word-\d+$/.test(k) && Number(k.slice(5)) < (lesson.wordProblems || []).length + 1;
+      const ok = k === "exercise" || /^match-\d+$/.test(k) || /^sf-\d+$/.test(k) || /^word-\d+$/.test(k) && Number(k.slice(5)) < (lesson.wordProblems || []).length + 1;
       if (!ok) bad(where, "for: unknown task " + k);
     });
     const prompts = new Set();
-    let fails = 0;
+    let fails = 0, tfSame = 0;
     for (let i = 0; i < 300; i++) {
       const seed = 1000 + i * 7919;
       const q = PR.generate(lesson, t.id, seed);
       if (!q) { fails++; continue; }
       generated++;
       const p = q.problem;
-      prompts.add(p.prompt + JSON.stringify(p.visual || "") + JSON.stringify(p.pairs || ""));
+      prompts.add(p.prompt + JSON.stringify(p.visual || "") + JSON.stringify(p.pairs || "") + JSON.stringify(p.statements || ""));
+      if (p.statements) {
+        // a true/false round: every statement has text and a true or false answer, and no text is left unresolved
+        if (!p.statements.length || p.statements.some((s) => !String(s.text || "").trim() || typeof s.answer !== "boolean")) { bad(where, "a statement without text or a true/false answer"); break; }
+        if (p.statements.some((s) => /NaN|undefined|Infinity|[{}$]/.test(s.text + " " + (s.explain || "")))) { bad(where, "unresolved text in a statement: " + p.statements[0].text); break; }
+        if (p.statements.length > 1 && p.statements.every((s) => s.answer === p.statements[0].answer) && i < 30) tfSame++;
+      }
       if (q.taskId.length > 80 || !/^[\p{L}\p{N}_-]+$/u.test(q.taskId)) bad(where, "bad task id " + q.taskId);
       const again = PR.generate(lesson, t.id, seed);
       if (JSON.stringify(again.problem) !== JSON.stringify(p)) bad(where, "not reproducible from seed");
@@ -60,6 +66,7 @@ idx.lessons.forEach((f) => {
       }
       if (!p.correct || p.correct.length < 4) bad(where, "no correct message");
     }
+    if (tfSame > 20) bad(where, "most true/false rounds have only true or only false statements (" + tfSame + " of the first 30)");
     if (fails > 3) bad(where, "could not build " + fails + " of 300 questions (constraints too strict?)");
     if (prompts.size < Math.min(5, 300 - fails)) bad(where, "only " + prompts.size + " different prompts in 300");
     if (verbose) {

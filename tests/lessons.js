@@ -47,6 +47,16 @@ lessons.forEach((l) => {
   (l.components || []).forEach((c, i) => {
     if (c.type === "koppla" && !(Array.isArray(c.pairs) && c.pairs.length >= 2)) bad(l.id, "koppla block " + i + " needs at least two pairs");
     if (c.type === "begreppskort" && !(Array.isArray(c.cards) && c.cards.length)) bad(l.id, "begreppskort block " + i + " has no cards");
+    if (c.type === "santfalskt") {
+      if (!(Array.isArray(c.statements) && c.statements.length >= 1)) bad(l.id, "santfalskt block " + i + " needs at least one statement");
+      else {
+        c.statements.forEach((s, k) => {
+          if (!s || !String(s.text || "").trim()) bad(l.id, "santfalskt block " + i + ", statement " + (k + 1) + " has no text");
+          else if (typeof s.answer !== "boolean") bad(l.id, "santfalskt block " + i + ", statement " + (k + 1) + ": answer must be true or false");
+        });
+        if (c.statements.length > 1 && c.statements.every((s) => s && s.answer === c.statements[0].answer)) warn(l.id, "santfalskt block " + i + ": all statements have the same answer, so it is easy to guess");
+      }
+    }
   });
   if (l.parentId) {
     const parent = byId.get(l.parentId);

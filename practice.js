@@ -26,7 +26,8 @@ window.GaussicaPractice = (function () {
 
   function templates(lesson) {
     return (lesson && Array.isArray(lesson.practice) ? lesson.practice : []).filter(function (t) {
-      return t && t.id && ((t.prompt && Array.isArray(t.answer) && t.answer.length) || (Array.isArray(t.pool) && t.pool.length >= 2));
+      return t && t.id && ((t.prompt && Array.isArray(t.answer) && t.answer.length) || (Array.isArray(t.pool) && t.pool.length >= 2) ||
+        (Array.isArray(t.statements) && t.statements.length >= 1));
     });
   }
 
@@ -108,15 +109,42 @@ window.GaussicaPractice = (function () {
     return value;
   }
 
+  // true = the statement is true. Accepts true/false, "sant"/"falskt", "=expr" (not zero is true) and a condition { expr, min, max }.
+  function truthOf(a, scope, py) {
+    if (typeof a === "boolean") return a;
+    if (a && typeof a === "object") return Boolean(py && py.holds(a, scope));
+    const s = String(a === undefined || a === null ? "" : a).trim();
+    if (s.charAt(0) === "=") return py ? py.evalExpr(s.slice(1), scope) !== 0 : false;
+    return /^(sant|true|ja)$/i.test(s);
+  }
+
   // Terms and explanations ("begrepp"): template.pool = [{ term, definition, alt: [other accepted spellings] }].
   //   mode "koppla" (default): a matching round with template.size pairs
   //   mode "fraga": one explanation, the student writes the term
+  //   mode "santfalskt": template.pool = [{ text, answer: true | false, explain }], a true/false round with template.size statements
   function buildFromPool(template, seed) {
     const rand = rng(seed);
     const pool = template.pool.slice();
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(rand() * (i + 1));
       const t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    if (template.mode === "santfalskt") {
+      const size = Math.max(1, Math.min(template.size || 4, pool.length));
+      const picked = pool.slice(0, size);
+      // a round with only true (or only false) statements is too easy to guess: swap in one of the other kind when there is one
+      const kind = function (p) { return truthOf(p.answer, {}, null); };
+      if (picked.length > 1 && picked.every(function (p) { return kind(p) === kind(picked[0]); })) {
+        const other = pool.slice(size).find(function (p) { return kind(p) !== kind(picked[0]); });
+        if (other) picked[picked.length - 1] = other;
+      }
+      return {
+        prompt: template.prompt || "Sant eller falskt?",
+        statements: picked.map(function (p) { return { text: p.text, answer: kind(p), explain: p.explain }; }),
+        answer: ["alla rätt"],
+        correct: template.correct || "Rätt! Alla påståenden är bedömda rätt.",
+        feedback: []
+      };
     }
     if (template.mode === "fraga") {
       const p = pool[0];
@@ -162,9 +190,23 @@ window.GaussicaPractice = (function () {
 
       const filled = fillPicks({
         prompt: template.prompt, answer: template.answer, correct: template.correct || "Rätt!",
-        feedback: template.feedback || [], visual: template.visual, visuals: template.visuals
+        feedback: template.feedback || [], visual: template.visual, visuals: template.visuals,
+        statements: Array.isArray(template.statements) ? template.statements.map(function (s) { return { text: s.text, explain: s.explain }; }) : undefined
       }, picks);
       const r = unguard(py.resolve(guard(filled), scope));
+
+      // a true/false round whose statements use the random numbers
+      if (Array.isArray(template.statements)) {
+        const statements = template.statements.map(function (s, i) {
+          return { text: r.statements[i].text, answer: truthOf(s.answer, scope, py), explain: r.statements[i].explain };
+        });
+        const tf = { prompt: r.prompt || "Sant eller falskt?", statements: statements, answer: ["alla rätt"],
+          correct: template.correct || "Rätt! Alla påståenden är bedömda rätt.", feedback: [] };
+        if (r.visual) tf.visual = r.visual;
+        if (r.visuals) tf.visuals = r.visuals;
+        if (/NaN|undefined/.test(JSON.stringify(tf)) || statements.some(function (s) { return /\{|\}/.test(s.text) || !String(s.text).trim(); })) continue;
+        return tf;
+      }
       const answer = stringsOf(r.answer);
       if (!answer.length || answer.indexOf("?") >= 0) continue;
       const feedback = [];

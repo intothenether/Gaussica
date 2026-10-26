@@ -109,6 +109,27 @@ window.GaussicaPracticeEditor = (function () {
         answer: ["=r"], correct: "Rätt! {h} · sin {v}° ≈ {r} cm.", feedback: [{ answers: ["=round(h*cos(v)*10)/10"], message: "Du har använt cos. Den motstående katetern hör ihop med sin." }] }
     },
     {
+      id: "sf-tal", label: "Sant eller falskt: påståenden med slumptal", note: "Ett Sant/falskt-uppdrag där talen slumpas. answer är true eller false, eller ett villkor { expr, min, max } när sanningen beror på talen. Blanda sanna och falska påståenden. Ordningen är den du skriver.",
+      template: { vars: { a: [12, 49], b: [12, 49] }, derive: [{ name: "s", expr: "a+b" }], prompt: "Sant eller falskt?",
+        statements: [
+          { text: "{a} + {b} = {s}", answer: true },
+          { text: "{a} + {b} = {s+10}", answer: false, explain: "{a} + {b} är {s}, inte {s+10}." },
+          { text: "{a} är större än {b}", answer: { expr: "a-b", min: 1 }, explain: "Jämför {a} och {b} siffra för siffra." }
+        ] }
+    },
+    {
+      id: "sf-ord", label: "Sant eller falskt: ordlista (begrepp)", note: "Ett Sant/falskt-uppdrag av en lista påståenden. Varje gång väljs size stycken slumpmässigt, med både sanna och falska när listan har båda. Bra för begreppslektioner: lägg till ett sant och ett falskt påstående per begrepp.",
+      template: { mode: "santfalskt", size: 4, prompt: "Sant eller falskt?",
+        pool: [
+          { text: "En triangel har tre sidor.", answer: true, explain: "Tri betyder tre." },
+          { text: "En kvadrat har tre hörn.", answer: false, explain: "En kvadrat har fyra hörn." },
+          { text: "En cirkel har inga raka sidor.", answer: true, explain: "En cirkel är rund." },
+          { text: "En rektangel har fem sidor.", answer: false, explain: "En rektangel har fyra sidor." },
+          { text: "En sexhörning har sex hörn.", answer: true, explain: "Sex sidor och sex hörn." },
+          { text: "En femhörning har fyra sidor.", answer: false, explain: "En femhörning har fem sidor." }
+        ] }
+    },
+    {
       id: "ord", label: "Ord som svar (större eller mindre)", note: "Svaret kan vara ett ord. Lägg slumpord i pick så att frågorna blir olika.",
       template: { pick: { namn: ["Mira", "Omar", "Elsa", "Hugo"] }, vars: { a: [3, 50], b: [1, 9] }, prompt: "{$namn} räknar {a} · 0,{b}. Blir svaret större eller mindre än {a}? Skriv större eller mindre.",
         answer: ["mindre"], correct: "Rätt! 0,{b} är mindre än 1, så svaret blir mindre än {a}.", feedback: [{ answers: ["större"], message: "När du multiplicerar med ett tal under 1 blir svaret mindre." }] }
@@ -198,6 +219,11 @@ window.GaussicaPracticeEditor = (function () {
       });
     };
     [t.prompt, t.correct].forEach(text);
+    (t.statements || []).forEach(function (s) {
+      text(s.text); text(s.explain);
+      if (typeof s.answer === "string" && s.answer.charAt(0) === "=") scan(s.answer.slice(1));
+      if (s.answer && typeof s.answer === "object") scan(s.answer.expr || "");
+    });
     (t.answer || []).forEach(function (a) { text(a); if (String(a).charAt(0) === "=") scan(String(a).slice(1)); });
     (t.feedback || []).forEach(function (f) { text(f.message); (f.answers || []).forEach(function (a) { text(a); if (String(a).charAt(0) === "=") scan(String(a).slice(1)); }); });
     (t.derive || []).forEach(function (d) { scan(d.expr || ""); });
@@ -211,11 +237,27 @@ window.GaussicaPracticeEditor = (function () {
     const isPool = Array.isArray(t.pool);
     if (!t.id || !ID_RE.test(t.id)) errors.push("Mallens namn får bara ha bokstäver, siffror, bindestreck och understreck.");
     if (isPool) {
-      if (t.pool.length < 2) errors.push("En begreppsmall behöver minst två begrepp.");
+      if (t.pool.length < 2) errors.push(t.mode === "santfalskt" ? "En sant/falskt-lista behöver minst två påståenden." : "En begreppsmall behöver minst två begrepp.");
+      if (t.mode === "santfalskt") {
+        t.pool.forEach(function (p, i) {
+          if (!p || !String(p.text || "").trim()) errors.push("Påstående " + (i + 1) + " i listan saknar text.");
+          else if (typeof p.answer !== "boolean") errors.push("Påstående " + (i + 1) + " i listan: answer ska vara true eller false.");
+        });
+        if (t.pool.length > 1 && t.pool.every(function (p) { return p && p.answer === t.pool[0].answer; })) warnings.push("Alla påståenden har samma svar, så det är lätt att gissa. Lägg till både sanna och falska.");
+      }
       return { errors: errors, warnings: warnings };
     }
-    if (!t.prompt || !String(t.prompt).trim()) errors.push("Frågan saknas.");
-    if (!Array.isArray(t.answer) || !t.answer.some(function (a) { return String(a).trim(); })) errors.push("Minst ett rätt svar krävs.");
+    const isStatements = Array.isArray(t.statements);
+    if (isStatements) {
+      if (!t.statements.length) errors.push("Minst ett påstående krävs.");
+      t.statements.forEach(function (s, i) {
+        if (!s || !String(s.text || "").trim()) errors.push("Påstående " + (i + 1) + " saknar text.");
+        else if (s.answer === undefined || s.answer === null || s.answer === "") errors.push("Påstående " + (i + 1) + " saknar rätt svar (true, false eller ett villkor).");
+      });
+    } else {
+      if (!t.prompt || !String(t.prompt).trim()) errors.push("Frågan saknas.");
+      if (!Array.isArray(t.answer) || !t.answer.some(function (a) { return String(a).trim(); })) errors.push("Minst ett rätt svar krävs.");
+    }
     unknownNames(t).forEach(function (n) {
       errors.push(n.charAt(0) === "$" ? "Frågan använder {" + n + "}, men det finns inget slumpord som heter " + n.slice(1) + "." : "\"" + n + "\" används, men det finns inget slumptal eller uträknat värde med det namnet.");
     });
@@ -229,8 +271,9 @@ window.GaussicaPracticeEditor = (function () {
     for (let i = 0; i < N; i++) {
       const q = PR().build(t, 1000 + i * 7919);
       if (!q) { fails += 1; continue; }
-      prompts.add(q.prompt + JSON.stringify(q.visual || ""));
-      const strings = [q.prompt, q.correct].concat(q.answer).concat(q.feedback.map(function (f) { return f.message; }));
+      prompts.add(q.prompt + JSON.stringify(q.visual || "") + JSON.stringify(q.statements || ""));
+      const strings = [q.prompt, q.correct].concat(q.answer).concat(q.feedback.map(function (f) { return f.message; }))
+        .concat((q.statements || []).reduce(function (all, s) { return all.concat([s.text, s.explain || ""]); }, []));
       if (strings.some(function (s) { return /NaN|undefined|Infinity|[{}$]/.test(s); })) once("unresolved", errors, "Något i texten blev inte ifyllt (\"" + q.prompt + "\"). Kontrollera namnen på slumptal och uträknade värden.");
       if (strings.some(function (s) { return /×|—/.test(s); })) once("hygiene", warnings, "Använd · (gångerpunkten) i stället för × och undvik långa tankstreck.");
       if (M) {
@@ -317,10 +360,10 @@ window.GaussicaPracticeEditor = (function () {
     const card = el("details", "pe-card");
     card.open = ctx.open[t.id] !== undefined ? ctx.open[t.id] : list.length === 1;
     card.addEventListener("toggle", function () { ctx.open[t.id] = card.open; });
-    const isPool = Array.isArray(t.pool);
+    const isPool = Array.isArray(t.pool) || Array.isArray(t.statements);   // edited as JSON, not in the form
 
     const sum = el("summary", "pe-sum");
-    sum.append(el("span", "pe-sum-id", t.id || "utan namn"), el("span", "pe-sum-text", isPool ? "Begreppsmall" : (t.prompt || "")));
+    sum.append(el("span", "pe-sum-id", t.id || "utan namn"), el("span", "pe-sum-text", Array.isArray(t.statements) ? "Sant eller falskt (påståenden)" : t.mode === "santfalskt" ? "Sant eller falskt (lista)" : isPool ? "Begreppsmall" : (t.prompt || "")));
     card.appendChild(sum);
     const body = el("div", "pe-body");
     card.appendChild(body);
@@ -357,7 +400,9 @@ window.GaussicaPracticeEditor = (function () {
     const edited = function () { ctx.changed(); refresh(); };
 
     if (isPool) {
-      body.appendChild(el("p", "le-hint", "Det här är en begreppsmall (para ihop eller fråga efter begrepp). Den fylls i av knappen \"Skapa av begreppskorten\" och kan ändras som JSON längst ned."));
+      body.appendChild(el("p", "le-hint", Array.isArray(t.statements) || t.mode === "santfalskt"
+        ? "Det här är ett Sant/falskt-uppdrag. Påståendena ändras som JSON längst ned (se galleriet för ett exempel). Kontrollen och exemplen nedan fungerar som vanligt."
+        : "Det här är en begreppsmall (para ihop eller fråga efter begrepp). Den fylls i av knappen \"Skapa av begreppskorten\" och kan ändras som JSON längst ned."));
     } else {
       body.appendChild(forSection(t, ctx, edited));
       body.appendChild(varsSection(t, edited));
@@ -637,7 +682,15 @@ window.GaussicaPracticeEditor = (function () {
         if (fig) { fig.classList.add("pe-fig"); card.appendChild(fig); }
       }
       if (q.pairs) card.appendChild(el("p", "le-hint", "Par: " + q.pairs.map(function (p) { return p.term; }).join(", ")));
-      card.appendChild(el("p", "pe-sample-answer", "Rätt svar: " + q.answer.join("  ·  ")));
+      if (q.statements) {
+        // a true/false round: every statement with its right answer
+        q.statements.forEach(function (s, i) {
+          const line = el("p", "pe-sample-answer");
+          if (window.GaussicaText) window.GaussicaText.set(line, (i + 1) + ". " + s.text + "  →  " + (s.answer ? "Sant" : "Falskt"));
+          else line.textContent = (i + 1) + ". " + s.text + "  →  " + (s.answer ? "Sant" : "Falskt");
+          card.appendChild(line);
+        });
+      } else card.appendChild(el("p", "pe-sample-answer", "Rätt svar: " + q.answer.join("  ·  ")));
       q.feedback.slice(0, 3).forEach(function (f) { card.appendChild(el("p", "pe-sample-hint", "Om eleven svarar " + f.answers.join(" eller ") + ": " + f.message)); });
       list.appendChild(card);
     }
@@ -672,7 +725,8 @@ window.GaussicaPracticeEditor = (function () {
       row.append(text, button("Lägg till", "le-btn le-btn-small", function () {
         const t = Object.assign({ id: uniqueId(list, s.id) }, JSON.parse(JSON.stringify(s.template)));
         const firstTask = ctx.tasks()[0];
-        if (firstTask && !t["for"]) t["for"] = [firstTask.id];
+        if (Array.isArray(t.statements) || t.mode === "santfalskt") t["for"] = ctx.tasks().filter(function (x) { return /^sf-/.test(x.id); }).map(function (x) { return x.id; });   // review of a true/false task gives a true/false round
+        else if (firstTask && !t["for"]) t["for"] = [firstTask.id];
         list.push(t);
         ctx.open[t.id] = true;
         ctx.changed();

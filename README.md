@@ -352,6 +352,28 @@ Texten "Så hanteras dina uppgifter" (`privacy.js`) visas från sidfoten och inl
 - **"Problemet:".** Börjar förklaringen med "Problemet:" tas ordet bort ur texten och visas som en gul etikett, 🧩 Problemet, ovanför problemtexten.
 - **Regler när som helst.** Knappen 💡 Regler uppe till höger i lektionen och övningen öppnar en ruta med regelrutan, figuren och en hopfälld "Läs förklaringen igen" (öppen direkt om lektionen saknar regel). Rutan stänger man med Tillbaka till uppgiften, ✕, Esc eller ett tryck utanför, och uppgiften och svaret är kvar. I en övningsrunda visas regeln för just den frågans lektion.
 
+## Sant eller falskt
+
+En frågetyp där eleven tar ställning till påståenden. Den passar särskilt bra i begreppslektioner, men fungerar överallt.
+
+- **Så ser det ut för eleven.** Varje påstående har två knappar, Sant och Falskt, och under dem knappen Kolla svaret (den blir tryckbar när alla är besvarade). Eleven får veta hur många som är rätt, inte vilka, och efter två misslyckade försök markeras de som är fel så att ingen fastnar. Är allt rätt visas en förklaring under varje påstående. Förklaringarna är alltså där man lär sig varför, inte bara att det var fel.
+- **I lektionen.** Ett block i `components`, och ett eget uppdrag med id `sf-<blockets nummer>`:
+
+```json
+{ "type": "santfalskt", "prompt": "Sant eller falskt?", "shuffle": true,
+  "statements": [
+    { "text": "Ett kast med en tärning är ett försök.", "answer": true, "explain": "Ett försök är en gång du gör något där slumpen bestämmer." },
+    { "text": "Det är omöjligt att få en sexa på en tärning.", "answer": false, "explain": "En sexa kan hända." } ] }
+```
+
+  `answer` ska vara `true` eller `false`. `explain` och `shuffle` (blandad ordning) är valfria. Blanda sanna och falska påståenden, annars är det lätt att gissa (`npm test` varnar). Påståendena visas som all annan text, så bråk, potenser och rötter ritas.
+- **I redigeraren.** Lägg till blocket "Sant/falskt" och skriv påståendena, eller tryck "Skapa sant/falskt av korten" på ett begreppskort: då blir det sex påståenden av typen "Slump betyder: …", med rätt förklaring eller nästa korts förklaring, sanna och falska om vartannat. Läs igenom dem, för det är maskinskrivna påståenden. "Skapa av begreppskorten" under Övningsmallar gör också en sant/falskt-mall.
+- **Övning och repetition.** I `practice` finns två nya slag av mall, båda med ett Sant/falskt-uppdrag som resultat och med `"for": ["sf-3"]` för att repetera just det uppdraget:
+  - Lista: `{ "id": "sf", "mode": "santfalskt", "size": 4, "pool": [{ "text": "…", "answer": true, "explain": "…" }, …] }`. Varje gång väljs `size` påståenden slumpmässigt, med både sanna och falska när listan har båda.
+  - Slumptal: en vanlig mall med `vars`, `derive` och `statements: [{ "text": "{a} + {b} = {s}", "answer": true }, { "text": "{a} är större än {b}", "answer": { "expr": "a-b", "min": 1 } }]`. `answer` är `true`/`false`, ett uttryck (`"=s"`, inte noll är sant) eller ett villkor `{ expr, min, max }` när sanningen beror på talen. Mallarna finns som färdiga startmallar i galleriet.
+- **Lärarvyn.** Varje kontroll loggas som ett försök med elevens svar ("1: Sant · 2: Falskt") och vilka påståenden som var fel. Frågan till läraren (Fråga läraren) tar med påståendena.
+- **Redan utdelade lektioner.** Lägger du ett sant/falskt-block i en lektion som redan är utdelad kommer det som en ny uppgift: elever som var klara med lektionen har då en uppgift kvar. Använd formatet i nya lektioner, eller lägg det i en kopia.
+
 ## Matematik i texten och språk för de yngre åren
 
 - **Så skrivs det.** Alla texter, frågor och tabeller visar matematik som på papper (`richtext.js`): `1/2` blir ett bråk, `x^2` och `10^-3` får upphöjt tal (även negativt och `x^(-1)`), och `√50`, `√x` och `√(a + b)` ritas med rottecken och ett streck över talet under roten, utan parenteser. Rottecknet växer med det som står under det, till exempel `√((p/2)^2 − q)`. Skriv rötter så i lektionstexterna. Eleven skriver svar som `√2` eller `sqrt(2)`.

@@ -4138,3 +4138,23 @@ html:is(.is-keyboard, .is-short) .pl-rules .pl-btn-label { display: none; }
 .sqrt-sign { position: absolute; left: 0; top: 0; bottom: -.12em; width: .68em; }
 .sqrt-sign svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .sqrt-sign path { stroke-width: max(1.4px, .075em); vector-effect: non-scaling-stroke; }
+
+/* ---- sant eller falskt (app.js, renderTrueFalse) ---- */
+.tf-list { display: grid; gap: 12px; margin: 14px 0; padding: 0; list-style: none; }
+.tf-row { display: grid; gap: 10px; padding: 14px 16px; border: 2px solid var(--sky-line); border-radius: 18px; background: #fff; transition: border-color .15s, background .15s; }
+.tf-row.is-right { border-color: var(--success); background: var(--success-soft); }
+.tf-row.is-wrong { border-color: var(--coral); background: var(--coral-soft); }
+.tf-text { display: flex; align-items: flex-start; gap: 10px; margin: 0; font-size: 18px; font-weight: 700; line-height: 1.5; }
+.tf-no { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--sky-soft); color: var(--brand-dark); font: 800 14px "Nunito", sans-serif; }
+.tf-body { min-width: 0; overflow-wrap: anywhere; }
+.tf-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tf-btn { min-height: 50px; padding: 10px 14px; border: 3px solid var(--border); border-radius: 14px; background: #fff; color: var(--ink); font: 800 17px "Nunito", sans-serif; cursor: pointer; transition: background .12s, border-color .12s, transform .08s; }
+.tf-btn:hover:not(:disabled) { background: var(--sky-soft); }
+.tf-btn:active:not(:disabled) { transform: translateY(1px); }
+.tf-btn:disabled { cursor: default; opacity: .75; }
+.tf-yes.is-chosen { border-color: var(--success-dark); background: var(--success); color: #fff; }
+.tf-no-btn.is-chosen { border-color: #e0506d; background: #ff8ca0; color: #fff; }
+.tf-row.is-right .tf-btn:not(.is-chosen) { opacity: .35; }
+.tf-explain { margin: 0; padding: 8px 12px; border-left: 4px solid var(--success); border-radius: 8px; background: #fff; color: var(--success-dark); font-size: 15px; font-weight: 600; line-height: 1.5; }
+.tf-check { margin-top: 4px; }
+.tf-check:disabled { opacity: .5; cursor: default; }

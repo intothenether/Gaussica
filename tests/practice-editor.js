@@ -17,6 +17,7 @@ PE.STARTERS.forEach((s) => {
   const r = PE.check(Object.assign({ id: s.id }, s.template));
   ok(!r.errors.length && !r.warnings.length, "starter " + s.id + ": " + r.errors.concat(r.warnings).join(" | "));
 });
+ok(PE.STARTERS.some((s) => Array.isArray(s.template.statements)) && PE.STARTERS.some((s) => s.template.mode === "santfalskt"), "the gallery has both kinds of true/false starters");
 PE.FIGURES.forEach((f) => ok(window.GaussicaFigures === undefined || f.json.type, "figure preset has a type"));
 
 const has = (t, kind) => PE.check(Object.assign({ id: "t", vars: { a: [1, 9] }, prompt: "Vad är {a}?", answer: ["=a"] }, t))[kind];

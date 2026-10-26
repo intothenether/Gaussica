@@ -79,6 +79,23 @@ window.GaussicaLesson = (function () {
     return Boolean(c && c.type === "koppla" && Array.isArray(c.pairs) && c.pairs.length >= 2);
   }
 
+  // A true/false test: statements the student marks as "Sant" or "Falskt".
+  //   { type: "santfalskt", prompt, statements: [{ text, answer: true | false, explain }] }
+  function isTrueFalseComponent(c) {
+    return Boolean(c && c.type === "santfalskt" && Array.isArray(c.statements) && c.statements.length >= 1);
+  }
+
+  function trueFalseProblem(c) {
+    return {
+      prompt: c.prompt || "Sant eller falskt?",
+      statements: c.statements,
+      shuffle: Boolean(c.shuffle),
+      answer: ["alla rätt"],
+      correct: c.correct || "Rätt! Alla påståenden är bedömda rätt.",
+      feedback: []
+    };
+  }
+
   function matchProblem(c) {
     return {
       prompt: c.prompt || "Para ihop varje begrepp med rätt förklaring.",
@@ -105,6 +122,9 @@ window.GaussicaLesson = (function () {
       } else if (key.indexOf("comp:") === 0 && isMatchComponent(l.components[Number(key.slice(5))])) {
         const i = Number(key.slice(5));
         out.push({ id: "match-" + i, key: key, problem: matchProblem(l.components[i]), name: "Para ihop begrepp" });
+      } else if (key.indexOf("comp:") === 0 && isTrueFalseComponent(l.components[Number(key.slice(5))])) {
+        const i = Number(key.slice(5));
+        out.push({ id: "sf-" + i, key: key, problem: trueFalseProblem(l.components[i]), name: "Sant eller falskt" });
       } else if (key.indexOf("comp:") === 0) {
         // challenges inside an interactive tool: done when the student reaches the goal
         const i = Number(key.slice(5));
@@ -127,6 +147,7 @@ window.GaussicaLesson = (function () {
       const c = l.components[Number(key.slice(5))] || {};
       if (isTool(c)) return "Pyssla: " + (c.title || "");
       if (c.type === "begreppskort") return c.title || "Begreppskort";
+      if (c.type === "santfalskt") return c.title || "Sant eller falskt";
       return c.title || c.label || (c.type === "text" || c.type === "heading" ? String(c.text || "").slice(0, 40) : "") || "Innehåll";
     }
     return "Innehåll";
@@ -346,5 +367,5 @@ window.GaussicaLesson = (function () {
   }
 
   return { isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, allowsExpression: allowsExpression, gradeLabel: gradeLabel, steps: steps, explanationParts: explanationParts, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
-    summarize: summarize, describe: describe, hasVisual: hasVisual, isTaskComponent: isTaskComponent, isMatchComponent: isMatchComponent };
+    summarize: summarize, describe: describe, hasVisual: hasVisual, isTaskComponent: isTaskComponent, isMatchComponent: isMatchComponent, isTrueFalseComponent: isTrueFalseComponent };
 }());
