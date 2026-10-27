@@ -1,0 +1,234 @@
+{
+  "id": "vilseledande-diagram",
+  "area": "data",
+  "title": "Diagram som kan vilseleda",
+  "level": "Granska diagram kritiskt · ungefär åk 7",
+  "grade": 7,
+  "duration": "8 min",
+  "prerequisites": [
+    "diagram",
+    "linjediagram"
+  ],
+  "summary": "Ett diagram kan se annorlunda ut beroende på hur axeln är ritad. Kontrollera var axeln börjar och läs siffrorna.",
+  "explanationTitle": "Titta på axeln",
+  "explanation": "Problemet: Två stapeldiagram visar samma försäljning. I det ena ser april ut att vara fem gånger så stor som mars, i det andra ser skillnaden liten ut. Båda diagrammen kan vara korrekta men ge olika intryck. Varför? Titta på axeln. Börjar den vid 0? Om axeln hoppar över en bit och börjar vid 40, ser en stapel för 45 ut att vara fem gånger så hög som en stapel för 41, fast värdena nästan är lika. Kontrollera också skalan, alltså stegen på axeln, och vad staplarna står för. Läs alltid siffrorna och inte bara bilden.",
+  "visual": {
+    "type": "tabell",
+    "title": "Axeln börjar vid 40",
+    "headers": [
+      "Månad",
+      "Verkligt värde",
+      "Stapelns höjd i bilden"
+    ],
+    "rows": [
+      [
+        "Mars",
+        "41",
+        "1"
+      ],
+      [
+        "April",
+        "45",
+        "5"
+      ]
+    ]
+  },
+  "rule": "Kontrollera var axeln börjar och vilken skala den har. Jämför siffrorna, inte bara hur höga staplarna ser ut.",
+  "ruleLabel": "VILSELEDANDE DIAGRAM",
+  "example": "Axeln börjar vid 40. Staplarna för 41 och 45 får höjderna 1 och 5 och ser ut att skilja sig 5 gånger. Värdena skiljer sig bara med faktorn 45/41, ungefär 1,1.",
+  "practice": [
+    {
+      "id": "synbar",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "z": [
+          20,
+          80,
+          10
+        ],
+        "u": [
+          1,
+          4
+        ],
+        "k": [
+          3,
+          8
+        ]
+      },
+      "prompt": "En axel börjar vid {z}. Stapel A visar {z+u} och stapel B visar {z+k*u}. Hur många gånger så hög ser stapel B ut jämfört med stapel A?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! Höjderna i bilden är {u} och {k*u}, och {k*u} delat med {u} är {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(z+k*u)/(z+u)"
+          ],
+          "message": "Det är det verkliga förhållandet mellan värdena. Frågan gäller hur staplarna ser ut när axeln börjar vid {z}."
+        },
+        {
+          "answers": [
+            "=k*u"
+          ],
+          "message": "{k*u} är höjden på stapel B. Dela den med höjden på stapel A, {u}."
+        }
+      ]
+    },
+    {
+      "id": "procent-okning",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          20,
+          90,
+          10
+        ],
+        "p": [
+          10,
+          50,
+          10
+        ]
+      },
+      "prompt": "En butiks vinst ökade från {a} till {a+a*p/100} tusen kronor. Hur många procent ökade vinsten?",
+      "answer": [
+        "=p",
+        "{p} %",
+        "{p}%"
+      ],
+      "correct": "Rätt! Ökningen är {a*p/100} tusen, och {a*p/100} av {a} är {p} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*p/100"
+          ],
+          "message": "{a*p/100} är ökningen i tusen kronor. Procent räknas på startvärdet {a}."
+        }
+      ]
+    },
+    {
+      "id": "hojd",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "z": [
+          10,
+          60,
+          10
+        ],
+        "h": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Axeln börjar vid {z}. Hur hög ser stapeln ut som visar {z+h}? Svara i enheter från axelns början.",
+      "answer": [
+        "=h"
+      ],
+      "correct": "Rätt! Staplarna räknas från axelns början: {z+h} − {z} = {h}.",
+      "feedback": [
+        {
+          "answers": [
+            "=z+h"
+          ],
+          "message": "{z+h} är värdet. Höjden i bilden räknas från axelns början vid {z}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En axel börjar vid 50. Stapel A visar 52 och stapel B visar 60. Hur många gånger så hög ser stapel B ut jämfört med stapel A?",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! Staplarnas höjder i bilden är 52 − 50 = 2 och 60 − 50 = 10, och 10 delat med 2 är 5.",
+    "feedback": [
+      {
+        "answers": [
+          "8"
+        ],
+        "message": "8 är skillnaden i värde. Titta på hur högt staplarna sticker upp över axelns början vid 50."
+      },
+      {
+        "answers": [
+          "1,2",
+          "1.2"
+        ],
+        "message": "1,2 är ungefär det verkliga förhållandet mellan 60 och 52. Frågan gäller hur staplarna ser ut i bilden."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En diagramaxel börjar vid 100. En stapel visar 104 och en annan visar 120. Hur många gånger så hög ser den högre stapeln ut?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! Höjderna är 4 och 20, och 20 delat med 4 är 5.",
+      "feedback": [
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "16 är skillnaden i värde. Räkna höjderna över axelns början vid 100: 4 och 20."
+        },
+        {
+          "answers": [
+            "1,15",
+            "1.15"
+          ],
+          "message": "Det är ungefär det verkliga förhållandet. Frågan gäller hur staplarna ser ut."
+        }
+      ]
+    },
+    {
+      "prompt": "En butiks vinst ökade från 80 till 100 tusen kronor. Hur många procent ökade vinsten?",
+      "answer": [
+        "25",
+        "25 %",
+        "25%"
+      ],
+      "correct": "Rätt! Ökningen är 20 tusen, och 20 av 80 är 25 %.",
+      "feedback": [
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "20 är ökningen i tusen kronor. Procent räknas på startvärdet: 20 av 80."
+        },
+        {
+          "answers": [
+            "125"
+          ],
+          "message": "125 % är nya vinsten som andel av den gamla. Ökningen är 125 − 100 = 25 procentenheter."
+        }
+      ]
+    },
+    {
+      "prompt": "I ett diagram ser en stapel ut att vara 3 gånger så hög som en annan, men värdena är 31 och 33. Var börjar axeln?",
+      "answer": [
+        "30"
+      ],
+      "correct": "Rätt! Med axeln vid 30 är höjderna 1 och 3, och 3 är 3 gånger så mycket som 1.",
+      "feedback": [
+        {
+          "answers": [
+            "0"
+          ],
+          "message": "Börjar axeln vid 0 är höjderna 31 och 33, nästan lika. Staplarna ser 3 gånger så olika ut, så axeln måste börja högre."
+        },
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "2 är skillnaden i värde mellan 31 och 33. Axelns början är ett tal som gör höjderna 1 och 3."
+        }
+      ]
+    }
+  ]
+}

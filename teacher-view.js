@@ -169,6 +169,7 @@ window.GaussicaTeacher = (function () {
     if (chat) root.appendChild(chat);
     root.appendChild(classesSection(ctx));
     root.appendChild(assignmentsSection(ctx));
+    if (window.GaussicaPlanner) root.appendChild(window.GaussicaPlanner.section(ctx));
     if (window.GaussicaProv) root.appendChild(window.GaussicaProv.section(ctx));
     if (window.GaussicaWorksheet) root.appendChild(window.GaussicaWorksheet.section(ctx));
     if (ui.assignScroll) {

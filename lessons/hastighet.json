@@ -1,0 +1,250 @@
+{
+  "id": "hastighet",
+  "area": "matning",
+  "title": "Hastighet, sträcka och tid",
+  "level": "Hur fort och hur långt · ungefär åk 6",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "division-med-rest",
+    "enheter"
+  ],
+  "summary": "Hastighet är hur långt du kommer på en viss tid. Sträckan är hastigheten gånger tiden.",
+  "explanationTitle": "Hur fort går det?",
+  "explanation": "Problemet: Två cyklister kommer fram samtidigt, men den ena har cyklat längre. Vem var snabbast? Vi behöver ett sätt att mäta hur fort någon rör sig. Hastighet är hur långt du kommer på en viss tid, oftast per timme. En bil som kör 80 km på 1 timme har hastigheten 80 km/h. Kör den i 3 timmar i samma fart hinner den 3 · 80 = 240 km. Sambandet är: sträcka = hastighet · tid. Vill du veta hastigheten delar du sträckan med tiden. Vill du veta tiden delar du sträckan med hastigheten. Tänk på att tiden ska vara i timmar när hastigheten är i km/h.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tre sätt att räkna",
+    "headers": [
+      "Vill du veta",
+      "Räkna så",
+      "Exempel"
+    ],
+    "rows": [
+      [
+        "Sträckan",
+        "hastighet · tid",
+        "60 km/h i 3 h: 60 · 3 = 180 km"
+      ],
+      [
+        "Hastigheten",
+        "sträcka delat med tid",
+        "180 km på 3 h: 180 delat med 3 = 60 km/h"
+      ],
+      [
+        "Tiden",
+        "sträcka delat med hastighet",
+        "180 km i 60 km/h: 180 delat med 60 = 3 h"
+      ]
+    ]
+  },
+  "rule": "Sträcka = hastighet · tid.",
+  "ruleLabel": "HASTIGHET",
+  "example": "En cyklist håller 15 km/h i 2 timmar och hinner 15 · 2 = 30 km.",
+  "practice": [
+    {
+      "id": "strecka",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "v": [
+          40,
+          120,
+          10
+        ],
+        "t": [
+          2,
+          6
+        ]
+      },
+      "prompt": "En bil kör med hastigheten {v} km/h i {t} timmar. Hur lång sträcka kör den?",
+      "answer": [
+        "=v*t",
+        "{v*t} km"
+      ],
+      "correct": "Rätt! Sträckan är hastighet gånger tid: {v} · {t} = {v*t} km.",
+      "feedback": [
+        {
+          "answers": [
+            "=v+t"
+          ],
+          "message": "Du har lagt ihop. Sträckan är hastigheten gånger tiden."
+        },
+        {
+          "answers": [
+            "=v/t"
+          ],
+          "message": "Du har delat. Sträckan blir längre ju längre tid bilen kör, så multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "fart",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "t": [
+          2,
+          6
+        ],
+        "v": [
+          30,
+          120,
+          10
+        ]
+      },
+      "prompt": "Ett tåg åker {v*t} km på {t} timmar. Vilken hastighet har det i km/h?",
+      "answer": [
+        "=v",
+        "{v} km/h"
+      ],
+      "correct": "Rätt! Hastigheten är sträckan delat med tiden: {v*t} delat med {t} = {v} km/h.",
+      "feedback": [
+        {
+          "answers": [
+            "=v*t"
+          ],
+          "message": "{v*t} km är sträckan. Hastigheten är sträckan delat med tiden."
+        },
+        {
+          "answers": [
+            "=v+t"
+          ],
+          "message": "Du har lagt ihop. Dela sträckan {v*t} med tiden {t}."
+        }
+      ]
+    },
+    {
+      "id": "tid",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "t": [
+          2,
+          8
+        ],
+        "v": [
+          10,
+          90,
+          10
+        ]
+      },
+      "prompt": "Elsa cyklar med {v} km/h. Hur många timmar tar det att cykla {v*t} km?",
+      "answer": [
+        "=t",
+        "{t} h",
+        "{t} timmar"
+      ],
+      "correct": "Rätt! Tiden är sträckan delat med hastigheten: {v*t} delat med {v} = {t} timmar.",
+      "feedback": [
+        {
+          "answers": [
+            "=v*t"
+          ],
+          "message": "{v*t} km är sträckan. Tiden är sträckan delat med hastigheten."
+        },
+        {
+          "answers": [
+            "=v"
+          ],
+          "message": "{v} är hastigheten. Dela sträckan {v*t} med den för att få tiden."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En bil kör med hastigheten 70 km/h i 3 timmar. Hur lång sträcka kör den?",
+    "answer": [
+      "210",
+      "210 km"
+    ],
+    "correct": "Rätt! Sträckan är hastighet gånger tid: 70 · 3 = 210 km.",
+    "feedback": [
+      {
+        "answers": [
+          "73"
+        ],
+        "message": "73 får du om du lägger ihop 70 och 3. Sträckan är hastigheten gånger tiden."
+      },
+      {
+        "answers": [
+          "67"
+        ],
+        "message": "Sträckan blir längre ju längre tid bilen kör. Multiplicera 70 med 3."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett tåg åker 240 km på 2 timmar. Vilken hastighet har det i km/h?",
+      "answer": [
+        "120",
+        "120 km/h"
+      ],
+      "correct": "Rätt! Hastigheten är sträckan delat med tiden: 240 delat med 2 = 120 km/h.",
+      "feedback": [
+        {
+          "answers": [
+            "480"
+          ],
+          "message": "480 får du om du multiplicerar. Hastigheten är sträckan delat med tiden."
+        },
+        {
+          "answers": [
+            "242"
+          ],
+          "message": "242 får du om du lägger ihop. Dela sträckan 240 med tiden 2 timmar."
+        }
+      ]
+    },
+    {
+      "prompt": "Elsa cyklar med 12 km/h. Hur många timmar tar det att cykla 36 km?",
+      "answer": [
+        "3",
+        "3 h",
+        "3 timmar"
+      ],
+      "correct": "Rätt! Tiden är sträckan delat med hastigheten: 36 delat med 12 = 3 timmar.",
+      "feedback": [
+        {
+          "answers": [
+            "432"
+          ],
+          "message": "432 får du om du multiplicerar. Tiden är sträckan delat med hastigheten."
+        },
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "24 är 36 − 12. Dela sträckan 36 med hastigheten 12."
+        }
+      ]
+    },
+    {
+      "prompt": "En buss kör med hastigheten 90 km/h. Hur långt hinner den på 4 timmar?",
+      "answer": [
+        "360",
+        "360 km"
+      ],
+      "correct": "Rätt! Sträckan är hastighet gånger tid: 90 · 4 = 360 km.",
+      "feedback": [
+        {
+          "answers": [
+            "94"
+          ],
+          "message": "94 får du om du lägger ihop. Sträckan är hastighet gånger tid."
+        },
+        {
+          "answers": [
+            "22,5",
+            "22.5"
+          ],
+          "message": "22,5 får du om du delar. Ju längre tid, desto längre sträcka: multiplicera."
+        }
+      ]
+    }
+  ]
+}

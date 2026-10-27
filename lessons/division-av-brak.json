@@ -1,0 +1,227 @@
+{
+  "id": "division-av-brak",
+  "area": "tal",
+  "title": "Division av bråk",
+  "level": "Dela med ett bråk · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "brak-multiplikation"
+  ],
+  "summary": "Att dela med ett bråk är att multiplicera med det omvända bråket.",
+  "explanationTitle": "Vänd på bråket du delar med",
+  "explanation": "Problemet: Du har 3/4 liter saft och varje glas rymmer 1/4 liter. Hur många glas kan du fylla? Du undrar hur många gånger 1/4 ryms i 3/4. Division med bråk känns krångligt, men det finns en enkel regel. Att dela med ett bråk är att multiplicera med dess omvända bråk. Det omvända bråket till 1/4 är 4/1, alltså 4. Så 3/4 delat med 1/4 blir 3/4 · 4 = 12/4 = 3 glas. Vänd alltså på bråket du delar med, byt division mot multiplikation och förenkla svaret sist.",
+  "visual": {
+    "type": "tabell",
+    "title": "Byt division mot multiplikation",
+    "headers": [
+      "Division",
+      "Multiplikation",
+      "Svar"
+    ],
+    "rows": [
+      [
+        "3/4 delat med 1/4",
+        "3/4 · 4/1",
+        "3"
+      ],
+      [
+        "2/3 delat med 4/5",
+        "2/3 · 5/4",
+        "10/12 = 5/6"
+      ],
+      [
+        "5 delat med 1/2",
+        "5 · 2/1",
+        "10"
+      ]
+    ]
+  },
+  "rule": "Dela med ett bråk genom att multiplicera med det omvända bråket: a/b delat med c/d = a/b · d/c.",
+  "ruleLabel": "DIVISION AV BRÅK",
+  "example": "1/2 delat med 1/6 = 1/2 · 6/1 = 6/2 = 3.",
+  "practice": [
+    {
+      "id": "tal-delat-brak",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          2,
+          9
+        ],
+        "d": [
+          2,
+          8
+        ]
+      },
+      "prompt": "Hur många gånger ryms 1/{d} i {n}?",
+      "answer": [
+        "=n*d"
+      ],
+      "correct": "Rätt! {n} delat med 1/{d} = {n} · {d} = {n*d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n/d"
+          ],
+          "message": "Dela med ett bråk genom att multiplicera med det omvända bråket: {n} · {d}."
+        }
+      ]
+    },
+    {
+      "id": "rep",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          1,
+          3
+        ],
+        "j": [
+          2,
+          6
+        ],
+        "d": [
+          4,
+          8
+        ]
+      },
+      "prompt": "Ett rep är {k*j} m långt. Du klipper det i bitar som är {k}/{d} m. Hur många bitar blir det?",
+      "answer": [
+        "=j*d",
+        "{j*d} bitar"
+      ],
+      "correct": "Rätt! {k*j} delat med {k}/{d} = {k*j} · {d}/{k} = {j*d} bitar.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*j*k/d"
+          ],
+          "message": "Du har multiplicerat med {k}/{d}. Att dela med {k}/{d} är att multiplicera med det omvända bråket, {d}/{k}."
+        }
+      ]
+    },
+    {
+      "id": "brak-brak",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "p": [
+          2,
+          5
+        ],
+        "q": [
+          6,
+          9
+        ]
+      },
+      "prompt": "Hur mycket är {p}/{q} delat med 1/{q}? Svara som ett tal.",
+      "answer": [
+        "=p"
+      ],
+      "correct": "Rätt! {p}/{q} delat med 1/{q} = {p}/{q} · {q}/1 = {p}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p/(q*q)"
+          ],
+          "message": "Det blir produkten. Vänd på bråket du delar med: {p}/{q} · {q}/1."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur mycket är 1/2 delat med 1/4? Svara som ett tal.",
+    "answer": [
+      "2"
+    ],
+    "correct": "Rätt! 1/2 delat med 1/4 = 1/2 · 4/1 = 4/2 = 2.",
+    "feedback": [
+      {
+        "answers": [
+          "1/8"
+        ],
+        "message": "1/8 får du om du multiplicerar bråken. Vänd på det bråk du delar med: 1/2 · 4/1."
+      },
+      {
+        "answers": [
+          "1/4"
+        ],
+        "message": "1/4 är bråket du delar med. Vänd på det och multiplicera: 1/2 · 4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du har 3/4 liter saft. Varje glas rymmer 1/4 liter. Hur många glas kan du fylla?",
+      "answer": [
+        "3",
+        "3 glas"
+      ],
+      "correct": "Rätt! 3/4 delat med 1/4 = 3/4 · 4 = 3 glas.",
+      "feedback": [
+        {
+          "answers": [
+            "3/16"
+          ],
+          "message": "3/16 får du om du multiplicerar bråken. Dela genom att multiplicera med det omvända bråket: 3/4 · 4."
+        },
+        {
+          "answers": [
+            "1/3"
+          ],
+          "message": "Det är fel väg: du ska se hur många 1/4 som ryms i 3/4, alltså 3/4 delat med 1/4."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett rep är 6 m långt. Du klipper det i bitar som är 3/4 m. Hur många bitar blir det?",
+      "answer": [
+        "8",
+        "8 bitar"
+      ],
+      "correct": "Rätt! 6 delat med 3/4 = 6 · 4/3 = 24/3 = 8 bitar.",
+      "feedback": [
+        {
+          "answers": [
+            "4,5",
+            "4.5"
+          ],
+          "message": "4,5 får du om du multiplicerar 6 med 3/4. Att dela med 3/4 är att multiplicera med 4/3."
+        },
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "Bitarna är mindre än 1 m, så det blir fler bitar än 6. Räkna 6 · 4/3."
+        }
+      ]
+    },
+    {
+      "prompt": "En tårta är 2/3 kvar. Varje gäst får 1/6 av tårtan. Hur många gäster kan få var sin bit?",
+      "answer": [
+        "4",
+        "4 gäster"
+      ],
+      "correct": "Rätt! 2/3 delat med 1/6 = 2/3 · 6/1 = 12/3 = 4 gäster.",
+      "feedback": [
+        {
+          "answers": [
+            "1/9"
+          ],
+          "message": "1/9 får du om du multiplicerar bråken. Vänd på bråket du delar med: 2/3 · 6."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är 2 · 6 innan du delat med nämnaren 3. 12/3 = 4."
+        }
+      ]
+    }
+  ]
+}

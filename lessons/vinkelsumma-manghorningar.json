@@ -1,0 +1,265 @@
+{
+  "id": "vinkelsumma-manghorningar",
+  "area": "geometri",
+  "title": "Vinkelsumman i månghörningar",
+  "level": "Dela upp i trianglar · ungefär åk 7",
+  "grade": 7,
+  "duration": "8 min",
+  "prerequisites": [
+    "triangelns-vinkelsumma",
+    "fyrhorningar-linjer"
+  ],
+  "summary": "En månghörning med n hörn kan delas i n − 2 trianglar. Vinkelsumman är därför (n − 2) · 180°.",
+  "explanationTitle": "Dela upp i trianglar",
+  "explanation": "Problemet: Vi vet att vinklarna i en triangel är 180° tillsammans. Hur stor är vinkelsumman i en femhörning? Ska vi mäta varje gång? Det behövs inte. Dela upp månghörningen i trianglar genom att dra diagonaler från ett och samma hörn. En fyrhörning delas i 2 trianglar, en femhörning i 3 och en sexhörning i 4. En månghörning med n hörn delas i n − 2 trianglar, och varje triangel har vinkelsumman 180°. Vinkelsumman är därför (n − 2) · 180°. Fyrhörning: 2 · 180 = 360°. Sexhörning: 4 · 180 = 720°. Är månghörningen regelbunden, alltså har lika stora vinklar, delar du summan med n.",
+  "visual": {
+    "type": "tabell",
+    "title": "Månghörningar och trianglar",
+    "headers": [
+      "Antal hörn",
+      "Antal trianglar",
+      "Vinkelsumma"
+    ],
+    "rows": [
+      [
+        "3",
+        "1",
+        "180°"
+      ],
+      [
+        "4",
+        "2",
+        "360°"
+      ],
+      [
+        "5",
+        "3",
+        "540°"
+      ],
+      [
+        "6",
+        "4",
+        "720°"
+      ],
+      [
+        "n",
+        "n − 2",
+        "(n − 2) · 180°"
+      ]
+    ]
+  },
+  "rule": "Vinkelsumman i en månghörning med n hörn är (n − 2) · 180°.",
+  "ruleLabel": "VINKELSUMMA",
+  "example": "En sexhörning har (6 − 2) · 180 = 720°. Är den regelbunden är varje vinkel 720 delat med 6 = 120°.",
+  "practice": [
+    {
+      "id": "summa",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          4,
+          12
+        ]
+      },
+      "prompt": "Vilken är vinkelsumman i en {n}-hörning? Svara i grader.",
+      "answer": [
+        "=(n-2)*180",
+        "{(n-2)*180}°",
+        "{(n-2)*180} grader"
+      ],
+      "correct": "Rätt! En {n}-hörning delas i {n-2} trianglar, och {n-2} · 180 = {(n-2)*180}°.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*180"
+          ],
+          "message": "Antalet trianglar är n − 2, inte n. Det blir {n-2} trianglar."
+        },
+        {
+          "answers": [
+            "=(n-1)*180"
+          ],
+          "message": "Dra två hörn från antalet: det blir {n-2} trianglar, inte {n-1}."
+        }
+      ]
+    },
+    {
+      "id": "saknad",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          60,
+          120,
+          10
+        ],
+        "b": [
+          60,
+          120,
+          10
+        ],
+        "c": [
+          60,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "360-a-b-c",
+          "min": 30
+        }
+      ],
+      "prompt": "En fyrhörning har tre vinklar som är {a}°, {b}° och {c}°. Hur stor är den fjärde vinkeln? Svara i grader.",
+      "answer": [
+        "=360-a-b-c",
+        "{360-a-b-c}°",
+        "{360-a-b-c} grader"
+      ],
+      "correct": "Rätt! Summan är 360°, och {a} + {b} + {c} = {a+b+c}. Den fjärde vinkeln är 360 − {a+b+c} = {360-a-b-c}°.",
+      "feedback": [
+        {
+          "answers": [
+            "=180-a-b-c"
+          ],
+          "message": "180° är triangelns vinkelsumma. En fyrhörning har summan 360°."
+        },
+        {
+          "answers": [
+            "=a+b+c"
+          ],
+          "message": "{a+b+c}° är summan av de tre vinklarna. Dra bort den från 360°."
+        }
+      ]
+    },
+    {
+      "id": "regelbunden",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          5,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod((n-2)*180,n)",
+          "equals": 0
+        }
+      ],
+      "prompt": "Hur stor är varje vinkel i en regelbunden {n}-hörning? Svara i grader.",
+      "answer": [
+        "=(n-2)*180/n",
+        "{(n-2)*180/n}°",
+        "{(n-2)*180/n} grader"
+      ],
+      "correct": "Rätt! Summan är {(n-2)*180}°, och {(n-2)*180} delat med {n} = {(n-2)*180/n}°.",
+      "feedback": [
+        {
+          "answers": [
+            "=(n-2)*180"
+          ],
+          "message": "{(n-2)*180}° är summan av alla vinklar. Dela den med antalet vinklar, {n}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vilken är vinkelsumman i en femhörning? Svara i grader.",
+    "answer": [
+      "540",
+      "540°",
+      "540 grader"
+    ],
+    "correct": "Rätt! En femhörning delas i 3 trianglar, och 3 · 180 = 540°.",
+    "feedback": [
+      {
+        "answers": [
+          "720"
+        ],
+        "message": "720° är sexhörningens vinkelsumma. En femhörning delas i 5 − 2 = 3 trianglar."
+      },
+      {
+        "answers": [
+          "900"
+        ],
+        "message": "900° är en sjuhörnings summa. En femhörning delas i 3 trianglar, och 3 · 180 = 540."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En fyrhörning har tre vinklar som är 90°, 80° och 100°. Hur stor är den fjärde vinkeln? Svara i grader.",
+      "answer": [
+        "90",
+        "90°",
+        "90 grader"
+      ],
+      "correct": "Rätt! Vinkelsumman är 360°, och 90 + 80 + 100 = 270. Den fjärde vinkeln är 360 − 270 = 90°.",
+      "feedback": [
+        {
+          "answers": [
+            "270"
+          ],
+          "message": "270° är summan av de tre vinklarna. Dra bort den från fyrhörningens vinkelsumma, 360°."
+        },
+        {
+          "answers": [
+            "180"
+          ],
+          "message": "180° är en triangels vinkelsumma. En fyrhörning har summan 360°."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur stor är varje vinkel i en regelbunden sexhörning? Svara i grader.",
+      "answer": [
+        "120",
+        "120°",
+        "120 grader"
+      ],
+      "correct": "Rätt! Summan är 4 · 180 = 720°, och 720 delat med 6 = 120°.",
+      "feedback": [
+        {
+          "answers": [
+            "720"
+          ],
+          "message": "720° är summan av alla sex vinklar. Dela den med 6."
+        },
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60° är en vinkel i en liksidig triangel. En regelbunden sexhörning har större vinklar."
+        }
+      ]
+    },
+    {
+      "prompt": "En månghörning har vinkelsumman 1080°. Hur många hörn har den?",
+      "answer": [
+        "8",
+        "8 hörn"
+      ],
+      "correct": "Rätt! 1080 delat med 180 = 6 trianglar, och antalet hörn är 6 + 2 = 8.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är antalet trianglar. Antalet hörn är 2 fler än antalet trianglar."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "En 9-hörning delas i 7 trianglar, och 7 · 180 = 1260°. Här är summan 1080°, 6 trianglar."
+        }
+      ]
+    }
+  ]
+}

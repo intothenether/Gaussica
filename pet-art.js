@@ -1,7 +1,8 @@
-// The drawings of the pets: a dog, a cat and a penguin, with clothes and accessories and a few backgrounds.
+// The drawings of the pets: a pug, a dachshund, a cat, a penguin, a rabbit, a hedgehog, a fox, a hamster and a dragon, with clothes and accessories and a few backgrounds.
 // Everything is plain SVG made here, so there are no image files and it works offline.
 //
-//   GaussicaPetArt.KINDS                      { dog, cat, penguin }: name, colours, default names
+//   GaussicaPetArt.KINDS                      { dog (a pug), tax (a dachshund), cat, penguin, rabbit, hedgehog, fox, hamster, dragon }:
+//                                             name, colours, default names, and the favourite food and toy (likes: { food, toy })
 //   GaussicaPetArt.ITEMS                      the shop: [{ id, slot, name, price, view, set?, need? }]  (slot: hat | face | neck | bg)
 //   GaussicaPetArt.SETS                       the themed sets, one for each area of the course: pieces with set and need
 //                                             (the number of finished lessons in the area that unlocks the piece)
@@ -9,6 +10,7 @@
 //   GaussicaPetArt.svg(pet, options)          the pet as an SVG string. pet = { kind, color, worn: { hat, face, neck }, bg }
 //                                             options = { mood: "happy", size, bare, label }
 //   GaussicaPetArt.thumb(itemId)              an item on its own, for the shop
+//   GaussicaPetArt.FOODS, TOYS, thing(id), snack(id)   treats and toys (food and play, see pet.js), and one drawn on its own
 //
 // The room (ROOM_SLOTS: wall, rug, bed, window, shelf, lamp, plant, toy) is drawn when pet.scene is "room"; its things are in pet.room.
 // All parts are drawn in a 200 x 200 box, with the head at about (100, 86), so that every item fits every animal.
@@ -30,6 +32,15 @@ window.GaussicaPetArt = (function () {
         { id: "svart", name: "Svart", body: "#43434e", dark: "#24242c", light: "#7b7b88" }
       ]
     },
+    tax: {
+      name: "Tax", names: ["Korv", "Dixie", "Ludde", "Greta"],
+      colors: [
+        { id: "rod", name: "Rödbrun", body: "#b8683c", dark: "#8c4a28", light: "#dea06f" },
+        { id: "svart", name: "Svart och tan", body: "#3b3441", dark: "#25202b", light: "#bf8f5e" },
+        { id: "choklad", name: "Choklad", body: "#7b4b35", dark: "#59341f", light: "#cb9a72" },
+        { id: "kram", name: "Gräddvit", body: "#edd3a6", dark: "#c99b5d", light: "#f9ecd4" }
+      ]
+    },
     cat: {
       name: "Katt", names: ["Misse", "Luna", "Tigger", "Smulan"],
       colors: [
@@ -47,12 +58,71 @@ window.GaussicaPetArt = (function () {
         { id: "lila", name: "Lila", body: "#7d5eb4", dark: "#5c4290", light: "#fbf7ee" },
         { id: "rosa", name: "Rosa", body: "#e07ba0", dark: "#bd5b80", light: "#fff5f8" }
       ]
+    },
+    rabbit: {
+      name: "Kanin", names: ["Nusse", "Pelle", "Bella", "Hoppe"],
+      colors: [
+        { id: "vit", name: "Vit", body: "#f6f2ec", dark: "#d9d1c6", light: "#ffffff" },
+        { id: "brun", name: "Brun", body: "#b98a60", dark: "#8d6340", light: "#efdcc3" },
+        { id: "gra", name: "Grå", body: "#aeb2bc", dark: "#858a96", light: "#eceef2" },
+        { id: "kram", name: "Gräddgul", body: "#ecd2a0", dark: "#c9a468", light: "#fbf1dc" }
+      ]
+    },
+    hedgehog: {
+      name: "Igelkott", names: ["Piggen", "Taggis", "Lilla", "Ville"],
+      colors: [
+        { id: "brun", name: "Brun", body: "#7c5a44", dark: "#573d2d", light: "#f1dcc0" },
+        { id: "gra", name: "Gråbrun", body: "#8d8a92", dark: "#65626b", light: "#efe6dc" },
+        { id: "ljus", name: "Ljus", body: "#c9a470", dark: "#9a7a4a", light: "#fbeed8" },
+        { id: "mork", name: "Mörk", body: "#4d4150", dark: "#352c38", light: "#e8d6c2" }
+      ]
+    },
+    fox: {
+      name: "Räv", names: ["Rufus", "Saga", "Foxy", "Sixten"],
+      colors: [
+        { id: "rod", name: "Röd", body: "#e8843c", dark: "#4b2d1c", light: "#fff3e4" },
+        { id: "silver", name: "Silver", body: "#98a1ae", dark: "#3a404c", light: "#f1f3f6" },
+        { id: "arktis", name: "Arktisk", body: "#f1f3f6", dark: "#9fb0c4", light: "#ffffff" },
+        { id: "sand", name: "Sand", body: "#dba96c", dark: "#6a4a2a", light: "#fff1da" }
+      ]
+    },
+    hamster: {
+      name: "Hamster", names: ["Nöt", "Frasse", "Kula", "Pyret"],
+      colors: [
+        { id: "guld", name: "Guld", body: "#e8b068", dark: "#bd8641", light: "#fdf0d8" },
+        { id: "vit", name: "Vit", body: "#f6f2ec", dark: "#d9cfc2", light: "#ffffff" },
+        { id: "gra", name: "Grå", body: "#a7a4ac", dark: "#7c7983", light: "#efedf0" },
+        { id: "brun", name: "Brun", body: "#9a6d48", dark: "#704a2c", light: "#f0dcc2" }
+      ]
+    },
+    dragon: {
+      name: "Drake", names: ["Draco", "Gnistan", "Smulle", "Eldor"],
+      colors: [
+        { id: "gron", name: "Grön", body: "#5cbf7a", dark: "#3a9a5a", light: "#e1f5d4" },
+        { id: "lila", name: "Lila", body: "#9a73d6", dark: "#7150b0", light: "#eadffb" },
+        { id: "bla", name: "Blå", body: "#4f9de8", dark: "#2f74c0", light: "#d9ecfb" },
+        { id: "rod", name: "Röd", body: "#e5564f", dark: "#b53a33", light: "#ffe4c8" }
+      ]
     }
   };
+
+  // what each animal likes best (see pet.js, "Mat och lek"): a food and a toy
+  const LIKES = {
+    dog: { food: "ben", toy: "frisbee" }, tax: { food: "ben", toy: "boll" }, cat: { food: "fisk", toy: "nystan" }, penguin: { food: "fisk", toy: "snobollen" },
+    rabbit: { food: "morot", toy: "ballong" }, hedgehog: { food: "applet", toy: "bubblor" }, fox: { food: "blabar", toy: "snobollen" },
+    hamster: { food: "fron", toy: "boll" }, dragon: { food: "bulle", toy: "ballong" }
+  };
+  Object.keys(LIKES).forEach(function (k) { KINDS[k].likes = LIKES[k]; });
 
   // how much an item moves for each animal, so that it sits right on the head, face and neck
   const SHIFT = {
     dog: { hat: 2, face: 1, neck: 0 },
+    tax: { hat: 2, face: 4, neck: 0, place: "translate(-32 14) scale(.93)", crop: "5 27 112 102" },
+    rabbit: { hat: 4, face: 1, neck: 0 },
+    hedgehog: { hat: -4, face: 5, neck: 0 },
+    fox: { hat: 3, face: 1, neck: 0 },
+    hamster: { hat: 5, face: 3, neck: -2 },
+    dragon: { hat: 0, face: -2, neck: 0 },
     cat: { hat: 0, face: 1, neck: 0 },
     penguin: { hat: 12, face: 1, neck: -3 }
   };
@@ -64,7 +134,9 @@ window.GaussicaPetArt = (function () {
 
   // ===== the animals =====
   function eyes(kind, mood, c) {
-    const pos = kind === "penguin" ? [[86, 82], [114, 82]] : kind === "cat" ? [[84, 83], [116, 83]] : [[82, 84], [118, 84]];
+    const pos = kind === "penguin" ? [[86, 82], [114, 82]] : kind === "cat" ? [[84, 83], [116, 83]] : kind === "tax" ? [[84, 80], [116, 80]] :
+      kind === "rabbit" ? [[85, 85], [115, 85]] : kind === "hedgehog" ? [[84, 88], [116, 88]] : kind === "fox" ? [[83, 85], [117, 85]] :
+      kind === "hamster" ? [[80, 88], [120, 88]] : kind === "dragon" ? [[84, 82], [116, 82]] : [[82, 84], [118, 84]];
     if (mood === "happy") {
       const line = kind === "dog" ? "#f6efe4" : INK;
       return '<g class="pet-eyes is-happy">' + pos.map(function (p) {
@@ -76,7 +148,7 @@ window.GaussicaPetArt = (function () {
         return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="10" fill="#fdfaf3"/><circle cx="' + p[0] + '" cy="' + (p[1] + 0.5) + '" r="6.6" fill="' + INK + '"/><circle cx="' + (p[0] + 2.4) + '" cy="' + (p[1] - 2.4) + '" r="2.4" fill="#fff"/><circle cx="' + (p[0] - 2) + '" cy="' + (p[1] + 3) + '" r="1.2" fill="#fff" opacity=".8"/>';
       }).join("") + '</g>';
     }
-    const ry = kind === "cat" ? 7.5 : 6.5;
+    const ry = kind === "cat" ? 7.5 : kind === "tax" ? 7 : 6.5;
     return '<g class="pet-eyes">' + pos.map(function (p) {
       return '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="6.2" ry="' + ry + '" fill="' + INK + '"/><circle cx="' + (p[0] + 2) + '" cy="' + (p[1] - 2.5) + '" r="2.2" fill="#fff"/>';
     }).join("") + '</g>';
@@ -99,6 +171,130 @@ window.GaussicaPetArt = (function () {
       '<ellipse cx="100" cy="99" rx="10" ry="6.5" fill="#15131a"/><ellipse cx="97" cy="97" rx="3" ry="1.6" fill="#fff" opacity=".45"/>' +
       '<path d="M100,105 V110 Q94,116 87,111 M100,110 Q106,116 113,111" stroke="#0e0c12" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".85"/>' +
       '<path d="M95,114 Q100,126 105,114 Z" fill="#ee7f93"/>';
+  }
+
+  // a dachshund: the body is seen from the side, very long and low on short legs, with the head turned to the viewer so
+  // that the hats and glasses fit like on the others. The drawing is wider than the box, so SHIFT.tax moves and shrinks
+  // the whole animal (clothes included) to fit.
+  function tax(c, mood) {
+    const leg = function (cx, fill) {
+      return '<rect x="' + (cx - 7) + '" y="158" width="14" height="19" rx="6" fill="' + fill + '"/><ellipse cx="' + (cx - 1) + '" cy="177" rx="10.5" ry="6.5" fill="' + fill + '"/>' +
+        '<path d="M' + (cx - 5) + ',175 V179 M' + (cx - 1) + ',176 V180 M' + (cx + 3) + ',175 V179" stroke="rgba(0,0,0,.16)" stroke-width="1.7" stroke-linecap="round" fill="none"/>';
+    };
+    return '<g class="pet-tail pet-tail-tax"><path d="M226,143 Q246,136 239,108" fill="none" stroke="' + c.body + '" stroke-width="9" stroke-linecap="round"/></g>' +
+      leg(116, c.dark) + leg(218, c.dark) +
+      '<rect x="82" y="132" width="148" height="36" rx="18" fill="' + c.body + '"/>' +
+      '<rect x="100" y="155" width="112" height="11" rx="5.5" fill="' + c.light + '"/>' +
+      '<ellipse cx="204" cy="150" rx="17" ry="17" fill="' + c.body + '"/><path d="M194,138 Q208,146 204,166" stroke="rgba(0,0,0,.13)" stroke-width="2.2" fill="none" stroke-linecap="round"/>' +
+      leg(98, c.body) + leg(202, c.body) +
+      '<ellipse cx="98" cy="124" rx="24" ry="14" fill="' + c.body + '"/>' +
+      '<ellipse cx="100" cy="84" rx="37" ry="39" fill="' + c.body + '"/>' +
+      '<ellipse cx="100" cy="105" rx="21" ry="18" fill="' + c.light + '"/>' +
+      '<circle cx="76" cy="99" r="5.5" fill="#ff9bb0" opacity=".3"/><circle cx="124" cy="99" r="5.5" fill="#ff9bb0" opacity=".3"/>' +
+      '<circle cx="85" cy="67" r="3" fill="' + c.light + '" opacity=".85"/><circle cx="115" cy="67" r="3" fill="' + c.light + '" opacity=".85"/>' +
+      '<path d="M66,56 Q44,68 47,106 Q49,128 66,126 Q80,120 77,88 Q76,66 66,56 Z" fill="' + c.dark + '"/>' +
+      '<path d="M134,56 Q156,68 153,106 Q151,128 134,126 Q120,120 123,88 Q124,66 134,56 Z" fill="' + c.dark + '"/>' +
+      eyes("tax", mood, c) +
+      '<ellipse cx="100" cy="97" rx="9" ry="6.2" fill="#15131a"/><ellipse cx="97.5" cy="95.2" rx="2.8" ry="1.5" fill="#fff" opacity=".5"/>' +
+      '<path d="M100,103 V108 Q94,114 88,109 M100,108 Q106,114 112,109" stroke="' + INK + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>' +
+      '<path d="M95,112 Q100,125 105,112 Z" fill="#ee7f93"/>';
+  }
+
+  // a rabbit: tall ears, a round fluffy body with a cotton-ball tail, two front teeth
+  function rabbit(c, mood) {
+    return '<circle cx="146" cy="164" r="13" fill="' + c.light + '" stroke="rgba(0,0,0,.08)" stroke-width="2"/>' +
+      '<ellipse cx="80" cy="177" rx="15" ry="8" fill="' + c.body + '"/><ellipse cx="120" cy="177" rx="15" ry="8" fill="' + c.body + '"/>' +
+      '<ellipse cx="100" cy="146" rx="38" ry="34" fill="' + c.body + '"/><ellipse cx="100" cy="153" rx="22" ry="24" fill="' + c.light + '"/>' +
+      '<g class="pet-ears"><ellipse cx="76" cy="36" rx="12" ry="30" transform="rotate(-12 76 36)" fill="' + c.body + '"/><ellipse cx="76" cy="38" rx="6" ry="21" transform="rotate(-12 76 38)" fill="#f4a0b4"/>' +
+      '<ellipse cx="124" cy="36" rx="12" ry="30" transform="rotate(12 124 36)" fill="' + c.body + '"/><ellipse cx="124" cy="38" rx="6" ry="21" transform="rotate(12 124 38)" fill="#f4a0b4"/></g>' +
+      '<circle cx="100" cy="88" r="42" fill="' + c.body + '"/>' +
+      '<ellipse cx="100" cy="106" rx="21" ry="14" fill="' + c.light + '"/>' +
+      '<circle cx="68" cy="100" r="7" fill="#ff9bb0" opacity=".35"/><circle cx="132" cy="100" r="7" fill="#ff9bb0" opacity=".35"/>' +
+      eyes("rabbit", mood, c) +
+      '<path d="M95,97 H105 L100,103 Z" fill="#f08aa0"/>' +
+      '<path d="M100,103 V107 M100,107 Q95,112 90,108 M100,107 Q105,112 110,108" stroke="' + INK + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>' +
+      '<rect x="95.5" y="108" width="9" height="9" rx="2.4" fill="#fff" stroke="rgba(0,0,0,.18)" stroke-width="1.4"/><path d="M100,108.5 V116" stroke="rgba(0,0,0,.18)" stroke-width="1.2"/>' +
+      '<path d="M78,104 L56,99 M78,109 L56,112 M122,104 L144,99 M122,109 L144,112" stroke="' + INK + '" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>';
+  }
+
+  // the points of a ring of spikes round an ellipse, from one angle (degrees) to another
+  function spikeRing(cx, cy, rx, ry, count, len, from, to) {
+    const pts = [];
+    for (let i = 0; i <= count * 2; i++) {
+      const a = (from + (to - from) * i / (count * 2)) * Math.PI / 180;
+      const out = i % 2 ? len : 0;
+      pts.push((cx + (rx + out) * Math.cos(a)).toFixed(1) + "," + (cy + (ry + out) * Math.sin(a)).toFixed(1));
+    }
+    return pts.join(" ");
+  }
+
+  // a hedgehog: a dome of spikes over the head and back, a small pale face with a pointed nose
+  function hedgehog(c, mood) {
+    return '<polygon points="' + spikeRing(100, 146, 44, 36, 11, 11, 150, 390) + '" fill="' + c.dark + '"/>' +
+      '<ellipse cx="80" cy="177" rx="14" ry="7.5" fill="' + c.light + '"/><ellipse cx="120" cy="177" rx="14" ry="7.5" fill="' + c.light + '"/>' +
+      '<ellipse cx="100" cy="148" rx="36" ry="30" fill="' + c.light + '"/>' +
+      '<polygon points="' + spikeRing(100, 88, 48, 44, 13, 12, 162, 378) + '" fill="' + c.body + '"/>' +
+      '<polygon points="' + spikeRing(100, 88, 40, 36, 13, 7, 170, 370) + '" fill="' + c.dark + '" opacity=".55"/>' +
+      '<circle cx="66" cy="76" r="10" fill="' + c.light + '"/><circle cx="134" cy="76" r="10" fill="' + c.light + '"/>' +
+      '<path d="M54,100 Q56,66 100,62 Q144,66 146,100 Q148,122 100,124 Q52,122 54,100 Z" fill="' + c.light + '"/>' +
+      '<circle cx="70" cy="104" r="6.5" fill="#ff9bb0" opacity=".35"/><circle cx="130" cy="104" r="6.5" fill="#ff9bb0" opacity=".35"/>' +
+      eyes("hedgehog", mood, c) +
+      '<ellipse cx="100" cy="104" rx="8.5" ry="6" fill="#2a2228"/><ellipse cx="97.5" cy="102.2" rx="2.4" ry="1.4" fill="#fff" opacity=".5"/>' +
+      '<path d="M100,110 Q94,117 88,112 M100,110 Q106,117 112,112" stroke="' + INK + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+  }
+
+  // a fox: pointed ears, white cheeks, a big bushy tail with a pale tip, dark socks
+  function fox(c, mood) {
+    return '<g class="pet-tail pet-tail-fox"><path d="M130,160 Q176,172 180,128 Q182,100 160,92 Q162,118 142,132 Z" fill="' + c.body + '"/>' +
+      '<path d="M160,92 Q182,100 180,128 Q179,141 172,148 Q176,122 160,92 Z" fill="' + c.light + '"/></g>' +
+      '<ellipse cx="80" cy="177" rx="14" ry="8" fill="' + c.dark + '"/><ellipse cx="120" cy="177" rx="14" ry="8" fill="' + c.dark + '"/>' +
+      '<ellipse cx="100" cy="144" rx="35" ry="36" fill="' + c.body + '"/><ellipse cx="100" cy="150" rx="20" ry="26" fill="' + c.light + '"/>' +
+      '<polygon points="54,72 56,20 92,52" fill="' + c.dark + '"/><polygon points="146,72 144,20 108,52" fill="' + c.dark + '"/>' +
+      '<polygon points="62,64 63,36 82,54" fill="' + c.light + '"/><polygon points="138,64 137,36 118,54" fill="' + c.light + '"/>' +
+      '<ellipse cx="100" cy="86" rx="45" ry="40" fill="' + c.body + '"/>' +
+      '<path d="M55,92 Q70,120 100,126 Q130,120 145,92 Q122,104 100,102 Q78,104 55,92 Z" fill="' + c.light + '"/>' +
+      '<circle cx="70" cy="101" r="6" fill="#ff9bb0" opacity=".3"/><circle cx="130" cy="101" r="6" fill="#ff9bb0" opacity=".3"/>' +
+      eyes("fox", mood, c) +
+      '<ellipse cx="100" cy="100" rx="6.5" ry="4.8" fill="#1d1620"/>' +
+      '<path d="M100,104 Q95,111 89,107 M100,104 Q105,111 111,107" stroke="' + INK + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+  }
+
+  // a hamster: round and chubby, full cheeks, small round ears, a tiny nose and two teeth
+  function hamster(c, mood) {
+    return '<ellipse cx="82" cy="178" rx="13" ry="7" fill="#f4b5a0"/><ellipse cx="118" cy="178" rx="13" ry="7" fill="#f4b5a0"/>' +
+      '<ellipse cx="100" cy="150" rx="40" ry="32" fill="' + c.body + '"/><ellipse cx="100" cy="157" rx="25" ry="22" fill="' + c.light + '"/>' +
+      '<ellipse cx="84" cy="142" rx="8" ry="6" fill="#f4b5a0"/><ellipse cx="116" cy="142" rx="8" ry="6" fill="#f4b5a0"/>' +
+      '<circle cx="62" cy="58" r="14" fill="' + c.body + '"/><circle cx="62" cy="58" r="8" fill="#f4a0b4"/>' +
+      '<circle cx="138" cy="58" r="14" fill="' + c.body + '"/><circle cx="138" cy="58" r="8" fill="#f4a0b4"/>' +
+      '<ellipse cx="100" cy="90" rx="50" ry="42" fill="' + c.body + '"/>' +
+      '<ellipse cx="100" cy="62" rx="20" ry="9" fill="' + c.dark + '" opacity=".35"/>' +
+      '<ellipse cx="66" cy="104" rx="17" ry="14" fill="' + c.light + '"/><ellipse cx="134" cy="104" rx="17" ry="14" fill="' + c.light + '"/>' +
+      '<ellipse cx="100" cy="104" rx="25" ry="18" fill="' + c.light + '"/>' +
+      eyes("hamster", mood, c) +
+      '<ellipse cx="100" cy="98" rx="5.5" ry="3.8" fill="#ef8aa0"/>' +
+      '<path d="M100,101 V105 M100,105 Q95,110 90,106 M100,105 Q105,110 110,106" stroke="' + INK + '" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<rect x="96.5" y="106" width="7" height="7.5" rx="2" fill="#fff" stroke="rgba(0,0,0,.18)" stroke-width="1.2"/>' +
+      '<path d="M76,104 L58,100 M76,108 L58,110 M124,104 L142,100 M124,108 L142,110" stroke="' + INK + '" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>';
+  }
+
+  // a small dragon: horns, little wings, a spade-tipped tail, a pale belly
+  function dragon(c, mood) {
+    return '<g class="pet-tail pet-tail-dragon"><path d="M134,160 Q176,168 176,136 Q176,120 188,114" fill="none" stroke="' + c.body + '" stroke-width="12" stroke-linecap="round"/>' +
+      '<polygon points="184,104 199,116 181,121" fill="' + c.dark + '"/></g>' +
+      '<g class="pet-wing pet-wing-l"><path d="M70,130 Q30,114 26,76 Q42,86 50,78 Q54,92 66,94 Q64,110 78,118 Z" fill="' + c.dark + '"/></g>' +
+      '<g class="pet-wing pet-wing-r"><path d="M130,130 Q170,114 174,76 Q158,86 150,78 Q146,92 134,94 Q136,110 122,118 Z" fill="' + c.dark + '"/></g>' +
+      '<ellipse cx="80" cy="177" rx="15" ry="8" fill="' + c.body + '"/><ellipse cx="120" cy="177" rx="15" ry="8" fill="' + c.body + '"/>' +
+      '<ellipse cx="100" cy="146" rx="38" ry="35" fill="' + c.body + '"/><ellipse cx="100" cy="152" rx="24" ry="27" fill="' + c.light + '"/>' +
+      '<path d="M80,140 Q100,146 120,140 M78,152 Q100,158 122,152 M80,164 Q100,170 120,164" stroke="rgba(0,0,0,.12)" stroke-width="2" stroke-linecap="round" fill="none"/>' +
+      '<polygon points="66,62 54,24 84,50" fill="' + c.light + '"/><polygon points="134,62 146,24 116,50" fill="' + c.light + '"/>' +
+      '<ellipse cx="55" cy="88" rx="8" ry="14" fill="' + c.dark + '"/><ellipse cx="145" cy="88" rx="8" ry="14" fill="' + c.dark + '"/>' +
+      '<ellipse cx="100" cy="86" rx="45" ry="41" fill="' + c.body + '"/>' +
+      '<circle cx="100" cy="58" r="4" fill="' + c.dark + '" opacity=".4"/><circle cx="88" cy="63" r="3" fill="' + c.dark + '" opacity=".4"/><circle cx="112" cy="63" r="3" fill="' + c.dark + '" opacity=".4"/>' +
+      '<ellipse cx="100" cy="104" rx="25" ry="17" fill="' + c.light + '"/>' +
+      '<circle cx="68" cy="100" r="6.5" fill="#ff9bb0" opacity=".35"/><circle cx="132" cy="100" r="6.5" fill="#ff9bb0" opacity=".35"/>' +
+      eyes("dragon", mood, c) +
+      '<circle cx="92" cy="101" r="2.4" fill="' + c.dark + '" opacity=".6"/><circle cx="108" cy="101" r="2.4" fill="' + c.dark + '" opacity=".6"/>' +
+      '<path d="M88,111 Q100,120 112,111" stroke="' + INK + '" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
   }
 
   function cat(c, mood) {
@@ -375,6 +571,59 @@ window.GaussicaPetArt = (function () {
     return ITEMS.find(function (i) { return i.id === id; }) || null;
   }
 
+  // ===== food and play =====
+  // Things that are used up, not kept: a treat or a toy costs a few coins and sets off a short animation (see pet.js).
+  // type "food" or "toy"; a: how to say one of it ("ett äpple"), pl: what the animal loves when it is the favourite;
+  // motion: how a toy moves in the animation. Drawn in a 60 x 60 box.
+  const FOODS = [
+    { id: "applet", type: "food", name: "Äpple", price: 2, a: "ett äpple", pl: "äpplen", art: function () {
+      return '<ellipse cx="30" cy="35" rx="18" ry="17" fill="#e0443f"/><path d="M30,19 Q29,11 35,8" stroke="#6b4a2a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M33,15 Q42,8 48,14 Q40,20 33,15 Z" fill="#43b581"/><ellipse cx="22" cy="29" rx="4" ry="6.5" fill="#fff" opacity=".35"/>'; } },
+    { id: "morot", type: "food", name: "Morot", price: 2, a: "en morot", pl: "morötter", art: function () {
+      return '<path d="M19,17 Q30,11 41,17 L32,54 Q30,57 28,54 Z" fill="#f08a2b"/><path d="M24,26 H32 M26,36 H34 M28,45 H33" stroke="#c96a14" stroke-width="2.2" stroke-linecap="round"/><path d="M30,16 Q22,6 17,8 Q22,13 28,16 M30,16 Q30,4 30,3 Q33,10 31,16 M31,16 Q38,6 44,8 Q38,13 32,16" fill="#43b581" stroke="#2f9a6a" stroke-width="1.5" stroke-linejoin="round"/>'; } },
+    { id: "fisk", type: "food", name: "Fisk", price: 3, a: "en fisk", pl: "fisk", art: function () {
+      return '<path d="M44,30 L57,18 V42 Z" fill="#4c9be8"/><ellipse cx="28" cy="30" rx="19" ry="13" fill="#6fb6f2"/><path d="M20,22 Q26,30 20,38 M28,20 Q34,30 28,40" stroke="#4c9be8" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/><circle cx="15" cy="27" r="3.2" fill="#fff"/><circle cx="14.4" cy="27.4" r="1.7" fill="#2a2630"/>'; } },
+    { id: "ben", type: "food", name: "Hundben", price: 3, a: "ett hundben", pl: "hundben", art: function () {
+      const knob = function (x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="7" fill="#f6efe2" stroke="#d6c7a8" stroke-width="2.2"/>'; };
+      return '<g transform="rotate(-35 30 30)">' + knob(11, 23.5) + knob(11, 36.5) + knob(49, 23.5) + knob(49, 36.5) +
+        '<rect x="12" y="24" width="36" height="12" rx="4" fill="#f6efe2" stroke="#d6c7a8" stroke-width="2.2"/><rect x="9" y="25" width="42" height="10" fill="#f6efe2"/></g>'; } },
+    { id: "blabar", type: "food", name: "Blåbär", price: 2, a: "några blåbär", pl: "blåbär", art: function () {
+      const b = function (x, y, r) { return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="#4b5fc4"/><path d="M' + (x - 3) + ',' + (y - r + 2) + ' l3,3 l3,-3" stroke="#2c3a8a" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="' + (x - r / 3) + '" cy="' + (y - r / 3) + '" r="' + (r / 5) + '" fill="#fff" opacity=".4"/>'; };
+      return b(20, 38, 11) + b(40, 38, 11) + b(30, 22, 11); } },
+    { id: "fron", type: "food", name: "Solrosfrö", price: 2, a: "ett solrosfrö", pl: "solrosfrön", art: function () {
+      return '<path d="M30,6 Q48,24 40,50 Q30,58 20,50 Q12,24 30,6 Z" fill="#43403f"/><path d="M30,10 Q40,26 34,50 M30,10 Q20,26 26,50 M30,12 V52" stroke="#e9e4da" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>'; } },
+    { id: "bulle", type: "food", name: "Kanelbulle", price: 3, a: "en kanelbulle", pl: "kanelbullar", art: function () {
+      return '<ellipse cx="30" cy="36" rx="25" ry="17" fill="#d9a05b"/><ellipse cx="30" cy="31" rx="25" ry="17" fill="#e8b878"/>' +
+        '<path d="M30,31 m-1,0 a3,2.2 0 1 1 5,1 a7,5 0 1 1 -10,-2 a12,8.5 0 1 1 17,4 a17,11.5 0 1 1 -22,-6" stroke="#a8682e" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+        '<circle cx="14" cy="24" r="1.7" fill="#fff8ea"/><circle cx="46" cy="26" r="1.7" fill="#fff8ea"/><circle cx="22" cy="44" r="1.7" fill="#fff8ea"/><circle cx="40" cy="43" r="1.7" fill="#fff8ea"/><circle cx="30" cy="17" r="1.7" fill="#fff8ea"/>'; } }
+  ];
+
+  const TOYS = [
+    { id: "boll", type: "toy", name: "Boll", price: 2, motion: "bounce", a: "en boll", pl: "bollar", art: function () {
+      return '<circle cx="30" cy="30" r="22" fill="#e8394d"/><path d="M10,24 Q30,34 50,24 M10,38 Q30,28 50,38" stroke="#fff" stroke-width="3" fill="none" opacity=".85"/><ellipse cx="22" cy="20" rx="5" ry="7" fill="#fff" opacity=".3"/>'; } },
+    { id: "frisbee", type: "toy", name: "Frisbee", price: 2, motion: "fly", a: "en frisbee", pl: "frisbees", art: function () {
+      return '<ellipse cx="30" cy="34" rx="26" ry="10" fill="#2f8fe0"/><ellipse cx="30" cy="30" rx="26" ry="10" fill="#4fb0f4"/><ellipse cx="30" cy="30" rx="15" ry="5" fill="#8fd0fb"/>'; } },
+    { id: "nystan", type: "toy", name: "Garnnystan", price: 2, motion: "roll", a: "ett garnnystan", pl: "garnnystan", art: function () {
+      return '<circle cx="30" cy="30" r="21" fill="#ee7fa6"/><path d="M12,24 Q30,16 48,28 M10,32 Q30,24 50,36 M16,44 Q32,32 46,44 M22,12 Q34,30 26,50" stroke="#c9547f" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M50,40 Q58,44 54,54" stroke="#ee7fa6" stroke-width="3" fill="none" stroke-linecap="round"/>'; } },
+    { id: "bubblor", type: "toy", name: "Såpbubblor", price: 1, motion: "float", a: "såpbubblor", pl: "såpbubblor", art: function () {
+      const b = function (x, y, r) { return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="#d6efff" fill-opacity=".45" stroke="#7fc2ee" stroke-width="2"/><path d="M' + (x - r * 0.55) + ',' + (y - r * 0.1) + ' Q' + (x - r * 0.5) + ',' + (y - r * 0.55) + ' ' + (x - r * 0.05) + ',' + (y - r * 0.6) + '" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>'; };
+      return b(22, 38, 14) + b(42, 22, 10) + b(44, 46, 7); } },
+    { id: "ballong", type: "toy", name: "Ballong", price: 2, motion: "float", a: "en ballong", pl: "ballonger", art: function () {
+      return '<path d="M30,6 Q50,6 50,24 Q50,40 30,46 Q10,40 10,24 Q10,6 30,6 Z" fill="#ef6f88"/><path d="M27,46 L30,50 L33,46 Z" fill="#c9476a"/><path d="M30,50 Q24,54 30,58" stroke="#8a7a6a" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="18" rx="4" ry="7" fill="#fff" opacity=".35" transform="rotate(20 22 18)"/>'; } },
+    { id: "snobollen", type: "toy", name: "Snöboll", price: 2, motion: "bounce", a: "en snöboll", pl: "snöbollar", art: function () {
+      return '<circle cx="30" cy="30" r="21" fill="#eef5fc" stroke="#8fb6da" stroke-width="2.6"/><path d="M13,36 Q20,52 40,47 Q52,42 51,28 Q46,46 30,47 Q18,46 13,36 Z" fill="#cfe2f4"/><path d="M19,20 Q25,13 34,15" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="24" cy="30" r="1.8" fill="#9fc0e0"/><circle cx="37" cy="26" r="1.5" fill="#9fc0e0"/>'; } }
+  ];
+
+  function thing(id) {
+    return FOODS.find(function (t) { return t.id === id; }) || TOYS.find(function (t) { return t.id === id; }) || null;
+  }
+
+  // a treat or a toy on its own (the shelf and the animation)
+  function snack(id) {
+    const t = thing(id);
+    if (!t) return "";
+    return '<svg class="pet-thumb" viewBox="0 0 60 60" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><g>' + t.art() + '</g></svg>';
+  }
+
   const FREE_BG = '<rect width="200" height="200" fill="#e8f3fb"/><ellipse cx="100" cy="204" rx="140" ry="34" fill="#d3e7f5"/>';
 
   // ===== putting it together =====
@@ -387,8 +636,14 @@ window.GaussicaPetArt = (function () {
       const it = worn[slot] && item(worn[slot]);
       return it && it.slot === slot ? '<g transform="translate(0 ' + shift[slot] + ')">' + it.art() + '</g>' : "";
     };
-    const body = kind === "cat" ? cat(c, mood) : kind === "penguin" ? penguin(c, mood) : dog(c, mood);
-    return '<g class="pet-bob">' + body + part("neck") + part("face") + part("hat") + '</g>';
+    const body = bodyOf(kind, c, mood);
+    const inner = body + part("neck") + part("face") + part("hat");
+    return '<g class="pet-bob">' + (shift.place ? '<g transform="' + shift.place + '">' + inner + '</g>' : inner) + '</g>';
+  }
+
+  function bodyOf(kind, c, mood) {
+    const draw = { cat: cat, penguin: penguin, tax: tax, rabbit: rabbit, hedgehog: hedgehog, fox: fox, hamster: hamster, dragon: dragon }[kind] || dog;
+    return draw(c, mood);
   }
 
   // the pet in its room (pet.scene "room"; the things in pet.room)
@@ -427,7 +682,7 @@ window.GaussicaPetArt = (function () {
     };
     const bgItem = pet.bg && item(pet.bg);
     const bg = options.bare ? "" : (bgItem && bgItem.slot === "bg" ? bgItem.art() : FREE_BG);
-    const body = kind === "cat" ? cat(c, mood) : kind === "penguin" ? penguin(c, mood) : dog(c, mood);
+    const body = bodyOf(kind, c, mood);
     const sparks = mood === "happy"
       ? '<g class="pet-sparks"><text class="pet-spark" x="46" y="60">✦</text><text class="pet-spark s2" x="150" y="52">✦</text><text class="pet-spark s3" x="100" y="26">♥</text></g>'
       : "";
@@ -449,10 +704,10 @@ window.GaussicaPetArt = (function () {
   function face(pet, mood) {
     const kind = KINDS[pet.kind] ? pet.kind : "dog";
     const s = svg({ kind: kind, color: pet.color, worn: { hat: (pet.worn || {}).hat, face: (pet.worn || {}).face }, bg: null, name: pet.name }, { mood: mood, bare: true });
-    return s.replace(/<g class="pet-sparks">[\s\S]*?<\/g>/, "").replace('viewBox="0 0 200 200"', 'viewBox="40 14 120 110"');
+    return s.replace(/<g class="pet-sparks">[\s\S]*?<\/g>/, "").replace('viewBox="0 0 200 200"', 'viewBox="' + (SHIFT[kind].crop || "40 14 120 110") + '"');
   }
 
-  return { KINDS: KINDS, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
+  return { KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
 }());
 
 if (typeof module !== "undefined") module.exports = window.GaussicaPetArt;

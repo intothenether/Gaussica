@@ -1,0 +1,245 @@
+{
+  "id": "likformighet",
+  "area": "geometri",
+  "title": "Likformighet och skalfaktor",
+  "level": "Samma form, olika storlek · ungefär åk 9",
+  "grade": 9,
+  "duration": "9 min",
+  "prerequisites": [
+    "skala",
+    "pythagoras"
+  ],
+  "summary": "Likformiga figurer har samma form men olika storlek. Alla längder växer med skalfaktorn, arean med skalfaktorn gånger sig själv.",
+  "explanationTitle": "Samma form i olika storlek",
+  "explanation": "Problemet: En karta och ett fotografi visar samma hus i olika storlek. Hur hänger längderna ihop, och hur stor blir arean om allt blir dubbelt så långt? Två figurer är likformiga om de har samma form men olika storlek: alla vinklar är lika och alla sidor har samma förhållande, skalfaktorn k. Är en sida 3 cm i den lilla figuren och 9 cm i den stora, är k = 9 delat med 3 = 3. Alla sidor i den stora är 3 gånger så långa. Arean blir däremot k · k = 9 gånger så stor, eftersom både längd och bredd växer. Volymen blir k · k · k gånger så stor.",
+  "visual": {
+    "type": "tabell",
+    "title": "Så växer det med skalfaktorn k",
+    "headers": [
+      "Skalfaktor k",
+      "Längder",
+      "Areor",
+      "Volymer"
+    ],
+    "rows": [
+      [
+        "2",
+        "2 gånger",
+        "4 gånger",
+        "8 gånger"
+      ],
+      [
+        "3",
+        "3 gånger",
+        "9 gånger",
+        "27 gånger"
+      ],
+      [
+        "k",
+        "k gånger",
+        "k · k gånger",
+        "k · k · k gånger"
+      ]
+    ]
+  },
+  "rule": "Skalfaktorn k = en sida i den stora delat med motsvarande sida i den lilla. Areor växer med k · k.",
+  "ruleLabel": "LIKFORMIGHET",
+  "example": "Triangel A har en sida som är 4 cm och triangel B, som är likformig, har motsvarande sida 10 cm. Då är k = 10 delat med 4 = 2,5. En annan sida på 6 cm i A blir 6 · 2,5 = 15 cm i B.",
+  "practice": [
+    {
+      "id": "sida",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          2,
+          5
+        ],
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "Två trianglar är likformiga. En sida på {a} cm i den lilla motsvarar {a*k} cm i den stora. Vilken längd i den stora motsvarar sidan {b} cm i den lilla?",
+      "answer": [
+        "=b*k",
+        "{b*k} cm"
+      ],
+      "correct": "Rätt! Skalfaktorn är {a*k} delat med {a} = {k}, och {b} · {k} = {b*k} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=b+a*k-a"
+          ],
+          "message": "Sidorna förhåller sig som skalfaktorn {k}. Multiplicera {b} med {k}, lägg inte till."
+        }
+      ]
+    },
+    {
+      "id": "area",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          2,
+          5
+        ],
+        "A": [
+          2,
+          12
+        ]
+      },
+      "prompt": "En figur med arean {A} cm² förstoras med skalfaktorn {k}. Vilken area har den förstorade figuren i cm²?",
+      "answer": [
+        "=A*k*k",
+        "{A*k*k} cm2",
+        "{A*k*k} cm²"
+      ],
+      "correct": "Rätt! Arean växer med {k} · {k} = {k*k} gånger, och {A} · {k*k} = {A*k*k} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=A*k"
+          ],
+          "message": "Arean växer inte bara {k} gånger. Både längd och bredd växer, så arean växer {k} · {k} gånger."
+        }
+      ]
+    },
+    {
+      "id": "volym",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          2,
+          5
+        ],
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "En kub med kanten {a} cm förstoras med skalfaktorn {k}. Hur många gånger så stor blir volymen?",
+      "answer": [
+        "=k*k*k"
+      ],
+      "correct": "Rätt! Volymen växer k · k · k = {k} · {k} · {k} = {k*k*k} gånger.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*k"
+          ],
+          "message": "{k*k} gånger är hur mycket arean växer. Volymen växer k · k · k gånger."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Två trianglar är likformiga. En sida på 4 cm i den lilla motsvarar 12 cm i den stora. Vilken längd i den stora motsvarar sidan 5 cm i den lilla?",
+    "answer": [
+      "15",
+      "15 cm"
+    ],
+    "correct": "Rätt! Skalfaktorn är 12 delat med 4 = 3, och 5 · 3 = 15 cm.",
+    "feedback": [
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "9 får du om du drar bort. Skalfaktorn är 12 delat med 4 = 3. Multiplicera 5 med 3."
+      },
+      {
+        "answers": [
+          "17"
+        ],
+        "message": "17 får du om du lägger ihop. Sidorna förhåller sig som skalfaktorn: multiplicera 5 med 3."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En rektangel förstoras med skalfaktorn 3. Dess area var 10 cm². Vilken area har den efter förstoringen, i cm²?",
+      "answer": [
+        "90",
+        "90 cm2",
+        "90cm2",
+        "90 cm²",
+        "90cm²"
+      ],
+      "correct": "Rätt! Arean växer med k · k = 9 gånger, och 10 · 9 = 90 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "30"
+          ],
+          "message": "30 vore om arean bara växte 3 gånger. Arean växer k · k = 9 gånger."
+        },
+        {
+          "answers": [
+            "900"
+          ],
+          "message": "900 får du om du multiplicerar med 90. Arean växer k · k = 9 gånger."
+        }
+      ]
+    },
+    {
+      "prompt": "Två likformiga figurer har längdskalan 1 till 4. Den lilla figuren har arean 5 cm². Vilken area har den stora, i cm²?",
+      "answer": [
+        "80",
+        "80 cm2",
+        "80cm2",
+        "80 cm²",
+        "80cm²"
+      ],
+      "correct": "Rätt! Arean växer med 4 · 4 = 16 gånger, och 5 · 16 = 80 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "20 vore om arean bara växte 4 gånger. Arean växer k · k = 16 gånger."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "9 får du om du lägger ihop 5 och 4. Multiplicera arean med k · k."
+        }
+      ]
+    },
+    {
+      "prompt": "En kub har kanten 2 cm. En annan kub har kanten 6 cm. Hur många gånger så stor är volymen?",
+      "answer": [
+        "27"
+      ],
+      "correct": "Rätt! Skalfaktorn är 6 delat med 2 = 3, och volymen växer 3 · 3 · 3 = 27 gånger.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är skalfaktorn för längderna. Volymen växer k · k · k gånger."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "9 gånger är hur mycket arean växer. Volymen växer k · k · k = 27 gånger."
+        }
+      ]
+    }
+  ]
+}

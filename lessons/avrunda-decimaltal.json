@@ -1,0 +1,236 @@
+{
+  "id": "avrunda-decimaltal",
+  "area": "tal",
+  "title": "Avrunda decimaltal",
+  "level": "Närmaste heltal och tiondel · ungefär åk 5",
+  "grade": 5,
+  "duration": "7 min",
+  "prerequisites": [
+    "avrundning-overslag",
+    "decimaltal"
+  ],
+  "summary": "Du avrundar ett decimaltal genom att titta på siffran efter den plats du avrundar till.",
+  "explanationTitle": "Titta på nästa siffra",
+  "explanation": "Problemet: Du väger en bok och vågen visar 2,68 kg. Du vill säga ungefär hur mycket den väger, i hela kilogram. Är det 2 kg eller 3 kg? Och om du vill ha en decimal, är det 2,6 eller 2,7? Vi avrundar. Till närmaste heltal tittar du på siffran precis efter decimaltecknet, tiondelarna. Är den 5 eller mer rundar du upp, är den 4 eller mindre rundar du ned. I 2,68 är tiondelssiffran 6, så vi rundar upp till 3. Till en decimal tittar du i stället på hundradelarna: 2,68 har 8, så vi rundar upp tiondelen och får 2,7.",
+  "visual": {
+    "type": "tabell",
+    "title": "Avrundning",
+    "headers": [
+      "Tal",
+      "Till närmaste heltal",
+      "Till en decimal"
+    ],
+    "rows": [
+      [
+        "2,68",
+        "3",
+        "2,7"
+      ],
+      [
+        "2,31",
+        "2",
+        "2,3"
+      ],
+      [
+        "5,45",
+        "5",
+        "5,5"
+      ],
+      [
+        "7,96",
+        "8",
+        "8,0"
+      ]
+    ]
+  },
+  "rule": "Titta på siffran efter den plats du avrundar till. 5 eller mer: runda upp. 4 eller mindre: runda ned.",
+  "ruleLabel": "AVRUNDA DECIMALTAL",
+  "example": "6,47 avrundat till närmaste heltal är 6, eftersom tiondelssiffran 4 är mindre än 5. Avrundat till en decimal är det 6,5, eftersom hundradelssiffran 7 är minst 5.",
+  "practice": [
+    {
+      "id": "heltal",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "w": [
+          2,
+          60
+        ],
+        "t": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Avrunda {w+t/10} till närmaste heltal.",
+      "answer": [
+        "=w+floor((t+5)/10)"
+      ],
+      "correct": "Rätt! Tiondelssiffran är {t}. Är den 5 eller mer rundar du upp, annars ned.",
+      "feedback": [
+        {
+          "answers": [
+            "=w+1-floor((t+5)/10)"
+          ],
+          "message": "Titta på tiondelssiffran {t}: är den 5 eller mer rundar du upp, annars ned."
+        }
+      ]
+    },
+    {
+      "id": "en-decimal",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "w": [
+          1,
+          20
+        ],
+        "t": [
+          1,
+          9
+        ],
+        "h": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Avrunda {w+t/10+h/100} till en decimal.",
+      "answer": [
+        "=w+t/10+floor((h+5)/10)/10"
+      ],
+      "correct": "Rätt! Hundradelssiffran är {h}. Är den 5 eller mer rundar du upp tiondelen, annars ned.",
+      "feedback": [
+        {
+          "answers": [
+            "=w+t/10+(1-floor((h+5)/10))/10"
+          ],
+          "message": "Titta på hundradelssiffran {h}: är den 5 eller mer rundar du upp tiondelen, annars ned."
+        }
+      ]
+    },
+    {
+      "id": "stracka",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "w": [
+          1,
+          9
+        ],
+        "t": [
+          1,
+          9
+        ],
+        "h": [
+          1,
+          9
+        ]
+      },
+      "prompt": "En sträcka är {w+t/10+h/100} km. Avrunda till närmaste heltal.",
+      "answer": [
+        "=w+floor((t+5)/10)",
+        "{w+floor((t+5)/10)} km"
+      ],
+      "correct": "Rätt! Tiondelssiffran är {t}, och den avgör avrundningen till heltal.",
+      "feedback": [
+        {
+          "answers": [
+            "=w+t/10"
+          ],
+          "message": "Det har fortfarande en decimal. Avrunda till ett heltal genom att titta på tiondelssiffran {t}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Avrunda 7,6 till närmaste heltal.",
+    "answer": [
+      "8"
+    ],
+    "correct": "Rätt! Tiondelssiffran 6 är minst 5, så vi rundar upp: 8.",
+    "feedback": [
+      {
+        "answers": [
+          "7"
+        ],
+        "message": "Tiondelssiffran 6 är 5 eller mer, så du rundar upp."
+      },
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "6 är tiondelssiffran. Titta på den siffran för att avgöra om du rundar upp eller ned."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En väska väger 4,3 kg. Avrunda vikten till närmaste heltal.",
+      "answer": [
+        "4",
+        "4 kg"
+      ],
+      "correct": "Rätt! Tiondelssiffran 3 är mindre än 5, så vi rundar ned: 4 kg.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "Siffran 3 är mindre än 5, så du rundar ned."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "Vikten är mer än 4 kg, så närmaste heltal är 4 eller 5. Titta på tiondelen: 3."
+        }
+      ]
+    },
+    {
+      "prompt": "En sträcka är 3,86 m. Avrunda till en decimal.",
+      "answer": [
+        "3,9",
+        "3.9"
+      ],
+      "correct": "Rätt! Hundradelssiffran 6 är minst 5, så tiondelen rundas upp: 3,9.",
+      "feedback": [
+        {
+          "answers": [
+            "3,8",
+            "3.8"
+          ],
+          "message": "Hundradelssiffran 6 är minst 5, så avrunda upp tiondelen."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är avrundat till heltal. Du ska behålla en decimal."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur mycket är 9,5 avrundat till närmaste heltal?",
+      "answer": [
+        "10"
+      ],
+      "correct": "Rätt! Tiondelssiffran är 5, och 5 räknas som minst 5, så vi rundar upp: 10.",
+      "feedback": [
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "Siffran 5 räknas som 5 eller mer, så du rundar upp."
+        },
+        {
+          "answers": [
+            "95"
+          ],
+          "message": "Decimaltecknet finns kvar i svaret. 9,5 ligger mellan 9 och 10."
+        }
+      ]
+    }
+  ]
+}

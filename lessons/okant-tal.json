@@ -1,0 +1,267 @@
+{
+  "id": "okant-tal",
+  "area": "algebra",
+  "title": "Obekant tal: vilket tal fattas?",
+  "level": "Hitta x i enkla ekvationer · ungefär åk 5",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "likhet-balansvag"
+  ],
+  "summary": "Ett tal som du inte vet kan du kalla x. Med en ekvation och räknesättens motsatser hittar du det.",
+  "explanationTitle": "Ångra räkneoperationen",
+  "explanation": "Problemet: Eli har några kulor. Hon får 7 kulor till och har då 15. Hur många hade hon från början? Vi vet inte talet, men vi vet hur det hänger ihop med de andra. Ett tal vi inte vet kan vi skriva med en bokstav, till exempel x. Då blir det x + 7 = 15. Det kallas en ekvation. Att lösa den är att hitta det tal som gör att båda sidorna blir lika stora. Det gör du genom att ångra räkneoperationen: plus ångras av minus, minus av plus, gånger av delat med och delat med av gånger. x + 7 = 15 betyder x = 15 − 7 = 8. Kontrollera alltid genom att sätta in svaret: 8 + 7 = 15 stämmer.",
+  "visual": {
+    "type": "tabell",
+    "title": "Ångra räkneoperationen",
+    "headers": [
+      "Ekvation",
+      "Ångra med",
+      "Svar"
+    ],
+    "rows": [
+      [
+        "x + 7 = 15",
+        "15 − 7",
+        "x = 8"
+      ],
+      [
+        "x − 4 = 10",
+        "10 + 4",
+        "x = 14"
+      ],
+      [
+        "3 · x = 21",
+        "21 delat med 3",
+        "x = 7"
+      ],
+      [
+        "x delat med 5 = 4",
+        "4 · 5",
+        "x = 20"
+      ]
+    ]
+  },
+  "rule": "Ångra räkneoperationen: plus med minus, minus med plus, gånger med delat med, delat med med gånger.",
+  "ruleLabel": "OBEKANT TAL",
+  "example": "x + 7 = 15 ger x = 15 − 7 = 8. Kontroll: 8 + 7 = 15.",
+  "practice": [
+    {
+      "id": "plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "x": [
+          3,
+          30
+        ],
+        "a": [
+          2,
+          20
+        ]
+      },
+      "prompt": "x + {a} = {x+a}. Vilket tal är x?",
+      "answer": [
+        "=x"
+      ],
+      "correct": "Rätt! x = {x+a} − {a} = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x+a"
+          ],
+          "message": "{x+a} är högersidan. Ångra plus med minus: dra bort {a}."
+        }
+      ]
+    },
+    {
+      "id": "minus",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "x": [
+          10,
+          40
+        ],
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "x − {a} = {x-a}. Vilket tal är x?",
+      "answer": [
+        "=x"
+      ],
+      "correct": "Rätt! x = {x-a} + {a} = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x-2*a"
+          ],
+          "message": "Du har dragit bort {a} en gång till. Ångra minus med plus: lägg till {a}."
+        },
+        {
+          "answers": [
+            "=x-a"
+          ],
+          "message": "{x-a} är högersidan. Ångra minus med plus: lägg till {a}."
+        }
+      ]
+    },
+    {
+      "id": "ganger",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "x": [
+          2,
+          12
+        ],
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "{a} · x = {a*x}. Vilket tal är x?",
+      "answer": [
+        "=x"
+      ],
+      "correct": "Rätt! x = {a*x} delat med {a} = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*x"
+          ],
+          "message": "{a*x} är högersidan. Ångra gånger med delat med: dela med {a}."
+        }
+      ]
+    },
+    {
+      "id": "delat",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "y": [
+          2,
+          12
+        ],
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "x delat med {a} = {y}. Vilket tal är x?",
+      "answer": [
+        "=a*y"
+      ],
+      "correct": "Rätt! x = {y} · {a} = {a*y}.",
+      "feedback": [
+        {
+          "answers": [
+            "=y+a"
+          ],
+          "message": "Du har lagt ihop. Ångra delat med genom att multiplicera: {y} · {a}."
+        },
+        {
+          "answers": [
+            "=y"
+          ],
+          "message": "{y} är högersidan. Ångra delat med genom att multiplicera med {a}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "x + 9 = 23. Vilket tal är x?",
+    "answer": [
+      "14"
+    ],
+    "correct": "Rätt! x = 23 − 9 = 14. Kontroll: 14 + 9 = 23.",
+    "feedback": [
+      {
+        "answers": [
+          "32"
+        ],
+        "message": "32 får du om du lägger ihop 9 och 23. Ångra plus med minus: 23 − 9."
+      },
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "9 är talet som läggs till. Räkna ut vad x måste vara för att x + 9 ska bli 23."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Eli har x kulor. Hon får 6 kulor till och har då 21 kulor. Hur många kulor hade hon från början?",
+      "answer": [
+        "15",
+        "15 kulor"
+      ],
+      "correct": "Rätt! x + 6 = 21, så x = 21 − 6 = 15.",
+      "feedback": [
+        {
+          "answers": [
+            "27"
+          ],
+          "message": "27 får du om du lägger ihop 6 och 21. Hon fick 6 kulor till, så ångra det: dra bort 6."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är kulorna hon fick. Frågan gäller hur många hon hade från början."
+        }
+      ]
+    },
+    {
+      "prompt": "Fyra vänner delar lika på x kronor och får 12 kr var. Hur många kronor var det från början?",
+      "answer": [
+        "48",
+        "48 kr"
+      ],
+      "correct": "Rätt! x delat med 4 = 12, så x = 12 · 4 = 48.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 får du om du delar 12 med 4. Ångra delat med genom att multiplicera: 12 · 4."
+        },
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "16 är 12 + 4. Pengarna delades på 4 personer, så multiplicera."
+        }
+      ]
+    },
+    {
+      "prompt": "Tre påsar innehåller lika många bullar. Tillsammans är det 24 bullar. Hur många bullar är det i varje påse?",
+      "answer": [
+        "8",
+        "8 bullar"
+      ],
+      "correct": "Rätt! 3 · x = 24, så x = 24 delat med 3 = 8.",
+      "feedback": [
+        {
+          "answers": [
+            "72"
+          ],
+          "message": "72 får du om du multiplicerar. Ångra gånger med delat med: 24 delat med 3."
+        },
+        {
+          "answers": [
+            "21"
+          ],
+          "message": "21 är 24 − 3. Bullarna är jämnt fördelade på 3 påsar, så dela."
+        }
+      ]
+    }
+  ]
+}

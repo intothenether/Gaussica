@@ -1,0 +1,235 @@
+{
+  "id": "ladagram",
+  "area": "data",
+  "title": "Spridning: variationsbredd och lådagram",
+  "level": "Kvartiler och kvartilavstånd · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "median-typvarde",
+    "medelvarde"
+  ],
+  "summary": "Medelvärdet säger inte hur spridda talen är. Variationsbredd, kvartiler och lådagram visar spridningen.",
+  "explanationTitle": "Hur spridda är värdena?",
+  "explanation": "Problemet: Två klasser har samma medelvärde på ett prov, 15 poäng. Är klasserna lika? I den ena fick alla mellan 14 och 16 poäng. I den andra fick några 3 och några 27. Medelvärdet säger inte hur spridda resultaten är. Vi behöver mått på spridning. Variationsbredden är största värdet minus minsta värdet. Kvartilerna delar de sorterade talen i fyra delar: nedre kvartilen Q1 har en fjärdedel av talen under sig, medianen ligger i mitten och övre kvartilen Q3 har en fjärdedel av talen över sig. Kvartilavståndet är Q3 − Q1 och visar var de mellersta talen finns. I ett lådagram ritar vi en låda från Q1 till Q3 med ett streck vid medianen, och trådar ut till minsta och största värdet.",
+  "visual": {
+    "type": "tabell",
+    "title": "Talen 3, 5, 6, 8, 12",
+    "headers": [
+      "Mått",
+      "Så räknar du",
+      "Här"
+    ],
+    "rows": [
+      [
+        "Variationsbredd",
+        "största − minsta",
+        "12 − 3 = 9"
+      ],
+      [
+        "Median",
+        "mittersta talet",
+        "6"
+      ],
+      [
+        "Nedre kvartil (Q1)",
+        "median av nedre hälften",
+        "4 (mitten av 3 och 5)"
+      ],
+      [
+        "Övre kvartil (Q3)",
+        "median av övre hälften",
+        "10 (mitten av 8 och 12)"
+      ],
+      [
+        "Kvartilavstånd",
+        "Q3 − Q1",
+        "10 − 4 = 6"
+      ]
+    ]
+  },
+  "rule": "Variationsbredd = största − minsta. Kvartilavstånd = Q3 − Q1.",
+  "ruleLabel": "SPRIDNING",
+  "example": "Talen 3, 5, 6, 8, 12 har variationsbredden 12 − 3 = 9 och kvartilavståndet 10 − 4 = 6.",
+  "practice": [
+    {
+      "id": "bredd",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "s": [
+          2,
+          20
+        ],
+        "d1": [
+          1,
+          6
+        ],
+        "d2": [
+          1,
+          6
+        ],
+        "d3": [
+          1,
+          6
+        ],
+        "d4": [
+          1,
+          6
+        ]
+      },
+      "prompt": "Talen är {s}, {s+d1}, {s+d1+d2}, {s+d1+d2+d3}, {s+d1+d2+d3+d4}. Vilken är variationsbredden?",
+      "answer": [
+        "=d1+d2+d3+d4"
+      ],
+      "correct": "Rätt! Största minus minsta: {s+d1+d2+d3+d4} − {s} = {d1+d2+d3+d4}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s+d1+d2+d3+d4"
+          ],
+          "message": "{s+d1+d2+d3+d4} är det största talet. Variationsbredden är största minus minsta."
+        }
+      ]
+    },
+    {
+      "id": "kvartilavstand",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "q1": [
+          3,
+          20
+        ],
+        "d": [
+          2,
+          15
+        ]
+      },
+      "prompt": "Nedre kvartilen är {q1} och övre kvartilen är {q1+d}. Hur stort är kvartilavståndet?",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! Kvartilavståndet är Q3 − Q1 = {q1+d} − {q1} = {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=q1+d"
+          ],
+          "message": "{q1+d} är övre kvartilen. Kvartilavståndet är skillnaden mellan Q3 och Q1."
+        }
+      ]
+    },
+    {
+      "id": "bredd-lada",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "mn": [
+          1,
+          10
+        ],
+        "d": [
+          10,
+          30
+        ]
+      },
+      "prompt": "Ett lådagram sträcker sig från {mn} till {mn+d}. Hur stor är variationsbredden?",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! Variationsbredden är {mn+d} − {mn} = {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=mn+d"
+          ],
+          "message": "{mn+d} är det största värdet. Variationsbredden är största minus minsta."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Provresultaten är 7, 9, 12, 15, 20. Vilken är variationsbredden?",
+    "answer": [
+      "13"
+    ],
+    "correct": "Rätt! Största minus minsta: 20 − 7 = 13.",
+    "feedback": [
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "12 är medianen, det mittersta talet. Variationsbredden är största minus minsta: 20 − 7."
+      },
+      {
+        "answers": [
+          "27"
+        ],
+        "message": "27 är 20 + 7. Variationsbredden är skillnaden mellan största och minsta."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett lådagram har minsta värdet 4, Q1 = 8, median 10, Q3 = 15 och största värdet 22. Hur stort är kvartilavståndet?",
+      "answer": [
+        "7"
+      ],
+      "correct": "Rätt! Kvartilavståndet är Q3 − Q1 = 15 − 8 = 7.",
+      "feedback": [
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "18 är variationsbredden, 22 − 4. Kvartilavståndet är Q3 − Q1."
+        },
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är 15 − 10, avståndet från medianen till Q3. Kvartilavståndet är Q3 − Q1."
+        }
+      ]
+    },
+    {
+      "prompt": "Två klasser fick samma medelvärde. Klass A: 14, 15, 15, 16. Klass B: 3, 10, 20, 27. Vilken klass har störst variationsbredd? Svara A eller B.",
+      "answer": [
+        "B"
+      ],
+      "correct": "Rätt! Klass B har 27 − 3 = 24 och klass A har 16 − 14 = 2.",
+      "feedback": [
+        {
+          "answers": [
+            "A"
+          ],
+          "message": "Räkna största minus minsta i båda klasserna: A är 16 − 14 = 2. Jämför med B."
+        }
+      ]
+    },
+    {
+      "prompt": "Talen är sorterade: 2, 4, 5, 7, 9, 11, 14. Vilken är övre kvartilen, Q3? Ta medianen av de tre högsta talen.",
+      "answer": [
+        "11"
+      ],
+      "correct": "Rätt! Medianen är 7, och mittersta talet av 9, 11 och 14 är 11.",
+      "feedback": [
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "9 är det minsta av de tre högsta talen. Ta det mittersta av 9, 11 och 14."
+        },
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är medianen av alla talen. Övre kvartilen är medianen av de högsta talen."
+        }
+      ]
+    }
+  ]
+}

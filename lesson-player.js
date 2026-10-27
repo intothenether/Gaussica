@@ -89,7 +89,7 @@ window.GaussicaPlayer = (function () {
     if (!deps) return;
     const steps = session.items.map(function (it, i) {
       return { type: "question", key: it.taskId, lessonId: it.lessonId,
-        task: { id: it.taskId, key: it.taskId, name: session.kind === "review" ? "Repetera" : "Öva mer", problem: it.problem },
+        task: { id: it.taskId, key: it.taskId, name: session.kind === "review" ? "Repetera" : session.kind === "knep" ? "Mina knepiga" : "Öva mer", problem: it.problem },
         number: i + 1, total: session.items.length };
     });
     session.results = {};
@@ -390,7 +390,7 @@ window.GaussicaPlayer = (function () {
     const sessionLesson = isSession() ? deps.getLesson(st.lessonId) : null;
     if (sessionLesson) l = sessionLesson;
     const label = isSession()
-      ? (state.session.kind === "review" ? "REPETERA · " + l.title.toUpperCase() : "ÖVA MER · FRÅGA " + st.number + " AV " + st.total)
+      ? (state.session.kind === "review" ? "REPETERA · " + l.title.toUpperCase() : state.session.kind === "knep" ? "MINA KNEPIGA · FRÅGA " + st.number + " AV " + st.total : "ÖVA MER · FRÅGA " + st.number + " AV " + st.total)
       : "FRÅGA " + st.number + " AV " + st.total;
     const holder = el("div", "pl-question");
     card.appendChild(holder);
@@ -523,7 +523,7 @@ window.GaussicaPlayer = (function () {
     const solved = results.filter(function (r) { return r.completed; }).length;
     const first = results.filter(function (r) { return r.firstTry; }).length;
     const missed = state.steps.filter(function (st) { return !(s.results[st.task.id] || {}).completed; });
-    card.appendChild(el("p", "eyebrow pl-eyebrow", s.kind === "review" ? "REPETITION KLAR" : "ÖVNING KLAR"));
+    card.appendChild(el("p", "eyebrow pl-eyebrow", s.kind === "review" ? "REPETITION KLAR" : s.kind === "knep" ? "KNEPIGA FRÅGOR TRÄNADE" : "ÖVNING KLAR"));
     card.appendChild(el("h2", "pl-summary-title", first === total ? "Strålande!" : "Bra jobbat!"));
     if (!missed.length && deps.petRibbon) { const ribbon = deps.petRibbon(); if (ribbon) card.appendChild(ribbon); }
     card.appendChild(el("p", "pl-summary-sub",
@@ -539,7 +539,7 @@ window.GaussicaPlayer = (function () {
       const lessonTitle = deps.getLesson(st.lessonId).title;
       b.append(
         el("span", "pl-summary-dot", status === "done" ? "✓" : status === "fix" ? "!" : String(st.number)),
-        el("span", "pl-summary-name", s.kind === "review" ? lessonTitle : "Fråga " + st.number),
+        el("span", "pl-summary-name", s.kind === "review" || s.kind === "knep" ? lessonTitle : "Fråga " + st.number),
         el("span", "pl-summary-text", r.completed ? (r.firstTry ? "Rätt på första försöket" : "Rätt efter " + (r.tries + 1) + " försök") : r.answered ? "Inte löst än" : "Inte gjord")
       );
       b.addEventListener("click", function () { go(i); });
@@ -550,7 +550,7 @@ window.GaussicaPlayer = (function () {
 
     const actions = [];
     if (missed.length) actions.push(button("Gå till första som återstår →", "pl-btn pl-btn-primary", function () { go(state.steps.indexOf(missed[0])); }));
-    else if (s.again) actions.push(button(s.kind === "review" ? "Repetera mer →" : "Öva en runda till →", "pl-btn pl-btn-primary", function () { s.again(); }));
+    else if (s.again) actions.push(button(s.kind === "review" ? "Repetera mer →" : s.kind === "knep" ? "Träna mer på dem →" : "Öva en runda till →", "pl-btn pl-btn-primary", function () { s.again(); }));
     actions.unshift(button(s.backLabel || "Tillbaka", missed.length || actions.length ? "pl-btn pl-btn-ghost" : "pl-btn pl-btn-primary", exit));
     const back = backButton();
     footer(foot, missed.length ? "neutral" : "correct", missed.length ? "" : "🎉 Bra kämpat", (back ? [back] : []).concat(actions), { kind: missed.length ? "open" : "done" });

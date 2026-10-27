@@ -1,0 +1,233 @@
+{
+  "id": "upprepad-procent",
+  "area": "tal",
+  "title": "Ränta på ränta: upprepad förändring",
+  "level": "Förändringsfaktorn flera gånger · ungefär åk 9",
+  "grade": 9,
+  "duration": "9 min",
+  "prerequisites": [
+    "procentuell-forandring"
+  ],
+  "summary": "När en procentuell förändring upprepas multiplicerar du förändringsfaktorn lika många gånger som antalet perioder.",
+  "explanationTitle": "Räntan räknas på nya beloppet",
+  "explanation": "Problemet: Du sätter in 1000 kr på ett konto med 5 % ränta per år. Efter ett år har du 1050 kr. Hur mycket har du efter två år, 1100 kr? Nej: andra året räknas räntan på 1050 kr, inte på 1000 kr. Det kallas ränta på ränta. En förändring som upprepas kan inte läggas ihop. I stället multiplicerar du förändringsfaktorn lika många gånger. Faktorn för en ökning med 5 % är 1,05. Efter 2 år: 1000 · 1,05 · 1,05 = 1102,50 kr. Det gäller också när något minskar. Sänks priset med 20 % två gånger i rad är faktorn 0,8 · 0,8 = 0,64, alltså en sänkning med 36 % och inte med 40 %.",
+  "visual": {
+    "type": "tabell",
+    "title": "1000 kr med 5 % ränta per år",
+    "headers": [
+      "År",
+      "Uträkning",
+      "Belopp"
+    ],
+    "rows": [
+      [
+        "0",
+        "",
+        "1000 kr"
+      ],
+      [
+        "1",
+        "1000 · 1,05",
+        "1050 kr"
+      ],
+      [
+        "2",
+        "1050 · 1,05",
+        "1102,50 kr"
+      ],
+      [
+        "3",
+        "1102,50 · 1,05",
+        "1157,63 kr"
+      ]
+    ]
+  },
+  "rule": "Upprepad procentuell förändring: multiplicera förändringsfaktorn lika många gånger som antalet perioder.",
+  "ruleLabel": "RÄNTA PÅ RÄNTA",
+  "example": "Priset 500 kr höjs med 10 % två gånger i rad: 500 · 1,1 · 1,1 = 605 kr.",
+  "practice": [
+    {
+      "id": "tva-ar",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          1000,
+          5000,
+          1000
+        ],
+        "p": [
+          5,
+          10,
+          5
+        ]
+      },
+      "prompt": "Du sätter in {k} kr med {p} % ränta per år. Hur mycket har du efter 2 år, om du inte gör några andra insättningar?",
+      "answer": [
+        "=k*(100+p)*(100+p)/10000",
+        "{k*(100+p)*(100+p)/10000} kr"
+      ],
+      "correct": "Rätt! Faktorn är {(100+p)/100}, och {k} · {(100+p)/100} · {(100+p)/100} = {k*(100+p)*(100+p)/10000} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*(100+2*p)/100"
+          ],
+          "message": "Andra året räknas räntan på det nya beloppet. Multiplicera faktorn {(100+p)/100} två gånger."
+        }
+      ]
+    },
+    {
+      "id": "sank",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "v": [
+          200,
+          1000,
+          100
+        ],
+        "p": [
+          10,
+          50,
+          10
+        ]
+      },
+      "prompt": "En vara kostar {v} kr. Priset sänks med {p} % och sedan med {p} % igen. Vilket pris blir det i kronor?",
+      "answer": [
+        "=v*(100-p)*(100-p)/10000",
+        "{v*(100-p)*(100-p)/10000} kr"
+      ],
+      "correct": "Rätt! Faktorn är {(100-p)/100}, och {v} · {(100-p)/100} · {(100-p)/100} = {v*(100-p)*(100-p)/10000} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=v*(100-2*p)/100"
+          ],
+          "message": "Den andra sänkningen gäller det nya priset. Multiplicera faktorn {(100-p)/100} två gånger."
+        }
+      ]
+    },
+    {
+      "id": "total",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "p": [
+          5,
+          30,
+          5
+        ]
+      },
+      "prompt": "Ett värde ökar med {p} % två år i rad. Hur många procent har det ökat totalt?",
+      "answer": [
+        "=(100+p)*(100+p)/100-100",
+        "{(100+p)*(100+p)/100-100} %",
+        "{(100+p)*(100+p)/100-100}%"
+      ],
+      "correct": "Rätt! Faktorn för {p} % är {(100+p)/100}. Två år i rad blir {(100+p)/100} · {(100+p)/100}, och det är en ökning med {(100+p)*(100+p)/100-100} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*p"
+          ],
+          "message": "Det blir lite mer än {2*p} %, eftersom andra årets ökning räknas på det nya värdet. Multiplicera faktorerna."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Du sätter in 2000 kr med 10 % ränta per år. Hur mycket har du efter 2 år, om du inte gör några andra insättningar?",
+    "answer": [
+      "2420",
+      "2420 kr"
+    ],
+    "correct": "Rätt! 2000 · 1,1 = 2200 efter ett år, och 2200 · 1,1 = 2420 kr efter två år.",
+    "feedback": [
+      {
+        "answers": [
+          "2400"
+        ],
+        "message": "2400 får du om räntan räknas på 2000 båda åren. Andra året räknas räntan på det nya beloppet, 2200 kr."
+      },
+      {
+        "answers": [
+          "2200"
+        ],
+        "message": "2200 kr är beloppet efter ett år. Räkna ett år till."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En vara kostar 400 kr. Priset sänks med 25 % och sedan med 20 %. Vilket pris blir det i kronor?",
+      "answer": [
+        "240",
+        "240 kr"
+      ],
+      "correct": "Rätt! 400 · 0,75 = 300 kr, och 300 · 0,8 = 240 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "220"
+          ],
+          "message": "220 får du om du drar bort 45 % på en gång. Räkna först 25 % lägre, 300 kr, och sedan 20 % av det."
+        },
+        {
+          "answers": [
+            "180"
+          ],
+          "message": "Sänkningarna räknas efter varandra: den andra sänkningen gäller det nya priset, inte 400 kr."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett värde ökar med 10 % varje år. Hur många procent har det ökat totalt efter 2 år?",
+      "answer": [
+        "21",
+        "21 %",
+        "21%"
+      ],
+      "correct": "Rätt! Faktorn är 1,1 · 1,1 = 1,21, alltså en ökning med 21 %.",
+      "feedback": [
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "20 vore det om ökningen räknades på startvärdet båda åren. Faktorn är 1,1 · 1,1 = 1,21."
+        },
+        {
+          "answers": [
+            "121"
+          ],
+          "message": "121 % är det nya värdet som andel av det gamla. Ökningen är 121 − 100 = 21 procentenheter."
+        }
+      ]
+    },
+    {
+      "prompt": "Du har 5000 kr på ett konto med 4 % ränta per år. Hur mycket har du efter 2 år, om du inte gör några andra insättningar?",
+      "answer": [
+        "5408",
+        "5408 kr"
+      ],
+      "correct": "Rätt! 5000 · 1,04 = 5200, och 5200 · 1,04 = 5408 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "5400"
+          ],
+          "message": "5400 får du om räntan räknas på 5000 kr båda åren. Andra året räknas räntan på 5200 kr."
+        },
+        {
+          "answers": [
+            "5200"
+          ],
+          "message": "5200 kr är beloppet efter ett år. Räkna ett år till."
+        }
+      ]
+    }
+  ]
+}

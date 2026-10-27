@@ -1,5 +1,5 @@
-// Your own pet: a dog, a cat or a penguin that you earn coins ("mynt") for by learning, and spend them on clothes,
-// accessories and backgrounds. It is meant to go with the learning, not to replace it:
+// Your own pet: one of nine animals that you earn coins ("mynt") for by learning, and spend them on clothes, accessories,
+// backgrounds and furniture, and on treats and toys. It is meant to go with the learning, not to replace it:
 //
 //  * Coins are paid for finishing lessons and for sticking with a question after a mistake, not for every right answer,
 //    and the repeatable sources have a ceiling. Nothing is lost by staying away: the pet is never sad or hungry.
@@ -17,7 +17,15 @@
 //   GaussicaPet.open()             the room with the shop (the chooser first if there is no pet)
 //
 // Pure parts, also used by the tests: earned(ctx), areaCounts(ctx), lockOf(item, counts), balanceOf(total, pet), makePet, buyItem, wearItem.
-//   record = { v: 1, kind, color, name, owned: { itemId: pricePaid }, worn: { hat, face, neck }, bg, room: { wall, rug, bed, ... }, scene: "room" | "bg", at }
+//   record = { v: 1, kind, color, name, owned: { itemId: pricePaid }, worn: { hat, face, neck }, bg, room: { wall, rug, bed, ... }, scene: "room" | "bg", at,
+//              use: { day, food, play, fed, played, love, spent } }
+//
+// Food and play ("Mat och lek"): treats and toys are used up, not kept. Each costs a few coins and sets off a short animation. The pet
+// is never hungry or bored when left alone: this is only something nice to spend coins on. To keep it small there is a limit per
+// day (the pet is "full" or "tired" for the rest of the day, and nothing is charged). Every treat or toy gives a heart, and the
+// favourite of the animal gives two. The hearts make the friendship grow: Nya vänner, Kompisar, Bästisar, Superbästisar.
+// `use` counts the day's treats and plays (reset when the day changes), the totals, the hearts and the coins spent.
+//   useThing(pet, id, balance, now) -> { pet, thing, favorite, levelUp } or { error }   levelOf(pet), usedToday(pet, now)
 
 window.GaussicaPet = (function () {
   "use strict";
@@ -30,6 +38,9 @@ window.GaussicaPet = (function () {
   const PRACTICE_PER_DAY = 10;     // "Öva mer" and "Repetera": one coin per new question, up to 10 a day
   const PLACEMENT = 5;             // the placement test, once
   const GIFTS = { mynt5: 5, mynt10: 10, mynt25: 25 };   // coins from the teacher (a sticker on a message)
+  const FOOD_PER_DAY = 3;          // treats a day, then the pet is full
+  const PLAY_PER_DAY = 5;          // plays a day, then the pet is tired
+  const LEVELS = [[0, "Nya vänner"], [6, "Kompisar"], [20, "Bästisar"], [50, "Superbästisar"]];   // hearts needed for each step of the friendship
 
   function Art() { return window.GaussicaPetArt; }
   function L() { return window.GaussicaLesson; }
@@ -115,6 +126,7 @@ window.GaussicaPet = (function () {
   function spentOf(pet) {
     let s = 0;
     Object.keys((pet && pet.owned) || {}).forEach(function (id) { s += Number(pet.owned[id]) || 0; });
+    s += Math.max(0, Number(pet && pet.use && pet.use.spent) || 0);   // treats and toys
     return s;
   }
 
@@ -134,6 +146,57 @@ window.GaussicaPet = (function () {
   }
 
   function copy(pet) { return JSON.parse(JSON.stringify(pet)); }
+
+  // ----- food and play (pure) -----
+  // The treats and toys of today: { food, play }. A new day starts from zero.
+  function usedToday(pet, now) {
+    const u = (pet && pet.use) || {};
+    const same = u.day === dayKey(now === undefined ? Date.now() : now);
+    return { food: same ? Math.max(0, Number(u.food) || 0) : 0, play: same ? Math.max(0, Number(u.play) || 0) : 0 };
+  }
+
+  // The friendship: { index, name, love, next: { at, name } | null }
+  function levelOf(pet) {
+    const love = Math.max(0, Number(pet && pet.use && pet.use.love) || 0);
+    let index = 0;
+    LEVELS.forEach(function (l, n) { if (love >= l[0]) index = n; });
+    const next = LEVELS[index + 1];
+    return { index: index, name: LEVELS[index][1], love: love, next: next ? { at: next[0], name: next[1] } : null };
+  }
+
+  // Give a treat or play with a toy. Returns { pet, thing, favorite, levelUp } (levelUp: the new name of the friendship, or null),
+  // or { error } when it is not possible (nothing is changed or charged then).
+  function useThing(pet, id, balance, now) {
+    const t = Art().thing(id);
+    if (!t) return { error: "Den saken finns inte." };
+    const when = now === undefined ? Date.now() : now;
+    const used = usedToday(pet, when);
+    if (t.type === "food" && used.food >= FOOD_PER_DAY) return { error: pet.name + " är mätt för idag. Imorgon finns det mer att äta!" };
+    if (t.type === "toy" && used.play >= PLAY_PER_DAY) return { error: pet.name + " är trött efter all lek. Ni kan leka mer imorgon!" };
+    if (balance < t.price) return { error: "Du behöver " + (t.price - balance) + " mynt till." };
+    const before = levelOf(pet);
+    const next = copy(pet);
+    const u = next.use = Object.assign({ fed: 0, played: 0, love: 0, spent: 0 }, next.use || {});
+    u.day = dayKey(when);
+    u.food = used.food;
+    u.play = used.play;
+    if (t.type === "food") { u.food += 1; u.fed += 1; } else { u.play += 1; u.played += 1; }
+    const likes = (Art().KINDS[pet.kind] || {}).likes || {};
+    const favorite = likes[t.type] === id;
+    u.love += favorite ? 2 : 1;
+    u.spent += t.price;
+    const after = levelOf(next);
+    return { pet: next, thing: t, favorite: favorite, levelUp: after.index > before.index ? after.name : null };
+  }
+
+  function careMessage(pet, r) {
+    const t = r.thing;
+    let m = t.type === "food"
+      ? (r.favorite ? pet.name + " älskar " + t.pl + "! Det var favoriten. 💛" : "Mums! " + pet.name + " åt " + t.a + ".")
+      : (r.favorite ? pet.name + " älskar " + t.pl + "! Så roligt! 💛" : pet.name + " lekte med " + t.a + "!");
+    if (r.levelUp) m += " 🎉 Nu är ni " + r.levelUp.toLowerCase() + "!";
+    return m;
+  }
 
   // Finished lessons per area ({ tal: 3, geometri: 1 }): what unlocks the pieces of the themed sets.
   function areaCounts(ctx) {
@@ -253,15 +316,23 @@ window.GaussicaPet = (function () {
     return wrap;
   }
 
-  // the pet jumps for a moment (and is happy)
-  function cheer(host, pet) {
+  // the pet jumps for a moment (and is happy); fx is an extra thing in the picture (a treat, a toy) that moves by itself
+  function cheer(host, pet, fx) {
     if (!host || host.dataset.cheering) return;
     host.dataset.cheering = "1";
     host.innerHTML = Art().svg(pet, { mood: "happy" });
+    if (fx) host.appendChild(fx);
     setTimeout(function () {
       host.innerHTML = Art().svg(pet);
       delete host.dataset.cheering;
-    }, reduced() ? 900 : 1500);
+    }, reduced() ? 900 : fx ? 2400 : 1500);
+  }
+
+  // the treat or toy as it moves in the picture: food goes to the mouth, toys bounce, fly, roll or float
+  function careFx(t) {
+    const fx = el("span", "pet-fx pet-fx-" + (t.type === "food" ? "eat" : t.motion));
+    fx.innerHTML = Art().snack(t.id);
+    return fx;
   }
 
   function updateChip() {
@@ -370,7 +441,7 @@ window.GaussicaPet = (function () {
     });
   }
 
-  const TABS = [["hat", "Hattar"], ["face", "Ansikte"], ["neck", "Halsband"], ["bg", "Bakgrund"], ["sets", "Teman"], ["room", "Rum"], ["me", "Mitt djur"]];
+  const TABS = [["hat", "Hattar"], ["face", "Ansikte"], ["neck", "Halsband"], ["bg", "Bakgrund"], ["sets", "Teman"], ["room", "Rum"], ["care", "Mat och lek"], ["me", "Mitt djur"]];
 
   // The room: the pet, the shop and the settings of the pet.
   function room() {
@@ -426,6 +497,7 @@ window.GaussicaPet = (function () {
         right.appendChild(tabs);
 
         if (state.tab === "me") right.appendChild(settings(pet, function () { draw(); }));
+        else if (state.tab === "care") right.appendChild(care(pet, bal, state, draw, function (fx) { cheer(stage, copy(petOf()), fx); }));
         else right.appendChild(shop(pet, bal, state, draw, function () { cheer(stage, copy(petOf())); }));
 
         const msg = el("p", "pet-msg", state.message);
@@ -440,7 +512,8 @@ window.GaussicaPet = (function () {
           ["💪", "Löser du en fråga efter att ha svarat fel får du ett mynt, upp till tre per lektion."],
           ["🔁", "Öva mer och Repetera ger ett mynt per ny fråga, upp till tio om dagen."],
           ["🎁", "Din lärare kan ge dig mynt, och nivåtestet ger fem."],
-          ["🧩", "Teman öppnas när du klarar lektioner i ett område, och köps sedan med mynt."]].forEach(function (r) {
+          ["🧩", "Teman öppnas när du klarar lektioner i ett område, och köps sedan med mynt."],
+          ["🍎", "Mynt kan också bli godsaker och leksaker åt " + pet.name + " (Mat och lek)."]].forEach(function (r) {
           const li = el("li");
           li.append(el("span", "", r[0]), document.createTextNode(" " + r[1]));
           ul.appendChild(li);
@@ -555,6 +628,89 @@ window.GaussicaPet = (function () {
     return wrap;
   }
 
+  function countOf(n, one, many) { return n + " " + (n === 1 ? one : many); }
+
+  function careButton(pet, t, state, redraw) {
+    const favorite = ((Art().KINDS[pet.kind] || {}).likes || {})[t.type] === t.id;
+    const b = button("", "pet-item pet-care-item" + (state.selected === t.id ? " is-selected" : "") + (favorite ? " is-fav" : ""), function () {
+      state.selected = state.selected === t.id ? null : t.id;
+      state.message = "";
+      redraw();
+    });
+    b.setAttribute("aria-pressed", String(state.selected === t.id));
+    const thumb = el("span", "pet-item-thumb");
+    thumb.innerHTML = Art().snack(t.id);
+    b.append(thumb, el("span", "pet-item-name", t.name), el("span", "pet-item-price", (favorite ? "💛 Favorit · " : "") + t.price + (t.price === 1 ? " mynt" : " mynt")));
+    return b;
+  }
+
+  // "Mat och lek": treats and toys for the pet, and how the friendship is going
+  function care(pet, bal, state, redraw, hop) {
+    const wrap = el("div", "pet-shop pet-care");
+    const lvl = levelOf(pet);
+    const used = usedToday(pet, Date.now());
+    const use = pet.use || {};
+    const status = el("div", "pet-friend");
+    const hearts = el("span", "pet-hearts");
+    hearts.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < LEVELS.length - 1; i++) hearts.appendChild(el("span", i < lvl.index ? "is-full" : "", i < lvl.index ? "♥" : "♡"));
+    const line = el("p", "pet-friend-line");
+    line.append(el("strong", "", "Du och " + pet.name + " är " + lvl.name.toLowerCase()));
+    status.append(hearts, line);
+    if (lvl.next) {
+      const bar = document.createElement("progress");
+      bar.max = lvl.next.at - LEVELS[lvl.index][0];
+      bar.value = lvl.love - LEVELS[lvl.index][0];
+      bar.setAttribute("aria-label", "Vänskapen mot " + lvl.next.name.toLowerCase());
+      status.appendChild(bar);
+      status.appendChild(el("p", "pet-friend-sub", lvl.love + (lvl.love === 1 ? " hjärta" : " hjärtan") + ". Vid " + lvl.next.at + " är ni " + lvl.next.name.toLowerCase() + "."));
+    } else {
+      status.appendChild(el("p", "pet-friend-sub", lvl.love + " hjärtan. Bättre vänner än så går inte att bli! 💛"));
+    }
+    wrap.appendChild(status);
+    wrap.appendChild(el("p", "pet-hint", "Godsaker och leksaker tar slut direkt, men " + pet.name + " blir glad och ni blir bättre vänner. Favoriten ger dubbelt så många hjärtan. " +
+      pet.name + " mår lika bra om du inte gör något av det här."));
+    const today = el("p", "pet-today", "Idag: " + used.food + " av " + FOOD_PER_DAY + " godsaker · " + used.play + " av " + PLAY_PER_DAY + " lekar" +
+      (use.fed || use.played ? " · Hittills " + countOf(use.fed || 0, "godsak", "godsaker") + " och " + countOf(use.played || 0, "lek", "lekar") : ""));
+    wrap.appendChild(today);
+
+    [["Mat", Art().FOODS], ["Lek", Art().TOYS]].forEach(function (g) {
+      const section = el("section", "pet-set");
+      section.appendChild(el("h4", "pet-set-title", g[0]));
+      const grid = el("div", "pet-grid");
+      g[1].forEach(function (t) { grid.appendChild(careButton(pet, t, state, redraw)); });
+      section.appendChild(grid);
+      wrap.appendChild(section);
+    });
+
+    const bar = el("div", "pet-action");
+    const t = state.selected && Art().thing(state.selected);
+    if (!t) {
+      bar.appendChild(el("p", "pet-hint", "Välj en godsak eller en leksak."));
+    } else {
+      bar.appendChild(el("strong", "", t.name));
+      const full = t.type === "food" ? used.food >= FOOD_PER_DAY : used.play >= PLAY_PER_DAY;
+      if (full) {
+        bar.appendChild(el("span", "pet-short", t.type === "food" ? pet.name + " är mätt för idag. Imorgon finns det mer!" : pet.name + " är trött efter all lek. Ni kan leka mer imorgon!"));
+      } else if (bal >= t.price) {
+        bar.appendChild(button((t.type === "food" ? "Ge " + pet.name + " " : "Lek med ") + t.name.toLowerCase() + " (" + t.price + " mynt)", "primary-button pet-btn", function () {
+          const r = useThing(petOf(), t.id, bal);
+          if (r.error) { state.message = r.error; redraw(); return; }
+          deps.save(r.pet);
+          state.message = careMessage(r.pet, r);
+          state.selected = null;
+          check();
+          redraw();
+          hop(careFx(t));
+        }));
+      } else {
+        bar.appendChild(el("span", "pet-short", "Du behöver " + (t.price - bal) + " mynt till (" + t.price + " mynt)."));
+      }
+    }
+    wrap.appendChild(bar);
+    return wrap;
+  }
+
   function settings(pet, redraw) {
     const box = el("div", "pet-settings");
     const label = el("label", "pet-field");
@@ -624,14 +780,14 @@ window.GaussicaPet = (function () {
     if (!pet) {
       container.className = "pet-card is-invite";
       const faces = el("div", "pet-invite-faces");
-      ["dog", "cat", "penguin"].forEach(function (k) {
+      ["dog", "cat", "fox", "hedgehog", "dragon"].forEach(function (k) {
         const f = el("span", "pet-invite-face");
         f.innerHTML = Art().svg({ kind: k, color: Art().KINDS[k].colors[0].id, worn: {} }, { bare: true, size: 64 });
         faces.appendChild(f);
       });
       const copy = el("div", "pet-card-copy");
       copy.appendChild(el("h3", "", "Skaffa ett eget djur! 🐾"));
-      copy.appendChild(el("p", "", "Välj en mops, en katt eller en pingvin. Du tjänar mynt när du lär dig, och kan köpa kläder och annat till ditt djur."));
+      copy.appendChild(el("p", "", "Välj ett av nio djur, till exempel en mops, en räv eller en drake. Du tjänar mynt när du lär dig, och kan köpa kläder, godsaker och annat till ditt djur."));
       container.append(faces, copy, button("Välj ditt djur", "primary-button", open));
       updateChip();
       return;
@@ -728,9 +884,9 @@ window.GaussicaPet = (function () {
   }
 
   return {
-    init: init, render: render, check: check, ribbon: ribbon, face: face, say: say, open: open, enabled: enabled, balance: balance,
-    earned: earned, areaCounts: areaCounts, lockOf: lockOf, isOn: isOn, balanceOf: balanceOf, spentOf: spentOf, makePet: makePet, buyItem: buyItem, wearItem: wearItem, cleanName: cleanName,
-    KEY: KEY, GIFTS: GIFTS, LIMITS: { WELCOME: WELCOME, LESSON: LESSON, FIXED_PER_LESSON: FIXED_PER_LESSON, PRACTICE_PER_DAY: PRACTICE_PER_DAY, PLACEMENT: PLACEMENT }
+    init: init, current: function () { return deps && enabled() ? petOf() : null; }, render: render, check: check, ribbon: ribbon, face: face, say: say, open: open, enabled: enabled, balance: balance,
+    earned: earned, useThing: useThing, levelOf: levelOf, usedToday: usedToday, careMessage: careMessage, areaCounts: areaCounts, lockOf: lockOf, isOn: isOn, balanceOf: balanceOf, spentOf: spentOf, makePet: makePet, buyItem: buyItem, wearItem: wearItem, cleanName: cleanName,
+    KEY: KEY, GIFTS: GIFTS, LIMITS: { FOOD_PER_DAY: FOOD_PER_DAY, PLAY_PER_DAY: PLAY_PER_DAY, LEVELS: LEVELS, WELCOME: WELCOME, LESSON: LESSON, FIXED_PER_LESSON: FIXED_PER_LESSON, PRACTICE_PER_DAY: PRACTICE_PER_DAY, PLACEMENT: PLACEMENT }
   };
 }());
 

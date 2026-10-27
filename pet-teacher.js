@@ -97,6 +97,10 @@ window.GaussicaPetTeacher = (function () {
     line.appendChild(coins(i.balance));
     line.appendChild(document.createTextNode(" mynt att spendera · " + i.items + (i.items === 1 ? " sak" : " saker") + " köpta · " + i.total + " mynt intjänade totalt"));
     box.appendChild(line);
+    const use = i.pet.use;
+    if (use && (use.fed || use.played)) {
+      box.appendChild(el("p", "tv-muted", "🍎 Har gett " + (use.fed || 0) + (use.fed === 1 ? " godsak" : " godsaker") + " och lekt " + (use.played || 0) + (use.played === 1 ? " gång" : " gånger") + ". Vänskap: " + window.GaussicaPet.levelOf(i.pet).name.toLowerCase() + ". (De mynten är redan avdragna ovan.)"));
+    }
 
     if (i.gifts.length) {
       const list = el("ul", "tv-pet-gifts");

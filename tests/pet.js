@@ -40,7 +40,7 @@ Object.keys(Art.KINDS).forEach((kind) => {
     });
   });
   const f = Art.face({ kind: kind, color: "x", worn: { hat: "hatt-keps" } }, "happy");
-  ok(/viewBox="40 14 120 110"/.test(f), kind + ": the small face is cut out of the whole");
+  ok(/viewBox="-?\d+ \d+ \d+ \d+"/.test(f) && !/viewBox="0 0 200 200"/.test(f), kind + ": the small face is cut out of the whole");
 });
 Art.ITEMS.forEach((it) => ok(/viewBox="[\d. -]+"/.test(Art.thumb(it.id)) && !/NaN/.test(Art.thumb(it.id)), it.id + ": a thumbnail"));
 ok(Art.svg({ kind: "ghost", color: "?", worn: { hat: "finns-inte" } }).indexOf("pet-dog") > 0, "an unknown animal becomes a dog");
@@ -160,6 +160,73 @@ const doneLesson = lessons.find((l) => l.area === "tal" && !l.isParentLesson && 
 const prog = { [doneLesson.id]: { started: true, answers: Object.fromEntries(L.tasks(doneLesson).map((t) => [t.id, { answer: "x", feedbackType: "correct", completed: true }])) } };
 const counts = Pet.areaCounts({ lessons: lessons, getProgress: (id) => prog[id] });
 ok(counts.tal === 1 && !counts.geometri, "finished lessons are counted per area: " + JSON.stringify(counts));
+
+
+// ----- more animals -----
+const NINE = ["dog", "tax", "cat", "penguin", "rabbit", "hedgehog", "fox", "hamster", "dragon"];
+ok(NINE.every((k) => Art.KINDS[k]) && Object.keys(Art.KINDS).length === 9, "nine animals");
+NINE.forEach((k) => {
+  const likes = Art.KINDS[k].likes;
+  ok(likes && Art.thing(likes.food) && Art.thing(likes.food).type === "food" && Art.thing(likes.toy) && Art.thing(likes.toy).type === "toy", k + ": a favourite food and a favourite toy that exist");
+  ok(Pet.makePet(k, "?", "").kind === k && Pet.makePet(k, "?", "").name === Art.KINDS[k].names[0], k + ": can be chosen, with a default name");
+});
+ok(new Set(NINE.map((k) => Art.KINDS[k].name)).size === 9, "every animal has its own name");
+
+// ----- food and play -----
+ok(Art.FOODS.length >= 6 && Art.TOYS.length >= 5, "there are treats and toys to choose from");
+[].concat(Art.FOODS, Art.TOYS).forEach((x) => {
+  ok(x.price >= 1 && x.price <= 5 && x.name && x.a && x.pl, x.id + ": a name, a price and the words for it");
+  ok(/viewBox="0 0 60 60"/.test(Art.snack(x.id)) && !/NaN|undefined/.test(Art.snack(x.id)), x.id + ": can be drawn");
+  ok(x.type === "food" || (x.type === "toy" && ["bounce", "fly", "roll", "float"].includes(x.motion)), x.id + ": a type, and a motion for toys");
+});
+ok(new Set([].concat(Art.FOODS, Art.TOYS).map((x) => x.id)).size === Art.FOODS.length + Art.TOYS.length, "treats and toys have their own ids");
+ok(!Art.ITEMS.some((i) => Art.thing(i.id)), "treats and toys do not share ids with the shop");
+
+const NOON = new Date(2026, 9, 27, 12).getTime(), NEXT_DAY = new Date(2026, 9, 28, 9).getTime();
+const buddy = Pet.makePet("rabbit", "vit", "Nusse");
+let c = Pet.useThing(buddy, "morot", 1, NOON);
+ok(c.error && /1 mynt till/.test(c.error), "too few coins: " + c.error);
+ok(Pet.useThing(buddy, "finns-inte", 99, NOON).error, "an unknown thing is refused");
+c = Pet.useThing(buddy, "morot", 10, NOON);
+ok(!c.error && c.favorite && c.pet.use.spent === 2 && c.pet.use.love === 2 && c.pet.use.fed === 1 && c.pet.use.food === 1 && c.pet.use.play === 0, "the favourite food: costs 2, gives two hearts");
+ok(Pet.spentOf(c.pet) === 2 && Pet.balanceOf(10, c.pet) === 8, "what was spent on treats is taken from the balance");
+ok(buddy.use === undefined && Pet.spentOf(buddy) === 0, "the old pet is not changed");
+c = Pet.useThing(c.pet, "fisk", 10, NOON);
+ok(!c.error && !c.favorite && c.pet.use.love === 3 && c.pet.use.spent === 5, "another food: one heart");
+c = Pet.useThing(c.pet, "applet", 10, NOON);
+ok(!c.error && Pet.usedToday(c.pet, NOON).food === 3, "three treats today");
+const full = Pet.useThing(c.pet, "applet", 99, NOON);
+ok(full.error && /mätt/.test(full.error) && !full.pet, "a fourth treat the same day: full, and nothing is charged");
+ok(!Pet.useThing(c.pet, "boll", 99, NOON).error, "toys are separate from treats");
+ok(!Pet.useThing(c.pet, "applet", 99, NEXT_DAY).error && Pet.usedToday(c.pet, NEXT_DAY).food === 0, "a new day starts from zero");
+let played = c.pet;
+for (let i = 0; i < Pet.LIMITS.PLAY_PER_DAY; i++) played = Pet.useThing(played, "boll", 99, NOON).pet;
+const tired = Pet.useThing(played, "boll", 99, NOON);
+ok(tired.error && /trött/.test(tired.error) && played.use.played === Pet.LIMITS.PLAY_PER_DAY, "after five plays the pet is tired");
+ok(played.use.fed === 3 && played.use.food === 3 && played.use.play === 5, "the day and the totals are counted separately");
+const after = Pet.useThing(played, "boll", 99, NEXT_DAY);
+ok(!after.error && after.pet.use.played === Pet.LIMITS.PLAY_PER_DAY + 1 && after.pet.use.play === 1 && after.pet.use.food === 0, "the totals keep growing across days");
+
+// the friendship
+ok(Pet.levelOf(buddy).index === 0 && Pet.levelOf(buddy).name === "Nya vänner" && Pet.levelOf(buddy).next.at === 6, "a new pet: Nya vänner, the next step at 6 hearts");
+let p6 = Object.assign({}, buddy, { use: { love: 5 } });
+const up = Pet.useThing(p6, "boll", 99, NOON);
+ok(up.levelUp === "Kompisar" && Pet.levelOf(up.pet).index === 1, "the sixth heart: Kompisar, and the move is reported");
+ok(Pet.useThing(up.pet, "boll", 99, NOON).levelUp === null, "no news while the level stays");
+ok(Pet.levelOf({ use: { love: 20 } }).name === "Bästisar" && Pet.levelOf({ use: { love: 50 } }).next === null && Pet.levelOf({ use: { love: 500 } }).index === 3, "the steps go on to Superbästisar, which is the last");
+ok(Pet.levelOf({ use: { love: -4 } }).index === 0 && Pet.levelOf({}).index === 0 && Pet.levelOf(null).index === 0, "odd records are handled");
+ok(Pet.useThing(Object.assign({}, buddy, { use: { love: 19, day: "x" } }), "frisbee", 99, NOON).levelUp === "Bästisar", "a favourite toy of another animal is not special, but the steps are counted right");
+
+// favourites are per animal
+["dog", "cat", "fox", "dragon"].forEach((k) => {
+  const pp = Pet.makePet(k, "?", "x");
+  const r1 = Pet.useThing(pp, Art.KINDS[k].likes.food, 99, NOON), r2 = Pet.useThing(pp, Art.KINDS[k].likes.toy, 99, NOON);
+  ok(r1.favorite && r2.favorite && r1.pet.use.love === 2 && r2.pet.use.love === 2, k + ": loves its favourites");
+});
+ok(!Pet.useThing(Pet.makePet("cat", "?", "x"), "morot", 99, NOON).favorite, "the cat does not love carrots");
+ok(/älskar morötter/.test(Pet.careMessage(buddy, { thing: Art.thing("morot"), favorite: true, levelUp: null })) && /Mums! Nusse åt en morot/.test(Pet.careMessage(buddy, { thing: Art.thing("morot"), favorite: false })) &&
+  /lekte med en boll/.test(Pet.careMessage(buddy, { thing: Art.thing("boll"), favorite: false })) && /Nu är ni kompisar/.test(Pet.careMessage(buddy, { thing: Art.thing("boll"), favorite: false, levelUp: "Kompisar" })), "the messages read well in Swedish");
+ok(!/[×—]/.test(JSON.stringify([Art.FOODS.map((x) => [x.name, x.a, x.pl]), Art.TOYS.map((x) => [x.name, x.a, x.pl])])), "no multiplication sign or em dash in the texts");
 
 
 console.log(failures ? failures + " FAILED" : "All pet checks passed (" + drawn + " drawings)");

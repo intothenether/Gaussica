@@ -1,0 +1,244 @@
+{
+  "id": "volym-prisma-cylinder",
+  "area": "geometri",
+  "title": "Volym: prisma och cylinder",
+  "level": "Bottenytan gånger höjden · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "volym",
+    "cirkelns-area"
+  ],
+  "summary": "Har en kropp samma tvärsnitt hela vägen är volymen bottenytans area gånger höjden. För en cylinder är bottnen en cirkel.",
+  "explanationTitle": "Bottenytan gånger höjden",
+  "explanation": "Problemet: Hur mycket rymmer en burk, som är en cylinder, eller ett tält som är ett prisma? Vi har bara formler för rätblock. Men det finns ett knep som fungerar för många kroppar. Om kroppen har samma tvärsnitt hela vägen, alltså bottenytan är lika stor överallt, är volymen bottenytans area gånger höjden: V = B · h. För ett rätblock är B längd · bredd. För ett triangulärt prisma är B arean av triangeln. För en cylinder är bottnen en cirkel, B = π · r · r, så V = π · r · r · h. Räkna med π ≈ 3,14 när du räknar för hand. Volym mäts i kubikenheter, till exempel cm³.",
+  "visual": {
+    "type": "tabell",
+    "title": "Volym med bottenytan",
+    "headers": [
+      "Kropp",
+      "Bottenyta B",
+      "Volym V"
+    ],
+    "rows": [
+      [
+        "Rätblock",
+        "l · b",
+        "B · h"
+      ],
+      [
+        "Triangulärt prisma",
+        "bas · höjd delat med 2",
+        "B · h"
+      ],
+      [
+        "Cylinder",
+        "π · r · r",
+        "B · h"
+      ]
+    ]
+  },
+  "rule": "Volym = bottenytans area · höjden. För en cylinder: V = π · r · r · h.",
+  "ruleLabel": "PRISMA OCH CYLINDER",
+  "example": "En cylinder med radien 3 cm och höjden 10 cm: B = 3,14 · 3 · 3 = 28,26 cm² och V = 28,26 · 10 = 282,6 cm³.",
+  "practice": [
+    {
+      "id": "prisma",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "B": [
+          6,
+          30
+        ],
+        "h": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Ett prisma har bottenytan {B} cm² och höjden {h} cm. Vilken volym har det i cm³?",
+      "answer": [
+        "=B*h",
+        "{B*h} cm3",
+        "{B*h} cm³"
+      ],
+      "correct": "Rätt! Volymen är {B} · {h} = {B*h} cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "=B+h"
+          ],
+          "message": "Du har lagt ihop. Volymen är bottenytans area gånger höjden."
+        }
+      ]
+    },
+    {
+      "id": "tri-prisma",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "b": [
+          2,
+          8,
+          2
+        ],
+        "t": [
+          2,
+          6
+        ],
+        "h": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Ett triangulärt prisma har en triangel som botten med basen {b} m och höjden {t} m. Prismat är {h} m långt. Vilken volym har det i m³?",
+      "answer": [
+        "=b*t/2*h",
+        "{b*t/2*h} m3",
+        "{b*t/2*h} m³"
+      ],
+      "correct": "Rätt! Triangelns area är {b} · {t} delat med 2 = {b*t/2} m², och volymen är {b*t/2} · {h} = {b*t/2*h} m³.",
+      "feedback": [
+        {
+          "answers": [
+            "=b*t*h"
+          ],
+          "message": "Triangelns area är bas gånger höjd delat med 2. Använd den som bottenyta."
+        }
+      ]
+    },
+    {
+      "id": "cylinder",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "r": [
+          2,
+          6
+        ],
+        "h": [
+          3,
+          10
+        ]
+      },
+      "prompt": "En cylinder har radien {r} cm och höjden {h} cm. Räkna med π = 3,14. Vilken volym har den i cm³?",
+      "answer": [
+        "=3.14*r*r*h",
+        "{3.14*r*r*h} cm3",
+        "{3.14*r*r*h} cm³"
+      ],
+      "correct": "Rätt! Bottenytan är 3,14 · {r} · {r} = {3.14*r*r} cm², och volymen är {3.14*r*r} · {h} = {3.14*r*r*h} cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "=3.14*r*h"
+          ],
+          "message": "Radien ska multipliceras med sig själv: {r} · {r}, inte bara {r}."
+        },
+        {
+          "answers": [
+            "=3.14*r*r"
+          ],
+          "message": "{3.14*r*r} cm² är bottenytan. Multiplicera den med höjden {h} cm."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Ett prisma har en bottenyta med arean 12 cm² och höjden 5 cm. Vilken volym har det i cm³?",
+    "answer": [
+      "60",
+      "60 cm3",
+      "60 cm³"
+    ],
+    "correct": "Rätt! Volymen är bottenytan gånger höjden: 12 · 5 = 60 cm³.",
+    "feedback": [
+      {
+        "answers": [
+          "17"
+        ],
+        "message": "17 får du om du lägger ihop. Volymen är bottenytans area gånger höjden."
+      },
+      {
+        "answers": [
+          "120"
+        ],
+        "message": "120 får du om du dubblar. Multiplicera arean 12 med höjden 5."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett tält är ett triangulärt prisma. Triangelns bas är 3 m och dess höjd är 2 m. Tältet är 4 m långt. Vilken volym har det i m³?",
+      "answer": [
+        "12",
+        "12 m3",
+        "12 m³"
+      ],
+      "correct": "Rätt! Triangelns area är 3 · 2 delat med 2 = 3 m², och volymen är 3 · 4 = 12 m³.",
+      "feedback": [
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "Triangelns area är bas gånger höjd delat med 2, inte hela produkten. Då blir B = 3 m²."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "9 får du om du lägger ihop alla tre måtten. Volymen är bottenytan gånger längden."
+        }
+      ]
+    },
+    {
+      "prompt": "En burk är en cylinder med radien 5 cm och höjden 10 cm. Räkna med π = 3,14. Vilken volym har den i cm³?",
+      "answer": [
+        "785",
+        "785 cm3",
+        "785 cm³"
+      ],
+      "correct": "Rätt! Bottenytan är 3,14 · 5 · 5 = 78,5 cm², och volymen är 78,5 · 10 = 785 cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "78,5",
+            "78.5"
+          ],
+          "message": "78,5 cm² är bottenytan. Multiplicera den med höjden, 10 cm."
+        },
+        {
+          "answers": [
+            "157"
+          ],
+          "message": "Radien ska multipliceras med sig själv: 5 · 5 = 25, inte bara 5."
+        }
+      ]
+    },
+    {
+      "prompt": "En låda har volymen 60 cm³ och bottenytan 12 cm². Hur hög är lådan i cm?",
+      "answer": [
+        "5",
+        "5 cm"
+      ],
+      "correct": "Rätt! Höjden är volymen delat med bottenytan: 60 delat med 12 = 5 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "720"
+          ],
+          "message": "720 får du om du multiplicerar. Höjden är volymen delat med bottenytan."
+        },
+        {
+          "answers": [
+            "48"
+          ],
+          "message": "48 är 60 − 12. Dela volymen med bottenytans area."
+        }
+      ]
+    }
+  ]
+}

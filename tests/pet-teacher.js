@@ -42,5 +42,23 @@ ok(T.REASONS.length >= 4, "there are ready-made reasons");
 const own = Pet.earned({ lessons: lessons, student: student, getProgress: (id) => student.lessonProgress[id], lessonStars: (l) => window.GaussicaRewards.starsFor(l, student, lessons, (id) => student.lessonProgress[id]) });
 ok(own.total === i.total, "pet.js and the teacher view agree");
 
+// the box on the student's page is really drawn (a tiny stand-in for the page), with the line about treats and plays
+function fakeEl() {
+  const e = { children: [], style: {}, className: "", textContent: "", innerHTML: "", classList: { add() {}, remove() {} },
+    appendChild(c) { e.children.push(c); return c; }, append(...c) { c.forEach((x) => e.children.push(x)); }, setAttribute() {}, addEventListener() {}, replaceChildren() { e.children = []; } };
+  return e;
+}
+global.document = { createElement: fakeEl, createTextNode: (text) => ({ textContent: text, children: [] }) };
+const textOf = (n) => (n.textContent || "") + (n.children || []).map(textOf).join(" ");
+const box = (u) => T.detail(Object.assign({ name: "Kim Test", lessonProgress: {} }, u), Object.assign({ course: { lessons: lessons }, classes: [], inboxUnavailable: true, formatTimestamp: (x) => x }, {}));
+const cared = Object.assign({}, pet, { use: { fed: 3, played: 1, love: 6, spent: 8, day: "2026-10-27", food: 3, play: 1 } });
+let shown = textOf(box({ lessonProgress: { pet: cared, addition: done }, attempts: [], feedback: [] }));
+ok(/Har gett 3 godsaker och lekt 1 gång./.test(shown) && /Vänskap: kompisar/.test(shown), "the page shows the treats, the plays and the friendship: " + shown.slice(0, 200));
+shown = textOf(box({ lessonProgress: { pet: Object.assign({}, pet, { use: { fed: 1, played: 2, love: 3 } }) }, attempts: [], feedback: [] }));
+ok(/Har gett 1 godsak och lekt 2 gånger./.test(shown) && /nya vänner/.test(shown), "the singular and the plural read right");
+shown = textOf(box({ lessonProgress: { pet: pet }, attempts: [], feedback: [] }));
+ok(!/godsak/.test(shown), "no line when nothing has been given");
+ok(/mynt att spendera/.test(textOf(box({ lessonProgress: { pet: cared, addition: done }, attempts: [], feedback: [] }))), "the rest of the box is drawn too");
+
 console.log(failures ? failures + " FAILED" : "All pet teacher checks passed");
 process.exit(failures ? 1 : 0);

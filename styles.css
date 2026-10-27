@@ -4622,3 +4622,154 @@ html:is(.is-keyboard, .is-short) .pl-tools { display: none; }
 .account-danger summary { cursor: pointer; font: 800 13px "Nunito", sans-serif; color: #a8324d; }
 .account-danger[open] { display: grid; gap: 10px; }
 .tv-class .tv-btn.is-danger { margin-left: auto; }
+
+/* Taxen: svansen sitter längre ut på den långa kroppen */
+.pet-svg.pet-tax .pet-tail { transform-origin: 226px 143px; }
+
+/* de nya djuren: svansar och vingar sitter på andra ställen */
+.pet-svg.pet-dragon .pet-tail { transform-origin: 134px 160px; }
+.pet-svg.pet-fox .pet-tail { transform-origin: 134px 158px; }
+.pet-svg.pet-dragon .pet-wing-l { transform-origin: 70px 128px; }
+.pet-svg.pet-dragon .pet-wing-r { transform-origin: 130px 128px; }
+
+/* Mat och lek (pet.js): godsaker och leksaker som rör sig i bilden */
+.pet-stage { position: relative; }
+.pet-fx { position: absolute; left: 38%; top: 44%; z-index: 2; width: 24%; line-height: 0; pointer-events: none; }
+.pet-fx svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 2px 2px rgba(0,0,0,.2)); }
+.pet-fx-eat { animation: fx-eat 1.9s ease-in-out both; }
+.pet-fx-bounce { left: 6%; top: 62%; width: 20%; animation: fx-bounce 2.2s ease-in-out both; }
+.pet-fx-fly { left: 4%; top: 18%; width: 22%; animation: fx-fly 2.2s ease-in-out both; }
+.pet-fx-roll { left: 4%; top: 66%; width: 20%; animation: fx-roll 2.2s ease-out both; }
+.pet-fx-float { left: 68%; top: 56%; width: 20%; animation: fx-float 2.3s ease-in-out both; }
+@keyframes fx-eat {
+  0% { opacity: 0; transform: translate(150%, 120%) rotate(25deg) scale(1); }
+  15% { opacity: 1; }
+  45% { transform: translate(0, 0) rotate(0) scale(1); }
+  55% { transform: scale(.85); }
+  65% { transform: scale(1); }
+  75% { transform: scale(.6); }
+  88% { opacity: 1; transform: scale(.3); }
+  100% { opacity: 0; transform: scale(0); }
+}
+@keyframes fx-bounce {
+  0% { opacity: 0; transform: translate(0, 0); }
+  8% { opacity: 1; }
+  20% { transform: translate(60%, -190%); }
+  35% { transform: translate(120%, 0); }
+  50% { transform: translate(180%, -120%); }
+  65% { transform: translate(240%, 0); }
+  80% { transform: translate(285%, -55%); }
+  92% { opacity: 1; transform: translate(310%, 0); }
+  100% { opacity: 0; transform: translate(320%, 0); }
+}
+@keyframes fx-fly {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0); }
+  10% { opacity: 1; }
+  50% { transform: translate(190%, -40%) rotate(360deg); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate(360%, 60%) rotate(720deg); }
+}
+@keyframes fx-roll {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0); }
+  10% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; transform: translate(330%, 0) rotate(900deg); }
+}
+@keyframes fx-float {
+  0% { opacity: 0; transform: translate(0, 0) scale(.8); }
+  15% { opacity: 1; }
+  40% { transform: translate(-30%, -90%) scale(1); }
+  65% { transform: translate(10%, -170%) scale(1.05); }
+  100% { opacity: 0; transform: translate(-20%, -290%) scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) { .pet-fx { animation: none !important; opacity: 1; } }
+.pet-friend { display: grid; gap: 4px; margin-bottom: 8px; padding: 10px 14px; border-radius: 14px; background: #fff3cc; border: 2px solid #e3b04a; }
+.pet-hearts { font-size: 22px; letter-spacing: 3px; color: #d97a96; }
+.pet-hearts .is-full { color: #e0506d; }
+.pet-friend-line { margin: 0; }
+.pet-friend-sub { margin: 0; font-size: 13px; font-weight: 700; color: #7a5a14; }
+.pet-friend progress { width: 100%; height: 10px; accent-color: #e0506d; }
+.pet-today { margin: 8px 0; font-size: 13px; font-weight: 800; color: var(--muted); }
+.pet-care-item.is-fav { border-color: #e3b04a; background: #fffaf0; }
+
+/* Mina knepiga (notebook.js) */
+.nb-overlay { z-index: 21500; }
+.nb-panel { width: min(760px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding: 18px 22px 22px; }
+.nb-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.nb-head h2 { margin: 0; }
+.nb-lead { margin: 6px 0 12px; color: var(--muted); font-weight: 700; line-height: 1.5; }
+.nb-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; margin: 4px 0; }
+.nb-hint { margin: 4px 0 10px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.nb-list, .nb-done-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 10px; }
+.nb-item { display: grid; gap: 6px; padding: 12px 14px; border: 2px solid var(--border); border-radius: 16px; background: #fff; }
+.nb-item-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.nb-chip { padding: 2px 10px; border-radius: 999px; background: var(--sky-soft); color: var(--brand-dark); font-size: 12px; font-weight: 900; }
+.nb-count { font-size: 12px; font-weight: 800; color: var(--muted); }
+.nb-q { margin: 0; font: 800 17px/1.4 "Nunito", sans-serif; }
+.nb-facts { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; font-size: 14px; font-weight: 700; color: var(--muted); }
+.nb-dots { margin: 0; font-size: 13px; font-weight: 800; color: var(--muted); }
+.nb-dots span { margin-right: 2px; font-size: 16px; color: #b9c2d6; }
+.nb-dots .is-on { color: #43b581; }
+.nb-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.nb-know { border-color: #43b581; color: #2f7a4b; }
+.nb-example { padding: 10px 12px; border-radius: 12px; background: #f1faf4; }
+.nb-example[hidden] { display: none; }
+.nb-steps { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 3px; font-weight: 700; }
+.nb-empty { display: grid; justify-items: center; gap: 4px; padding: 22px 10px; text-align: center; font-weight: 800; }
+.nb-empty-emoji { font-size: 40px; }
+.nb-done { margin-top: 16px; padding: 10px 14px; border-radius: 14px; background: #f1faf4; border: 2px solid #cdeedd; }
+.nb-done summary { cursor: pointer; font-weight: 900; color: #2f7a4b; }
+.nb-done-list { gap: 4px; font-size: 14px; }
+
+/* Resan (journey.js) */
+.jn-card { margin: 0 0 18px; }
+.jn-card[hidden] { display: none; }
+.jn { padding: 14px 18px 16px; border: 3px solid #cfe3f7; border-radius: 22px; background: #fff; }
+.jn-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.jn-emoji { font-size: 30px; line-height: 1; }
+.jn-title h3 { margin: 0; font: 900 22px "Nunito", sans-serif; }
+.jn-title p { margin: 0; font-size: 14px; font-weight: 700; color: var(--muted); }
+.jn-areas { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+.jn-stage { line-height: 0; overflow-x: auto; border-radius: 22px; }
+.jn-svg { display: block; width: 100%; height: auto; border-radius: 22px; }
+.jn-stop { cursor: pointer; outline: none; }
+.jn-stop:hover circle:not(.jn-pulse) { filter: brightness(1.06); }
+.jn-pulse { transform-box: fill-box; transform-origin: center; animation: jn-pulse 1.8s ease-in-out infinite; }
+@keyframes jn-pulse { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.18); opacity: .35; } }
+.jn-pet .pet-svg { overflow: visible; }
+.jn-conf { animation: jn-fall 2.4s ease-out both; }
+@keyframes jn-fall { from { transform: translateY(-30px); opacity: 0; } to { opacity: 1; } }
+.jn-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.jn-nav .pet-btn:disabled { opacity: .4; cursor: not-allowed; }
+.jn-dots { display: flex; gap: 6px; }
+.jn-dot { width: 14px; height: 14px; padding: 0; border: 2px solid #9aa4b8; border-radius: 50%; background: #fff; cursor: pointer; }
+.jn-dot.is-full { background: #43b581; border-color: #2f8f64; }
+.jn-dot.is-on { box-shadow: 0 0 0 3px var(--sky-line); }
+.jn-caption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; min-height: 52px; margin-top: 10px; padding: 10px 14px; border-radius: 14px; background: var(--sky-soft); }
+.jn-caption-text { display: grid; gap: 2px; min-width: 0; }
+.jn-meta, .jn-hint { margin: 0; font-size: 13px; font-weight: 700; color: var(--muted); }
+.jn-party { margin: 10px 0 0; font-weight: 800; }
+@media (prefers-reduced-motion: reduce) { .jn-pulse, .jn-conf { animation: none !important; } }
+
+/* Planera efter mål (planner.js) */
+.pl-controls select { padding: 6px 10px; border: 2px solid var(--border); border-radius: 10px; font: 700 14px "Nunito", sans-serif; background: #fff; }
+.pl-goals { display: grid; gap: 6px; margin-top: 10px; max-height: 420px; overflow: auto; padding-right: 4px; }
+.pl-goal { display: grid; grid-template-columns: auto 1fr minmax(160px, 34%); align-items: center; gap: 4px 12px; padding: 8px 10px; border: 2px solid var(--border); border-radius: 12px; background: #fff; cursor: pointer; }
+.pl-goal:hover { background: var(--sky-soft); }
+.pl-goal.is-on { border-color: var(--brand-dark); background: var(--sky-soft); }
+.pl-goal-text { font-weight: 700; font-size: 14px; line-height: 1.4; }
+.pl-stage { display: inline-block; margin-right: 4px; padding: 1px 8px; border-radius: 999px; background: #e9edf5; font-size: 12px; font-weight: 900; }
+.pl-goal-meta { display: grid; gap: 2px; }
+@media (max-width: 640px) { .pl-goal { grid-template-columns: auto 1fr; } .pl-goal-meta { grid-column: 2; } }
+.pl-plan { margin-top: 14px; padding: 14px 16px; border: 3px solid var(--brand); border-radius: 18px; background: #fbfdff; display: grid; gap: 10px; }
+.pl-plan h4 { margin: 0; font: 900 18px "Nunito", sans-serif; }
+.pl-goal-title { margin: 0; font-weight: 800; }
+.pl-check { width: 34px; }
+.pl-lessons td { vertical-align: middle; }
+.pl-prov { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.pl-prov select { padding: 6px 10px; border: 2px solid var(--border); border-radius: 10px; font: 700 14px "Nunito", sans-serif; background: #fff; }
+.pl-prov select[hidden] { display: none; }
+.pl-count { margin: 0; font-weight: 800; }
+
+@media (max-width: 700px) { .jn-svg { min-width: 640px; } .jn { padding: 12px 12px 14px; } .jn-title h3 { font-size: 20px; } }
+.jn-stop:focus-visible .jn-hit { stroke: #2a2630; stroke-width: 2; stroke-dasharray: 4 3; }

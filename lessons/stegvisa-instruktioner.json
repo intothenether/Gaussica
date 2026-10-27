@@ -1,0 +1,246 @@
+{
+  "id": "stegvisa-instruktioner",
+  "area": "algebra",
+  "title": "Stegvisa instruktioner",
+  "level": "Ordningen spelar roll · ungefär åk 3",
+  "grade": 3,
+  "duration": "7 min",
+  "prerequisites": [
+    "addition",
+    "var-ar-det"
+  ],
+  "summary": "En instruktion består av steg som görs i en viss ordning. Byter du ordning kan resultatet bli ett annat.",
+  "explanationTitle": "Gör ett steg i taget, i rätt ordning",
+  "explanation": "Problemet: Du ska tala om för en kompis hur man gör en smörgås, eller för en robot hur den ska gå till dörren. Säger du bara gör en smörgås vet de inte vad de ska göra först. Det går också fel om stegen kommer i fel ordning: du kan inte lägga osten på brödet innan brödet ligger framme. Vi behöver instruktioner i steg. Varje steg är en enkel sak som går att göra. Stegen görs ett i taget, uppifrån och ned. Ordningen spelar roll. Gör du 5 + 3 och dubblar sedan får du 16. Dubblar du först och lägger till 3 sedan får du 13. Samma steg i olika ordning ger olika svar. Så får också en dator sina instruktioner: steg för steg.",
+  "visual": {
+    "type": "tabell",
+    "title": "Samma steg, olika ordning",
+    "headers": [
+      "Ordning",
+      "Räkning",
+      "Svar"
+    ],
+    "rows": [
+      [
+        "Lägg till 3, sedan dubbla",
+        "(5 + 3) · 2",
+        "16"
+      ],
+      [
+        "Dubbla, sedan lägg till 3",
+        "5 · 2 + 3",
+        "13"
+      ]
+    ]
+  },
+  "rule": "Gör ett steg i taget, uppifrån och ned. Byter du ordning kan svaret ändras.",
+  "ruleLabel": "STEGVISA INSTRUKTIONER",
+  "example": "Start på 4. Steg 1: lägg till 2, det blir 6. Steg 2: dubbla, det blir 12. Steg 3: dra bort 1, det blir 11. Svaret är 11.",
+  "practice": [
+    {
+      "id": "tva-steg",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Start på {a}. Steg 1: lägg till {b}. Steg 2: dubbla talet. Vilket tal får du?",
+      "answer": [
+        "=(a+b)*2"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b}, och dubblar du {a+b} blir det {(a+b)*2}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*2+b"
+          ],
+          "message": "Det får du om du dubblar först. Gör stegen i den ordning de står: lägg till {b} först."
+        },
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} är talet efter steg 1. Gör också steg 2: dubbla."
+        }
+      ]
+    },
+    {
+      "id": "tre-steg",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "d": [
+          1,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "a*2+b-d",
+          "min": 1
+        }
+      ],
+      "prompt": "Start på {a}. Steg 1: dubbla talet. Steg 2: lägg till {b}. Steg 3: dra bort {d}. Vilket tal får du?",
+      "answer": [
+        "=a*2+b-d"
+      ],
+      "correct": "Rätt! {a} dubbelt är {a*2}, {a*2} + {b} = {a*2+b} och {a*2+b} − {d} = {a*2+b-d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*2+b"
+          ],
+          "message": "{a*2+b} är talet efter steg 2. Gör också steg 3: dra bort {d}."
+        },
+        {
+          "answers": [
+            "=(a+b)*2-d"
+          ],
+          "message": "Stegen görs i ordning: dubbla {a} först, lägg sedan till {b}."
+        }
+      ]
+    },
+    {
+      "id": "robot",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          8
+        ],
+        "f": [
+          4,
+          8
+        ],
+        "g": [
+          1,
+          3
+        ]
+      },
+      "prompt": "En robot står vid {a} på tallinjen. Den går {f} steg framåt och sedan {g} steg bakåt. Vilket tal står den på nu?",
+      "answer": [
+        "=a+f-g"
+      ],
+      "correct": "Rätt! {a} + {f} = {a+f}, och {g} steg bakåt ger {a+f-g}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+f"
+          ],
+          "message": "Det sista steget går bakåt. Dra bort {g}."
+        },
+        {
+          "answers": [
+            "=a+f+g"
+          ],
+          "message": "Bakåt gör talet mindre, så dra bort {g} i stället för att lägga till."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Start på 6. Steg 1: lägg till 4. Steg 2: dubbla talet. Vilket tal får du?",
+    "answer": [
+      "20"
+    ],
+    "correct": "Rätt! 6 + 4 = 10, och dubblar du 10 blir det 20.",
+    "feedback": [
+      {
+        "answers": [
+          "16"
+        ],
+        "message": "16 får du om du dubblar först. Stegen görs i den ordning de står: lägg till 4 först, dubbla sedan."
+      },
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "10 är talet efter steg 1. Det finns ett steg till: dubbla."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En robot står på tallinjen vid 2. Den går tre steg framåt, sedan två steg framåt och sedan ett steg bakåt. Vilket tal står den på nu?",
+      "answer": [
+        "6"
+      ],
+      "correct": "Rätt! 2 + 3 + 2 = 7, och ett steg bakåt ger 6.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 blir det efter de två första stegen. Gör också det sista steget: ett steg bakåt."
+        },
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "Roboten börjar på 2, inte på 0. Lägg till framåtstegen på 2."
+        }
+      ]
+    },
+    {
+      "prompt": "Mira tänker på ett tal. Hon lägger till 5 och drar sedan bort 2. Nu har hon 10. Vilket tal tänkte hon på?",
+      "answer": [
+        "7"
+      ],
+      "correct": "Rätt! Gå baklänges: 10 + 2 = 12, och 12 − 5 = 7. Kontroll: 7 + 5 − 2 = 10.",
+      "feedback": [
+        {
+          "answers": [
+            "13"
+          ],
+          "message": "13 får du om du gör stegen framåt på 10. Gå baklänges: lägg till 2 och dra sedan bort 5."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är vad stegen ändrar talet med. Det talet Mira tänkte på är 3 mindre än 10."
+        }
+      ]
+    },
+    {
+      "prompt": "Start på 3. Steg 1: dubbla talet. Steg 2: lägg till 4. Steg 3: dra bort 5. Vilket tal får du?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! 3 dubbelt är 6, 6 + 4 = 10 och 10 − 5 = 5.",
+      "feedback": [
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 är talet efter steg 2. Det finns ett steg kvar: dra bort 5."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "Gör stegen i ordning: dubbla 3 först, lägg sedan till 4 och dra bort 5."
+        }
+      ]
+    }
+  ]
+}

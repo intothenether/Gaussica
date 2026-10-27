@@ -1,0 +1,287 @@
+{
+  "id": "sammansatta-figurer",
+  "area": "geometri",
+  "title": "Area av sammansatta figurer",
+  "level": "Dela upp eller dra bort · ungefär åk 7",
+  "grade": 7,
+  "duration": "9 min",
+  "prerequisites": [
+    "rektangelns-area",
+    "triangelns-area"
+  ],
+  "summary": "En figur som är sammansatt delar du upp i delar du kan räkna, och lägger ihop. Ibland räknar du en stor figur och drar bort en bit.",
+  "explanationTitle": "Dela upp figuren",
+  "explanation": "Problemet: Ett hus sett framifrån har en rektangulär vägg och ett triangelformat tak. Hur stor är hela fasaden? Det finns ingen färdig formel för husets form. Men vi kan dela upp den i figurer vi kan: en rektangel och en triangel. Räkna ut varje del och lägg ihop areorna. Ibland är det lättare att tänka tvärtom: räkna den stora rektangeln och dra bort den bit som saknas. Rita figuren, dela den, räkna delarna och lägg ihop eller dra bort.",
+  "visual": {
+    "type": "tabell",
+    "title": "Hus: rektangel och tak",
+    "headers": [
+      "Del",
+      "Räkning",
+      "Area"
+    ],
+    "rows": [
+      [
+        "Rektangel 8 cm · 5 cm",
+        "8 · 5",
+        "40 cm²"
+      ],
+      [
+        "Triangel, bas 8 cm och höjd 3 cm",
+        "8 · 3 delat med 2",
+        "12 cm²"
+      ],
+      [
+        "Hela figuren",
+        "40 + 12",
+        "52 cm²"
+      ]
+    ]
+  },
+  "rule": "Dela upp i delar du kan räkna och lägg ihop. Eller räkna en stor figur och dra bort det som saknas.",
+  "ruleLabel": "SAMMANSATTA FIGURER",
+  "example": "En L-formad figur är en rektangel 6 · 4 = 24 cm² och en rektangel 2 · 3 = 6 cm². Arean är 24 + 6 = 30 cm².",
+  "practice": [
+    {
+      "id": "tva-rektanglar",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          4,
+          12
+        ],
+        "b": [
+          2,
+          8
+        ],
+        "c": [
+          2,
+          6
+        ],
+        "d": [
+          2,
+          6
+        ]
+      },
+      "prompt": "En figur består av en rektangel som är {a} cm · {b} cm och en rektangel som är {c} cm · {d} cm. Vilken area har figuren i cm²?",
+      "answer": [
+        "=a*b+c*d",
+        "{a*b+c*d} cm2",
+        "{a*b+c*d}cm2",
+        "{a*b+c*d} cm²",
+        "{a*b+c*d}cm²"
+      ],
+      "correct": "Rätt! {a} · {b} = {a*b} och {c} · {d} = {c*d}, och {a*b} + {c*d} = {a*b+c*d} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "Du har bara räknat den första rektangeln. Lägg till arean av den andra."
+        },
+        {
+          "answers": [
+            "=(a+c)*(b+d)"
+          ],
+          "message": "Rektanglarna bildar inte en stor rektangel. Räkna varje rektangel för sig och lägg ihop."
+        }
+      ]
+    },
+    {
+      "id": "bortklippt",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          8,
+          14
+        ],
+        "b": [
+          5,
+          9
+        ],
+        "c": [
+          2,
+          4
+        ],
+        "d": [
+          2,
+          4
+        ]
+      },
+      "prompt": "En rektangel är {a} m · {b} m. En bit som är {c} m · {d} m är bortklippt i ett hörn. Vilken area har figuren som blir kvar, i m²?",
+      "answer": [
+        "=a*b-c*d",
+        "{a*b-c*d} m2",
+        "{a*b-c*d}m2",
+        "{a*b-c*d} m²",
+        "{a*b-c*d}m²"
+      ],
+      "correct": "Rätt! {a} · {b} = {a*b} och {c} · {d} = {c*d}, och {a*b} − {c*d} = {a*b-c*d} m².",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b+c*d"
+          ],
+          "message": "Biten är bortklippt, så dra bort dess area i stället för att lägga till den."
+        },
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "{a*b} m² är hela rektangeln. Dra bort den bortklippta biten."
+        }
+      ]
+    },
+    {
+      "id": "hus",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          4,
+          12,
+          2
+        ],
+        "b": [
+          3,
+          8
+        ],
+        "h": [
+          2,
+          4,
+          2
+        ]
+      },
+      "prompt": "Ett hus har en fasad som är en rektangel, {a} m bred och {b} m hög, med ett triangeltak med basen {a} m och höjden {h} m. Vilken area har fasaden, i m²?",
+      "answer": [
+        "=a*b+a*h/2",
+        "{a*b+a*h/2} m2",
+        "{a*b+a*h/2}m2",
+        "{a*b+a*h/2} m²",
+        "{a*b+a*h/2}m²"
+      ],
+      "correct": "Rätt! Rektangeln är {a} · {b} = {a*b} och triangeln är {a} · {h} delat med 2 = {a*h/2}. Tillsammans {a*b+a*h/2} m².",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b+a*h"
+          ],
+          "message": "En triangel är hälften av en rektangel: bas gånger höjd delat med 2."
+        },
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "{a*b} m² är bara väggen. Lägg till arean av taket."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En figur består av en rektangel som är 7 cm · 4 cm och en rektangel som är 3 cm · 2 cm. Vilken area har figuren i cm²?",
+    "answer": [
+      "34",
+      "34 cm2",
+      "34cm2",
+      "34 cm²",
+      "34cm²"
+    ],
+    "correct": "Rätt! 7 · 4 = 28 och 3 · 2 = 6, och 28 + 6 = 34 cm².",
+    "feedback": [
+      {
+        "answers": [
+          "28"
+        ],
+        "message": "28 är bara den första rektangeln. Lägg till arean av den andra."
+      },
+      {
+        "answers": [
+          "11"
+        ],
+        "message": "11 får du om du lägger ihop sidorna 7 och 4. Räkna ut varje rektangels area med längd gånger bredd."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En rektangel är 10 m · 6 m. En bit som är 2 m · 3 m är bortklippt i ett hörn. Vilken area har figuren som blir kvar, i m²?",
+      "answer": [
+        "54",
+        "54 m2",
+        "54m2",
+        "54 m²",
+        "54m²"
+      ],
+      "correct": "Rätt! 10 · 6 = 60 och 2 · 3 = 6, och 60 − 6 = 54 m².",
+      "feedback": [
+        {
+          "answers": [
+            "66"
+          ],
+          "message": "Biten är bortklippt, så dra bort dess area. Lägg inte till den."
+        },
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 m² är hela rektangeln. Dra bort den bortklippta biten, 2 · 3."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett hus har en fasad som är en rektangel, 8 m bred och 5 m hög, med ett triangeltak med basen 8 m och höjden 3 m. Vilken area har fasaden, i m²?",
+      "answer": [
+        "52",
+        "52 m2",
+        "52m2",
+        "52 m²",
+        "52m²"
+      ],
+      "correct": "Rätt! Rektangeln är 8 · 5 = 40 m² och triangeln är 8 · 3 delat med 2 = 12 m². Tillsammans 52 m².",
+      "feedback": [
+        {
+          "answers": [
+            "64"
+          ],
+          "message": "64 får du om du räknar triangeln som 8 · 3 = 24. En triangel är hälften av en rektangel: dela med 2."
+        },
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "40 m² är bara väggen. Lägg till arean av taket."
+        }
+      ]
+    },
+    {
+      "prompt": "En trädgård har formen av ett L. Den består av en rektangel som är 12 m · 5 m och en rektangel som är 4 m · 3 m. Vilken area har trädgården, i m²?",
+      "answer": [
+        "72",
+        "72 m2",
+        "72m2",
+        "72 m²",
+        "72m²"
+      ],
+      "correct": "Rätt! 12 · 5 = 60 och 4 · 3 = 12, och 60 + 12 = 72 m².",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 m² är bara den stora rektangeln. Lägg till den andra."
+        },
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "24 får du om du lägger ihop alla fyra sidorna. Räkna längd gånger bredd för varje rektangel."
+        }
+      ]
+    }
+  ]
+}

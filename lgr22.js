@@ -73,6 +73,7 @@ window.GaussicaLgr22 = (function () {
     ["g79-cirkel", "7-9", "geometri", "Cirkelns omkrets och area"],
     ["g79-area", "7-9", "geometri", "Area och volym för sammansatta figurer"],
     ["g79-pyth", "7-9", "geometri", "Pythagoras sats och trigonometri i rätvinkliga trianglar"],
+    ["g79-likform", "7-9", "geometri", "Likformighet och skala: hur längder, areor och volymer förändras vid förstoring"],
     ["s13-tabell", "1-3", "statistik", "Tabeller och enkla diagram: läsa och göra egna"],
     ["s13-slump", "1-3", "statistik", "Slumpmässiga händelser i vardagen: säkert, möjligt, omöjligt"],
     ["s46-diagram", "4-6", "statistik", "Tabeller och diagram: läsa, jämföra och skapa"],
@@ -80,6 +81,7 @@ window.GaussicaLgr22 = (function () {
     ["s46-sannolik", "4-6", "statistik", "Sannolikhet: slumpmässiga händelser och hur chans kan uttryckas"],
     ["s79-komb", "7-9", "statistik", "Kombinatorik"],
     ["s79-sannolik", "7-9", "statistik", "Sannolikhet i flera steg, träddiagram"],
+    ["s79-stat", "7-9", "statistik", "Spridningsmått och lådagram, och att granska statistik och diagram kritiskt"],
     ["sf46-prop", "4-6", "samband", "Proportionalitet och förhållande i enkla situationer"],
     ["sf46-skala", "4-6", "samband", "Skala: förminska och förstora"],
     ["sf46-koord", "4-6", "samband", "Koordinatsystem: läsa av och sätta ut punkter"],
@@ -131,6 +133,13 @@ window.GaussicaLgr22 = (function () {
     // the lessons for years 3 to 5 that were added to fill the gaps
     "monster-fortsatt": ["a13-monster"], "mata-langd": ["g13-mat"], "var-ar-det": ["g13-lage"], "tabell-lasa": ["s13-tabell"],
     "halvor-fjardedelar": ["t13-brak"], "udda-jamna": ["t13-tal"], "sakert-mojligt": ["s13-slump"], "problemlosning-rita": ["p13", "p46"],
+    // the lessons that were added to fill the remaining gaps
+    "stegvisa-instruktioner": ["a13-algo"], "kalendern": ["g13-tid"], "tidsintervall": ["g46-mat"], "okant-tal": ["a46-obek"],
+    "formler": ["a46-obek", "a79-uttr"], "monster-regel": ["a46-monster"], "hastighet": ["sf46-prop", "g46-mat"],
+    "avrunda-decimaltal": ["t46-pos", "t46-metoder"], "relativ-frekvens": ["s46-sannolik"], "vilseledande-diagram": ["s79-stat", "s46-diagram"],
+    "ladagram": ["s79-stat", "s46-lage"], "sammansatta-figurer": ["g79-area", "g46-omk"], "vinkelsumma-manghorningar": ["g46-vinkel", "g46-figur"],
+    "volym-prisma-cylinder": ["g79-area", "g46-omk"], "likformighet": ["g79-likform", "sf46-skala"], "division-av-brak": ["t79-rakna"],
+    "upprepad-procent": ["t79-procent"], "ekvation-fran-text": ["a79-ekv"],
     "trianglar-typer": ["g46-figur"], "linjediagram": ["s46-diagram"], "samma-tal-tre-satt": ["t46-brak", "t46-procent"], "pris-per-enhet": ["sf46-prop"]
   };
 

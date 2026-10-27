@@ -1,0 +1,243 @@
+{
+  "id": "ekvation-fran-text",
+  "area": "algebra",
+  "title": "Från text till ekvation",
+  "level": "Modellera och lös · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "ekvation"
+  ],
+  "summary": "En text kan skrivas som en ekvation. Du väljer vad som är x, skriver ekvationen, löser den och kontrollerar i texten.",
+  "explanationTitle": "Gör om texten till en ekvation",
+  "explanation": "Problemet: Ett mobilabonnemang kostar 99 kr i månaden plus 2 kr för varje extra sms. En månad blev räkningen 135 kr. Hur många extra sms skickades? Du kan prova dig fram, men det går fortare om du gör om texten till en ekvation. Steg 1: bestäm vad du söker och kalla det x. Steg 2: skriv det texten säger som en ekvation: 99 + 2 · x = 135. Steg 3: lös ekvationen: 2 · x = 36, så x = 18. Steg 4: kontrollera i texten: 99 + 2 · 18 = 135 stämmer, och svara med en hel mening.",
+  "visual": {
+    "type": "tabell",
+    "title": "Fyra steg",
+    "headers": [
+      "Steg",
+      "Vad du gör",
+      "Här"
+    ],
+    "rows": [
+      [
+        "1",
+        "Välj x",
+        "x = antal extra sms"
+      ],
+      [
+        "2",
+        "Skriv ekvationen",
+        "99 + 2 · x = 135"
+      ],
+      [
+        "3",
+        "Lös den",
+        "x = 18"
+      ],
+      [
+        "4",
+        "Kontrollera i texten",
+        "99 + 2 · 18 = 135"
+      ]
+    ]
+  },
+  "rule": "Kalla det du söker x, skriv ekvationen som texten beskriver, lös den och kontrollera i texten.",
+  "ruleLabel": "EKVATION FRÅN TEXT",
+  "example": "Ett tal multiplicerat med 3 och sedan plus 4 blir 19. 3 · x + 4 = 19, så 3 · x = 15 och x = 5.",
+  "practice": [
+    {
+      "id": "tal",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "x": [
+          2,
+          15
+        ],
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          20
+        ]
+      },
+      "prompt": "Ett tal multipliceras med {a} och sedan läggs {b} till. Resultatet är {a*x+b}. Vilket är talet?",
+      "answer": [
+        "=x"
+      ],
+      "correct": "Rätt! {a} · x + {b} = {a*x+b}, så {a} · x = {a*x} och x = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*x"
+          ],
+          "message": "{a*x} är resultatet efter att du ångrat plus. Dela också med {a}."
+        },
+        {
+          "answers": [
+            "=a*x+b"
+          ],
+          "message": "{a*x+b} är resultatet. Ångra plus med minus och sedan gånger med delat med."
+        }
+      ]
+    },
+    {
+      "id": "syskon",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "x": [
+          8,
+          20
+        ],
+        "d": [
+          2,
+          8
+        ]
+      },
+      "prompt": "Eva är x år gammal. Hennes bror är {d} år äldre. Tillsammans är de {2*x+d} år. Hur gammal är Eva?",
+      "answer": [
+        "=x",
+        "{x} år"
+      ],
+      "correct": "Rätt! x + (x + {d}) = {2*x+d}, så 2 · x = {2*x} och x = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x+d"
+          ],
+          "message": "{x+d} är broderns ålder. Frågan gäller Eva, som är {d} år yngre."
+        }
+      ]
+    },
+    {
+      "id": "abonnemang",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "s": [
+          50,
+          150,
+          10
+        ],
+        "p": [
+          2,
+          5
+        ],
+        "n": [
+          5,
+          40
+        ]
+      },
+      "prompt": "Ett abonnemang kostar {s} kr i månaden plus {p} kr per extra sms. En månad blev räkningen {s+p*n} kr. Hur många extra sms skickades?",
+      "answer": [
+        "=n",
+        "{n} sms"
+      ],
+      "correct": "Rätt! {s} + {p} · x = {s+p*n}, så {p} · x = {p*n} och x = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(s+p*n)/p"
+          ],
+          "message": "Dra bort den fasta avgiften {s} kr först, och dela sedan med {p}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Ett tal multipliceras med 4 och sedan läggs 6 till. Resultatet är 30. Vilket är talet?",
+    "answer": [
+      "6"
+    ],
+    "correct": "Rätt! 4 · x + 6 = 30, så 4 · x = 24 och x = 6.",
+    "feedback": [
+      {
+        "answers": [
+          "24"
+        ],
+        "message": "24 är 30 − 6, efter att du ångrat plus. Du har ännu inte delat med 4."
+      },
+      {
+        "answers": [
+          "36"
+        ],
+        "message": "36 får du om du lägger ihop 30 och 6. Ångra plus med minus."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett abonnemang kostar 99 kr i månaden plus 2 kr per extra sms. En månad blev räkningen 135 kr. Hur många extra sms skickades?",
+      "answer": [
+        "18",
+        "18 sms"
+      ],
+      "correct": "Rätt! 99 + 2 · x = 135, så 2 · x = 36 och x = 18.",
+      "feedback": [
+        {
+          "answers": [
+            "36"
+          ],
+          "message": "36 kr är pengarna för sms:en (135 − 99). Varje sms kostar 2 kr, så dela med 2."
+        },
+        {
+          "answers": [
+            "234"
+          ],
+          "message": "234 får du om du lägger ihop 99 och 135. Dra bort den fasta avgiften och dela sedan med priset per sms."
+        }
+      ]
+    },
+    {
+      "prompt": "Eva är x år gammal. Hennes bror är 5 år äldre. Tillsammans är de 31 år. Hur gammal är Eva?",
+      "answer": [
+        "13",
+        "13 år"
+      ],
+      "correct": "Rätt! x + (x + 5) = 31, så 2 · x = 26 och x = 13.",
+      "feedback": [
+        {
+          "answers": [
+            "26"
+          ],
+          "message": "26 är båda ålderna om brodern vore lika gammal som Eva. Dela med 2."
+        },
+        {
+          "answers": [
+            "18"
+          ],
+          "message": "18 är broderns ålder (13 + 5). Frågan gäller Eva."
+        }
+      ]
+    },
+    {
+      "prompt": "Tre vänner betalar lika mycket för pizza och dessutom 5 kr var för dricka. Tillsammans betalar de 63 kr. Vad kostar pizzan per person i kronor?",
+      "answer": [
+        "16",
+        "16 kr"
+      ],
+      "correct": "Rätt! 3 · (x + 5) = 63, så x + 5 = 21 och x = 16 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "21"
+          ],
+          "message": "21 kr är vad var och en betalar totalt. Dra bort drickan, 5 kr."
+        },
+        {
+          "answers": [
+            "58"
+          ],
+          "message": "58 får du om du drar bort 5 från 63. Pengarna ska delas på tre personer."
+        }
+      ]
+    }
+  ]
+}

@@ -269,7 +269,7 @@
         lessonId: lessonId,
         lessonTitle: (lesson && lesson.title) || lessonId,
         taskId: taskId,
-        taskName: practice ? (/^REPETERA/.test(labelText || "") ? "Repetera" : "Öva mer") : (labelText || taskId),
+        taskName: practice ? (/^REPETERA/.test(labelText || "") ? "Repetera" : /^MINA KNEPIGA/.test(labelText || "") ? "Mina knepiga" : "Öva mer") : (labelText || taskId),
         prompt: promptText || (lesson && taskId === "exercise" ? lesson.exercise.prompt : ""),
         answer: answer,
         scratchpad: entry.scratchpad,
@@ -783,6 +783,7 @@
         toolsCard.append(icon, copy, go);
       }
     }
+    renderJourneyAndNotebook();
     const trainCard = document.getElementById("train-card");
     if (trainCard) {
       if (course && isStudent()) window.GaussicaFluency.renderCard(trainCard, fluencyRecord(), { open: function () { window.location.hash = "#traning"; } });
@@ -828,6 +829,59 @@
         hero.setAttribute("href", "#play/" + next.lesson.id);
       }
     }
+  }
+
+  // "Mina knepiga" (notebook.js) and "Resan" (journey.js): the notebook of tricky questions and the road through an area
+  function notebookContext() { return { lessons: course.lessons, student: currentUser }; }
+
+  function renderJourneyAndNotebook() {
+    const knep = document.getElementById("knep-card");
+    const journey = document.getElementById("journey-card");
+    const student = Boolean(course && isStudent());
+    if (knep) {
+      if (student) window.GaussicaNotebook.renderCard(knep, notebookContext(), { open: function () { window.location.hash = "#knepiga"; } });
+      else { knep.replaceChildren(); knep.hidden = true; }
+    }
+    if (journey) {
+      if (!student) { journey.replaceChildren(); journey.hidden = true; return; }
+      const assigned = window.GaussicaMailbox.openLessonAssignments()[0];
+      const data = window.GaussicaCoach.path(coachContext(), assigned && assigned.a.lessonId);
+      window.GaussicaJourney.render(journey, coachContext(), {
+        nowLessonId: data.now && data.now.lesson.id,
+        pet: window.GaussicaPet ? window.GaussicaPet.current() : null,
+        petSvg: function (pet, size) { return window.GaussicaPetArt.svg(pet, { bare: true, size: size }); },
+        start: function (id) { window.location.hash = "#play/" + id; }
+      });
+    }
+  }
+
+  function saveNotebook(record) {
+    record.updatedAt = Date.now();
+    lessonProgress[window.GaussicaNotebook.KEY] = record;
+    dirtyLessons.add(window.GaussicaNotebook.KEY);
+    scheduleSave(300);
+  }
+
+  function openNotebook() {
+    if (!isStudent()) { window.location.hash = "#larstig"; return; }
+    window.GaussicaNotebook.open({
+      getContext: notebookContext,
+      save: function (record) { saveNotebook(record); renderCoach(); },
+      workedExample: workedExampleFor,
+      openLesson: function (id) { window.location.hash = "#play/" + id; },
+      startRetry: function () { window.location.hash = "#knepiga-trana"; },
+      onExit: function () { window.location.hash = "#larstig"; renderCoach(); }
+    });
+  }
+
+  function openNotebookRound() {
+    const options = {
+      title: "Mina knepiga",
+      backLabel: "Till Mina knepiga",
+      backHash: "#knepiga",
+      again: function () { openRound("knep", window.GaussicaNotebook.retryRound(notebookContext(), 5), options); }
+    };
+    openRound("knep", window.GaussicaNotebook.retryRound(notebookContext(), 5), options);
   }
 
   // Spaced repetition (coach.js): finished lessons get a place in the schedule, and a round of Repetera or Öva mer moves
@@ -3375,6 +3429,13 @@
     const practiceId = hash.indexOf("#practice/") === 0 ? decodeURIComponent(hash.slice(10)) : "";
     if (hash !== "#nivatest" && hash.indexOf("#prov/") !== 0) window.GaussicaTest.closeActive();
     if (hash !== "#traning") window.GaussicaFluency.closeActive();
+    if (hash !== "#knepiga") window.GaussicaNotebook.closeActive();
+    if (hash === "#knepiga" || hash === "#knepiga-trana") {
+      if (adminPage) adminPage.hidden = true;
+      if (studentView) studentView.hidden = false;
+      if (hash === "#knepiga") { window.GaussicaPlayer.close(true); openNotebook(); } else openNotebookRound();
+      return;
+    }
     if (hash === "#traning") {
       if (adminPage) adminPage.hidden = true;
       if (studentView) studentView.hidden = false;

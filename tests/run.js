@@ -92,7 +92,7 @@ async function withServer(fn) {
 
 async function api() {
   if (filter && "api".indexOf(filter) < 0) return;
-  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"], ["api delete", "tests/api-delete.js", "cookie"]]) {
+  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"], ["api delete", "tests/api-delete.js", "cookie"], ["api planner", "tests/api-planner.js", "cookie"]]) {
     try {
       await withServer(async (base, code, dir) => {
         const args = mode ? [base, mode, code] : [];
@@ -122,6 +122,9 @@ async function api() {
   run("worker deletion", "tests/worker-delete.js");
   run("school documents", "tests/school-docs.js");
   run("fonts", "tests/fonts.js");
+  run("notebook", "tests/notebook.js");
+  run("journey", "tests/journey.js");
+  run("planner", "tests/planner.js");
   run("placement test", "tests/placement.js");
   run("prov", "tests/prov.js");
   run("class heatmap", "tests/heatmap.js");

@@ -169,6 +169,24 @@
     "trianglar-typer.json",
     "linjediagram.json",
     "samma-tal-tre-satt.json",
-    "pris-per-enhet.json"
+    "pris-per-enhet.json",
+    "stegvisa-instruktioner.json",
+    "kalendern.json",
+    "tidsintervall.json",
+    "okant-tal.json",
+    "formler.json",
+    "monster-regel.json",
+    "hastighet.json",
+    "avrunda-decimaltal.json",
+    "relativ-frekvens.json",
+    "vilseledande-diagram.json",
+    "ladagram.json",
+    "sammansatta-figurer.json",
+    "vinkelsumma-manghorningar.json",
+    "volym-prisma-cylinder.json",
+    "likformighet.json",
+    "division-av-brak.json",
+    "upprepad-procent.json",
+    "ekvation-fran-text.json"
   ]
 }

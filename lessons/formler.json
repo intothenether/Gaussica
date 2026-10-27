@@ -1,0 +1,262 @@
+{
+  "id": "formler",
+  "area": "algebra",
+  "title": "Formler: en regel med bokstäver",
+  "level": "Sätt in och räkna · ungefär åk 6",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "okant-tal",
+    "operatorsordning"
+  ],
+  "summary": "En formel är en regel med bokstäver. Du sätter in ett värde för bokstaven och räknar ut svaret.",
+  "explanationTitle": "En regel som gäller varje gång",
+  "explanation": "Problemet: En taxi tar 40 kr för att starta och 15 kr för varje kilometer. Vad kostar 7 km, och vad kostar 12 km, och 20 km? Du vill inte hitta på en ny uträkning varje gång. Skriv i stället en regel som gäller alltid: en formel. Kostnaden är 40 + 15 · antal km. Bokstaven står för ett tal som kan ändras. Kallar vi antalet kilometer k och kostnaden K blir formeln K = 40 + 15 · k. Sätt in det k du vill och räkna ut. För k = 7 blir K = 40 + 15 · 7 = 145. Tänk på räkneordningen: gånger räknas före plus.",
+  "visual": {
+    "type": "tabell",
+    "title": "K = 40 + 15 · k",
+    "headers": [
+      "Antal km (k)",
+      "Uträkning",
+      "Kostnad (K)"
+    ],
+    "rows": [
+      [
+        "7",
+        "40 + 15 · 7",
+        "145 kr"
+      ],
+      [
+        "12",
+        "40 + 15 · 12",
+        "220 kr"
+      ],
+      [
+        "20",
+        "40 + 15 · 20",
+        "340 kr"
+      ]
+    ]
+  },
+  "rule": "En formel är en regel med bokstäver. Sätt in värdet och räkna, gånger före plus.",
+  "ruleLabel": "FORMEL",
+  "example": "K = 40 + 15 · k. För k = 4 blir K = 40 + 60 = 100 kr.",
+  "practice": [
+    {
+      "id": "satt-in",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "s": [
+          10,
+          60,
+          5
+        ],
+        "p": [
+          2,
+          9
+        ],
+        "n": [
+          2,
+          12
+        ]
+      },
+      "prompt": "Formeln är K = {s} + {p} · n. Vad blir K när n = {n}?",
+      "answer": [
+        "=s+p*n",
+        "{s+p*n} kr"
+      ],
+      "correct": "Rätt! {p} · {n} = {p*n}, och {s} + {p*n} = {s+p*n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(s+p)*n"
+          ],
+          "message": "Gånger räknas före plus: räkna {p} · {n} först, och lägg sedan till {s}."
+        },
+        {
+          "answers": [
+            "=p*n"
+          ],
+          "message": "{p*n} är bara delen med gånger. Lägg också till {s}."
+        }
+      ]
+    },
+    {
+      "id": "taxi",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "s": [
+          20,
+          60,
+          10
+        ],
+        "p": [
+          5,
+          25,
+          5
+        ],
+        "k": [
+          2,
+          12
+        ]
+      },
+      "prompt": "En taxiresa kostar {s} kr i startavgift och {p} kr per kilometer. Vad kostar {k} km?",
+      "answer": [
+        "=s+p*k",
+        "{s+p*k} kr"
+      ],
+      "correct": "Rätt! {k} · {p} = {p*k}, och {s} + {p*k} = {s+p*k} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=(s+p)*k"
+          ],
+          "message": "Startavgiften betalas bara en gång. Räkna {p} · {k} först och lägg sedan till {s}."
+        },
+        {
+          "answers": [
+            "=p*k"
+          ],
+          "message": "{p*k} kr är bara kilometrarna. Glöm inte startavgiften på {s} kr."
+        }
+      ]
+    },
+    {
+      "id": "baklanges",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "s": [
+          20,
+          50,
+          10
+        ],
+        "p": [
+          5,
+          15,
+          5
+        ],
+        "k": [
+          3,
+          12
+        ]
+      },
+      "prompt": "Hur många kilometer kan du åka för {s+p*k} kr om startavgiften är {s} kr och varje kilometer kostar {p} kr?",
+      "answer": [
+        "=k",
+        "{k} km"
+      ],
+      "correct": "Rätt! {s+p*k} − {s} = {p*k} kr går till kilometrarna, och {p*k} delat med {p} är {k} km.",
+      "feedback": [
+        {
+          "answers": [
+            "=(s+p*k)/p"
+          ],
+          "message": "Dra bort startavgiften {s} kr först, och dela sedan med {p}."
+        },
+        {
+          "answers": [
+            "=p*k"
+          ],
+          "message": "{p*k} kr är pengarna efter startavgiften. Dela dem med priset per kilometer, {p} kr."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Formeln är K = 20 + 5 · n. Vad blir K när n = 6?",
+    "answer": [
+      "50",
+      "50 kr"
+    ],
+    "correct": "Rätt! 5 · 6 = 30, och 20 + 30 = 50.",
+    "feedback": [
+      {
+        "answers": [
+          "150"
+        ],
+        "message": "150 får du om du räknar plus först: 20 + 5 = 25 och 25 · 6. Gånger räknas före plus: 5 · 6 först."
+      },
+      {
+        "answers": [
+          "26"
+        ],
+        "message": "26 är 20 + 6. I formeln står 5 · n, alltså 5 · 6 = 30."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett pizzabud tar 30 kr i avgift och 10 kr per pizza. Vad kostar det om du beställer 4 pizzor?",
+      "answer": [
+        "70",
+        "70 kr"
+      ],
+      "correct": "Rätt! Avgiften är 30 kr, och 4 pizzor kostar 4 · 10 = 40 kr. Tillsammans 70 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "160"
+          ],
+          "message": "160 får du om du räknar (30 + 10) · 4. Avgiften betalas bara en gång: 30 + 4 · 10."
+        },
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "40 kr är bara pizzorna. Glöm inte avgiften på 30 kr."
+        }
+      ]
+    },
+    {
+      "prompt": "En taxiresa kostar 50 kr i startavgift och 20 kr per kilometer. Vad kostar 8 km?",
+      "answer": [
+        "210",
+        "210 kr"
+      ],
+      "correct": "Rätt! 8 · 20 = 160, och 50 + 160 = 210 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "560"
+          ],
+          "message": "560 får du om du räknar plus före gånger: (50 + 20) · 8. Räkna 20 · 8 först."
+        },
+        {
+          "answers": [
+            "160"
+          ],
+          "message": "160 kr är bara kilometrarna. Glöm inte startavgiften på 50 kr."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många kilometer kan du åka för 190 kr om startavgiften är 30 kr och varje kilometer kostar 20 kr?",
+      "answer": [
+        "8",
+        "8 km"
+      ],
+      "correct": "Rätt! 190 − 30 = 160 kr går till kilometrarna, och 160 delat med 20 är 8 km.",
+      "feedback": [
+        {
+          "answers": [
+            "9,5",
+            "9.5"
+          ],
+          "message": "9,5 får du om du delar 190 med 20. Dra bort startavgiften 30 kr först, och dela sedan."
+        },
+        {
+          "answers": [
+            "160"
+          ],
+          "message": "160 kr är pengarna som blir kvar efter startavgiften. Dela dem med priset per kilometer."
+        }
+      ]
+    }
+  ]
+}

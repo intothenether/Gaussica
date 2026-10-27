@@ -1,0 +1,278 @@
+{
+  "id": "tidsintervall",
+  "area": "matning",
+  "title": "Hur lång tid? Räkna tidsintervall",
+  "level": "Från en tid till en annan · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "digital-klocka"
+  ],
+  "summary": "För att räkna hur lång tid något tar räknar du i steg: till nästa hela timme, hela timmar och minuterna som blir kvar.",
+  "explanationTitle": "Räkna tid i steg",
+  "explanation": "Problemet: Filmen börjar 14:20 och slutar 16:05. Hur länge varar den? Du kan inte bara dra bort 14:20 från 16:05 som vanliga tal, för en timme har 60 minuter och inte 100. Därför räknar vi i steg. Gå först till nästa hela timme, sedan hela timmar, och till sist de minuter som är kvar. Från 14:20 till 15:00 är det 40 minuter. Från 15:00 till 16:00 är det 1 timme, alltså 60 minuter. Från 16:00 till 16:05 är det 5 minuter. Tillsammans blir det 40 + 60 + 5 = 105 minuter, alltså 1 timme och 45 minuter.",
+  "visual": {
+    "type": "tabell",
+    "title": "Filmen från 14:20 till 16:05",
+    "headers": [
+      "Steg",
+      "Från",
+      "Till",
+      "Tid"
+    ],
+    "rows": [
+      [
+        "1",
+        "14:20",
+        "15:00",
+        "40 min"
+      ],
+      [
+        "2",
+        "15:00",
+        "16:00",
+        "60 min"
+      ],
+      [
+        "3",
+        "16:00",
+        "16:05",
+        "5 min"
+      ],
+      [
+        "Summa",
+        "14:20",
+        "16:05",
+        "105 min"
+      ]
+    ]
+  },
+  "rule": "Räkna i steg: till nästa hela timme, hela timmar, och minuterna kvar. En timme är 60 minuter.",
+  "ruleLabel": "TIDSINTERVALL",
+  "example": "Från 09:40 till 11:15: 20 minuter till 10:00, 60 minuter till 11:00 och 15 minuter till 11:15. Tillsammans 95 minuter.",
+  "practice": [
+    {
+      "id": "film",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "h": [
+          8,
+          14
+        ],
+        "a": [
+          10,
+          55,
+          5
+        ],
+        "d": [
+          1,
+          3
+        ],
+        "b": [
+          10,
+          55,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "60*d+b-a",
+          "min": 10
+        }
+      ],
+      "prompt": "Filmen börjar klockan {h}:{a} och slutar klockan {h+d}:{b}. Hur många minuter varar den?",
+      "answer": [
+        "=60*d+b-a",
+        "{60*d+b-a} min",
+        "{60*d+b-a} minuter"
+      ],
+      "correct": "Rätt! Hela timmarna är {60*d} minuter, och minuterna ger {b} − {a}. Tillsammans {60*d+b-a} minuter.",
+      "feedback": [
+        {
+          "answers": [
+            "=100*d+b-a"
+          ],
+          "message": "En timme har 60 minuter, inte 100."
+        },
+        {
+          "answers": [
+            "=b-a"
+          ],
+          "message": "Det är bara skillnaden i minuter. Räkna också med de {d} hela timmarna."
+        }
+      ]
+    },
+    {
+      "id": "timmar-minuter",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "h": [
+          2,
+          4
+        ],
+        "m": [
+          5,
+          55,
+          5
+        ]
+      },
+      "prompt": "Hur många minuter är {h} timmar och {m} minuter?",
+      "answer": [
+        "=60*h+m",
+        "{60*h+m} min",
+        "{60*h+m} minuter"
+      ],
+      "correct": "Rätt! {h} timmar är {60*h} minuter, och {60*h} + {m} = {60*h+m} minuter.",
+      "feedback": [
+        {
+          "answers": [
+            "=100*h+m"
+          ],
+          "message": "En timme är 60 minuter, inte 100."
+        },
+        {
+          "answers": [
+            "=h+m"
+          ],
+          "message": "Du har lagt ihop siffrorna. Gör först timmarna till minuter."
+        }
+      ]
+    },
+    {
+      "id": "till-hel",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "h": [
+          8,
+          18
+        ],
+        "a": [
+          10,
+          55,
+          5
+        ]
+      },
+      "prompt": "Klockan är {h}:{a}. Hur många minuter är det till klockan {h+1}:00?",
+      "answer": [
+        "=60-a",
+        "{60-a} min",
+        "{60-a} minuter"
+      ],
+      "correct": "Rätt! En timme är 60 minuter, och 60 − {a} = {60-a} minuter.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} minuter har redan gått av timmen. Räkna hur många som är kvar."
+        },
+        {
+          "answers": [
+            "=100-a"
+          ],
+          "message": "En timme har 60 minuter, inte 100."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En lektion börjar klockan 08:30 och slutar klockan 09:15. Hur många minuter varar den?",
+    "answer": [
+      "45",
+      "45 min",
+      "45 minuter"
+    ],
+    "correct": "Rätt! 30 minuter till 09:00 och sedan 15 minuter till: 30 + 15 = 45 minuter.",
+    "feedback": [
+      {
+        "answers": [
+          "15"
+        ],
+        "message": "15 minuter är bara tiden efter 09:00. Räkna också tiden från 08:30 till 09:00."
+      },
+      {
+        "answers": [
+          "75"
+        ],
+        "message": "Räkna i steg: 08:30 till 09:00 är 30 minuter, och sedan 15 minuter till 09:15."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Tåget går klockan 13:45 och är framme klockan 15:10. Hur många minuter tar resan?",
+      "answer": [
+        "85",
+        "85 min",
+        "85 minuter"
+      ],
+      "correct": "Rätt! 15 minuter till 14:00, 60 minuter till 15:00 och 10 minuter till 15:10: 15 + 60 + 10 = 85 minuter.",
+      "feedback": [
+        {
+          "answers": [
+            "25"
+          ],
+          "message": "25 är bara 15 + 10 minuter. Glöm inte den hela timmen (60 minuter) mellan 14:00 och 15:00."
+        },
+        {
+          "answers": [
+            "65"
+          ],
+          "message": "Räkna i steg: 13:45 till 14:00 är 15 minuter, 14:00 till 15:00 är 60 minuter och 15:00 till 15:10 är 10 minuter."
+        }
+      ]
+    },
+    {
+      "prompt": "Kalle tränar i 1 timme och 25 minuter. Hur många minuter är det?",
+      "answer": [
+        "85",
+        "85 min",
+        "85 minuter"
+      ],
+      "correct": "Rätt! 1 timme är 60 minuter, och 60 + 25 = 85 minuter.",
+      "feedback": [
+        {
+          "answers": [
+            "125"
+          ],
+          "message": "1 timme är 60 minuter, inte 100."
+        },
+        {
+          "answers": [
+            "26"
+          ],
+          "message": "26 får du om du lägger ihop 1 och 25. Gör först timmen till minuter."
+        }
+      ]
+    },
+    {
+      "prompt": "Klockan är 10:40. Hur många minuter är det till klockan 11:00?",
+      "answer": [
+        "20",
+        "20 min",
+        "20 minuter"
+      ],
+      "correct": "Rätt! Från 10:40 till 11:00 är det 20 minuter.",
+      "feedback": [
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "40 är minuterna som gått sedan 10:00. Räkna hur många som är kvar till 11:00."
+        },
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 minuter är en hel timme. Klockan är redan 10:40."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "id": "relativ-frekvens",
+  "area": "data",
+  "title": "Relativ frekvens: prova och räkna",
+  "level": "Chans som andel av försök · ungefär åk 6",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "slump"
+  ],
+  "summary": "När du inte kan räkna ut en chans kan du prova många gånger. Andelen gånger något hände kallas relativ frekvens.",
+  "explanationTitle": "Prova många gånger",
+  "explanation": "Problemet: Hur stor är chansen att en tryckknapp landar med spetsen upp? Det finns ingen regel som du kan räkna ut. Då provar vi: kasta många gånger och räkna. Av 50 kast landade knappen upp 20 gånger. Andelen är 20 av 50, alltså 20/50 = 0,4 = 40 %. Det kallas relativ frekvens: antalet gånger något hände delat med antalet försök. Ju fler försök du gör, desto närmare brukar den komma den riktiga chansen. För en tärning vet vi att chansen för en sexa är 1/6, men i 12 kast kan du få fler eller färre sexor än 2. Först efter hundratals kast är andelen nästan 1/6.",
+  "visual": {
+    "type": "tabell",
+    "title": "En tärning kastas många gånger",
+    "headers": [
+      "Antal kast",
+      "Antal sexor",
+      "Andel sexor"
+    ],
+    "rows": [
+      [
+        "12",
+        "4",
+        "33 %"
+      ],
+      [
+        "60",
+        "11",
+        "18 %"
+      ],
+      [
+        "600",
+        "103",
+        "17 %"
+      ]
+    ]
+  },
+  "rule": "Relativ frekvens = antalet gånger det hände delat med antalet försök. Fler försök ger en säkrare siffra.",
+  "ruleLabel": "RELATIV FREKVENS",
+  "example": "En knapp landade med spetsen upp 20 av 50 gånger. Relativ frekvens: 20/50 = 0,4 = 40 %.",
+  "practice": [
+    {
+      "id": "andel",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          20,
+          90,
+          10
+        ],
+        "k": [
+          1,
+          99
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(100*k,n)",
+          "equals": 0
+        },
+        {
+          "expr": "n-k",
+          "min": 1
+        }
+      ],
+      "prompt": "Ett mynt kastas {n} gånger och ger krona {k} gånger. Hur många procent av kasten blev krona?",
+      "answer": [
+        "=100*k/n",
+        "{100*k/n} %",
+        "{100*k/n}%"
+      ],
+      "correct": "Rätt! {k} av {n} är {100*k/n} av 100, alltså {100*k/n} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är antalet gånger. Procent är andelen av 100 kast: {k} av {n}."
+        }
+      ]
+    },
+    {
+      "id": "forvantat",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "m": [
+          5,
+          50,
+          5
+        ]
+      },
+      "prompt": "Chansen att få en sexa är 1/6. Ungefär hur många sexor förväntar du dig på {6*m} kast?",
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! En sjättedel av {6*m} är {m}.",
+      "feedback": [
+        {
+          "answers": [
+            "=36*m"
+          ],
+          "message": "Du har multiplicerat med 6. Ta en sjättedel: dela {6*m} med 6."
+        }
+      ]
+    },
+    {
+      "id": "tarning",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          20,
+          90,
+          10
+        ],
+        "k": [
+          1,
+          99
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(100*k,n)",
+          "equals": 0
+        },
+        {
+          "expr": "n-k",
+          "min": 1
+        }
+      ],
+      "prompt": "En tärning kastas {n} gånger och ger en fyra {k} gånger. Hur stor andel är det i procent?",
+      "answer": [
+        "=100*k/n",
+        "{100*k/n} %",
+        "{100*k/n}%"
+      ],
+      "correct": "Rätt! {k} av {n} är {100*k/n} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är antalet gånger. Räkna andelen i procent: {k} av {n}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Ett mynt kastas 50 gånger och ger krona 30 gånger. Hur många procent av kasten blev krona?",
+    "answer": [
+      "60",
+      "60 %",
+      "60%"
+    ],
+    "correct": "Rätt! 30 av 50 är 60 av 100, alltså 60 %.",
+    "feedback": [
+      {
+        "answers": [
+          "30"
+        ],
+        "message": "30 är antalet gånger. Procent är andelen av 100 kast: 30 av 50 är 60 av 100."
+      },
+      {
+        "answers": [
+          "20"
+        ],
+        "message": "20 är antalet gånger det blev klave. Frågan gäller krona."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Isak kastar en tärning 30 gånger och får en trea 6 gånger. Hur stor andel är det i procent?",
+      "answer": [
+        "20",
+        "20 %",
+        "20%"
+      ],
+      "correct": "Rätt! 6 av 30 är 1/5, alltså 20 %.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är antalet gånger. Räkna andelen: 6 av 30."
+        },
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 får du om du delar 30 med 6. Andelen är 6 av 30 i procent."
+        }
+      ]
+    },
+    {
+      "prompt": "Chansen att få en sexa är 1/6. Ungefär hur många sexor förväntar du dig på 120 kast?",
+      "answer": [
+        "20"
+      ],
+      "correct": "Rätt! En sjättedel av 120 är 120 delat med 6 = 20.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är tärningens antal sidor. Ta en sjättedel av 120 kast."
+        },
+        {
+          "answers": [
+            "720"
+          ],
+          "message": "720 får du om du multiplicerar med 6. Ta en sjättedel: dela 120 med 6."
+        }
+      ]
+    },
+    {
+      "prompt": "Ur en ask drogs 40 kulor, en i taget, med tillbakaläggning. 10 blev röda. Ungefär hur stor andel av kulorna i asken är röda i procent?",
+      "answer": [
+        "25",
+        "25 %",
+        "25%"
+      ],
+      "correct": "Rätt! 10 av 40 är 1/4, alltså 25 %.",
+      "feedback": [
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 är antalet röda kulor. Räkna andelen: 10 av 40."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 får du om du delar 40 med 10. Andelen är 10 av 40 i procent."
+        }
+      ]
+    }
+  ]
+}

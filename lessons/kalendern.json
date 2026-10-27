@@ -1,0 +1,236 @@
+{
+  "id": "kalendern",
+  "area": "matning",
+  "title": "Kalendern: dygn, veckor och månader",
+  "level": "Räkna med tid i kalendern · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "tid-klocka",
+    "multiplikation"
+  ],
+  "summary": "Ett dygn är 24 timmar, en vecka är 7 dagar och ett år är 12 månader. Du räknar med dem som med vanliga tal.",
+  "explanationTitle": "Tid i större bitar",
+  "explanation": "Problemet: Din födelsedag är om tre veckor. Är det långt kvar? Och hur många timmar är ett dygn? Klockan hjälper oss med timmar och minuter, men för längre tid behövs större enheter. Ett dygn är 24 timmar. En vecka är 7 dygn. Ett år är 12 månader eller 365 dagar, och 366 dagar vid skottår. Månaderna är olika långa: de flesta har 30 eller 31 dagar och februari har 28, eller 29 vid skottår. Vill du veta hur många dagar det är i flera veckor multiplicerar du med 7. Vill du veta hur många timmar det är i flera dygn multiplicerar du med 24.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tid i kalendern",
+    "headers": [
+      "Enhet",
+      "Hur lång?"
+    ],
+    "rows": [
+      [
+        "1 dygn",
+        "24 timmar"
+      ],
+      [
+        "1 vecka",
+        "7 dagar"
+      ],
+      [
+        "1 år",
+        "12 månader"
+      ],
+      [
+        "1 år",
+        "365 dagar (366 vid skottår)"
+      ]
+    ]
+  },
+  "rule": "1 dygn = 24 timmar, 1 vecka = 7 dagar, 1 år = 12 månader.",
+  "ruleLabel": "TID I KALENDERN",
+  "example": "3 veckor är 3 · 7 = 21 dagar. 2 dygn är 2 · 24 = 48 timmar.",
+  "practice": [
+    {
+      "id": "veckor",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "w": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Hur många dagar är det i {w} veckor?",
+      "answer": [
+        "=7*w",
+        "{7*w} dagar"
+      ],
+      "correct": "Rätt! {w} · 7 = {7*w} dagar.",
+      "feedback": [
+        {
+          "answers": [
+            "=w+7"
+          ],
+          "message": "Du har lagt ihop. Varje vecka har 7 dagar, så multiplicera {w} med 7."
+        },
+        {
+          "answers": [
+            "=w"
+          ],
+          "message": "{w} är antalet veckor. Räkna dagar: 7 för varje vecka."
+        }
+      ]
+    },
+    {
+      "id": "dygn",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Hur många timmar är {n} dygn?",
+      "answer": [
+        "=24*n",
+        "{24*n} timmar"
+      ],
+      "correct": "Rätt! Ett dygn är 24 timmar, och {n} · 24 = {24*n} timmar.",
+      "feedback": [
+        {
+          "answers": [
+            "=n+24"
+          ],
+          "message": "Du har lagt ihop. Varje dygn är 24 timmar, så multiplicera."
+        },
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "{n} är antalet dygn. Frågan gäller timmar."
+        }
+      ]
+    },
+    {
+      "id": "lager",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "w": [
+          2,
+          4
+        ],
+        "d": [
+          2,
+          6
+        ]
+      },
+      "prompt": "Ett läger varar i {w} veckor och {d} dagar. Hur många dagar är det?",
+      "answer": [
+        "=7*w+d",
+        "{7*w+d} dagar"
+      ],
+      "correct": "Rätt! {w} veckor är {7*w} dagar, och {7*w} + {d} = {7*w+d} dagar.",
+      "feedback": [
+        {
+          "answers": [
+            "=w+d"
+          ],
+          "message": "Du har lagt ihop veckor och dagar. Gör först veckorna till dagar: {w} · 7."
+        },
+        {
+          "answers": [
+            "=7*w"
+          ],
+          "message": "{7*w} dagar är veckorna. Lägg också till de {d} dagarna."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Hur många dagar är det i 4 veckor?",
+    "answer": [
+      "28",
+      "28 dagar"
+    ],
+    "correct": "Rätt! 4 · 7 = 28 dagar.",
+    "feedback": [
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "4 är antalet veckor. Varje vecka har 7 dagar, så multiplicera 4 med 7."
+      },
+      {
+        "answers": [
+          "11"
+        ],
+        "message": "11 får du om du lägger ihop 4 och 7. Vi har 4 veckor med 7 dagar i varje, så multiplicera."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Lisa åker på läger i 2 veckor och 3 dagar. Hur många dagar är lägret?",
+      "answer": [
+        "17",
+        "17 dagar"
+      ],
+      "correct": "Rätt! 2 veckor är 2 · 7 = 14 dagar, och 14 + 3 = 17 dagar.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 får du om du lägger ihop 2 och 3. En vecka är 7 dagar, så räkna först 2 · 7."
+        },
+        {
+          "answers": [
+            "14"
+          ],
+          "message": "14 dagar är de två veckorna. Glöm inte de 3 dagarna till."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många timmar är 3 dygn?",
+      "answer": [
+        "72",
+        "72 timmar"
+      ],
+      "correct": "Rätt! Ett dygn är 24 timmar, och 3 · 24 = 72 timmar.",
+      "feedback": [
+        {
+          "answers": [
+            "27"
+          ],
+          "message": "27 är 3 + 24. Varje dygn är 24 timmar, så multiplicera: 3 · 24."
+        },
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "24 timmar är ett dygn. Frågan gäller 3 dygn."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett år har 12 månader. Hur många månader är det i 3 år?",
+      "answer": [
+        "36",
+        "36 månader"
+      ],
+      "correct": "Rätt! 3 · 12 = 36 månader.",
+      "feedback": [
+        {
+          "answers": [
+            "15"
+          ],
+          "message": "15 får du om du lägger ihop. Varje år har 12 månader, så multiplicera 3 med 12."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 månader är ett år. Frågan gäller 3 år."
+        }
+      ]
+    }
+  ]
+}
