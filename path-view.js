@@ -1,6 +1,7 @@
 // "Din väg": a short, friendly path instead of the big graph. It shows what to do now, what comes after
 // and one play lesson, as large cards with one clear button each.
 //
+//   GaussicaPathView.heroStep(container, data, hooks)   the step of the day as a card in the hero of the start page
 //   GaussicaPathView.render(container, data, hooks)
 //     data  = GaussicaCoach.path(...)  { now, later[], play, doneCount, total, allDone }
 //     hooks = { start(lessonId), more(lessonId), review(), assignment (open assignment or null), reviewLessons: [],
@@ -149,10 +150,13 @@ window.GaussicaPathView = (function () {
       root.appendChild(done);
     }
 
-    const steps = [data.now].concat(data.later).filter(Boolean);
+    // hooks.hideNow: the step of the day is shown in the hero (heroStep), so the path continues from step 2
+    const skip = Boolean(hooks.hideNow && data.now);
+    const steps = (skip ? [] : [data.now]).concat(data.later).filter(Boolean);
+    const offset = skip ? 1 : 0;
     const list = el("ol", "pv-list");
-    steps.forEach(function (item, i) { list.appendChild(card(item, i + 1, hooks)); });
-    if (data.play) list.appendChild(card(data.play, steps.length + 1, hooks));
+    steps.forEach(function (item, i) { list.appendChild(card(item, i + 1 + offset, hooks)); });
+    if (data.play) list.appendChild(card(data.play, steps.length + 1 + offset, hooks));
     if (list.children.length) root.appendChild(list);
 
     const weak = hooks.reviewLessons || [];
@@ -176,5 +180,45 @@ window.GaussicaPathView = (function () {
     container.appendChild(root);
   }
 
-  return { render: render };
+  // The step of the day as a card in the hero: what it is, how far the student has come, and one button.
+  //   hooks = { start(lessonId), assignment }. Without a step (everything done) there is a short note and a link to the path.
+  function heroStep(container, data, hooks) {
+    container.replaceChildren();
+    const item = data && data.now;
+    const box = el("div", "hs");
+    if (!item) {
+      box.appendChild(el("p", "hs-kicker", "NU"));
+      box.appendChild(el("h2", "hs-title", "Du har klarat allt just nu"));
+      box.appendChild(el("p", "hs-meta", "Pyssla, repetera eller öppna hela kartan och välj själv."));
+      const link = el("a", "primary-button hs-go", "Se lärstigen ↓");
+      link.href = "#larstig";
+      box.appendChild(link);
+      container.appendChild(box);
+      return;
+    }
+    box.appendChild(el("p", "hs-kicker", kicker(item, hooks)));
+    box.appendChild(el("h2", "hs-title", item.lesson.title));
+    const meta = [window.GaussicaLesson.gradeLabel(item.grade)];
+    if (item.sum.total) meta.push(item.sum.done + " av " + item.sum.total + " klara");
+    if (item.sum.fix) meta.push(item.sum.fix + " att rätta");
+    const m = el("p", "hs-meta", meta.join(" · "));
+    if (item.kind === "assignment" && hooks.assignment && window.GaussicaMailbox) {
+      const due = window.GaussicaMailbox.dueInfo(hooks.assignment.a.dueDate);
+      m.appendChild(document.createTextNode(" "));
+      m.appendChild(el("span", "mb-due is-" + due.tone, due.text));
+    }
+    box.appendChild(m);
+    if (item.sum.total) {
+      const bar = el("div", "mb-bar");
+      item.sum.statuses.forEach(function (s) { bar.appendChild(el("span", "mb-seg is-" + s)); });
+      box.appendChild(bar);
+    }
+    const go = el("a", "primary-button hs-go", buttonLabel(item));
+    go.href = "#play/" + item.lesson.id;
+    go.addEventListener("click", function (e) { e.preventDefault(); hooks.start(item.lesson.id); });
+    box.appendChild(go);
+    container.appendChild(box);
+  }
+
+  return { render: render, heroStep: heroStep };
 }());

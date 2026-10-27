@@ -80,6 +80,8 @@
     lessonProgress = currentUser.lessonProgress;
     window.GaussicaUser = currentUser;
     restoreOutbox();
+    // the colour theme the student has chosen follows the account
+    if (window.GaussicaTheme) window.GaussicaTheme.sync(lessonProgress.theme);
   }
 
   // Answers that could not be sent (no connection) are also kept in this browser, per user, so that they survive a
@@ -768,7 +770,12 @@
   function renderCoach() {
     const card = document.getElementById("next-card");
     const hero = document.getElementById("hero-cta");
-    if (course && window.GaussicaPet) window.GaussicaPet.render(document.getElementById("pet-card"));
+    if (course && window.GaussicaPet) {
+      const heroPet = document.getElementById("hero-pet");
+      window.GaussicaPet.render(heroPet, { layout: "hero" });
+      const hero = document.getElementById("hero");
+      if (hero && heroPet) hero.classList.toggle("has-panel", !heroPet.hidden);   // without a pet panel the text has the whole width
+    }
     const toolsCard = document.getElementById("workshop-card");
     if (toolsCard) {
       toolsCard.replaceChildren();
@@ -794,6 +801,8 @@
     if (course) renderInbox();
     if (!card || !course || !isStudent()) {
       if (card) card.hidden = true;
+      renderHeroMain(null, null);
+      updateStartPage();
       return;
     }
     ensureReviewSchedule();
@@ -802,7 +811,9 @@
     const assigned = window.GaussicaMailbox.openLessonAssignments()[0];
     const data = window.GaussicaCoach.path(coachContext(), assigned && assigned.a.lessonId);
     card.hidden = false;
+    renderHeroMain(data, assigned);
     window.GaussicaPathView.render(card, data, {
+      hideNow: true,
       assignment: assigned || null,
       reviewLessons: review.lessons,
       dueLessons: review.due,
@@ -817,6 +828,7 @@
       const node = graph.querySelector('[data-lesson-id="' + data.now.lesson.id + '"]');
       if (node) node.classList.add("is-next");
     }
+    updateStartPage();
     if (hero) {
       if (assigned) {
         hero.textContent = "Gör uppdraget →";
@@ -828,6 +840,69 @@
         hero.textContent = (next.kind === "continue" ? "Fortsätt här" : "Börja här") + " →";
         hero.setAttribute("href", "#play/" + next.lesson.id);
       }
+    }
+  }
+
+  // The hero: for a student a greeting and the step of the day (with its button) next to the pet panel; for everyone else (a teacher, or
+  // before the course has loaded) the headline and a button to the learning path.
+  let heroGeneric = null;
+
+  function firstName(name) { return String(name || "").trim().split(/\s+/)[0] || ""; }
+
+  function renderHeroMain(data, assigned) {
+    const title = document.getElementById("hero-title");
+    const desc = document.getElementById("hero-description");
+    const step = document.getElementById("hero-step");
+    const actions = document.getElementById("hero-actions");
+    if (!title || !step) return;
+    if (!heroGeneric) heroGeneric = title.innerHTML;
+    if (!data || !currentUser) {
+      title.innerHTML = heroGeneric;
+      step.hidden = true;
+      step.replaceChildren();
+      if (desc) desc.hidden = false;
+      if (actions) actions.hidden = false;
+      return;
+    }
+    const name = firstName(currentUser.name);
+    const ask = data.now ? (data.now.kind === "assignment" ? "Din lärare har ett uppdrag åt dig."
+      : data.now.kind === "continue" ? "Redo att fortsätta där du slutade?" : "Redo för ett första steg?") : "Vad vill du göra härnäst?";
+    title.textContent = "";
+    title.append(document.createTextNode("Hej" + (name ? " " + name : "") + "!"), document.createElement("br"), makeElement("span", "", ask));
+    if (desc) desc.hidden = true;
+    if (actions) actions.hidden = true;
+    step.hidden = false;
+    window.GaussicaPathView.heroStep(step, data, { assignment: assigned || null, start: function (id) { window.location.hash = "#play/" + id; } });
+  }
+
+  // The start page is kept calm: "Idag" has the rest of the path (the step of the day is in the hero above it), and the rest (the notebook, the road, the training and
+  // the workshop) is gathered under "Mer att utforska", which is closed unless the student has opened it before.
+  const MORE_KEY = "gaussica.more-open";
+  const MORE_NAMES = { "knep-card": "Mina knepiga", "journey-card": "Resan", "train-card": "Snabbträning", "workshop-card": "Verkstad" };
+
+  function updateStartPage() {
+    const today = document.getElementById("today");
+    const more = document.getElementById("more-cards");
+    if (today) today.hidden = ["next-card"].every(function (id) { const e = document.getElementById(id); return !e || e.hidden; });
+    if (!more) return;
+    const shown = Array.prototype.filter.call(more.querySelectorAll(".more-body > *"), function (c) { return !c.hidden; });
+    more.hidden = !shown.length;
+    const peek = document.getElementById("more-peek");
+    if (peek) peek.textContent = shown.map(function (c) { return MORE_NAMES[c.id]; }).filter(Boolean).join(" · ");
+    // a number on the closed list when there are tricky questions to look at
+    const badge = document.getElementById("more-badge");
+    const knep = document.getElementById("knep-card");
+    if (badge) {
+      let n = 0;
+      if (knep && !knep.hidden && course && isStudent()) n = window.GaussicaNotebook.entries(notebookContext()).open.length;
+      badge.hidden = !n;
+      badge.textContent = n ? String(n) : "";
+      badge.title = n ? n + (n === 1 ? " knepig fråga" : " knepiga frågor") : "";
+    }
+    if (!more.dataset.bound) {
+      more.dataset.bound = "1";
+      try { more.open = window.localStorage.getItem(MORE_KEY) === "1"; } catch (e) { /* closed */ }
+      more.addEventListener("toggle", function () { try { window.localStorage.setItem(MORE_KEY, more.open ? "1" : "0"); } catch (e) { /* storage blocked */ } });
     }
   }
 
@@ -3069,6 +3144,21 @@
     }
   }
 
+  // "Utseende": the colour theme (theme.js). The choice is put on the page at once and saved in the account.
+  function saveTheme(id) {
+    lessonProgress.theme = { id: id, updatedAt: Date.now() };
+    dirtyLessons.add("theme");
+    scheduleSave(300);
+  }
+
+  function themeSection() {
+    const box = makeElement("div", "account-form account-theme");
+    box.appendChild(makeElement("h4", "", "Utseende"));
+    box.appendChild(makeElement("p", "account-note", "Välj färger till sidan. Valet följer med ditt konto till andra enheter."));
+    box.appendChild(window.GaussicaTheme.picker(saveTheme));
+    return box;
+  }
+
   // "Mina uppgifter": download everything the site holds about you, or delete the account (GDPR: access and erasure).
   async function downloadMyData(u) {
     const data = await API.get("/api/me/data");
@@ -3205,7 +3295,7 @@
       flushProgress(false).then(function () { window.GaussicaAuth.logout(); });
     });
 
-    studentModalCard.append(header, form, myDataSection(u), logout);
+    studentModalCard.append(header, form, themeSection(), myDataSection(u), logout);
 
     if (studentModal && !studentModal.dataset.listenerAdded) {
       studentModal.dataset.listenerAdded = "true";

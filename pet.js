@@ -10,7 +10,7 @@
 //  * A teacher can switch it off for a class, with the same switch as stars and badges.
 //
 //   GaussicaPet.init(deps)         deps: { getUser, getCourse, getProgress, enabled(), lessonStars(lesson), save(record), refresh() }
-//   GaussicaPet.render(container)  the pet (or the invitation to choose one) on the start page
+//   GaussicaPet.render(container, { layout: "hero" })  the pet (or the invitation to choose one) on the start page: a card, or large in the hero
 //   GaussicaPet.check()            after progress changes: update the coin chip
 //   GaussicaPet.ribbon()           for a finished lesson: the pet cheering and the new coins, or null
 //   GaussicaPet.face()             the pet's head, small, for the lesson footer (or null)
@@ -771,12 +771,20 @@ window.GaussicaPet = (function () {
     return LINES[(day + String(pet.name).length) % LINES.length];
   }
 
-  function render(container) {
+  // layout "hero": the pet panel on the left of the hero of the start page (a speech bubble above the pet, and the name, the coins and
+  // the button to the room below it). The default layout is the card.
+  function render(container, options) {
     if (!container) return;
+    const hero = Boolean(options && options.layout === "hero");
     if (!deps || !enabled()) { container.hidden = true; container.replaceChildren(); updateChip(); return; }
     const pet = petOf();
     container.hidden = false;
     container.replaceChildren();
+    if (hero) {
+      renderHero(container, pet);
+      updateChip();
+      return;
+    }
     if (!pet) {
       container.className = "pet-card is-invite";
       const faces = el("div", "pet-invite-faces");
@@ -818,6 +826,39 @@ window.GaussicaPet = (function () {
       if (!reduced()) setTimeout(function () { cheer(stage, pet); }, 400);
     }
     updateChip();
+  }
+
+  function renderHero(container, pet) {
+    container.className = "hero-pet" + (pet ? "" : " is-invite");
+    if (!pet) {
+      container.appendChild(el("p", "hp-bubble", "Välj ett djur som följer dig när du räknar!"));
+      const faces = el("div", "hp-faces");
+      ["dog", "fox", "dragon"].forEach(function (k) {
+        const f = el("span", "hp-face");
+        f.innerHTML = Art().svg({ kind: k, color: Art().KINDS[k].colors[0].id, worn: {} }, { bare: true });
+        faces.appendChild(f);
+      });
+      container.append(faces, button("Välj ditt djur", "pet-btn hp-choose", open));
+      return;
+    }
+    const bal = balance();
+    // see render(): new coins are announced here, but not while a lesson is open
+    const visible = !document.body.classList.contains("player-open");
+    const fresh = visible ? newCoins() : 0;
+    const stage = el("button", "hp-stage");
+    stage.type = "button";
+    stage.setAttribute("aria-label", "Klappa " + pet.name);
+    stage.innerHTML = Art().svg(pet);
+    stage.addEventListener("click", function () { cheer(stage, pet); });
+    const row = el("div", "hp-row");
+    const coins = el("span", "pet-coins-chip");
+    coins.append(el("span", "coin-icon"), el("b", "", String(bal)));
+    row.append(el("strong", "hp-name", pet.name), coins);
+    container.append(el("p", "hp-bubble", speech(pet, fresh, bal)), stage, row, button("Mitt djur och butiken", "pet-btn hp-shop", open));
+    if (fresh > 0) {
+      writeSeen(ledger().total);
+      if (!reduced()) setTimeout(function () { cheer(stage, pet); }, 400);
+    }
   }
 
   // ----- reward moments -----

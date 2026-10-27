@@ -391,6 +391,27 @@ Varje lektion är kopplad till centralt innehåll i kursplanen för matematik (`
 
 Kopplingen till kursplanen visade luckor i de yngre årskurserna, så tolv lektioner har lagts till: Mönster (åk 3), Mäta längd (åk 3), Rutnät och riktningar (åk 3), Läs en tabell (åk 3), Halvor, tredjedelar och fjärdedelar (åk 3), Udda och jämna tal (åk 3), Säkert, möjligt, omöjligt (åk 3), Problemlösning: rita och prova (åk 4), Olika sorters trianglar (åk 5), Linjediagram (åk 5), Bråk, decimaltal och procent (åk 5) och Pris per kilo och per styck (åk 5). Alla har förklaring, regel, exempel, en uppgift, tre textuppgifter och övningsmallar för Öva mer, och följer reglerna om ord för de yngre åren.
 
+## Färgteman och utseende
+
+Eleven väljer färgtema under Konto, Utseende (`theme.js`). Fem teman: **Bubbelgum och marin** (standard: rosa ytor och marin knapp), Rosa dimma, Hallon och plommon, Korall och persika och Blå och kräm (utseendet som sidan hade förut). Ett tema är en komplett uppsättning färgvariabler (sidan, korten, tonerna, skuggorna, fokus) som läggs på `:root`, så ingenting annat på sidan behöver veta vilket som är valt. Färger som betyder något (grönt för klart, rött för fel, guld för mynt, djurens färger och landskapen i Resan) hör inte till ett tema.
+
+- **Inget blink.** `theme.js` läses i `<head>` utan `defer` och lägger det senast valda temat på sidan innan något ritas. Valet kommer ihåg i webbläsaren (`gaussica.theme`) och sparas i kontot under nyckeln `theme` i elevens framsteg, så det följer med till andra enheter (vid inloggning gäller kontots val). Inloggningssidan använder webbläsarens val.
+- **Standardvärdena i `styles.css` är Bubbelgum och marin** (`tests/theme.js` kontrollerar att de är desamma som i `theme.js`), så sidan ser rätt ut även utan JavaScript. De färger som bär sidans utseende (sida, kort, blå och rosa toner, textgrå, skuggor) är variabler. Nya teman läggs till i listan `THEMES`.
+- **Läsbarhet.** Varje tema testas för kontrast: text mot sidan och korten, vit text på knappar och på rosa knappar, och fokusringen. Ett tema som är för ljust eller för svagt får inte in i listan.
+- **Ett fokusfärg och en markeringsfärg** (följer temat) och `accent-color` för reglage och kryssrutor.
+- **Mjukare text.** Rubriker är i vikt 800, text som läses i 600 och knappar och etiketter i 700 (det var 800 och 900 nästan överallt).
+- **Kort på startsidan har ett sätt att ramas in:** samma kantlinje och mjuka skugga. Bara dagens steg (Din väg) och uppdragen från läraren har en egen kantfärg. Guld används bara för mynt.
+- **En lugnare startsida.** Under rubriken "Idag" finns dagens steg (Din väg) först och sedan djuret. Resten (Mina knepiga, Resan, Snabbträning och Verkstaden) ligger under "Mer att utforska", som är stängd tills eleven öppnat den (valet kommer ihåg), med namnen på det som finns där, och en siffra på listan när det finns knepiga frågor.
+
+## Hero: du, djuret och dagens steg
+
+Hero-rutan på startsidan är en ren tvåkolumnsruta. Till vänster en **djurpanel** (`GaussicaPet.render(container, { layout: "hero" })`): pratbubbla med djurets replik, djuret i sitt rum eller sin bakgrund (tryck på det så blir det glatt), namnet, mynten och en knapp till rummet och butiken. Till höger en hälsning, "Hej Kim!", och **dagens steg** som ett kort med en knapp (`GaussicaPathView.heroStep`): uppdraget från läraren, att fortsätta där eleven slutade eller första steget, med lektionens namn, hur många uppgifter som är klara, ett framstegsstreck och en knapp. Är allt klart står det i stället "Du har klarat allt just nu" och en länk till lärstigen.
+
+- **Din väg fortsätter där hero slutar.** Under hero visar "Din väg" resten av stegen, numrerade från 2 (`hideNow`), så att samma steg inte står två gånger. Rubriken "Idag" är borta: hero är dagen.
+- **Eleven utan djur** ser en inbjudan i panelen (tre djur och "Välj ditt djur"). **Lärare** och elever i klasser där djuret är avstängt får ingen panel, och texten tar hela bredden: rubriken "Utforska matematiken, en idé i taget" och en knapp till lärstigen, som förut.
+- **På smala skärmar** ligger djurpanelen som en remsa ovanför texten (djuret till vänster, bubbla, namn, mynt och knapp bredvid).
+- Det gamla hero-diagrammet med lärstigen, de svävande etiketterna, ordchipsen, anteckningen och djurkortet under "Idag" är borta, ungefär 90 CSS-regler med dem. `tests/theme.js` kontrollerar att hero har djurpanelen först och sedan rubriken och dagens steg, och inget av det gamla.
+
 ## Lektioner som fyller luckor i hela kursen
 
 Efter åk 3 till 5 jämfördes lektionerna igen med kursplanen och med årskurserna. Det som saknades mest var algebra i åk 5 och 6 (inga lektioner alls), flera mål i åk 7 till 9 som bara hade en lektion, statistik och likformighet i åk 7 till 9 och målet "stegvisa instruktioner" i åk 1 till 3 (ingen lektion). Arton lektioner har lagts till:

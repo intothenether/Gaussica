@@ -3,12 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
-    <meta name="theme-color" content="#fff8e6">
+    <meta name="theme-color" content="#ffeaf1">
     <meta name="description" content="Utforska matematik steg för steg, från grundskolans första tal till gymnasiets matematik.">
     <title>Gaussica: matematik som hänger ihop</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="apple-touch-icon" href="./icon-192.png">
+    <script src="./theme.js"></script>
     <link rel="stylesheet" href="./styles.css">
     <script src="./viewport.js" defer></script>
     <script src="./offline.js" defer></script>
@@ -81,84 +82,15 @@
       <section class="admin-page" id="admin-page" hidden aria-labelledby="admin-title"></section>
       <div class="student-view" id="student-view">
       <section class="mailbox" id="mailbox" aria-label="Uppdrag och meddelanden från din lärare" hidden></section>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
+      <section class="hero" id="hero" aria-labelledby="hero-title">
+        <div class="hero-pet" id="hero-pet" hidden></div>
+        <div class="hero-main">
           <p class="eyebrow"><span class="eyebrow-dot"></span> MATEMATIK SOM HÄNGER IHOP</p>
           <h1 id="hero-title">Utforska matematiken,<br><span>en idé i taget</span></h1>
-          <p class="hero-description">Bygg förståelse från grunden. Testa själv, se hur matematiken fungerar och förstå varför ett svar blir som det blir.</p>
-          <a class="primary-button" id="hero-cta" href="#larstig">Hitta nästa steg <span aria-hidden="true">↓</span></a>
-          <ul class="hero-chips" aria-label="Vad du hittar här">
-            <li><i></i>Lärstig</li><li><i></i>Pyssla</li><li><i></i>Rityta</li><li><i></i>Öva mer</li>
-          </ul>
-          <p class="hero-note">Från ungefär åk 3 till gymnasiet. I din takt.</p>
-        </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="hero-blob hero-blob-one"></div>
-          <div class="hero-blob hero-blob-two"></div>
-          <div class="hero-graph">
-            <span class="hg-live"><i></i> Din lärstig</span>
-            <svg class="hg-svg" viewBox="0 0 480 400" focusable="false">
-              <g class="hg-rows">
-                <line x1="58" y1="350" x2="470" y2="350"/><line x1="58" y1="235" x2="470" y2="235"/><line x1="58" y1="125" x2="470" y2="125"/>
-                <text x="10" y="354">ÅK 3</text><text x="10" y="239">ÅK 6</text><text x="10" y="129">ÅK 9</text>
-              </g>
-              <g class="hg-edges">
-                <path d="M90 290 C90 262 128 262 138 235"/>
-                <path d="M212 290 C204 262 166 262 152 235"/>
-                <path d="M226 292 C262 272 292 264 300 237"/>
-                <path d="M148 172 C160 150 214 150 226 127"/>
-                <path d="M292 175 C272 152 250 150 238 127"/>
-                <path d="M306 172 C312 142 372 150 380 127"/>
-              </g>
-              <g class="hg-nodes">
-            <g transform="translate(90 320)"><g class="hg-bob" style="--d:0s">
-              <circle r="30" class="hg-track"/>
-              <circle r="30" class="hg-arc hg-done" stroke-dasharray="188.5 0" transform="rotate(-90)"/>
-              <circle r="20" class="hg-face"/>
-              <text class="hg-glyph" y="8" text-anchor="middle" fill="#425b9a">+</text>
-            </g></g>
-            <g transform="translate(212 320)"><g class="hg-bob" style="--d:0.6s">
-              <circle r="30" class="hg-track"/>
-              <circle r="30" class="hg-arc hg-done" stroke-dasharray="118 70.5" transform="rotate(-90)"/>
-              <circle r="30" class="hg-arc hg-fix" stroke-dasharray="52 136.5" stroke-dashoffset="-124" transform="rotate(-90)"/>
-              <circle r="20" class="hg-face"/>
-              <text class="hg-glyph" y="8" text-anchor="middle" fill="#425b9a" style="font-size:44px">·</text>
-            </g></g>
-            <g transform="translate(145 205)"><g class="hg-bob" style="--d:1.1s">
-              <polygon points="0,-36 31,-18 31,18 0,36 -31,18 -31,-18" class="hg-hex"/>
-              <text class="hg-glyph hg-glyph-sm" y="8" text-anchor="middle" fill="#425b9a">½</text>
-            </g></g>
-            <g transform="translate(300 205)"><g class="hg-bob" style="--d:1.6s">
-              <rect x="-31" y="-31" width="62" height="62" rx="18" class="hg-play"/>
-              <path class="hg-spark" d="M0 -17 L5 -5 L17 0 L5 5 L0 17 L-5 5 L-17 0 L-5 -5 Z"/>
-              <path class="hg-spark hg-spark-sm" d="M17 -19 L19 -14 L24 -12 L19 -10 L17 -5 L15 -10 L10 -12 L15 -14 Z"/>
-            </g></g>
-            <g transform="translate(232 95)"><g class="hg-bob" style="--d:0.3s">
-              <circle r="30" class="hg-pulse"/>
-              <circle r="30" class="hg-track hg-track-next"/>
-              <circle r="30" class="hg-arc hg-fix" stroke-dasharray="70 118.5" transform="rotate(-90)"/>
-              <circle r="20" class="hg-face"/>
-              <text class="hg-glyph" y="8" text-anchor="middle" fill="#8a74c9">x</text>
-            </g></g>
-            <g transform="translate(380 95)"><g class="hg-bob" style="--d:2s">
-              <circle r="30" class="hg-track"/>
-              <circle r="20" class="hg-face"/>
-              <path d="M0 -10 L11 8 L-11 8 Z" class="hg-tri"/>
-            </g></g>
-              </g>
-              <g class="hg-bubble"><g class="hg-bubble-bob">
-                <rect x="178" y="12" width="108" height="30" rx="15"/>
-                <path d="M224 41 L232 52 L240 41 Z"/>
-                <text x="232" y="32" text-anchor="middle">Du är här!</text>
-              </g></g>
-              <g class="hg-chips">
-                <g transform="translate(446 316)"><circle r="17" class="hg-chip"/><text y="7" text-anchor="middle">÷</text></g>
-                <g transform="translate(448 212)"><circle r="15" class="hg-chip hg-chip-soft"/><text y="7" text-anchor="middle">=</text></g>
-                <g transform="translate(36 70)"><circle r="14" class="hg-chip hg-chip-soft"/><text y="7" text-anchor="middle">+</text></g>
-              </g>
-            </svg>
-            <span class="hg-pill hg-pill-a">✓ 3 klara</span>
-            <span class="hg-pill hg-pill-b">! 1 att rätta</span>
+          <p class="hero-description" id="hero-description">Bygg förståelse från grunden, i din egen takt. Från åk 3 till gymnasiet.</p>
+          <div class="hero-step" id="hero-step" hidden></div>
+          <div class="hero-actions" id="hero-actions">
+            <a class="primary-button" id="hero-cta" href="#larstig">Hitta nästa steg <span aria-hidden="true">↓</span></a>
           </div>
         </div>
       </section>
@@ -171,12 +103,18 @@
             <p class="section-description">Utforska sambanden eller börja var du vill. Följ pilarna för att se hur idéerna bygger på varandra.</p>
           </div>
         </div>
-        <div class="pet-card" id="pet-card" hidden></div>
-        <div class="train-card" id="train-card" hidden></div>
-        <div class="train-card workshop-card" id="workshop-card" hidden></div>
-        <div class="next-card path-card" id="next-card" hidden aria-live="polite"></div>
-        <div class="train-card knep-card" id="knep-card" hidden></div>
-        <div class="jn-card" id="journey-card" hidden></div>
+        <section class="today" id="today" aria-label="Din väg" hidden>
+          <div class="next-card path-card" id="next-card" hidden aria-live="polite"></div>
+        </section>
+        <details class="more-cards" id="more-cards" hidden>
+          <summary><span class="more-title">Mer att utforska</span><span class="more-peek" id="more-peek"></span><span class="more-badge" id="more-badge" hidden></span></summary>
+          <div class="more-body">
+            <div class="train-card knep-card" id="knep-card" hidden></div>
+            <div class="jn-card" id="journey-card" hidden></div>
+            <div class="train-card" id="train-card" hidden></div>
+            <div class="train-card workshop-card" id="workshop-card" hidden></div>
+          </div>
+        </details>
         <div class="map-toggle-row" id="map-toggle-row" hidden>
           <button type="button" class="secondary-button map-toggle" id="map-toggle" aria-expanded="false" aria-controls="full-map">🗺️ Visa hela kartan</button>
           <span class="map-toggle-hint">Vill du välja själv? Öppna kartan och välj vilken lektion du vill.</span>

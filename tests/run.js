@@ -122,6 +122,7 @@ async function api() {
   run("worker deletion", "tests/worker-delete.js");
   run("school documents", "tests/school-docs.js");
   run("fonts", "tests/fonts.js");
+  run("themes", "tests/theme.js");
   run("notebook", "tests/notebook.js");
   run("journey", "tests/journey.js");
   run("planner", "tests/planner.js");

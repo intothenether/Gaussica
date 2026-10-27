@@ -117,6 +117,7 @@ Avtalet följer svensk lag. Tvister avgörs av svensk allmän domstol med [tings
 | Svar, antal försök, hur långt eleven kommit | Fortsätta där eleven slutade, ge tips, låta läraren följa arbetet | |
 | Ritningar och anteckningar i tjänstens ritverktyg | Lösa uppgifter | |
 | Resultat i nivåtest och prov som läraren delar ut | Visa vad eleven kan, planera undervisningen | |
+| Färgtema: vilket utseende eleven valt | Eleven väljer själv hur sidan ser ut | |
 | Mina knepiga: vilka frågor eleven har lagt undan (listan i sig räknas ut från svaren) | Låta eleven träna på sådant som varit svårt | |
 | Snabbträning och repetitionsschema (vilka räknefakta, hur ofta och hur snabbt, när en lektion ska repeteras) | Träna och repetera | |
 | Husdjur: sort, namn, köpta föremål | Motivation, valfritt för klassen | Läraren kan stänga av det för hela klassen |
