@@ -83,7 +83,7 @@ async function withServer(fn) {
   try {
     const base = "http://127.0.0.1:" + port;
     if (!(await waitFor(base + "/api/me"))) throw new Error("the test server did not start");
-    return await fn(base, code);
+    return await fn(base, code, dir);
   } finally {
     server.kill();
     setTimeout(() => { try { fs.rmSync(dir, { recursive: true, force: true }); } catch (e) { /* still in use */ } }, 1500);
@@ -92,12 +92,12 @@ async function withServer(fn) {
 
 async function api() {
   if (filter && "api".indexOf(filter) < 0) return;
-  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"]]) {
+  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"], ["api delete", "tests/api-delete.js", "cookie"]]) {
     try {
-      await withServer(async (base, code) => {
+      await withServer(async (base, code, dir) => {
         const args = mode ? [base, mode, code] : [];
         const r = spawnSync(process.execPath, NODE_FLAGS.concat([path.join(ROOT, script)], args), {
-          cwd: ROOT, encoding: "utf8", env: Object.assign({}, process.env, { TEST_BASE: base, TEST_TEACHER_CODE: code }), timeout: 120000
+          cwd: ROOT, encoding: "utf8", env: Object.assign({}, process.env, { TEST_BASE: base, TEST_TEACHER_CODE: code, TEST_DATA_DIR: dir }), timeout: 120000
         });
         record(name, r.status === 0, (r.stdout || "") + (r.stderr || ""));
       });
@@ -119,6 +119,9 @@ async function api() {
   run("read aloud", "tests/speech.js");
   run("worksheets", "tests/worksheet.js");
   run("offline", "tests/offline.js");
+  run("worker deletion", "tests/worker-delete.js");
+  run("school documents", "tests/school-docs.js");
+  run("fonts", "tests/fonts.js");
   run("placement test", "tests/placement.js");
   run("prov", "tests/prov.js");
   run("class heatmap", "tests/heatmap.js");

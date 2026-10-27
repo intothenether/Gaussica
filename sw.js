@@ -25,9 +25,9 @@ self.addEventListener("fetch", function (event) {
   const url = new URL(req.url);
   if (url.origin === self.location.origin) {
     if (url.pathname.indexOf("/api/") === 0) return;
-    event.respondWith(networkFirst(event, req));
-  } else if (url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com") {
-    event.respondWith(staleWhileRevalidate(event, req));
+    // the font files never change under the same name, so the copy in the cache is used at once
+    if (/\/fonts\/[\w-]+\.woff2$/.test(url.pathname)) event.respondWith(staleWhileRevalidate(event, req));
+    else event.respondWith(networkFirst(event, req));
   }
 });
 

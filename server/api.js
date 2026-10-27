@@ -72,6 +72,10 @@ function createApi(db, options) {
     studentOfTeacher: db.prepare(
       "SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'"),
     deleteUser: db.prepare("DELETE FROM users WHERE id = ?"),
+    deleteClass: db.prepare("DELETE FROM classes WHERE id = ?"),
+    studentIdsOfClass: db.prepare("SELECT id FROM users WHERE class_id = ? AND role = 'student'"),
+    classIdsOfTeacher: db.prepare("SELECT id FROM classes WHERE teacher_id = ?"),
+    deleteSiteFeedbackBy: db.prepare("DELETE FROM site_feedback WHERE sender = ?"),
     classOfTeacher: db.prepare("SELECT * FROM classes WHERE id = ? AND teacher_id = ?"),
     insertAssignment: db.prepare("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at, kind, config) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"),
     assignmentsForStudent: db.prepare(
@@ -286,6 +290,12 @@ function createApi(db, options) {
     });
   }
 
+  // How a signed-in sender is written in site_feedback (and the e-mail), so that the messages can be found again when the
+  // account is deleted.
+  function senderLabel(u) {
+    return u.display_name + " (" + (u.role === "teacher" ? "lärare" : "elev") + (u.class_name ? ", klass " + u.class_name : "") + ")";
+  }
+
   // ----- feedback about the site, sent by e-mail to whoever runs it -----
   // Set RESEND_API_KEY and FEEDBACK_TO (and optionally FEEDBACK_FROM) to get an e-mail for every message.
   // Without them the messages are only saved in the table site_feedback.
@@ -339,7 +349,7 @@ function createApi(db, options) {
     const wait = feedbackLimit.check(ip(req));
     if (wait) throw new ApiError(429, "Du har skickat flera meddelanden på kort tid. Försök igen om en stund.");
     const s = currentSession(req);
-    const sender = s ? s.user.display_name + " (" + (s.user.role === "teacher" ? "lärare" : "elev") + (s.user.class_name ? ", klass " + s.user.class_name : "") + ")" : "Inte inloggad";
+    const sender = s ? senderLabel(s.user) : "Inte inloggad";
     const context = cleanChatContext(b.context);
     const f = {
       kind: kind, text: text, email: email || null, page: str(b.page, 200) || null, context: context ? JSON.parse(context) : null,
@@ -648,11 +658,53 @@ function createApi(db, options) {
     send(res, 200, { password: temp });
   }
 
+  // Removing a user removes everything that belongs to them (progress, answers, messages, sessions) through the foreign keys;
+  // messages the person sent through the feedback form are found by the sender text.
+  function inTransaction(fn) {
+    db.exec("BEGIN");
+    try { fn(); db.exec("COMMIT"); } catch (e) { db.exec("ROLLBACK"); throw e; }
+  }
+
+  function purgeUser(id) {
+    const u = q.userById.get(id);
+    if (!u) return;
+    q.deleteSiteFeedbackBy.run(senderLabel(u));
+    q.deleteUser.run(id);
+  }
+
+  function purgeClass(classId) {
+    q.studentIdsOfClass.all(classId).forEach(function (r) { purgeUser(r.id); });
+    q.deleteClass.run(classId);
+  }
+
   function deleteStudent(req, res, studentId) {
     const s = requireTeacher(req);
     const student = q.studentOfTeacher.get(Number(studentId), s.user.id);
     if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
-    q.deleteUser.run(student.id);
+    inTransaction(function () { purgeUser(student.id); });
+    send(res, 200, { ok: true });
+  }
+
+  // A class is removed together with all its students and their data (end of the school year).
+  function deleteClass(req, res, id) {
+    const s = requireTeacher(req);
+    const cls = q.classOfTeacher.get(Number(id), s.user.id);
+    if (!cls) throw new ApiError(404, "Klassen finns inte.");
+    const students = q.studentIdsOfClass.all(cls.id).length;
+    inTransaction(function () { purgeClass(cls.id); });
+    send(res, 200, { ok: true, students: students });
+  }
+
+  // "Radera mitt konto": needs the password. A teacher's classes, students and everything about them go with it.
+  async function deleteMyAccount(req, res) {
+    const s = requireUser(req);
+    const b = await readJson(req, 2000);
+    if (!(await sec.verifyPassword(str(b.password, 200), s.user.password_hash))) throw new ApiError(400, "Lösenordet stämmer inte.");
+    inTransaction(function () {
+      if (s.user.role === "teacher") q.classIdsOfTeacher.all(s.user.id).forEach(function (c) { purgeClass(c.id); });
+      purgeUser(s.user.id);
+    });
+    clearSessionCookie(res);
     send(res, 200, { ok: true });
   }
 
@@ -683,6 +735,7 @@ function createApi(db, options) {
         return send(res, 200, { ok: true });
       }
       if (method === "POST" && p === "/api/me/password") return await changePassword(req, res);
+      if (method === "POST" && p === "/api/me/delete") return await deleteMyAccount(req, res);
       if (method === "GET" && p === "/api/me/data") return myData(req, res);
       if (method === "POST" && p === "/api/me/feedback/read") return await markRead(req, res);
       if (method === "POST" && p === "/api/feedback") return await postFeedback(req, res);
@@ -698,6 +751,7 @@ function createApi(db, options) {
       if (method === "GET" && p === "/api/teacher/classes") return listClasses(req, res);
       if (method === "POST" && p === "/api/teacher/classes") return await createClass(req, res);
       if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "PUT") return await updateClass(req, res, m[1]);
+      if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "DELETE") return deleteClass(req, res, m[1]);
       if (method === "GET" && p === "/api/teacher/students") return teacherStudents(req, res);
       if (method === "GET" && p === "/api/teacher/assignments") return listAssignments(req, res);
       if (method === "POST" && p === "/api/teacher/assignments") return await createAssignment(req, res);

@@ -3015,6 +3015,81 @@
     }
   }
 
+  // "Mina uppgifter": download everything the site holds about you, or delete the account (GDPR: access and erasure).
+  async function downloadMyData(u) {
+    const data = await API.get("/api/me/data");
+    downloadJSON("gaussica-mina-uppgifter-" + new Date().toISOString().slice(0, 10) + ".json", {
+      exportedAt: new Date().toISOString(),
+      account: { name: u.name, username: u.username, role: u.role, class: u.className || null },
+      progress: data.progress,
+      attempts: data.attempts,
+      assignments: data.assignments,
+      feedbackFromTeacher: data.feedback,
+      messages: data.chat
+    });
+  }
+
+  function myDataSection(u) {
+    const isTeacher = u.role === "teacher";
+    const box = makeElement("div", "account-form account-data");
+    box.appendChild(makeElement("h4", "", "Mina uppgifter"));
+    const info = makeElement("p", "account-note", isTeacher
+      ? "Du kan ladda ner dina egna uppgifter. Elevernas uppgifter laddar du ner i lärarvyn."
+      : "Du kan ladda ner allt som sparats om dig, eller radera ditt konto.");
+    const msg = makeElement("p", "account-msg");
+    msg.setAttribute("role", "status");
+    const download = makeElement("button", "tv-btn", "Ladda ner mina uppgifter");
+    download.type = "button";
+    download.addEventListener("click", function () {
+      download.disabled = true;
+      msg.className = "account-msg";
+      msg.textContent = "";
+      downloadMyData(u).catch(function (err) {
+        msg.className = "account-msg is-error";
+        msg.textContent = err.message;
+      }).then(function () { download.disabled = false; });
+    });
+
+    const del = document.createElement("details");
+    del.className = "account-danger";
+    del.appendChild(makeElement("summary", "", "Radera mitt konto"));
+    del.appendChild(makeElement("p", "account-note", isTeacher
+      ? "Det här raderar ditt konto, alla dina klasser, alla elever i dem och allt de gjort. Det går inte att ångra. Ladda ner uppgifterna i lärarvyn först om du vill spara dem."
+      : "Det här raderar ditt konto och allt du gjort: dina svar, ditt djur och dina meddelanden. Det går inte att ångra. Din lärare får veta att du inte längre finns i klassen."));
+    const wrap = makeElement("label", "account-field");
+    const pass = document.createElement("input");
+    pass.type = "password";
+    pass.autocomplete = "current-password";
+    wrap.append(makeElement("span", "", "Skriv ditt lösenord för att bekräfta"), pass);
+    const dmsg = makeElement("p", "account-msg");
+    dmsg.setAttribute("role", "status");
+    const go = makeElement("button", "account-logout", "Radera allt för alltid");
+    go.type = "button";
+    go.addEventListener("click", async function () {
+      dmsg.className = "account-msg";
+      dmsg.textContent = "";
+      if (!pass.value) { dmsg.className = "account-msg is-error"; dmsg.textContent = "Skriv ditt lösenord först."; pass.focus(); return; }
+      if (!window.confirm(isTeacher ? "Radera ditt konto, dina klasser och alla elever i dem? Det går inte att ångra." : "Radera ditt konto och allt du gjort? Det går inte att ångra.")) return;
+      go.disabled = true;
+      try {
+        await API.post("/api/me/delete", { password: pass.value });
+      } catch (err) {
+        dmsg.className = "account-msg is-error";
+        dmsg.textContent = err.message;
+        go.disabled = false;
+        return;
+      }
+      // nothing of the old account may be sent again from this browser
+      dirtyLessons.clear();
+      pendingAttempts.length = 0;
+      try { localStorage.removeItem(outboxKey()); } catch (e) { /* nothing to remove */ }
+      window.GaussicaAuth.logout();
+    });
+    del.append(wrap, dmsg, go);
+    box.append(info, download, msg, del);
+    return box;
+  }
+
   // "Mitt konto": who is signed in, change password, sign out.
   function renderStudentModal() {
     if (!studentModalCard) return;
@@ -3076,7 +3151,7 @@
       flushProgress(false).then(function () { window.GaussicaAuth.logout(); });
     });
 
-    studentModalCard.append(header, form, logout);
+    studentModalCard.append(header, form, myDataSection(u), logout);
 
     if (studentModal && !studentModal.dataset.listenerAdded) {
       studentModal.dataset.listenerAdded = "true";
@@ -3138,22 +3213,36 @@
     URL.revokeObjectURL(url);
   }
 
-  function exportDataJSON() {
-    const jsonStr = JSON.stringify({
-      exportedAt: new Date().toISOString(),
-      classes: teacherCache.classes,
-      students: teacherCache.students
-    }, null, 2);
-
-    const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8;" });
+  function downloadJSON(filename, value) {
+    const blob = new Blob([JSON.stringify(value, null, 2)], { type: "application/json;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "gaussica-elever-" + new Date().toISOString().slice(0, 10) + ".json";
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  }
+
+  function exportDataJSON() {
+    downloadJSON("gaussica-elever-" + new Date().toISOString().slice(0, 10) + ".json", {
+      exportedAt: new Date().toISOString(),
+      classes: teacherCache.classes,
+      students: teacherCache.students
+    });
+  }
+
+  // Everything the site holds about one student, as a file the teacher can hand over when the student or a guardian asks.
+  function exportStudentJSON(student) {
+    downloadJSON("gaussica-" + String(student.username || "elev").replace(/[^\w.-]+/g, "_") + "-" + new Date().toISOString().slice(0, 10) + ".json", {
+      exportedAt: new Date().toISOString(),
+      account: { name: student.name, username: student.username, class: student.class, createdAt: student.createdAt },
+      progress: student.lessonProgress,
+      attempts: student.attempts,
+      feedbackFromTeacher: student.feedback,
+      messages: student.chat
+    });
   }
 
   // Unanswered questions show as a badge on the teacher link, also while the teacher is somewhere else on the site.
@@ -3233,6 +3322,8 @@
           return API.post("/api/teacher/students/" + encodeURIComponent(studentId) + "/password").then(function (r) { return r.password; });
         },
         deleteStudent: function (studentId) { return API.del("/api/teacher/students/" + encodeURIComponent(studentId)); },
+        deleteClass: function (id) { return API.del("/api/teacher/classes/" + encodeURIComponent(id)); },
+        exportStudent: exportStudentJSON,
         setClassRewards: function (id, on) {
           return API.put("/api/teacher/classes/" + encodeURIComponent(id), { rewards: Boolean(on) }).then(function () {
             const c = teacherCache.classes.find(function (x) { return x.id === id; });

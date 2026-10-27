@@ -508,16 +508,52 @@ window.GaussicaLocal = (function () {
     return { password: temp };
   }
 
+  // Removes a user and everything that belongs to them. A teacher's classes and students go with the teacher.
+  function purgeUser(id) {
+    const user = db.users.find(function (u) { return u.id === id; });
+    if (!user) return;
+    if (user.role === "teacher") {
+      db.classes.filter(function (c) { return c.teacherId === id; }).forEach(function (c) { purgeClass(c.id); });
+    }
+    db.users = db.users.filter(function (u) { return u.id !== id; });
+    db.attempts = db.attempts.filter(function (a) { return a.userId !== id; });
+    delete db.progress[id];
+    db.feedback = db.feedback.filter(function (f) { return f.studentId !== id && f.teacherId !== id; });
+    db.chat = db.chat.filter(function (c) { return c.studentId !== id && c.teacherId !== id; });
+    db.assignments = db.assignments.filter(function (a) { return a.studentId !== id && a.teacherId !== id; });
+    if (db.session === id) db.session = null;
+  }
+
+  function purgeClass(classId) {
+    db.users.filter(function (u) { return u.classId === classId && u.role === "student"; }).forEach(function (u) { purgeUser(u.id); });
+    db.assignments = db.assignments.filter(function (a) { return a.classId !== classId; });
+    db.classes = db.classes.filter(function (c) { return c.id !== classId; });
+  }
+
   function deleteStudent(studentId) {
     const t = requireTeacher();
     const student = studentOfTeacher(Number(studentId), t.id);
     if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
-    db.users = db.users.filter(function (u) { return u.id !== student.id; });
-    db.attempts = db.attempts.filter(function (a) { return a.userId !== student.id; });
-    delete db.progress[student.id];
-    db.feedback = db.feedback.filter(function (f) { return f.studentId !== student.id; });
-    db.chat = db.chat.filter(function (c) { return c.studentId !== student.id; });
-    db.assignments = db.assignments.filter(function (a) { return a.studentId !== student.id; });
+    purgeUser(student.id);
+    save();
+    return { ok: true };
+  }
+
+  function deleteClass(id) {
+    const t = requireTeacher();
+    const cls = db.classes.find(function (c) { return c.id === Number(id) && c.teacherId === t.id; });
+    if (!cls) throw ApiError(404, "Klassen finns inte.");
+    const students = db.users.filter(function (u) { return u.classId === cls.id && u.role === "student"; }).length;
+    purgeClass(cls.id);
+    save();
+    return { ok: true, students: students };
+  }
+
+  async function deleteMyAccount(b) {
+    const u = requireUser();
+    if (!(await verifyPassword(str(b.password, 200), u.passwordHash))) throw ApiError(400, "Lösenordet stämmer inte.");
+    purgeUser(u.id);
+    db.session = null;
     save();
     return { ok: true };
   }
@@ -531,6 +567,7 @@ window.GaussicaLocal = (function () {
     if (method === "POST" && path === "/api/login") return login(body);
     if (method === "POST" && path === "/api/logout") { db.session = null; save(); return { ok: true }; }
     if (method === "POST" && path === "/api/me/password") return changePassword(body);
+    if (method === "POST" && path === "/api/me/delete") return deleteMyAccount(body);
     if (method === "GET" && path === "/api/me/data") {
       const u = requireUser();
       const isStudent = u.role === "student";
@@ -557,6 +594,7 @@ window.GaussicaLocal = (function () {
     if (method === "GET" && path === "/api/teacher/classes") return listClasses();
     if (method === "POST" && path === "/api/teacher/classes") return createClass(body);
     if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(path)) && method === "PUT") return updateClass(m[1], body);
+    if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(path)) && method === "DELETE") return deleteClass(m[1]);
     if (method === "GET" && path === "/api/teacher/students") return teacherStudents();
     if (method === "GET" && path === "/api/teacher/assignments") return listAssignments();
     if (method === "POST" && path === "/api/teacher/assignments") return createAssignment(body);

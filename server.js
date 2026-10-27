@@ -35,7 +35,7 @@ if (process.argv.includes("--teacher-code")) {
 const MIME = {
   ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon", ".webmanifest": "application/manifest+json",
-  ".md": "text/markdown; charset=utf-8"
+  ".md": "text/markdown; charset=utf-8", ".woff2": "font/woff2"
 };
 
 // Everything index.html loads, plus the lessons folder and README. Server code and data are never served.
@@ -62,7 +62,8 @@ function serveStatic(req, res, pathname) {
   if (rel === "/") rel = "/index.html";
   // lessons/bundle.json is made for the deployed site; here the page reads the single files, which are always current
   const isLesson = /^\/lessons\/[^/]+\.json$/.test(rel) && rel !== "/lessons/bundle.json";
-  if (!currentPublic().has(rel) && !isLesson) return notFound(res);
+  const isFont = /^\/fonts\/[\w-]+\.woff2$/.test(rel);
+  if (!currentPublic().has(rel) && !isLesson && !isFont) return notFound(res);
   const file = path.join(ROOT, rel);
   if (!file.startsWith(ROOT + path.sep)) return notFound(res);
   fs.readFile(file, function (err, data) {
@@ -93,7 +94,7 @@ const server = http.createServer(function (req, res) {
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("Referrer-Policy", "same-origin");
   res.setHeader("Content-Security-Policy",
-    "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; " +
+    "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; " +
     "img-src 'self' data: blob:; connect-src 'self' " + apiOrigin() + "; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
 
   let url;

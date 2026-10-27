@@ -416,6 +416,25 @@ Läraren väljer "🖨 Arbetsblad" i lärarvyn (`worksheet.js`): en eller flera 
 
 Texten "Så hanteras dina uppgifter" (`privacy.js`) visas från sidfoten och inloggningsrutan. Lägg gärna in en kontaktadress i `config.js` (`contact`), så visas den i texten. Om skolan eller huvudmannen använder sidan bör de också kontrollera texten mot sina egna regler för personuppgifter.
 
+## För skolor: avtal, konsekvensbedömning och radering
+
+Svenska skolor behöver ofta ett personuppgiftsbiträdesavtal, en konsekvensbedömning och besked om var uppgifterna lagras innan en tjänst får användas. Mappen [`docs/skola/`](docs/skola/README.md) har mallar och underlag på svenska:
+
+- `personuppgiftsbitradesavtal.md`: avtalsmall enligt artikel 28 med bilagor för behandling, säkerhet och underbiträden.
+- `konsekvensbedomning.md`: kort konsekvensbedömning med risker och åtgärder.
+- `dataplats-och-underbitraden.md`: var databasen ligger (Cloudflare D1 med EU-jurisdiktion), vad som går till tredje part och hur man flyttar en databas till EU.
+- `radering-och-gallring.md`: vem som kan radera vad, rekommenderad gallring och hur du som driver sidan raderar på begäran.
+
+I själva tjänsten kan:
+
+- **eleven** ladda ner sina uppgifter och radera sitt konto (Konto, Mina uppgifter; raderingen kräver lösenordet),
+- **läraren** ladda ner en elevs uppgifter, radera en elev eller radera en hel klass (lärarvyn, Klasser, Radera klassen, där klassens namn måste skrivas för att bekräfta),
+- **läraren** radera sitt eget konto, och då följer lärarens klasser och alla elever i dem med.
+
+Raderingen tar bort allt som hör till kontot: svar, framsteg, ritningar, meddelanden, uppdrag, sessioner och feedback till tjänsten som personen skickat som inloggad. Den görs i Node-servern, Cloudflare-workern och demoläget med samma regler. `tests/api-delete.js` och `tests/worker-delete.js` kontrollerar att inget blir kvar och att ingen annans uppgifter berörs (workertestet kör workerns riktiga SQL mot SQLite). Mallarna är underlag, inte juridisk rådgivning: fyll i det som står inom hakparentes och låt skolans dataskyddsombud granska dem.
+
+Typsnitten (Nunito och Lexend) ligger i mappen `fonts/` och hämtas från sidans egen server, inte från Google, så ingen elevs IP-adress går dit. De är fria typsnitt (SIL Open Font License), se `fonts/README.md`.
+
 ## Uppdrag och återkoppling
 
 - **Uppdrag.** I lärarvyn (rutan "Uppdrag") ger du en klass, eller en enskild elev, en lektion att göra, med datum och en hälsning. Du kan också trycka "Ge som uppdrag" på en lektion när du är inloggad som lärare. Uppdraget räknas som klart när eleven klarat alla uppgifter i lektionen, och du ser per elev om den är klar, påbörjad eller inte påbörjad.

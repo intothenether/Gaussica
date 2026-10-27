@@ -398,6 +398,17 @@ window.GaussicaTeacher = (function () {
         const row = el("div", "tv-class");
         row.append(el("strong", "", c.name), el("span", "tv-code", c.code),
           el("span", "tv-muted", plural(c.students, "elev", "elever")));
+        const wipe = button("Radera klassen", "tv-btn is-danger tv-small", function () {
+          const typed = window.prompt("Det här raderar klassen " + c.name + ", " + plural(c.students, "elev", "elever") + " och allt eleverna gjort. Det går inte att ångra.\n\nSkriv klassens namn (" + c.name + ") för att bekräfta:");
+          if (typed === null) return;
+          if (typed.trim().toLowerCase() !== c.name.trim().toLowerCase()) { ui.notice = { text: "Namnet stämde inte, så ingenting raderades.", error: true }; ctx.rerender(); return; }
+          ctx.actions.deleteClass(c.id).then(function () {
+            ui.notice = { text: "Klassen " + c.name + " och elevernas uppgifter har raderats." };
+            ui.studentId = null;
+            ctx.refresh();
+          }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+        });
+        wipe.title = "Tar bort klassen, alla elevkonton och allt eleverna gjort. Bra att göra när läsåret är slut.";
         const label = el("label", "tv-toggle");
         const box = el("input");
         box.type = "checkbox";
@@ -409,7 +420,7 @@ window.GaussicaTeacher = (function () {
         });
         label.append(box, document.createTextNode(" Stjärnor, märken och djur"));
         label.title = "När det är på ser eleverna stjärnor för klara lektioner och märken de kan samla. Ingen jämförelse mellan elever.";
-        row.appendChild(label);
+        row.append(label, wipe);
         list.appendChild(row);
       });
       section.appendChild(list);
@@ -1020,6 +1031,7 @@ window.GaussicaTeacher = (function () {
         }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
       }),
       button("🖨 Rapport för utskrift", "tv-btn", function () { openReport(a, ctx); }),
+      button("⬇ Ladda ner elevens uppgifter", "tv-btn", function () { ctx.actions.exportStudent(s); }),
       window.GaussicaUnderlag ? button("📋 Bedömningsunderlag", "tv-btn", function () { window.GaussicaUnderlag.openStudent(s, ctx); }) : el("span"),
       button("Ta bort elev", "tv-btn is-danger", function () {
         if (!window.confirm("Ta bort " + s.name + " och alla elevens svar? Det går inte att ångra.")) return;

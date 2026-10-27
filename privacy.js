@@ -28,8 +28,9 @@ window.GaussicaPrivacy = (function () {
       ["Var sparas det?", whereStored()],
       ["Cookies och spårning", "Sidan har ingen spårning och inga reklamcookies."],
       ["Vad sparas i din webbläsare?", "En inloggningsnyckel, så att du förblir inloggad. Dina läsinställningar (textstorlek, typsnitt och talhastighet). En kopia av sidans filer och lektionerna, så att sidan kan öppnas utan internet. När du är inloggad också en kopia av ditt konto och dina framsteg, och svar som inte hunnit skickas när du var utan internet. Svaren skickas när du är uppkopplad igen. Kopian av ditt konto och dina framsteg tas bort när du loggar ut, men svar som ännu inte skickats blir kvar tills de har skickats. Använder du en delad dator, logga alltid ut."],
-      ["Uppläsning och typsnitt", "Knappen Lyssna läser upp texten med den röst som finns i din webbläsare eller på din enhet. Vi skickar ingen text någonstans själva, men en del enheter använder en röst som hämtas från internet. Typsnitten hämtas från Google Fonts, och då ser Google din IP-adress."],
-      ["Dina val", "Du kan be om att få dina uppgifter rättade eller raderade. Elever vänder sig till sin lärare, som kan ta bort ett konto i lärarvyn. " + contact]
+      ["Uppläsning och typsnitt", "Knappen Lyssna läser upp texten med den röst som finns i din webbläsare eller på din enhet. Vi skickar ingen text någonstans själva, men en del enheter använder en röst som hämtas från internet. Typsnitten ligger på sidans egen server, så ingen uppgift om dig skickas till Google eller någon annan för att visa dem."],
+      ["Dina val", "Du kan själv ladda ner allt som sparats om dig och radera ditt konto: öppna Konto uppe till höger och leta efter Mina uppgifter. Raderingen tar bort allt direkt och går inte att ångra. Din lärare kan också ladda ner eller radera dina uppgifter, och en lärare kan radera en hel klass när läsåret är slut. Vill du att något rättas, fråga din lärare. " + contact],
+      ["För skolor", "Skolans dataskyddsombud och rektor kan få ett personuppgiftsbiträdesavtal, en konsekvensbedömning och en beskrivning av var uppgifterna lagras, samt rutiner för radering. " + (cfg.contact ? "Kontakta " + cfg.contact + "." : "Fråga den som driver sidan.")]
     ];
   }
 

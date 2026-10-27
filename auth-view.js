@@ -255,7 +255,7 @@ window.GaussicaAuth = (function () {
           });
           form.appendChild(roles);
           name = input("text", "displayName", "name", { maxlength: "80" });
-          form.appendChild(field("auth-name", "Ditt namn", name));
+          form.appendChild(field("auth-name", "Ditt namn", name, role === "student" ? "Förnamn eller smeknamn räcker. Skriv inget privat som adress eller telefonnummer." : ""));
         }
         user = input("text", "username", "username", { maxlength: "40" });
         form.appendChild(field("auth-user", "Användarnamn", user,

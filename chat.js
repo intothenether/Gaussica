@@ -146,7 +146,7 @@ window.GaussicaChat = (function () {
     const send = el("button", "chat-send", "Skicka 📨");
     send.type = "submit";
     const foot = el("div", "chat-foot");
-    foot.append(el("span", "chat-hint", "Din lärare svarar när meddelandet har lästs. Svaret hittar du här."), send);
+    foot.append(el("span", "chat-hint", "Din lärare svarar när meddelandet har lästs. Svaret hittar du här. Skriv inget privat, som adress eller telefonnummer."), send);
     form.append(area, error, foot);
     panel.appendChild(form);
     overlay.appendChild(panel);

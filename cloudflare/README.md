@@ -50,7 +50,7 @@ Sätt `apiBase: "http://localhost:8787"` och lägg sidans adress i `ALLOWED_ORIG
 
 - Cloudflares gratisplan har dagliga gränser för läsningar och skrivningar i D1. Går ni över dem ger API:t fel tills nästa dygn börjar (klockan 00 UTC). Datan finns kvar.
 - Kontrollera Cloudflares aktuella villkor om du tänker använda sidan kommersiellt.
-- Databasen innehåller elevers namn och svar. `--jurisdiction eu` håller datan i EU. Ange i en kort integritetstext vad som sparas och vem som kan se det.
+- Databasen innehåller elevers namn och svar. `--jurisdiction eu` håller datan i EU. Ange i en kort integritetstext vad som sparas och vem som kan se det. Jurisdiktionen kan inte ändras efteråt: en databas som skapats utan den måste flyttas till en ny. Hur, och allt annat en skola brukar fråga efter (avtal, konsekvensbedömning, var data ligger, radering), står i [`../docs/skola/`](../docs/skola/README.md).
 
 ## Uppdatera en redan driftsatt databas
 

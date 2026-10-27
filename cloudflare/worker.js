@@ -103,6 +103,12 @@ async function readJson(request, limit) {
   }
 }
 
+// How a signed-in sender is written in site_feedback (and the e-mail), so that the messages can be found again when the
+// account is deleted. Keep in step with the SQL in studentPurge.
+function senderLabel(u, className) {
+  return u.display_name + " (" + (u.role === "teacher" ? "lärare" : "elev") + (className ? ", klass " + className : "") + ")";
+}
+
 // ----- validation -----
 const validUsername = (u) => typeof u === "string" && u.length >= 3 && u.length <= 30 && /^[\p{L}\p{N}._-]+$/u.test(u);
 
@@ -362,7 +368,7 @@ function createApi(env, request) {
     let sender = "Inte inloggad";
     if (s) {
       const cls = s.user.class_id ? await one("SELECT name FROM classes WHERE id = ?", s.user.class_id) : null;
-      sender = s.user.display_name + " (" + (s.user.role === "teacher" ? "lärare" : "elev") + (cls ? ", klass " + cls.name : "") + ")";
+      sender = senderLabel(s.user, cls && cls.name);
     }
     const context = cleanChatContext(b.context);
     const f = {
@@ -675,16 +681,72 @@ function createApi(env, request) {
     return [200, { password: temp }];
   }
 
+  // The statements that remove the students picked by `cond` (a test on users, e.g. "id = ?" or "class_id = ?") and everything
+  // that belongs to them. They are meant for db.batch, which runs them as one transaction. Messages sent through the
+  // feedback form are found by the sender text (see senderLabel).
+  function studentPurge(cond, ...params) {
+    const ids = "(SELECT id FROM users WHERE role = 'student' AND " + cond + ")";
+    const del = (sql) => db.prepare(sql).bind(...params);
+    return [
+      del("DELETE FROM site_feedback WHERE sender IN (SELECT u.display_name || ' (elev' || COALESCE(', klass ' || c.name, '') || ')' FROM users u " +
+        "LEFT JOIN classes c ON c.id = u.class_id WHERE u.role = 'student' AND u." + cond + ")"),
+      del("DELETE FROM chat WHERE student_id IN " + ids),
+      del("DELETE FROM attempts WHERE user_id IN " + ids),
+      del("DELETE FROM progress WHERE user_id IN " + ids),
+      del("DELETE FROM sessions WHERE user_id IN " + ids),
+      del("DELETE FROM feedback WHERE student_id IN " + ids),
+      del("DELETE FROM assignments WHERE student_id IN " + ids),
+      del("DELETE FROM users WHERE role = 'student' AND " + cond)
+    ];
+  }
+
   async function deleteStudent(studentId) {
     const s = await requireTeacher();
     const student = await studentOfTeacher(studentId, s.user.id);
-    await db.batch([
-      db.prepare("DELETE FROM chat WHERE student_id = ?").bind(student.id),
-      db.prepare("DELETE FROM attempts WHERE user_id = ?").bind(student.id),
-      db.prepare("DELETE FROM progress WHERE user_id = ?").bind(student.id),
-      db.prepare("DELETE FROM sessions WHERE user_id = ?").bind(student.id),
-      db.prepare("DELETE FROM users WHERE id = ?").bind(student.id)
-    ]);
+    await db.batch(studentPurge("id = ?", student.id));
+    return [200, { ok: true }];
+  }
+
+  // A class is removed together with all its students and their data (end of the school year).
+  async function deleteClass(id) {
+    const s = await requireTeacher();
+    const cls = await one("SELECT id FROM classes WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
+    if (!cls) throw new ApiError(404, "Klassen finns inte.");
+    const count = await one("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'", cls.id);
+    await db.batch(studentPurge("class_id = ?", cls.id).concat([
+      db.prepare("DELETE FROM assignments WHERE class_id = ?").bind(cls.id),
+      db.prepare("DELETE FROM class_settings WHERE class_id = ?").bind(cls.id),
+      db.prepare("DELETE FROM classes WHERE id = ?").bind(cls.id)
+    ]));
+    return [200, { ok: true, students: count ? count.n : 0 }];
+  }
+
+  // "Radera mitt konto": needs the password. A teacher's classes, students and everything about them go with it.
+  async function deleteMyAccount() {
+    const s = await requireUser();
+    const b = await readJson(request, 2000);
+    if (!(await verifyPassword(str(b.password, 200), s.user.password_hash))) throw new ApiError(400, "Lösenordet stämmer inte.");
+    const uid = s.user.id;
+    let statements;
+    if (s.user.role === "teacher") {
+      const mine = "(SELECT id FROM classes WHERE teacher_id = ?)";
+      statements = studentPurge("class_id IN " + mine, uid).concat([
+        db.prepare("DELETE FROM assignments WHERE class_id IN " + mine + " OR teacher_id = ?").bind(uid, uid),
+        db.prepare("DELETE FROM class_settings WHERE class_id IN " + mine).bind(uid),
+        db.prepare("DELETE FROM classes WHERE teacher_id = ?").bind(uid),
+        db.prepare("DELETE FROM chat WHERE teacher_id = ?").bind(uid),
+        db.prepare("DELETE FROM feedback WHERE teacher_id = ?").bind(uid),
+        db.prepare("UPDATE lessons SET updated_by = NULL WHERE updated_by = ?").bind(uid),
+        db.prepare("DELETE FROM site_feedback WHERE sender = ?").bind(senderLabel(s.user, null)),
+        db.prepare("DELETE FROM sessions WHERE user_id = ?").bind(uid),
+        db.prepare("DELETE FROM attempts WHERE user_id = ?").bind(uid),
+        db.prepare("DELETE FROM progress WHERE user_id = ?").bind(uid),
+        db.prepare("DELETE FROM users WHERE id = ?").bind(uid)
+      ]);
+    } else {
+      statements = studentPurge("id = ?", uid);
+    }
+    await db.batch(statements);
     return [200, { ok: true }];
   }
 
@@ -700,6 +762,7 @@ function createApi(env, request) {
       return [200, { ok: true }];
     }
     if (method === "POST" && p === "/api/me/password") return changePassword();
+    if (method === "POST" && p === "/api/me/delete") return deleteMyAccount();
     if (method === "GET" && p === "/api/me/data") return myData();
     if (method === "POST" && p === "/api/me/feedback/read") return markRead();
     if (method === "POST" && p === "/api/feedback") return postFeedback();
@@ -715,6 +778,7 @@ function createApi(env, request) {
     if (method === "GET" && p === "/api/teacher/classes") return listClasses();
     if (method === "POST" && p === "/api/teacher/classes") return createClass();
     if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "PUT") return updateClass(m[1]);
+    if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "DELETE") return deleteClass(m[1]);
     if (method === "GET" && p === "/api/teacher/students") return teacherStudents();
     if (method === "GET" && p === "/api/teacher/assignments") return listAssignments();
     if (method === "POST" && p === "/api/teacher/assignments") return createAssignment();
