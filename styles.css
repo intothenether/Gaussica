@@ -4709,7 +4709,7 @@ html:is(.is-keyboard, .is-short) .pl-tools { display: none; }
 .hs-title { margin: 0 0 4px; font: 800 24px/1.2 "Nunito", sans-serif; color: var(--ink); }
 .hs-meta { margin: 0 0 12px; color: var(--muted); font-size: 14px; font-weight: 600; }
 .hs .mb-bar { margin: 0 0 14px; }
-.hs-go { display: inline-block; text-decoration: none; }
+.hs-go { text-decoration: none; }
 
 /* the pet panel */
 .hero-pet { display: grid; justify-items: center; align-content: center; gap: 10px; padding: 22px 18px 20px; background: color-mix(in srgb, var(--accent) 30%, var(--hero-1)); }
