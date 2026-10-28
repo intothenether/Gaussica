@@ -110,7 +110,7 @@
       ]
     },
     {
-      "prompt": "Mia skriver ett tal med 4 hundratal, 0 tiotal och 8 ental. Vilket tal skriver hon?",
+      "prompt": "@djur skriver ett tal med 4 hundratal, 0 tiotal och 8 ental. Vilket tal skriver @djur?",
       "answer": [
         "408"
       ],

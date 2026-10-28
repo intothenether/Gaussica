@@ -1,0 +1,208 @@
+{
+  "id": "fakultet-permutationer",
+  "area": "data",
+  "title": "Ordningar: fakultet och permutationer",
+  "level": "Räkna ordningar · ungefär åk 9",
+  "grade": 9,
+  "duration": "9 min",
+  "prerequisites": [
+    "kombinatorik"
+  ],
+  "summary": "Antalet sätt att ordna n olika saker i en rad är n!, fakulteten. Ordnar du bara några av dem stannar multiplikationen tidigare.",
+  "explanationTitle": "På hur många sätt kan de stå?",
+  "explanation": "Problemet: Fem kompisar ska ställa sig på rad för ett foto. På hur många olika sätt kan de stå? Den som står först kan väljas på 5 sätt. Sedan finns 4 kvar till andra platsen, sedan 3, 2 och 1. Enligt multiplikationsprincipen är det 5 · 4 · 3 · 2 · 1 = 120 sätt. Den sortens multiplikation, där du räknar ned till 1, kallas fakultet och skrivs 5!. Alltså är 5! = 120. Antalet sätt att ordna n olika saker i en rad är n!. Ska du bara ordna några av dem, till exempel dela ut guld, silver och brons bland fem deltagare, börjar du på samma sätt men stannar efter tre faktorer: 5 · 4 · 3 = 60. Sådana ordnade urval kallas permutationer.",
+  "visual": {
+    "type": "tabell",
+    "title": "Fakultet växer snabbt",
+    "headers": [
+      "n",
+      "n! = n · (n − 1) · … · 1"
+    ],
+    "rows": [
+      [
+        "1",
+        "1"
+      ],
+      [
+        "2",
+        "2"
+      ],
+      [
+        "3",
+        "6"
+      ],
+      [
+        "4",
+        "24"
+      ],
+      [
+        "5",
+        "120"
+      ],
+      [
+        "6",
+        "720"
+      ]
+    ]
+  },
+  "rule": "n! = n · (n − 1) · … · 2 · 1. Antalet sätt att ordna n olika saker är n!. Att ordna k av n saker ger n · (n − 1) · … med k faktorer.",
+  "ruleLabel": "FAKULTET",
+  "example": "4 böcker på en hylla kan ordnas på 4! = 4 · 3 · 2 · 1 = 24 sätt. Tre prisplatser bland 5 deltagare: 5 · 4 · 3 = 60 sätt.",
+  "practice": [
+    {
+      "id": "ko",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          3,
+          7
+        ]
+      },
+      "prompt": "På hur många sätt kan {n} personer stå i en kö?",
+      "answer": [
+        "=fact(n)"
+      ],
+      "correct": "Rätt! {n}! = {fact(n)}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*n"
+          ],
+          "message": "Den som står först kan väljas på {n} sätt, men sedan finns bara {n-1} kvar att välja bland, och så vidare."
+        }
+      ]
+    },
+    {
+      "id": "prispall",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          5,
+          9
+        ]
+      },
+      "prompt": "{n} deltagare tävlar. På hur många sätt kan guld, silver och brons delas ut?",
+      "answer": [
+        "=n*(n-1)*(n-2)"
+      ],
+      "correct": "Rätt! {n} · {n-1} · {n-2} = {n*(n-1)*(n-2)}.",
+      "feedback": [
+        {
+          "answers": [
+            "=fact(n)"
+          ],
+          "message": "{n}! är för många faktorer. Bara tre platser delas ut, så multiplicera tre tal."
+        }
+      ]
+    },
+    {
+      "id": "fakultet-kvot",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          5,
+          9
+        ]
+      },
+      "prompt": "Vad är {n}! delat med {n-2}!?",
+      "answer": [
+        "=n*(n-1)"
+      ],
+      "correct": "Rätt! {n}! = {n} · {n-1} · {n-2}!, så när du delar med {n-2}! är det {n} · {n-1} = {n*(n-1)} kvar.",
+      "feedback": [
+        {
+          "answers": [
+            "=fact(n)"
+          ],
+          "message": "{fact(n)} är bara {n}!. Dela med {n-2}!, då försvinner alla faktorer från {n-2} och neråt."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "På hur många sätt kan 4 personer stå i en kö?",
+    "answer": [
+      "24"
+    ],
+    "correct": "Rätt! 4! = 4 · 3 · 2 · 1 = 24.",
+    "feedback": [
+      {
+        "answers": [
+          "16"
+        ],
+        "message": "16 är 4 · 4. När en person har ställt sig först finns bara 3 kvar att välja bland."
+      },
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "10 är 4 + 3 + 2 + 1. Multiplicera i stället: 4 · 3 · 2 · 1."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Sex elever ska sitta på 6 stolar i en rad. På hur många sätt kan de sitta?",
+      "answer": [
+        "720"
+      ],
+      "correct": "Rätt! 6! = 6 · 5 · 4 · 3 · 2 · 1 = 720.",
+      "feedback": [
+        {
+          "answers": [
+            "36"
+          ],
+          "message": "36 är 6 · 6. När en elev har satt sig finns bara 5 kvar att välja bland, och så vidare."
+        },
+        {
+          "answers": [
+            "21"
+          ],
+          "message": "21 är 6 + 5 + 4 + 3 + 2 + 1. Multiplicera i stället."
+        }
+      ]
+    },
+    {
+      "prompt": "I ett lopp deltar 8 löpare. På hur många olika sätt kan de tre första platserna fördelas?",
+      "answer": [
+        "336"
+      ],
+      "correct": "Rätt! Första platsen kan tas av 8, andra av 7 och tredje av 6: 8 · 7 · 6 = 336.",
+      "feedback": [
+        {
+          "answers": [
+            "512"
+          ],
+          "message": "512 är 8 · 8 · 8. En löpare kan inte ta flera platser, så antalet val minskar: 8 · 7 · 6."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många olika tresiffriga tal kan du bilda med siffrorna 1, 2 och 3 om varje siffra används en gång?",
+      "answer": [
+        "6"
+      ],
+      "correct": "Rätt! 3! = 3 · 2 · 1 = 6.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är bara hur många siffror det finns. Tänk på hur många val du har för varje plats."
+        },
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "9 är 3 · 3. När första siffran är vald finns bara 2 kvar."
+        }
+      ]
+    }
+  ]
+}

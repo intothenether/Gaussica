@@ -201,7 +201,7 @@
       ]
     },
     {
-      "prompt": "Mira tänker på ett tal. Hon lägger till 5 och drar sedan bort 2. Nu har hon 10. Vilket tal tänkte hon på?",
+      "prompt": "@djur tänker på ett tal. Först läggs 5 till och sedan dras 2 bort. Nu är det 10. Vilket tal tänkte @djur på?",
       "answer": [
         "7"
       ],
@@ -217,7 +217,7 @@
           "answers": [
             "3"
           ],
-          "message": "3 är vad stegen ändrar talet med. Det talet Mira tänkte på är 3 mindre än 10."
+          "message": "3 är vad stegen ändrar talet med. Det talet @djur tänkte på är 3 mindre än 10."
         }
       ]
     },

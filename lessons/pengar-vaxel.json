@@ -261,7 +261,7 @@
       ]
     },
     {
-      "prompt": "Mira köper ett suddgummi för 8 kr och en penna för 15 kr. Hon betalar med 50 kr. Hur mycket får hon tillbaka?",
+      "prompt": "@djur köper ett suddgummi för 8 kr och en penna för 15 kr. @djur betalar med 50 kr. Hur mycket får @djur tillbaka?",
       "answer": [
         "27",
         "27 kr"
@@ -273,7 +273,7 @@
             "23",
             "23 kr"
           ],
-          "message": "23 kr är vad hon betalar för sakerna. Räkna ut växeln: 50 minus 23."
+          "message": "23 kr är vad sakerna kostar tillsammans. Räkna ut växeln: 50 minus 23."
         },
         {
           "answers": [

@@ -1,0 +1,250 @@
+{
+  "id": "delbarhetsregler",
+  "area": "tal",
+  "title": "Delbarhetsregler",
+  "level": "Se om ett tal går att dela · ungefär åk 5",
+  "grade": 5,
+  "duration": "8 min",
+  "prerequisites": [
+    "delare"
+  ],
+  "summary": "Genom att titta på siffrorna kan du se om ett tal går att dela med 2, 3, 5, 9 och 10 utan att dela.",
+  "explanationTitle": "Titta på siffrorna",
+  "explanation": "Problemet: Du har 156 kulor och vill dela dem lika på 3 kompisar utan att några blir över. Går det? Du kan dela 156 med 3 och se, men det finns ett snabbare sätt att veta det i förväg. Det finns regler som bara tittar på siffrorna. Ett tal går att dela med 2 om sista siffran är jämn (0, 2, 4, 6 eller 8). Det går att dela med 5 om sista siffran är 0 eller 5, och med 10 om sista siffran är 0. För 3 och 9 lägger du ihop alla siffror, siffersumman. Går siffersumman att dela med 3, går talet att dela med 3. Går den att dela med 9, går talet att dela med 9. Siffersumman av 156 är 1 + 5 + 6 = 12, och 12 går att dela med 3. Alltså går 156 att dela med 3 utan rest.",
+  "visual": {
+    "type": "tabell",
+    "title": "Delbarhetsregler",
+    "headers": [
+      "Delbart med",
+      "Regeln",
+      "Exempel"
+    ],
+    "rows": [
+      [
+        "2",
+        "Sista siffran är jämn",
+        "148: sista siffran är 8"
+      ],
+      [
+        "3",
+        "Siffersumman går att dela med 3",
+        "156: 1 + 5 + 6 = 12"
+      ],
+      [
+        "5",
+        "Sista siffran är 0 eller 5",
+        "230: sista siffran är 0"
+      ],
+      [
+        "9",
+        "Siffersumman går att dela med 9",
+        "738: 7 + 3 + 8 = 18"
+      ],
+      [
+        "10",
+        "Sista siffran är 0",
+        "470: sista siffran är 0"
+      ]
+    ]
+  },
+  "rule": "2: sista siffran är jämn. 5: sista siffran är 0 eller 5. 10: sista siffran är 0. 3 och 9: siffersumman går att dela med 3 respektive 9.",
+  "ruleLabel": "DELBARHETSREGLER",
+  "example": "Går 4725 att dela med 9? Siffersumman är 4 + 7 + 2 + 5 = 18, och 18 går att dela med 9. Ja.",
+  "practice": [
+    {
+      "id": "siffersumma",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          0,
+          9
+        ],
+        "c": [
+          0,
+          9
+        ]
+      },
+      "prompt": "Vad är siffersumman för talet {a}{b}{c}?",
+      "answer": [
+        "=a+b+c"
+      ],
+      "correct": "Rätt! {a} + {b} + {c} = {a+b+c}.",
+      "feedback": [
+        {
+          "answers": [
+            "=c"
+          ],
+          "message": "{c} är sista siffran. Siffersumman är alla siffror tillsammans."
+        }
+      ]
+    },
+    {
+      "id": "rest-3",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          0,
+          9
+        ],
+        "c": [
+          0,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "a+b+c",
+          "min": 3
+        }
+      ],
+      "prompt": "Talet {a}{b}{c} delas med 3. Vilken rest blir det?",
+      "answer": [
+        "=mod(a+b+c,3)"
+      ],
+      "correct": "Rätt! Siffersumman är {a+b+c}, och {a+b+c} delat med 3 ger resten {mod(a+b+c,3)}. Samma rest får talet.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b+c"
+          ],
+          "message": "{a+b+c} är siffersumman. Resten får du när siffersumman delas med 3."
+        }
+      ]
+    },
+    {
+      "id": "saknad-siffra",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          0,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "a+b",
+          "min": 3
+        }
+      ],
+      "prompt": "Vilken är den minsta siffra som kan stå i stället för ? i talet {a}{b}? om talet ska gå att dela med 3?",
+      "answer": [
+        "=mod(3-mod(a+b,3),3)"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b}, och siffran som fattas ger en siffersumma som går att dela med 3.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} är summan av de siffror som redan finns. Vilken siffra gör att summan går att dela med 3?"
+        }
+      ]
+    },
+    {
+      "id": "var-femte",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "n": [
+          20,
+          100,
+          5
+        ]
+      },
+      "prompt": "Hur många av talen från 1 till {n} går att dela med 5?",
+      "answer": [
+        "=n/5"
+      ],
+      "correct": "Rätt! Bara vart femte tal går att dela med 5: {n} delat med 5 är {n/5}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "{n} är alla talen. Bara vart femte går att dela med 5."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad är siffersumman för talet 156?",
+    "answer": [
+      "12"
+    ],
+    "correct": "Rätt! 1 + 5 + 6 = 12.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "6 är sista siffran. Siffersumman är alla siffror tillsammans: 1 + 5 + 6."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Går 4725 att dela med 9? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! Siffersumman är 4 + 7 + 2 + 5 = 18, och 18 går att dela med 9.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Räkna siffersumman: 4 + 7 + 2 + 5 = 18. Går 18 att dela med 9?"
+        }
+      ]
+    },
+    {
+      "prompt": "Vilken är den minsta siffra som kan stå i stället för ? i talet 4?1 om talet ska gå att dela med 3?",
+      "answer": [
+        "1"
+      ],
+      "correct": "Rätt! 4 + 1 + 1 = 6, och 6 går att dela med 3.",
+      "feedback": [
+        {
+          "answers": [
+            "0"
+          ],
+          "message": "Med 0 blir siffersumman 4 + 0 + 1 = 5, och 5 går inte att dela med 3."
+        }
+      ]
+    },
+    {
+      "prompt": "Talet 3140 slutar på 0. Hur många av talen 2, 5 och 10 går det att dela det med utan rest?",
+      "answer": [
+        "3"
+      ],
+      "correct": "Rätt! Sista siffran 0 är jämn, så 2 går. Eftersom den är 0 går också 5 och 10.",
+      "feedback": [
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "Slutar ett tal på 0 går det att dela med fler än ett av dem. Kolla alla tre reglerna."
+        }
+      ]
+    }
+  ]
+}

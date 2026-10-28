@@ -1,0 +1,259 @@
+{
+  "id": "logaritmer",
+  "area": "tal",
+  "title": "Logaritmer",
+  "level": "Vilken exponent behövs? · gymnasiet",
+  "grade": 10,
+  "duration": "10 min",
+  "prerequisites": [
+    "exponentialfunktioner",
+    "tiopotenser"
+  ],
+  "summary": "Tiologaritmen lg(y) är den exponent som 10 ska upphöjas till för att få y. Den löser ekvationer där det okända står i exponenten.",
+  "explanationTitle": "Frågan: vilken exponent?",
+  "explanation": "Problemet: En kultur har 1 bakterie och fördubblas varje timme. Efter hur många timmar är det 1024 bakterier? Du vill lösa 2^x = 1024, där det okända står i exponenten. Du kan prova dig fram: 2^10 = 1024, så x = 10. Men vad är x i 2^x = 100? Det blir inget heltal, och att prova går inte längre. Vi behöver ett verktyg som svarar på frågan vilken exponent som behövs. Det är logaritmen. Tiologaritmen lg(y) är det tal som 10 ska upphöjas till för att ge y. Eftersom 10^3 = 1000 är lg(1000) = 3, och eftersom 10^0 = 1 är lg(1) = 0. Ekvationen 10^x = 50 har lösningen x = lg(50), som miniräknaren ger som ungefär 1,70. För andra baser används att a^x = y ger x = lg(y) delat med lg(a). Så 2^x = 100 ger x = lg(100) delat med lg(2) = 2 delat med 0,301, alltså ungefär 6,64.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tiopotenser och deras logaritmer",
+    "headers": [
+      "Potens",
+      "Talet",
+      "Logaritmen"
+    ],
+    "rows": [
+      [
+        "10^0",
+        "1",
+        "lg(1) = 0"
+      ],
+      [
+        "10^1",
+        "10",
+        "lg(10) = 1"
+      ],
+      [
+        "10^2",
+        "100",
+        "lg(100) = 2"
+      ],
+      [
+        "10^3",
+        "1000",
+        "lg(1000) = 3"
+      ],
+      [
+        "10^4",
+        "10000",
+        "lg(10000) = 4"
+      ]
+    ]
+  },
+  "rule": "lg(y) är det tal x som uppfyller 10^x = y. Till exempel är lg(1000) = 3 eftersom 10^3 = 1000.",
+  "ruleLabel": "LOGARITMER",
+  "example": "lg(100000) = 5 eftersom 10^5 = 100000. Lös 2^x = 64: eftersom 2^6 = 64 är x = 6.",
+  "practice": [
+    {
+      "id": "lg-av-tiopotens",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          1,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "N",
+          "expr": "pow(10,k)"
+        }
+      ],
+      "prompt": "Vad är lg({N})?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! 10^{k} = {N}, så lg({N}) = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k+1"
+          ],
+          "message": "Räkna nollorna eller fråga: 10 upphöjt till vilket tal ger {N}?"
+        },
+        {
+          "answers": [
+            "=N"
+          ],
+          "message": "{N} är talet inuti lg. Svaret är exponenten som 10 ska upphöjas till."
+        }
+      ]
+    },
+    {
+      "id": "tva-upphojt",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "N",
+          "expr": "pow(2,k)"
+        }
+      ],
+      "prompt": "Lös ekvationen 2^x = {N}.",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! 2^{k} = {N}, så x = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=N/2"
+          ],
+          "message": "{N/2} är hälften av {N}. Du söker exponenten: hur många 2:or ska multipliceras för att få {N}?"
+        }
+      ]
+    },
+    {
+      "id": "tre-upphojt",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "N",
+          "expr": "pow(3,k)"
+        }
+      ],
+      "prompt": "Lös ekvationen 3^x = {N}.",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! 3^{k} = {N}, så x = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=N/3"
+          ],
+          "message": "{N/3} är {N} delat med 3. Du söker exponenten: hur många 3:or ska multipliceras för att få {N}?"
+        }
+      ]
+    },
+    {
+      "id": "bakterier-tid",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "c": [
+          1,
+          5
+        ],
+        "k": [
+          3,
+          8
+        ]
+      },
+      "prompt": "En kultur har {c} bakterier och fördubblas varje timme. Efter hur många timmar är det {c*pow(2,k)} bakterier?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! {c} · 2^{k} = {c*pow(2,k)}, så det tar {k} timmar.",
+      "feedback": [
+        {
+          "answers": [
+            "=pow(2,k)"
+          ],
+          "message": "{pow(2,k)} är hur många gånger så många bakterier det blir. Du söker antalet timmar, alltså exponenten."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Vad är lg(10000)?",
+    "answer": [
+      "4"
+    ],
+    "correct": "Rätt! 10^4 = 10000, så lg(10000) = 4.",
+    "feedback": [
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "10^5 = 100000, som är för mycket. Vilken exponent ger 10000?"
+      },
+      {
+        "answers": [
+          "10000"
+        ],
+        "message": "10000 är talet inuti lg. Svaret är exponenten som 10 ska upphöjas till."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vad är lg(1000000)?",
+      "answer": [
+        "6"
+      ],
+      "correct": "Rätt! 10^6 = 1000000, så lg(1000000) = 6.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "10^5 = 100000, som är för litet. Vilken exponent ger 1000000?"
+        }
+      ]
+    },
+    {
+      "prompt": "Lös ekvationen 2^x = 128.",
+      "answer": [
+        "7"
+      ],
+      "correct": "Rätt! 2^7 = 128, så x = 7.",
+      "feedback": [
+        {
+          "answers": [
+            "64"
+          ],
+          "message": "64 är 128 delat med 2. Du söker exponenten: hur många 2:or ska multipliceras för att få 128?"
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "2^6 = 64, som är för litet."
+        }
+      ]
+    },
+    {
+      "prompt": "Miniräknaren ger lg(50) ≈ 1,7. Vilket x löser ekvationen 10^x = 50? Svara med en decimal.",
+      "answer": [
+        "1,7",
+        "1.7"
+      ],
+      "correct": "Rätt! x = lg(50) ≈ 1,7. Kontroll: 10^1,7 ≈ 50.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är 50 delat med 10. Lösningen är exponenten: x = lg(50)."
+        }
+      ]
+    }
+  ]
+}

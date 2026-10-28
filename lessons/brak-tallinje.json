@@ -226,7 +226,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "Mira har 20 kr. Hon spenderar 3/4 av dem. Hur många kronor spenderar hon?",
+      "prompt": "@djur har 20 kr. @djur spenderar 3/4 av dem. Hur många kronor spenderar @djur?",
       "answer": [
         "15",
         "15 kr"
@@ -238,7 +238,7 @@
             "5",
             "5 kr"
           ],
-          "message": "5 kr är 1/4 av 20. Hon spenderar 3 sådana delar, så multiplicera med 3."
+          "message": "5 kr är 1/4 av 20. Det är 3 sådana delar som spenderas, så multiplicera med 3."
         },
         {
           "answers": [

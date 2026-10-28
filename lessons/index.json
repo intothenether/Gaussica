@@ -187,6 +187,21 @@
     "likformighet.json",
     "division-av-brak.json",
     "upprepad-procent.json",
-    "ekvation-fran-text.json"
+    "ekvation-fran-text.json",
+    "uppskatta-rimligt.json",
+    "kassakvitto.json",
+    "forflyttningar.json",
+    "cirkeldiagram.json",
+    "delbarhetsregler.json",
+    "rationella-irrationella.json",
+    "fakultet-permutationer.json",
+    "utan-aterlaggning.json",
+    "potenslagar.json",
+    "exponentialfunktioner.json",
+    "logaritmer.json",
+    "andragradsfunktioner.json",
+    "sinus-cosinussatsen.json",
+    "forandringshastighet.json",
+    "trendlinje.json"
   ]
 }

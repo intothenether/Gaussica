@@ -1,0 +1,260 @@
+{
+  "id": "forflyttningar",
+  "area": "geometri",
+  "title": "Flytta, spegla och vrid i koordinatsystemet",
+  "level": "Förflyttningar med koordinater · ungefär åk 6",
+  "grade": 6,
+  "duration": "9 min",
+  "prerequisites": [
+    "koordinatsystem",
+    "symmetri",
+    "negativa-tal"
+  ],
+  "summary": "En punkt kan flyttas, speglas eller vridas. Med koordinaterna kan du räkna ut var den hamnar.",
+  "explanationTitle": "Räkna med koordinaterna",
+  "explanation": "Problemet: I ett spel står en figur på punkten (2, 3). Du vill flytta den till (6, 2), och du vill också veta var den hamnar om du speglar eller vrider den. Att peka och gissa går långsamt. Koordinaterna ger en säker regel för varje förflyttning. När du flyttar en punkt utan att vrida den lägger du till eller drar bort. Åt höger lägger du till i x och åt vänster drar du bort. Uppåt lägger du till i y och nedåt drar du bort. När du speglar i y-axeln byter x tecken, så (2, 3) blir (−2, 3). När du speglar i x-axeln byter y tecken, så (2, 3) blir (2, −3). Vrider du ett halvt varv (180°) kring origo byter både x och y tecken, och (2, 3) blir (−2, −3). Formen på en figur ändras aldrig, bara var den ligger och åt vilket håll den pekar.",
+  "visual": {
+    "type": "graf",
+    "title": "A = (2, 3) flyttas 4 steg åt höger och 1 steg ned till A′ = (6, 2)",
+    "xmin": -4,
+    "xmax": 8,
+    "ymin": -4,
+    "ymax": 5,
+    "points": [
+      {
+        "x": 2,
+        "y": 3,
+        "label": "A (2, 3)"
+      },
+      {
+        "x": 6,
+        "y": 2,
+        "label": "A′ (6, 2)"
+      }
+    ]
+  },
+  "rule": "Flytta: lägg till eller dra bort i x och y. Spegla i y-axeln: x byter tecken. Spegla i x-axeln: y byter tecken. Halvt varv kring origo: både x och y byter tecken.",
+  "ruleLabel": "FÖRFLYTTNINGAR",
+  "example": "Punkten (2, 3). Flytta 4 åt höger och 1 ned: (6, 2). Spegla i y-axeln: (−2, 3). Vrid ett halvt varv kring origo: (−2, −3).",
+  "practice": [
+    {
+      "id": "flytta",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "x": [
+          -5,
+          5
+        ],
+        "y": [
+          -5,
+          5
+        ],
+        "dx": [
+          1,
+          6
+        ],
+        "dy": [
+          1,
+          6
+        ]
+      },
+      "prompt": "Punkten ({x}, {y}) flyttas {dx} steg åt höger och {dy} steg ned. Vilken y-koordinat har den nya punkten?",
+      "answer": [
+        "=y-dy"
+      ],
+      "correct": "Rätt! Nedåt drar du bort från y: {y} − {dy} = {y-dy}.",
+      "feedback": [
+        {
+          "answers": [
+            "=y+dy"
+          ],
+          "message": "Nedåt drar du bort från y, du lägger inte till."
+        }
+      ]
+    },
+    {
+      "id": "spegla-y",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "x": [
+          -6,
+          6
+        ],
+        "y": [
+          -6,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(x)",
+          "min": 1
+        }
+      ],
+      "prompt": "Punkten ({x}, {y}) speglas i y-axeln. Vilken x-koordinat får spegelbilden?",
+      "answer": [
+        "=0-x"
+      ],
+      "correct": "Rätt! Vid spegling i y-axeln byter x tecken: från {x} till {0-x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x"
+          ],
+          "message": "Vid spegling i y-axeln byter x tecken. Det är y som är kvar som den var."
+        }
+      ]
+    },
+    {
+      "id": "vrid",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "x": [
+          -6,
+          6
+        ],
+        "y": [
+          -6,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(y)",
+          "min": 1
+        }
+      ],
+      "prompt": "Punkten ({x}, {y}) vrids ett halvt varv (180°) kring origo. Vilken y-koordinat får den?",
+      "answer": [
+        "=0-y"
+      ],
+      "correct": "Rätt! Vid ett halvt varv kring origo byter både x och y tecken: y blir {0-y}.",
+      "feedback": [
+        {
+          "answers": [
+            "=y"
+          ],
+          "message": "Vid ett halvt varv kring origo byter både x och y tecken."
+        }
+      ]
+    },
+    {
+      "id": "spegla-x",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "x": [
+          -6,
+          6
+        ],
+        "y": [
+          -6,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(y)",
+          "min": 1
+        }
+      ],
+      "prompt": "Punkten ({x}, {y}) speglas i x-axeln. Vilken y-koordinat får spegelbilden?",
+      "answer": [
+        "=0-y"
+      ],
+      "correct": "Rätt! Vid spegling i x-axeln byter y tecken: från {y} till {0-y}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x"
+          ],
+          "message": "Vid spegling i x-axeln är det y som byter tecken. Frågan gäller y-koordinaten."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Punkten A = (2, 3) flyttas 4 steg åt höger och 1 steg ned. Vilken x-koordinat har den nya punkten?",
+    "answer": [
+      "6"
+    ],
+    "correct": "Rätt! Åt höger lägger du till i x: 2 + 4 = 6.",
+    "feedback": [
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "2 är den gamla x-koordinaten. Åt höger lägger du till 4."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "3 är den gamla y-koordinaten. Frågan gäller x."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En figur står vid (3, 4). Den flyttas 2 steg åt vänster och 5 steg ned. Vilken y-koordinat har den nu?",
+      "answer": [
+        "-1",
+        "−1"
+      ],
+      "correct": "Rätt! Nedåt drar du bort från y: 4 − 5 = −1.",
+      "feedback": [
+        {
+          "answers": [
+            "9"
+          ],
+          "message": "Nedåt drar du bort från y: 4 − 5."
+        },
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "4 − 5 blir ett negativt tal, −1, eftersom punkten hamnar under x-axeln."
+        }
+      ]
+    },
+    {
+      "prompt": "Hörnet A = (2, 1) i en triangel speglas i x-axeln. Vilken y-koordinat har spegelbilden A′?",
+      "answer": [
+        "-1",
+        "−1"
+      ],
+      "correct": "Rätt! Vid spegling i x-axeln byter y tecken, så 1 blir −1.",
+      "feedback": [
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "Vid spegling i x-axeln byter y tecken. 1 blir −1."
+        }
+      ]
+    },
+    {
+      "prompt": "Punkten (−3, 2) vrids ett halvt varv kring origo. Vilken x-koordinat får den?",
+      "answer": [
+        "3"
+      ],
+      "correct": "Rätt! Både x och y byter tecken, så −3 blir 3.",
+      "feedback": [
+        {
+          "answers": [
+            "-3",
+            "−3"
+          ],
+          "message": "Vid ett halvt varv kring origo byter både x och y tecken. Därför blir −3 till 3."
+        }
+      ]
+    }
+  ]
+}

@@ -133,6 +133,9 @@ async function api() {
   run("pet teacher", "tests/pet-teacher.js");
   run("fluency", "tests/fluency.js");
   run("spaced repetition", "tests/spaced.js");
+  run("path level", "tests/path-level.js");
+  run("drawing pad slash", "tests/canvas-slash.js");
+  run("pet in the problems", "tests/personal.js");
   run("workshop", "tests/workshop.js");
   run("syllabus", "tests/lgr22.js");
   await api();

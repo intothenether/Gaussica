@@ -225,7 +225,7 @@ window.GaussicaPractice = (function () {
       if (Array.isArray(r.steps)) problem.solution = r.steps.map(String).filter(function (s) { return s.trim(); });
       if (problem.solution && problem.solution.some(function (s) { return /\{|\}/.test(s); })) continue;
       if (/NaN|undefined/.test(JSON.stringify(problem)) || /\{|\}/.test(problem.prompt)) continue;
-      return problem;
+      return window.GaussicaLesson && window.GaussicaLesson.personalize ? window.GaussicaLesson.personalize(problem) : problem;
     }
     return null;
   }

@@ -202,7 +202,7 @@ window.GaussicaPracticeEditor = (function () {
 
   function PR() { return window.GaussicaPractice; }
 
-  const BUILTIN = new Set(["abs", "sqrt", "round", "floor", "ceil", "min", "max", "pow", "mod", "sgd", "divcount", "isprime", "primecount", "nextprime", "sin", "cos", "tan", "asin", "acos", "atan", "pi"]);
+  const BUILTIN = new Set(["abs", "sqrt", "round", "floor", "ceil", "min", "max", "pow", "mod", "sgd", "divcount", "isprime", "primecount", "nextprime", "fact", "sin", "cos", "tan", "asin", "acos", "atan", "pi"]);
 
   // Names written in {…}, in "=…" answers and in uträkningar that are neither a random number, a calculated value nor a random word.
   function unknownNames(t) {

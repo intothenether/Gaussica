@@ -134,11 +134,11 @@
       ]
     },
     {
-      "prompt": "Maja har 18 kakor och vill lägga dem på lika många kakor per tallrik, utan att något blir över. På hur många olika sätt kan hon välja antal tallrikar? (En tallrik räknas.)",
+      "prompt": "@djur har 18 @mat och vill lägga dem så att det blir lika många på varje tallrik, utan att något blir över. På hur många olika sätt kan @djur välja antal tallrikar? (En tallrik räknas.)",
       "answer": [
         "6"
       ],
-      "correct": "Rätt! Hon kan välja 1, 2, 3, 6, 9 eller 18 tallrikar.",
+      "correct": "Rätt! @djur kan välja 1, 2, 3, 6, 9 eller 18 tallrikar.",
       "feedback": [
         {
           "answers": [

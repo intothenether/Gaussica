@@ -1,4 +1,4 @@
-// Your own pet: one of nine animals that you earn coins ("mynt") for by learning, and spend them on clothes, accessories,
+// Your own pet: one of thirteen animals that you earn coins ("mynt") for by learning, and spend them on clothes, accessories,
 // backgrounds and furniture, and on treats and toys. It is meant to go with the learning, not to replace it:
 //
 //  * Coins are paid for finishing lessons and for sticking with a question after a mistake, not for every right answer,
@@ -9,7 +9,7 @@
 //  * Coins are shown when a lesson or a round is finished, never in the middle of a question.
 //  * A teacher can switch it off for a class, with the same switch as stars and badges.
 //
-//   GaussicaPet.init(deps)         deps: { getUser, getCourse, getProgress, enabled(), lessonStars(lesson), save(record), refresh() }
+//   GaussicaPet.init(deps)         deps: { getUser, getCourse, getProgress, enabled(), lessonStars(lesson), doneAssignments(), save(record), refresh() }
 //   GaussicaPet.render(container, { layout: "hero" })  the pet (or the invitation to choose one) on the start page: a card, or large in the hero
 //   GaussicaPet.check()            after progress changes: update the coin chip
 //   GaussicaPet.ribbon()           for a finished lesson: the pet cheering and the new coins, or null
@@ -18,7 +18,14 @@
 //
 // Pure parts, also used by the tests: earned(ctx), areaCounts(ctx), lockOf(item, counts), balanceOf(total, pet), makePet, buyItem, wearItem.
 //   record = { v: 1, kind, color, name, owned: { itemId: pricePaid }, worn: { hat, face, neck }, bg, room: { wall, rug, bed, ... }, scene: "room" | "bg", at,
-//              use: { day, food, play, fed, played, love, spent } }
+//              use: { day, food, play, fed, played, love, spent }, quests: { assignmentId: coins } }
+//
+// Two sources that bring a student back to what was hard or to what the teacher asked for:
+//  * "Tillbaka igen": a kind of question (a lesson question and the generated questions of the same template belong together, as in
+//    Mina knepiga) that went wrong on one day pays 2 coins when a question of that kind is solved at the first try on a later day,
+//    up to three a day. The same day does not count, so it cannot be done on purpose in one sitting.
+//  * Uppdrag: when an assignment from the teacher is finished the pet gets 10 coins, once. The finished assignment is written into the
+//    record (quests) the first time the app sees it, so the coins stay if the teacher takes the assignment away afterwards.
 //
 // Food and play ("Mat och lek"): treats and toys are used up, not kept. Each costs a few coins and sets off a short animation. The pet
 // is never hungry or bored when left alone: this is only something nice to spend coins on. To keep it small there is a limit per
@@ -36,6 +43,9 @@ window.GaussicaPet = (function () {
   const STARS = { 2: 2, 3: 4 };    // extra for two and three stars
   const FIXED_PER_LESSON = 3;      // "Ge inte upp": a question solved after wrong answers, one coin, up to 3 per lesson
   const PRACTICE_PER_DAY = 10;     // "Öva mer" and "Repetera": one coin per new question, up to 10 a day
+  const COMEBACK = 2;              // "Tillbaka igen": a kind of question that went wrong on an earlier day, solved at the first try now
+  const COMEBACK_PER_DAY = 3;      // at most three of those a day
+  const QUEST = 10;                // each finished assignment ("uppdrag") from the teacher, once
   const PLACEMENT = 5;             // the placement test, once
   const GIFTS = { mynt5: 5, mynt10: 10, mynt25: 25 };   // coins from the teacher (a sticker on a message)
   const FOOD_PER_DAY = 3;          // treats a day, then the pet is full
@@ -99,6 +109,9 @@ window.GaussicaPet = (function () {
     Object.keys(perLesson).forEach(function (id) { stuck += perLesson[id]; });
     add("stuck", "Gav inte upp efter ett fel", stuck);
 
+    // coming back to a kind of question that went wrong on an earlier day
+    add("comeback", "Tillbaka igen efter ett fel", comebackCoins(subs, lessonIds, ctx.lessons));
+
     // generated practice, a ceiling per day
     const seen = new Set();
     const perDay = {};
@@ -117,10 +130,68 @@ window.GaussicaPet = (function () {
     const placed = student.lessonProgress && student.lessonProgress.placement;
     if (placed && Array.isArray(placed.known)) add("placement", "Nivåtest", PLACEMENT);
 
+    const quests = Object.keys(pet.quests || {}).length;
+    add("quests", quests === 1 ? "Klart uppdrag" : "Klara uppdrag", quests * QUEST);
+
     let gifts = 0, giftCount = 0;
     (student.feedback || []).forEach(function (f) { if (f.sticker && GIFTS[f.sticker]) { gifts += GIFTS[f.sticker]; giftCount += 1; } });
     add("gifts", giftCount === 1 ? "Present från din lärare" : "Presenter från din lärare", gifts);
     return { total: total, parts: parts };
+  }
+
+  // the kind of question a submission belongs to: the template when there is one (a generated question, or a lesson question that has a
+  // template), otherwise the question itself
+  function kindOf(lesson, taskId) {
+    const m = /^practice-(.+)-([0-9a-z]+)$/.exec(String(taskId || ""));
+    if (m) return lesson.id + "|t:" + m[1];
+    const t = (lesson.practice || []).filter(function (x) { return (x.for || []).indexOf(taskId) >= 0; })[0];
+    return t ? lesson.id + "|t:" + t.id : lesson.id + "|q:" + taskId;
+  }
+
+  // subs: the submitted answers, oldest first. Returns the coins for questions solved at the first try on a later day than a mistake.
+  function comebackCoins(subs, lessonIds, lessons) {
+    const byId = {};
+    lessons.forEach(function (l) { byId[l.id] = l; });
+    const owing = {};      // kind -> the day it last went wrong
+    const wrong = {};      // lesson|task -> wrong answers so far
+    const solved = new Set();
+    const perDay = {};
+    let coins = 0;
+    subs.forEach(function (a) {
+      const lesson = byId[a.lessonId];
+      if (!lesson || !lessonIds.has(a.lessonId)) return;
+      const kind = kindOf(lesson, a.taskId);
+      const tk = a.lessonId + "|" + a.taskId;
+      const day = dayKey(a.timestamp);
+      if (!a.completed) {
+        wrong[tk] = (wrong[tk] || 0) + 1;
+        owing[kind] = day;
+        return;
+      }
+      if (solved.has(tk)) return;
+      solved.add(tk);
+      if (wrong[tk]) { owing[kind] = day; return; }     // solved after a mistake: the kind is still owed, from this day
+      if (owing[kind] && owing[kind] !== day) {
+        if ((perDay[day] || 0) < COMEBACK_PER_DAY) {
+          perDay[day] = (perDay[day] || 0) + 1;
+          coins += COMEBACK;
+        }
+        delete owing[kind];   // when the limit of the day was reached it is not saved for another day
+      }
+    });
+    return coins;
+  }
+
+  // The finished assignments that are not yet in the record. Returns the new record, or null when nothing is new.
+  function claimQuests(pet, doneIds) {
+    if (!pet || !pet.kind) return null;
+    const have = pet.quests || {};
+    const fresh = (doneIds || []).map(String).filter(function (id) { return have[id] === undefined; });
+    if (!fresh.length) return null;
+    const next = JSON.parse(JSON.stringify(pet));
+    next.quests = next.quests || {};
+    fresh.forEach(function (id) { next.quests[id] = QUEST; });
+    return next;
   }
 
   function spentOf(pet) {
@@ -316,6 +387,100 @@ window.GaussicaPet = (function () {
     return wrap;
   }
 
+  // ===== the pet's life =====
+  // The pet does not just stand there: every now and then it does something, depending on what is in its room. It sleeps in the bed,
+  // sits on the rug, plays with its toy, looks at the shelf, sniffs the plant and looks out of the window. Late in the evening and at
+  // night it sleeps much more. Without a room it hops, tilts its head or closes its eyes for a moment. It is always calm and short, and
+  // nothing is asked of the student. dx, dy, r and sc move the pet (pixels, degrees, size) for a while; the bubble of the hero says what
+  // it is doing. With reduced motion the pet stays where it is and only the eyes, the thought and the words change.
+  const LIFE = {
+    sova:    { slot: "bed",    w: 3, ms: 9000, dx: -58, dy: -8, r: 5,  sc: 0.88, sleep: true, thought: "z z z", say: ["Zzz... Jag tar en tupplur.", "Jag vilar en stund. Zzz."] },
+    mattan:  { slot: "rug",    w: 3, ms: 6000, dx: 0,   dy: 5,  r: 0,  sc: 0.96, say: ["Det är skönt att sitta på mattan.", "Mjuk matta, bästa platsen."] },
+    leka:    { slot: "toy",    w: 3, ms: 6500, dx: 26,  dy: 0,  r: 0,  sc: 1, hop: true, toy: true, say: ["Titta, jag leker!", "Hoppsan! Vilken härlig leksak."] },
+    hylla:   { slot: "shelf",  w: 3, ms: 6000, dx: 26,  dy: -4, r: -4, sc: 1.02, thought: "📖", say: ["Jag undrar vad det står i böckerna.", "Ska vi läsa något tillsammans?"] },
+    vaxt:    { slot: "plant",  w: 3, ms: 5500, dx: 46,  dy: 0,  r: 7,  sc: 1, thought: "🌱", say: ["Den här växten luktar gott.", "Titta vad fin den är!"] },
+    fonster: { slot: "window", w: 3, ms: 6000, dx: -36, dy: -3, r: -5, sc: 1, thought: "☁️", say: ["Jag tittar på molnen.", "Vad händer där ute?"] },
+    hopp:    { slot: null,     w: 2, ms: 2600, dx: 0,   dy: 0,  r: 0,  sc: 1, hop: true, say: ["Hoppla!", "Nu hoppar jag lite."] },
+    titta:   { slot: null,     w: 2, ms: 4500, dx: 0,   dy: 0,  r: -7, sc: 1, say: ["Hm, vad tänker du på?", "Jag är här om du vill ha sällskap."] },
+    blunda:  { slot: null,     w: 1, ms: 6000, dx: 0,   dy: 2,  r: 3,  sc: 0.98, sleep: true, thought: "z z z", say: ["Jag blundar en liten stund.", "Zzz..."] }
+  };
+
+  function isNight(hour) { return hour >= 21 || hour < 6; }
+
+  // what the pet can do now, and how likely each thing is: only things that have their place in the room, and sleep at night
+  function lifeChoices(pet, hour) {
+    const room = pet && pet.scene === "room" ? (pet.room || {}) : {};
+    const out = [];
+    Object.keys(LIFE).forEach(function (id) {
+      const a = LIFE[id];
+      if (a.slot && !room[a.slot]) return;
+      out.push({ id: id, w: isNight(hour) ? (a.sleep ? a.w * 8 : a.w * 0.5) : a.w });
+    });
+    return out;
+  }
+
+  // rnd: a function that gives a number from 0 up to 1. The same thing is not done twice in a row.
+  function pickLife(pet, hour, rnd, last) {
+    let list = lifeChoices(pet, hour);
+    if (list.length > 1) list = list.filter(function (c) { return c.id !== last; });
+    const total = list.reduce(function (s, c) { return s + c.w; }, 0);
+    let r = rnd() * total;
+    for (let i = 0; i < list.length; i++) { r -= list[i].w; if (r <= 0) return list[i].id; }
+    return list[list.length - 1].id;
+  }
+
+  // Runs the life of the pet in a picture (host holds the svg). onSay(text) gets what the pet says, or null when it is done. getPet() gives the
+  // pet as it is shown (the dialog shows things that are only tried on); by default it is the pet of the student.
+  // It stops by itself when the picture is no longer on the page. Returns a function that stops it.
+  function startLife(host, onSay, getPet) {
+    let timer = null, last = null, stopped = false;
+    const svgOf = function () { return host.querySelector(".pet-svg"); };
+    const clear = function () {
+      const s = svgOf();
+      if (!s) return;
+      s.classList.remove("is-sleeping", "is-hopping", "is-playing", "is-living");
+      ["--dx", "--dy", "--r", "--sc"].forEach(function (k) { s.style.removeProperty(k); });
+      const t = s.querySelector(".pet-thought");
+      if (t) t.remove();
+    };
+    const stop = function () { stopped = true; clearTimeout(timer); clear(); };
+    const later = function (ms) { timer = setTimeout(tick, ms); };
+    const rest = function () {
+      clear();
+      if (onSay) onSay(null);
+      later(7000 + Math.random() * 7000);
+    };
+    function tick() {
+      if (stopped) return;
+      if (!document.body.contains(host)) { stop(); return; }
+      const pet = getPet ? getPet() : petOf();
+      const s = svgOf();
+      // not while a lesson is open, while the tab is hidden, or while the pet is being petted
+      if (!pet || !s || document.hidden || host.dataset.cheering || document.body.classList.contains("player-open")) { later(4000); return; }
+      const id = pickLife(pet, new Date().getHours(), Math.random, last);
+      last = id;
+      const a = LIFE[id];
+      s.classList.add("is-living");
+      if (!reduced()) {
+        s.style.setProperty("--dx", a.dx + "px");
+        s.style.setProperty("--dy", a.dy + "px");
+        s.style.setProperty("--r", a.r + "deg");
+        s.style.setProperty("--sc", String(a.sc));
+        if (a.hop) s.classList.add("is-hopping");
+        if (a.toy) s.classList.add("is-playing");
+      }
+      if (a.sleep) s.classList.add("is-sleeping");
+      if (a.thought) {
+        s.insertAdjacentHTML("beforeend", '<g class="pet-thought"><circle cx="128" cy="62" r="3" fill="#fff" stroke="#c9d3e6" stroke-width="1.6"/><circle cx="134" cy="54" r="4.5" fill="#fff" stroke="#c9d3e6" stroke-width="1.6"/>' +
+          '<rect x="130" y="22" width="52" height="30" rx="15" fill="#fff" stroke="#c9d3e6" stroke-width="2"/><text x="156" y="43" text-anchor="middle" font-size="' + (a.thought.length > 3 ? 14 : 18) + '" font-weight="800" fill="#6b7893" font-family="Nunito, Arial, sans-serif">' + a.thought + '</text></g>');
+      }
+      if (onSay) onSay(a.say[Math.floor(Math.random() * a.say.length)]);
+      timer = setTimeout(rest, a.ms);
+    }
+    later(3500 + Math.random() * 3000);
+    return stop;
+  }
+
   // the pet jumps for a moment (and is happy); fx is an extra thing in the picture (a treat, a toy) that moves by itself
   function cheer(host, pet, fx) {
     if (!host || host.dataset.cheering) return;
@@ -348,8 +513,19 @@ window.GaussicaPet = (function () {
     }
   }
 
+  // Writes the finished assignments into the record. Returns how many are new.
+  function claim() {
+    if (!deps || !enabled() || !petOf() || !deps.doneAssignments) return 0;
+    const next = claimQuests(petOf(), deps.doneAssignments());
+    if (!next) return 0;
+    const n = Object.keys(next.quests).length - Object.keys(petOf().quests || {}).length;
+    deps.save(next);
+    return n;
+  }
+
   function check() {
     if (!deps) return;
+    claim();
     updateChip();
   }
 
@@ -473,6 +649,7 @@ window.GaussicaPet = (function () {
         stage.innerHTML = Art().svg(view);
         stage.addEventListener("click", function () { cheer(stage, view); });
         left.appendChild(stage);
+        startLife(stage, null, function () { return view; });
         const coins = el("p", "pet-coins");
         coins.append(el("span", "coin-icon"), el("b", "", String(bal)), document.createTextNode(" mynt"));
         left.appendChild(coins);
@@ -511,6 +688,8 @@ window.GaussicaPet = (function () {
         [["🏁", "En klar lektion ger 10 mynt, och några till om du fick två eller tre stjärnor."],
           ["💪", "Löser du en fråga efter att ha svarat fel får du ett mynt, upp till tre per lektion."],
           ["🔁", "Öva mer och Repetera ger ett mynt per ny fråga, upp till tio om dagen."],
+          ["↩️", "Gick en sorts fråga fel en dag och du klarar en sådan på första försöket en senare dag får du två mynt, upp till tre gånger om dagen."],
+          ["📌", "Varje klart uppdrag från din lärare ger 10 mynt."],
           ["🎁", "Din lärare kan ge dig mynt, och nivåtestet ger fem."],
           ["🧩", "Teman öppnas när du klarar lektioner i ett område, och köps sedan med mynt."],
           ["🍎", "Mynt kan också bli godsaker och leksaker åt " + pet.name + " (Mat och lek)."]].forEach(function (r) {
@@ -795,7 +974,7 @@ window.GaussicaPet = (function () {
       });
       const copy = el("div", "pet-card-copy");
       copy.appendChild(el("h3", "", "Skaffa ett eget djur! 🐾"));
-      copy.appendChild(el("p", "", "Välj ett av nio djur, till exempel en mops, en räv eller en drake. Du tjänar mynt när du lär dig, och kan köpa kläder, godsaker och annat till ditt djur."));
+      copy.appendChild(el("p", "", "Välj ett av tretton djur, till exempel en mops, en räv eller en axolotl. Du tjänar mynt när du lär dig, och kan köpa kläder, godsaker och annat till ditt djur."));
       container.append(faces, copy, button("Välj ditt djur", "primary-button", open));
       updateChip();
       return;
@@ -854,7 +1033,10 @@ window.GaussicaPet = (function () {
     const coins = el("span", "pet-coins-chip");
     coins.append(el("span", "coin-icon"), el("b", "", String(bal)));
     row.append(el("strong", "hp-name", pet.name), coins);
-    container.append(el("p", "hp-bubble", speech(pet, fresh, bal)), stage, row, button("Mitt djur och butiken", "pet-btn hp-shop", open));
+    const bubble = el("p", "hp-bubble", speech(pet, fresh, bal));
+    const said = bubble.textContent;
+    container.append(bubble, stage, row, button("Mitt djur och butiken", "pet-btn hp-shop", open));
+    startLife(stage, function (text) { bubble.textContent = text || said; });
     if (fresh > 0) {
       writeSeen(ledger().total);
       if (!reduced()) setTimeout(function () { cheer(stage, pet); }, 400);
@@ -866,16 +1048,17 @@ window.GaussicaPet = (function () {
   function ribbon() {
     if (!deps || !enabled() || !petOf()) return null;
     const pet = petOf();
+    const quests = claim();
     const fresh = newCoins();
     if (fresh <= 0) return null;
     writeSeen(ledger().total);
-    check();
+    updateChip();
     const box = el("div", "pet-ribbon");
     const host = el("div", "pet-ribbon-art");
     host.innerHTML = Art().svg(pet, { mood: "happy", bare: true });
     const copy = el("div", "pet-ribbon-copy");
     copy.appendChild(el("strong", "", pet.name + ": Bra jobbat!"));
-    copy.appendChild(el("span", "", "Du fick " + fresh + (fresh === 1 ? " nytt mynt" : " nya mynt") + "."));
+    copy.appendChild(el("span", "", "Du fick " + fresh + (fresh === 1 ? " nytt mynt" : " nya mynt") + "." + (quests ? " Uppdraget från din lärare är klart, det ger " + quests * QUEST + " av dem." : "")));
     box.append(host, copy, button("Till " + pet.name, "pet-btn", open));
     return box;
   }
@@ -926,8 +1109,8 @@ window.GaussicaPet = (function () {
 
   return {
     init: init, current: function () { return deps && enabled() ? petOf() : null; }, render: render, check: check, ribbon: ribbon, face: face, say: say, open: open, enabled: enabled, balance: balance,
-    earned: earned, useThing: useThing, levelOf: levelOf, usedToday: usedToday, careMessage: careMessage, areaCounts: areaCounts, lockOf: lockOf, isOn: isOn, balanceOf: balanceOf, spentOf: spentOf, makePet: makePet, buyItem: buyItem, wearItem: wearItem, cleanName: cleanName,
-    KEY: KEY, GIFTS: GIFTS, LIMITS: { FOOD_PER_DAY: FOOD_PER_DAY, PLAY_PER_DAY: PLAY_PER_DAY, LEVELS: LEVELS, WELCOME: WELCOME, LESSON: LESSON, FIXED_PER_LESSON: FIXED_PER_LESSON, PRACTICE_PER_DAY: PRACTICE_PER_DAY, PLACEMENT: PLACEMENT }
+    LIFE: LIFE, lifeChoices: lifeChoices, pickLife: pickLife, earned: earned, claimQuests: claimQuests, comebackCoins: comebackCoins, useThing: useThing, levelOf: levelOf, usedToday: usedToday, careMessage: careMessage, areaCounts: areaCounts, lockOf: lockOf, isOn: isOn, balanceOf: balanceOf, spentOf: spentOf, makePet: makePet, buyItem: buyItem, wearItem: wearItem, cleanName: cleanName,
+    KEY: KEY, GIFTS: GIFTS, LIMITS: { FOOD_PER_DAY: FOOD_PER_DAY, PLAY_PER_DAY: PLAY_PER_DAY, LEVELS: LEVELS, WELCOME: WELCOME, COMEBACK: COMEBACK, COMEBACK_PER_DAY: COMEBACK_PER_DAY, QUEST: QUEST, LESSON: LESSON, FIXED_PER_LESSON: FIXED_PER_LESSON, PRACTICE_PER_DAY: PRACTICE_PER_DAY, PLACEMENT: PLACEMENT }
   };
 }());
 

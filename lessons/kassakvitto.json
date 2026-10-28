@@ -1,0 +1,265 @@
+{
+  "id": "kassakvitto",
+  "area": "tal",
+  "title": "Kassakvitto: pris, summa och växel",
+  "level": "Läs och kontrollera ett kvitto · ungefär åk 4",
+  "grade": 4,
+  "duration": "8 min",
+  "prerequisites": [
+    "pengar-vaxel",
+    "multiplikation"
+  ],
+  "summary": "Varje rad på ett kvitto är antal gånger styckpris. Du lägger ihop raderna och drar summan från det du betalade för att få växeln.",
+  "explanationTitle": "Läs ett kvitto rad för rad",
+  "explanation": "Problemet: Du handlar i affären och får ett kvitto med flera rader. På kvittot står 3 bullar à 12 kr, en juice för 18 kr och längst ned totalsumman. Hur vet du att kassören har räknat rätt, och hur mycket ska du få tillbaka? Varje rad är en liten uträkning: antal gånger styckpris. Bullarna kostar 3 · 12 = 36 kr. Sedan lägger du ihop alla rader: 36 + 18 = 54 kr. Betalar du med 100 kr får du tillbaka 100 − 54 = 46 kr i växel. Läser du ett kvitto rad för rad kan du själv kontrollera det.",
+  "visual": {
+    "type": "tabell",
+    "title": "Ett kvitto",
+    "headers": [
+      "Vara",
+      "Antal",
+      "Pris per styck",
+      "Summa"
+    ],
+    "rows": [
+      [
+        "Bulle",
+        "3",
+        "12 kr",
+        "36 kr"
+      ],
+      [
+        "Juice",
+        "1",
+        "18 kr",
+        "18 kr"
+      ],
+      [
+        "Totalt",
+        "",
+        "",
+        "54 kr"
+      ]
+    ]
+  },
+  "rule": "En rad är antal · styckpris. Lägg ihop alla rader för summan. Växeln är det du betalade minus summan.",
+  "ruleLabel": "KVITTO OCH VÄXEL",
+  "example": "2 pennor à 9 kr och ett suddgummi för 6 kr. Pennorna kostar 2 · 9 = 18 kr, och summan är 18 + 6 = 24 kr. Du betalar med 50 kr och får 50 − 24 = 26 kr tillbaka.",
+  "practice": [
+    {
+      "id": "rad-och-summa",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          2,
+          6
+        ],
+        "p": [
+          5,
+          19
+        ],
+        "m": [
+          10,
+          40
+        ]
+      },
+      "prompt": "Du köper {n} bullar à {p} kr och en juice för {m} kr. Vad blir totalsumman?",
+      "answer": [
+        "=n*p+m",
+        "{n*p+m} kr"
+      ],
+      "correct": "Rätt! Bullarna kostar {n} · {p} = {n*p} kr, och med juicen blir det {n*p+m} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*p"
+          ],
+          "message": "{n*p} kr är bara bullarna. Lägg också till juicen."
+        },
+        {
+          "answers": [
+            "=n+p+m"
+          ],
+          "message": "Raden är antal gånger styckpris: {n} · {p}, inte {n} + {p}."
+        }
+      ]
+    },
+    {
+      "id": "vaxel",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          2,
+          6
+        ],
+        "p": [
+          5,
+          19
+        ],
+        "m": [
+          10,
+          40
+        ]
+      },
+      "prompt": "@djur köper {n} @mat à {p} kr och en mjölk för {m} kr. @djur betalar med 200 kr. Hur mycket får @djur tillbaka?",
+      "answer": [
+        "=200-n*p-m",
+        "{200-n*p-m} kr"
+      ],
+      "correct": "Rätt! Summan är {n} · {p} + {m} = {n*p+m} kr, och 200 − {n*p+m} = {200-n*p-m} kr är växel.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*p+m"
+          ],
+          "message": "{n*p+m} kr är summan. Växeln är det du betalade minus summan."
+        },
+        {
+          "answers": [
+            "=200-n*p"
+          ],
+          "message": "Du har bara dragit bort äpplena. Dra bort mjölken också."
+        }
+      ]
+    },
+    {
+      "id": "tva-rader",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          2,
+          4
+        ],
+        "p": [
+          10,
+          30
+        ],
+        "k": [
+          2,
+          5
+        ],
+        "q": [
+          4,
+          9
+        ]
+      },
+      "prompt": "Ett kvitto har {n} skrivblock à {p} kr och {k} pennor à {q} kr. Vad blir totalsumman?",
+      "answer": [
+        "=n*p+k*q",
+        "{n*p+k*q} kr"
+      ],
+      "correct": "Rätt! Blocken kostar {n*p} kr och pennorna {k*q} kr, så det blir {n*p+k*q} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*p"
+          ],
+          "message": "{n*p} kr är bara skrivblocken. Lägg också till pennorna."
+        },
+        {
+          "answers": [
+            "=n+p+k+q"
+          ],
+          "message": "Varje rad är antal gånger styckpris. Multiplicera först, lägg sedan ihop raderna."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Ett kvitto har 3 bullar à 12 kr och en juice för 18 kr. Vad är totalsumman?",
+    "answer": [
+      "54",
+      "54 kr"
+    ],
+    "correct": "Rätt! 3 · 12 = 36 kr, och 36 + 18 = 54 kr.",
+    "feedback": [
+      {
+        "answers": [
+          "36",
+          "36 kr"
+        ],
+        "message": "36 kr är bara bullarna. Lägg också till juicen."
+      },
+      {
+        "answers": [
+          "33",
+          "33 kr"
+        ],
+        "message": "Raden för bullarna är 3 · 12, inte 3 + 12."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "@djur köper 4 @mat à 7 kr och en mjölk för 15 kr. @djur betalar med 50 kr. Hur mycket får @djur tillbaka?",
+      "answer": [
+        "7",
+        "7 kr"
+      ],
+      "correct": "Rätt! Äpplena kostar 4 · 7 = 28 kr, summan är 28 + 15 = 43 kr och 50 − 43 = 7 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "43",
+            "43 kr"
+          ],
+          "message": "43 kr är summan. Växeln är det du betalade minus summan."
+        },
+        {
+          "answers": [
+            "22",
+            "22 kr"
+          ],
+          "message": "22 kr får du om du bara räknar äpplena. Räkna med mjölken också."
+        }
+      ]
+    },
+    {
+      "prompt": "Kvittot säger att 5 glassar à 15 kr kostar 85 kr. Vad borde 5 glassar kosta?",
+      "answer": [
+        "75",
+        "75 kr"
+      ],
+      "correct": "Rätt! 5 · 15 = 75 kr, så kvittot är fel med 10 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "20",
+            "20 kr"
+          ],
+          "message": "20 får du om du lägger ihop 5 och 15. Raden är antal gånger styckpris."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett kvitto har 2 skrivblock à 24 kr och 3 pennor à 8 kr. Vad blir totalsumman?",
+      "answer": [
+        "72",
+        "72 kr"
+      ],
+      "correct": "Rätt! Blocken kostar 2 · 24 = 48 kr, pennorna 3 · 8 = 24 kr, och 48 + 24 = 72 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "48",
+            "48 kr"
+          ],
+          "message": "48 kr är bara blocken. Lägg också till pennorna."
+        },
+        {
+          "answers": [
+            "56",
+            "56 kr"
+          ],
+          "message": "Varje rad är antal gånger styckpris. Multiplicera först och lägg sedan ihop raderna."
+        }
+      ]
+    }
+  ]
+}

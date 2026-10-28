@@ -218,7 +218,7 @@
       ]
     },
     {
-      "prompt": "Mira har ätit 0,5 av en pizza. Hur många procent av pizzan har hon ätit?",
+      "prompt": "@djur har ätit 0,5 av en pizza. Hur många procent av pizzan har @djur ätit?",
       "answer": [
         "50",
         "50 %",

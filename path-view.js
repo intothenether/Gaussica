@@ -52,6 +52,20 @@ window.GaussicaPathView = (function () {
     return item.kind === "continue" ? "NU · FORTSÄTT DÄR DU SLUTADE" : "NU · BÖRJA HÄR";
   }
 
+  // The year of a lesson, shown clearly: "ÅK 7", with how it compares to the student's own year when that is known.
+  function gradeChip(item) {
+    const chip = el("span", "pv-grade" + (item.gap >= 2 ? " is-high" : item.gap === 1 ? " is-up" : ""), window.GaussicaLesson.gradeLabel(item.grade));
+    return chip;
+  }
+
+  function levelNote(item) {
+    if (item.gap === null || item.gap === undefined || item.role === "play" || item.kind === "assignment") return null;
+    const own = window.GaussicaLesson.gradeLabel(item.level).toLowerCase();
+    if (item.gap >= 2) return "Det här ligger " + (item.gap === 2 ? "två" : item.gap === 3 ? "tre" : "flera") + " år över din nivå (du verkar vara på " + own + "). Det är bra att pröva något svårare, men det kan kännas tufft. Du kan alltid välja något lättare i kartan.";
+    if (item.gap === 1) return "Ett steg över din nivå (du verkar vara på " + own + ").";
+    return null;
+  }
+
   function buttonLabel(item) {
     if (item.role === "play") return item.kind === "going" ? "Fortsätt pyssla →" : "Pyssla →";
     const begun = item.sum.done > 0 || item.sum.fix > 0;
@@ -68,11 +82,16 @@ window.GaussicaPathView = (function () {
     row.appendChild(icon(item));
     const copy = el("div", "pv-copy");
     copy.appendChild(el("p", "pv-kicker", kicker(item, hooks)));
-    copy.appendChild(el("h4", "pv-title", item.lesson.title));
-    const meta = [window.GaussicaLesson.gradeLabel(item.grade)];
+    const heading = el("h4", "pv-title", item.lesson.title);
+    const metaRow = el("p", "pv-meta");
+    metaRow.appendChild(gradeChip(item));
+    const meta = [];
     if (item.sum.total) meta.push(item.sum.done + " av " + item.sum.total + " klara");
     if (item.sum.fix) meta.push(item.sum.fix + " att rätta");
-    copy.appendChild(el("p", "pv-meta", meta.join(" · ")));
+    if (meta.length) metaRow.appendChild(document.createTextNode(" " + meta.join(" · ")));
+    copy.append(heading, metaRow);
+    const note = levelNote(item);
+    if (note) copy.appendChild(el("p", "pv-level" + (item.gap >= 2 ? " is-high" : ""), note));
     if (item.role === "now" && item.lesson.summary) {
       const s = item.lesson.summary;
       copy.appendChild(el("p", "pv-summary", s.length > 130 ? s.slice(0, 127).replace(/\s+\S*$/, "") + "…" : s));
@@ -198,16 +217,20 @@ window.GaussicaPathView = (function () {
     }
     box.appendChild(el("p", "hs-kicker", kicker(item, hooks)));
     box.appendChild(el("h2", "hs-title", item.lesson.title));
-    const meta = [window.GaussicaLesson.gradeLabel(item.grade)];
+    const meta = [];
     if (item.sum.total) meta.push(item.sum.done + " av " + item.sum.total + " klara");
     if (item.sum.fix) meta.push(item.sum.fix + " att rätta");
-    const m = el("p", "hs-meta", meta.join(" · "));
+    const m = el("p", "hs-meta");
+    m.appendChild(gradeChip(item));
+    if (meta.length) m.appendChild(document.createTextNode(" " + meta.join(" · ")));
     if (item.kind === "assignment" && hooks.assignment && window.GaussicaMailbox) {
       const due = window.GaussicaMailbox.dueInfo(hooks.assignment.a.dueDate);
       m.appendChild(document.createTextNode(" "));
       m.appendChild(el("span", "mb-due is-" + due.tone, due.text));
     }
     box.appendChild(m);
+    const note = levelNote(item);
+    if (note) box.appendChild(el("p", "hs-level" + (item.gap >= 2 ? " is-high" : ""), note));
     if (item.sum.total) {
       const bar = el("div", "mb-bar");
       item.sum.statuses.forEach(function (s) { bar.appendChild(el("span", "mb-seg is-" + s)); });

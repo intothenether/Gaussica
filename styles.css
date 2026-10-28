@@ -3254,6 +3254,7 @@ body { background: var(--cream); }
 .mb-done { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 0 2px; }
 .mb-done-check { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #2f9d88; color: #fff; font-weight: 700; }
 .mb-muted { color: var(--muted); font-weight: 700; }
+.mb-reward { margin: -6px 0 14px; color: var(--brand-dark); font: 800 14px "Nunito", sans-serif; }
 
 .mb-note { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 18px; }
 .mb-bubble { position: relative; flex: 1; min-width: 0; padding: 14px 16px 10px; border: 3px solid var(--sky-line); border-radius: 6px 22px 22px 22px; background: #fff; box-shadow: 0 5px 0 var(--sky-line); }
@@ -3972,7 +3973,10 @@ html:is(.is-keyboard, .is-short) .pl-foot.is-correct .pl-foot-q { display: none;
 html:is(.is-keyboard, .is-short) .pl-foot-feedback { margin: 0 0 6px; }
 html:is(.is-keyboard, .is-short) .pl-foot-feedback .feedback-message { padding: 6px 10px; font-size: 13px; line-height: 1.4; max-height: 3.8em; }
 html:is(.is-keyboard, .is-short) .pl-foot-msg { display: none; }
-html:is(.is-keyboard, .is-short) .pl-foot:not(.is-correct) .pl-foot-actions { display: none; }
+/* the buttons are only in the way while the keyboard is up: on a short screen without it (a phone held sideways) they are how you go on */
+html.is-keyboard .pl-foot:not(.is-correct) .pl-foot-actions { display: none; }
+html.is-short:not(.is-keyboard) .pl-foot-actions { margin: 0; }
+html.is-short:not(.is-keyboard) .pl-foot .pl-btn { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
 html:is(.is-keyboard, .is-short) .pl-foot-answer { flex: 1 1 100%; order: 1; }
 html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-form { flex-wrap: nowrap; gap: 8px; }
 html:is(.is-keyboard, .is-short) .pl-foot-answer .final-answer-field { flex: 1 1 auto; }
@@ -4496,7 +4500,7 @@ html:is(.is-keyboard, .is-short) .pl-tools { display: none; }
 .tv-class .tv-btn.is-danger { margin-left: auto; }
 
 /* Taxen: svansen sitter längre ut på den långa kroppen */
-.pet-svg.pet-tax .pet-tail { transform-origin: 226px 143px; }
+.pet-svg.pet-tax .pet-tail { transform-origin: 200px 146px; }
 
 /* de nya djuren: svansar och vingar sitter på andra ställen */
 .pet-svg.pet-dragon .pet-tail { transform-origin: 134px 160px; }
@@ -4739,3 +4743,66 @@ html:is(.is-keyboard, .is-short) .pl-tools { display: none; }
   .hero-main { padding: 22px 20px 26px; }
 }
 @media (prefers-reduced-motion: reduce) { .hp-stage { transition: none; } .hp-stage:hover { transform: none; } }
+
+.py-goals-help { margin: 0 0 8px; color: var(--muted); font-size: 14px; font-weight: 700; }
+.py-check-btn { margin-top: 10px; }
+
+/* the year of a suggested lesson, and how it compares to the student's own */
+.pv-grade { display: inline-block; padding: 2px 9px; border: 2px solid var(--border-mid); border-radius: 999px; background: var(--paper); color: var(--ink); font: 800 12px "Nunito", sans-serif; letter-spacing: .06em; vertical-align: 1px; }
+.pv-grade.is-up { border-color: var(--sky-line); background: var(--sky-soft); }
+.pv-grade.is-high { border-color: var(--coral); background: var(--coral-soft); color: var(--coral-dark); }
+.pv-level, .hs-level { margin: 8px 0 0; color: var(--muted); font-size: 14px; font-weight: 700; line-height: 1.4; }
+.pv-level.is-high, .hs-level.is-high { padding: 8px 12px; border-radius: 12px; background: var(--coral-soft); color: var(--coral-dark); }
+.hs-level { margin: 0 0 12px; }
+
+/* the pet on the map: on its node, with paw prints on the nodes it has been to */
+.gn-pet { position: absolute; z-index: 4; width: 46px; height: 42px; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(var(--shadow-rgb), .25)); transition: left 1.2s cubic-bezier(.45, .05, .3, 1), top 1.2s cubic-bezier(.45, .05, .3, 1); }
+.gn-pet svg { display: block; width: 100%; height: 100%; }
+.gn-pet.is-walking { animation: gn-pet-walk .4s ease-in-out infinite; }
+@keyframes gn-pet-walk { 50% { transform: translateY(-5px) rotate(4deg); } }
+.gn-paw { position: absolute; left: -3px; bottom: -1px; z-index: 1; width: 22px; height: 22px; color: var(--accent); opacity: .75; pointer-events: none; transform: rotate(-20deg); }
+.gn-step .gn-paw { width: 16px; height: 16px; }
+@media (prefers-reduced-motion: reduce) { .gn-pet { transition: none; } .gn-pet.is-walking { animation: none; } }
+
+/* the life of the pet: it moves a little, sleeps, plays and thinks (see startLife in pet.js) */
+.pet-svg .pet-actor { transform-origin: 100px 172px; transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r, 0deg)) scale(var(--sc, 1)); transition: transform 1.5s cubic-bezier(.45, .05, .3, 1); }
+.pet-svg .pet-eyes-closed { display: none; }
+.pet-svg.is-sleeping .pet-eyes { display: none; }
+.pet-svg.is-sleeping .pet-eyes-closed { display: inline; }
+.pet-svg.is-sleeping .pet-bob { animation-duration: 4.8s; }
+.pet-svg.is-hopping .pet-bob { animation: pet-jump .6s ease-out 3; }
+.pet-svg.is-playing .room-toy { transform-box: fill-box; transform-origin: center bottom; animation: room-toy-play .7s ease-in-out infinite; }
+.pet-svg .pet-thought { animation: pet-thought-in .5s ease-out both; }
+.pet-svg.is-sleeping .pet-thought text { animation: pet-zzz 2.4s ease-in-out infinite; }
+@keyframes room-toy-play { 0%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-9px) rotate(-8deg); } 60% { transform: translateY(0) rotate(6deg); } }
+@keyframes pet-thought-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pet-zzz { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .pet-svg .pet-actor { transition: none; }
+  .pet-svg.is-playing .room-toy, .pet-svg .pet-thought, .pet-svg.is-sleeping .pet-thought text { animation: none; }
+  .pet-svg.is-hopping .pet-bob { animation: none; }
+}
+
+/* phones: buttons that are easy to hit, and text that can be read */
+.py-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.py-actions .py-btn { flex: 1 1 120px; }
+.cv-writebar { margin: 0; }
+@media (max-width: 560px) {
+  .student-profile-btn, .rewards-chip, .mail-link, .view-switch, .preview-back, .area-filter, .pet-tab, .pv-more, .pv-link, .tv-chip, .top-link, .listen-btn, .scratchpad-toggle, .py-btn, .cv-btn-small { min-height: 44px; box-sizing: border-box; }
+  .tv-chip, .pv-more, .pv-link, .top-link, .listen-btn, .scratchpad-toggle { display: inline-flex; align-items: center; justify-content: center; }
+  .pl-close, .pet-close { min-width: 44px; min-height: 44px; }
+  .pl-read { min-height: 44px; }
+  .student-name, .student-class, .top-link, .eyebrow, .tv-chip, .area-filter, .graph-key-item, .graph-column-label, .graph-node-meta, .graph-node-title, .panel-kicker, .panel-duration,
+  .prerequisite-label, .prerequisite-tag, .progress-strip-text, .next-label, .footer-admin-link, .py-badge, .cv-tool-label { font-size: 12px; }
+  .graph-node-tag { font-size: 10px; }
+  .cv-zoom { right: 4px; bottom: 4px; padding: 2px; border-width: 1px; opacity: .92; }
+  .cv-zoom-label { display: none; }
+  .cv-zoom-btn { min-width: 36px; height: 36px; }
+}
+@media (max-width: 560px) {
+  .pet-btn, .next-link, .footer-privacy, .footer-admin-link, .wordmark { min-height: 44px; box-sizing: border-box; }
+  .next-link, .footer-privacy, .footer-admin-link, .wordmark { display: inline-flex; align-items: center; }
+  .gnl-step .graph-node-title { font-size: 12px; }
+  .gnl-step .graph-node-meta { font-size: 11px; }
+  .footer p { font-size: 12px; }
+}

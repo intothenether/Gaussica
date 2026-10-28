@@ -1,0 +1,244 @@
+{
+  "id": "andragradsfunktioner",
+  "area": "algebra",
+  "title": "Andragradsfunktioner och parabler",
+  "level": "Funktioner som vänder · gymnasiet",
+  "grade": 10,
+  "duration": "10 min",
+  "prerequisites": [
+    "andragradsekvationer",
+    "funktioner"
+  ],
+  "summary": "Grafen till y = a · x² + b · x + c är en parabel. Toppunkten ligger på symmetrilinjen x = −b delat med 2 · a.",
+  "explanationTitle": "Bollen stiger, vänder och faller",
+  "explanation": "Problemet: Du kastar en boll rakt upp. Höjden efter t sekunder följer h = −5 · t² + 20 · t. Bollen stiger, vänder och faller. När är den högst, och hur högt kommer den? En rät linje kan inte vända, men en andragradsfunktion kan. Den skrivs y = a · x² + b · x + c och grafen är en parabel. Är a positivt öppnar sig parabeln uppåt (en dal), och är a negativt öppnar den sig nedåt (en kulle, som bollens bana). Parabeln är symmetrisk kring linjen x = −b delat med 2 · a, och där ligger den högsta eller lägsta punkten, toppunkten. För bollen är a = −5 och b = 20, så toppen ligger vid t = −20 delat med (2 · (−5)) = 2 sekunder. Höjden då är −5 · 4 + 40 = 20 m. Nollställena, där grafen skär x-axeln, hittar du genom att lösa andragradsekvationen y = 0. Här ger −5 · t² + 20 · t = 0 att t = 0 eller t = 4. Bollen landar alltså efter 4 sekunder, och toppen ligger precis mitt emellan.",
+  "visual": {
+    "type": "tabell",
+    "title": "y = x² − 4x + 3",
+    "headers": [
+      "x",
+      "y"
+    ],
+    "rows": [
+      [
+        "0",
+        "3"
+      ],
+      [
+        "1",
+        "0"
+      ],
+      [
+        "2",
+        "−1"
+      ],
+      [
+        "3",
+        "0"
+      ],
+      [
+        "4",
+        "3"
+      ]
+    ]
+  },
+  "rule": "y = a · x² + b · x + c. Symmetrilinjen är x = −b delat med 2 · a, och toppunkten ligger på den. Nollställena får du genom att lösa y = 0.",
+  "ruleLabel": "PARABEL",
+  "example": "y = x² − 4x + 3 har symmetrilinjen x = 4 delat med 2 = 2. Där är y = 4 − 8 + 3 = −1, så dalens botten är (2, −1). Nollställena är x = 1 och x = 3.",
+  "practice": [
+    {
+      "id": "symmetrilinje",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          20
+        ]
+      },
+      "prompt": "Funktionen är y = x² − {2*k}x + {c}. Vilket x-värde har symmetrilinjen?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! x = −b delat med 2 · a = {2*k} delat med 2 = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*k"
+          ],
+          "message": "{2*k} är b utan tecken. Symmetrilinjen är x = −b delat med 2 · a, så dela med 2."
+        }
+      ]
+    },
+    {
+      "id": "minsta-varde",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          1,
+          6
+        ],
+        "c": [
+          10,
+          40
+        ]
+      },
+      "prompt": "Funktionen y = x² − {2*k}x + {c} har sitt minsta värde vid symmetrilinjen. Vilket är det minsta värdet?",
+      "answer": [
+        "=c-k*k"
+      ],
+      "correct": "Rätt! Symmetrilinjen är x = {k}. Där är y = {k*k} − {2*k*k} + {c} = {c-k*k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=c"
+          ],
+          "message": "{c} är y när x = 0. Sätt in symmetrilinjens x-värde, {k}, i funktionen."
+        }
+      ]
+    },
+    {
+      "id": "berakna-parabel",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "b": [
+          1,
+          6
+        ],
+        "c": [
+          1,
+          9
+        ],
+        "x": [
+          2,
+          5
+        ]
+      },
+      "prompt": "Funktionen är y = x² + {b}x + {c}. Vad är y när x = {x}?",
+      "answer": [
+        "=x*x+b*x+c"
+      ],
+      "correct": "Rätt! {x}² + {b} · {x} + {c} = {x*x} + {b*x} + {c} = {x*x+b*x+c}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x+b+c"
+          ],
+          "message": "x² betyder x · x, alltså {x} · {x} = {x*x}, inte bara {x}."
+        }
+      ]
+    },
+    {
+      "id": "bollens-topp",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "k": [
+          1,
+          5
+        ]
+      },
+      "prompt": "En boll kastas upp. Höjden är h = −5 · t² + {10*k} · t. Efter hur många sekunder är bollen högst?",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! t = −b delat med 2 · a = −{10*k} delat med (2 · (−5)) = {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*k"
+          ],
+          "message": "{2*k} sekunder är när bollen landar igen. Den är högst mitt emellan start och landning."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Funktionen är y = x² − 6x + 5. Vilket x-värde har symmetrilinjen?",
+    "answer": [
+      "3"
+    ],
+    "correct": "Rätt! x = −b delat med 2 · a = 6 delat med 2 = 3.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "6 är b utan tecken. Symmetrilinjen är x = −b delat med 2 · a, så dela också med 2."
+      },
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 är c, y-värdet där grafen skär y-axeln. Symmetrilinjen bestäms av a och b."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Bollens höjd är h = −5 · t² + 20 · t. Efter hur många sekunder är den högst?",
+      "answer": [
+        "2",
+        "2 s",
+        "2 sekunder"
+      ],
+      "correct": "Rätt! t = −20 delat med (2 · (−5)) = 2 sekunder.",
+      "feedback": [
+        {
+          "answers": [
+            "4",
+            "4 s",
+            "4 sekunder"
+          ],
+          "message": "4 sekunder är när bollen landar. Den är högst mitt emellan start (0) och landning (4)."
+        },
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "20 m är högsta höjden. Frågan gäller efter hur många sekunder."
+        }
+      ]
+    },
+    {
+      "prompt": "Funktionen y = x² − 4x + 3 har nollställena x = 1 och x = 3. Vilket x-värde har symmetrilinjen?",
+      "answer": [
+        "2"
+      ],
+      "correct": "Rätt! Symmetrilinjen ligger mitt emellan nollställena: (1 + 3) delat med 2 = 2.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är summan av nollställena. Symmetrilinjen ligger mitt emellan dem, så dela med 2."
+        }
+      ]
+    },
+    {
+      "prompt": "Vad är y när x = 3 för funktionen y = x² + 2x + 1?",
+      "answer": [
+        "16"
+      ],
+      "correct": "Rätt! 3² + 2 · 3 + 1 = 9 + 6 + 1 = 16.",
+      "feedback": [
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 får du om du inte kvadrerar x. x² är 3 · 3 = 9."
+        }
+      ]
+    }
+  ]
+}

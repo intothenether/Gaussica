@@ -1,0 +1,267 @@
+{
+  "id": "exponentialfunktioner",
+  "area": "algebra",
+  "title": "Exponentialfunktioner",
+  "level": "Tillväxt som växer allt snabbare · gymnasiet",
+  "grade": 10,
+  "duration": "10 min",
+  "prerequisites": [
+    "upprepad-procent",
+    "funktioner"
+  ],
+  "summary": "I y = C · a^x är C startvärdet och a förändringsfaktorn. Är a större än 1 växer funktionen, är a mellan 0 och 1 avtar den.",
+  "explanationTitle": "När multiplikationen upprepas",
+  "explanation": "Problemet: En bakterie delar sig i två varje timme. Efter 1 timme är det 2, efter 2 timmar 4 och efter 3 timmar 8. Antalet växer allt snabbare, och efter 10 timmar är det 1024. En rät linje, y = k · x + m, växer lika mycket varje gång, men här är det multiplikation som upprepas. Sådana samband skrivs y = C · a^x. C är startvärdet, a är förändringsfaktorn och x är antalet steg. Fördubbling ger a = 2. En ökning med 5 % per år ger a = 1,05, och en minskning med 5 % per år ger a = 0,95. Är a större än 1 växer funktionen, och är a mellan 0 och 1 avtar den. Funktionen kallas exponentialfunktion eftersom x står i exponenten.",
+  "visual": {
+    "type": "tabell",
+    "title": "Bakterier som fördubblas varje timme: y = 1 · 2^x",
+    "headers": [
+      "Timmar x",
+      "Antal y"
+    ],
+    "rows": [
+      [
+        "0",
+        "1"
+      ],
+      [
+        "1",
+        "2"
+      ],
+      [
+        "2",
+        "4"
+      ],
+      [
+        "3",
+        "8"
+      ],
+      [
+        "4",
+        "16"
+      ],
+      [
+        "5",
+        "32"
+      ]
+    ]
+  },
+  "rule": "y = C · a^x. C är startvärdet. Förändringsfaktorn är a = 1 + p delat med 100 vid en ökning med p %, och a = 1 − p delat med 100 vid en minskning med p %.",
+  "ruleLabel": "EXPONENTIALFUNKTION",
+  "example": "1000 kr ökar med 10 % per år: y = 1000 · 1,1^x. Efter 2 år är det 1000 · 1,1^2 = 1000 · 1,21 = 1210 kr.",
+  "practice": [
+    {
+      "id": "fordubbling",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "C": [
+          1,
+          6
+        ],
+        "t": [
+          2,
+          6
+        ]
+      },
+      "prompt": "En bakteriekultur har {C} bakterier och fördubblas varje timme. Hur många bakterier är det efter {t} timmar?",
+      "answer": [
+        "=C*pow(2,t)"
+      ],
+      "correct": "Rätt! {C} · 2^{t} = {C*pow(2,t)}.",
+      "feedback": [
+        {
+          "answers": [
+            "=C*t"
+          ],
+          "message": "Fördubbling är upprepad multiplikation med 2: {C} · 2^{t}, inte {C} · {t}."
+        },
+        {
+          "answers": [
+            "=C*pow(2,t-1)"
+          ],
+          "message": "Det blir en fördubbling för lite. Efter {t} timmar har det fördubblats {t} gånger."
+        }
+      ]
+    },
+    {
+      "id": "faktor-okning",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "p": [
+          2,
+          40
+        ]
+      },
+      "prompt": "Vilken förändringsfaktor motsvarar en ökning med {p} % per år?",
+      "answer": [
+        "=1+p/100"
+      ],
+      "correct": "Rätt! 1 + {p} delat med 100 = {1+p/100}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p/100"
+          ],
+          "message": "{p/100} är själva ökningen. Förändringsfaktorn är 1 plus ökningen, eftersom du behåller hela det du hade."
+        },
+        {
+          "answers": [
+            "=1-p/100"
+          ],
+          "message": "Det vore en minskning. Vid en ökning lägger du till i stället."
+        }
+      ]
+    },
+    {
+      "id": "faktor-minskning",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "p": [
+          2,
+          40
+        ]
+      },
+      "prompt": "Ett värde minskar med {p} % per år. Vilken förändringsfaktor är det?",
+      "answer": [
+        "=1-p/100"
+      ],
+      "correct": "Rätt! 1 − {p} delat med 100 = {1-p/100}.",
+      "feedback": [
+        {
+          "answers": [
+            "=1+p/100"
+          ],
+          "message": "Det vore en ökning. Vid en minskning drar du bort procenten från 1."
+        }
+      ]
+    },
+    {
+      "id": "berakna-y",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "C": [
+          1,
+          5
+        ],
+        "a": [
+          2,
+          4
+        ],
+        "x": [
+          1,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(pow(a,x)-a*x)",
+          "min": 1
+        }
+      ],
+      "prompt": "Funktionen är y = {C} · {a}^x. Vad är y när x = {x}?",
+      "answer": [
+        "=C*pow(a,x)"
+      ],
+      "correct": "Rätt! {C} · {a}^{x} = {C} · {pow(a,x)} = {C*pow(a,x)}.",
+      "feedback": [
+        {
+          "answers": [
+            "=C*a*x"
+          ],
+          "message": "Exponenten betyder upprepad multiplikation: {a}^{x}, inte {a} · {x}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "En bakteriekultur har 3 bakterier och fördubblas varje timme. Hur många bakterier är det efter 4 timmar?",
+    "answer": [
+      "48"
+    ],
+    "correct": "Rätt! 3 · 2^4 = 3 · 16 = 48.",
+    "feedback": [
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "12 är 3 · 4. Fördubbling upprepas: 3 · 2^4."
+      },
+      {
+        "answers": [
+          "24"
+        ],
+        "message": "24 är 3 · 2^3, alltså efter 3 timmar. Räkna 4 fördubblingar."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du sätter in 1000 kr på ett konto med 10 % ränta per år. Hur många kronor finns på kontot efter 2 år?",
+      "answer": [
+        "1210",
+        "1 210",
+        "1210 kr",
+        "1 210 kr"
+      ],
+      "correct": "Rätt! 1000 · 1,1^2 = 1000 · 1,21 = 1210 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "1200",
+            "1 200",
+            "1200 kr",
+            "1 200 kr"
+          ],
+          "message": "1200 kr får du om du lägger till 100 kr två gånger. Andra året får du ränta även på första årets ränta: 1000 · 1,1^2."
+        }
+      ]
+    },
+    {
+      "prompt": "En kultur har 100 bakterier och förändringsfaktorn är 3 per dygn. Hur många bakterier är det efter 3 dygn?",
+      "answer": [
+        "2700",
+        "2 700"
+      ],
+      "correct": "Rätt! 100 · 3^3 = 100 · 27 = 2700.",
+      "feedback": [
+        {
+          "answers": [
+            "900"
+          ],
+          "message": "900 är antalet efter 2 dygn. Räkna 3 dygn: 100 · 3^3."
+        },
+        {
+          "answers": [
+            "300"
+          ],
+          "message": "300 är antalet efter 1 dygn. Räkna 3 dygn: 100 · 3^3."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett värde minskar med 20 % per år. Det är 500 kr nu. Vad är det värt om 2 år?",
+      "answer": [
+        "320",
+        "320 kr"
+      ],
+      "correct": "Rätt! 500 · 0,8^2 = 500 · 0,64 = 320 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "300",
+            "300 kr"
+          ],
+          "message": "300 kr får du om du drar bort 100 kr två gånger. Andra året är minskningen 20 % av 400 kr, inte av 500 kr."
+        }
+      ]
+    }
+  ]
+}

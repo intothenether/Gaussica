@@ -213,6 +213,27 @@ window.GaussicaCanvas = (function () {
 
   const BOX_SIZES = { chip: [60, 40], op: [40, 40], dot: [20, 20], ones: [CELL, CELL], tens: [10 * CELL, CELL], hund: [10 * CELL, 10 * CELL], nl: [440, 80] };
 
+  // A slash through a typed character, as when you cross out a digit while borrowing in uppställning.
+  // slashColumn: the column of the character to cross out: the one in the cursor's square, or the one before it when that square is
+  // empty (the cursor stands after what was just typed). -1 when there is none.
+  function slashColumn(items, col, row) {
+    const y = row * ROWH;
+    const has = function (c) {
+      return items.some(function (it) {
+        const i = (c * CELL - it.x) / CELL;
+        return it.t === "r" && it.y === y && i >= 0 && i < String(it.s).length && String(it.s).charAt(i) !== " ";
+      });
+    };
+    if (has(col)) return col;
+    if (has(col - 1)) return col - 1;
+    return -1;
+  }
+
+  // the slash itself: a line from the lower left to the upper right of the square
+  function slashItem(col, row, color) {
+    return { t: "line", c: color, x: col * CELL + 1, y: row * ROWH + ROWH - 8, dx: CELL - 2, dy: -(ROWH - 14), h: 0 };
+  }
+
   function sizeOf(it) {
     if (it.t === "chip") return [chipWidth(it), 40];
     if (it.t === "shape") return shapeSize(it);
@@ -317,6 +338,8 @@ window.GaussicaCanvas = (function () {
   }
 
   function create(options) {
+    // on a phone the paper is taller (4:3 instead of the wide 800 x 440), so that there is room for the rows of an uppställning
+    const H = window.matchMedia && window.matchMedia("(max-width: 560px)").matches ? 640 : 440;
     options = options || {};
     const initial = parse(options.value);
     const home = homeZoom();
@@ -353,6 +376,7 @@ window.GaussicaCanvas = (function () {
     const stage = el("div", "cv-stage");
     stage.tabIndex = 0;
     const svg = s("svg", { viewBox: vx + " " + vy + " " + W / zoom + " " + H / zoom, "class": "cv-svg", role: "img", "aria-label": "Rityta för din lösning" });
+    svg.style.aspectRatio = W + " / " + H;
     const bgHolder = s("g", {}, svg);
     const layer = s("g", {}, svg);
     const overlay = s("g", { "pointer-events": "none" }, svg);
@@ -384,8 +408,8 @@ window.GaussicaCanvas = (function () {
     selbar.hidden = true;
     const writebar = el("div", "cv-selbar cv-writebar");   // buttons that belong to the "Skriv" tool
     writebar.hidden = true;
-    foot.append(hint, selbar, writebar);
-    main.append(stage, keypad, foot);
+    foot.append(hint, selbar);
+    main.append(stage, writebar, keypad, foot);   // the buttons of the Skriv tool (Sträck, Stryk) right under the paper, above the number pad
     root.append(toolbar, main, panel, colorPanel);
 
     function button(label, className, onClick) {
@@ -742,6 +766,24 @@ window.GaussicaCanvas = (function () {
       }
       setCursor(Math.round(x0 / CELL), row + 1);
       say("Strecket är draget. Skriv svaret på raden under.");
+    }
+
+    // Cross out the character at the cursor, or the one before it. Pressing again takes the slash away.
+    function slash() {
+      if (!cur) {   // no cursor yet: stand after what was written last
+        let last = null;
+        items.forEach(function (it) { if (it.t === "r") last = it; });
+        if (!last) { say("Skriv ett tal först, tryck sedan på Stryk."); return; }
+        setCursor(Math.round(last.x / CELL) + String(last.s).length, Math.round(last.y / ROWH));
+      }
+      const col = slashColumn(items, cur.col, cur.row);
+      if (col < 0) { say("Det finns inget tecken att stryka här. Ställ markören på en siffra, eller direkt efter den."); return; }
+      const mark = slashItem(col, cur.row, color);
+      const at = items.findIndex(function (it) { return it.t === "line" && it.x === mark.x && it.y === mark.y && it.dx === mark.dx && it.dy === mark.dy; });
+      if (at >= 0) { items.splice(at, 1); say("Strecket är borta."); } else { items.push(mark); say("Tecknet är överstruket."); }
+      selected = -1;
+      render();
+      commit();
     }
 
     function newLine() {
@@ -1412,6 +1454,10 @@ window.GaussicaCanvas = (function () {
     lineBtn.title = "Dra ett streck under talen du har skrivit";
     lineBtn.addEventListener("pointerdown", function (e) { e.preventDefault(); });   // the cursor stays where it is
     writebar.appendChild(lineBtn);
+    const slashBtn = button("╱ Stryk", "cv-btn-small cv-btn-main", function () { slash(); });
+    slashBtn.title = "Stryk över tecknet vid markören, eller det före, till exempel när du växlar i uppställning. Tryck igen för att ta bort strecket.";
+    slashBtn.addEventListener("pointerdown", function (e) { e.preventDefault(); });   // the cursor stays where it is
+    writebar.appendChild(slashBtn);
 
     history.push(serialize());
     hIdx = 0;
@@ -1424,5 +1470,7 @@ window.GaussicaCanvas = (function () {
     return root;
   }
 
-  return { create: create, view: view, isEmpty: isEmpty, parse: parse };
+  return { create: create, view: view, isEmpty: isEmpty, parse: parse, slashColumn: slashColumn, slashItem: slashItem };
 }());
+
+if (typeof module !== "undefined") module.exports = window.GaussicaCanvas;

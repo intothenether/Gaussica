@@ -167,7 +167,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "Lisa åker på läger i 2 veckor och 3 dagar. Hur många dagar är lägret?",
+      "prompt": "@djur är på läger i 2 veckor och 3 dagar. Hur många dagar är lägret?",
       "answer": [
         "17",
         "17 dagar"

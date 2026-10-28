@@ -1,0 +1,283 @@
+{
+  "id": "potenslagar",
+  "area": "tal",
+  "title": "Potenslagarna",
+  "level": "Räkna med potenser · gymnasiet",
+  "grade": 10,
+  "duration": "9 min",
+  "prerequisites": [
+    "potenser",
+    "tiopotenser"
+  ],
+  "summary": "Med samma bas lägger du ihop exponenterna när du multiplicerar, drar bort dem när du delar och multiplicerar dem när du upphöjer en potens.",
+  "explanationTitle": "Räkna med exponenterna",
+  "explanation": "Problemet: Du ska räkna 2^5 · 2^3. Du kan skriva ut allt, 2 · 2 · 2 · 2 · 2 · 2 · 2 · 2, och räkna, men med 2^50 · 2^30 går det inte. Vi behöver regler som arbetar med exponenterna i stället. Multiplicerar du potenser med samma bas lägger du ihop exponenterna: 2^5 · 2^3 = 2^(5+3) = 2^8. Delar du dem drar du bort exponenterna: 2^5 delat med 2^3 = 2^(5−3) = 2^2. Upphöjer du en potens till något, som (2^5)^3, multiplicerar du exponenterna: 2^15. Det ger också två praktiska regler: a^0 = 1 och a^(−n) = 1 delat med a^n. Reglerna gäller bara när basen är densamma.",
+  "visual": {
+    "type": "tabell",
+    "title": "Potenslagarna",
+    "headers": [
+      "Regel",
+      "I ord",
+      "Exempel"
+    ],
+    "rows": [
+      [
+        "a^m · a^n = a^(m+n)",
+        "Lägg ihop exponenterna",
+        "3^2 · 3^4 = 3^6"
+      ],
+      [
+        "a^m delat med a^n = a^(m−n)",
+        "Dra bort exponenterna",
+        "5^7 delat med 5^3 = 5^4"
+      ],
+      [
+        "(a^m)^n = a^(m·n)",
+        "Multiplicera exponenterna",
+        "(2^3)^2 = 2^6"
+      ],
+      [
+        "a^0 = 1",
+        "Allt upphöjt till 0 är 1",
+        "7^0 = 1"
+      ],
+      [
+        "a^(−n) = 1 delat med a^n",
+        "Negativ exponent ger ett bråk",
+        "2^(−3) = 1 delat med 2^3 = 1/8"
+      ]
+    ]
+  },
+  "rule": "Samma bas: a^m · a^n = a^(m+n), a^m delat med a^n = a^(m−n) och (a^m)^n = a^(m·n). Dessutom är a^0 = 1.",
+  "ruleLabel": "POTENSLAGARNA",
+  "example": "2^5 · 2^3 = 2^8 = 256. 5^7 delat med 5^3 = 5^4 = 625. (3^2)^3 = 3^6 = 729.",
+  "practice": [
+    {
+      "id": "produkt-av-potenser",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          2,
+          9
+        ],
+        "m": [
+          2,
+          9
+        ],
+        "n": [
+          2,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m+n-m*n)",
+          "min": 1
+        }
+      ],
+      "prompt": "Skriv {b}^{m} · {b}^{n} som en enda potens {b}^x. Vilket tal är x?",
+      "answer": [
+        "=m+n"
+      ],
+      "correct": "Rätt! Med samma bas lägger du ihop exponenterna: {m} + {n} = {m+n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m*n"
+          ],
+          "message": "Multiplicerar du potenser med samma bas lägger du ihop exponenterna, du multiplicerar dem inte."
+        }
+      ]
+    },
+    {
+      "id": "kvot-av-potenser",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "b": [
+          2,
+          9
+        ],
+        "m": [
+          5,
+          12
+        ],
+        "n": [
+          2,
+          4
+        ]
+      },
+      "prompt": "Förenkla {b}^{m} delat med {b}^{n} till en potens {b}^x. Vilket tal är x?",
+      "answer": [
+        "=m-n"
+      ],
+      "correct": "Rätt! Vid division drar du bort exponenterna: {m} − {n} = {m-n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m+n"
+          ],
+          "message": "Vid division drar du bort exponenterna, du lägger inte ihop dem."
+        }
+      ]
+    },
+    {
+      "id": "potens-av-potens",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "b": [
+          2,
+          9
+        ],
+        "m": [
+          2,
+          6
+        ],
+        "n": [
+          2,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m*n-m-n)",
+          "min": 1
+        }
+      ],
+      "prompt": "Skriv ({b}^{m})^{n} som en enda potens {b}^x. Vilket tal är x?",
+      "answer": [
+        "=m*n"
+      ],
+      "correct": "Rätt! Upphöjer du en potens multiplicerar du exponenterna: {m} · {n} = {m*n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m+n"
+          ],
+          "message": "Här upphöjs en potens till ett nytt tal. Då multiplicerar du exponenterna."
+        }
+      ]
+    },
+    {
+      "id": "potens-som-tal",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "b": [
+          2,
+          3
+        ],
+        "m": [
+          1,
+          3
+        ],
+        "n": [
+          1,
+          3
+        ]
+      },
+      "prompt": "Vad är {b}^{m} · {b}^{n} som ett vanligt tal?",
+      "answer": [
+        "=pow(b,m+n)"
+      ],
+      "correct": "Rätt! {b}^{m} · {b}^{n} = {b}^{m+n} = {pow(b,m+n)}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m+n"
+          ],
+          "message": "{m+n} är den nya exponenten. Räkna också ut själva potensen."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "2^5 · 2^3 kan skrivas som en enda potens 2^x. Vilket tal är x?",
+    "answer": [
+      "8"
+    ],
+    "correct": "Rätt! Med samma bas lägger du ihop exponenterna: 5 + 3 = 8.",
+    "feedback": [
+      {
+        "answers": [
+          "15"
+        ],
+        "message": "15 är 5 · 3. Multiplicerar du potenser med samma bas lägger du ihop exponenterna."
+      },
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "2 är 5 − 3, som gäller vid division. Här multiplicerar vi."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Förenkla 10^6 · 10^4. Skriv svaret som 10^x. Vilket tal är x?",
+      "answer": [
+        "10"
+      ],
+      "correct": "Rätt! 10^6 · 10^4 = 10^(6+4) = 10^10.",
+      "feedback": [
+        {
+          "answers": [
+            "24"
+          ],
+          "message": "24 är 6 · 4. Multiplicerar du potenser med samma bas lägger du ihop exponenterna."
+        }
+      ]
+    },
+    {
+      "prompt": "Vad är 7^0?",
+      "answer": [
+        "1"
+      ],
+      "correct": "Rätt! Allt upphöjt till 0 är 1 (utom 0 själv).",
+      "feedback": [
+        {
+          "answers": [
+            "0"
+          ],
+          "message": "7^0 är inte 0. Allt upphöjt till 0 är 1."
+        },
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är 7^1. Exponenten är 0, och då är potensen 1."
+        }
+      ]
+    },
+    {
+      "prompt": "Vad är 2^(−2)? Svara som bråk eller decimaltal.",
+      "answer": [
+        "1/4",
+        "0,25",
+        "0.25"
+      ],
+      "correct": "Rätt! En negativ exponent betyder 1 delat med potensen: 1 delat med 2^2 = 1/4.",
+      "feedback": [
+        {
+          "answers": [
+            "-4",
+            "−4"
+          ],
+          "message": "En negativ exponent gör inte talet negativt. Den betyder 1 delat med potensen: 1 delat med 2^2."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är 2^2. Exponenten −2 betyder 1 delat med 2^2."
+        }
+      ]
+    }
+  ]
+}

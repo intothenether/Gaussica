@@ -1,0 +1,267 @@
+{
+  "id": "forandringshastighet",
+  "area": "algebra",
+  "title": "Förändringshastighet",
+  "level": "Hur snabbt ändras det? · gymnasiet",
+  "grade": 10,
+  "duration": "9 min",
+  "prerequisites": [
+    "linjara-funktioner-km",
+    "funktioner"
+  ],
+  "summary": "Förändringshastigheten är förändringen i y delat med förändringen i x. För en rät linje är den lika med k.",
+  "explanationTitle": "Förändring per tidsenhet",
+  "explanation": "Problemet: Temperaturen är 4 °C klockan 8 och 16 °C klockan 12. Hur snabbt blev det varmare? Du kan inte bara säga att det blev 12 grader varmare, för det säger inte hur snabbt det gick. Vi mäter därför förändringen per tidsenhet: förändringshastigheten. Den räknas som förändringen i y delat med förändringen i x: (16 − 4) delat med (12 − 8) = 12 delat med 4 = 3 °C per timme. Är sambandet en rät linje, y = k · x + m, är förändringshastigheten alltid densamma och lika med k. För kurvor som en parabel eller en exponentialfunktion ändras hastigheten hela tiden, och då räknar vi medelförändringshastigheten mellan två punkter på samma sätt. Är förändringshastigheten negativ minskar värdet.",
+  "visual": {
+    "type": "tabell",
+    "title": "Temperaturen under förmiddagen",
+    "headers": [
+      "Klockan",
+      "Temperatur"
+    ],
+    "rows": [
+      [
+        "08",
+        "4 °C"
+      ],
+      [
+        "10",
+        "10 °C"
+      ],
+      [
+        "12",
+        "16 °C"
+      ]
+    ]
+  },
+  "rule": "Förändringshastighet = förändringen i y delat med förändringen i x. För en rät linje y = k · x + m är den lika med k. Negativ förändringshastighet betyder att värdet minskar.",
+  "ruleLabel": "FÖRÄNDRINGSHASTIGHET",
+  "example": "En vattentank innehåller 200 liter från början och 80 liter efter 4 minuter. Förändringshastigheten är (80 − 200) delat med 4 = −120 delat med 4 = −30 liter per minut.",
+  "practice": [
+    {
+      "id": "temperatur",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "y1": [
+          -5,
+          10
+        ],
+        "k": [
+          1,
+          6
+        ],
+        "t": [
+          2,
+          6
+        ]
+      },
+      "prompt": "Temperaturen är {y1} °C klockan 8 och {y1+k*t} °C klockan {8+t}. Hur många grader per timme ändras temperaturen?",
+      "answer": [
+        "=k",
+        "{k} grader",
+        "{k} °C"
+      ],
+      "correct": "Rätt! Förändringen är {k*t} grader på {t} timmar: {k*t} delat med {t} = {k} grader per timme.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*t"
+          ],
+          "message": "{k*t} är hela förändringen. Dela med antalet timmar, {t}."
+        }
+      ]
+    },
+    {
+      "id": "tank",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "v": [
+          200,
+          400,
+          50
+        ],
+        "k": [
+          5,
+          30,
+          5
+        ],
+        "t": [
+          2,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "v-k*t",
+          "min": 0
+        }
+      ],
+      "prompt": "En vattentank innehåller {v} liter från början och {v-k*t} liter efter {t} minuter. Vad är förändringshastigheten i liter per minut?",
+      "answer": [
+        "=0-k"
+      ],
+      "correct": "Rätt! Ändringen är {0-k*t} liter på {t} minuter: {0-k*t} delat med {t} = {0-k} liter per minut.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "Vattnet minskar, så förändringshastigheten är negativ."
+        }
+      ]
+    },
+    {
+      "id": "rat-linje",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "m": [
+          1,
+          20
+        ],
+        "d": [
+          2,
+          6
+        ]
+      },
+      "prompt": "Funktionen är y = {k}x + {m}. Hur mycket ändras y när x ökar med {d}?",
+      "answer": [
+        "=k*d"
+      ],
+      "correct": "Rätt! Varje steg ger {k} i förändring, och {d} steg ger {k} · {d} = {k*d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är förändringen när x ökar med 1. Här ökar x med {d}."
+        }
+      ]
+    },
+    {
+      "id": "medelhastighet",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "v": [
+          40,
+          90,
+          10
+        ],
+        "t1": [
+          1,
+          3
+        ],
+        "dt": [
+          2,
+          4
+        ]
+      },
+      "prompt": "En bil har kört {v*t1} km efter {t1} timmar och {v*(t1+dt)} km efter {t1+dt} timmar. Vad är medelhastigheten mellan dessa tider, i km/h?",
+      "answer": [
+        "=v",
+        "{v} km/h"
+      ],
+      "correct": "Rätt! Sträckan är {v*dt} km på {dt} timmar: {v*dt} delat med {dt} = {v} km/h.",
+      "feedback": [
+        {
+          "answers": [
+            "=v*dt"
+          ],
+          "message": "{v*dt} km är hela sträckan under tiden. Dela med tiden, {dt} timmar."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Temperaturen är 4 °C klockan 8 och 16 °C klockan 12. Hur många grader per timme ändras temperaturen?",
+    "answer": [
+      "3",
+      "3 grader",
+      "3 °C"
+    ],
+    "correct": "Rätt! (16 − 4) delat med (12 − 8) = 12 delat med 4 = 3 grader per timme.",
+    "feedback": [
+      {
+        "answers": [
+          "12",
+          "12 grader"
+        ],
+        "message": "12 är hela förändringen. Dela med antalet timmar, 4."
+      },
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "4 är antalet timmar. Förändringen i temperatur är 12 grader; dela den med 4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En ballong är på 500 m höjd. Efter 5 minuter är den på 300 m höjd. Vilken är förändringshastigheten i meter per minut?",
+      "answer": [
+        "-40",
+        "−40"
+      ],
+      "correct": "Rätt! (300 − 500) delat med 5 = −200 delat med 5 = −40 meter per minut.",
+      "feedback": [
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "40 är hastigheten utan tecken. Ballongen sjunker, så förändringshastigheten är negativ."
+        },
+        {
+          "answers": [
+            "-200",
+            "−200"
+          ],
+          "message": "−200 m är hela förändringen. Dela med antalet minuter, 5."
+        }
+      ]
+    },
+    {
+      "prompt": "Funktionen y = 5x + 3 beskriver en kostnad. Hur mycket ökar y när x ökar med 4?",
+      "answer": [
+        "20"
+      ],
+      "correct": "Rätt! Förändringshastigheten är k = 5, och 4 steg ger 5 · 4 = 20.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är ökningen när x ökar med 1. Nu ökar x med 4."
+        }
+      ]
+    },
+    {
+      "prompt": "En växt är 12 cm hög i vecka 2 och 30 cm hög i vecka 8. Hur många centimeter växer den i genomsnitt per vecka?",
+      "answer": [
+        "3",
+        "3 cm"
+      ],
+      "correct": "Rätt! (30 − 12) delat med (8 − 2) = 18 delat med 6 = 3 cm per vecka.",
+      "feedback": [
+        {
+          "answers": [
+            "18",
+            "18 cm"
+          ],
+          "message": "18 cm är hela tillväxten. Dela med antalet veckor, 6."
+        }
+      ]
+    }
+  ]
+}

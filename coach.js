@@ -116,6 +116,22 @@ window.GaussicaCoach = (function () {
     return { lessons: lessons, states: states, going: going, fresh: fresh, ready: ready, done: done, isDone: isDone, placement: placement, known: known };
   }
 
+  // The year the student is working at: three quarters up among the years of the lessons that are finished (or known from the
+  // placement test), so a few easy ones do not pull it down and one hard one does not lift it. null when there is too little to go on.
+  function levelOf(ctx, A) {
+    A = A || analyse(ctx);
+    const grades = [];
+    A.lessons.forEach(function (l) {
+      if (l.kind === "pyssel") return;
+      if (A.known.has(l.id) || A.states.get(l.id).state === "complete") grades.push(L().effectiveGrade(l, ctx.lessons));
+    });
+    const edge = A.placement ? Math.round(Number(A.placement.level) || 0) : 0;
+    if (grades.length < 3) return edge || null;
+    grades.sort(function (a, b) { return a - b; });
+    const q = grades[Math.min(grades.length - 1, Math.floor(grades.length * 0.75))];
+    return Math.max(q, edge);
+  }
+
   function nextStep(ctx) {
     const A = analyse(ctx);
     if (!A.lessons.length) return { kind: "done" };
@@ -134,9 +150,12 @@ window.GaussicaCoach = (function () {
   // assignment from the teacher (it always comes first).
   function path(ctx, assignedLessonId) {
     const A = analyse(ctx);
+    const level = levelOf(ctx, A);
     const step = function (role, kind, lesson, extra) {
       const s = A.states.get(lesson.id) || summaryOf(ctx, lesson);
-      return Object.assign({ role: role, kind: kind, lesson: lesson, sum: s, grade: L().effectiveGrade(lesson, ctx.lessons) }, extra || {});
+      const grade = L().effectiveGrade(lesson, ctx.lessons);
+      // gap: how many years above (+) or below (-) the student's own year the lesson is; null when that is not known
+      return Object.assign({ role: role, kind: kind, lesson: lesson, sum: s, grade: grade, level: level, gap: level ? grade - level : null }, extra || {});
     };
     const taken = new Set();
     let now = null;
@@ -285,6 +304,6 @@ window.GaussicaCoach = (function () {
     return out;
   }
 
-  return { nextStep: nextStep, path: path, reviewPlan: reviewPlan, practiceRound: practiceRound, reviewRound: reviewRound, weaknesses: weaknesses,
+  return { nextStep: nextStep, path: path, levelOf: levelOf, reviewPlan: reviewPlan, practiceRound: practiceRound, reviewRound: reviewRound, weaknesses: weaknesses,
     REVIEW_KEY: REVIEW_KEY, REVIEW_STEPS: REVIEW_STEPS, reviewRecord: reviewRecord, seedReview: seedReview, dueReviews: dueReviews, afterReview: afterReview };
 }());

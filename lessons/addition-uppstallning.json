@@ -224,7 +224,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "Elsa har 256 klistermärken och får 189 till. Hur många klistermärken har hon sammanlagt?",
+      "prompt": "@djur har 256 klistermärken och får 189 till. Hur många klistermärken har @djur sammanlagt?",
       "answer": [
         "445"
       ],

@@ -1,0 +1,250 @@
+{
+  "id": "uppskatta-rimligt",
+  "area": "tal",
+  "title": "Uppskatta: är svaret rimligt?",
+  "level": "Överslag med runda tal · ungefär åk 3",
+  "grade": 3,
+  "duration": "7 min",
+  "prerequisites": [
+    "addition"
+  ],
+  "summary": "Med ett överslag räknar du med runda tal för att snabbt se om ett svar kan stämma.",
+  "explanationTitle": "Räkna ungefär först",
+  "explanation": "Problemet: Du räknar 48 + 39 och får 187. Stämmer det? Det är lätt att slarva i en uppställning, och du vill ha ett snabbt sätt att se om ett svar är orimligt. Gör ett överslag: runda varje tal till närmaste tiotal och räkna med de runda talen. 48 är nästan 50 och 39 är nästan 40, så svaret ska vara nära 50 + 40 = 90. 187 ligger långt ifrån 90, så något har gått fel (rätt svar är 87). Ett överslag ger inte det exakta svaret, men det visar om svaret är rimligt, alltså om det kan stämma. Gör alltid ett överslag innan du litar på ett svar, särskilt när du använder miniräknare.",
+  "visual": {
+    "type": "tabell",
+    "title": "Överslag steg för steg",
+    "headers": [
+      "Räkning",
+      "Runda",
+      "Överslag"
+    ],
+    "rows": [
+      [
+        "48 + 39",
+        "50 + 40",
+        "90"
+      ],
+      [
+        "72 − 28",
+        "70 − 30",
+        "40"
+      ],
+      [
+        "193 + 206",
+        "190 + 210",
+        "400"
+      ]
+    ]
+  },
+  "rule": "Runda talen till närmaste tiotal och räkna med de runda talen. Ligger svaret nära överslaget är det rimligt.",
+  "ruleLabel": "ÖVERSLAG",
+  "example": "Du räknar 63 + 38 och får 101. Överslag: 60 + 40 = 100. Svaret ligger nära 100, så det är rimligt.",
+  "practice": [
+    {
+      "id": "overslag-plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          21,
+          89
+        ],
+        "b": [
+          21,
+          89
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(mod(a,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "abs(mod(b,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "abs(round(a/10)*10+round(b/10)*10-a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "Gör ett överslag: runda båda talen till närmaste tiotal och räkna. {a} + {b}",
+      "answer": [
+        "=round(a/10)*10+round(b/10)*10"
+      ],
+      "correct": "Rätt! {a} är nästan {round(a/10)*10} och {b} är nästan {round(b/10)*10}, så överslaget är {round(a/10)*10+round(b/10)*10}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} är det exakta svaret. Ett överslag räknar med runda tal, till närmaste tiotal."
+        }
+      ]
+    },
+    {
+      "id": "overslag-minus",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          41,
+          99
+        ],
+        "b": [
+          11,
+          38
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(mod(a,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "abs(mod(b,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "abs(round(a/10)*10-round(b/10)*10-a+b)",
+          "min": 1
+        },
+        {
+          "expr": "round(a/10)*10-round(b/10)*10",
+          "min": 10
+        }
+      ],
+      "prompt": "Du har {a} kr och köper något för {b} kr. Ungefär hur många kronor har du kvar? Runda till närmaste tiotal.",
+      "answer": [
+        "=round(a/10)*10-round(b/10)*10",
+        "{round(a/10)*10-round(b/10)*10} kr"
+      ],
+      "correct": "Rätt! {a} är nästan {round(a/10)*10} och {b} är nästan {round(b/10)*10}, så ungefär {round(a/10)*10-round(b/10)*10} kr är kvar.",
+      "feedback": [
+        {
+          "answers": [
+            "=a-b"
+          ],
+          "message": "{a-b} är det exakta svaret. Ett överslag räknar med runda tal."
+        }
+      ]
+    },
+    {
+      "id": "overslag-hundratal",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          120,
+          880
+        ],
+        "b": [
+          120,
+          880
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(mod(a,100)-50)",
+          "min": 1
+        },
+        {
+          "expr": "abs(mod(b,100)-50)",
+          "min": 1
+        },
+        {
+          "expr": "abs(round(a/100)*100+round(b/100)*100-a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "Du köper en jacka för {a} kr och skor för {b} kr. Ungefär hur många kronor kostar det tillsammans? Runda till närmaste hundratal.",
+      "answer": [
+        "=round(a/100)*100+round(b/100)*100",
+        "{round(a/100)*100+round(b/100)*100} kr"
+      ],
+      "correct": "Rätt! {a} är nästan {round(a/100)*100} och {b} är nästan {round(b/100)*100}, så det blir ungefär {round(a/100)*100+round(b/100)*100} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} kr är det exakta priset. Runda varje pris till närmaste hundratal först."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Gör ett överslag: runda båda talen till närmaste tiotal och räkna. 48 + 39",
+    "answer": [
+      "90"
+    ],
+    "correct": "Rätt! 48 är nästan 50 och 39 är nästan 40, och 50 + 40 = 90.",
+    "feedback": [
+      {
+        "answers": [
+          "87"
+        ],
+        "message": "87 är det exakta svaret. Ett överslag räknar med runda tal: 50 + 40."
+      },
+      {
+        "answers": [
+          "80"
+        ],
+        "message": "80 får du om du bara rundar nedåt. Runda till närmaste tiotal: 48 är nästan 50 och 39 är nästan 40."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Max räknar 52 + 39 och får 191. Är svaret rimligt? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Överslaget är 50 + 40 = 90, och 191 ligger långt ifrån 90. Det rätta svaret är 91.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Räkna ett överslag: 50 + 40 = 90. 191 är mycket större än 90, så svaret kan inte stämma."
+        }
+      ]
+    },
+    {
+      "prompt": "Du köper en bok för 78 kr och en tidning för 41 kr. Ungefär hur många kronor kostar det? Runda till närmaste tiotal.",
+      "answer": [
+        "120",
+        "120 kr"
+      ],
+      "correct": "Rätt! 78 är nästan 80 och 41 är nästan 40, och 80 + 40 = 120 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "119",
+            "119 kr"
+          ],
+          "message": "119 kr är det exakta priset. Ett överslag räknar med runda tal: 80 + 40."
+        }
+      ]
+    },
+    {
+      "prompt": "Emma har 200 kr. Hon vill köpa en tröja för 119 kr och en keps för 69 kr. Räcker pengarna? Gör ett överslag och svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! 120 + 70 = 190, och det är mindre än 200. Det exakta priset är 188 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Överslag: 120 + 70 = 190, och det är mindre än 200. Pengarna räcker."
+        }
+      ]
+    }
+  ]
+}

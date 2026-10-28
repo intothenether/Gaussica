@@ -106,16 +106,53 @@ window.GaussicaLesson = (function () {
     };
   }
 
+  // ----- the pet in some of the problems -----
+  // A few problems are written about the student's pet: "@djur" is the name of the pet, "@djurs" the name with an s ("Pixels"), and
+  // "@mat" what the pet likes to eat, in the plural ("morötter"). A student without a pet (and a teacher, and every printed paper)
+  // gets Mio and "äpplen". The problems are written so that no pronoun is needed for the pet.
+  // setPersonal(fn): fn() returns { name, food } for the student who is signed in, or null.
+  const PERSONAL = { name: "Mio", food: "äpplen" };
+  let personalSource = null;
+
+  function setPersonal(fn) { personalSource = typeof fn === "function" ? fn : null; }
+
+  function personalOf() {
+    let p = null;
+    try { p = personalSource ? personalSource() : null; } catch (e) { p = null; }
+    return { name: (p && p.name) || PERSONAL.name, food: (p && p.food) || PERSONAL.food };
+  }
+
+  function personalText(text) {
+    if (typeof text !== "string" || text.indexOf("@") < 0) return text;
+    const p = personalOf();
+    return text.replace(/@djurs/g, /[sxz]$/i.test(p.name) ? p.name : p.name + "s").replace(/@djur/g, p.name).replace(/@mat\b/g, p.food);
+  }
+
+  // The problem with the pet put in (a copy, so the lesson itself is never changed). A problem without the tokens is returned as it is.
+  function personalize(problem) {
+    if (!problem || typeof problem !== "object") return problem;
+    const json = JSON.stringify(problem);
+    if (json.indexOf("@djur") < 0 && json.indexOf("@mat") < 0) return problem;
+    const copy = JSON.parse(json);
+    (function walk(o) {
+      Object.keys(o).forEach(function (k) {
+        if (typeof o[k] === "string") o[k] = personalText(o[k]);
+        else if (o[k] && typeof o[k] === "object") walk(o[k]);
+      });
+    }(copy));
+    return copy;
+  }
+
   // Answerable tasks shown in the lesson, in display order. `id` matches the ids
   // used when storing answers (see renderProblem in app.js).
   function tasks(l) {
     const out = [];
     blockKeys(l).forEach(function (key) {
       if (key === "exercise") {
-        out.push({ id: "exercise", key: key, problem: l.exercise, name: "Din tur" });
+        out.push({ id: "exercise", key: key, problem: personalize(l.exercise), name: "Din tur" });
       } else if (key.indexOf("word:") === 0) {
         const i = Number(key.slice(5));
-        out.push({ id: "word-" + i, key: key, problem: l.wordProblems[i], name: "Textuppgift " + (i + 1) });
+        out.push({ id: "word-" + i, key: key, problem: personalize(l.wordProblems[i]), name: "Textuppgift " + (i + 1) });
       } else if (key.indexOf("comp:") === 0 && isTaskComponent(l.components[Number(key.slice(5))])) {
         const i = Number(key.slice(5));
         out.push({ id: "component-" + i, key: key, problem: l.components[i], name: "Uppgift" });
@@ -366,6 +403,6 @@ window.GaussicaLesson = (function () {
     return g >= 10 ? "GYMNASIET" : "ÅK " + g;
   }
 
-  return { isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, allowsExpression: allowsExpression, gradeLabel: gradeLabel, steps: steps, explanationParts: explanationParts, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
+  return { setPersonal: setPersonal, personalText: personalText, personalize: personalize, isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, allowsExpression: allowsExpression, gradeLabel: gradeLabel, steps: steps, explanationParts: explanationParts, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
     summarize: summarize, describe: describe, hasVisual: hasVisual, isTaskComponent: isTaskComponent, isMatchComponent: isMatchComponent, isTrueFalseComponent: isTrueFalseComponent };
 }());

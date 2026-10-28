@@ -79,17 +79,17 @@
       ]
     },
     {
-      "prompt": "En chokladkaka har 12 rutor. Sara äter 5 rutor. Vilket bråk visar hur stor del hon har ätit? Skriv med bråkstreck.",
+      "prompt": "Ett fat har 12 @mat. @djur äter 5 @mat. Vilket bråk visar hur stor del @djur har ätit? Skriv med bråkstreck.",
       "answer": [
         "5/12"
       ],
-      "correct": "Ja! Sara har ätit 5 av 12 rutor, alltså 5/12.",
+      "correct": "Ja! @djur har ätit 5 av 12 @mat, alltså 5/12.",
       "feedback": [
         {
           "answers": [
             "7/12"
           ],
-          "message": "7/12 är den del som är kvar. Frågan gäller delen Sara har ätit."
+          "message": "7/12 är den del som är kvar. Frågan gäller delen @djur har ätit."
         },
         {
           "answers": [

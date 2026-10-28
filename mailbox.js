@@ -186,6 +186,7 @@ window.GaussicaMailbox = (function () {
       : x.practice
       ? x.sum.done + " av " + x.sum.total + " övningsfrågor rätt. Det blir nya tal varje gång."
       : x.sum.done + " av " + x.sum.total + " uppgifter klara"));
+    if (window.GaussicaPet && window.GaussicaPet.current()) card.appendChild(el("p", "mb-reward", "🪙 " + window.GaussicaPet.LIMITS.QUEST + " mynt till ditt djur när uppdraget är klart"));
     const go = el("button", "primary-button mb-go", x.prov ? (started ? "Fortsätt provet →" : "Starta provet →") : started ? "Fortsätt uppdraget →" : "Börja uppdraget →");
     go.type = "button";
     go.addEventListener("click", function () {
@@ -347,6 +348,7 @@ window.GaussicaMailbox = (function () {
   return {
     init: init, render: render, inline: inline, banner: banner, counts: counts, openAssignments: openAssignments, openLessonAssignments: openLessonAssignments,
     doneCount: function () { return assignments().filter(function (x) { return x.done; }).length; },
+    doneIds: function () { return assignments().filter(function (x) { return x.done; }).map(function (x) { return x.a.id; }); },
     assignedLessonIds: assignedLessonIds, noteBubble: noteBubble, dueInfo: dueInfo, STICKERS: STICKERS,
     practiceCount: practiceCount, practiceSummary: practiceSummary, PRACTICE_GOAL: PRACTICE_GOAL
   };

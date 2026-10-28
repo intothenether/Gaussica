@@ -1,0 +1,254 @@
+{
+  "id": "utan-aterlaggning",
+  "area": "data",
+  "title": "Sannolikhet utan återläggning",
+  "level": "Dra flera gånger ur samma påse · ungefär åk 9",
+  "grade": 9,
+  "duration": "10 min",
+  "prerequisites": [
+    "traddiagram"
+  ],
+  "summary": "Lägger du inte tillbaka det du dragit ändras sannolikheterna efter varje drag. Multiplicera längs grenen i träddiagrammet.",
+  "explanationTitle": "När påsen förändras",
+  "explanation": "Problemet: I en påse ligger 3 röda och 2 blå kulor. Du drar en kula, lägger den åt sidan och drar sedan en till. Hur stor är chansen att båda är röda? Efter första draget finns det färre kulor i påsen, så chansen ändras. Rita ett träddiagram och multiplicera längs grenen. Första kulan är röd med sannolikheten 3/5. Då är 2 röda och 4 kulor kvar, så andra kulan är röd med sannolikheten 2/4. Båda röda: 3/5 · 2/4 = 6/20 = 30 %. Det kallas att dra utan återläggning. Lägger du tillbaka kulan efter varje drag, med återläggning, är sannolikheten densamma i varje drag: 3/5 · 3/5 = 9/25 = 36 %.",
+  "visual": {
+    "type": "tabell",
+    "title": "Samma påse, två sätt",
+    "headers": [
+      "",
+      "Utan återläggning",
+      "Med återläggning"
+    ],
+    "rows": [
+      [
+        "Första kulan röd",
+        "3/5",
+        "3/5"
+      ],
+      [
+        "Andra kulan röd",
+        "2/4",
+        "3/5"
+      ],
+      [
+        "Båda röda",
+        "3/5 · 2/4 = 30 %",
+        "3/5 · 3/5 = 36 %"
+      ]
+    ]
+  },
+  "rule": "Utan återläggning ändras sannolikheterna efter varje drag eftersom det finns en kula mindre. Multiplicera sannolikheterna längs grenen i träddiagrammet.",
+  "ruleLabel": "UTAN ÅTERLÄGGNING",
+  "example": "Påse med 3 röda och 2 blå. Två röda utan återläggning: 3/5 · 2/4 = 6/20 = 30 %.",
+  "practice": [
+    {
+      "id": "tva-roda",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          4,
+          10
+        ],
+        "r": [
+          2,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "n-r",
+          "min": 1
+        },
+        {
+          "expr": "mod(r*(r-1)*100,n*(n-1))",
+          "equals": 0
+        }
+      ],
+      "prompt": "I en påse ligger {r} röda och {n-r} blå kulor. Du drar två kulor utan återläggning. Hur stor är sannolikheten, i procent, att båda är röda?",
+      "answer": [
+        "=r*(r-1)*100/(n*(n-1))",
+        "{r*(r-1)*100/(n*(n-1))} %",
+        "{r*(r-1)*100/(n*(n-1))}%"
+      ],
+      "correct": "Rätt! {r}/{n} · {r-1}/{n-1} = {r*(r-1)*100/(n*(n-1))} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=r*r*100/(n*n)"
+          ],
+          "message": "Det vore sannolikheten med återläggning. Utan återläggning finns en kula mindre i andra draget."
+        }
+      ]
+    },
+    {
+      "id": "andra-roda",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          3,
+          11
+        ],
+        "r": [
+          2,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "n-r",
+          "min": 1
+        },
+        {
+          "expr": "mod((r-1)*100,n-1)",
+          "equals": 0
+        }
+      ],
+      "prompt": "I en påse ligger {r} röda och {n-r} blå kulor. Du drar en kula och den är röd. Du lägger inte tillbaka den. Hur stor är sannolikheten, i procent, att nästa kula också är röd?",
+      "answer": [
+        "=(r-1)*100/(n-1)",
+        "{(r-1)*100/(n-1)} %",
+        "{(r-1)*100/(n-1)}%"
+      ],
+      "correct": "Rätt! Efter första draget är {r-1} röda och {n-1} kulor kvar: {(r-1)*100/(n-1)} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=r*100/n"
+          ],
+          "message": "Det var sannolikheten före första draget. Nu har en röd kula tagits, så det finns en kula mindre av varje."
+        }
+      ]
+    },
+    {
+      "id": "med-aterlaggning",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          4,
+          10
+        ],
+        "r": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "n-r",
+          "min": 1
+        },
+        {
+          "expr": "mod(r*r*100,n*n)",
+          "equals": 0
+        }
+      ],
+      "prompt": "I en påse ligger {r} röda och {n-r} blå kulor. Du drar två gånger och lägger tillbaka kulan efter varje drag. Hur stor är sannolikheten, i procent, att båda är röda?",
+      "answer": [
+        "=r*r*100/(n*n)",
+        "{r*r*100/(n*n)} %",
+        "{r*r*100/(n*n)}%"
+      ],
+      "correct": "Rätt! Med återläggning är det {r}/{n} i båda dragen: {r*r*100/(n*n)} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=r*(r-1)*100/(n*(n-1))"
+          ],
+          "message": "Det vore utan återläggning. Här lägger du tillbaka kulan, så påsen är lika full i andra draget."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "I en påse ligger 3 röda och 2 blå kulor. Du drar två kulor utan återläggning. Hur stor är sannolikheten, i procent, att båda är röda?",
+    "answer": [
+      "30",
+      "30 %",
+      "30%"
+    ],
+    "correct": "Rätt! 3/5 · 2/4 = 6/20 = 30 %.",
+    "feedback": [
+      {
+        "answers": [
+          "36",
+          "36 %",
+          "36%"
+        ],
+        "message": "36 % gäller om du lägger tillbaka kulan efter första draget. Utan återläggning är det 2 röda av 4 kulor kvar i andra draget."
+      },
+      {
+        "answers": [
+          "60",
+          "60 %",
+          "60%"
+        ],
+        "message": "60 % är chansen att första kulan är röd. Multiplicera med chansen för andra kulan."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "I en påse ligger 3 röda och 2 blå kulor. Du drar två kulor utan återläggning. Hur stor är sannolikheten, i procent, att båda är blå?",
+      "answer": [
+        "10",
+        "10 %",
+        "10%"
+      ],
+      "correct": "Rätt! 2/5 · 1/4 = 2/20 = 10 %.",
+      "feedback": [
+        {
+          "answers": [
+            "16",
+            "16 %",
+            "16%"
+          ],
+          "message": "16 % är 2/5 · 2/5, alltså med återläggning. Utan återläggning är det 1 blå av 4 kulor kvar i andra draget."
+        }
+      ]
+    },
+    {
+      "prompt": "Du har fem kort numrerade 1, 2, 3, 4 och 5. Du drar två kort utan att lägga tillbaka. Hur stor är sannolikheten, i procent, att båda korten är udda?",
+      "answer": [
+        "30",
+        "30 %",
+        "30%"
+      ],
+      "correct": "Rätt! Tre av fem kort är udda. 3/5 · 2/4 = 6/20 = 30 %.",
+      "feedback": [
+        {
+          "answers": [
+            "36",
+            "36 %",
+            "36%"
+          ],
+          "message": "36 % gäller om du lägger tillbaka kortet. Utan återläggning är det 2 udda av 4 kort kvar i andra draget."
+        }
+      ]
+    },
+    {
+      "prompt": "I en påse ligger 3 röda och 2 blå kulor. Den första kulan du drar är röd, och du lägger inte tillbaka den. Hur stor är sannolikheten, i procent, att den andra kulan är blå?",
+      "answer": [
+        "50",
+        "50 %",
+        "50%"
+      ],
+      "correct": "Rätt! Det är 2 blå av 4 kulor kvar, alltså 2/4 = 50 %.",
+      "feedback": [
+        {
+          "answers": [
+            "40",
+            "40 %",
+            "40%"
+          ],
+          "message": "40 % är 2/5, som gällde före första draget. Nu finns bara 4 kulor kvar, varav 2 blå."
+        }
+      ]
+    }
+  ]
+}

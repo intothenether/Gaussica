@@ -140,7 +140,11 @@ window.GaussicaLgr22 = (function () {
     "ladagram": ["s79-stat", "s46-lage"], "sammansatta-figurer": ["g79-area", "g46-omk"], "vinkelsumma-manghorningar": ["g46-vinkel", "g46-figur"],
     "volym-prisma-cylinder": ["g79-area", "g46-omk"], "likformighet": ["g79-likform", "sf46-skala"], "division-av-brak": ["t79-rakna"],
     "upprepad-procent": ["t79-procent"], "ekvation-fran-text": ["a79-ekv"],
-    "trianglar-typer": ["g46-figur"], "linjediagram": ["s46-diagram"], "samma-tal-tre-satt": ["t46-brak", "t46-procent"], "pris-per-enhet": ["sf46-prop"]
+    "trianglar-typer": ["g46-figur"], "linjediagram": ["s46-diagram"], "samma-tal-tre-satt": ["t46-brak", "t46-procent"], "pris-per-enhet": ["sf46-prop"],
+    "uppskatta-rimligt": ["t13-uppskatt"], "kassakvitto": ["t46-rakna"], "forflyttningar": ["g46-sym"], "cirkeldiagram": ["s46-diagram"],
+    "delbarhetsregler": ["t46-hel"], "rationella-irrationella": ["t79-reella"], "fakultet-permutationer": ["s79-komb"], "utan-aterlaggning": ["s79-sannolik"],
+    "potenslagar": ["t79-pot"], "exponentialfunktioner": ["sf79-funk", "t79-procent"], "logaritmer": ["t79-pot"], "andragradsfunktioner": ["sf79-funk"],
+    "sinus-cosinussatsen": ["g79-pyth"], "forandringshastighet": ["sf79-funk"], "trendlinje": ["sf79-funk", "s79-stat"]
   };
 
   function L() { return window.GaussicaLesson; }

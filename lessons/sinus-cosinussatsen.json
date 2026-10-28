@@ -1,0 +1,242 @@
+{
+  "id": "sinus-cosinussatsen",
+  "area": "geometri",
+  "title": "Sinussatsen och cosinussatsen",
+  "level": "Trianglar utan rät vinkel · gymnasiet",
+  "grade": 10,
+  "duration": "11 min",
+  "prerequisites": [
+    "trigonometri",
+    "pythagoras"
+  ],
+  "summary": "Med cosinussatsen och sinussatsen kan du räkna sidor och vinklar i trianglar som inte är rätvinkliga.",
+  "explanationTitle": "När triangeln inte har en rät vinkel",
+  "explanation": "Problemet: Två båtar lämnar en hamn. Den ena seglar 3 km, den andra 8 km, och vinkeln mellan deras riktningar är 60°. Hur långt är det mellan båtarna? Triangeln är inte rätvinklig, så varken Pythagoras sats eller sin, cos och tan i en rätvinklig triangel fungerar direkt. Cosinussatsen är en utvidgning av Pythagoras sats: c² = a² + b² − 2 · a · b · cos C, där C är vinkeln mellan sidorna a och b och c ligger mitt emot C. För vinkeln 90° är cos C = 0, och det blir Pythagoras sats. För båtarna: c² = 9 + 64 − 2 · 3 · 8 · cos 60° = 73 − 24 = 49, så c = 7 km. Sinussatsen kopplar ihop sidor och vinklarna mitt emot dem: a delat med sin A = b delat med sin B. Du använder den när du känner en sida och dess motstående vinkel samt ett värde till. Kort sagt: två sidor och vinkeln mellan dem ger cosinussatsen, och en sida med dess motstående vinkel ger sinussatsen.",
+  "visual": {
+    "type": "tabell",
+    "title": "Vilken sats ska jag använda?",
+    "headers": [
+      "Du känner",
+      "Du söker",
+      "Använd"
+    ],
+    "rows": [
+      [
+        "Två sidor och vinkeln mellan dem",
+        "Tredje sidan",
+        "Cosinussatsen"
+      ],
+      [
+        "Alla tre sidorna",
+        "En vinkel",
+        "Cosinussatsen"
+      ],
+      [
+        "En sida och dess motstående vinkel, plus ett värde till",
+        "Annan sida eller vinkel",
+        "Sinussatsen"
+      ]
+    ]
+  },
+  "rule": "Cosinussatsen: c² = a² + b² − 2 · a · b · cos C. Sinussatsen: a delat med sin A = b delat med sin B. Arean är a · b · sin C delat med 2.",
+  "ruleLabel": "SINUS- OCH COSINUSSATSEN",
+  "example": "a = 3, b = 8 och C = 60°: c² = 9 + 64 − 2 · 3 · 8 · 0,5 = 49, så c = 7.",
+  "practice": [
+    {
+      "id": "cosinussatsen",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          3,
+          15
+        ],
+        "b": [
+          3,
+          15
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(sqrt(a*a+b*b-a*b),1)",
+          "equals": 0
+        }
+      ],
+      "prompt": "Två sidor i en triangel är {a} cm och {b} cm, och vinkeln mellan dem är 60°. Hur lång är den tredje sidan?",
+      "answer": [
+        "=sqrt(a*a+b*b-a*b)",
+        "{sqrt(a*a+b*b-a*b)} cm",
+        "{sqrt(a*a+b*b-a*b)}cm"
+      ],
+      "correct": "Rätt! c² = {a*a} + {b*b} − 2 · {a} · {b} · 0,5 = {a*a+b*b-a*b}, så c = {sqrt(a*a+b*b-a*b)} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*a+b*b-a*b"
+          ],
+          "message": "{a*a+b*b-a*b} är c². Dra roten ur för att få c."
+        },
+        {
+          "answers": [
+            "=sqrt(a*a+b*b)"
+          ],
+          "message": "Det är Pythagoras sats, som bara gäller vid en rät vinkel. Använd cosinussatsen."
+        }
+      ]
+    },
+    {
+      "id": "sinussatsen",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          3,
+          30,
+          3
+        ]
+      },
+      "prompt": "I en triangel är sin A = 0,6 och sin B = 0,8. Sidan a mitt emot A är {a} cm. Hur lång är sidan b?",
+      "answer": [
+        "=4*a/3",
+        "{4*a/3} cm",
+        "{4*a/3}cm"
+      ],
+      "correct": "Rätt! b = a · sin B delat med sin A = {a} · 0,8 delat med 0,6 = {4*a/3} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=3*a/4"
+          ],
+          "message": "Du har vänt på kvoten. Sidan mitt emot den större vinkeln är den längre: b = a · sin B delat med sin A."
+        }
+      ]
+    },
+    {
+      "id": "trianglens-area",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          4,
+          20
+        ],
+        "b": [
+          4,
+          20
+        ]
+      },
+      "prompt": "Två sidor i en triangel är {a} cm och {b} cm, och vinkeln mellan dem är 30°. Vilken area har triangeln?",
+      "answer": [
+        "=a*b/4",
+        "{a*b/4} cm2",
+        "{a*b/4}cm2",
+        "{a*b/4} cm²",
+        "{a*b/4}cm²"
+      ],
+      "correct": "Rätt! Arean är {a} · {b} · sin 30° delat med 2 = {a} · {b} · 0,5 delat med 2 = {a*b/4} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b/2"
+          ],
+          "message": "{a*b/2} får du om du glömmer sin 30° eller att dela med 2. Arean är a · b · sin C delat med 2, och sin 30° = 0,5."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "I en triangel är två sidor 3 cm och 8 cm och vinkeln mellan dem 60°. Hur lång är den tredje sidan?",
+    "answer": [
+      "7",
+      "7 cm"
+    ],
+    "correct": "Rätt! c² = 9 + 64 − 2 · 3 · 8 · 0,5 = 49, så c = 7 cm.",
+    "feedback": [
+      {
+        "answers": [
+          "49",
+          "49 cm"
+        ],
+        "message": "49 är c². Dra roten ur för att få c."
+      },
+      {
+        "answers": [
+          "8,54",
+          "8.54",
+          "8,54 cm"
+        ],
+        "message": "8,54 är √73, vad Pythagoras sats ger. Triangeln är inte rätvinklig, så använd cosinussatsen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Två båtar lämnar en hamn. Den ena seglar 3 km, den andra 8 km, och vinkeln mellan riktningarna är 60°. Hur långt är det mellan båtarna?",
+      "answer": [
+        "7",
+        "7 km"
+      ],
+      "correct": "Rätt! c² = 9 + 64 − 2 · 3 · 8 · 0,5 = 49, så c = 7 km.",
+      "feedback": [
+        {
+          "answers": [
+            "11",
+            "11 km"
+          ],
+          "message": "11 km är 3 + 8, vilket gäller om båtarna seglade åt samma håll. Använd cosinussatsen."
+        },
+        {
+          "answers": [
+            "49",
+            "49 km"
+          ],
+          "message": "49 är c². Dra roten ur."
+        }
+      ]
+    },
+    {
+      "prompt": "I en triangel är sin A = 0,6 och sin B = 0,8. Sidan a mitt emot A är 6 cm. Hur lång är sidan b?",
+      "answer": [
+        "8",
+        "8 cm"
+      ],
+      "correct": "Rätt! b = 6 · 0,8 delat med 0,6 = 8 cm.",
+      "feedback": [
+        {
+          "answers": [
+            "4,5",
+            "4.5",
+            "4,5 cm"
+          ],
+          "message": "4,5 får du om du vänder på kvoten. Sinussatsen ger b = a · sin B delat med sin A = 6 · 0,8 delat med 0,6."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilken area har en triangel med sidorna 10 cm och 6 cm och vinkeln 30° mellan dem?",
+      "answer": [
+        "15",
+        "15 cm2",
+        "15 cm²",
+        "15cm2",
+        "15cm²"
+      ],
+      "correct": "Rätt! Arean är 10 · 6 · 0,5 delat med 2 = 15 cm².",
+      "feedback": [
+        {
+          "answers": [
+            "30",
+            "30 cm2",
+            "30 cm²",
+            "30cm2",
+            "30cm²"
+          ],
+          "message": "30 får du om du glömmer att dela med 2. Arean är a · b · sin C delat med 2."
+        }
+      ]
+    }
+  ]
+}

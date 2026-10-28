@@ -382,7 +382,7 @@
       ]
     },
     {
-      "prompt": "Mira sparar 20 % av sin veckopeng. Det blir 30 kr. Hur stor är veckopengen?",
+      "prompt": "@djur sparar 20 % av veckopengen. Det blir 30 kr. Hur stor är veckopengen?",
       "answer": [
         "150",
         "150 kr"

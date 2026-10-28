@@ -405,12 +405,18 @@
       isActive: isStudent,
       mailbox: window.GaussicaMailbox
     });
+    // some problems are about the pet of the student: its name and what it likes to eat
+    window.GaussicaLesson.setPersonal(function () {
+      const p = window.GaussicaPet.current();
+      return p ? { name: p.name, food: window.GaussicaPetArt.countable(p.kind) } : null;
+    });
     window.GaussicaPet.init({
       getUser: function () { return currentUser; },
       getCourse: function () { return course; },
       getProgress: getLessonProgress,
       enabled: function () { return window.GaussicaRewards.enabled(); },
       lessonStars: function (lesson) { return window.GaussicaRewards.lessonStars(lesson); },
+      doneAssignments: function () { return window.GaussicaMailbox.doneIds(); },
       save: function (record) {
         record.updatedAt = Date.now();
         lessonProgress.pet = record;
@@ -583,8 +589,11 @@
 
   function renderGraph() {
     if (!mapOpen) { renderCoach(); return; }
+    const petMark = petOnMap();
     window.GaussicaGraph.render({
       container: graph,
+      pet: petMark,
+      paws: Boolean(petMark),
       lessons: getVisibleLessons(),
       allLessons: course.lessons,
       areas: areas,
@@ -602,6 +611,20 @@
       }
     });
     renderCoach();
+  }
+
+  // The pet sits on the lesson the student is at (the one to continue or start), and walks there when that changes.
+  // Where it was is kept in the browser, so that the walk starts from the node it left.
+  function petOnMap() {
+    if (!isStudent() || !window.GaussicaPet || !window.GaussicaPet.current()) return null;
+    const pet = window.GaussicaPet.current();
+    const step = window.GaussicaCoach.nextStep(coachContext());
+    const at = step && step.lesson ? step.lesson.id : null;
+    const key = "gaussica.pet.at." + currentUser.id;
+    let from = null;
+    try { from = window.localStorage.getItem(key); } catch (e) { from = null; }
+    if (at) { try { window.localStorage.setItem(key, at); } catch (e) { /* storage blocked */ } }
+    return { at: at, from: from, name: pet.name, face: window.GaussicaPetArt.face(pet, "") };
   }
 
   // ============ "NÄSTA STEG", ÖVA MER OCH REPETERA ============
@@ -2393,6 +2416,7 @@
 
   // opts.onResult(isCorrect) is called after each submitted answer (used by the lesson player).
   function renderProblem(parent, lesson, exercise, taskId, labelText, opts) {
+    exercise = window.GaussicaLesson.personalize(exercise);
     if (Array.isArray(exercise.pairs)) return renderMatching(parent, lesson, exercise, taskId, labelText, opts);
     if (Array.isArray(exercise.statements)) return renderTrueFalse(parent, lesson, exercise, taskId, labelText, opts);
     const finish = function (isCorrect) { if (opts && opts.onResult) opts.onResult(isCorrect); };

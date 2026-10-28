@@ -46,7 +46,7 @@ window.GaussicaWorksheet = (function () {
         }
       }
     } else {
-      [lesson.exercise].concat(lesson.wordProblems || []).filter(Boolean).slice(0, count).forEach(function (p) { out.push(p); });
+      [lesson.exercise].concat(lesson.wordProblems || []).filter(Boolean).slice(0, count).forEach(function (p) { out.push(window.GaussicaLesson && window.GaussicaLesson.personalize ? window.GaussicaLesson.personalize(p) : p); });
     }
     return out;
   }

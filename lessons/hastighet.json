@@ -132,7 +132,7 @@
           10
         ]
       },
-      "prompt": "Elsa cyklar med {v} km/h. Hur många timmar tar det att cykla {v*t} km?",
+      "prompt": "@djur springer med {v} km/h. Hur många timmar tar det att springa {v*t} km?",
       "answer": [
         "=t",
         "{t} h",
@@ -201,7 +201,7 @@
       ]
     },
     {
-      "prompt": "Elsa cyklar med 12 km/h. Hur många timmar tar det att cykla 36 km?",
+      "prompt": "@djur springer med 12 km/h. Hur många timmar tar det att springa 36 km?",
       "answer": [
         "3",
         "3 h",

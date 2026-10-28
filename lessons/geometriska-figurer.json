@@ -133,7 +133,7 @@
       ]
     },
     {
-      "prompt": "Maja ritar en triangel och en kvadrat. Hur många hörn har de tillsammans?",
+      "prompt": "@djur ritar en triangel och en kvadrat. Hur många hörn har de tillsammans?",
       "answer": [
         "7"
       ],

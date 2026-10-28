@@ -229,7 +229,7 @@
       ]
     },
     {
-      "prompt": "Kalle tränar i 1 timme och 25 minuter. Hur många minuter är det?",
+      "prompt": "@djur leker i 1 timme och 25 minuter. Hur många minuter är det?",
       "answer": [
         "85",
         "85 min",

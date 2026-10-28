@@ -1,0 +1,249 @@
+{
+  "id": "cirkeldiagram",
+  "area": "data",
+  "title": "Cirkeldiagram",
+  "level": "Läs och tolka delar av ett helt · ungefär åk 6",
+  "grade": 6,
+  "duration": "8 min",
+  "prerequisites": [
+    "diagram",
+    "procent"
+  ],
+  "summary": "Ett cirkeldiagram visar hur ett helt är uppdelat. Halva cirkeln är 50 %, en fjärdedel är 25 % och en tiondel är 10 %.",
+  "explanationTitle": "Hela cirkeln är alla svar",
+  "explanation": "Problemet: Klassen röstar om vilken frukt ni ska ha på fruktdagen. Ett stapeldiagram visar hur många röster varje frukt fick. Men du vill också se hur stor del av klassen som valde äpple, och om det är mer än hälften. Då passar ett cirkeldiagram. Hela cirkeln är alla röster. Varje frukt får en sektor, en bit av cirkeln, och ju större sektor desto större andel. En halv cirkel är hälften (50 %), en fjärdedel av cirkeln är 25 % och en tiondel är 10 %. Vill du veta hur många en sektor står för tar du den andelen av det hela. Cirkeldiagram är bäst när du vill jämföra delar av ett helt, och när det inte är för många delar.",
+  "visual": {
+    "type": "tabs",
+    "title": "Frukt på fruktdagen",
+    "subtitle": "24 röster sammanlagt",
+    "views": [
+      {
+        "type": "cirkeldiagram",
+        "tabTitle": "Cirkeldiagram",
+        "unit": "röster",
+        "data": [
+          {
+            "label": "Äpple",
+            "value": 12
+          },
+          {
+            "label": "Päron",
+            "value": 6
+          },
+          {
+            "label": "Banan",
+            "value": 4
+          },
+          {
+            "label": "Apelsin",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "type": "tabell",
+        "tabTitle": "Tabell",
+        "headers": [
+          "Frukt",
+          "Röster",
+          "Andel av cirkeln"
+        ],
+        "rows": [
+          [
+            "Äpple",
+            "12",
+            "hälften (50 %)"
+          ],
+          [
+            "Päron",
+            "6",
+            "en fjärdedel (25 %)"
+          ],
+          [
+            "Banan",
+            "4",
+            "en sjättedel"
+          ],
+          [
+            "Apelsin",
+            "2",
+            "en tolftedel"
+          ]
+        ]
+      }
+    ]
+  },
+  "rule": "Hela cirkeln är alla svar. Halva cirkeln är 50 %, en fjärdedel är 25 % och en tiondel är 10 %. Antalet i en sektor är andelen av det hela.",
+  "ruleLabel": "CIRKELDIAGRAM",
+  "example": "24 elever röstade. Äpple fick halva cirkeln: 24 delat med 2 = 12 röster. Päron fick en fjärdedel: 24 delat med 4 = 6 röster.",
+  "practice": [
+    {
+      "id": "fjardedel",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          16,
+          48,
+          4
+        ]
+      },
+      "prompt": "I ett cirkeldiagram över {n} elever täcker en sektor en fjärdedel av cirkeln. Hur många elever är det?",
+      "answer": [
+        "=n/4"
+      ],
+      "correct": "Rätt! En fjärdedel av {n} är {n} delat med 4, alltså {n/4} elever.",
+      "feedback": [
+        {
+          "answers": [
+            "=n/2"
+          ],
+          "message": "{n/2} är en halv cirkel. En fjärdedel är hälften av det."
+        }
+      ]
+    },
+    {
+      "id": "halva",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          10,
+          40,
+          2
+        ]
+      },
+      "prompt": "I ett cirkeldiagram över {n} personer täcker sektorn Fotboll halva cirkeln. Hur många personer valde fotboll?",
+      "answer": [
+        "=n/2"
+      ],
+      "correct": "Rätt! Hälften av {n} är {n/2}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "{n} är alla personer, hela cirkeln. Halva cirkeln är hälften av dem."
+        }
+      ]
+    },
+    {
+      "id": "procent-av-cirkeln",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          10,
+          50,
+          5
+        ],
+        "m": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(100,n)",
+          "equals": 0
+        },
+        {
+          "expr": "n-m",
+          "min": 1
+        }
+      ],
+      "prompt": "Av {n} röster fick Mira {m}. Hur många procent av cirkeln ska Miras sektor täcka?",
+      "answer": [
+        "=m*100/n",
+        "{m*100/n} %",
+        "{m*100/n}%"
+      ],
+      "correct": "Rätt! {m} av {n} är {m*100/n} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är antalet röster. Frågan gäller hur många procent av alla röster det är."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "I ett cirkeldiagram över 20 elever täcker en sektor en fjärdedel av cirkeln. Hur många elever är det?",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! En fjärdedel av 20 är 20 delat med 4, alltså 5 elever.",
+    "feedback": [
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "10 är hälften av eleverna. En fjärdedel är hälften av hälften."
+      },
+      {
+        "answers": [
+          "80"
+        ],
+        "message": "80 får du om du multiplicerar 20 med 4. En fjärdedel är 20 delat med 4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "I ett cirkeldiagram över 40 elever täcker sektorn Fotboll en fjärdedel. Hur många elever valde fotboll?",
+      "answer": [
+        "10"
+      ],
+      "correct": "Rätt! 40 delat med 4 är 10.",
+      "feedback": [
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "20 är hälften av eleverna. En fjärdedel är hälften av hälften."
+        }
+      ]
+    },
+    {
+      "prompt": "I ett cirkeldiagram är sektorn Äpple dubbelt så stor som sektorn Päron, och Päron täcker 25 % av cirkeln. Hur många procent täcker Äpple?",
+      "answer": [
+        "50",
+        "50 %",
+        "50%"
+      ],
+      "correct": "Rätt! Dubbelt så stor som 25 % är 50 %, alltså halva cirkeln.",
+      "feedback": [
+        {
+          "answers": [
+            "25",
+            "25 %",
+            "25%"
+          ],
+          "message": "25 % är Päron. Äpple är dubbelt så stor."
+        }
+      ]
+    },
+    {
+      "prompt": "Av 20 elever går 5 till skolan med cykel. Hur många procent av cirkeln ska cykelsektorn täcka?",
+      "answer": [
+        "25",
+        "25 %",
+        "25%"
+      ],
+      "correct": "Rätt! 5 av 20 är en fjärdedel, alltså 25 %.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 är antalet elever. Frågan gäller hur många procent av de 20 eleverna det är."
+        }
+      ]
+    }
+  ]
+}

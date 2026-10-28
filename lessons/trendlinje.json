@@ -1,0 +1,232 @@
+{
+  "id": "trendlinje",
+  "area": "data",
+  "title": "Punktdiagram och trendlinje",
+  "level": "Se samband i data · gymnasiet",
+  "grade": 10,
+  "duration": "10 min",
+  "prerequisites": [
+    "linjara-funktioner-km",
+    "diagram"
+  ],
+  "summary": "I ett punktdiagram syns om två saker hänger ihop. En trendlinje y = k · x + m beskriver sambandet och kan användas för att förutsäga.",
+  "explanationTitle": "Punkter som följer en linje",
+  "explanation": "Problemet: En glasskiosk skriver upp temperaturen varje dag och hur många glassar som såldes. Siffrorna blir en lång lista. Du vill se om det finns ett samband, och gissa hur många glassar som säljs en dag med 25 °C. Rita varje dag som en punkt i ett punktdiagram, med temperaturen på x-axeln och försäljningen på y-axeln. Ligger punkterna ungefär längs en linje finns ett samband. Linjen kallas trendlinje, och du kan skriva den som y = k · x + m. Med den kan du förutsäga: sätt in ett nytt x och räkna ut y. Ligger x inom de värden du har mätt kallas det att interpolera. Ligger det utanför kallas det att extrapolera, och det är osäkrare. Att två saker följer varandra visar inte att den ena orsakar den andra: glassförsäljningen och antalet solbrända ökar båda när det är varmt.",
+  "visual": {
+    "type": "graf",
+    "title": "Glassar mot temperatur, med trendlinjen y = 2x − 8",
+    "xmin": 0,
+    "xmax": 30,
+    "ymin": 0,
+    "ymax": 60,
+    "lines": [
+      {
+        "k": 2,
+        "m": -8,
+        "label": "y = 2x − 8"
+      }
+    ],
+    "points": [
+      {
+        "x": 10,
+        "y": 12
+      },
+      {
+        "x": 12,
+        "y": 17
+      },
+      {
+        "x": 15,
+        "y": 22
+      },
+      {
+        "x": 18,
+        "y": 28
+      },
+      {
+        "x": 20,
+        "y": 31
+      },
+      {
+        "x": 22,
+        "y": 37
+      },
+      {
+        "x": 25,
+        "y": 42
+      },
+      {
+        "x": 28,
+        "y": 47
+      }
+    ]
+  },
+  "rule": "Trendlinjen y = k · x + m beskriver sambandet ungefär. Sätt in ett x för att förutsäga y. k säger hur mycket y ändras när x ökar med 1.",
+  "ruleLabel": "TRENDLINJE",
+  "example": "Trendlinjen y = 2x − 8 förutsäger för 25 °C: 2 · 25 − 8 = 42 glassar.",
+  "practice": [
+    {
+      "id": "forutsag",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "k": [
+          2,
+          6
+        ],
+        "m": [
+          1,
+          20
+        ],
+        "x": [
+          10,
+          30
+        ]
+      },
+      "prompt": "Trendlinjen är y = {k}x + {m}. Vilket y förutsäger linjen när x = {x}?",
+      "answer": [
+        "=k*x+m"
+      ],
+      "correct": "Rätt! {k} · {x} + {m} = {k*x} + {m} = {k*x+m}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*x"
+          ],
+          "message": "{k*x} är {k} · {x}. Glöm inte att lägga till {m}."
+        }
+      ]
+    },
+    {
+      "id": "okning",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "m": [
+          1,
+          20
+        ],
+        "d": [
+          2,
+          5
+        ]
+      },
+      "prompt": "Trendlinjen är y = {k}x + {m}. Hur mycket ökar y när x ökar med {d}?",
+      "answer": [
+        "=k*d"
+      ],
+      "correct": "Rätt! y ökar med {k} för varje steg, och {d} steg ger {k} · {d} = {k*d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är ökningen när x ökar med 1. Här ökar x med {d}."
+        }
+      ]
+    },
+    {
+      "id": "omvant",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          2,
+          6
+        ],
+        "m": [
+          1,
+          20
+        ],
+        "x": [
+          5,
+          25
+        ]
+      },
+      "prompt": "Trendlinjen är y = {k}x + {m}. Vid vilket x förutsäger linjen y = {k*x+m}?",
+      "answer": [
+        "=x"
+      ],
+      "correct": "Rätt! {k} · {x} + {m} = {k*x+m}, så x = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*x"
+          ],
+          "message": "{k*x} är y utan m. Dra bort {m} från {k*x+m} och dela sedan med {k}."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Trendlinjen för glassförsäljningen är y = 2x − 8, där x är temperaturen i °C. Hur många glassar förutsäger linjen vid 25 °C?",
+    "answer": [
+      "42"
+    ],
+    "correct": "Rätt! 2 · 25 − 8 = 50 − 8 = 42.",
+    "feedback": [
+      {
+        "answers": [
+          "50"
+        ],
+        "message": "50 är 2 · 25. Dra också bort 8."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Trendlinjen är y = 2x − 8. Hur många glassar förutsäger den vid 20 °C?",
+      "answer": [
+        "32"
+      ],
+      "correct": "Rätt! 2 · 20 − 8 = 40 − 8 = 32.",
+      "feedback": [
+        {
+          "answers": [
+            "40"
+          ],
+          "message": "40 är 2 · 20. Dra också bort 8."
+        }
+      ]
+    },
+    {
+      "prompt": "Mätningarna gjordes mellan 10 och 28 °C. Trendlinjen används för att förutsäga försäljningen vid 40 °C. Kallas det att interpolera eller extrapolera?",
+      "answer": [
+        "extrapolera",
+        "extrapolation"
+      ],
+      "correct": "Rätt! 40 °C ligger utanför de uppmätta värdena, och då extrapolerar du. Det är osäkrare.",
+      "feedback": [
+        {
+          "answers": [
+            "interpolera",
+            "interpolation"
+          ],
+          "message": "Att interpolera är att förutsäga inom de värden du har mätt. 40 °C ligger utanför 10 till 28."
+        }
+      ]
+    },
+    {
+      "prompt": "Både glassförsäljningen och antalet solbrända ökar när det är varmt. Betyder det att glass orsakar solbränna? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Båda beror på en tredje sak, vädret. Att två saker följer varandra visar inte att den ena orsakar den andra.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Båda beror på en tredje sak, vädret. Att två saker följer varandra visar inte att den ena orsakar den andra."
+        }
+      ]
+    }
+  ]
+}

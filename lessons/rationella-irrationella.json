@@ -1,0 +1,229 @@
+{
+  "id": "rationella-irrationella",
+  "area": "tal",
+  "title": "Rationella och irrationella tal",
+  "level": "Vilka tal kan skrivas som bråk? · ungefär åk 9",
+  "grade": 9,
+  "duration": "9 min",
+  "prerequisites": [
+    "rotuttryck"
+  ],
+  "summary": "Rationella tal går att skriva som bråk. Irrationella tal, som √2 och π, har decimaler som aldrig tar slut och aldrig upprepar sig.",
+  "explanationTitle": "Tal som inte är bråk",
+  "explanation": "Problemet: Du vill veta exakt hur lång diagonalen är i en kvadrat med sidan 1 cm. Pythagoras sats ger √2. Du slår på miniräknaren och får 1,41421356… och siffrorna bara fortsätter. Går √2 att skriva som ett bråk, till exempel 7/5 eller 99/70? Hur du än försöker blir det aldrig exakt. Tal som går att skriva som ett bråk av heltal kallas rationella tal. Hit hör heltal, bråk och decimaltal som tar slut eller upprepar sig, som 0,25 och 0,333… Tal vars decimaler aldrig tar slut och aldrig upprepar sig kallas irrationella tal. Hit hör √2, √3, √5 och π. Roten ur ett tal är irrationell om talet inte är ett kvadrattal. √9 = 3 är rationell eftersom 9 är ett kvadrattal. Tillsammans bildar de rationella och irrationella talen de reella talen, alla tal på tallinjen.",
+  "visual": {
+    "type": "tabell",
+    "title": "Rationellt eller irrationellt?",
+    "headers": [
+      "Tal",
+      "Sort",
+      "Varför"
+    ],
+    "rows": [
+      [
+        "0,25",
+        "Rationellt",
+        "= 1/4"
+      ],
+      [
+        "1/3",
+        "Rationellt",
+        "0,333… upprepar sig"
+      ],
+      [
+        "√9",
+        "Rationellt",
+        "= 3"
+      ],
+      [
+        "√2",
+        "Irrationellt",
+        "1,41421356… tar aldrig slut"
+      ],
+      [
+        "π",
+        "Irrationellt",
+        "3,14159265… tar aldrig slut"
+      ]
+    ]
+  },
+  "rule": "Rationella tal kan skrivas som ett bråk av heltal. Irrationella tal kan inte det. √n är irrationell om n inte är ett kvadrattal.",
+  "ruleLabel": "REELLA TAL",
+  "example": "√16 = 4 är rationell. √20 ligger mellan 4 och 5, eftersom 16 < 20 < 25, och är irrationell.",
+  "practice": [
+    {
+      "id": "mellan",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          3,
+          99
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(sqrt(n),1)",
+          "min": 0.01
+        }
+      ],
+      "prompt": "Mellan vilka två heltal ligger √{n}? Svara med det lägre talet.",
+      "answer": [
+        "=floor(sqrt(n))"
+      ],
+      "correct": "Rätt! {floor(sqrt(n))} · {floor(sqrt(n))} = {floor(sqrt(n))*floor(sqrt(n))} och {floor(sqrt(n))+1} · {floor(sqrt(n))+1} = {(floor(sqrt(n))+1)*(floor(sqrt(n))+1)}, och {n} ligger mellan dem.",
+      "feedback": [
+        {
+          "answers": [
+            "=floor(sqrt(n))+1"
+          ],
+          "message": "Det är det högre talet. Svara med det lägre."
+        }
+      ]
+    },
+    {
+      "id": "rot-gange-rot",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          2,
+          50
+        ]
+      },
+      "prompt": "Vad blir √{n} · √{n}?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! En kvadratrot gånger sig själv ger talet under roten: √{n} · √{n} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*n"
+          ],
+          "message": "Multiplicerar du en kvadratrot med sig själv försvinner rottecknet. Du får talet under roten."
+        },
+        {
+          "answers": [
+            "=n*n"
+          ],
+          "message": "Då skulle du kvadrera hela talet. Här multiplicerar du √{n} med √{n}, och det ger {n}."
+        }
+      ]
+    },
+    {
+      "id": "heltalsrotter",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          10,
+          100,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(sqrt(n),1)",
+          "min": 0.01
+        }
+      ],
+      "prompt": "Hur många av heltalen från 1 till {n} har ett heltal som kvadratrot?",
+      "answer": [
+        "=floor(sqrt(n))"
+      ],
+      "correct": "Rätt! Det är kvadrattalen upp till {n}, och det finns {floor(sqrt(n))} av dem.",
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "{n} är alla talen. Bara kvadrattalen 1, 4, 9 och så vidare har ett heltal som kvadratrot."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Mellan vilka två heltal ligger √20? Svara med det lägre talet.",
+    "answer": [
+      "4"
+    ],
+    "correct": "Rätt! 4 · 4 = 16 och 5 · 5 = 25, och 20 ligger mellan 16 och 25.",
+    "feedback": [
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 · 5 = 25, och det är mer än 20. Svara med det lägre talet."
+      },
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "10 är hälften av 20. Vilket tal gånger sig självt ger nära 20?"
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Vilket av talen 0,25, 7, √5 och 1/3 är irrationellt? Skriv talet.",
+      "answer": [
+        "√5",
+        "rot ur 5",
+        "roten ur 5",
+        "kvadratroten ur 5",
+        "sqrt(5)",
+        "sqrt5"
+      ],
+      "correct": "Rätt! 5 är inte ett kvadrattal, så √5 är irrationellt. De andra går att skriva som bråk.",
+      "feedback": [
+        {
+          "answers": [
+            "1/3"
+          ],
+          "message": "1/3 är ett bråk, alltså rationellt. Decimalerna 0,333… upprepar sig."
+        },
+        {
+          "answers": [
+            "0,25",
+            "0.25"
+          ],
+          "message": "0,25 är 1/4, alltså rationellt."
+        }
+      ]
+    },
+    {
+      "prompt": "Hur många av talen √4, √9, √10 och √16 är heltal?",
+      "answer": [
+        "3"
+      ],
+      "correct": "Rätt! √4 = 2, √9 = 3 och √16 = 4. √10 är inte ett heltal eftersom 10 inte är ett kvadrattal.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "√10 är inte ett heltal eftersom 10 inte är ett kvadrattal."
+        }
+      ]
+    },
+    {
+      "prompt": "En kvadrat har arean 2 cm². Är sidlängden ett rationellt tal? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Sidan är √2, som är irrationell eftersom 2 inte är ett kvadrattal.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Sidan är √2. Är 2 ett kvadrattal?"
+        }
+      ]
+    }
+  ]
+}

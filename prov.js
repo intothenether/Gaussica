@@ -45,7 +45,7 @@ window.GaussicaProv = (function () {
       const templates = PR().templates(lesson);
       if (!templates.length) {
         [lesson.exercise].concat(lesson.wordProblems || []).filter(Boolean).slice(0, perLesson).forEach(function (p, i) {
-          out.push({ key: "q" + (out.length + 1), lessonId: lessonId, problem: p, templateId: "fixed-" + i });
+          out.push({ key: "q" + (out.length + 1), lessonId: lessonId, problem: (window.GaussicaLesson && window.GaussicaLesson.personalize ? window.GaussicaLesson.personalize(p) : p), templateId: "fixed-" + i });
         });
         return;
       }

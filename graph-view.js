@@ -9,6 +9,9 @@
 // Each node has a segmented progress ring with one segment per task:
 //   green = klar, orange = behöver rättas, grey = ej gjord.
 //
+// The student's pet (opts.pet = { at, from, name, face }) sits on the node it is at, and walks there from the node it was at before
+// (when that one is on the map). Finished nodes carry a small paw print (opts.paws).
+//
 // Layout: lessons/units are grouped by prerequisite depth (one band per level) and flow
 // left-to-right, wrapping to fit the width. Steps sit under their unit.
 
@@ -203,6 +206,14 @@ window.GaussicaGraph = (function () {
     return svg;
   }
 
+  // a paw print, left on the nodes the pet has been to
+  function pawIcon() {
+    const svg = svgEl("svg", { viewBox: "0 0 24 24", "class": "gn-paw", "aria-hidden": "true", fill: "currentColor" });
+    [[5, 11, 2.3], [9.5, 6.5, 2.5], [14.5, 6.5, 2.5], [19, 11, 2.3]].forEach(function (t) { svg.appendChild(svgEl("circle", { cx: t[0], cy: t[1], r: t[2] })); });
+    svg.appendChild(svgEl("path", { d: "M12,11.5 C8,11.5 5.5,15.5 6.5,18 C7.5,20.5 10,19.5 12,19.5 C14,19.5 16.5,20.5 17.5,18 C18.5,15.5 16,11.5 12,11.5 Z" }));
+    return svg;
+  }
+
   function sparkIcon() {
     const svg = svgEl("svg", { viewBox: "0 0 24 24", "class": "gn-icon", "aria-hidden": "true", fill: "currentColor" });
     svg.appendChild(svgEl("path", { d: "M12 2.5l2.2 6.3 6.3 2.2-6.3 2.2L12 19.5l-2.2-6.3L3.5 11l6.3-2.2L12 2.5z" }));
@@ -365,6 +376,7 @@ window.GaussicaGraph = (function () {
         face.classList.add("gn-glyph-" + lesson.area);
       }
       button.appendChild(face);
+      if (opts.paws && s.state === "complete") button.appendChild(pawIcon());
       if (s.fix > 0) {
         const badge = el("span", "gn-badge", "!");
         badge.title = s.fix + " att rätta";
@@ -403,6 +415,37 @@ window.GaussicaGraph = (function () {
         drawNode(step, lay.positions.get(step.id), "step", i, cell.lesson);
       });
     });
+
+    if (opts.pet && opts.pet.at && lay.positions.has(opts.pet.at)) placePet(graph, lay.positions, opts.pet);
+  }
+
+  // The pet sits on the shoulder of its node. When it was somewhere else the last time the map was drawn it starts there and walks over.
+  function spotOf(pos) { return { left: pos.cx + pos.nodeSize / 2 - 38, top: pos.nodeTop - 30 }; }
+
+  function placePet(graph, positions, pet) {
+    const marker = el("span", "gn-pet");
+    marker.innerHTML = pet.face || "";
+    marker.setAttribute("role", "img");
+    marker.setAttribute("aria-label", pet.name + " är här");
+    const here = spotOf(positions.get(pet.at));
+    const walk = pet.from && pet.from !== pet.at && positions.has(pet.from) && !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const start = walk ? spotOf(positions.get(pet.from)) : here;
+    marker.style.left = start.left + "px";
+    marker.style.top = start.top + "px";
+    graph.appendChild(marker);
+    const node = graph.querySelector('[data-lesson-id="' + pet.at + '"]');
+    if (node) {
+      node.classList.add("has-pet");
+      node.setAttribute("aria-label", node.dataset.baseLabel + ". " + pet.name + " är här.");
+    }
+    if (walk) {
+      marker.classList.add("is-walking");
+      setTimeout(function () {
+        marker.style.left = here.left + "px";
+        marker.style.top = here.top + "px";
+      }, 60);
+      setTimeout(function () { marker.classList.remove("is-walking"); }, 1500);
+    }
   }
 
   // Lines run straight down from a lesson, sideways along a shared "bus" line just above the next row, and

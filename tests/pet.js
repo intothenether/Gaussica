@@ -107,6 +107,36 @@ const pc = ledger(withPet({ attempts: practice })).parts.find((p) => p.id === "p
 ok(pc && pc.amount === 10 + 3, "practice gives 1 coin per new question and at most 10 a day: " + (pc && pc.amount));
 ok(!ledger(withPet({ attempts: [att("practice-sum-1", false, now)] })).parts.find((p) => p.id === "practice"), "a wrong practice answer gives nothing");
 
+// coming back to a kind of question that went wrong on an earlier day: 2 coins, three a day at most
+const DAY = 86400000;
+const tpl = lesson.practice[0];
+const sub = (taskId, completed, ms) => ({ timestamp: iso(ms), lessonId: "l", taskId: taskId, completed: completed });
+const fake = [{ id: "l", practice: [{ id: "k1", for: ["a"] }, { id: "k2", for: ["b"] }, { id: "k3", for: ["c"] }, { id: "k4", for: ["d"] }, { id: "k5", for: ["e"] }] }];
+const fakeIds = new Set(["l"]);
+const cb = (subs) => Pet.comebackCoins(subs, fakeIds, fake);
+ok(cb([sub("a", false, now), sub("practice-k1-x1", true, now + DAY)]) === 2, "a lesson question that went wrong, and a generated question of the same kind solved first try the next day, gives 2 coins");
+ok(cb([sub("a", false, now), sub("practice-k1-x1", true, now + 5000)]) === 0, "the same day does not count");
+ok(cb([sub("a", false, now), sub("a", true, now + 1000), sub("practice-k1-x1", true, now + DAY)]) === 2, "a mistake that was fixed the same day still counts when the kind comes back first try on a later day");
+ok(cb([sub("a", false, now), sub("practice-k1-x1", false, now + DAY), sub("practice-k1-x1", true, now + DAY + 1000)]) === 0, "solved after a mistake is not a comeback");
+ok(cb([sub("a", false, now), sub("practice-k1-x1", true, now + DAY), sub("practice-k1-x2", true, now + 2 * DAY)]) === 2, "a comeback is paid once, not for every later right answer");
+ok(cb([sub("a", false, now), sub("practice-k2-x1", true, now + DAY)]) === 0, "another kind of question does not count");
+ok(cb([sub("b", true, now), sub("practice-k2-x1", true, now + DAY)]) === 0, "nothing was wrong, so nothing to come back to");
+const five = ["a", "b", "c", "d", "e"].map((t) => sub(t, false, now));
+const back = ["k1", "k2", "k3", "k4", "k5"].map((k, i) => sub("practice-" + k + "-y" + i, true, now + DAY + i));
+ok(cb(five.concat(back)) === 6, "at most three comebacks a day (6 coins)");
+const cbLedger = ledger(withPet({ attempts: [att(tpl.for[0], false, now), att("practice-" + tpl.id + "-z9", true, now + DAY)] }));
+ok(cbLedger.parts.some((p) => p.id === "comeback" && p.amount === 2) && cbLedger.total === 20 + 2 + 1, "it shows in the coins (and the generated question itself gives its coin)");
+
+// finished assignments from the teacher: 10 coins each, once, kept in the record
+ok(Pet.claimQuests(pet, []) === null && Pet.claimQuests(null, [1]) === null, "nothing to claim");
+const claimed = Pet.claimQuests(pet, [7, 9]);
+ok(claimed && claimed.quests["7"] === 10 && claimed.quests["9"] === 10 && !pet.quests, "finished assignments are written into a copy of the record");
+ok(Pet.claimQuests(claimed, [7, 9]) === null, "an assignment is only claimed once");
+const more = Pet.claimQuests(claimed, [9, 12]);
+ok(more && Object.keys(more.quests).join() === "7,9,12", "a new one is added to the old ones");
+ok(ledger({ lessonProgress: { pet: claimed }, attempts: [], feedback: [] }).parts.find((p) => p.id === "quests").amount === 20, "each finished assignment gives 10 coins");
+ok(ledger({ lessonProgress: { pet: claimed }, attempts: [], feedback: [] }).total === 40, "and they are added to the total");
+
 // the placement test and gifts from the teacher
 ok(ledger(withPet({ lessonProgress: { pet: pet, placement: { known: ["addition"] } } })).total === 25, "the placement test gives 5");
 const gifted = ledger(withPet({ feedback: [{ sticker: "mynt10" }, { sticker: "mynt25" }, { sticker: "star" }, { sticker: null }] }));
@@ -119,7 +149,7 @@ ok(gifted.total === 20 + 35, "coins from the teacher count: " + gifted.total);
 
 // every item can be afforded by someone who has worked for a while
 const stars3 = lessons.filter((l) => !l.isParentLesson).length;
-ok(stars3 * 15 > Art.ITEMS.reduce((n, i) => n + i.price, 0), "the whole shop is within reach of the course (15 coins a lesson, with stars and practice)");
+ok(stars3 * 20 > Art.ITEMS.reduce((n, i) => n + i.price, 0), "the whole shop is within reach of the course (20 coins a lesson: 10 to 14 for the lesson itself, and the rest from practice, comebacks and assignments)");
 
 // ----- the room -----
 ok(Art.ROOM_SLOTS.length === 8 && Art.ROOM_SLOTS.every((s) => Art.ITEMS.filter((i) => i.slot === s[0]).length >= 2), "every place in the room has at least two things to choose from");
@@ -163,14 +193,14 @@ ok(counts.tal === 1 && !counts.geometri, "finished lessons are counted per area:
 
 
 // ----- more animals -----
-const NINE = ["dog", "tax", "cat", "penguin", "rabbit", "hedgehog", "fox", "hamster", "dragon"];
-ok(NINE.every((k) => Art.KINDS[k]) && Object.keys(Art.KINDS).length === 9, "nine animals");
-NINE.forEach((k) => {
+const ALL = ["dog", "tax", "cat", "penguin", "rabbit", "hedgehog", "fox", "hamster", "dragon", "axolotl", "pig", "cow", "cockatiel"];
+ok(ALL.every((k) => Art.KINDS[k]) && Object.keys(Art.KINDS).length === 13, "thirteen animals");
+ALL.forEach((k) => {
   const likes = Art.KINDS[k].likes;
   ok(likes && Art.thing(likes.food) && Art.thing(likes.food).type === "food" && Art.thing(likes.toy) && Art.thing(likes.toy).type === "toy", k + ": a favourite food and a favourite toy that exist");
   ok(Pet.makePet(k, "?", "").kind === k && Pet.makePet(k, "?", "").name === Art.KINDS[k].names[0], k + ": can be chosen, with a default name");
 });
-ok(new Set(NINE.map((k) => Art.KINDS[k].name)).size === 9, "every animal has its own name");
+ok(new Set(ALL.map((k) => Art.KINDS[k].name)).size === 13, "every animal has its own name");
 
 // ----- food and play -----
 ok(Art.FOODS.length >= 6 && Art.TOYS.length >= 5, "there are treats and toys to choose from");
@@ -228,6 +258,38 @@ ok(/älskar morötter/.test(Pet.careMessage(buddy, { thing: Art.thing("morot"), 
   /lekte med en boll/.test(Pet.careMessage(buddy, { thing: Art.thing("boll"), favorite: false })) && /Nu är ni kompisar/.test(Pet.careMessage(buddy, { thing: Art.thing("boll"), favorite: false, levelUp: "Kompisar" })), "the messages read well in Swedish");
 ok(!/[×—]/.test(JSON.stringify([Art.FOODS.map((x) => [x.name, x.a, x.pl]), Art.TOYS.map((x) => [x.name, x.a, x.pl])])), "no multiplication sign or em dash in the texts");
 
+
+// ----- the life of the pet -----
+const LIFE = Pet.LIFE;
+ok(Object.keys(LIFE).every((id) => LIFE[id].say.length >= 1 && LIFE[id].ms >= 2000 && (!LIFE[id].slot || Art.ROOM_SLOTS.some((s) => s[0] === LIFE[id].slot))), "every thing the pet does has words, a length and a place that exists in the room");
+ok(Object.keys(LIFE).filter((id) => LIFE[id].sleep).every((id) => LIFE[id].thought), "sleeping has its z z z");
+ok(Object.keys(LIFE).every((id) => Math.abs(LIFE[id].dx) <= 60 && Math.abs(LIFE[id].dy) <= 10 && Math.abs(LIFE[id].r) <= 8 && LIFE[id].sc >= 0.85 && LIFE[id].sc <= 1.05), "it moves a little and stays in the room");
+const ids2 = (p, h) => Pet.lifeChoices(p, h).map((c) => c.id).sort().join();
+ok(ids2({ kind: "dog" }, 12) === "blunda,hopp,titta", "without a room: hop, tilt the head, close the eyes");
+ok(ids2({ kind: "dog", scene: "bg", room: { bed: "rum-saeng" } }, 12) === "blunda,hopp,titta", "the room only counts when it is the view");
+const roomy = { kind: "dog", scene: "room", room: { bed: "rum-saeng", toy: "rum-boll", shelf: "rum-hylla", plant: "rum-vaxt", window: "rum-fonster", rug: "rum-matta-rod" } };
+ok(ids2(roomy, 12) === "blunda,fonster,hopp,hylla,leka,mattan,sova,titta,vaxt", "with a room: sleep, rug, toy, shelf, plant and window as well");
+ok(ids2({ kind: "dog", scene: "room", room: { toy: "rum-boll" } }, 12) === "blunda,hopp,leka,titta", "only what is in the room");
+const weight = (p, h, id) => Pet.lifeChoices(p, h).find((c) => c.id === id).w;
+ok(weight(roomy, 23, "sova") > 4 * weight(roomy, 12, "sova") && weight(roomy, 3, "leka") < weight(roomy, 12, "leka"), "at night it sleeps much more and plays less");
+const sleepShare = (h) => { const l = Pet.lifeChoices(roomy, h); return l.filter((c) => LIFE[c.id].sleep).reduce((n, c) => n + c.w, 0) / l.reduce((n, c) => n + c.w, 0); };
+ok(sleepShare(23) > 0.7 && sleepShare(12) < 0.3, "most of what it does at night is sleeping, and little in the day: " + sleepShare(23).toFixed(2) + " and " + sleepShare(12).toFixed(2));
+const seen = new Set();
+let lastPick = null, again = 0;
+for (let i = 0; i < 300; i++) { const id = Pet.pickLife(roomy, 12, Math.random, lastPick); if (id === lastPick) again++; seen.add(id); lastPick = id; }
+ok(again === 0 && seen.size === 9, "it never does the same thing twice in a row, and does everything in time (" + seen.size + " different)");
+ok(Pet.pickLife({ kind: "dog" }, 12, () => 0.999, null) && Pet.pickLife({ kind: "dog" }, 12, () => 0, null), "the choice works at both ends of the dice");
+
+// closed eyes are drawn for every animal, for sleeping; the happy face has none
+ALL.forEach((kind) => {
+  const open = Art.svg({ kind: kind, color: Art.KINDS[kind].colors[0].id }, {});
+  const happy = Art.svg({ kind: kind, color: Art.KINDS[kind].colors[0].id }, { mood: "happy" });
+  ok((open.match(/class="pet-eyes-closed"/g) || []).length === 1 && !/NaN/.test(open), kind + ": closed eyes, for sleeping");
+  ok(!/pet-eyes-closed/.test(happy), kind + ": the happy face has no closed eyes");
+  ok(/class="pet-actor"/.test(open), kind + ": the pet can move as a whole");
+});
+const inRoom = Art.svg({ kind: "cat", color: "gra", scene: "room", room: { toy: "rum-boll" } });
+ok(/class="pet-actor"/.test(inRoom) && /<g class="room-toy">/.test(inRoom), "in the room the pet moves and the toy can bounce");
 
 console.log(failures ? failures + " FAILED" : "All pet checks passed (" + drawn + " drawings)");
 process.exit(failures ? 1 : 0);

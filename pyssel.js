@@ -18,6 +18,8 @@
 //     view:{ ...figure config with "=expr" / "{expr}" } | views:[...],
 //     readouts:[{ label, text, when:{expr,equals|min|max} }],
 //     goals:[{ id, text, conditions:[{ expr, equals|min|max, tol }] }] }
+//   A challenge is not ticked off when a slider passes through the right value (then dragging it all the way along would do it without
+//   the student seeing a thing). The student sets the sliders and presses "Kolla", and only then are the challenges checked.
 
 window.GaussicaPyssel = (function () {
   "use strict";
@@ -63,6 +65,13 @@ window.GaussicaPyssel = (function () {
       n = Math.round(n);
       for (let k = n + 1; k < n + 1000; k++) if (FUNCS.isprime(k)) return k;
       return NaN;
+    },
+    fact: function (n) {         // n! = n · (n − 1) · … · 1
+      n = Math.round(n);
+      if (n < 0 || n > 20) return NaN;
+      let f = 1;
+      for (let k = 2; k <= n; k++) f *= k;
+      return f;
     },
     sgd: function (a, b) {
       a = Math.abs(Math.round(a)); b = Math.abs(Math.round(b));
@@ -302,8 +311,22 @@ window.GaussicaPyssel = (function () {
     const goalUi = goals.length ? goalList(goals, ctx) : null;
     if (goalUi) {
       root.appendChild(el("h5", "py-goals-title", "Utmaningar"));
+      root.appendChild(el("p", "py-goals-help", "Ställ in reglagen och tryck på Kolla när du tror att du har hittat rätt."));
       root.appendChild(goalUi.element);
-      root.appendChild(goalUi.status);
+      if (!params.length) {   // without sliders there is nothing to set: the button goes with the list
+        root.appendChild(button("Kolla", "py-btn py-check-btn", checkGoals));
+        root.appendChild(goalUi.status);
+      }
+    }
+
+    // the challenges are checked when the student presses Kolla (see the note at the top of this file)
+    function checkGoals() {
+      const s = scope();
+      const holding = goals.filter(function (g) { return g.conditions.every(function (c) { return holds(c, s); }); });
+      const fresh = holding.filter(function (g) { return !goalUi.isDone(g.id); });
+      if (fresh.length) fresh.forEach(function (g) { goalUi.complete(g); });
+      else if (holding.length) goalUi.status.textContent = "Det där har du redan klarat. Prova en annan utmaning.";
+      else goalUi.status.textContent = "Inte riktigt än. Läs utmaningen en gång till, titta på vad du ser och prova igen.";
     }
 
     const outputs = {};
@@ -338,7 +361,13 @@ window.GaussicaPyssel = (function () {
         });
         update();
       });
-      controls.appendChild(reset);
+      // Kolla sits with the sliders, so that on a phone the student does not have to scroll past the figure to press it
+      const actions = el("div", "py-actions");
+      actions.appendChild(reset);
+      if (goalUi) {
+        actions.appendChild(button("Kolla", "py-btn py-check-btn", checkGoals));
+        controls.append(actions, goalUi.status);
+      } else controls.appendChild(actions);
     }
 
     function scope() {
@@ -363,9 +392,7 @@ window.GaussicaPyssel = (function () {
         li.appendChild(el("span", "", resolve(r.text, s)));
         readouts.appendChild(li);
       });
-      goals.forEach(function (g) {
-        if (!goalUi.isDone(g.id) && g.conditions.every(function (c) { return holds(c, s); })) goalUi.complete(g);
-      });
+      if (goalUi) goalUi.status.textContent = "";   // what Kolla said belongs to the settings it was pressed on
     }
     update();
     return root;
