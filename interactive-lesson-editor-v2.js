@@ -113,6 +113,24 @@ window.InteractiveEditor = (function () {
     })
   };
 
+  // The new formats (see formats.js). They are added with an example and edited as JSON.
+  COMPONENT_TYPES.sortera = {
+    label: "Sortera", icon: "⇅",
+    create: () => ({ type: "sortera", prompt: "Sortera talen: är de jämna eller udda?", categories: ["Jämna", "Udda"], items: [{ text: "12", category: 0 }, { text: "7", category: 1 }, { text: "30", category: 0 }, { text: "45", category: 1 }] })
+  };
+  COMPONENT_TYPES.ordna = {
+    label: "Ordna", icon: "↕",
+    create: () => ({ type: "ordna", prompt: "Sätt talen i ordning, minst först.", items: ["53", "305", "350", "503"], top: "Minst", bottom: "Störst" })
+  };
+  COMPONENT_TYPES.hittafelet = {
+    label: "Hitta felet", icon: "🔍",
+    create: () => ({ type: "hittafelet", prompt: "Här har någon räknat 3x + 2 = 14. Vilket steg är fel?", steps: ["3x + 2 = 14", "3x = 14 + 2", "3x = 16", "x = 16/3"], wrong: 1, explain: "När du flyttar 2 till andra sidan byter den tecken, så det ska vara 14 − 2.", fix: "3x = 12 och x = 4", hint: "Titta på vad som händer med 2:an." })
+  };
+  COMPONENT_TYPES.lucktext = {
+    label: "Fyll i luckorna", icon: "▭",
+    create: () => ({ type: "lucktext", prompt: "Fyll i luckorna.", text: "En vecka har {1} dagar och ett dygn har {2} timmar.", blanks: [{ answer: ["7", "sju"] }, { answer: ["24"] }] })
+  };
+
   const KIND_INFO = {
     meta: { label: "Lektionsinfo", icon: "ⓘ" },
     explanation: { label: "Förklaring", icon: "¶" },
@@ -264,6 +282,7 @@ window.InteractiveEditor = (function () {
       else if (d.type === "begreppskort") sub = (d.cards || []).length + " begrepp";
       else if (d.type === "koppla") sub = d.prompt;
       else if (d.type === "santfalskt") sub = (d.statements || []).length + " påståenden";
+      else if (window.GaussicaLesson.FORMATS && window.GaussicaLesson.FORMATS[d.type]) sub = d.prompt;
       else if (window.GaussicaLesson.isTool(d)) sub = d.title;
       return { label: info.label, icon: info.icon, sub: clip(sub) };
     }
@@ -798,7 +817,9 @@ window.InteractiveEditor = (function () {
         jsonForm(form, () => b.data, v => { b.data = v; },
           window.GaussicaLesson.isTool(b.data)
             ? "Pyssel-verktyg ställs in som JSON: reglage (params), formler (vars), figur (view), text (readouts) och utmaningar (goals). Se README, avsnittet Pyssla."
-            : "Okänd blocktyp, redigeras som JSON.");
+            : window.GaussicaLesson.FORMATS && window.GaussicaLesson.FORMATS[b.data.type]
+              ? "Det här formatet (" + window.GaussicaLesson.FORMATS[b.data.type].name + ") ställs in som JSON. Se README, avsnittet Nya format."
+              : "Okänd blocktyp, redigeras som JSON.");
     }
   }
 
@@ -1294,6 +1315,8 @@ window.InteractiveEditor = (function () {
       } else if (b.kind === "component" && b.data.type === "begreppskort") {
         const ok = (b.data.cards || []).filter(c => c.term && c.term.trim() && c.definition && c.definition.trim());
         if (!ok.length) add(b.id, "Begreppskort: lägg till minst ett begrepp med förklaring.");
+      } else if (b.kind === "component" && window.GaussicaFormats && window.GaussicaLesson.FORMATS && window.GaussicaLesson.FORMATS[b.data.type]) {
+        window.GaussicaFormats.problems(b.data).forEach(text => add(b.id, window.GaussicaLesson.FORMATS[b.data.type].name + ": " + text + "."));
       }
     });
     return problems;

@@ -120,6 +120,49 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "sortera",
+      "prompt": "Sortera talen: är de jämna eller udda?",
+      "categories": [
+        "Jämna",
+        "Udda"
+      ],
+      "items": [
+        {
+          "text": "14",
+          "category": 0,
+          "explain": "14 slutar på 4, alltså jämnt."
+        },
+        {
+          "text": "27",
+          "category": 1,
+          "explain": "27 slutar på 7, alltså udda."
+        },
+        {
+          "text": "30",
+          "category": 0,
+          "explain": "30 slutar på 0, alltså jämnt."
+        },
+        {
+          "text": "45",
+          "category": 1,
+          "explain": "45 slutar på 5, alltså udda."
+        },
+        {
+          "text": "52",
+          "category": 0,
+          "explain": "52 slutar på 2, alltså jämnt."
+        },
+        {
+          "text": "63",
+          "category": 1,
+          "explain": "63 slutar på 3, alltså udda."
+        }
+      ]
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Är talet 58 jämnt eller udda? Skriv jämnt eller udda.",
     "answer": [

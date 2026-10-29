@@ -80,6 +80,18 @@ window.GaussicaWorkshop = (function () {
     balanced: function (left, right) { return left === right; }
   };
 
+  // Where a pointer is in the coordinates of an svg picture. The picture does not always fill its box: a box that is capped in height
+  // (.wk-svg has max-height) shows it centred and as large as it fits, with empty bands at the sides (preserveAspectRatio "meet"), so the
+  // position in the box is not the position in the picture. Works for the viewBox "x y width height" of the svg.
+  function svgPoint(svg, evt) {
+    const r = svg.getBoundingClientRect();
+    const vb = String(svg.getAttribute("viewBox") || "").trim().split(/[\s,]+/).map(Number);
+    if (vb.length !== 4 || !(r.width > 0) || !(r.height > 0)) return { x: 0, y: 0 };
+    const k = Math.min(r.width / vb[2], r.height / vb[3]);     // pixels on the screen for one unit in the picture
+    const left = r.left + (r.width - vb[2] * k) / 2, top = r.top + (r.height - vb[3] * k) / 2;
+    return { x: vb[0] + (evt.clientX - left) / k, y: vb[1] + (evt.clientY - top) / k };
+  }
+
   // ----- grid: area and perimeter -----
   const grid = {
     area: function (cells) { return Object.keys(cells).length; },
@@ -308,8 +320,7 @@ window.GaussicaWorkshop = (function () {
       ring = s("circle", { cx: 0, cy: 90, r: 9, fill: "none", stroke: "#43b581", "stroke-width": 3, "stroke-dasharray": "4 3", visibility: "hidden" }, svg);
       dot = s("circle", { cx: x(pos), cy: 90, r: 11, fill: "#425b9a", stroke: "#fff", "stroke-width": 3, "class": "wk-dot", tabindex: 0, role: "slider", "aria-label": "Kulan", "aria-valuemin": min, "aria-valuemax": max, "aria-valuenow": pos }, svg);
       const toValue = function (evt) {
-        const rect = svg.getBoundingClientRect();
-        const px = (evt.clientX - rect.left) / rect.width * W;
+        const px = svgPoint(svg, evt).x;
         return Math.max(min, Math.min(max, Math.round(min + (px - pad) / (W - 2 * pad) * (max - min))));
       };
       dot.addEventListener("pointerdown", function (evt) {
@@ -503,8 +514,8 @@ window.GaussicaWorkshop = (function () {
     };
 
     const at = function (evt) {
-      const r = svg.getBoundingClientRect();
-      const xx = Math.floor((evt.clientX - r.left) / r.width * (COLS * C + 2) / C), yy = Math.floor((evt.clientY - r.top) / r.height * (ROWS * C + 2) / C);
+      const q = svgPoint(svg, evt);
+      const xx = Math.floor((q.x - 1) / C), yy = Math.floor((q.y - 1) / C);   // the squares start 1 unit in, where the outline is
       return xx >= 0 && xx < COLS && yy >= 0 && yy < ROWS ? [xx, yy] : null;
     };
     svg.addEventListener("pointerdown", function (evt) {
@@ -615,7 +626,7 @@ window.GaussicaWorkshop = (function () {
     draw();
   }
 
-  return { open: open, close: close, TOOLS: TOOLS, logic: { baseTen: baseTen, fractions: fractions, numberLine: numberLine, scale: scale, grid: grid, gcd: gcd } };
+  return { open: open, close: close, TOOLS: TOOLS, logic: { svgPoint: svgPoint, baseTen: baseTen, fractions: fractions, numberLine: numberLine, scale: scale, grid: grid, gcd: gcd } };
 }());
 
 if (typeof module !== "undefined") module.exports = window.GaussicaWorkshop;

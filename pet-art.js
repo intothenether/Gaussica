@@ -192,7 +192,8 @@ window.GaussicaPetArt = (function () {
   function eyes(kind, mood, c) {
     const pos = eyePos(kind);
     const open = eyeShapes(kind, mood, c, pos);
-    return mood === "happy" ? open : open + closedEyes(kind, pos);
+    // the group .pet-gaze slides a little towards the cursor (see followGaze in pet.js)
+    return '<g class="pet-gaze">' + (mood === "happy" ? open : open + closedEyes(kind, pos)) + '</g>';
   }
 
   function eyeShapes(kind, mood, c, pos) {
@@ -958,11 +959,16 @@ window.GaussicaPetArt = (function () {
     return '<svg class="pet-thumb" viewBox="' + it.view + '" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><g>' + it.art() + '</g></svg>';
   }
 
-  // the head only, small, for the lesson footer
-  function face(pet, mood) {
+  // the head only, small, for the lesson footer. With options.crop: a viewBox of your own (the pet peeking over an edge). With options.wide: the whole upper body with some air around it (gills, wings, ears and
+  // a tall hat fit), for the pet on the map; the picture then is 184 wide and 150 high.
+  const WIDE_CROP = "8 0 184 150";
+  function face(pet, mood, options) {
     const kind = KINDS[pet.kind] ? pet.kind : "dog";
-    const s = svg({ kind: kind, color: pet.color, worn: { hat: (pet.worn || {}).hat, face: (pet.worn || {}).face }, bg: null, name: pet.name }, { mood: mood, bare: true });
-    return s.replace(/<g class="pet-sparks">[\s\S]*?<\/g>/, "").replace('viewBox="0 0 200 200"', 'viewBox="' + (SHIFT[kind].crop || "40 14 120 110") + '"');
+    const wide = Boolean(options && options.wide);
+    const w = pet.worn || {};
+    const s = svg({ kind: kind, color: pet.color, worn: wide ? { hat: w.hat, face: w.face, neck: w.neck } : { hat: w.hat, face: w.face }, bg: null, name: pet.name }, { mood: mood, bare: true });
+    const crop = (options && options.crop) || (wide ? WIDE_CROP : (SHIFT[kind].crop || "40 14 120 110"));
+    return s.replace(/<g class="pet-sparks">[\s\S]*?<\/g>/, "").replace('viewBox="0 0 200 200"', 'viewBox="' + crop + '"');
   }
 
   return { KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };

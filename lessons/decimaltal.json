@@ -101,6 +101,21 @@
       "feedback": [{"answers":["=t/100"],"message":"En tiondel är 0,1. Det är {t} sådana, inte {t} hundradelar."}]
     }
   ],
+  "components": [
+    {
+      "type": "ordna",
+      "prompt": "Sätt decimaltalen i ordning, det minsta först.",
+      "items": [
+        "0,05",
+        "0,5",
+        "0,505",
+        "0,55"
+      ],
+      "top": "Minst",
+      "bottom": "Störst"
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Vilket är störst, 0,6 eller 0,45? Skriv det största talet.",
     "answer": [

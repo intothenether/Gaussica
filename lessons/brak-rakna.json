@@ -343,6 +343,23 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "hittafelet",
+      "prompt": "Här har någon räknat 1/4 + 1/2. Vilket steg är fel?",
+      "steps": [
+        "1/4 + 1/2",
+        "= (1 + 1)/(4 + 2)",
+        "= 2/6",
+        "= 1/3"
+      ],
+      "wrong": 1,
+      "explain": "Nämnarna läggs inte ihop. Förläng först 1/2 till 2/4, så att båda delarna är fjärdedelar, och lägg sedan ihop täljarna.",
+      "fix": "1/4 + 2/4 = 3/4",
+      "hint": "Är fjärdedelar och halvor lika stora delar?"
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Räkna ut 2/7 + 3/7.",
     "answer": [

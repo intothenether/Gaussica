@@ -1,7 +1,7 @@
 // "Din väg": a short, friendly path instead of the big graph. It shows what to do now, what comes after
 // and one play lesson, as large cards with one clear button each.
 //
-//   GaussicaPathView.heroStep(container, data, hooks)   the step of the day as a card in the hero of the start page
+//   GaussicaPathView.heroStep(container, data, hooks)   the step of the day as a card in the hero of the start page (hooks.peek("hero") gives the pet peeking over it)
 //   GaussicaPathView.render(container, data, hooks)
 //     data  = GaussicaCoach.path(...)  { now, later[], play, doneCount, total, allDone }
 //     hooks = { start(lessonId), more(lessonId), review(), assignment (open assignment or null), reviewLessons: [],
@@ -240,6 +240,9 @@ window.GaussicaPathView = (function () {
     go.href = "#play/" + item.lesson.id;
     go.addEventListener("click", function (e) { e.preventDefault(); hooks.start(item.lesson.id); });
     box.appendChild(go);
+    // the pet of the student peeks over the bottom edge of the card and points at the button
+    const peek = hooks.peek ? hooks.peek("hero") : null;
+    if (peek) box.appendChild(peek);
     container.appendChild(box);
   }
 

@@ -54,6 +54,23 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "hittafelet",
+      "prompt": "Här har någon löst 3x + 2 = 14. Vilket steg är fel?",
+      "steps": [
+        "3x + 2 = 14",
+        "3x = 14 + 2",
+        "3x = 16",
+        "x = 16/3"
+      ],
+      "wrong": 1,
+      "explain": "När du tar bort 2 från vänster sida måste du ta bort 2 från höger sida också: 14 − 2, inte 14 + 2.",
+      "fix": "3x = 12 och x = 4",
+      "hint": "Vad gör du för att få bort 2:an på vänster sida?"
+    }
+  ],
+  "layout": ["explanation","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Lös ekvationen: 3x + 2 = 14. Vad är x?",
     "answer": ["4", "x=4", "x = 4"],

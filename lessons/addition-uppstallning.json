@@ -26,6 +26,21 @@
       "a": 285,
       "b": 149,
       "title": "Ett exempel till: 285 + 149"
+    },
+    {
+      "type": "hittafelet",
+      "prompt": "Elsa räknar 256 + 189 med uppställning. Vilket steg är fel?",
+      "steps": [
+        "Ental: 6 + 9 = 15. Skriv 5 och minns 1.",
+        "Tiotal: 5 + 8 = 13. Skriv 3 och minns 1.",
+        "Hundratal: 2 + 1 + 1 = 4. Skriv 4.",
+        "Svar: 435."
+      ],
+      "wrong": 1,
+      "explain": "I tiotalen ska hon också lägga till den 1:a som hon minns från entalen: 5 + 8 + 1 = 14, inte 13.",
+      "fix": "Skriv 4 och minns 1. Då blir svaret 445.",
+      "hint": "Fanns det något att minnas från entalen som inte kom med?",
+      "correct": "Rätt! Det är steget där minnessiffran glömdes bort."
     }
   ],
   "layout": [
@@ -34,6 +49,7 @@
     "comp:0",
     "rule",
     "exercise",
+    "comp:1",
     "word:0",
     "word:1",
     "word:2"

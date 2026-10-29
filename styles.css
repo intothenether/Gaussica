@@ -4718,7 +4718,7 @@ html:is(.is-keyboard, .is-short) .pl-tools { display: none; }
 /* the pet panel */
 .hero-pet { display: grid; justify-items: center; align-content: center; gap: 10px; padding: 22px 18px 20px; background: color-mix(in srgb, var(--accent) 30%, var(--hero-1)); }
 .hp-bubble { position: relative; justify-self: stretch; margin: 0; padding: 9px 13px; border: 2px solid var(--border-mid); border-radius: 16px 16px 16px 4px; background: #fff; font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--ink); }
-.hp-stage { display: block; width: min(190px, 100%); padding: 0; border: 4px solid #fff; border-radius: 26px; background: #fff; line-height: 0; cursor: pointer; box-shadow: 0 12px 28px rgba(var(--shadow-rgb), .2); transition: transform .15s; }
+.hp-stage { position: relative; display: block; width: min(190px, 100%); padding: 0; border: 4px solid #fff; border-radius: 26px; background: #fff; line-height: 0; cursor: pointer; box-shadow: 0 12px 28px rgba(var(--shadow-rgb), .2); transition: transform .15s; }
 .hp-stage:hover { transform: translateY(-2px) rotate(-.5deg); }
 .hp-stage:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 .hp-stage .pet-svg { border-radius: 22px; }
@@ -4756,8 +4756,8 @@ html:is(.is-keyboard, .is-short) .pl-tools { display: none; }
 .hs-level { margin: 0 0 12px; }
 
 /* the pet on the map: on its node, with paw prints on the nodes it has been to */
-.gn-pet { position: absolute; z-index: 4; width: 46px; height: 42px; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(var(--shadow-rgb), .25)); transition: left 1.2s cubic-bezier(.45, .05, .3, 1), top 1.2s cubic-bezier(.45, .05, .3, 1); }
-.gn-pet svg { display: block; width: 100%; height: 100%; }
+.gn-pet { position: absolute; z-index: 4; width: 74px; height: 60px; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(var(--shadow-rgb), .25)); transition: left 1.2s cubic-bezier(.45, .05, .3, 1), top 1.2s cubic-bezier(.45, .05, .3, 1); }
+.gn-pet svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .gn-pet.is-walking { animation: gn-pet-walk .4s ease-in-out infinite; }
 @keyframes gn-pet-walk { 50% { transform: translateY(-5px) rotate(4deg); } }
 .gn-paw { position: absolute; left: -3px; bottom: -1px; z-index: 1; width: 22px; height: 22px; color: var(--accent); opacity: .75; pointer-events: none; transform: rotate(-20deg); }
@@ -4806,3 +4806,71 @@ html:is(.is-keyboard, .is-short) .pl-tools { display: none; }
   .gnl-step .graph-node-meta { font-size: 11px; }
   .footer p { font-size: 12px; }
 }
+
+/* reactions: the eyes follow the cursor, and what the pet does depends on what happened (see reactionFor in pet.js) */
+.pet-svg .pet-gaze { transform: translate(var(--gx, 0px), var(--gy, 0px)); transition: transform .15s ease-out; }
+.pet-svg.is-sleeping .pet-gaze { transform: none; }
+.pet-svg.react-pose .pet-bob { transform-origin: 100px 172px; animation: pet-pose 1.2s ease-in-out 1; }
+.pet-svg.react-eat .pet-bob { transform-origin: 100px 172px; animation: pet-chew .32s ease-in-out .9s 5; }
+.pet-svg.react-play .pet-bob { animation: pet-jump .5s ease-out 4; }
+.pet-svg.react-look .pet-bob { transform-origin: 100px 172px; animation: pet-look 1.6s ease-in-out 1; }
+.pet-svg.react-pet .pet-bob { transform-origin: 100px 172px; animation: pet-wiggle .6s ease-in-out 2; }
+@keyframes pet-pose { 0%, 100% { transform: rotate(0) scale(1); } 25% { transform: rotate(-9deg) scale(1.08); } 55% { transform: rotate(8deg) scale(1.08); } 80% { transform: rotate(-3deg) scale(1.03); } }
+@keyframes pet-chew { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.03, .94); } }
+@keyframes pet-look { 0%, 100% { transform: rotate(0) translateX(0); } 30% { transform: rotate(-7deg) translateX(-5px); } 70% { transform: rotate(7deg) translateX(5px); } }
+@keyframes pet-wiggle { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-4deg) translateY(-4px); } 70% { transform: rotate(4deg) translateY(-4px); } }
+.pet-hearts { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: visible; }
+.pet-hearts i { position: absolute; left: calc(50% + var(--hx, 0px)); bottom: 42%; font-style: normal; font-size: 22px; line-height: 1; color: #e8394d; text-shadow: 0 1px 0 #fff; opacity: 0; animation: pet-heart 1.7s ease-out forwards; }
+@keyframes pet-heart { 0% { opacity: 0; transform: translateY(0) scale(.5); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-86px) scale(1.25); } }
+@media (prefers-reduced-motion: reduce) {
+  .pet-svg .pet-gaze { transition: none; }
+  .pet-svg.react-pose .pet-bob, .pet-svg.react-eat .pet-bob, .pet-svg.react-play .pet-bob, .pet-svg.react-look .pet-bob, .pet-svg.react-pet .pet-bob { animation: none; }
+  .pet-hearts i { animation: none; opacity: 1; transform: translateY(-44px); }
+}
+
+/* peeking around the page: over the bottom edge of the step card of the start page, and over the top edge of the footer of a lesson */
+.hs { position: relative; }
+.hs-peek { position: absolute; right: 14px; bottom: 0; width: 124px; height: 56px; overflow: hidden; pointer-events: none; }
+.hs-peek-head { position: absolute; right: 0; bottom: 0; width: 80px; line-height: 0; }
+.hs-peek-head svg { display: block; width: 100%; height: auto; }
+.hs-arm { position: absolute; left: 6px; bottom: 9px; width: 52px; height: 17px; border: 2px solid var(--arm-dark, #888); border-radius: 10px 4px 4px 10px; background: var(--arm, #ccc); transform-origin: right center; transform: rotate(14deg); animation: hs-point 5s ease-in-out 1.2s infinite; }
+.hs-arm::before { content: ""; position: absolute; left: -6px; top: -3px; width: 19px; height: 19px; border: 2px solid var(--arm-dark, #888); border-radius: 50%; background: var(--arm, #ccc); }
+@keyframes hs-point { 0%, 52%, 100% { transform: rotate(14deg) translateX(0); } 60% { transform: rotate(14deg) translateX(-8px); } 68% { transform: rotate(14deg) translateX(0); } 76% { transform: rotate(14deg) translateX(-8px); } 84% { transform: rotate(14deg) translateX(0); } }
+.pl-footwrap { position: relative; }
+.pl-peek { position: absolute; left: max(18px, calc(50% - 490px + 6px)); bottom: 100%; z-index: 3; width: 88px; line-height: 0; pointer-events: none; animation: pl-peek-in .55s ease-out both; }
+.pl-peek svg { display: block; width: 100%; height: auto; }
+@keyframes pl-peek-in { from { transform: translateY(100%); } to { transform: none; } }
+html:is(.is-keyboard, .is-short) .pl-peek { display: none; }
+@media (prefers-reduced-motion: reduce) { .hs-arm { animation: none; } .pl-peek { animation: none; } }
+
+/* new formats: sortera, ordna, hittafelet, lucktext (see formats.js) */
+.fm-list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.fm-row, .fm-step { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; padding: 10px 12px; border: 2px solid var(--border); border-radius: 14px; background: var(--paper); }
+.fm-row.is-right, .fm-step.is-error { border-color: var(--success, #4c9f6b); background: var(--success-soft, #e2f3e7); }
+.fm-row.is-wrong, .fm-step.is-wrong { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); }
+.fm-item { display: flex; align-items: center; gap: 10px; margin: 0; flex: 1 1 160px; font-size: 18px; font-weight: 700; color: var(--ink); }
+.fm-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.fm-choice, .fm-arrow { min-height: 44px; padding: 8px 16px; border: 2px solid var(--border-mid); border-radius: 12px; background: #fff; color: var(--ink); font: 800 15px "Nunito", sans-serif; cursor: pointer; }
+.fm-choice:hover:not(:disabled), .fm-arrow:hover:not(:disabled) { background: var(--sky-soft); }
+.fm-choice.is-chosen { border-color: var(--brand-dark); background: var(--brand); color: #fff; }
+.fm-choice:disabled, .fm-arrow:disabled { opacity: .45; cursor: default; }
+.fm-choice.is-chosen:disabled { opacity: 1; }
+.fm-arrows { display: flex; gap: 8px; }
+.fm-arrow { min-width: 48px; padding: 8px 12px; }
+.fm-step { padding: 0; border: 0; background: none; display: block; }
+.fm-stepbtn { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 10px 14px; border: 2px solid var(--border); border-radius: 14px; background: var(--paper); color: var(--ink); font: 700 18px "Nunito", sans-serif; text-align: left; cursor: pointer; }
+.fm-stepbtn:hover:not(:disabled) { background: var(--sky-soft); }
+.fm-step.is-picked .fm-stepbtn { border-color: var(--brand-dark); background: var(--brand-soft); }
+.fm-step.is-wrong .fm-stepbtn { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); }
+.fm-step.is-error .fm-stepbtn { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); color: var(--coral-dark, #b23a56); }
+.fm-stepbtn:disabled { cursor: default; opacity: 1; }
+.fm-explain { padding: 12px 14px; border-radius: 14px; background: var(--success-soft, #e2f3e7); color: var(--ink); font-size: 16px; font-weight: 600; line-height: 1.5; }
+.fm-explain p { margin: 0 0 6px; }
+.fm-explain .fm-fix { margin: 0; font-weight: 800; }
+.fm-text { margin: 14px 0 0; font-size: 20px; font-weight: 700; line-height: 2.3; color: var(--ink); }
+.fm-gap { display: inline-block; min-height: 44px; margin: 0 4px; padding: 4px 10px; border: 2px solid var(--border-mid); border-radius: 10px; background: #fff; color: var(--ink); font: 800 18px "Nunito", sans-serif; text-align: center; vertical-align: middle; }
+select.fm-gap { text-align: left; }
+.fm-gap:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.fm-gap.is-wrong { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); }
+.fm-gap.is-right { border-color: var(--success, #4c9f6b); background: var(--success-soft, #e2f3e7); }
+.fm-exercise .fm-check { margin-top: 14px; }

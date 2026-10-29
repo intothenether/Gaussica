@@ -197,6 +197,23 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "hittafelet",
+      "prompt": "Här har någon räknat 2^3 · 2^4. Vilket steg är fel?",
+      "steps": [
+        "2^3 · 2^4",
+        "= 2^(3 · 4)",
+        "= 2^12",
+        "= 4096"
+      ],
+      "wrong": 1,
+      "explain": "Med samma bas lägger du ihop exponenterna: 3 + 4 = 7, inte 3 · 4.",
+      "fix": "2^7 = 128",
+      "hint": "Vad gör du med exponenterna när du multiplicerar potenser med samma bas?"
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "2^5 · 2^3 kan skrivas som en enda potens 2^x. Vilket tal är x?",
     "answer": [

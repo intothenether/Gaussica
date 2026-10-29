@@ -146,6 +146,21 @@
       "feedback": [{"answers":["=s"],"message":"{s} är det minsta talet. Jämför hundratalen först, sedan tiotalen."}]
     }
   ],
+  "components": [
+    {
+      "type": "ordna",
+      "prompt": "Sätt talen i ordning, det minsta först.",
+      "items": [
+        "53",
+        "305",
+        "350",
+        "503"
+      ],
+      "top": "Minst",
+      "bottom": "Störst"
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Vilket tecken ska stå mellan talen: 47 □ 39? Skriv >, < eller =.",
     "keys": ["<","=",">"],

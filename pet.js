@@ -18,7 +18,7 @@
 //
 // Pure parts, also used by the tests: earned(ctx), areaCounts(ctx), lockOf(item, counts), balanceOf(total, pet), makePet, buyItem, wearItem.
 //   record = { v: 1, kind, color, name, owned: { itemId: pricePaid }, worn: { hat, face, neck }, bg, room: { wall, rug, bed, ... }, scene: "room" | "bg", at,
-//              use: { day, food, play, fed, played, love, spent }, quests: { assignmentId: coins } }
+//              use: { day, food, play, petted, fed, played, love, spent }, quests: { assignmentId: coins } }
 //
 // Two sources that bring a student back to what was hard or to what the teacher asked for:
 //  * "Tillbaka igen": a kind of question (a lesson question and the generated questions of the same template belong together, as in
@@ -46,6 +46,7 @@ window.GaussicaPet = (function () {
   const COMEBACK = 2;              // "Tillbaka igen": a kind of question that went wrong on an earlier day, solved at the first try now
   const COMEBACK_PER_DAY = 3;      // at most three of those a day
   const QUEST = 10;                // each finished assignment ("uppdrag") from the teacher, once
+  const PETS_PER_DAY = 3;          // petting: a heart for the friendship, three times a day (more petting still gives hearts to look at)
   const PLACEMENT = 5;             // the placement test, once
   const GIFTS = { mynt5: 5, mynt10: 10, mynt25: 25 };   // coins from the teacher (a sticker on a message)
   const FOOD_PER_DAY = 3;          // treats a day, then the pet is full
@@ -223,7 +224,38 @@ window.GaussicaPet = (function () {
   function usedToday(pet, now) {
     const u = (pet && pet.use) || {};
     const same = u.day === dayKey(now === undefined ? Date.now() : now);
-    return { food: same ? Math.max(0, Number(u.food) || 0) : 0, play: same ? Math.max(0, Number(u.play) || 0) : 0 };
+    return { food: same ? Math.max(0, Number(u.food) || 0) : 0, play: same ? Math.max(0, Number(u.play) || 0) : 0, petted: same ? Math.max(0, Number(u.petted) || 0) : 0 };
+  }
+
+  // Petting the pet: the first three times a day each give one heart to the friendship, the rest are only nice. Returns
+  // { pet, gained (0 or 1), levelUp } and does not change anything when no heart is given.
+  function petPet(pet, now) {
+    const when = now === undefined ? Date.now() : now;
+    const used = usedToday(pet, when);
+    if (used.petted >= PETS_PER_DAY) return { pet: pet, gained: 0, levelUp: null };
+    const before = levelOf(pet);
+    const next = copy(pet);
+    const u = next.use = Object.assign({ fed: 0, played: 0, love: 0, spent: 0 }, next.use || {});
+    u.day = dayKey(when);
+    u.food = used.food;
+    u.play = used.play;
+    u.petted = used.petted + 1;
+    u.love += 1;
+    const after = levelOf(next);
+    return { pet: next, gained: 1, levelUp: after.index > before.index ? after.name : null };
+  }
+
+  // How the pet reacts. A hat, glasses or a necklace is shown off (a pose with sparkles), a treat is eaten (chewing, and hearts when it
+  // is the favourite), a toy is played with (hops), a new place is looked around in, and petting gives hearts.
+  // thing: a shop item ({ slot }), a treat or a toy ({ type }), or nothing for petting. Returns { how, hearts, say: [lines] }.
+  function reactionFor(thing, favorite) {
+    if (!thing) return { how: "pet", hearts: true, say: ["Mmm, det var skönt!", "Åh, mer! Det är så mysigt.", "Tack, det behövdes!"] };
+    if (thing.type === "food") return { how: "eat", hearts: Boolean(favorite), say: favorite ? ["Mums! Min favorit!"] : ["Mums!", "Mmm, gott!"] };
+    if (thing.type === "toy") return { how: "play", hearts: Boolean(favorite), say: favorite ? ["Jippi, min favoritleksak!"] : ["Roligt! Hoppsan!", "Nu leker vi!"] };
+    if (thing.slot === "hat") return { how: "pose", hearts: false, say: ["Titta, en hatt! Hur ser jag ut?", "Den sitter fint, eller hur?"] };
+    if (thing.slot === "face") return { how: "pose", hearts: false, say: ["Nu ser jag riktigt skarp ut!", "Se på mig!"] };
+    if (thing.slot === "neck") return { how: "pose", hearts: false, say: ["Så mysigt runt halsen!", "Åh, vad fint!"] };
+    return { how: "look", hearts: false, say: ["Vilken fin plats!", "Här trivs jag."] };
   }
 
   // The friendship: { index, name, love, next: { at, name } | null }
@@ -251,6 +283,7 @@ window.GaussicaPet = (function () {
     u.day = dayKey(when);
     u.food = used.food;
     u.play = used.play;
+    u.petted = used.petted;
     if (t.type === "food") { u.food += 1; u.fed += 1; } else { u.play += 1; u.played += 1; }
     const likes = (Art().KINDS[pet.kind] || {}).likes || {};
     const favorite = likes[t.type] === id;
@@ -481,16 +514,86 @@ window.GaussicaPet = (function () {
     return stop;
   }
 
-  // the pet jumps for a moment (and is happy); fx is an extra thing in the picture (a treat, a toy) that moves by itself
-  function cheer(host, pet, fx) {
+  // Hearts that float up from the pet.
+  function hearts() {
+    const box = el("span", "pet-hearts");
+    box.setAttribute("aria-hidden", "true");
+    [[-26, 0], [6, .25], [34, .5], [-8, .75], [20, 1]].forEach(function (h) {
+      const i = el("i", "", "♥");
+      i.style.setProperty("--hx", h[0] + "px");
+      i.style.animationDelay = h[1] + "s";
+      box.appendChild(i);
+    });
+    return box;
+  }
+
+  // The pet is happy for a moment and does what the reaction says (see reactionFor): jumps for petting, shows off a hat, chews a treat,
+  // hops with a toy, looks around a new place. fx is an extra thing in the picture (a treat, a toy) that moves by itself.
+  function cheer(host, pet, fx, reaction) {
     if (!host || host.dataset.cheering) return;
     host.dataset.cheering = "1";
     host.innerHTML = Art().svg(pet, { mood: "happy" });
+    const s = host.querySelector(".pet-svg");
+    if (s && reaction && reaction.how) s.classList.add("react-" + reaction.how);
     if (fx) host.appendChild(fx);
+    if (reaction && reaction.hearts) host.appendChild(hearts());
     setTimeout(function () {
       host.innerHTML = Art().svg(pet);
       delete host.dataset.cheering;
-    }, reduced() ? 900 : fx ? 2400 : 1500);
+    }, reduced() ? 900 : fx ? 2600 : reaction && reaction.how === "pose" ? 1600 : 1800);
+  }
+
+  // Pat the pet: a heart for the friendship the first three times a day. Returns { pet, gained, levelUp, reaction, say }.
+  function pat() {
+    const pet = petOf();
+    const reaction = reactionFor(null);
+    if (!pet) return { pet: null, gained: 0, levelUp: null, reaction: reaction, say: "" };
+    const r = petPet(pet, Date.now());
+    if (r.gained) deps.save(r.pet);
+    const line = reaction.say[Math.floor(Math.random() * reaction.say.length)] + (r.gained ? " 💛" : "");
+    return { pet: r.pet, gained: r.gained, levelUp: r.levelUp, reaction: reaction, say: r.levelUp ? line + " 🎉 Nu är ni " + r.levelUp.toLowerCase() + "!" : line };
+  }
+
+  // The eyes follow the cursor (or a finger), a little: the group .pet-gaze slides up to a few units towards it. Stops by itself when the
+  // picture is gone. Not with reduced motion, and not while the pet sleeps.
+  function followGaze(host) {
+    if (reduced()) return;
+    let raf = 0, last = null;
+    const svgOf = function () { return host.querySelector(".pet-svg"); };
+    const reset = function () {
+      const s = svgOf();
+      if (s) { s.style.removeProperty("--gx"); s.style.removeProperty("--gy"); }
+    };
+    const stop = function () {
+      document.removeEventListener("pointermove", move);
+      document.removeEventListener("pointerup", up);
+      document.documentElement.removeEventListener("pointerleave", leave);
+      clearTimeout(raf);
+    };
+    const apply = function () {
+      raf = 0;
+      const s = svgOf();
+      if (!s || !last) return;
+      if (s.classList.contains("is-sleeping")) { reset(); return; }
+      const r = s.getBoundingClientRect();
+      if (!r.width) return;
+      const dx = last.x - (r.left + r.width * 0.5), dy = last.y - (r.top + r.height * 0.46);
+      const d = Math.hypot(dx, dy) || 1;
+      const k = Math.min(1, d / r.width);   // close to the pet it looks only a little, far away as far as it can
+      s.style.setProperty("--gx", (dx / d * 3.2 * k).toFixed(2) + "px");
+      s.style.setProperty("--gy", (dy / d * 2.6 * k).toFixed(2) + "px");
+    };
+    function move(e) {
+      if (!document.body.contains(host)) { stop(); return; }
+      last = { x: e.clientX, y: e.clientY };
+      if (!raf) raf = setTimeout(apply, 30);
+    }
+    function up(e) { if (e.pointerType === "touch") setTimeout(function () { last = null; reset(); }, 1500); }
+    function leave() { last = null; reset(); }
+    document.addEventListener("pointermove", move, { passive: true });
+    document.addEventListener("pointerup", up, { passive: true });
+    document.documentElement.addEventListener("pointerleave", leave);
+    return stop;
   }
 
   // the treat or toy as it moves in the picture: food goes to the mouth, toys bounce, fly, roll or float
@@ -647,7 +750,13 @@ window.GaussicaPet = (function () {
         stage.type = "button";
         stage.setAttribute("aria-label", "Klappa " + pet.name);
         stage.innerHTML = Art().svg(view);
-        stage.addEventListener("click", function () { cheer(stage, view); });
+        stage.addEventListener("click", function () {
+          const r = pat();
+          cheer(stage, view, null, r.reaction);
+          const m = panel.querySelector(".pet-msg");
+          if (m) m.textContent = r.say;
+        });
+        followGaze(stage);
         left.appendChild(stage);
         startLife(stage, null, function () { return view; });
         const coins = el("p", "pet-coins");
@@ -674,8 +783,8 @@ window.GaussicaPet = (function () {
         right.appendChild(tabs);
 
         if (state.tab === "me") right.appendChild(settings(pet, function () { draw(); }));
-        else if (state.tab === "care") right.appendChild(care(pet, bal, state, draw, function (fx) { cheer(stage, copy(petOf()), fx); }));
-        else right.appendChild(shop(pet, bal, state, draw, function () { cheer(stage, copy(petOf())); }));
+        else if (state.tab === "care") right.appendChild(care(pet, bal, state, draw, function (fx, reaction) { cheer(stage, copy(petOf()), fx, reaction); }));
+        else right.appendChild(shop(pet, bal, state, draw, function (reaction) { cheer(stage, copy(petOf()), null, reaction); }));
 
         const msg = el("p", "pet-msg", state.message);
         msg.setAttribute("role", "status");
@@ -786,18 +895,26 @@ window.GaussicaPet = (function () {
       const on = isOn(pet, it);
       const lock = owned ? null : lockOf(it, counts);
       bar.appendChild(el("strong", "", it.name));
-      const save = function (next, message) { deps.save(next.pet || next); state.message = message; state.selected = null; check(); redraw(); hop(); };
+      // reaction: how the pet takes it (taking something off gets none)
+      const save = function (next, message, reaction) {
+        deps.save(next.pet || next);
+        state.message = message + (reaction ? " " + reaction.say[Math.floor(Math.random() * reaction.say.length)] : "");
+        state.selected = null;
+        check();
+        redraw();
+        if (reaction) hop(reaction);
+      };
       if (owned && on) {
         bar.appendChild(button("Ta av", "pet-btn", function () { save(wearItem(pet, it.slot, null), it.name + " är avtagen."); }));
       } else if (owned) {
-        bar.appendChild(button("Ta på", "primary-button pet-btn", function () { save(wearItem(pet, it.slot, it.id), it.name + " är på."); }));
+        bar.appendChild(button("Ta på", "primary-button pet-btn", function () { save(wearItem(pet, it.slot, it.id), it.name + " är på.", reactionFor(it)); }));
       } else if (lock) {
         bar.appendChild(el("span", "pet-short", "Klara " + lock.need + " lektioner i " + lock.areaName + " för att låsa upp den. Du har klarat " + lock.have + "."));
       } else if (bal >= it.price) {
         bar.appendChild(button("Köp för " + it.price + " mynt", "primary-button pet-btn", function () {
           const r = buyItem(pet, it.id, bal, counts);
           if (r.error) { state.message = r.error; redraw(); return; }
-          save(r, it.name + " är köpt och på! 🎉");
+          save(r, it.name + " är köpt och på! 🎉", reactionFor(it));
         }));
       } else {
         bar.appendChild(el("span", "pet-short", "Du behöver " + (it.price - bal) + " mynt till (" + it.price + " mynt)."));
@@ -880,7 +997,7 @@ window.GaussicaPet = (function () {
           state.selected = null;
           check();
           redraw();
-          hop(careFx(t));
+          hop(careFx(t), reactionFor(t, r.favorite));
         }));
       } else {
         bar.appendChild(el("span", "pet-short", "Du behöver " + (t.price - bal) + " mynt till (" + t.price + " mynt)."));
@@ -989,9 +1106,16 @@ window.GaussicaPet = (function () {
     stage.type = "button";
     stage.setAttribute("aria-label", "Klappa " + pet.name);
     stage.innerHTML = Art().svg(pet);
-    stage.addEventListener("click", function () { cheer(stage, pet); });
     const copy = el("div", "pet-card-copy");
     const bubble = el("p", "pet-bubble", speech(pet, fresh, bal));
+    const said0 = bubble.textContent;
+    stage.addEventListener("click", function () {
+      const r = pat();
+      cheer(stage, r.pet || pet, null, r.reaction);
+      bubble.textContent = r.say;
+      setTimeout(function () { bubble.textContent = said0; }, 3500);
+    });
+    followGaze(stage);
     copy.appendChild(el("h3", "", pet.name));
     copy.appendChild(bubble);
     const row = el("div", "pet-card-row");
@@ -1028,15 +1152,24 @@ window.GaussicaPet = (function () {
     stage.type = "button";
     stage.setAttribute("aria-label", "Klappa " + pet.name);
     stage.innerHTML = Art().svg(pet);
-    stage.addEventListener("click", function () { cheer(stage, pet); });
     const row = el("div", "hp-row");
     const coins = el("span", "pet-coins-chip");
     coins.append(el("span", "coin-icon"), el("b", "", String(bal)));
     row.append(el("strong", "hp-name", pet.name), coins);
     const bubble = el("p", "hp-bubble", speech(pet, fresh, bal));
     const said = bubble.textContent;
+    let patSaid = null, patTimer = null;
+    stage.addEventListener("click", function () {
+      const r = pat();
+      cheer(stage, r.pet || pet, null, r.reaction);
+      patSaid = r.say;
+      bubble.textContent = r.say;
+      clearTimeout(patTimer);
+      patTimer = setTimeout(function () { patSaid = null; bubble.textContent = said; }, 3500);
+    });
     container.append(bubble, stage, row, button("Mitt djur och butiken", "pet-btn hp-shop", open));
-    startLife(stage, function (text) { bubble.textContent = text || said; });
+    startLife(stage, function (text) { if (!patSaid) bubble.textContent = text || said; });
+    followGaze(stage);
     if (fresh > 0) {
       writeSeen(ledger().total);
       if (!reduced()) setTimeout(function () { cheer(stage, pet); }, 400);
@@ -1088,14 +1221,66 @@ window.GaussicaPet = (function () {
   }
 
   // The pet's head and what it says, for the footer of a lesson (or null when the student has no pet).
+  // options.faceless: only the bubble, because the pet peeks over the edge of the footer instead (see peek).
   function say(kind, options) {
     if (!deps || !enabled() || !petOf()) return null;
     const pet = petOf();
     const wrap = el("span", "pet-say");
-    const face = el("span", "pet-face");
-    face.innerHTML = Art().face(pet, kind === "right" || kind === "rightAgain" || kind === "done" || kind === "fluency" ? "happy" : "");
-    wrap.append(face, el("span", "pet-say-bubble", saying(kind, options)));
+    if (!(options && options.faceless)) {
+      const face = el("span", "pet-face");
+      face.innerHTML = Art().face(pet, kind === "right" || kind === "rightAgain" || kind === "done" || kind === "fluency" ? "happy" : "");
+      wrap.appendChild(face);
+    }
+    wrap.appendChild(el("span", "pet-say-bubble", saying(kind, options)));
     return wrap;
+  }
+
+  // ===== peeking around the page =====
+  // The pet is not only in its own panel: it peeks over the edge of things, and looks at what the student should do next.
+  //   peek("hero")    on the start page: over the bottom edge of the card of the day's step, with an arm that points at the button
+  //   peek("footer")  in a lesson: over the top edge of the bottom bar. Returns { element, set(tone) }: it looks at the answer field,
+  //                   looks up at the hint when the answer was wrong, and is happy when it was right. Null when there is no pet.
+  const PEEK_CROP = "8 0 184 122";   // the head, cut off at the chin, so that it looks like the pet is behind the edge
+
+  function peek(kind) {
+    if (!deps || !enabled() || !petOf()) return null;
+    const pet = petOf();
+    const look = function (host, gx, gy) {
+      const s = host.querySelector(".pet-svg");
+      if (!s) return;
+      s.style.setProperty("--gx", gx + "px");
+      s.style.setProperty("--gy", gy + "px");
+    };
+    if (kind === "hero") {
+      const c = Art().colorOf(pet.kind, pet.color);
+      const box = el("span", "hs-peek");
+      box.setAttribute("aria-hidden", "true");
+      const arm = el("span", "hs-arm");
+      arm.style.setProperty("--arm", c.body);
+      arm.style.setProperty("--arm-dark", c.dark);
+      const head = el("span", "hs-peek-head");
+      head.innerHTML = Art().face(pet, "", { crop: PEEK_CROP });
+      look(head, -3.2, 1.4);   // looks at the button, to its left
+      box.append(arm, head);
+      return box;
+    }
+    if (kind === "footer") {
+      const box = el("div", "pl-peek");
+      box.setAttribute("aria-hidden", "true");
+      let last = null;
+      const set = function (tone) {
+        if (tone === last) return;
+        last = tone;
+        box.innerHTML = Art().face(pet, tone === "correct" ? "happy" : "", { crop: PEEK_CROP });
+        const s = box.querySelector(".pet-svg");
+        if (tone === "correct" && s) s.classList.add("react-pet");
+        if (tone === "wrong") look(box, 0, -2.8); else look(box, 3.2, 1.6);
+      };
+      set("neutral");
+      followGaze(box);
+      return { element: box, set: set };
+    }
+    return null;
   }
 
   // The pet's head alone. `mood` is "happy" when the answer was right.
@@ -1109,7 +1294,7 @@ window.GaussicaPet = (function () {
 
   return {
     init: init, current: function () { return deps && enabled() ? petOf() : null; }, render: render, check: check, ribbon: ribbon, face: face, say: say, open: open, enabled: enabled, balance: balance,
-    LIFE: LIFE, lifeChoices: lifeChoices, pickLife: pickLife, earned: earned, claimQuests: claimQuests, comebackCoins: comebackCoins, useThing: useThing, levelOf: levelOf, usedToday: usedToday, careMessage: careMessage, areaCounts: areaCounts, lockOf: lockOf, isOn: isOn, balanceOf: balanceOf, spentOf: spentOf, makePet: makePet, buyItem: buyItem, wearItem: wearItem, cleanName: cleanName,
+    peek: peek, PETS_PER_DAY: PETS_PER_DAY, petPet: petPet, reactionFor: reactionFor, LIFE: LIFE, lifeChoices: lifeChoices, pickLife: pickLife, earned: earned, claimQuests: claimQuests, comebackCoins: comebackCoins, useThing: useThing, levelOf: levelOf, usedToday: usedToday, careMessage: careMessage, areaCounts: areaCounts, lockOf: lockOf, isOn: isOn, balanceOf: balanceOf, spentOf: spentOf, makePet: makePet, buyItem: buyItem, wearItem: wearItem, cleanName: cleanName,
     KEY: KEY, GIFTS: GIFTS, LIMITS: { FOOD_PER_DAY: FOOD_PER_DAY, PLAY_PER_DAY: PLAY_PER_DAY, LEVELS: LEVELS, WELCOME: WELCOME, COMEBACK: COMEBACK, COMEBACK_PER_DAY: COMEBACK_PER_DAY, QUEST: QUEST, LESSON: LESSON, FIXED_PER_LESSON: FIXED_PER_LESSON, PRACTICE_PER_DAY: PRACTICE_PER_DAY, PLACEMENT: PLACEMENT }
   };
 }());

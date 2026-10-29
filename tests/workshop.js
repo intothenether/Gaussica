@@ -52,5 +52,32 @@ const line = {}; for (let x = 0; x < 12; x++) line[x + ",0"] = true;
 ok(W.grid.area(line) === 12 && W.grid.perimeter(line) === 26, "12 squares in a row: perimeter 26");
 ok(W.gcd(12, 18) === 6 && W.gcd(0, 5) === 5, "greatest common divisor");
 
+// ----- where the pointer is in a picture that does not fill its box -----
+// the grid is 422 x 302 units; in a box that is 700 wide but only 340 high the picture is shown 340 high and centred, with a band at each side
+const fakeSvg = (box, vb) => ({ getAttribute: () => vb, getBoundingClientRect: () => box });
+const wide = fakeSvg({ left: 100, top: 50, width: 700, height: 340, right: 800, bottom: 390 }, "0 0 422 302");
+const k = 340 / 302;                       // pixels for one unit
+const bandLeft = (700 - 422 * k) / 2;      // the empty band at each side
+let p = W.svgPoint(wide, { clientX: 100 + bandLeft, clientY: 50 });
+ok(Math.abs(p.x) < 0.001 && Math.abs(p.y) < 0.001, "the top left corner of the picture is where the band ends, not where the box starts: " + p.x.toFixed(2));
+p = W.svgPoint(wide, { clientX: 100 + bandLeft + 211 * k, clientY: 50 + 151 * k });
+ok(Math.abs(p.x - 211) < 0.001 && Math.abs(p.y - 151) < 0.001, "the middle of the picture");
+p = W.svgPoint(wide, { clientX: 100 + 5, clientY: 100 });
+ok(p.x < 0, "a click in the band is outside of the picture, so it marks no square");
+// the old way: the box as if the picture filled it. At the right edge of the grid it said square 20 on a grid that has 14 columns
+const oldX = (clientX) => Math.floor((clientX - 100) / 700 * 422 / 30);
+const gridRightEdge = 100 + bandLeft + 420 * k;
+ok(oldX(gridRightEdge) !== Math.floor((W.svgPoint(wide, { clientX: gridRightEdge, clientY: 60 }).x - 1) / 30), "the old calculation did give another square here");
+ok(Math.floor((W.svgPoint(wide, { clientX: gridRightEdge, clientY: 60 }).x - 1) / 30) === 13, "the last column is column 13 of 0 to 13");
+// a box that is exactly the shape of the picture works as before
+const exact = fakeSvg({ left: 0, top: 0, width: 422, height: 302 }, "0 0 422 302");
+p = W.svgPoint(exact, { clientX: 31, clientY: 61 });
+ok(Math.floor((p.x - 1) / 30) === 1 && Math.floor((p.y - 1) / 30) === 2, "square (1, 2) in a box of the same shape");
+// a box that is higher than the picture: bands above and below
+const tall = fakeSvg({ left: 0, top: 0, width: 422, height: 600 }, "0 0 422 302");
+p = W.svgPoint(tall, { clientX: 0, clientY: (600 - 302) / 2 });
+ok(Math.abs(p.x) < 0.001 && Math.abs(p.y) < 0.001, "and bands above and below");
+ok(W.svgPoint({ getAttribute: () => "", getBoundingClientRect: () => ({ width: 0, height: 0, left: 0, top: 0 }) }, { clientX: 5, clientY: 5 }).x === 0, "an empty box does not break it");
+
 console.log(failures ? failures + " FAILED" : "All workshop checks passed");
 process.exit(failures ? 1 : 0);

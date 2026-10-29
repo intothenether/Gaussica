@@ -83,6 +83,21 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "ordna",
+      "prompt": "Sätt bråken i ordning, det minsta först.",
+      "items": [
+        "1/4",
+        "1/3",
+        "1/2",
+        "3/4"
+      ],
+      "top": "Minst",
+      "bottom": "Störst"
+    }
+  ],
+  "layout": ["explanation","rule","interactive","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Vilket bråk är större: 2/3 eller 3/5?",
     "answer": ["2/3"],

@@ -143,6 +143,34 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "lucktext",
+      "prompt": "Fyll i luckorna om tid.",
+      "text": "En vecka har {1} dagar. Ett dygn har {2} timmar. Ett år har {3} månader.",
+      "blanks": [
+        {
+          "answer": [
+            "7",
+            "sju"
+          ]
+        },
+        {
+          "answer": [
+            "24",
+            "tjugofyra"
+          ]
+        },
+        {
+          "answer": [
+            "12",
+            "tolv"
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Hur många dagar är det i 4 veckor?",
     "answer": [

@@ -291,5 +291,49 @@ ALL.forEach((kind) => {
 const inRoom = Art.svg({ kind: "cat", color: "gra", scene: "room", room: { toy: "rum-boll" } });
 ok(/class="pet-actor"/.test(inRoom) && /<g class="room-toy">/.test(inRoom), "in the room the pet moves and the toy can bounce");
 
+// the pet on the map: a wide picture with the whole upper body, so that gills, wings, ears and hats are not cut off
+ALL.forEach((kind) => {
+  const p = { kind: kind, color: Art.KINDS[kind].colors[0].id, name: "Test", worn: { hat: "hatt-kock", face: "glas-3d", neck: "hals-slips" } };
+  const wide = Art.face(p, "", { wide: true });
+  const small = Art.face(p, "");
+  ok(/viewBox="8 0 184 150"/.test(wide) && !/NaN/.test(wide), kind + ": the wide picture for the map");
+  ok(!/viewBox="8 0 184 150"/.test(small) && wide.includes("tidy") === false, kind + ": the small head is as before");
+});
+ok(Art.face({ kind: "axolotl", color: "rosa", worn: { neck: "hals-slips" } }, "", { wide: true }).includes("#4c9be8") && !Art.face({ kind: "axolotl", color: "rosa", worn: { neck: "hals-slips" } }, "").includes("#4c9be8"), "the wide picture shows the necklace, the small head does not");
+
+// ----- small reactions: petting, and what the pet does with a hat, a treat, a toy -----
+const day1 = new Date("2026-05-04T10:00:00Z").getTime();
+const basePet = Pet.makePet("fox", "orange", "Rut");
+const pat1 = Pet.petPet(basePet, day1);
+ok(pat1.gained === 1 && pat1.pet.use.love === 1 && pat1.pet.use.petted === 1 && !basePet.use, "petting gives a heart, in a copy of the record");
+let pp = basePet;
+let hearts = 0;
+for (let i = 0; i < 6; i++) { const r = Pet.petPet(pp, day1 + i * 1000); hearts += r.gained; pp = r.pet; }
+ok(hearts === Pet.PETS_PER_DAY && pp.use.love === 3 && pp.use.petted === 3, "three hearts a day, and then it is only nice: " + hearts);
+ok(Pet.petPet(pp, day1 + 5000).pet === pp && Pet.petPet(pp, day1 + 5000).gained === 0, "nothing changes when no heart is given");
+const nextDay = Pet.petPet(pp, day1 + 86400000 + 5000);
+ok(nextDay.gained === 1 && nextDay.pet.use.petted === 1 && nextDay.pet.use.love === 4, "a new day starts from zero again");
+const afterTreat = Pet.useThing(pp, "bulle", 99, day1 + 6000);
+ok(afterTreat.pet.use.petted === 3 && Pet.petPet(afterTreat.pet, day1 + 7000).gained === 0, "treats on the same day do not reset the petting");
+const nextDayTreat = Pet.useThing(pp, "bulle", 99, day1 + 86400000 + 6000);
+ok(nextDayTreat.pet.use.petted === 0, "and a treat on a new day starts the petting from zero");
+let lvlPet = Pet.makePet("fox", "orange", "Rut");
+lvlPet.use = { day: "x", food: 0, play: 0, petted: 0, fed: 0, played: 0, love: 5, spent: 0 };
+const lv = Pet.petPet(lvlPet, day1);
+ok(lv.levelUp === "Kompisar", "the heart can make the friendship grow: " + lv.levelUp);
+
+const rea = Pet.reactionFor;
+ok(rea(null).how === "pet" && rea(null).hearts && rea(null).say.length >= 2, "petting: hearts");
+ok(rea(Art.item("hatt-kock")).how === "pose" && !rea(Art.item("hatt-kock")).hearts, "a hat is shown off, without hearts");
+ok(rea(Art.item("glas-sol")).how === "pose" && rea(Art.item("hals-fluga")).how === "pose", "glasses and necklaces too");
+ok(rea(Art.item("hatt-kock")).say.join() !== rea(Art.item("hals-fluga")).say.join(), "but each sort says something of its own");
+ok(rea(Art.item("bg-gras")).how === "look" && rea(Art.item("rum-boll")).how === "look", "a new place is looked around in");
+ok(rea(Art.thing("applet"), false).how === "eat" && !rea(Art.thing("applet"), false).hearts, "a treat is eaten");
+ok(rea(Art.thing("applet"), true).how === "eat" && rea(Art.thing("applet"), true).hearts && /favorit/.test(rea(Art.thing("applet"), true).say[0]), "the favourite also gives hearts");
+ok(rea(Art.thing("boll"), false).how === "play" && rea(Art.thing("boll"), true).hearts, "a toy is played with");
+const hows = new Set([rea(null).how, rea(Art.item("hatt-kock")).how, rea(Art.thing("applet")).how, rea(Art.thing("boll")).how, rea(Art.item("bg-gras")).how]);
+ok(hows.size === 5, "five different reactions");
+ALL.forEach((kind) => ok(/class="pet-gaze"/.test(Art.svg({ kind: kind, color: Art.KINDS[kind].colors[0].id }, {})) && /class="pet-gaze"/.test(Art.svg({ kind: kind, color: Art.KINDS[kind].colors[0].id }, { mood: "happy" })), kind + ": the eyes can look around, also the happy ones"));
+
 console.log(failures ? failures + " FAILED" : "All pet checks passed (" + drawn + " drawings)");
 process.exit(failures ? 1 : 0);

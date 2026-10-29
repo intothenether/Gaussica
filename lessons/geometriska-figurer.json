@@ -78,6 +78,49 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "sortera",
+      "prompt": "Sortera figurerna: har de hörn eller inte?",
+      "categories": [
+        "Har hörn",
+        "Har inga hörn"
+      ],
+      "items": [
+        {
+          "text": "Triangel",
+          "category": 0,
+          "explain": "En triangel har tre hörn."
+        },
+        {
+          "text": "Cirkel",
+          "category": 1,
+          "explain": "En cirkel är rund och har inga hörn."
+        },
+        {
+          "text": "Kvadrat",
+          "category": 0,
+          "explain": "En kvadrat har fyra hörn."
+        },
+        {
+          "text": "Oval",
+          "category": 1,
+          "explain": "En oval är rund, så den har inga hörn."
+        },
+        {
+          "text": "Rektangel",
+          "category": 0,
+          "explain": "En rektangel har fyra hörn."
+        },
+        {
+          "text": "Femhörning",
+          "category": 0,
+          "explain": "En femhörning har fem hörn."
+        }
+      ]
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Hur många hörn har en femhörning?",
     "answer": [

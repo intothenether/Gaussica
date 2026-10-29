@@ -143,7 +143,12 @@ window.GaussicaPlayer = (function () {
     const card = el("div", "pl-card");
     main.appendChild(card);
     const foot = el("footer", "pl-foot");
-    shell.append(main, foot);
+    // the pet peeks over the top edge of the footer: it sits in a wrapper around the footer (the footer itself scrolls, so it would be cut off)
+    const footWrap = el("div", "pl-footwrap");
+    footWrap.appendChild(foot);
+    state.peek = deps.petPeek ? deps.petPeek() : null;
+    if (state.peek) footWrap.appendChild(state.peek.element);
+    shell.append(main, footWrap);
     c.appendChild(shell);
 
     state.hosts = null;
@@ -332,6 +337,7 @@ window.GaussicaPlayer = (function () {
       ctx.taskName = isSession() ? "Fråga " + st.number : (st.task.name || "Fråga " + st.number);
       ctx.prompt = st.task.problem && st.task.problem.prompt ? String(st.task.problem.prompt) : "";
       // a true/false task: the statements are what the question is about
+      if (st.task.problem && st.task.problem.format && window.GaussicaFormats) ctx.prompt += " " + window.GaussicaFormats.summary(st.task.problem);
       if (st.task.problem && Array.isArray(st.task.problem.statements)) {
         ctx.prompt += " " + st.task.problem.statements.map(function (s, i) { return (i + 1) + ". " + s.text; }).join("  ");
       }
@@ -348,9 +354,10 @@ window.GaussicaPlayer = (function () {
   function footer(foot, tone, message, actions, say) {
     foot.className = "pl-foot is-" + tone;
     foot.replaceChildren();
+    if (state.peek) state.peek.set(tone);
     const msg = el("div", "pl-foot-msg");
     // the pet says it in a speech bubble if the student has one (say = { kind, ... }), otherwise it is plain text
-    const bubble = say && deps.petSay ? deps.petSay(say.kind, say) : null;
+    const bubble = say && deps.petSay ? deps.petSay(say.kind, state.peek ? Object.assign({}, say, { faceless: true }) : say) : null;
     if (bubble) msg.appendChild(bubble);
     else if (message) msg.textContent = message;
     const acts = el("div", "pl-foot-actions");

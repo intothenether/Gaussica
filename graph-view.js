@@ -420,7 +420,7 @@ window.GaussicaGraph = (function () {
   }
 
   // The pet sits on the shoulder of its node. When it was somewhere else the last time the map was drawn it starts there and walks over.
-  function spotOf(pos) { return { left: pos.cx + pos.nodeSize / 2 - 38, top: pos.nodeTop - 30 }; }
+  function spotOf(pos) { return { left: pos.cx + pos.nodeSize / 2 - 50, top: pos.nodeTop - 44 }; }
 
   function placePet(graph, positions, pet) {
     const marker = el("span", "gn-pet");

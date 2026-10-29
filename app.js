@@ -374,6 +374,7 @@
       chatUnread: function () { return window.GaussicaChat.unread(); },
       petRibbon: function () { return window.GaussicaPet.ribbon(); },
       petSay: function (kind, options) { return window.GaussicaPet.say(kind, options); },
+      petPeek: function () { return window.GaussicaPet.peek("footer"); },
       goToLesson: function (id) { window.location.hash = "#" + id; },
       goToPlayer: function (id) { window.location.hash = "#play/" + id; },
       hasPractice: function (id) { const l = course.lessons.find(function (x) { return x.id === id; }); return window.GaussicaPractice.has(l); },
@@ -624,7 +625,7 @@
     let from = null;
     try { from = window.localStorage.getItem(key); } catch (e) { from = null; }
     if (at) { try { window.localStorage.setItem(key, at); } catch (e) { /* storage blocked */ } }
-    return { at: at, from: from, name: pet.name, face: window.GaussicaPetArt.face(pet, "") };
+    return { at: at, from: from, name: pet.name, face: window.GaussicaPetArt.face(pet, "", { wide: true }) };
   }
 
   // ============ "NÄSTA STEG", ÖVA MER OCH REPETERA ============
@@ -895,7 +896,7 @@
     if (desc) desc.hidden = true;
     if (actions) actions.hidden = true;
     step.hidden = false;
-    window.GaussicaPathView.heroStep(step, data, { assignment: assigned || null, start: function (id) { window.location.hash = "#play/" + id; } });
+    window.GaussicaPathView.heroStep(step, data, { assignment: assigned || null, peek: function (kind) { return window.GaussicaPet.peek(kind); }, start: function (id) { window.location.hash = "#play/" + id; } });
   }
 
   // The start page is kept calm: "Idag" has the rest of the path (the step of the day is in the hero above it), and the rest (the notebook, the road, the training and
@@ -2067,6 +2068,15 @@
           (comp.statements || []).forEach(function (s) { div.appendChild(makeElement("p", "muted", (isTrue(s.answer) ? "✓ Sant: " : "✗ Falskt: ") + s.text)); });
           break;
 
+        case "sortera":   // static views for the editor preview; students get the interactive tasks
+        case "ordna":
+        case "hittafelet":
+        case "lucktext":
+          div.className = "custom-component problem-component";
+          div.appendChild(makeElement("p", "", (window.GaussicaLesson.FORMATS[comp.type] ? window.GaussicaLesson.FORMATS[comp.type].name + ": " : "") + (comp.prompt || "")));
+          if (window.GaussicaFormats) div.appendChild(makeElement("p", "muted", window.GaussicaFormats.summary(window.GaussicaLesson.formatProblem(comp))));
+          break;
+
         case "koppla":   // static view for the editor preview; students get the interactive matching task
           div.className = "custom-component problem-component";
           div.appendChild(makeElement("p", "", comp.prompt || ""));
@@ -2414,9 +2424,25 @@
     }
   }
 
+  // The new formats (sortera, ordna, hittafelet, lucktext): drawn and checked by formats.js, saved like the other tasks.
+  function renderFormat(parent, lesson, exercise, taskId, labelText, opts) {
+    questionShownAt[lesson.id + "|" + taskId] = Date.now();
+    if (isPractice(taskId)) practiceProblems[lesson.id + "|" + taskId] = exercise;
+    window.GaussicaFormats.render(parent, exercise, {
+      labelText: labelText,
+      headingId: "problem-title-" + lesson.id + "-" + taskId,
+      saved: savedEntry(lesson.id, taskId),
+      text: function (node, text) { window.GaussicaText.set(node, text); },
+      store: function (answer, feedback, type, ok, misconception, prompt) { storeAnswerProgress(lesson.id, taskId, answer, "", feedback, type, ok, misconception, prompt, labelText); },
+      finish: function (ok) { if (opts && opts.onResult) opts.onResult(ok); },
+      listen: function (read) { return window.GaussicaSpeech ? window.GaussicaSpeech.button(read) : null; }
+    });
+  }
+
   // opts.onResult(isCorrect) is called after each submitted answer (used by the lesson player).
   function renderProblem(parent, lesson, exercise, taskId, labelText, opts) {
     exercise = window.GaussicaLesson.personalize(exercise);
+    if (exercise.format && window.GaussicaFormats) return renderFormat(parent, lesson, exercise, taskId, labelText, opts);
     if (Array.isArray(exercise.pairs)) return renderMatching(parent, lesson, exercise, taskId, labelText, opts);
     if (Array.isArray(exercise.statements)) return renderTrueFalse(parent, lesson, exercise, taskId, labelText, opts);
     const finish = function (isCorrect) { if (opts && opts.onResult) opts.onResult(isCorrect); };

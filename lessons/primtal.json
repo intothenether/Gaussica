@@ -84,6 +84,59 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "sortera",
+      "prompt": "Sortera talen: är de primtal?",
+      "categories": [
+        "Primtal",
+        "Inte primtal"
+      ],
+      "items": [
+        {
+          "text": "2",
+          "category": 0,
+          "explain": "2 går bara att dela med 1 och 2. Det är det enda jämna primtalet."
+        },
+        {
+          "text": "9",
+          "category": 1,
+          "explain": "9 går att dela med 3, så det är inget primtal."
+        },
+        {
+          "text": "13",
+          "category": 0,
+          "explain": "13 går bara att dela med 1 och 13."
+        },
+        {
+          "text": "21",
+          "category": 1,
+          "explain": "21 = 3 · 7, så det är inget primtal."
+        },
+        {
+          "text": "29",
+          "category": 0,
+          "explain": "29 går bara att dela med 1 och 29."
+        },
+        {
+          "text": "33",
+          "category": 1,
+          "explain": "33 = 3 · 11, så det är inget primtal."
+        },
+        {
+          "text": "41",
+          "category": 0,
+          "explain": "41 går bara att dela med 1 och 41."
+        },
+        {
+          "text": "51",
+          "category": 1,
+          "explain": "51 = 3 · 17, så det är inget primtal."
+        }
+      ]
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Hur många primtal finns det mellan 1 och 10?",
     "answer": [

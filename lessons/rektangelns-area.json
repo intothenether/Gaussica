@@ -62,6 +62,31 @@
       ]
     }
   ],
+  "components": [
+    {
+      "type": "lucktext",
+      "prompt": "Fyll i luckorna om arean av en rektangel.",
+      "text": "Arean av en rektangel är längden {1} bredden. En rektangel som är 6 cm lång och 4 cm bred har arean {2} cm².",
+      "blanks": [
+        {
+          "answer": [
+            "gånger"
+          ],
+          "options": [
+            "plus",
+            "minus",
+            "gånger"
+          ]
+        },
+        {
+          "answer": [
+            "24"
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
   "exercise": {
     "prompt": "Rektangeln är 9 cm lång och 4 cm bred. Vad är arean i cm²?",
     "answer": [

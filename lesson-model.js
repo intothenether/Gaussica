@@ -96,6 +96,36 @@ window.GaussicaLesson = (function () {
     };
   }
 
+  // New formats (see formats.js): sortera, ordna, hittafelet and lucktext. Each is a task with the id so-<n>, or-<n>, hf-<n> or lt-<n>.
+  const FORMATS = {
+    sortera: { prefix: "so", name: "Sortera", prompt: "Sortera: välj rätt grupp för varje sak." },
+    ordna: { prefix: "or", name: "Ordna", prompt: "Sätt dem i rätt ordning." },
+    hittafelet: { prefix: "hf", name: "Hitta felet", prompt: "Här finns ett fel. Vilket steg är fel?" },
+    lucktext: { prefix: "lt", name: "Fyll i luckorna", prompt: "Fyll i luckorna." }
+  };
+
+  function isFormatComponent(c) {
+    if (!c || !FORMATS[c.type]) return false;
+    if (c.type === "sortera") return Array.isArray(c.categories) && c.categories.length >= 2 && Array.isArray(c.items) && c.items.length >= 2;
+    if (c.type === "ordna") return Array.isArray(c.items) && c.items.length >= 2;
+    if (c.type === "hittafelet") return Array.isArray(c.steps) && c.steps.length >= 2 && Number.isInteger(c.wrong) && c.wrong >= 0 && c.wrong < c.steps.length;
+    return typeof c.text === "string" && Array.isArray(c.blanks) && c.blanks.length >= 1;   // lucktext
+  }
+
+  // The task of a format component: the component with a "format" and the fields every task has (a prompt, a message when it is right).
+  // The answer is only there for the log of answers: the format checks itself (formats.js).
+  function formatProblem(c) {
+    const f = FORMATS[c.type];
+    const p = JSON.parse(JSON.stringify(c));
+    p.format = c.type;
+    delete p.type;
+    p.prompt = c.prompt || f.prompt;
+    p.answer = ["alla rätt"];
+    p.correct = c.correct || "Rätt! Allt stämmer.";
+    p.feedback = [];
+    return p;
+  }
+
   function matchProblem(c) {
     return {
       prompt: c.prompt || "Para ihop varje begrepp med rätt förklaring.",
@@ -159,6 +189,10 @@ window.GaussicaLesson = (function () {
       } else if (key.indexOf("comp:") === 0 && isMatchComponent(l.components[Number(key.slice(5))])) {
         const i = Number(key.slice(5));
         out.push({ id: "match-" + i, key: key, problem: matchProblem(l.components[i]), name: "Para ihop begrepp" });
+      } else if (key.indexOf("comp:") === 0 && isFormatComponent(l.components[Number(key.slice(5))])) {
+        const i = Number(key.slice(5));
+        const F = FORMATS[l.components[i].type];
+        out.push({ id: F.prefix + "-" + i, key: key, problem: personalize(formatProblem(l.components[i])), name: F.name });
       } else if (key.indexOf("comp:") === 0 && isTrueFalseComponent(l.components[Number(key.slice(5))])) {
         const i = Number(key.slice(5));
         out.push({ id: "sf-" + i, key: key, problem: trueFalseProblem(l.components[i]), name: "Sant eller falskt" });
@@ -185,6 +219,7 @@ window.GaussicaLesson = (function () {
       if (isTool(c)) return "Pyssla: " + (c.title || "");
       if (c.type === "begreppskort") return c.title || "Begreppskort";
       if (c.type === "santfalskt") return c.title || "Sant eller falskt";
+      if (FORMATS[c.type]) return c.title || FORMATS[c.type].name;
       return c.title || c.label || (c.type === "text" || c.type === "heading" ? String(c.text || "").slice(0, 40) : "") || "Innehåll";
     }
     return "Innehåll";
@@ -403,6 +438,6 @@ window.GaussicaLesson = (function () {
     return g >= 10 ? "GYMNASIET" : "ÅK " + g;
   }
 
-  return { setPersonal: setPersonal, personalText: personalText, personalize: personalize, isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, allowsExpression: allowsExpression, gradeLabel: gradeLabel, steps: steps, explanationParts: explanationParts, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
+  return { FORMATS: FORMATS, isFormatComponent: isFormatComponent, formatProblem: formatProblem, setPersonal: setPersonal, personalText: personalText, personalize: personalize, isTool: isTool, toolGoals: toolGoals, effectiveGrade: effectiveGrade, allowsExpression: allowsExpression, gradeLabel: gradeLabel, steps: steps, explanationParts: explanationParts, isTaskKey: isTaskKey, isSubmission: isSubmission, history: history, taskStats: taskStats, blockKeys: blockKeys, defaultKeys: defaultKeys, tasks: tasks, children: children,
     summarize: summarize, describe: describe, hasVisual: hasVisual, isTaskComponent: isTaskComponent, isMatchComponent: isMatchComponent, isTrueFalseComponent: isTrueFalseComponent };
 }());
