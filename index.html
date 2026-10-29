@@ -10,6 +10,7 @@
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="apple-touch-icon" href="./icon-192.png">
     <script src="./theme.js"></script>
+    <script src="./words.js" defer></script>
     <link rel="stylesheet" href="./styles.css">
     <script src="./viewport.js" defer></script>
     <script src="./offline.js" defer></script>
@@ -56,6 +57,7 @@
     <script src="./app.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#start">Hoppa till innehållet</a>
     <header class="topbar">
       <a class="wordmark" href="#start" aria-label="Gaussica, startsida">
         <img class="wordmark-mark" src="./logo.svg" alt="" width="38" height="38">
@@ -63,10 +65,10 @@
       </a>
       <div class="topbar-actions">
         <div class="student-profile-bar" id="student-profile-bar"></div>
-        <button type="button" class="rewards-chip" id="rewards-chip" hidden aria-label="Mina stjärnor och märken">⭐ <b>0</b></button>
-        <button type="button" class="rewards-chip pet-chip" id="pet-chip" hidden aria-label="Mitt djur och mina mynt"><span class="coin-icon" aria-hidden="true"></span> <b>0</b></button>
+        <button type="button" class="rewards-chip" id="rewards-chip" hidden>⭐ <b>0</b> <span class="visually-hidden">stjärnor. Öppna mina märken.</span></button>
+        <button type="button" class="rewards-chip pet-chip" id="pet-chip" hidden title="Mitt djur och mina mynt"><span class="coin-icon" aria-hidden="true"></span> <b>0</b> <span class="visually-hidden">mynt. Öppna mitt djur.</span></button>
         <a class="mail-link" href="#uppdrag" id="mail-link" hidden><span aria-hidden="true">📬</span> Uppdrag <b class="mail-badge" hidden>0</b></a>
-        <button type="button" class="mail-link reading-link" id="reading-link" aria-label="Läsning: textstorlek, typsnitt och uppläsning"><span aria-hidden="true">Aa</span> Läsning</button>
+        <button type="button" class="mail-link reading-link" id="reading-link" title="Textstorlek, typsnitt och uppläsning"><span aria-hidden="true">Aa</span> Läsning</button>
         <button type="button" class="mail-link chat-link" id="chat-link" hidden><span aria-hidden="true">💬</span> Fråga läraren <b class="mail-badge" hidden>0</b></button>
         <button type="button" class="view-switch" id="view-switch" hidden>👀 Visa som elev</button>
         <a class="admin-top-link" href="#admin" id="admin-top-link" hidden>Lärarvy 📊 <b class="mail-badge" hidden>0</b></a>
@@ -121,7 +123,7 @@
           <span class="map-toggle-hint">Vill du välja själv? Öppna kartan och välj vilken lektion du vill.</span>
         </div>
         <div class="full-map" id="full-map">
-          <div class="area-filters" id="area-filters" aria-label="Filtrera efter matematikområde"></div>
+          <div class="area-filters" id="area-filters" role="group" aria-label="Filtrera efter matematikområde"></div>
           <div class="graph-heading">
             <div>
               <h3>Lärandegraf</h3>
@@ -138,13 +140,18 @@
             <span class="graph-key-item"><i class="gk-shape gk-term"></i> begrepp</span>
             </span>
           </div>
-          <div class="graph-viewport" id="graph-viewport" tabindex="0" aria-label="Lärandegraf. Lektionerna ordnas uppifrån och ned efter förkunskaper.">
+          <div class="graph-viewport" id="graph-viewport" tabindex="0" role="region" aria-label="Lärandegraf. Lektionerna ordnas uppifrån och ned efter förkunskaper.">
             <div class="graph-canvas" id="lesson-graph"></div>
           </div>
           <p class="graph-help">Välj vilken nod som helst för att öppna lektionen. Ett kapitel (sexhörning) samlar flera delmoment. Följ linjerna nedåt om du vill lära dig i en föreslagen ordning.</p>
         </div>
         <p class="progress-notice" id="progress-notice" aria-live="polite"></p>
-        <article class="lesson-panel" id="lesson-panel" aria-live="polite"></article>
+        <div class="lesson-popup pv-overlay" id="lesson-popup" hidden>
+          <div class="lesson-popup-card" id="lesson-popup-card" role="dialog" aria-modal="true" aria-label="Om lektionen" tabindex="-1">
+            <button type="button" class="lesson-popup-close" id="lesson-popup-close" aria-label="Stäng">✕</button>
+            <article class="lesson-panel" id="lesson-panel"></article>
+          </div>
+        </div>
       </section>
 
       <section class="principles" aria-label="Så fungerar Gaussica">

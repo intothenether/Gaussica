@@ -141,6 +141,37 @@
           "message": "{7*w} dagar är veckorna. Lägg också till de {d} dagarna."
         }
       ]
+    },
+    {
+      "id": "luckor-tid",
+      "for": [
+        "lt-0"
+      ],
+      "mode": "lucktext",
+      "vars": {
+        "w": [
+          2,
+          9
+        ],
+        "d": [
+          2,
+          6
+        ]
+      },
+      "prompt": "Fyll i luckorna om tid.",
+      "text": "{w} veckor är [[1]] dagar. {d} dygn är [[2]] timmar.",
+      "blanks": [
+        {
+          "answer": [
+            "=w*7"
+          ]
+        },
+        {
+          "answer": [
+            "=d*24"
+          ]
+        }
+      ]
     }
   ],
   "components": [
@@ -170,7 +201,16 @@
       ]
     }
   ],
-  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
+  "layout": [
+    "explanation",
+    "visual",
+    "rule",
+    "exercise",
+    "comp:0",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
   "exercise": {
     "prompt": "Hur många dagar är det i 4 veckor?",
     "answer": [

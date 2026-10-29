@@ -27,8 +27,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install the test tools
+        run: npm ci
       - name: Run tests
         run: npm test
+      - name: Install Chrome for the browser tests
+        run: npx playwright install --with-deps chromium
+      - name: Run the browser tests
+        run: npm run test:browser
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Bundle the lessons
@@ -38,7 +44,7 @@ jobs:
           mkdir _site
           cp index.html favicon.svg logo.svg styles.css manifest.webmanifest *.png *.js _site/
           cp -r lessons fonts _site/
-          rm -f _site/server.js
+          rm -f _site/server.js _site/playwright.config.js
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:

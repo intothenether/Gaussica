@@ -118,6 +118,141 @@
           "message": "{n} är udda. Då går det inte jämnt upp."
         }
       ]
+    },
+    {
+      "id": "udda-eller-jamna",
+      "for": [
+        "so-0"
+      ],
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Sortera talen: är de jämna eller udda?",
+      "categories": [
+        "Jämna",
+        "Udda"
+      ],
+      "pool": [
+        {
+          "text": "14",
+          "category": 0,
+          "explain": "14 slutar på 4, alltså jämnt."
+        },
+        {
+          "text": "27",
+          "category": 1,
+          "explain": "27 slutar på 7, alltså udda."
+        },
+        {
+          "text": "30",
+          "category": 0,
+          "explain": "30 slutar på 0, alltså jämnt."
+        },
+        {
+          "text": "45",
+          "category": 1,
+          "explain": "45 slutar på 5, alltså udda."
+        },
+        {
+          "text": "52",
+          "category": 0,
+          "explain": "52 slutar på 2, alltså jämnt."
+        },
+        {
+          "text": "63",
+          "category": 1,
+          "explain": "63 slutar på 3, alltså udda."
+        },
+        {
+          "text": "18",
+          "category": 0,
+          "explain": "18 slutar på 8, alltså jämnt."
+        },
+        {
+          "text": "71",
+          "category": 1,
+          "explain": "71 slutar på 1, alltså udda."
+        },
+        {
+          "text": "86",
+          "category": 0,
+          "explain": "86 slutar på 6, alltså jämnt."
+        },
+        {
+          "text": "93",
+          "category": 1,
+          "explain": "93 slutar på 3, alltså udda."
+        },
+        {
+          "text": "40",
+          "category": 0,
+          "explain": "40 slutar på 0, alltså jämnt."
+        },
+        {
+          "text": "25",
+          "category": 1,
+          "explain": "25 slutar på 5, alltså udda."
+        },
+        {
+          "text": "66",
+          "category": 0,
+          "explain": "66 slutar på 6, alltså jämnt."
+        },
+        {
+          "text": "39",
+          "category": 1,
+          "explain": "39 slutar på 9, alltså udda."
+        },
+        {
+          "text": "78",
+          "category": 0,
+          "explain": "78 slutar på 8, alltså jämnt."
+        },
+        {
+          "text": "57",
+          "category": 1,
+          "explain": "57 slutar på 7, alltså udda."
+        },
+        {
+          "text": "22",
+          "category": 0,
+          "explain": "22 slutar på 2, alltså jämnt."
+        },
+        {
+          "text": "81",
+          "category": 1,
+          "explain": "81 slutar på 1, alltså udda."
+        },
+        {
+          "text": "100",
+          "category": 0,
+          "explain": "100 slutar på 0, alltså jämnt."
+        },
+        {
+          "text": "17",
+          "category": 1,
+          "explain": "17 slutar på 7, alltså udda."
+        },
+        {
+          "text": "34",
+          "category": 0,
+          "explain": "34 slutar på 4, alltså jämnt."
+        },
+        {
+          "text": "49",
+          "category": 1,
+          "explain": "49 slutar på 9, alltså udda."
+        },
+        {
+          "text": "60",
+          "category": 0,
+          "explain": "60 slutar på 0, alltså jämnt."
+        },
+        {
+          "text": "75",
+          "category": 1,
+          "explain": "75 slutar på 5, alltså udda."
+        }
+      ]
     }
   ],
   "components": [
@@ -162,7 +297,16 @@
       ]
     }
   ],
-  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
+  "layout": [
+    "explanation",
+    "visual",
+    "rule",
+    "exercise",
+    "comp:0",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
   "exercise": {
     "prompt": "Är talet 58 jämnt eller udda? Skriv jämnt eller udda.",
     "answer": [

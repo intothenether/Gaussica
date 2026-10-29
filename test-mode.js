@@ -206,6 +206,7 @@ window.GaussicaTest = (function () {
       x.title = "Avsluta (Esc)";
       barHost = el("div", "pl-bar");
       barHost.setAttribute("role", "progressbar");
+      barHost.setAttribute("aria-label", "Hur långt du har kommit");
       top.append(x, barHost, el("span", "pl-title", cfg.title));
       const actions = el("div", "pl-top-actions");
       if (cfg.endsAt && !finished) {

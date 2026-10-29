@@ -88,6 +88,17 @@ npx wrangler deploy
 
 `RESEND_API_KEY` är nyckeln du skapade och `FEEDBACK_TO` är din e-postadress. Utan egen domän skickas mejlet från onboarding@resend.dev, och då måste `FEEDBACK_TO` vara samma adress som du registrerade Resend med. Meddelandena sparas också i databasen. Vill du läsa dem där: `npx wrangler d1 execute gaussica --remote --command "SELECT created_at, kind, text, sender FROM site_feedback ORDER BY id DESC LIMIT 20"`.
 
+### Version med vårdnadshavare
+
+Ett konto som vårdnadshavare är ett lärarkonto med en markering, kolumnen `caregiver` i tabellen `users`. Kör migreringen en gång före `deploy`:
+
+```bash
+npx wrangler d1 execute gaussica --remote --file=migrations/006-caregiver.sql
+npx wrangler deploy
+```
+
+Ny databas: det räcker med `schema.sql`. Kör inte `006-caregiver.sql` en andra gång, då ger den felet "duplicate column name". Hinner du inte köra migreringen före `deploy` fungerar allt annat som vanligt, men den som försöker skapa konto som vårdnadshavare får veta att databasen behöver uppdateras. Konton som vårdnadshavare går att stänga av med variabeln `CAREGIVER_SIGNUP` satt till `off` (`npx wrangler secret put CAREGIVER_SIGNUP` eller `[vars]` i `wrangler.toml`).
+
 ### Version med prov
 
 Prov (genererade prov som läraren skapar i lärarvyn) sparar sina inställningar i en ny kolumn, `config`, i tabellen `assignments`. Kör migreringen en gång före `deploy`:

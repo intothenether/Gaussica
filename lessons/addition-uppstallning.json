@@ -215,6 +215,81 @@
           "message": "{a+b} är det riktiga svaret. Vid ett överslag räknar du med de avrundade talen."
         }
       ]
+    },
+    {
+      "id": "hitta-minnessiffran",
+      "for": [
+        "hf-1"
+      ],
+      "mode": "hittafelet",
+      "prompt": "Här har någon räknat med uppställning. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Elsa räknar 256 + 189 med uppställning. Vilket steg är fel?",
+          "steps": [
+            "Ental: 6 + 9 = 15. Skriv 5 och minns 1.",
+            "Tiotal: 5 + 8 = 13. Skriv 3 och minns 1.",
+            "Hundratal: 2 + 1 + 1 = 4. Skriv 4.",
+            "Svar: 435."
+          ],
+          "wrong": 1,
+          "explain": "I tiotalen ska du också lägga till den 1:a som du minns från entalen: 5 + 8 + 1 = 14, inte 13.",
+          "fix": "Skriv 4 och minns 1. Då blir svaret 445.",
+          "hint": "Fanns det något att minnas från entalen som inte kom med?"
+        },
+        {
+          "prompt": "Omar räknar 347 + 285 med uppställning. Vilket steg är fel?",
+          "steps": [
+            "Ental: 7 + 5 = 12. Skriv 2 och minns 1.",
+            "Tiotal: 4 + 8 + 1 = 13. Skriv 3 och minns 1.",
+            "Hundratal: 3 + 2 = 5. Skriv 5.",
+            "Svar: 532."
+          ],
+          "wrong": 2,
+          "explain": "I hundratalen ska du också lägga till 1:an som du minns från tiotalen: 3 + 2 + 1 = 6, inte 5.",
+          "fix": "Skriv 6. Då blir svaret 632.",
+          "hint": "Titta på vad som minns från tiotalen."
+        },
+        {
+          "prompt": "Mira räknar 468 + 175 med uppställning. Vilket steg är fel?",
+          "steps": [
+            "Ental: 8 + 5 = 13. Skriv 3 och minns 1.",
+            "Tiotal: 6 + 7 = 13. Skriv 3 och minns 1.",
+            "Hundratal: 4 + 1 + 1 = 6. Skriv 6.",
+            "Svar: 633."
+          ],
+          "wrong": 1,
+          "explain": "I tiotalen ska du också lägga till 1:an från entalen: 6 + 7 + 1 = 14, inte 13.",
+          "fix": "Skriv 4 och minns 1. Då blir svaret 643.",
+          "hint": "Räkna tiotalen en gång till och glöm inte minnessiffran."
+        },
+        {
+          "prompt": "Kalle räknar 589 + 237 med uppställning. Vilket steg är fel?",
+          "steps": [
+            "Ental: 9 + 7 = 15. Skriv 5 och minns 1.",
+            "Tiotal: 8 + 3 + 1 = 12. Skriv 2 och minns 1.",
+            "Hundratal: 5 + 2 + 1 = 8. Skriv 8.",
+            "Svar: 825."
+          ],
+          "wrong": 0,
+          "explain": "9 + 7 = 16, inte 15.",
+          "fix": "Skriv 6 och minns 1. Då blir svaret 826.",
+          "hint": "Kontrollräkna det första steget."
+        },
+        {
+          "prompt": "Lisa räknar 639 + 184 med uppställning. Vilket steg är fel?",
+          "steps": [
+            "Ental: 9 + 4 = 13. Skriv 3 och minns 1.",
+            "Tiotal: 3 + 8 + 1 = 12. Skriv 2 och minns 1.",
+            "Hundratal: 6 + 1 = 7. Skriv 7.",
+            "Svar: 723."
+          ],
+          "wrong": 2,
+          "explain": "I hundratalen ska du också lägga till 1:an från tiotalen: 6 + 1 + 1 = 8, inte 7.",
+          "fix": "Skriv 8. Då blir svaret 823.",
+          "hint": "Vad minns du från tiotalen?"
+        }
+      ]
     }
   ],
   "exercise": {

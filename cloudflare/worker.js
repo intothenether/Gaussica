@@ -106,10 +106,12 @@ async function readJson(request, limit) {
 // How a signed-in sender is written in site_feedback (and the e-mail), so that the messages can be found again when the
 // account is deleted. Keep in step with the SQL in studentPurge.
 function senderLabel(u, className) {
-  return u.display_name + " (" + (u.role === "teacher" ? "lärare" : "elev") + (className ? ", klass " + className : "") + ")";
+  return u.display_name + " (" + (u.role === "teacher" ? (u.caregiver ? "vårdnadshavare" : "lärare") : "elev") + (className ? ", klass " + className : "") + ")";
 }
 
 // ----- validation -----
+const FAMILY_MAX = 10;   // children in the family of a caregiver
+
 const validUsername = (u) => typeof u === "string" && u.length >= 3 && u.length <= 30 && /^[\p{L}\p{N}._-]+$/u.test(u);
 
 function checkPassword(pw, username) {
@@ -125,6 +127,8 @@ function createApi(env, request) {
 
   const one = (sql, ...args) => db.prepare(sql).bind(...args).first();
   const all = async (sql, ...args) => (await db.prepare(sql).bind(...args).all()).results || [];
+  // a query that may name a column an old database does not have yet: no row, instead of an error
+  const tryOne = async (sql, ...args) => { try { return await one(sql, ...args); } catch (e) { return null; } };
   const run = (sql, ...args) => db.prepare(sql).bind(...args).run();
 
   // Counts a hit and returns the seconds to wait when over the limit (0 = fine).
@@ -146,11 +150,23 @@ function createApi(env, request) {
     await run("DELETE FROM rate_limits WHERE window_start < ?", Date.now() - 24 * 3600 * 1000);
   }
 
+  // A caregiver is stored as a teacher with the flag `caregiver` (migrations/006-caregiver.sql); the site is told the role "caregiver". A
+  // student whose class belongs to a caregiver (a family) gets guide: "caregiver", so that the pages can say vårdnadshavare where they say lärare.
   const publicUser = (u) => ({
-    id: u.id, username: u.username, name: u.display_name, role: u.role,
+    id: u.id, username: u.username, name: u.display_name, role: u.role === "teacher" && u.caregiver ? "caregiver" : u.role,
+    guide: u.role === "student" ? (u.guide_caregiver ? "caregiver" : "teacher") : undefined,
     classId: u.class_id || null, className: u.class_name || null, color: COLORS[u.id % COLORS.length],
     rewards: u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards)
   });
+
+  // the guide of a student is looked up only where the user is handed to the site (not on every request), and an old database without the column is fine
+  async function withGuide(u) {
+    if (u && u.role === "student" && u.class_id) {
+      const g = await tryOne("SELECT g.caregiver AS c FROM classes c JOIN users g ON g.id = c.teacher_id WHERE c.id = ?", u.class_id);
+      u.guide_caregiver = Boolean(g && g.c);
+    }
+    return u;
+  }
 
   const userById = (id) => one("SELECT u.*, c.name AS class_name, COALESCE(cs.rewards, 1) AS rewards FROM users u LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE u.id = ?", id);
 
@@ -175,10 +191,26 @@ function createApi(env, request) {
     return s;
   }
 
-  async function requireTeacher() {
+  // Teachers and caregivers: everything about their classes. Only teachers may edit lessons (requireTeacher).
+  async function requireGuide() {
     const s = await requireUser();
-    if (s.user.role !== "teacher") throw new ApiError(403, "Endast lärare har tillgång.");
+    if (s.user.role !== "teacher") throw new ApiError(403, "Endast lärare och vårdnadshavare har tillgång.");
     return s;
+  }
+
+  async function requireTeacher() {
+    const s = await requireGuide();
+    if (s.user.caregiver) throw new ApiError(403, "Endast lärare kan ändra lektioner.");
+    return s;
+  }
+
+  async function newClassCode() {
+    let code;
+    for (let i = 0; i < 10; i++) {
+      code = randomCode(6);
+      if (!(await one("SELECT 1 AS x FROM classes WHERE code = ?", code))) break;
+    }
+    return code;
   }
 
   async function startSession(userId) {
@@ -210,7 +242,8 @@ function createApi(env, request) {
     const wait = await limit("reg:" + ip, 20, 3600 * 1000);
     if (wait) throw new ApiError(429, "För många försök. Vänta " + Math.ceil(wait / 60) + " min.");
     const b = await readJson(request, 10000);
-    const role = b.role === "teacher" ? "teacher" : "student";
+    const kind = b.role === "teacher" ? "teacher" : b.role === "caregiver" ? "caregiver" : "student";
+    const role = kind === "student" ? "student" : "teacher";
     const username = str(b.username, 40).trim();
     const displayName = str(b.displayName, 80).trim();
     if (!validUsername(username)) throw new ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
@@ -220,8 +253,12 @@ function createApi(env, request) {
     let classId = null;
     if (role === "student") {
       const cls = await one("SELECT id FROM classes WHERE code = ?", normalizeCode(b.classCode));
-      if (!cls) throw new ApiError(400, "Klasskoden stämmer inte. Fråga din lärare efter rätt kod.");
+      if (!cls) throw new ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
+      const owner = await tryOne("SELECT g.caregiver AS c FROM classes c JOIN users g ON g.id = c.teacher_id WHERE c.id = ?", cls.id);
+      if (owner && owner.c && (await one("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'", cls.id)).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
       classId = cls.id;
+    } else if (kind === "caregiver") {
+      if (env.CAREGIVER_SIGNUP === "off") throw new ApiError(403, "Konton för vårdnadshavare är avstängda här.");
     } else {
       if (!env.TEACHER_CODE) throw new ApiError(503, "Lärarregistrering är inte påslagen. Sätt hemligheten TEACHER_CODE i Cloudflare.");
       if (!safeEqual(normalizeCode(b.teacherCode), normalizeCode(env.TEACHER_CODE))) throw new ApiError(403, "Lärarkoden stämmer inte.");
@@ -231,14 +268,20 @@ function createApi(env, request) {
     const hash = await hashPassword(b.password);
     let userId;
     try {
-      const res = await run("INSERT INTO users (username, display_name, role, password_hash, class_id, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-        username, displayName, role, hash, classId, nowIso());
+      const res = kind === "caregiver"
+        ? await run("INSERT INTO users (username, display_name, role, password_hash, class_id, created_at, caregiver) VALUES (?, ?, ?, ?, ?, ?, 1)", username, displayName, role, hash, classId, nowIso())
+        : await run("INSERT INTO users (username, display_name, role, password_hash, class_id, created_at) VALUES (?, ?, ?, ?, ?, ?)", username, displayName, role, hash, classId, nowIso());
       userId = res.meta.last_row_id;
     } catch (e) {
+      if (/no such column|has no column/i.test(String(e && e.message))) throw new ApiError(503, "Databasen är inte uppdaterad för vårdnadshavare. Kör migrations/006-caregiver.sql (se cloudflare/README.md).");
       throw new ApiError(409, "Användarnamnet är redan upptaget.");
     }
+    // a caregiver starts with a family, so there is a code to give the children at once
+    if (kind === "caregiver") {
+      await run("INSERT INTO classes (name, code, teacher_id, created_at) VALUES (?, ?, ?, ?)", "Familjen " + displayName.trim().split(/\s+/).pop(), await newClassCode(), userId, nowIso());
+    }
     const token = await startSession(userId);
-    return [201, { user: publicUser(await userById(userId)), token }];
+    return [201, { user: publicUser(await withGuide(await userById(userId))), token }];
   }
 
   async function login() {
@@ -255,7 +298,7 @@ function createApi(env, request) {
     if (!ok) throw new ApiError(401, "Fel användarnamn eller lösenord.");
     await run("DELETE FROM rate_limits WHERE key = ?", userKey);
     const token = await startSession(user.id);
-    return [200, { user: publicUser(await userById(user.id)), token }];
+    return [200, { user: publicUser(await withGuide(await userById(user.id))), token }];
   }
 
   async function changePassword() {
@@ -436,7 +479,7 @@ function createApi(env, request) {
   }
 
   async function teacherChat() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const b = await readJson(request, 5000);
     const student = await studentOfTeacher(b.studentId, s.user.id);
     const text = str(b.text, 600).trim();
@@ -449,7 +492,7 @@ function createApi(env, request) {
   }
 
   async function teacherChatRead() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const b = await readJson(request, 2000);
     const student = await studentOfTeacher(b.studentId, s.user.id);
     await run("UPDATE chat SET read_at = ? WHERE student_id = ? AND teacher_id = ? AND from_teacher = 0 AND read_at IS NULL", nowIso(), student.id, s.user.id).catch(() => null);
@@ -457,7 +500,7 @@ function createApi(env, request) {
   }
 
   async function teacherChatUnread() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const r = await one("SELECT COUNT(*) AS n FROM chat WHERE teacher_id = ? AND from_teacher = 0 AND read_at IS NULL", s.user.id).catch(() => ({ n: 0 }));
     return [200, { unread: r.n }];
   }
@@ -535,7 +578,7 @@ function createApi(env, request) {
   }
 
   async function listClasses() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     return [200, { classes: (await all(
       "SELECT c.id, c.name, c.code, c.created_at, (SELECT COUNT(*) FROM users u WHERE u.class_id = c.id) AS students, " +
       "COALESCE((SELECT rewards FROM class_settings WHERE class_id = c.id), 1) AS rewards " +
@@ -543,7 +586,7 @@ function createApi(env, request) {
   }
 
   async function updateClass(id) {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const cls = await one("SELECT id FROM classes WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
     if (!cls) throw new ApiError(404, "Klassen finns inte.");
     const b = await readJson(request, 2000);
@@ -554,21 +597,41 @@ function createApi(env, request) {
   }
 
   async function createClass() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const b = await readJson(request, 2000);
     const name = str(b.name, 60).trim();
     if (!name) throw new ApiError(400, "Ge klassen ett namn.");
-    let code;
-    for (let i = 0; i < 10; i++) {
-      code = randomCode(6);
-      if (!(await one("SELECT 1 AS x FROM classes WHERE code = ?", code))) break;
-    }
+    if (s.user.caregiver && (await one("SELECT COUNT(*) AS n FROM classes WHERE teacher_id = ?", s.user.id)).n >= 1) throw new ApiError(400, "Du har redan en familj.");
+    const code = await newClassCode();
     const res = await run("INSERT INTO classes (name, code, teacher_id, created_at) VALUES (?, ?, ?, ?)", name, code, s.user.id, nowIso());
     return [201, { "class": { id: res.meta.last_row_id, name, code, students: 0 } }];
   }
 
+  // A guide makes the account of a child (a young child has no one else to do it): the name, a user name and a password.
+  async function createStudent() {
+    const s = await requireGuide();
+    const b = await readJson(request, 5000);
+    const cls = await one("SELECT id FROM classes WHERE id = ? AND teacher_id = ?", Number(b.classId), s.user.id);
+    if (!cls) throw new ApiError(400, "Välj en av dina klasser.");
+    const username = str(b.username, 40).trim();
+    const displayName = str(b.displayName, 80).trim();
+    if (!validUsername(username)) throw new ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
+    if (!displayName) throw new ApiError(400, "Ange namnet.");
+    checkPassword(b.password, username);
+    if (s.user.caregiver && (await one("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'", cls.id)).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+    if (await one("SELECT 1 AS x FROM users WHERE username = ?", username)) throw new ApiError(409, "Användarnamnet är redan upptaget.");
+    let id;
+    try {
+      id = (await run("INSERT INTO users (username, display_name, role, password_hash, class_id, created_at) VALUES (?, ?, 'student', ?, ?, ?)",
+        username, displayName, await hashPassword(b.password), cls.id, nowIso())).meta.last_row_id;
+    } catch (e) {
+      throw new ApiError(409, "Användarnamnet är redan upptaget.");
+    }
+    return [201, { student: { id: String(id), username, name: displayName, classId: cls.id } }];
+  }
+
   async function teacherStudents() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const [students, progressRows, attemptRows, feedbackRows, chatRows] = await Promise.all([
       all("SELECT u.id, u.username, u.display_name, u.created_at, u.class_id, c.name AS class_name FROM users u " +
         "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? AND u.role = 'student' ORDER BY u.display_name", s.user.id),
@@ -603,7 +666,7 @@ function createApi(env, request) {
 
   // ----- assignments and feedback (teacher) -----
   async function listAssignments() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const sql = (cols) => "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, " + cols + "a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
       "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
       "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id";
@@ -613,7 +676,7 @@ function createApi(env, request) {
   }
 
   async function createAssignment() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const b = await readJson(request, 5000);
     const cls = await one("SELECT * FROM classes WHERE id = ? AND teacher_id = ?", Number(b.classId), s.user.id);
     if (!cls) throw new ApiError(400, "Välj en av dina klasser.");
@@ -645,13 +708,13 @@ function createApi(env, request) {
   }
 
   async function archiveAssignment(id) {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     await run("UPDATE assignments SET archived = 1 WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
     return [200, { ok: true }];
   }
 
   async function createFeedback() {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const b = await readJson(request, 5000);
     const student = await studentOfTeacher(b.studentId, s.user.id);
     const text = str(b.text, 600).trim();
@@ -667,13 +730,13 @@ function createApi(env, request) {
   }
 
   async function removeFeedback(id) {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     await run("DELETE FROM feedback WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
     return [200, { ok: true }];
   }
 
   async function resetStudentPassword(studentId) {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const student = await studentOfTeacher(studentId, s.user.id);
     const temp = randomCode(10);
     await run("UPDATE users SET password_hash = ? WHERE id = ?", await hashPassword(temp), student.id);
@@ -701,7 +764,7 @@ function createApi(env, request) {
   }
 
   async function deleteStudent(studentId) {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const student = await studentOfTeacher(studentId, s.user.id);
     await db.batch(studentPurge("id = ?", student.id));
     return [200, { ok: true }];
@@ -709,7 +772,7 @@ function createApi(env, request) {
 
   // A class is removed together with all its students and their data (end of the school year).
   async function deleteClass(id) {
-    const s = await requireTeacher();
+    const s = await requireGuide();
     const cls = await one("SELECT id FROM classes WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
     if (!cls) throw new ApiError(404, "Klassen finns inte.");
     const count = await one("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'", cls.id);
@@ -753,7 +816,7 @@ function createApi(env, request) {
   async function handle(method, p) {
     let m;
     await housekeeping();
-    if (method === "GET" && p === "/api/me") { const s = await currentSession(); return [200, { user: s ? publicUser(s.user) : null }]; }
+    if (method === "GET" && p === "/api/me") { const s = await currentSession(); return [200, { user: s ? publicUser(await withGuide(s.user)) : null }]; }
     if (method === "POST" && p === "/api/register") return register();
     if (method === "POST" && p === "/api/login") return login();
     if (method === "POST" && p === "/api/logout") {
@@ -780,6 +843,7 @@ function createApi(env, request) {
     if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "PUT") return updateClass(m[1]);
     if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "DELETE") return deleteClass(m[1]);
     if (method === "GET" && p === "/api/teacher/students") return teacherStudents();
+    if (method === "POST" && p === "/api/teacher/students") return createStudent();
     if (method === "GET" && p === "/api/teacher/assignments") return listAssignments();
     if (method === "POST" && p === "/api/teacher/assignments") return createAssignment();
     if ((m = /^\/api\/teacher\/assignments\/(\d+)$/.exec(p)) && method === "DELETE") return archiveAssignment(m[1]);

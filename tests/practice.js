@@ -5,7 +5,10 @@ global.window = {};
 require(ROOT + "pyssel.js");
 const S = require(ROOT + "symbolic-math.js");
 require(ROOT + "practice.js");
+require(ROOT + "lesson-model.js");
+require(ROOT + "formats.js");
 const PR = window.GaussicaPractice;
+const FM = window.GaussicaFormats;
 const verbose = process.argv.includes("--samples");
 
 const idx = JSON.parse(fs.readFileSync(ROOT + "lessons/index.json", "utf8"));
@@ -24,7 +27,9 @@ idx.lessons.forEach((f) => {
     if (ids.has(t.id)) bad(where, "duplicate template id"); ids.add(t.id);
     if (!/^[A-Za-z0-9_-]+$/.test(t.id)) bad(where, "template id has odd characters");
     (t.for || []).forEach((k) => {
-      const ok = k === "exercise" || /^match-\d+$/.test(k) || /^sf-\d+$/.test(k) || /^word-\d+$/.test(k) && Number(k.slice(5)) < (lesson.wordProblems || []).length + 1;
+      const isFormat = /^(so|or|hf|lt)-\d+$/.test(k);
+      const ok = k === "exercise" || /^match-\d+$/.test(k) || /^sf-\d+$/.test(k) || isFormat || /^word-\d+$/.test(k) && Number(k.slice(5)) < (lesson.wordProblems || []).length + 1;
+      if (isFormat && !window.GaussicaLesson.tasks(lesson).some((x) => x.id === k)) bad(where, "for: " + k + " is not a task of the lesson");
       if (!ok) bad(where, "for: unknown task " + k);
     });
     const prompts = new Set();
@@ -35,7 +40,13 @@ idx.lessons.forEach((f) => {
       if (!q) { fails++; continue; }
       generated++;
       const p = q.problem;
-      prompts.add(p.prompt + JSON.stringify(p.visual || "") + JSON.stringify(p.pairs || "") + JSON.stringify(p.statements || ""));
+      prompts.add(p.prompt + JSON.stringify(p.visual || "") + JSON.stringify(p.pairs || "") + JSON.stringify(p.statements || "") + JSON.stringify([p.items, p.steps, p.text, p.blanks]));
+      if (p.format) {
+        // a question in one of the new formats: it is a component like the ones in the lessons, and has to be a good one
+        FM.problems(Object.assign({}, p, { type: p.format })).forEach((m) => bad(where, p.format + ": " + m));
+        const shown = [p.items, p.steps, p.text, p.blanks, p.categories, p.explain, p.fix].filter((x) => x !== undefined).map((x) => JSON.stringify(x)).join(" ");
+        if (/NaN|undefined|Infinity|\[\[|\]\]|[$]/.test(shown.replace(/\[\[\{/g, "[{").replace(/\}\]\]/g, "}]"))) { bad(where, "unresolved text in a " + p.format + " question"); break; }
+      }
       if (p.statements) {
         // a true/false round: every statement has text and a true or false answer, and no text is left unresolved
         if (!p.statements.length || p.statements.some((s) => !String(s.text || "").trim() || typeof s.answer !== "boolean")) { bad(where, "a statement without text or a true/false answer"); break; }

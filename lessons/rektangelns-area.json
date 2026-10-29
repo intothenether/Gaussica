@@ -27,38 +27,182 @@
   "practice": [
     {
       "id": "area",
-      "for": ["exercise"],
-      "vars": {"l":[4,15],"b":[2,9]},
-      "where": [{"expr":"l-b","min":1}],
-      "derive": [{"name":"p","expr":"l*b"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "l": [
+          4,
+          15
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "l-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "l*b"
+        }
+      ],
       "prompt": "Rektangeln är {l} cm lång och {b} cm bred. Vad är arean i cm²?",
-      "visual": {"type":"rektangel","w":"=l","h":"=b","unit":"cm","grid":true},
-      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "visual": {
+        "type": "rektangel",
+        "w": "=l",
+        "h": "=b",
+        "unit": "cm",
+        "grid": true
+      },
+      "answer": [
+        "=p",
+        "{p} cm2",
+        "{p}cm2",
+        "{p} cm²",
+        "{p}cm²"
+      ],
       "correct": "Rätt! {l} · {b} = {p} cm².",
-      "feedback": [{"answers":["=l+b","=2*(l+b)"],"message":"Det är en längd. Arean är längd gånger bredd."}]
+      "feedback": [
+        {
+          "answers": [
+            "=l+b",
+            "=2*(l+b)"
+          ],
+          "message": "Det är en längd. Arean är längd gånger bredd."
+        }
+      ]
     },
     {
       "id": "rum",
-      "for": ["word-0"],
-      "vars": {"l":[3,9],"b":[2,7]},
-      "derive": [{"name":"p","expr":"l*b"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "l": [
+          3,
+          9
+        ],
+        "b": [
+          2,
+          7
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "l*b"
+        }
+      ],
       "prompt": "Ett rum är {l} m långt och {b} m brett. Hur stor är golvytan i m²?",
-      "answer": ["=p","{p} m2","{p}m2","{p} m²","{p}m²"],
+      "answer": [
+        "=p",
+        "{p} m2",
+        "{p}m2",
+        "{p} m²",
+        "{p}m²"
+      ],
       "correct": "Rätt! {l} · {b} = {p} m².",
-      "feedback": [{"answers":["=2*(l+b)"],"message":"Det är omkretsen. Golvytan är längd gånger bredd."}]
+      "feedback": [
+        {
+          "answers": [
+            "=2*(l+b)"
+          ],
+          "message": "Det är omkretsen. Golvytan är längd gånger bredd."
+        }
+      ]
     },
     {
       "id": "saknad-bredd",
-      "for": ["word-1"],
-      "vars": {"l":[4,12],"b":[2,9]},
-      "where": [{"expr":"l-b","min":1}],
-      "derive": [{"name":"a","expr":"l*b"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "l": [
+          4,
+          12
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "l-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "a",
+          "expr": "l*b"
+        }
+      ],
       "prompt": "En rektangel har arean {a} cm² och längden {l} cm. Hur bred är den?",
-      "answer": ["=b","{b} cm","{b}cm"],
+      "answer": [
+        "=b",
+        "{b} cm",
+        "{b}cm"
+      ],
       "correct": "Rätt! {a}/{l} = {b} cm.",
       "feedback": [
-        {"answers":["=a-l"],"message":"Arean är längd gånger bredd, så du ska dela {a} med {l}."},
-        {"answers":["=a*l"],"message":"Gör tvärtom mot multiplikation: dela {a} med {l}."}
+        {
+          "answers": [
+            "=a-l"
+          ],
+          "message": "Arean är längd gånger bredd, så du ska dela {a} med {l}."
+        },
+        {
+          "answers": [
+            "=a*l"
+          ],
+          "message": "Gör tvärtom mot multiplikation: dela {a} med {l}."
+        }
+      ]
+    },
+    {
+      "id": "luckor-rektangel",
+      "for": [
+        "lt-0"
+      ],
+      "mode": "lucktext",
+      "vars": {
+        "l": [
+          3,
+          9
+        ],
+        "b": [
+          2,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "l-b",
+          "min": 1
+        }
+      ],
+      "prompt": "Räkna ut och fyll i luckorna.",
+      "text": "En rektangel är {l} cm lång och {b} cm bred. Arean är [[1]] cm² och omkretsen är [[2]] cm.",
+      "blanks": [
+        {
+          "answer": [
+            "=l*b"
+          ],
+          "hint": "Arean är längden gånger bredden."
+        },
+        {
+          "answer": [
+            "=2*(l+b)"
+          ],
+          "hint": "Omkretsen är alla sidor tillsammans."
+        }
       ]
     }
   ],
@@ -86,7 +230,16 @@
       ]
     }
   ],
-  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
+  "layout": [
+    "explanation",
+    "visual",
+    "rule",
+    "exercise",
+    "comp:0",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
   "exercise": {
     "prompt": "Rektangeln är 9 cm lång och 4 cm bred. Vad är arean i cm²?",
     "answer": [

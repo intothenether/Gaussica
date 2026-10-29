@@ -504,7 +504,7 @@ window.GaussicaPet = (function () {
       }
       if (a.sleep) s.classList.add("is-sleeping");
       if (a.thought) {
-        s.insertAdjacentHTML("beforeend", '<g class="pet-thought"><circle cx="128" cy="62" r="3" fill="#fff" stroke="#c9d3e6" stroke-width="1.6"/><circle cx="134" cy="54" r="4.5" fill="#fff" stroke="#c9d3e6" stroke-width="1.6"/>' +
+        s.insertAdjacentHTML("beforeend", '<g class="pet-thought" aria-hidden="true"><circle cx="128" cy="62" r="3" fill="#fff" stroke="#c9d3e6" stroke-width="1.6"/><circle cx="134" cy="54" r="4.5" fill="#fff" stroke="#c9d3e6" stroke-width="1.6"/>' +
           '<rect x="130" y="22" width="52" height="30" rx="15" fill="#fff" stroke="#c9d3e6" stroke-width="2"/><text x="156" y="43" text-anchor="middle" font-size="' + (a.thought.length > 3 ? 14 : 18) + '" font-weight="800" fill="#6b7893" font-family="Nunito, Arial, sans-serif">' + a.thought + '</text></g>');
       }
       if (onSay) onSay(a.say[Math.floor(Math.random() * a.say.length)]);
@@ -529,16 +529,25 @@ window.GaussicaPet = (function () {
 
   // The pet is happy for a moment and does what the reaction says (see reactionFor): jumps for petting, shows off a hat, chews a treat,
   // hops with a toy, looks around a new place. fx is an extra thing in the picture (a treat, a toy) that moves by itself.
+  // A button that is the pet has the name "Klappa <name>", and the picture in it has texts (a thought, sparks, the symbol on a hat) that are not
+  // part of that name: the picture is hidden from the screen reader.
+  function hideArt(host) {
+    const s = host.getAttribute("aria-label") ? host.querySelector("svg") : null;
+    if (s) s.setAttribute("aria-hidden", "true");
+  }
+
   function cheer(host, pet, fx, reaction) {
     if (!host || host.dataset.cheering) return;
     host.dataset.cheering = "1";
     host.innerHTML = Art().svg(pet, { mood: "happy" });
+    hideArt(host);
     const s = host.querySelector(".pet-svg");
     if (s && reaction && reaction.how) s.classList.add("react-" + reaction.how);
     if (fx) host.appendChild(fx);
     if (reaction && reaction.hearts) host.appendChild(hearts());
     setTimeout(function () {
       host.innerHTML = Art().svg(pet);
+      hideArt(host);
       delete host.dataset.cheering;
     }, reduced() ? 900 : fx ? 2600 : reaction && reaction.how === "pose" ? 1600 : 1800);
   }
@@ -633,24 +642,35 @@ window.GaussicaPet = (function () {
   }
 
   // ----- dialogs -----
-  function closeOverlay() {
+  // The room of the pet is a dialog: the focus moves into it when it opens, and goes back to what opened it when it closes.
+  let overlayOpener = null;
+  function closeOverlay(keepFocusPlace) {
     const o = document.getElementById("pet-overlay");
     if (o) o.remove();
+    if (keepFocusPlace === true) return;
+    const back = overlayOpener;
+    overlayOpener = null;
+    if (back && back.isConnected && typeof back.focus === "function") back.focus({ preventScroll: true });
   }
 
   function overlay(label, build) {
-    closeOverlay();
+    const was = document.getElementById("pet-overlay");
+    const opener = was ? overlayOpener : document.activeElement;   // one overlay replacing another keeps the first place to go back to
+    closeOverlay(true);
+    overlayOpener = opener && opener !== document.body ? opener : null;
     const o = el("div", "pv-overlay pet-overlay");
     o.id = "pet-overlay";
     const panel = el("div", "pv-card pet-panel");
     panel.setAttribute("role", "dialog");
     panel.setAttribute("aria-modal", "true");
     panel.setAttribute("aria-label", label);
+    panel.tabIndex = -1;
     o.appendChild(panel);
     build(panel);
     o.addEventListener("click", function (e) { if (e.target === o) closeOverlay(); });
     o.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closeOverlay(); } });
     document.body.appendChild(o);
+    panel.focus({ preventScroll: true });
     return o;
   }
 
@@ -750,6 +770,7 @@ window.GaussicaPet = (function () {
         stage.type = "button";
         stage.setAttribute("aria-label", "Klappa " + pet.name);
         stage.innerHTML = Art().svg(view);
+        hideArt(stage);
         stage.addEventListener("click", function () {
           const r = pat();
           cheer(stage, view, null, r.reaction);
@@ -1106,6 +1127,7 @@ window.GaussicaPet = (function () {
     stage.type = "button";
     stage.setAttribute("aria-label", "Klappa " + pet.name);
     stage.innerHTML = Art().svg(pet);
+    hideArt(stage);
     const copy = el("div", "pet-card-copy");
     const bubble = el("p", "pet-bubble", speech(pet, fresh, bal));
     const said0 = bubble.textContent;
@@ -1152,6 +1174,7 @@ window.GaussicaPet = (function () {
     stage.type = "button";
     stage.setAttribute("aria-label", "Klappa " + pet.name);
     stage.innerHTML = Art().svg(pet);
+    hideArt(stage);
     const row = el("div", "hp-row");
     const coins = el("span", "pet-coins-chip");
     coins.append(el("span", "coin-icon"), el("b", "", String(bal)));
@@ -1252,12 +1275,10 @@ window.GaussicaPet = (function () {
       s.style.setProperty("--gy", gy + "px");
     };
     if (kind === "hero") {
-      const c = Art().colorOf(pet.kind, pet.color);
       const box = el("span", "hs-peek");
       box.setAttribute("aria-hidden", "true");
       const arm = el("span", "hs-arm");
-      arm.style.setProperty("--arm", c.body);
-      arm.style.setProperty("--arm-dark", c.dark);
+      arm.innerHTML = Art().pointer(pet.kind, pet.color);   // a paw, a hoof, a claw, a flipper or a wing, depending on the animal
       const head = el("span", "hs-peek-head");
       head.innerHTML = Art().face(pet, "", { crop: PEEK_CROP });
       look(head, -3.2, 1.4);   // looks at the button, to its left

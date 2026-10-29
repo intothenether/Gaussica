@@ -813,6 +813,18 @@ window.InteractiveEditor = (function () {
       case "santfalskt":
         santfalsktForm(form, c);
         break;
+      case "sortera":
+        sorteraForm(form, c);
+        break;
+      case "ordna":
+        ordnaForm(form, c);
+        break;
+      case "hittafelet":
+        hittafeletForm(form, c);
+        break;
+      case "lucktext":
+        lucktextForm(form, c);
+        break;
       default:
         jsonForm(form, () => b.data, v => { b.data = v; },
           window.GaussicaLesson.isTool(b.data)
@@ -895,6 +907,183 @@ window.InteractiveEditor = (function () {
       draw(); changed();
     }));
     form.appendChild(fs);
+  }
+
+  // ----- the new formats (see formats.js): one form for each -----
+  // A text input that edits a place in a list: list[i].
+  function listText(list, i, placeholder) {
+    const input = el("input"); input.type = "text";
+    if (placeholder) input.placeholder = placeholder;
+    return bind(input, () => list[i] === undefined ? "" : list[i], v => { list[i] = v; });
+  }
+
+  // The list of things that are wrong with the task, shown under the form and updated as it is edited.
+  function problemsBox(form, c) {
+    const box = el("div", "le-problems");
+    const draw = () => {
+      box.replaceChildren();
+      const list = window.GaussicaFormats ? window.GaussicaFormats.problems(c) : [];
+      if (!list.length) { box.appendChild(el("p", "le-ok", "✓ Uppgiften ser bra ut.")); return; }
+      box.appendChild(el("p", "le-hint", "Det här behöver fixas innan uppgiften går att använda:"));
+      const ul = el("ul");
+      list.forEach(p => ul.appendChild(el("li", "", p.charAt(0).toUpperCase() + p.slice(1) + ".")));
+      box.appendChild(ul);
+    };
+    draw();
+    form.addEventListener("input", draw);
+    form.addEventListener("change", draw);
+    form.addEventListener("click", () => setTimeout(draw, 0));
+    form.appendChild(box);
+  }
+
+  function moveButtons(list, i, draw) {
+    const up = button("▲", "le-btn le-btn-small", () => { if (i > 0) { [list[i - 1], list[i]] = [list[i], list[i - 1]]; draw(); changed(); } }, "Flytta upp");
+    const down = button("▼", "le-btn le-btn-small", () => { if (i < list.length - 1) { [list[i + 1], list[i]] = [list[i], list[i + 1]]; draw(); changed(); } }, "Flytta ned");
+    return [up, down];
+  }
+
+  function sorteraForm(form, c) {
+    if (!Array.isArray(c.categories)) c.categories = ["", ""];
+    if (!Array.isArray(c.items)) c.items = [];
+    form.appendChild(field("Uppmaning", areaInput(c, "prompt", 2), "Till exempel \"Sortera talen: är de jämna eller udda?\"."));
+    const mix = el("label", "le-check");
+    const cb = el("input"); cb.type = "checkbox"; cb.checked = c.shuffle !== false;
+    cb.addEventListener("change", () => { if (cb.checked) delete c.shuffle; else c.shuffle = false; changed(); });
+    mix.append(cb, el("span", "", "Blanda sakerna för varje elev"));
+    form.appendChild(mix);
+
+    const groups = el("fieldset", "le-fieldset");
+    groups.appendChild(el("legend", "", "Grupper (två till fyra)"));
+    const groupRows = el("div", "le-mistakes");
+    const items = el("fieldset", "le-fieldset");
+    items.appendChild(el("legend", "", "Saker som ska sorteras"));
+    items.appendChild(el("p", "le-hint", "Eleven väljer en grupp för varje sak och trycker Kolla svaret. Förklaringen visas när allt är rätt. Ha minst två saker i varje grupp."));
+    const itemRows = el("div", "le-mistakes");
+    const drawItems = () => {
+      itemRows.replaceChildren();
+      c.items.forEach((it, i) => {
+        const box = el("div", "le-mistake");
+        box.append(
+          field("Sak", textInput(it, "text")),
+          field("Hör till", selectInput(c.categories.map((g, k) => ({ value: String(k), label: g || "Grupp " + (k + 1) })), () => String(typeof it.category === "number" ? it.category : c.categories.indexOf(it.category)), v => { it.category = Number(v); })),
+          field("Förklaring (valfri)", textInput(it, "explain")),
+          button("Ta bort", "le-btn le-btn-small le-btn-danger", () => { c.items.splice(i, 1); drawItems(); changed(); }));
+        itemRows.appendChild(box);
+      });
+    };
+    const drawGroups = () => {
+      groupRows.replaceChildren();
+      c.categories.forEach((g, i) => {
+        const row = el("div", "le-mistake");
+        row.appendChild(field("Grupp " + (i + 1), listText(c.categories, i, "T.ex. Jämna")));
+        if (c.categories.length > 2) row.appendChild(button("Ta bort", "le-btn le-btn-small le-btn-danger", () => {
+          c.categories.splice(i, 1);
+          c.items.forEach(it => { const k = typeof it.category === "number" ? it.category : -1; it.category = k === i ? 0 : k > i ? k - 1 : k; });
+          drawGroups(); drawItems(); changed();
+        }));
+        groupRows.appendChild(row);
+      });
+    };
+    groupRows.addEventListener("change", drawItems);   // the names of the groups are in the lists of the things
+    drawGroups(); drawItems();
+    groups.appendChild(groupRows);
+    if (c.categories.length < 4) groups.appendChild(button("+ Lägg till grupp", "le-btn le-btn-small", () => { c.categories.push(""); drawGroups(); drawItems(); changed(); }));
+    items.appendChild(itemRows);
+    items.appendChild(button("+ Lägg till sak", "le-btn le-btn-small", () => { c.items.push({ text: "", category: 0 }); drawItems(); changed(); }));
+    form.append(groups, items);
+    problemsBox(form, c);
+  }
+
+  function ordnaForm(form, c) {
+    if (!Array.isArray(c.items)) c.items = [];
+    form.appendChild(field("Uppmaning", areaInput(c, "prompt", 2), "Till exempel \"Sätt talen i ordning, det minsta först.\"."));
+    form.appendChild(row2(field("Överst står", textInput(c, "top", "T.ex. Minst"), "Valfritt. Visas i hjälptexten."), field("Underst står", textInput(c, "bottom", "T.ex. Störst"))));
+    const fs = el("fieldset", "le-fieldset");
+    fs.appendChild(el("legend", "", "Sakerna, i RÄTT ordning"));
+    fs.appendChild(el("p", "le-hint", "Skriv sakerna i den ordning som är rätt. Eleven får dem blandade och flyttar dem med pilarna. Tre till åtta saker, och inga två lika."));
+    const rows = el("div", "le-mistakes");
+    const draw = () => {
+      rows.replaceChildren();
+      c.items.forEach((it, i) => {
+        const box = el("div", "le-mistake");
+        box.append(field((i + 1) + ".", listText(c.items, i)));
+        const [up, down] = moveButtons(c.items, i, draw);
+        box.append(up, down, button("Ta bort", "le-btn le-btn-small le-btn-danger", () => { c.items.splice(i, 1); draw(); changed(); }));
+        rows.appendChild(box);
+      });
+    };
+    draw();
+    fs.append(rows, button("+ Lägg till sak", "le-btn le-btn-small", () => { if (c.items.length < 8) { c.items.push(""); draw(); changed(); } }));
+    form.appendChild(fs);
+    problemsBox(form, c);
+  }
+
+  function hittafeletForm(form, c) {
+    hittafeletForm.count = (hittafeletForm.count || 0) + 1;   // the radio buttons of one task are a group of their own
+    const groupId = hittafeletForm.count;
+    if (!Array.isArray(c.steps)) c.steps = [];
+    if (!Number.isInteger(c.wrong)) c.wrong = 0;
+    form.appendChild(field("Uppmaning", areaInput(c, "prompt", 2), "Till exempel \"Här har någon löst 3x + 2 = 14. Vilket steg är fel?\"."));
+    const fs = el("fieldset", "le-fieldset");
+    fs.appendChild(el("legend", "", "Stegen i lösningen"));
+    fs.appendChild(el("p", "le-hint", "Skriv lösningen steg för steg, med ett steg som är fel. Markera vilket. Eleven pekar ut det felaktiga steget, och efter andra försöket visas tipset. Tre till åtta steg."));
+    const rows = el("div", "le-mistakes");
+    const draw = () => {
+      rows.replaceChildren();
+      c.steps.forEach((s, i) => {
+        const box = el("div", "le-mistake");
+        const radio = el("label", "le-check");
+        const r = el("input"); r.type = "radio"; r.name = "hf-wrong-" + groupId; r.checked = c.wrong === i;
+        r.addEventListener("change", () => { c.wrong = i; changed(); });
+        radio.append(r, el("span", "", "Det här steget är fel"));
+        box.append(field("Steg " + (i + 1), listText(c.steps, i)), radio,
+          button("Ta bort", "le-btn le-btn-small le-btn-danger", () => { c.steps.splice(i, 1); if (c.wrong > i) c.wrong -= 1; else if (c.wrong === i) c.wrong = 0; draw(); changed(); }));
+        rows.appendChild(box);
+      });
+    };
+    draw();
+    fs.append(rows, button("+ Lägg till steg", "le-btn le-btn-small", () => { if (c.steps.length < 8) { c.steps.push(""); draw(); changed(); } }));
+    form.appendChild(fs);
+    form.append(
+      field("Förklaring av felet", areaInput(c, "explain", 2), "Visas när eleven har hittat felet. Säg vad som är fel och varför."),
+      field("Så blir det rätt (valfritt)", textInput(c, "fix", "T.ex. 3x = 12 och x = 4")),
+      field("Tips efter andra försöket (valfritt)", textInput(c, "hint", "T.ex. Titta på vad som händer med 2:an.")));
+    problemsBox(form, c);
+  }
+
+  function lucktextForm(form, c) {
+    if (!Array.isArray(c.blanks)) c.blanks = [];
+    form.appendChild(field("Uppmaning", areaInput(c, "prompt", 2), "Till exempel \"Fyll i luckorna.\"."));
+    const textArea = areaInput(c, "text", 3, "En vecka har {1} dagar.");
+    form.appendChild(field("Texten", textArea, "Skriv {1}, {2} ... där luckorna ska vara, i den ordning de står i listan nedan."));
+    const fs = el("fieldset", "le-fieldset");
+    fs.appendChild(el("legend", "", "Luckorna"));
+    fs.appendChild(el("p", "le-hint", "Skriv rätt svar. Flera svar skiljs med komma, till exempel 7, sju. Versaler och mellanslag spelar ingen roll. Skriver du val blir luckan en lista att välja i."));
+    const rows = el("div", "le-mistakes");
+    const csv = (list, key, placeholder) => {
+      const input = el("input"); input.type = "text"; if (placeholder) input.placeholder = placeholder;
+      return bind(input, () => (list[key] || []).join(", "), v => { const parts = v.split(",").map(x => x.trim()).filter(Boolean); if (parts.length || key === "answer") list[key] = parts; else delete list[key]; });
+    };
+    const draw = () => {
+      rows.replaceChildren();
+      c.blanks.forEach((b, i) => {
+        const box = el("div", "le-mistake");
+        box.append(
+          field("Lucka {" + (i + 1) + "}: rätt svar", csv(b, "answer", "7, sju")),
+          field("Val (valfritt, med komma)", csv(b, "options", "plus, minus, gånger")),
+          field("Tips efter andra försöket (valfritt)", textInput(b, "hint")),
+          button("Ta bort", "le-btn le-btn-small le-btn-danger", () => { c.blanks.splice(i, 1); draw(); changed(); }));
+        rows.appendChild(box);
+      });
+    };
+    draw();
+    fs.append(rows, button("+ Lägg till lucka", "le-btn le-btn-small", () => {
+      c.blanks.push({ answer: [] });
+      c.text = (c.text || "") + (c.text && !/\s$/.test(c.text) ? " " : "") + "{" + c.blanks.length + "}";   // the gap is put in the text too
+      draw(); textArea.value = c.text; changed();
+    }));
+    form.appendChild(fs);
+    problemsBox(form, c);
   }
 
   function lcfirst(t) { return t ? t.charAt(0).toLowerCase() + t.slice(1) : t; }
@@ -1006,6 +1195,8 @@ window.InteractiveEditor = (function () {
       if (b.kind === "component") {
         if (b.data.type === "koppla") out.push({ id: "match-" + comp, label: "Para ihop: " + clip(b.data.prompt) });
         if (b.data.type === "santfalskt") out.push({ id: "sf-" + comp, label: "Sant eller falskt: " + clip(b.data.prompt) });
+        const F = window.GaussicaLesson.FORMATS && window.GaussicaLesson.FORMATS[b.data.type];
+        if (F) out.push({ id: F.prefix + "-" + comp, label: F.name + ": " + clip(b.data.prompt) });
         comp += 1;
       }
     });
@@ -1344,6 +1535,25 @@ window.InteractiveEditor = (function () {
             if (s.explain && s.explain.trim()) o.explain = s.explain.trim();
             return o;
           });
+        }
+        if (window.GaussicaLesson.FORMATS && window.GaussicaLesson.FORMATS[copy.type]) {
+          const text = x => typeof x === "string" ? x.trim() : x;
+          if (copy.type === "sortera") {
+            copy.categories = (copy.categories || []).map(text);
+            copy.items = (copy.items || []).filter(it => it && String(it.text || "").trim()).map(it => { const o = { text: it.text.trim(), category: it.category }; if (it.explain && it.explain.trim()) o.explain = it.explain.trim(); return o; });
+          }
+          if (copy.type === "ordna") {
+            copy.items = (copy.items || []).map(text).filter(Boolean);
+            ["top", "bottom"].forEach(k => { if (!copy[k] || !String(copy[k]).trim()) delete copy[k]; });
+          }
+          if (copy.type === "hittafelet") {
+            copy.steps = (copy.steps || []).map(text);
+            ["fix", "hint"].forEach(k => { if (!copy[k] || !String(copy[k]).trim()) delete copy[k]; });
+          }
+          if (copy.type === "lucktext") {
+            copy.blanks = (copy.blanks || []).map(b => { const o = { answer: (b.answer || []).map(text).filter(Boolean) }; if (b.options && b.options.length) o.options = b.options.map(text).filter(Boolean); if (b.hint && b.hint.trim()) o.hint = b.hint.trim(); return o; });
+          }
+          if (!copy.correct || !String(copy.correct).trim()) delete copy.correct;
         }
         if (copy.type === "koppla") copy.pairs = (copy.pairs || []).filter(p => p.term && p.term.trim() && p.definition && p.definition.trim());
         if (copy.type === "begreppskort") {

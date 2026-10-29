@@ -180,7 +180,7 @@ window.GaussicaJourney = (function () {
     const sky = SKIES[area.id] || SKIES.tal;
     const pts = points(stops.length || 1);
     const road = roadPath(pts);
-    let s = '<svg class="jn-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (area.place + ": en väg med " + stops.length + " stopp").replace(/[<>&"]/g, "") + '" xmlns="http://www.w3.org/2000/svg">' +
+    let s = '<svg class="jn-svg" viewBox="0 0 ' + W + ' ' + H + '" role="group" aria-label="' + (area.place + ": en väg med " + stops.length + " stopp").replace(/[<>&"]/g, "") + '" xmlns="http://www.w3.org/2000/svg">' +
       '<defs><linearGradient id="' + id + '-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + sky[0] + '"/><stop offset="1" stop-color="' + sky[1] + '"/></linearGradient>' +
       '<clipPath id="' + id + '-clip"><rect width="' + W + '" height="' + H + '" rx="22"/></clipPath></defs><g clip-path="url(#' + id + '-clip)">' +
       (SCENES[area.id] || meadow)(id) +

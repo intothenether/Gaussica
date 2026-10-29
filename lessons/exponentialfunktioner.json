@@ -12,40 +12,68 @@
   "summary": "I y = C · a^x är C startvärdet och a förändringsfaktorn. Är a större än 1 växer funktionen, är a mellan 0 och 1 avtar den.",
   "explanationTitle": "När multiplikationen upprepas",
   "explanation": "Problemet: En bakterie delar sig i två varje timme. Efter 1 timme är det 2, efter 2 timmar 4 och efter 3 timmar 8. Antalet växer allt snabbare, och efter 10 timmar är det 1024. En rät linje, y = k · x + m, växer lika mycket varje gång, men här är det multiplikation som upprepas. Sådana samband skrivs y = C · a^x. C är startvärdet, a är förändringsfaktorn och x är antalet steg. Fördubbling ger a = 2. En ökning med 5 % per år ger a = 1,05, och en minskning med 5 % per år ger a = 0,95. Är a större än 1 växer funktionen, och är a mellan 0 och 1 avtar den. Funktionen kallas exponentialfunktion eftersom x står i exponenten.",
-  "visual": {
-    "type": "tabell",
-    "title": "Bakterier som fördubblas varje timme: y = 1 · 2^x",
-    "headers": [
-      "Timmar x",
-      "Antal y"
-    ],
-    "rows": [
-      [
-        "0",
-        "1"
+  "visuals": [
+    {
+      "type": "graf",
+      "title": "y = 2^x växer allt snabbare, y = 0,5^x avtar",
+      "xmin": -3,
+      "xmax": 5,
+      "ymin": -1,
+      "ymax": 12,
+      "curves": [
+        {
+          "fn": "2^x",
+          "label": "y = 2^x"
+        },
+        {
+          "fn": "0.5^x",
+          "label": "y = 0,5^x",
+          "tone": "brand"
+        }
       ],
-      [
-        "1",
-        "2"
-      ],
-      [
-        "2",
-        "4"
-      ],
-      [
-        "3",
-        "8"
-      ],
-      [
-        "4",
-        "16"
-      ],
-      [
-        "5",
-        "32"
+      "points": [
+        {
+          "x": 0,
+          "y": 1,
+          "label": "(0, 1)"
+        }
       ]
-    ]
-  },
+    },
+    {
+      "type": "tabell",
+      "title": "Bakterier som fördubblas varje timme: y = 1 · 2^x",
+      "headers": [
+        "Timmar x",
+        "Antal y"
+      ],
+      "rows": [
+        [
+          "0",
+          "1"
+        ],
+        [
+          "1",
+          "2"
+        ],
+        [
+          "2",
+          "4"
+        ],
+        [
+          "3",
+          "8"
+        ],
+        [
+          "4",
+          "16"
+        ],
+        [
+          "5",
+          "32"
+        ]
+      ]
+    }
+  ],
   "rule": "y = C · a^x. C är startvärdet. Förändringsfaktorn är a = 1 + p delat med 100 vid en ökning med p %, och a = 1 − p delat med 100 vid en minskning med p %.",
   "ruleLabel": "EXPONENTIALFUNKTION",
   "example": "1000 kr ökar med 10 % per år: y = 1000 · 1,1^x. Efter 2 år är det 1000 · 1,1^2 = 1000 · 1,21 = 1210 kr.",

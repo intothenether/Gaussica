@@ -5,7 +5,10 @@
   "level": "Tänk med okända tal · ungefär åk 6–9",
   "grade": 7,
   "duration": "6 min",
-  "prerequisites": ["rakneordning", "uttryck-med-x"],
+  "prerequisites": [
+    "rakneordning",
+    "uttryck-med-x"
+  ],
   "summary": "En ekvation är en balans. Det du gör på ena sidan måste du också göra på den andra.",
   "explanationTitle": "Likhetstecknet betyder samma värde",
   "explanation": "Problemet: Med x + 3 = 10 kunde vi räkna baklänges. Men vad gör du med 3x + 2 = 14, där x ingår i flera steg? Att pröva sig fram tar lång tid. Vi behöver en metod som alltid fungerar. Den utgår från att båda sidor väger lika. Ekvationen 3x + 2 = 14 säger att vänster och höger sida väger lika. Börja med att ta bort 2 från båda sidor. Dela sedan båda sidor med 3 för att hitta x.",
@@ -15,42 +18,217 @@
   "practice": [
     {
       "id": "ax-plus-b",
-      "for": ["exercise"],
-      "vars": {"a":[2,6],"x":[1,12],"b":[1,15]},
-      "derive": [{"name":"s","expr":"a*x+b"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "x": [
+          1,
+          12
+        ],
+        "b": [
+          1,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a*x+b"
+        }
+      ],
       "prompt": "Lös ekvationen: {a}x + {b} = {s}. Vad är x?",
-      "answer": ["=x","x={x}","x = {x}"],
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
       "correct": "Rätt! {s} − {b} = {s-b}, och {s-b}/{a} = {x}.",
       "feedback": [
         {
-          "answers": ["=s-b"],
+          "answers": [
+            "=s-b"
+          ],
           "message": "Du tog bort {b} och fick {s-b}. Bra! Men {a}x är {s-b}, så dela med {a}."
         },
-        {"answers":["=s+b"],"message":"Gör tvärtom: ta bort {b} från båda sidor."}
+        {
+          "answers": [
+            "=s+b"
+          ],
+          "message": "Gör tvärtom: ta bort {b} från båda sidor."
+        }
       ]
     },
     {
       "id": "ax-minus-b",
-      "for": ["exercise"],
-      "vars": {"a":[2,6],"x":[2,12],"b":[1,9]},
-      "where": [{"expr":"a*x-b","min":1}],
-      "derive": [{"name":"s","expr":"a*x-b"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "x": [
+          2,
+          12
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "a*x-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a*x-b"
+        }
+      ],
       "prompt": "Lös ekvationen: {a}x − {b} = {s}. Vad är x?",
-      "answer": ["=x","x={x}","x = {x}"],
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
       "correct": "Rätt! {s} + {b} = {s+b}, och {s+b}/{a} = {x}.",
-      "feedback": [{"answers":["=s-b"],"message":"Gör tvärtom mot minus: lägg till {b} på båda sidor först."}]
+      "feedback": [
+        {
+          "answers": [
+            "=s-b"
+          ],
+          "message": "Gör tvärtom mot minus: lägg till {b} på båda sidor först."
+        }
+      ]
     },
     {
       "id": "bocker",
-      "for": ["word-1"],
-      "vars": {"a":[2,5],"x":[4,15],"b":[3,12]},
-      "derive": [{"name":"s","expr":"a*x+b"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          5
+        ],
+        "x": [
+          4,
+          15
+        ],
+        "b": [
+          3,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a*x+b"
+        }
+      ],
       "prompt": "{a} likadana böcker och ett radergummi för {b} kr kostar tillsammans {s} kr. Vad kostar en bok?",
-      "answer": ["=x","{x} kr"],
+      "answer": [
+        "=x",
+        "{x} kr"
+      ],
       "correct": "Rätt! {s} − {b} = {s-b} kr, och {s-b}/{a} = {x} kr.",
       "feedback": [
-        {"answers":["=s-b"],"message":"{s-b} kr är priset för alla böckerna tillsammans. Dela med {a}."},
-        {"answers":["=s/a"],"message":"Radergummit ska också dras bort först."}
+        {
+          "answers": [
+            "=s-b"
+          ],
+          "message": "{s-b} kr är priset för alla böckerna tillsammans. Dela med {a}."
+        },
+        {
+          "answers": [
+            "=s/a"
+          ],
+          "message": "Radergummit ska också dras bort först."
+        }
+      ]
+    },
+    {
+      "id": "hitta-felet-ekvation",
+      "for": [
+        "hf-0"
+      ],
+      "mode": "hittafelet",
+      "prompt": "Här har någon löst en ekvation. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Här har någon löst 3x + 2 = 14. Vilket steg är fel?",
+          "steps": [
+            "3x + 2 = 14",
+            "3x = 14 + 2",
+            "3x = 16",
+            "x = 16/3"
+          ],
+          "wrong": 1,
+          "explain": "När du tar bort 2 från vänster sida måste du ta bort 2 från höger sida också: 14 − 2, inte 14 + 2.",
+          "fix": "3x = 12 och x = 4",
+          "hint": "Vad gör du för att få bort 2:an på vänster sida?"
+        },
+        {
+          "prompt": "Här har någon löst 2x + 5 = 19. Vilket steg är fel?",
+          "steps": [
+            "2x + 5 = 19",
+            "2x = 19 − 5",
+            "2x = 14",
+            "x = 14 · 2"
+          ],
+          "wrong": 3,
+          "explain": "2x betyder 2 · x. För att få x ska du dela båda sidor med 2: x = 14/2 = 7.",
+          "fix": "x = 14/2 = 7",
+          "hint": "Hur får du bort 2:an framför x?"
+        },
+        {
+          "prompt": "Här har någon löst 5x − 3 = 22. Vilket steg är fel?",
+          "steps": [
+            "5x − 3 = 22",
+            "5x = 22 − 3",
+            "5x = 19",
+            "x = 19/5"
+          ],
+          "wrong": 1,
+          "explain": "För att få bort − 3 lägger du till 3 på båda sidor: 22 + 3, inte 22 − 3.",
+          "fix": "5x = 25 och x = 5",
+          "hint": "Vilket räknesätt tar bort ett minus?"
+        },
+        {
+          "prompt": "Här har någon löst 4x + 7 = 31. Vilket steg är fel?",
+          "steps": [
+            "4x + 7 = 31",
+            "4x = 31 − 7",
+            "4x = 24",
+            "x = 24 − 4"
+          ],
+          "wrong": 3,
+          "explain": "4x betyder 4 · x. För att få x ska du dela med 4: x = 24/4 = 6.",
+          "fix": "x = 24/4 = 6",
+          "hint": "Vilket räknesätt hör ihop med 4 · x?"
+        },
+        {
+          "prompt": "Här har någon löst x/3 + 1 = 5. Vilket steg är fel?",
+          "steps": [
+            "x/3 + 1 = 5",
+            "x/3 = 5 − 1",
+            "x/3 = 4",
+            "x = 4/3"
+          ],
+          "wrong": 3,
+          "explain": "x/3 betyder x delat med 3. För att få x ska du multiplicera med 3: x = 4 · 3 = 12.",
+          "fix": "x = 4 · 3 = 12",
+          "hint": "Hur ångrar du en division med 3?"
+        }
       ]
     }
   ],
@@ -70,34 +248,86 @@
       "hint": "Vad gör du för att få bort 2:an på vänster sida?"
     }
   ],
-  "layout": ["explanation","rule","exercise","comp:0","word:0","word:1","word:2"],
+  "layout": [
+    "explanation",
+    "rule",
+    "exercise",
+    "comp:0",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
   "exercise": {
     "prompt": "Lös ekvationen: 3x + 2 = 14. Vad är x?",
-    "answer": ["4", "x=4", "x = 4"],
+    "answer": [
+      "4",
+      "x=4",
+      "x = 4"
+    ],
     "correct": "Just det! Subtrahera 2 från båda sidor och dela sedan med 3: x = 4.",
     "feedback": [
-      { "answers": ["12"], "message": "Du tog bort 2 från 14 och fick 12. Bra start! Men 3x betyder 3 gånger x. Vilket tal gånger 3 blir 12?" },
-      { "answers": ["16"], "message": "Det ser ut som att 2 lades till i stället för att tas bort. För att få 3x ensamt behöver du göra motsatsen på båda sidor." },
-      { "answers": ["3"], "message": "Fundera på vad som behöver hända med 3x för att x ska stå ensamt. Hur påverkar det båda sidor?" }
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "Du tog bort 2 från 14 och fick 12. Bra start! Men 3x betyder 3 gånger x. Vilket tal gånger 3 blir 12?"
+      },
+      {
+        "answers": [
+          "16"
+        ],
+        "message": "Det ser ut som att 2 lades till i stället för att tas bort. För att få 3x ensamt behöver du göra motsatsen på båda sidor."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Fundera på vad som behöver hända med 3x för att x ska stå ensamt. Hur påverkar det båda sidor?"
+      }
     ]
   },
   "wordProblems": [
     {
       "prompt": "Ett tal multipliceras med 3 och sedan läggs 2 till. Resultatet blir 14. Vilket är talet?",
-      "answer": ["4"],
+      "answer": [
+        "4"
+      ],
       "correct": "Rätt! 3 · 4 + 2 = 14.",
       "feedback": [
-        { "answers": ["12"], "message": "12 är resultatet efter att du tagit bort 2. Dela sedan 12 med 3 för att hitta talet." },
-        { "answers": ["16"], "message": "Börja med att ta bort 2 från resultatet 14. Gör sedan motsatsen till att multiplicera med 3." }
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är resultatet efter att du tagit bort 2. Dela sedan 12 med 3 för att hitta talet."
+        },
+        {
+          "answers": [
+            "16"
+          ],
+          "message": "Börja med att ta bort 2 från resultatet 14. Gör sedan motsatsen till att multiplicera med 3."
+        }
       ]
     },
     {
       "prompt": "Tre likadana anteckningsböcker och en penna för 5 kr kostar tillsammans 35 kr. Vad kostar en anteckningsbok?",
-      "answer": ["10", "10 kr"],
+      "answer": [
+        "10",
+        "10 kr"
+      ],
       "correct": "Ja! Ta bort pennans 5 kr: 30 kr återstår. Dela 30 kr på tre böcker: 10 kr styck.",
       "feedback": [
-        { "answers": ["30"], "message": "30 kr är priset för de tre böckerna tillsammans efter att pennan räknats bort. Dela det med 3." },
-        { "answers": ["13"], "message": "Ta först bort pennans pris 5 kr från totalen. Dela sedan återstående pris lika mellan tre böcker." }
+        {
+          "answers": [
+            "30"
+          ],
+          "message": "30 kr är priset för de tre böckerna tillsammans efter att pennan räknats bort. Dela det med 3."
+        },
+        {
+          "answers": [
+            "13"
+          ],
+          "message": "Ta först bort pennans pris 5 kr från totalen. Dela sedan återstående pris lika mellan tre böcker."
+        }
       ]
     },
     {

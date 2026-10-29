@@ -34,6 +34,9 @@ window.GaussicaPyssel = (function () {
   const FUNCS = {
     abs: Math.abs, sqrt: Math.sqrt, round: Math.round, floor: Math.floor, ceil: Math.ceil,
     min: Math.min, max: Math.max, pow: Math.pow,
+    // logarithms: lg is the logarithm with base 10, ln the natural one, log(base, x) any base, exp(x) is e to the power of x
+    lg: Math.log10, ln: Math.log, exp: Math.exp,
+    log: function (base, x) { return Math.log(x) / Math.log(base); },
     // trigonometry works in degrees, like a calculator set to "deg"
     sin: function (d) { return Math.sin(d * Math.PI / 180); },
     cos: function (d) { return Math.cos(d * Math.PI / 180); },

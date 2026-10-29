@@ -37,49 +37,289 @@
   "practice": [
     {
       "id": "antal-primtal",
-      "for": ["exercise"],
-      "vars": {"n":[10,50,10]},
-      "derive": [{"name":"c","expr":"primecount(n)"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          10,
+          50,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "primecount(n)"
+        }
+      ],
       "prompt": "Hur många primtal finns det mellan 1 och {n}?",
-      "answer": ["=c"],
+      "answer": [
+        "=c"
+      ],
       "correct": "Rätt! Det finns {c} primtal upp till {n}.",
       "feedback": [
-        {"answers":["=c+1"],"message":"Talet 1 är inte ett primtal. Ett primtal har exakt två delare."},
-        {"answers":["=c-1"],"message":"Glöm inte 2, det enda jämna primtalet."}
+        {
+          "answers": [
+            "=c+1"
+          ],
+          "message": "Talet 1 är inte ett primtal. Ett primtal har exakt två delare."
+        },
+        {
+          "answers": [
+            "=c-1"
+          ],
+          "message": "Glöm inte 2, det enda jämna primtalet."
+        }
       ]
     },
     {
       "id": "ar-primtal",
-      "for": ["word-0"],
-      "vars": {"n":[11,60]},
-      "where": [{"expr":"isprime(n)","equals":1}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          11,
+          60
+        ]
+      },
+      "where": [
+        {
+          "expr": "isprime(n)",
+          "equals": 1
+        }
+      ],
       "prompt": "Är {n} ett primtal? Svara ja eller nej.",
-      "answer": ["ja","Ja"],
+      "answer": [
+        "ja",
+        "Ja"
+      ],
       "correct": "Ja! {n} har bara delarna 1 och {n}.",
       "feedback": []
     },
     {
       "id": "inte-primtal",
-      "for": ["word-0"],
-      "vars": {"n":[11,60]},
-      "where": [{"expr":"isprime(n)","equals":0},{"expr":"mod(n,2)","equals":1}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          11,
+          60
+        ]
+      },
+      "where": [
+        {
+          "expr": "isprime(n)",
+          "equals": 0
+        },
+        {
+          "expr": "mod(n,2)",
+          "equals": 1
+        }
+      ],
       "prompt": "Är {n} ett primtal? Svara ja eller nej.",
-      "answer": ["nej","Nej"],
+      "answer": [
+        "nej",
+        "Nej"
+      ],
       "correct": "Nej. {n} har fler delare än 1 och sig självt: {n} har {divcount(n)} delare.",
       "feedback": []
     },
     {
       "id": "nasta-primtal",
-      "for": ["word-1"],
-      "vars": {"n":[10,60]},
-      "derive": [{"name":"p","expr":"nextprime(n)"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          10,
+          60
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "nextprime(n)"
+        }
+      ],
       "prompt": "Vilket är det minsta primtalet som är större än {n}?",
-      "answer": ["=p"],
+      "answer": [
+        "=p"
+      ],
       "correct": "Rätt! Det är {p}.",
       "feedback": [
         {
-          "answers": ["=n+1"],
+          "answers": [
+            "=n+1"
+          ],
           "message": "Kolla om {n+1} har fler delare än 1 och sig självt. Då är det inte ett primtal."
+        }
+      ]
+    },
+    {
+      "id": "primtal-eller-inte",
+      "for": [
+        "so-0"
+      ],
+      "mode": "sortera",
+      "size": 8,
+      "prompt": "Sortera talen: är de primtal?",
+      "categories": [
+        "Primtal",
+        "Inte primtal"
+      ],
+      "pool": [
+        {
+          "text": "2",
+          "category": 0,
+          "explain": "2 går bara att dela med 1 och 2."
+        },
+        {
+          "text": "3",
+          "category": 0,
+          "explain": "3 går bara att dela med 1 och 3."
+        },
+        {
+          "text": "5",
+          "category": 0,
+          "explain": "5 går bara att dela med 1 och 5."
+        },
+        {
+          "text": "7",
+          "category": 0,
+          "explain": "7 går bara att dela med 1 och 7."
+        },
+        {
+          "text": "11",
+          "category": 0,
+          "explain": "11 går bara att dela med 1 och 11."
+        },
+        {
+          "text": "13",
+          "category": 0,
+          "explain": "13 går bara att dela med 1 och 13."
+        },
+        {
+          "text": "17",
+          "category": 0,
+          "explain": "17 går bara att dela med 1 och 17."
+        },
+        {
+          "text": "19",
+          "category": 0,
+          "explain": "19 går bara att dela med 1 och 19."
+        },
+        {
+          "text": "23",
+          "category": 0,
+          "explain": "23 går bara att dela med 1 och 23."
+        },
+        {
+          "text": "29",
+          "category": 0,
+          "explain": "29 går bara att dela med 1 och 29."
+        },
+        {
+          "text": "31",
+          "category": 0,
+          "explain": "31 går bara att dela med 1 och 31."
+        },
+        {
+          "text": "37",
+          "category": 0,
+          "explain": "37 går bara att dela med 1 och 37."
+        },
+        {
+          "text": "41",
+          "category": 0,
+          "explain": "41 går bara att dela med 1 och 41."
+        },
+        {
+          "text": "43",
+          "category": 0,
+          "explain": "43 går bara att dela med 1 och 43."
+        },
+        {
+          "text": "47",
+          "category": 0,
+          "explain": "47 går bara att dela med 1 och 47."
+        },
+        {
+          "text": "4",
+          "category": 1,
+          "explain": "4 = 2 · 2, så det är inget primtal."
+        },
+        {
+          "text": "6",
+          "category": 1,
+          "explain": "6 = 2 · 3, så det är inget primtal."
+        },
+        {
+          "text": "8",
+          "category": 1,
+          "explain": "8 = 2 · 4, så det är inget primtal."
+        },
+        {
+          "text": "9",
+          "category": 1,
+          "explain": "9 = 3 · 3, så det är inget primtal."
+        },
+        {
+          "text": "15",
+          "category": 1,
+          "explain": "15 = 3 · 5, så det är inget primtal."
+        },
+        {
+          "text": "21",
+          "category": 1,
+          "explain": "21 = 3 · 7, så det är inget primtal."
+        },
+        {
+          "text": "25",
+          "category": 1,
+          "explain": "25 = 5 · 5, så det är inget primtal."
+        },
+        {
+          "text": "27",
+          "category": 1,
+          "explain": "27 = 3 · 9, så det är inget primtal."
+        },
+        {
+          "text": "33",
+          "category": 1,
+          "explain": "33 = 3 · 11, så det är inget primtal."
+        },
+        {
+          "text": "35",
+          "category": 1,
+          "explain": "35 = 5 · 7, så det är inget primtal."
+        },
+        {
+          "text": "39",
+          "category": 1,
+          "explain": "39 = 3 · 13, så det är inget primtal."
+        },
+        {
+          "text": "45",
+          "category": 1,
+          "explain": "45 = 3 · 15, så det är inget primtal."
+        },
+        {
+          "text": "49",
+          "category": 1,
+          "explain": "49 = 7 · 7, så det är inget primtal."
+        },
+        {
+          "text": "51",
+          "category": 1,
+          "explain": "51 = 3 · 17, så det är inget primtal."
+        },
+        {
+          "text": "55",
+          "category": 1,
+          "explain": "55 = 5 · 11, så det är inget primtal."
         }
       ]
     }
@@ -136,7 +376,16 @@
       ]
     }
   ],
-  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
+  "layout": [
+    "explanation",
+    "visual",
+    "rule",
+    "exercise",
+    "comp:0",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
   "exercise": {
     "prompt": "Hur många primtal finns det mellan 1 och 10?",
     "answer": [

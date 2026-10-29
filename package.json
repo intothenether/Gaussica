@@ -6,9 +6,15 @@
   "scripts": {
     "build": "node scripts/build-bundle.js",
     "start": "node --disable-warning=ExperimentalWarning server.js",
-    "test": "node --disable-warning=ExperimentalWarning tests/run.js"
+    "test": "node --disable-warning=ExperimentalWarning tests/run.js",
+    "test:browser": "playwright test",
+    "test:all": "npm test && playwright test"
   },
   "engines": {
     "node": ">=22.13"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1"
   }
 }

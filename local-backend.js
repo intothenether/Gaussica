@@ -109,9 +109,17 @@ window.GaussicaLocal = (function () {
     return !c || c.rewards !== false;
   }
 
+  // A caregiver is stored as a teacher with the flag `caregiver`; the site is told the role "caregiver". A student whose class belongs to a
+  // caregiver (a family) gets guide: "caregiver", so that the pages can say vårdnadshavare where they say lärare.
+  function classOwner(classId) {
+    const c = db.classes.find(function (x) { return x.id === classId; });
+    return c ? db.users.find(function (x) { return x.id === c.teacherId; }) : null;
+  }
+
   function publicUser(u) {
     return {
-      id: u.id, username: u.username, name: u.displayName, role: u.role,
+      id: u.id, username: u.username, name: u.displayName, role: u.role === "teacher" && u.caregiver ? "caregiver" : u.role,
+      guide: u.role === "student" ? ((classOwner(u.classId) || {}).caregiver ? "caregiver" : "teacher") : undefined,
       classId: u.classId || null, className: className(u), color: COLORS[u.id % COLORS.length],
       rewards: classRewards(u.classId)
     };
@@ -127,10 +135,32 @@ window.GaussicaLocal = (function () {
     return u;
   }
 
-  function requireTeacher() {
+  // Teachers and caregivers: everything about their classes. Only teachers may edit lessons (requireTeacher).
+  function requireGuide() {
     const u = requireUser();
-    if (u.role !== "teacher") throw ApiError(403, "Endast lärare har tillgång.");
+    if (u.role !== "teacher") throw ApiError(403, "Endast lärare och vårdnadshavare har tillgång.");
     return u;
+  }
+
+  function requireTeacher() {
+    const u = requireGuide();
+    if (u.caregiver) throw ApiError(403, "Endast lärare kan ändra lektioner.");
+    return u;
+  }
+
+  const FAMILY_MAX = 10;   // children in the family of a caregiver
+
+  function newClassCode() {
+    let code;
+    for (let i = 0; i < 10; i++) {
+      code = randomCode(6);
+      if (!db.classes.some(function (c) { return c.code === code; })) break;
+    }
+    return code;
+  }
+
+  function familyName(displayName) {
+    return "Familjen " + String(displayName).trim().split(/\s+/).pop();
   }
 
   function validUsername(u) {
@@ -192,7 +222,8 @@ window.GaussicaLocal = (function () {
 
   // ----- handlers -----
   async function register(b) {
-    const role = b.role === "teacher" ? "teacher" : "student";
+    const kind = b.role === "teacher" ? "teacher" : b.role === "caregiver" ? "caregiver" : "student";
+    const role = kind === "student" ? "student" : "teacher";
     const username = str(b.username, 40).trim();
     const displayName = str(b.displayName, 80).trim();
     if (!validUsername(username)) throw ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
@@ -203,8 +234,12 @@ window.GaussicaLocal = (function () {
     if (role === "student") {
       const code = normalizeCode(b.classCode);
       const cls = db.classes.find(function (c) { return c.code === code; });
-      if (!cls) throw ApiError(400, "Klasskoden stämmer inte. Fråga din lärare efter rätt kod.");
+      if (!cls) throw ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
+      const owner = classOwner(cls.id);
+      if (owner && owner.caregiver && db.users.filter(function (s) { return s.classId === cls.id && s.role === "student"; }).length >= FAMILY_MAX) throw ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
       classId = cls.id;
+    } else if (kind === "caregiver") {
+      /* no code: anyone may be a caregiver */
     } else if (normalizeCode(b.teacherCode) !== TEACHER_CODE) {
       throw ApiError(403, "Lärarkoden stämmer inte.");
     }
@@ -214,7 +249,10 @@ window.GaussicaLocal = (function () {
       id: db.next.user++, username: username, displayName: displayName, role: role,
       passwordHash: await hashPassword(b.password), classId: classId, createdAt: nowIso()
     };
+    if (kind === "caregiver") user.caregiver = true;
     db.users.push(user);
+    // a caregiver starts with a family, so there is a code to give the children at once
+    if (kind === "caregiver") db.classes.push({ id: db.next.cls++, name: familyName(displayName), code: newClassCode(), teacherId: user.id, createdAt: nowIso() });
     db.session = user.id;
     save();
     return { user: publicUser(user) };
@@ -292,7 +330,7 @@ window.GaussicaLocal = (function () {
 
   // ----- assignments and feedback -----
   function listAssignments() {
-    const u = requireTeacher();
+    const u = requireGuide();
     return { assignments: db.assignments.filter(function (a) { return a.teacherId === u.id && !a.archived; }).sort(byDue).map(function (a) { return publicAssignment(a, true); }) };
   }
 
@@ -306,7 +344,7 @@ window.GaussicaLocal = (function () {
   }
 
   function createAssignment(b) {
-    const u = requireTeacher();
+    const u = requireGuide();
     const cls = db.classes.find(function (c) { return c.id === Number(b.classId) && c.teacherId === u.id; });
     if (!cls) throw ApiError(400, "Välj en av dina klasser.");
     let studentId = null;
@@ -329,14 +367,14 @@ window.GaussicaLocal = (function () {
   }
 
   function archiveAssignment(id) {
-    const u = requireTeacher();
+    const u = requireGuide();
     const a = db.assignments.find(function (x) { return x.id === Number(id) && x.teacherId === u.id; });
     if (a) { a.archived = true; save(); }
     return { ok: true };
   }
 
   function createFeedback(b) {
-    const u = requireTeacher();
+    const u = requireGuide();
     const student = studentOfTeacher(Number(b.studentId), u.id);
     if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
     const text = str(b.text, 600).trim();
@@ -353,7 +391,7 @@ window.GaussicaLocal = (function () {
   }
 
   function removeFeedback(id) {
-    const u = requireTeacher();
+    const u = requireGuide();
     db.feedback = db.feedback.filter(function (f) { return !(f.id === Number(id) && f.teacherId === u.id); });
     save();
     return { ok: true };
@@ -414,7 +452,7 @@ window.GaussicaLocal = (function () {
   }
 
   function teacherChat(b) {
-    const t = requireTeacher();
+    const t = requireGuide();
     const student = studentOfTeacher(Number(b.studentId), t.id);
     if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
     const text = str(b.text, 600).trim();
@@ -427,7 +465,7 @@ window.GaussicaLocal = (function () {
   }
 
   function teacherChatRead(b) {
-    const t = requireTeacher();
+    const t = requireGuide();
     const student = studentOfTeacher(Number(b.studentId), t.id);
     if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
     markChatReadByTeacher(student.id, t.id);
@@ -436,7 +474,7 @@ window.GaussicaLocal = (function () {
   }
 
   function teacherChatUnread() {
-    const t = requireTeacher();
+    const t = requireGuide();
     return { unread: db.chat.filter(function (c) { return c.teacherId === t.id && !c.fromTeacher && !c.readAt; }).length };
   }
 
@@ -450,7 +488,7 @@ window.GaussicaLocal = (function () {
   }
 
   function listClasses() {
-    const u = requireTeacher();
+    const u = requireGuide();
     return {
       classes: db.classes.filter(function (c) { return c.teacherId === u.id; }).map(function (c) {
         return { id: c.id, name: c.name, code: c.code, created_at: c.createdAt, students: db.users.filter(function (s) { return s.classId === c.id; }).length, rewards: c.rewards !== false };
@@ -459,22 +497,37 @@ window.GaussicaLocal = (function () {
   }
 
   function updateClass(id, b) {
-    const u = requireTeacher();
+    const u = requireGuide();
     const c = db.classes.find(function (x) { return x.id === Number(id) && x.teacherId === u.id; });
     if (!c) throw ApiError(404, "Klassen finns inte.");
     if (typeof b.rewards === "boolean") { c.rewards = b.rewards; save(); }
     return { ok: true };
   }
 
+  // A guide makes the account of a child (a young child has no one else to do it): the name, a user name and a password.
+  async function createStudent(b) {
+    const u = requireGuide();
+    const cls = db.classes.find(function (c) { return c.id === Number(b.classId) && c.teacherId === u.id; });
+    if (!cls) throw ApiError(400, "Välj en av dina klasser.");
+    const username = str(b.username, 40).trim();
+    const displayName = str(b.displayName, 80).trim();
+    if (!validUsername(username)) throw ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
+    if (!displayName) throw ApiError(400, "Ange namnet.");
+    checkPassword(b.password, username);
+    if (u.caregiver && db.users.filter(function (s) { return s.classId === cls.id && s.role === "student"; }).length >= FAMILY_MAX) throw ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+    if (db.users.some(function (x) { return x.username === username; })) throw ApiError(409, "Användarnamnet är redan upptaget.");
+    const user = { id: db.next.user++, username: username, displayName: displayName, role: "student", passwordHash: await hashPassword(b.password), classId: cls.id, createdAt: nowIso() };
+    db.users.push(user);
+    save();
+    return { student: { id: String(user.id), username: username, name: displayName, classId: cls.id } };
+  }
+
   function createClass(b) {
-    const u = requireTeacher();
+    const u = requireGuide();
     const name = str(b.name, 60).trim();
     if (!name) throw ApiError(400, "Ge klassen ett namn.");
-    let code;
-    for (let i = 0; i < 10; i++) {
-      code = randomCode(6);
-      if (!db.classes.some(function (c) { return c.code === code; })) break;
-    }
+    if (u.caregiver && db.classes.some(function (c) { return c.teacherId === u.id; })) throw ApiError(400, "Du har redan en familj.");
+    const code = newClassCode();
     const cls = { id: db.next.cls++, name: name, code: code, teacherId: u.id, createdAt: nowIso() };
     db.classes.push(cls);
     save();
@@ -482,7 +535,7 @@ window.GaussicaLocal = (function () {
   }
 
   function teacherStudents() {
-    const u = requireTeacher();
+    const u = requireGuide();
     const ids = teacherClassIds(u.id);
     const students = db.users.filter(function (s) { return s.role === "student" && ids.indexOf(s.classId) >= 0; })
       .sort(function (a, b) { return a.displayName.localeCompare(b.displayName, "sv"); })
@@ -498,7 +551,7 @@ window.GaussicaLocal = (function () {
   }
 
   async function resetStudentPassword(studentId) {
-    const t = requireTeacher();
+    const t = requireGuide();
     const student = studentOfTeacher(Number(studentId), t.id);
     if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
     const temp = randomCode(10);
@@ -531,7 +584,7 @@ window.GaussicaLocal = (function () {
   }
 
   function deleteStudent(studentId) {
-    const t = requireTeacher();
+    const t = requireGuide();
     const student = studentOfTeacher(Number(studentId), t.id);
     if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
     purgeUser(student.id);
@@ -540,7 +593,7 @@ window.GaussicaLocal = (function () {
   }
 
   function deleteClass(id) {
-    const t = requireTeacher();
+    const t = requireGuide();
     const cls = db.classes.find(function (c) { return c.id === Number(id) && c.teacherId === t.id; });
     if (!cls) throw ApiError(404, "Klassen finns inte.");
     const students = db.users.filter(function (u) { return u.classId === cls.id && u.role === "student"; }).length;
@@ -596,6 +649,7 @@ window.GaussicaLocal = (function () {
     if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(path)) && method === "PUT") return updateClass(m[1], body);
     if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(path)) && method === "DELETE") return deleteClass(m[1]);
     if (method === "GET" && path === "/api/teacher/students") return teacherStudents();
+    if (method === "POST" && path === "/api/teacher/students") return createStudent(body);
     if (method === "GET" && path === "/api/teacher/assignments") return listAssignments();
     if (method === "POST" && path === "/api/teacher/assignments") return createAssignment(body);
     if ((m = /^\/api\/teacher\/assignments\/(\d+)$/.exec(path)) && method === "DELETE") return archiveAssignment(m[1]);

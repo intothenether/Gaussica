@@ -162,6 +162,7 @@ window.GaussicaTeacher = (function () {
       ui.studentId = students[0] && students[0].id;
     }
     container.replaceChildren();
+    if (ctx.caregiver) { drawFamily(container, ctx, students, data); return; }
     const root = el("div", "tv");
     root.appendChild(header(ctx));
     if (ui.notice) root.appendChild(noticeBox());
@@ -215,11 +216,13 @@ window.GaussicaTeacher = (function () {
     const left = el("div", "admin-header-left");
     left.appendChild(button("← Tillbaka till lärstigen", "admin-back-btn", ctx.actions.back));
     const row = el("div", "admin-title-row");
-    const h2 = el("h2", "", "Läraröversikt");
+    const family = Boolean(ctx.caregiver);
+    const h2 = el("h2", "", family ? "Mina barn" : "Läraröversikt");
     h2.id = "admin-title";
-    row.append(h2, el("span", "admin-badge", "LÄRARE"));
-    left.append(row, el("p", "admin-subtitle",
-      "Se hur varje elev klarar uppgifterna: vilka svar som blev fel, vad eleven tänkte och hur många försök det tog."));
+    row.append(h2, el("span", "admin-badge", family ? "VÅRDNADSHAVARE" : "LÄRARE"));
+    left.append(row, el("p", "admin-subtitle", family
+      ? "Se hur det går för barnen den här veckan, vad de behöver hjälp med, och heja på. Det är barnens egen takt som gäller."
+      : "Se hur varje elev klarar uppgifterna: vilka svar som blev fel, vad eleven tänkte och hur många försök det tog."));
     const actions = el("div", "admin-header-actions");
     const csv = button("Exportera CSV 📥", "admin-action-btn", ctx.actions.exportCSV);
     csv.title = "Ett rad per inskickat svar, med försöksnummer och rätt svar";
@@ -228,6 +231,247 @@ window.GaussicaTeacher = (function () {
       button("Uppdatera ↻", "admin-action-btn", ctx.refresh));
     bar.append(left, actions);
     return bar;
+  }
+
+  // ===== FOR A CAREGIVER (vårdnadshavare): the family instead of classes, and what the week was like =====
+  const DAY = 86400000;
+  const WEEK_CAP = 300;   // seconds counted for one answer at the most, so that a tab left open does not count as time spent
+
+  function dayKey(iso) { return new Date(iso).toLocaleDateString("sv-SE"); }
+
+  function ago(iso) {
+    if (!iso) return "ingen aktivitet än";
+    const d = Math.round((new Date(dayKey(new Date().toISOString())) - new Date(dayKey(iso))) / DAY);
+    if (d <= 0) return "idag";
+    if (d === 1) return "i går";
+    if (d < 30) return "för " + d + " dagar sedan";
+    return "för över en månad sedan";
+  }
+
+  // The last seven days of one child: answers, right answers, days with something done, minutes (about) and the lessons worked on.
+  function weekOf(student, now) {
+    const L = window.GaussicaLesson;
+    const since = now - 7 * DAY;
+    const subs = (student.attempts || []).filter(L.isSubmission).filter(function (a) { return a.timestamp && Date.parse(a.timestamp) >= since; });
+    const days = new Set(subs.map(function (a) { return dayKey(a.timestamp); }));
+    const seconds = subs.reduce(function (n, a) { return n + Math.min(WEEK_CAP, Number(a.seconds) || 0); }, 0);
+    const lessons = [];
+    subs.slice().reverse().forEach(function (a) { const t = a.lessonTitle || a.lessonId; if (t && lessons.indexOf(t) < 0) lessons.push(t); });
+    return { answers: subs.length, right: subs.filter(function (a) { return a.completed; }).length, days: days.size, minutes: Math.round(seconds / 60), lessons: lessons };
+  }
+
+  // What the child has not got right yet, with the answer the child gave and the right one (for the adult).
+  function needsHelp(a) {
+    const out = [];
+    a.lessons.forEach(function (lr) {
+      lr.tasks.forEach(function (tr) {
+        if (tr.status !== "fix") return;
+        const last = tr.subs[tr.subs.length - 1];
+        out.push({ lesson: lr.lesson.title, prompt: tr.prompt, given: last ? last.answer : "", correct: String(tr.correct || "").split(" / ")[0], at: last ? last.timestamp : "" });
+      });
+    });
+    return out.sort(function (x, y) { return String(y.at || "").localeCompare(String(x.at || "")); });
+  }
+
+  function weekCard(a, ctx) {
+    const s = a.student;
+    const w = weekOf(s, Date.now());
+    const card = el("article", "tv-child");
+    const head = el("div", "tv-child-head");
+    const avatar = el("span", "admin-student-avatar", s.name.charAt(0).toUpperCase());
+    if (s.color) avatar.style.background = s.color;
+    const who = el("span", "tv-who");
+    who.append(el("strong", "", s.name), el("small", "", "Senast aktiv: " + ago(a.totals.lastAt)));
+    head.append(avatar, who);
+    card.appendChild(head);
+
+    const stats = el("div", "tv-stats");
+    [
+      [String(w.days), w.days === 1 ? "dag med övning" : "dagar med övning"],
+      [String(w.right), w.right === 1 ? "rätt svar" : "rätta svar"],
+      [w.minutes ? "ca " + w.minutes : "–", "minuter"],
+      [String(w.answers), "inskickade svar"]
+    ].forEach(function (x) {
+      const c = el("div", "tv-stat");
+      c.append(el("strong", "", x[0]), el("span", "", x[1]));
+      stats.appendChild(c);
+    });
+    card.appendChild(stats);
+    if (w.lessons.length) card.appendChild(el("p", "tv-userline", "Har jobbat med: " + w.lessons.slice(0, 4).join(", ") + (w.lessons.length > 4 ? " med flera" : "") + "."));
+    else card.appendChild(el("p", "tv-userline", "Inget har gjorts de senaste sju dagarna."));
+
+    const help = needsHelp(a);
+    if (help.length) {
+      const box = el("div", "tv-help");
+      box.appendChild(el("h4", "", "Att prata om"));
+      box.appendChild(el("p", "tv-muted", "Fråga hur " + s.name.split(" ")[0] + " tänkte, innan du visar rätt svar. Då märker ni var det fastnar."));
+      const list = el("ul", "tv-help-list");
+      help.slice(0, 3).forEach(function (h) {
+        const li = el("li");
+        li.appendChild(el("strong", "", h.lesson));
+        if (h.prompt) li.appendChild(el("span", "tv-help-prompt", h.prompt));
+        li.appendChild(el("span", "tv-help-answers", (h.given ? "Svarade: " + h.given + ". " : "") + "Rätt svar (för vuxna): " + (h.correct || "–")));
+        list.appendChild(li);
+      });
+      box.appendChild(list);
+      if (help.length > 3) box.appendChild(el("p", "tv-muted", "Och " + (help.length - 3) + " till längre ned, under barnets uppgifter."));
+      card.appendChild(box);
+    } else if (a.totals.attempted) {
+      card.appendChild(el("p", "tv-good", "✓ Allt som är påbörjat är rätt just nu."));
+    }
+
+    const row = el("div", "tv-actions");
+    row.append(
+      button("⭐ Heja på", "tv-btn", function () {
+        ctx.actions.sendFeedback({ studentId: s.id, text: "Bra jobbat med mattan!", sticker: "star" }).then(function () {
+          ui.notice = { text: "Hejaropet skickades till " + s.name + "." };
+          ctx.rerender();
+        }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+      }),
+      button("Visa alla uppgifter ↓", "tv-btn", function () {
+        ui.studentId = s.id;
+        ctx.rerender();
+        const d = document.querySelector(".tv-detail");
+        if (d) d.scrollIntoView({ behavior: "smooth", block: "start" });
+      }));
+    card.appendChild(row);
+    return card;
+  }
+
+  function weekSection(data, ctx) {
+    const section = el("section", "admin-card-section tv-section tv-week");
+    section.append(el("h3", "", "Den här veckan"),
+      el("p", "admin-card-description", "De senaste sju dagarna. Tiden är ungefärlig och räknas bara medan barnet svarar på uppgifter."));
+    const grid = el("div", "tv-children");
+    data.per.forEach(function (a) { grid.appendChild(weekCard(a, ctx)); });
+    section.appendChild(grid);
+    return section;
+  }
+
+  // The family: its code, the children (an account can be made here for a child who cannot do it alone), and the setting for stars and animals.
+  function familySection(ctx) {
+    const section = el("section", "admin-card-section tv-section tv-family");
+    section.appendChild(el("h3", "", "Familjen"));
+    const family = ctx.classes[0];
+    if (!family) {
+      section.appendChild(el("p", "admin-card-description", "Du har ingen familj just nu. Skapa en så får du en kod som barnen kan skapa konto med."));
+      const form = el("form", "tv-class-form");
+      const input = el("input");
+      input.type = "text"; input.maxLength = 60; input.required = true; input.value = ""; input.placeholder = "T.ex. Familjen Andersson";
+      input.setAttribute("aria-label", "Familjens namn");
+      const submit = button("+ Skapa familj", "tv-btn", function () {});
+      submit.type = "submit";
+      form.append(input, submit);
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        submit.disabled = true;
+        ctx.actions.createClass(input.value.trim()).then(function (c) {
+          ui.notice = { text: "Familjen skapades. Kod för barnen:", code: c.code };
+          ctx.refresh();
+        }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+      });
+      section.appendChild(form);
+      return section;
+    }
+    section.appendChild(el("p", "admin-card-description", "Barnen skapar konto med familjekoden, eller så lägger du till dem här. Du ser bara barn i din egen familj."));
+    const info = el("div", "tv-class");
+    info.append(el("strong", "", family.name), el("span", "tv-code", family.code), el("span", "tv-muted", plural(family.students, "barn", "barn") + " av 10"));
+    section.appendChild(info);
+
+    const add = el("form", "tv-add-child");
+    add.appendChild(el("h4", "", "Lägg till ett barn"));
+    const fields = el("div", "tv-add-fields");
+    const make = function (label, type, name, autocomplete, hint) {
+      const wrap = el("label", "tv-field");
+      wrap.appendChild(el("span", "", label));
+      const input = el("input");
+      input.type = type; input.name = name; input.required = true; input.maxLength = 80; input.autocomplete = autocomplete;
+      wrap.appendChild(input);
+      if (hint) wrap.appendChild(el("small", "tv-muted", hint));
+      fields.appendChild(wrap);
+      return input;
+    };
+    const name = make("Barnets namn", "text", "childName", "off", "Förnamn eller smeknamn räcker.");
+    const user = make("Användarnamn", "text", "childUser", "off", "3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
+    const pass = make("Lösenord", "text", "childPass", "off", "Minst 8 tecken. Skriv upp det, barnet använder det för att logga in.");
+    add.appendChild(fields);
+    const submit = button("+ Skapa barnets konto", "tv-btn", function () {});
+    submit.type = "submit";
+    add.appendChild(submit);
+    add.addEventListener("submit", function (e) {
+      e.preventDefault();
+      submit.disabled = true;
+      ctx.actions.addChild({ classId: family.id, displayName: name.value.trim(), username: user.value.trim(), password: pass.value }).then(function (c) {
+        ui.notice = { text: "Kontot för " + c.name + " skapades. Användarnamn: " + c.username + ". Lösenordet är det du skrev." };
+        ui.studentId = c.id;
+        ctx.refresh();
+      }).catch(function (err) { ui.notice = { text: err.message, error: true }; submit.disabled = false; ctx.rerender(); });
+    });
+    section.appendChild(add);
+
+    const label = el("label", "tv-toggle");
+    const box = el("input");
+    box.type = "checkbox";
+    box.checked = family.rewards !== false;
+    box.addEventListener("change", function () {
+      box.disabled = true;
+      ctx.actions.setClassRewards(family.id, box.checked).then(function () { ctx.rerender(); })
+        .catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+    });
+    label.append(box, document.createTextNode(" Stjärnor, märken och djur"));
+    label.title = "När det är på ser barnen stjärnor för klara lektioner och märken de kan samla. Ingen jämförelse mellan barn.";
+    const wipe = button("Radera familjen", "tv-btn is-danger tv-small", function () {
+      const typed = window.prompt("Det här raderar familjen " + family.name + ", " + plural(family.students, "barn", "barn") + " och allt barnen gjort. Det går inte att ångra.\n\nSkriv familjens namn (" + family.name + ") för att bekräfta:");
+      if (typed === null) return;
+      if (typed.trim().toLowerCase() !== family.name.trim().toLowerCase()) { ui.notice = { text: "Namnet stämde inte, så ingenting raderades.", error: true }; ctx.rerender(); return; }
+      ctx.actions.deleteClass(family.id).then(function () {
+        ui.notice = { text: "Familjen och barnens uppgifter har raderats." };
+        ui.studentId = null;
+        ctx.refresh();
+      }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+    });
+    const row = el("div", "tv-class");
+    row.append(label, wipe);
+    section.appendChild(row);
+    return section;
+  }
+
+  function childChips(students, ctx) {
+    if (students.length < 2) return null;
+    const row = el("div", "tv-sort tv-children-chips");
+    row.appendChild(el("span", "tv-sort-label", "Visa uppgifter för:"));
+    students.forEach(function (s) {
+      row.appendChild(button(s.name, "tv-chip" + (ui.studentId === s.id ? " is-on" : ""), function () { ui.studentId = s.id; ctx.rerender(); }));
+    });
+    return row;
+  }
+
+  function drawFamily(container, ctx, students, data) {
+    const root = el("div", "tv tv-family-page");
+    root.appendChild(header(ctx));
+    if (ui.notice) root.appendChild(noticeBox());
+    const chat = chatSection(ctx);
+    if (chat) root.appendChild(chat);
+    if (!students.length) root.appendChild(familySection(ctx));
+    if (students.length) root.appendChild(weekSection(data, ctx));
+    root.appendChild(assignmentsSection(ctx));
+    if (students.length) root.appendChild(familySection(ctx));
+    if (window.GaussicaPlanner) root.appendChild(window.GaussicaPlanner.section(ctx));
+    if (window.GaussicaWorksheet) root.appendChild(window.GaussicaWorksheet.section(ctx));
+    if (students.length) {
+      const chips = childChips(students, ctx);
+      if (chips) { const w = el("section", "admin-card-section tv-section"); w.appendChild(chips); root.appendChild(w); }
+      const detail = studentDetail(data, ctx);
+      if (detail) root.appendChild(detail);
+    } else {
+      const empty = el("section", "admin-card-section tv-section");
+      empty.append(el("h3", "", "Inga barn än"),
+        el("p", "admin-card-description", ctx.classes.length
+          ? "Lägg till barnens konton ovan, eller ge dem familjekoden så skapar de konto själva. När de har börjat räkna syns det här."
+          : "Skapa en familj ovan, så får du en kod som barnen kan skapa konto med."));
+      root.appendChild(empty);
+    }
+    container.appendChild(root);
   }
 
   function kpis(data) {
@@ -1033,7 +1277,7 @@ window.GaussicaTeacher = (function () {
       }),
       button("🖨 Rapport för utskrift", "tv-btn", function () { openReport(a, ctx); }),
       button("⬇ Ladda ner elevens uppgifter", "tv-btn", function () { ctx.actions.exportStudent(s); }),
-      window.GaussicaUnderlag ? button("📋 Bedömningsunderlag", "tv-btn", function () { window.GaussicaUnderlag.openStudent(s, ctx); }) : el("span"),
+      window.GaussicaUnderlag && !ctx.caregiver ? button("📋 Bedömningsunderlag", "tv-btn", function () { window.GaussicaUnderlag.openStudent(s, ctx); }) : el("span"),
       button("Ta bort elev", "tv-btn is-danger", function () {
         if (!window.confirm("Ta bort " + s.name + " och alla elevens svar? Det går inte att ångra.")) return;
         ctx.actions.deleteStudent(s.id).then(function () {

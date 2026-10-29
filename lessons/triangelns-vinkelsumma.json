@@ -168,6 +168,41 @@
           "message": "{2*a}° är de två lika stora vinklarna tillsammans. Dra ifrån dem från 180°."
         }
       ]
+    },
+    {
+      "id": "luckor-vinklar",
+      "for": [
+        "lt-0"
+      ],
+      "mode": "lucktext",
+      "vars": {
+        "a": [
+          30,
+          80,
+          5
+        ],
+        "b": [
+          30,
+          80,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "180-a-b",
+          "min": 10
+        }
+      ],
+      "prompt": "Fyll i luckan om vinklarna i en triangel.",
+      "text": "Två vinklar i en triangel är {a}° och {b}°. Den tredje vinkeln är [[1]]°.",
+      "blanks": [
+        {
+          "answer": [
+            "=180-a-b"
+          ],
+          "hint": "Vinklarna i en triangel är tillsammans 180°."
+        }
+      ]
     }
   ],
   "components": [
@@ -190,7 +225,16 @@
       ]
     }
   ],
-  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
+  "layout": [
+    "explanation",
+    "visual",
+    "rule",
+    "exercise",
+    "comp:0",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
   "exercise": {
     "prompt": "I en triangel är två vinklar 50° och 60°. Hur stor är den tredje vinkeln?",
     "answer": [

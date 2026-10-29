@@ -51,54 +51,220 @@
   "practice": [
     {
       "id": "storst",
-      "for": ["exercise"],
-      "vars": {"a":[0.1,0.9,0.1],"b":[0.11,0.99,0.01]},
-      "where": [{"expr":"abs(a-b)","min":0.005}],
-      "derive": [{"name":"big","expr":"max(a,b)"},{"name":"small","expr":"min(a,b)"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          0.1,
+          0.9,
+          0.1
+        ],
+        "b": [
+          0.11,
+          0.99,
+          0.01
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 0.005
+        }
+      ],
+      "derive": [
+        {
+          "name": "big",
+          "expr": "max(a,b)"
+        },
+        {
+          "name": "small",
+          "expr": "min(a,b)"
+        }
+      ],
       "prompt": "Vilket är störst, {a} eller {b}? Skriv det största talet.",
-      "answer": ["=big"],
+      "answer": [
+        "=big"
+      ],
       "correct": "Rätt! Jämför tiondelarna först: {big} är större än {small}.",
       "feedback": [
         {
-          "answers": ["=small"],
+          "answers": [
+            "=small"
+          ],
           "message": "Jämför siffra för siffra från vänster, tiondelarna först. Fler decimaler betyder inte att talet är större."
         }
       ]
     },
     {
       "id": "addera",
-      "for": ["word-0"],
-      "vars": {"a":[0.2,9.8,0.1],"b":[0.2,9.8,0.1]},
-      "derive": [{"name":"s","expr":"a+b"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          0.2,
+          9.8,
+          0.1
+        ],
+        "b": [
+          0.2,
+          9.8,
+          0.1
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        }
+      ],
       "prompt": "Räkna ut {a} + {b}.",
-      "answer": ["=s"],
+      "answer": [
+        "=s"
+      ],
       "correct": "Rätt! {a} + {b} = {s}.",
       "feedback": [
         {
-          "answers": ["=a*10+b*10"],
+          "answers": [
+            "=a*10+b*10"
+          ],
           "message": "Du har glömt kommat. Lägg ihop hela tal och tiondelar för sig."
         }
       ]
     },
     {
       "id": "subtrahera",
-      "for": ["word-1"],
-      "vars": {"a":[3.1,9.9,0.1],"b":[0.2,2.9,0.1]},
-      "derive": [{"name":"r","expr":"a-b"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          3.1,
+          9.9,
+          0.1
+        ],
+        "b": [
+          0.2,
+          2.9,
+          0.1
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a-b"
+        }
+      ],
       "prompt": "Räkna ut {a} − {b}.",
-      "answer": ["=r"],
+      "answer": [
+        "=r"
+      ],
       "correct": "Rätt! {a} − {b} = {r}.",
-      "feedback": [{"answers":["=a+b"],"message":"Här ska du ta bort {b} från {a}."}]
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Här ska du ta bort {b} från {a}."
+        }
+      ]
     },
     {
       "id": "tiondelar",
-      "for": ["word-1"],
-      "vars": {"t":[1,19]},
-      "derive": [{"name":"r","expr":"t/10"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "t": [
+          1,
+          19
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "t/10"
+        }
+      ],
       "prompt": "Skriv {t} tiondelar som decimaltal.",
-      "answer": ["=r"],
+      "answer": [
+        "=r"
+      ],
       "correct": "Rätt! {t} tiondelar är {r}.",
-      "feedback": [{"answers":["=t/100"],"message":"En tiondel är 0,1. Det är {t} sådana, inte {t} hundradelar."}]
+      "feedback": [
+        {
+          "answers": [
+            "=t/100"
+          ],
+          "message": "En tiondel är 0,1. Det är {t} sådana, inte {t} hundradelar."
+        }
+      ]
+    },
+    {
+      "id": "ordna-decimaltal",
+      "for": [
+        "or-0"
+      ],
+      "mode": "ordna",
+      "size": 4,
+      "prompt": "Sätt decimaltalen i ordning, det minsta först.",
+      "top": "Minst",
+      "bottom": "Störst",
+      "pool": [
+        {
+          "text": "0,05",
+          "value": 0.05
+        },
+        {
+          "text": "0,5",
+          "value": 0.5
+        },
+        {
+          "text": "0,505",
+          "value": 0.505
+        },
+        {
+          "text": "0,55",
+          "value": 0.55
+        },
+        {
+          "text": "0,15",
+          "value": 0.15
+        },
+        {
+          "text": "0,51",
+          "value": 0.51
+        },
+        {
+          "text": "0,1",
+          "value": 0.1
+        },
+        {
+          "text": "0,01",
+          "value": 0.01
+        },
+        {
+          "text": "0,9",
+          "value": 0.9
+        },
+        {
+          "text": "0,09",
+          "value": 0.09
+        },
+        {
+          "text": "0,45",
+          "value": 0.45
+        },
+        {
+          "text": "0,405",
+          "value": 0.405
+        },
+        {
+          "text": "0,04",
+          "value": 0.04
+        }
+      ]
     }
   ],
   "components": [
@@ -115,7 +281,16 @@
       "bottom": "Störst"
     }
   ],
-  "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
+  "layout": [
+    "explanation",
+    "visual",
+    "rule",
+    "exercise",
+    "comp:0",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
   "exercise": {
     "prompt": "Vilket är störst, 0,6 eller 0,45? Skriv det största talet.",
     "answer": [

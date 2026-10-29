@@ -11,6 +11,7 @@ const ID_RE = /^[\p{L}\p{N}_-]{1,80}$/u;
 const CHAT_UNANSWERED_MAX = 6;   // a student can send this many messages in a row before the teacher has answered
 const STICKERS = ["star", "thumbs", "muscle", "rocket", "bulb", "party", "heart", "mynt5", "mynt10", "mynt25"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const FAMILY_MAX = 10;   // children in the family of a caregiver
 
 class ApiError extends Error {
   constructor(status, message) { super(message); this.status = status; }
@@ -38,14 +39,17 @@ function createApi(db, options) {
 
   const q = {
     userByName: db.prepare("SELECT * FROM users WHERE username = ?"),
-    userById: db.prepare("SELECT u.*, c.name AS class_name, COALESCE(cs.rewards, 1) AS rewards FROM users u LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE u.id = ?"),
-    insertUser: db.prepare("INSERT INTO users (username, display_name, role, password_hash, class_id, created_at) VALUES (?, ?, ?, ?, ?, ?)"),
+    userById: db.prepare("SELECT u.*, c.name AS class_name, g.caregiver AS guide_caregiver, COALESCE(cs.rewards, 1) AS rewards FROM users u LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN users g ON g.id = c.teacher_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE u.id = ?"),
+    insertUser: db.prepare("INSERT INTO users (username, display_name, role, password_hash, class_id, created_at, caregiver) VALUES (?, ?, ?, ?, ?, ?, ?)"),
+    countClassStudents: db.prepare("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'"),
+    countClassesOf: db.prepare("SELECT COUNT(*) AS n FROM classes WHERE teacher_id = ?"),
+    classOwner: db.prepare("SELECT u.caregiver AS caregiver FROM classes c JOIN users u ON u.id = c.teacher_id WHERE c.id = ?"),
     classByCode: db.prepare("SELECT * FROM classes WHERE code = ?"),
     insertClass: db.prepare("INSERT INTO classes (name, code, teacher_id, created_at) VALUES (?, ?, ?, ?)"),
     insertSession: db.prepare("INSERT INTO sessions (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)"),
     sessionUser: db.prepare(
-      "SELECT u.*, c.name AS class_name, COALESCE(cs.rewards, 1) AS rewards FROM sessions s JOIN users u ON u.id = s.user_id " +
-      "LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE s.token_hash = ? AND s.expires_at > ?"),
+      "SELECT u.*, c.name AS class_name, g.caregiver AS guide_caregiver, COALESCE(cs.rewards, 1) AS rewards FROM sessions s JOIN users u ON u.id = s.user_id " +
+      "LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN users g ON g.id = c.teacher_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE s.token_hash = ? AND s.expires_at > ?"),
     deleteSession: db.prepare("DELETE FROM sessions WHERE token_hash = ?"),
     deleteUserSessions: db.prepare("DELETE FROM sessions WHERE user_id = ?"),
     deleteOtherSessions: db.prepare("DELETE FROM sessions WHERE user_id = ? AND token_hash != ?"),
@@ -186,9 +190,12 @@ function createApi(db, options) {
     res.end(json);
   }
 
+  // A caregiver is stored as a teacher with the flag `caregiver`; the site is told the role "caregiver". A student whose class belongs to a
+  // caregiver (a family) gets guide: "caregiver", so that the pages can say vårdnadshavare where they say lärare.
   function publicUser(u) {
     return {
-      id: u.id, username: u.username, name: u.display_name, role: u.role,
+      id: u.id, username: u.username, name: u.display_name, role: u.role === "teacher" && u.caregiver ? "caregiver" : u.role,
+      guide: u.role === "student" ? (u.guide_caregiver ? "caregiver" : "teacher") : undefined,
       classId: u.class_id || null, className: u.class_name || null, color: COLORS[u.id % COLORS.length],
       rewards: u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards)
     };
@@ -200,10 +207,33 @@ function createApi(db, options) {
     return s;
   }
 
-  function requireTeacher(req) {
+  // Teachers and caregivers: everything about their classes. Only teachers may edit lessons (requireTeacher).
+  function requireGuide(req) {
     const s = requireUser(req);
-    if (s.user.role !== "teacher") throw new ApiError(403, "Endast lärare har tillgång.");
+    if (s.user.role !== "teacher") throw new ApiError(403, "Endast lärare och vårdnadshavare har tillgång.");
     return s;
+  }
+
+  function requireTeacher(req) {
+    const s = requireGuide(req);
+    if (s.user.caregiver) throw new ApiError(403, "Endast lärare kan ändra lektioner.");
+    return s;
+  }
+
+  function caregiverSignup() { return process.env.CAREGIVER_SIGNUP !== "off"; }
+
+  function familyName(displayName) {
+    const last = String(displayName).trim().split(/\s+/).pop();
+    return "Familjen " + last;
+  }
+
+  function newClassCode() {
+    let code;
+    for (let i = 0; i < 10; i++) {
+      code = sec.randomCode(6);
+      if (!q.classByCode.get(code)) break;
+    }
+    return code;
   }
 
   function ip(req) { return req.socket.remoteAddress || "?"; }
@@ -223,7 +253,8 @@ function createApi(db, options) {
     const wait = registerLimit.check(ip(req));
     if (wait) throw new ApiError(429, "För många försök. Vänta " + Math.ceil(wait / 60) + " min.");
     const b = await readJson(req, 10000);
-    const role = b.role === "teacher" ? "teacher" : "student";
+    const kind = b.role === "teacher" ? "teacher" : b.role === "caregiver" ? "caregiver" : "student";
+    const role = kind === "student" ? "student" : "teacher";
     const username = str(b.username, 40).trim();
     const displayName = str(b.displayName, 80).trim();
     if (!validUsername(username)) throw new ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
@@ -233,8 +264,12 @@ function createApi(db, options) {
     let classId = null;
     if (role === "student") {
       const cls = q.classByCode.get(sec.normalizeCode(b.classCode));
-      if (!cls) throw new ApiError(400, "Klasskoden stämmer inte. Fråga din lärare efter rätt kod.");
+      if (!cls) throw new ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
+      const owner = q.classOwner.get(cls.id);
+      if (owner && owner.caregiver && q.countClassStudents.get(cls.id).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
       classId = cls.id;
+    } else if (kind === "caregiver") {
+      if (!caregiverSignup()) throw new ApiError(403, "Konton för vårdnadshavare är avstängda här.");
     } else if (!sec.safeEqual(sec.normalizeCode(b.teacherCode), teacherCode())) {
       throw new ApiError(403, "Lärarkoden stämmer inte.");
     }
@@ -243,10 +278,12 @@ function createApi(db, options) {
     const hash = await sec.hashPassword(b.password);
     let userId;
     try {
-      userId = Number(q.insertUser.run(username, displayName, role, hash, classId, nowIso()).lastInsertRowid);
+      userId = Number(q.insertUser.run(username, displayName, role, hash, classId, nowIso(), kind === "caregiver" ? 1 : 0).lastInsertRowid);
     } catch (e) {
       throw new ApiError(409, "Användarnamnet är redan upptaget.");
     }
+    // a caregiver starts with a family, so there is a code to give the children at once
+    if (kind === "caregiver") q.insertClass.run(familyName(displayName), newClassCode(), userId, nowIso());
     startSession(res, userId);
     send(res, 201, { user: publicUser(q.userById.get(userId)) });
   }
@@ -293,7 +330,7 @@ function createApi(db, options) {
   // How a signed-in sender is written in site_feedback (and the e-mail), so that the messages can be found again when the
   // account is deleted.
   function senderLabel(u) {
-    return u.display_name + " (" + (u.role === "teacher" ? "lärare" : "elev") + (u.class_name ? ", klass " + u.class_name : "") + ")";
+    return u.display_name + " (" + (u.role === "teacher" ? (u.caregiver ? "vårdnadshavare" : "lärare") : "elev") + (u.class_name ? ", klass " + u.class_name : "") + ")";
   }
 
   // ----- feedback about the site, sent by e-mail to whoever runs it -----
@@ -409,7 +446,7 @@ function createApi(db, options) {
   }
 
   async function teacherChat(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const b = await readJson(req, 5000);
     const student = q.studentOfTeacher.get(Number(b.studentId), s.user.id);
     if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
@@ -421,7 +458,7 @@ function createApi(db, options) {
   }
 
   async function teacherChatRead(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const b = await readJson(req, 2000);
     const student = q.studentOfTeacher.get(Number(b.studentId), s.user.id);
     if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
@@ -430,7 +467,7 @@ function createApi(db, options) {
   }
 
   function teacherChatUnread(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     send(res, 200, { unread: q.chatUnreadForTeacher.get(s.user.id).n });
   }
 
@@ -547,12 +584,12 @@ function createApi(db, options) {
 
   // ----- teacher -----
   function listClasses(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     send(res, 200, { classes: q.teacherClasses.all(s.user.id).map(function (c) { return Object.assign({}, c, { rewards: Boolean(c.rewards) }); }) });
   }
 
   async function updateClass(req, res, id) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const cls = q.classOfTeacher.get(Number(id), s.user.id);
     if (!cls) throw new ApiError(404, "Klassen finns inte.");
     const b = await readJson(req, 2000);
@@ -561,22 +598,42 @@ function createApi(db, options) {
   }
 
   async function createClass(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const b = await readJson(req, 2000);
     const name = str(b.name, 60).trim();
     if (!name) throw new ApiError(400, "Ge klassen ett namn.");
-    let code, row;
-    for (let i = 0; i < 10; i++) {
-      code = sec.randomCode(6);
-      if (!q.classByCode.get(code)) break;
-    }
+    if (s.user.caregiver && q.countClassesOf.get(s.user.id).n >= 1) throw new ApiError(400, "Du har redan en familj.");
+    let row;
+    const code = newClassCode();
     const id = Number(q.insertClass.run(name, code, s.user.id, nowIso()).lastInsertRowid);
     row = { id: id, name: name, code: code, students: 0 };
     send(res, 201, { class: row });
   }
 
+  // A guide makes the account of a child (a young child has no one else to do it): the name, a user name and a password.
+  async function createStudent(req, res) {
+    const s = requireGuide(req);
+    const b = await readJson(req, 5000);
+    const cls = q.classOfTeacher.get(Number(b.classId), s.user.id);
+    if (!cls) throw new ApiError(400, "Välj en av dina klasser.");
+    const username = str(b.username, 40).trim();
+    const displayName = str(b.displayName, 80).trim();
+    if (!validUsername(username)) throw new ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
+    if (!displayName) throw new ApiError(400, "Ange namnet.");
+    checkPassword(b.password, username);
+    if (s.user.caregiver && q.countClassStudents.get(cls.id).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+    if (q.userByName.get(username)) throw new ApiError(409, "Användarnamnet är redan upptaget.");
+    let id;
+    try {
+      id = Number(q.insertUser.run(username, displayName, "student", await sec.hashPassword(b.password), cls.id, nowIso(), 0).lastInsertRowid);
+    } catch (e) {
+      throw new ApiError(409, "Användarnamnet är redan upptaget.");
+    }
+    send(res, 201, { student: { id: String(id), username: username, name: displayName, classId: cls.id } });
+  }
+
   function teacherStudents(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const sent = {};
     q.feedbackForTeacher.all(s.user.id).forEach(function (r) { (sent[r.student_id] = sent[r.student_id] || []).push(publicFeedback(r)); });
     const chat = {};
@@ -594,12 +651,12 @@ function createApi(db, options) {
 
   // ----- assignments and feedback (teacher) -----
   function listAssignments(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     send(res, 200, { assignments: q.assignmentsForTeacher.all(s.user.id).map(publicAssignment) });
   }
 
   async function createAssignment(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const b = await readJson(req, 5000);
     const cls = q.classOfTeacher.get(Number(b.classId), s.user.id);
     if (!cls) throw new ApiError(400, "Välj en av dina klasser.");
@@ -621,13 +678,13 @@ function createApi(db, options) {
   }
 
   function archiveAssignment(req, res, id) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     q.archiveAssignment.run(Number(id), s.user.id);
     send(res, 200, { ok: true });
   }
 
   async function createFeedback(req, res) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const b = await readJson(req, 5000);
     const student = q.studentOfTeacher.get(Number(b.studentId), s.user.id);
     if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
@@ -643,13 +700,13 @@ function createApi(db, options) {
   }
 
   function removeFeedback(req, res, id) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     q.deleteFeedback.run(Number(id), s.user.id);
     send(res, 200, { ok: true });
   }
 
   async function resetStudentPassword(req, res, studentId) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const student = q.studentOfTeacher.get(Number(studentId), s.user.id);
     if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
     const temp = sec.randomCode(10);
@@ -678,7 +735,7 @@ function createApi(db, options) {
   }
 
   function deleteStudent(req, res, studentId) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const student = q.studentOfTeacher.get(Number(studentId), s.user.id);
     if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
     inTransaction(function () { purgeUser(student.id); });
@@ -687,7 +744,7 @@ function createApi(db, options) {
 
   // A class is removed together with all its students and their data (end of the school year).
   function deleteClass(req, res, id) {
-    const s = requireTeacher(req);
+    const s = requireGuide(req);
     const cls = q.classOfTeacher.get(Number(id), s.user.id);
     if (!cls) throw new ApiError(404, "Klassen finns inte.");
     const students = q.studentIdsOfClass.all(cls.id).length;
@@ -753,6 +810,7 @@ function createApi(db, options) {
       if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "PUT") return await updateClass(req, res, m[1]);
       if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "DELETE") return deleteClass(req, res, m[1]);
       if (method === "GET" && p === "/api/teacher/students") return teacherStudents(req, res);
+      if (method === "POST" && p === "/api/teacher/students") return await createStudent(req, res);
       if (method === "GET" && p === "/api/teacher/assignments") return listAssignments(req, res);
       if (method === "POST" && p === "/api/teacher/assignments") return await createAssignment(req, res);
       if ((m = /^\/api\/teacher\/assignments\/(\d+)$/.exec(p)) && method === "DELETE") return archiveAssignment(req, res, m[1]);

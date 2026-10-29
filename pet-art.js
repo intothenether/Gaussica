@@ -961,6 +961,58 @@ window.GaussicaPetArt = (function () {
 
   // the head only, small, for the lesson footer. With options.crop: a viewBox of your own (the pet peeking over an edge). With options.wide: the whole upper body with some air around it (gills, wings, ears and
   // a tall hat fit), for the pet on the map; the picture then is 184 wide and 150 high.
+  // ===== the arm that points =====
+  // An arm, a paw, a hoof, a claw, a flipper or a wing reaching to the left, for the pet that peeks over the step card and points at the
+  // button (see peek in pet.js). 90 wide and 36 high, the shoulder at the right edge (behind the head) and the tip at the left.
+  // The kind of limb is in data-arm: paw, hoof, hand, claw, flipper or wing.
+  const ARM = {
+    dog: "paw", tax: "paw", cat: "paw", fox: "paw", rabbit: "paw", hamster: "paw", hedgehog: "paw",
+    pig: "hoof", cow: "hoof", axolotl: "hand", dragon: "claw", penguin: "flipper", cockatiel: "wing"
+  };
+
+  function pointer(kind, colorId) {
+    kind = KINDS[kind] ? kind : "dog";
+    const c = colorOf(kind, colorId);
+    const type = ARM[kind];
+    const B = c.body, D = c.dark, Lt = c.light;
+    const st = ' stroke="' + D + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"';
+    const limb = '<rect x="30" y="11" width="62" height="14" rx="7" fill="' + B + '"' + st + '/>';
+    let tip = "";
+    if (type === "paw") {
+      // a paw seen from above: the paw with three toes at the front, and the lines between them
+      const fur = kind === "fox" ? D : kind === "rabbit" || kind === "hedgehog" ? Lt : B;
+      const line = kind === "fox" ? Lt : D;
+      tip = '<circle cx="10" cy="8.5" r="5.8" fill="' + fur + '"' + st + '/><circle cx="6" cy="18" r="6.4" fill="' + fur + '"' + st + '/><circle cx="10" cy="27.5" r="5.8" fill="' + fur + '"' + st + '/>' +
+        '<ellipse cx="25" cy="18" rx="15" ry="12.5" fill="' + fur + '"' + st + '/>' +
+        '<path d="M9,13 Q15,14 19,17.4 M9,23 Q15,22 19,18.6" fill="none" stroke="' + line + '" stroke-width="1.8" stroke-linecap="round" opacity=".55"/>';
+    } else if (type === "hoof") {
+      // a trotter or a hoof with the split in the middle
+      tip = '<ellipse cx="22" cy="18" rx="15" ry="11.5" fill="' + B + '"' + st + '/>' +
+        '<path d="M14,8 Q2,10 2,18 Q2,26 14,28 Q22,18 14,8 Z" fill="' + D + '"/>' +
+        '<path d="M2,18 H16" stroke="' + Lt + '" stroke-width="1.8" stroke-linecap="round"/>';
+    } else if (type === "hand") {
+      // a small hand with three fingers, the longest one pointing
+      tip = '<ellipse cx="24" cy="18" rx="13" ry="11" fill="' + B + '"' + st + '/>' +
+        '<ellipse cx="9" cy="11" rx="8" ry="3.6" fill="' + B + '"' + st + '/><ellipse cx="6" cy="18" rx="10" ry="3.8" fill="' + B + '"' + st + '/><ellipse cx="9" cy="25" rx="8" ry="3.6" fill="' + B + '"' + st + '/>' +
+        '<circle cx="1.6" cy="18" r="1.4" fill="' + Lt + '"/>';
+    } else if (type === "claw") {
+      tip = '<ellipse cx="26" cy="18" rx="13" ry="11" fill="' + B + '"' + st + '/>' +
+        '<path d="M15,9 L1,12 L15,15 Z" fill="' + Lt + '"' + st + '/><path d="M13,16 L0,18 L13,20 Z" fill="' + Lt + '"' + st + '/><path d="M15,21 L1,25 L15,27 Z" fill="' + Lt + '"' + st + '/>';
+    } else if (type === "flipper") {
+      // a long, narrow flipper that narrows to a tip
+      return '<svg class="pet-arm" data-arm="flipper" viewBox="0 0 90 36" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M92,7 Q52,3 6,16 Q1,18 6,21 Q52,33 92,28 Z" fill="' + D + '"' + st + '/>' +
+        '<path d="M86,12 Q50,10 14,18" fill="none" stroke="' + Lt + '" stroke-width="2.4" stroke-linecap="round" opacity=".4"/></svg>';
+    } else {
+      // a wing: the long feathers at the tip are the fingers that point
+      return '<svg class="pet-arm" data-arm="wing" viewBox="0 0 90 36" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M92,5 Q60,1 34,9 L3,12 L27,16 L1,21 L29,22 L7,30 Q54,31 92,27 Z" fill="' + D + '"' + st + '/>' +
+        '<path d="M92,10 Q62,7 38,12 L38,20 Q62,18 92,21 Z" fill="' + Lt + '" opacity=".92"/>' +
+        '<path d="M27,16 L36,14 M29,22 L38,20 M7,30 L30,25" stroke="' + D + '" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>';
+    }
+    return '<svg class="pet-arm" data-arm="' + type + '" viewBox="0 0 90 36" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">' + limb + tip + '</svg>';
+  }
+
   const WIDE_CROP = "8 0 184 150";
   function face(pet, mood, options) {
     const kind = KINDS[pet.kind] ? pet.kind : "dog";
@@ -971,7 +1023,7 @@ window.GaussicaPetArt = (function () {
     return s.replace(/<g class="pet-sparks">[\s\S]*?<\/g>/, "").replace('viewBox="0 0 200 200"', 'viewBox="' + crop + '"');
   }
 
-  return { KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
+  return { KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, pointer: pointer, ARM: ARM, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
 }());
 
 if (typeof module !== "undefined") module.exports = window.GaussicaPetArt;

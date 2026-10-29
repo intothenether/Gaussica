@@ -12,42 +12,69 @@
   "summary": "Tiologaritmen lg(y) är den exponent som 10 ska upphöjas till för att få y. Den löser ekvationer där det okända står i exponenten.",
   "explanationTitle": "Frågan: vilken exponent?",
   "explanation": "Problemet: En kultur har 1 bakterie och fördubblas varje timme. Efter hur många timmar är det 1024 bakterier? Du vill lösa 2^x = 1024, där det okända står i exponenten. Du kan prova dig fram: 2^10 = 1024, så x = 10. Men vad är x i 2^x = 100? Det blir inget heltal, och att prova går inte längre. Vi behöver ett verktyg som svarar på frågan vilken exponent som behövs. Det är logaritmen. Tiologaritmen lg(y) är det tal som 10 ska upphöjas till för att ge y. Eftersom 10^3 = 1000 är lg(1000) = 3, och eftersom 10^0 = 1 är lg(1) = 0. Ekvationen 10^x = 50 har lösningen x = lg(50), som miniräknaren ger som ungefär 1,70. För andra baser används att a^x = y ger x = lg(y) delat med lg(a). Så 2^x = 100 ger x = lg(100) delat med lg(2) = 2 delat med 0,301, alltså ungefär 6,64.",
-  "visual": {
-    "type": "tabell",
-    "title": "Tiopotenser och deras logaritmer",
-    "headers": [
-      "Potens",
-      "Talet",
-      "Logaritmen"
-    ],
-    "rows": [
-      [
-        "10^0",
-        "1",
-        "lg(1) = 0"
+  "visuals": [
+    {
+      "type": "graf",
+      "title": "y = lg(x)",
+      "xmin": -1,
+      "xmax": 12,
+      "ymin": -2,
+      "ymax": 2,
+      "curves": [
+        {
+          "fn": "lg(x)"
+        }
       ],
-      [
-        "10^1",
-        "10",
-        "lg(10) = 1"
-      ],
-      [
-        "10^2",
-        "100",
-        "lg(100) = 2"
-      ],
-      [
-        "10^3",
-        "1000",
-        "lg(1000) = 3"
-      ],
-      [
-        "10^4",
-        "10000",
-        "lg(10000) = 4"
+      "points": [
+        {
+          "x": 1,
+          "y": 0,
+          "label": "(1, 0)"
+        },
+        {
+          "x": 10,
+          "y": 1,
+          "label": "(10, 1)"
+        }
       ]
-    ]
-  },
+    },
+    {
+      "type": "tabell",
+      "title": "Tiopotenser och deras logaritmer",
+      "headers": [
+        "Potens",
+        "Talet",
+        "Logaritmen"
+      ],
+      "rows": [
+        [
+          "10^0",
+          "1",
+          "lg(1) = 0"
+        ],
+        [
+          "10^1",
+          "10",
+          "lg(10) = 1"
+        ],
+        [
+          "10^2",
+          "100",
+          "lg(100) = 2"
+        ],
+        [
+          "10^3",
+          "1000",
+          "lg(1000) = 3"
+        ],
+        [
+          "10^4",
+          "10000",
+          "lg(10000) = 4"
+        ]
+      ]
+    }
+  ],
   "rule": "lg(y) är det tal x som uppfyller 10^x = y. Till exempel är lg(1000) = 3 eftersom 10^3 = 1000.",
   "ruleLabel": "LOGARITMER",
   "example": "lg(100000) = 5 eftersom 10^5 = 100000. Lös 2^x = 64: eftersom 2^6 = 64 är x = 6.",

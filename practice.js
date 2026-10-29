@@ -14,6 +14,16 @@
 //     "feedback": [ { "answers": ["=a-b"], "message": "Du har tagit bort i stället för att lägga till." } ],
 //     "visual": { "type": "klocka", "h": "=h", "m": "=m" } }   // optional figure, same bindings
 //
+// The new formats (see formats.js) have templates too, so that Öva mer can give a fresh round of each:
+//   { "id": "udda", "for": ["so-0"], "mode": "sortera", "size": 6, "prompt": "Sortera talen.", "categories": ["Jämna", "Udda"],
+//     "pool": [{ "text": "14", "category": 0, "explain": "..." }, ...] }       items are drawn from the pool, always from every group
+//   { "id": "ordning", "for": ["or-1"], "mode": "ordna", "size": 4, "prompt": "Sätt talen i ordning, minst först.", "top": "Minst", "bottom": "Störst",
+//     "pool": [{ "text": "0,5", "value": 0.5 }, ...] }                        items with different values, put in the order of the values
+//   { "id": "fel", "for": ["hf-2"], "mode": "hittafelet", "prompt": "Vilket steg är fel?",
+//     "pool": [{ "steps": ["..."], "wrong": 1, "explain": "...", "fix": "...", "hint": "..." }, ...] }   one solution from the pool
+//   { "id": "luckor", "for": ["lt-3"], "mode": "lucktext", "vars": { "a": [2, 9] }, "prompt": "Fyll i luckorna.",
+//     "text": "{a} veckor är [[1]] dagar.", "blanks": [{ "answer": ["=a*7"], "options": [...], "hint": "..." }] }   gaps are [[1]], [[2]] ... here
+//
 // A generated question has the same shape as a normal lesson question, so it is answered and
 // checked by the same code. Its id is "practice-<template>-<seed>", which makes it reproducible.
 
@@ -27,7 +37,7 @@ window.GaussicaPractice = (function () {
   function templates(lesson) {
     return (lesson && Array.isArray(lesson.practice) ? lesson.practice : []).filter(function (t) {
       return t && t.id && ((t.prompt && Array.isArray(t.answer) && t.answer.length) || (Array.isArray(t.pool) && t.pool.length >= 2) ||
-        (Array.isArray(t.statements) && t.statements.length >= 1));
+        (Array.isArray(t.statements) && t.statements.length >= 1) || (t.mode === "lucktext" && typeof t.text === "string" && Array.isArray(t.blanks) && t.blanks.length >= 1));
     });
   }
 
@@ -118,6 +128,55 @@ window.GaussicaPractice = (function () {
     return /^(sant|true|ja)$/i.test(s);
   }
 
+  // ----- the new formats -----
+  // A round of sortera: size items from the pool, with at least one from each group when the pool has them.
+  function buildSort(template, pool, rand) {
+    const cats = template.categories || [];
+    const kind = function (p) { return typeof p.category === "number" ? p.category : cats.map(String).indexOf(String(p.category)); };
+    const size = Math.max(2, Math.min(template.size || 6, pool.length));
+    const picked = pool.slice(0, size);
+    cats.forEach(function (c, k) {
+      if (picked.some(function (p) { return kind(p) === k; })) return;
+      const other = pool.slice(size).find(function (p) { return kind(p) === k; });
+      const swap = picked.findIndex(function (p) { return picked.filter(function (q) { return kind(q) === kind(p); }).length > 1; });
+      if (other && swap >= 0) picked[swap] = other;
+    });
+    return {
+      format: "sortera", prompt: template.prompt || "Sortera.", categories: cats.slice(),
+      items: picked.map(function (p) { const it = { text: p.text, category: kind(p) }; if (p.explain) it.explain = p.explain; return it; }),
+      answer: ["alla rätt"], correct: template.correct || "Rätt! Allt ligger i rätt grupp.", feedback: []
+    };
+  }
+
+  // A round of ordna: size items with different values, in the order of the values (the smallest first, or the largest first with descending).
+  function buildOrder(template, pool) {
+    const size = Math.max(3, Math.min(template.size || 4, pool.length));
+    const seen = new Set();
+    const picked = [];
+    pool.forEach(function (p) {
+      const v = typeof p === "object" ? Number(p.value) : NaN;
+      if (picked.length < size && isFinite(v) && !seen.has(v)) { seen.add(v); picked.push({ text: String(p.text), value: v }); }
+    });
+    picked.sort(function (a, b) { return template.descending ? b.value - a.value : a.value - b.value; });
+    return {
+      format: "ordna", prompt: template.prompt || "Sätt dem i rätt ordning.", items: picked.map(function (p) { return p.text; }),
+      top: template.top, bottom: template.bottom, answer: ["alla rätt"], correct: template.correct || "Rätt! Allt står i rätt ordning.", feedback: []
+    };
+  }
+
+  // One worked solution with a mistake, from the pool.
+  function buildFind(template, pool) {
+    const p = pool[0];
+    if (!p) return null;
+    const out = {
+      format: "hittafelet", prompt: p.prompt || template.prompt || "Här finns ett fel. Vilket steg är fel?", steps: p.steps.slice(), wrong: p.wrong, explain: p.explain,
+      answer: ["alla rätt"], correct: template.correct || p.correct || "Rätt! Det är det steget som är fel.", feedback: []
+    };
+    if (p.fix) out.fix = p.fix;
+    if (p.hint) out.hint = p.hint;
+    return out;
+  }
+
   // Terms and explanations ("begrepp"): template.pool = [{ term, definition, alt: [other accepted spellings] }].
   //   mode "koppla" (default): a matching round with template.size pairs
   //   mode "fraga": one explanation, the student writes the term
@@ -129,6 +188,9 @@ window.GaussicaPractice = (function () {
       const j = Math.floor(rand() * (i + 1));
       const t = pool[i]; pool[i] = pool[j]; pool[j] = t;
     }
+    if (template.mode === "sortera") return buildSort(template, pool, rand);
+    if (template.mode === "ordna") return buildOrder(template, pool);
+    if (template.mode === "hittafelet") return buildFind(template, pool.filter(function (p) { return p && Array.isArray(p.steps) && Number.isInteger(p.wrong); }));
     if (template.mode === "santfalskt") {
       const size = Math.max(1, Math.min(template.size || 4, pool.length));
       const picked = pool.slice(0, size);
@@ -188,6 +250,25 @@ window.GaussicaPractice = (function () {
       const ok = (template.where || []).every(function (c) { return py.holds(c, scope); });
       if (!ok) continue;
 
+      if (template.mode === "lucktext") {
+        // a text with gaps: the numbers of the template are put in the text, and the answers are worked out. The gaps are [[1]], [[2]] ... in a
+        // template (the {} is for the numbers) and {1}, {2} ... in the question.
+        const raw = fillPicks({ prompt: template.prompt, text: template.text, blanks: template.blanks, correct: template.correct || "Rätt! Allt stämmer." }, picks);
+        const rr = unguard(py.resolve(guard(raw), scope));
+        const lt = {
+          format: "lucktext", prompt: rr.prompt || "Fyll i luckorna.", text: String(rr.text).replace(/\[\[(\d+)\]\]/g, "{$1}"),
+          blanks: rr.blanks.map(function (b) {
+            const out = { answer: stringsOf(b.answer) };
+            if (Array.isArray(b.options)) out.options = stringsOf(b.options);
+            if (b.hint) out.hint = b.hint;
+            return out;
+          }),
+          answer: ["alla rätt"], correct: rr.correct, feedback: []
+        };
+        const gaps = (lt.text.match(/\{\d+\}/g) || []).length;
+        if (/NaN|undefined|Infinity/.test(JSON.stringify(lt)) || /\[\[|\]\]|[$]/.test(lt.text) || gaps !== lt.blanks.length || lt.blanks.some(function (b) { return !b.answer.length || b.answer.indexOf("?") >= 0; })) continue;
+        return window.GaussicaLesson && window.GaussicaLesson.personalize ? window.GaussicaLesson.personalize(lt) : lt;
+      }
       const filled = fillPicks({
         prompt: template.prompt, answer: template.answer, correct: template.correct || "Rätt!",
         feedback: template.feedback || [], visual: template.visual, visuals: template.visuals,

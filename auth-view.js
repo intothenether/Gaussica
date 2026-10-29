@@ -246,7 +246,7 @@ window.GaussicaAuth = (function () {
         let name, user, pass, code;
         if (mode === "register") {
           const roles = el("div", "auth-roles");
-          [["student", "Jag är elev"], ["teacher", "Jag är lärare"]].forEach(function (r) {
+          [["student", "Jag är elev"], ["caregiver", "Jag är vårdnadshavare"], ["teacher", "Jag är lärare"]].forEach(function (r) {
             const b = el("button", "", r[1]);
             b.type = "button";
             b.setAttribute("aria-pressed", String(role === r[0]));
@@ -256,6 +256,10 @@ window.GaussicaAuth = (function () {
           form.appendChild(roles);
           name = input("text", "displayName", "name", { maxlength: "80" });
           form.appendChild(field("auth-name", "Ditt namn", name, role === "student" ? "Förnamn eller smeknamn räcker. Skriv inget privat som adress eller telefonnummer." : ""));
+          if (role === "caregiver") {
+            const about = el("p", "auth-about", "Med ett konto som vårdnadshavare ser du hur det går för barnen, kan ge dem uppdrag och heja på, och svara när de undrar något. Du får en familjekod som barnen skapar konto med, eller så lägger du till deras konton själv.");
+            form.appendChild(about);
+          }
         }
         user = input("text", "username", "username", { maxlength: "40" });
         form.appendChild(field("auth-user", "Användarnamn", user,
@@ -273,10 +277,10 @@ window.GaussicaAuth = (function () {
         passField.classList.add("has-toggle");
         passField.appendChild(toggle);
         form.appendChild(passField);
-        if (mode === "register") {
+        if (mode === "register" && role !== "caregiver") {
           code = input("text", "code", "off", { maxlength: "40" });
           form.appendChild(role === "student"
-            ? field("auth-code", "Klasskod", code, "Du får koden av din lärare.")
+            ? field("auth-code", "Kod", code, "Du får koden av din lärare eller vårdnadshavare.")
             : field("auth-code", "Lärarkod", code, API.mode() === "local"
               ? "I demoläget är lärarkoden " + window.GaussicaLocal.teacherCode + "."
               : API.mode() === "remote"
@@ -299,7 +303,7 @@ window.GaussicaAuth = (function () {
               result = await API.post("/api/login", { username: user.value.trim(), password: pass.value });
             } else {
               const payload = { role: role, displayName: name.value.trim(), username: user.value.trim(), password: pass.value };
-              if (role === "student") payload.classCode = code.value; else payload.teacherCode = code.value;
+              if (role === "student") payload.classCode = code.value; else if (role === "teacher") payload.teacherCode = code.value;
               result = await API.post("/api/register", payload);
             }
             hideScreen();

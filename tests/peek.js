@@ -38,7 +38,7 @@ const hero = Pet.peek("hero");
 ok(hero && hero.className === "hs-peek" && hero.attrs["aria-hidden"] === "true", "the pet peeks over the step card, and is only decoration for a screen reader");
 ok(hero.children.length === 2 && hero.children[0].className === "hs-arm" && hero.children[1].className === "hs-peek-head", "an arm and a head");
 const c = Art.colorOf("fox", user.lessonProgress.pet.color);
-ok(hero.children[0].styleVars["--arm"] === c.body && hero.children[0].styleVars["--arm-dark"] === c.dark, "the arm has the colours of the animal");
+ok(/data-arm="paw"/.test(hero.children[0].innerHTML) && hero.children[0].innerHTML.includes(c.body) && hero.children[0].innerHTML.includes(c.dark), "the arm is a paw in the colours of the fox");
 ok(/viewBox="8 0 184 122"/.test(hero.children[1].innerHTML), "the head is cut off at the chin, as if it was behind the edge");
 ok(hero.children[1].styleVars["--gx"] === "-3.2px" && Number(parseFloat(hero.children[1].styleVars["--gy"])) > 0, "it looks to the left, at the button");
 
@@ -66,6 +66,18 @@ ok(faceless.children.length === 1 && faceless.children[0].className === "pet-say
 // switched off
 on = false;
 ok(Pet.peek("hero") === null && Pet.peek("footer") === null, "nothing peeks when the teacher has switched the pet off");
+
+// an arm for every animal: paws, hooves, a hand, a claw, a flipper and a wing
+const WANT = { dog: "paw", tax: "paw", cat: "paw", fox: "paw", rabbit: "paw", hedgehog: "paw", hamster: "paw", pig: "hoof", cow: "hoof", axolotl: "hand", dragon: "claw", penguin: "flipper", cockatiel: "wing" };
+Object.keys(Art.KINDS).forEach((kind) => {
+  ok(WANT[kind], kind + ": has a kind of arm in the test");
+  Art.KINDS[kind].colors.forEach((col) => {
+    const a = Art.pointer(kind, col.id);
+    ok(a.includes('data-arm="' + WANT[kind] + '"') && /viewBox="0 0 90 36"/.test(a) && !/NaN|undefined/.test(a) && a.includes(col.dark), kind + " " + col.id + ": a " + WANT[kind] + " in its colours");
+  });
+});
+ok(new Set(Object.keys(Art.KINDS).map((k) => Art.pointer(k, Art.KINDS[k].colors[0].id))).size === Object.keys(Art.KINDS).length, "no two animals have the same arm");
+ok(Art.pointer("finns-inte", "x").includes("data-arm") && Art.pointer("dog", "finns-inte").includes("data-arm"), "an unknown animal or colour still gets an arm");
 
 // the pictures
 ["fox", "axolotl", "dragon", "cow", "cockatiel", "tax"].forEach((kind) => {

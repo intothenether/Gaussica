@@ -2,3 +2,5 @@ data/
 node_modules/
 .claude/
 lessons/bundle.json
+test-results/
+playwright-report/

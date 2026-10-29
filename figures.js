@@ -11,7 +11,8 @@
 //   talrutnat   { from, to, columns, highlight:[numbers] | "primtal" | {multiplesOf:n} | {divisorsOf:n}, muted:[numbers] }
 //   staplar     { data:[{label,value,tone}], max, line:{value,label} }              bar chart with an optional reference line
 //   vinkel      { deg, label }                                                       an angle between two rays
-//   graf        { xmin,xmax,ymin,ymax, lines:[{k,m,label}], points:[{x,y,label}] }  coordinate system with straight lines
+//   graf        { xmin,xmax,ymin,ymax, lines:[{k,m,label}], curves:[{fn,label,tone,from,to}], points:[{x,y,label}] }  coordinate system with straight
+//               lines and curves; fn is a formula in x, as "x^2 - 4*x + 3", "2^x" or "lg(x)" (see the expressions in pyssel.js)
 //   hundrarutor { filled, label }                                                    10 x 10 grid with the first n squares filled
 //   klocka      { h, m, digital }                                                    analog clock
 //   uppstallning { op:"+"|"-"|"*"|"/", a, b }   column arithmetic, shown step by step (b is a single digit for * and /)
@@ -406,7 +407,32 @@ window.GaussicaFigures = (function () {
     return wrap([svg]);
   }
 
-  // ----- coordinate system with straight lines -----
+  // A formula in x as a function, or null. Where the formula does not work (lg of a negative number, one divided by zero) it gives NaN.
+  function curveFunction(src) {
+    if (!window.GaussicaPyssel || !window.GaussicaPyssel.compile) return null;
+    let fn;
+    try { fn = window.GaussicaPyssel.compile(String(src)); } catch (e) { return null; }
+    return function (x) { try { return Number(fn({ x: x })); } catch (e) { return NaN; } };
+  }
+
+  // The path of a curve over x from `from` to `to`, as the "d" of an svg path. Points where the formula has no value, or is far outside of
+  // the picture, are left out and the line is lifted there, so that 1/x or lg(x) get no line across the gap. Returns { d, last }, where
+  // last is the last point inside the picture (for the label).
+  function curvePath(f, from, to, ymin, ymax, px, py) {
+    const N = 240, far = (ymax - ymin) * 20;
+    let d = "", pen = false, last = null;
+    for (let i = 0; i <= N; i++) {
+      const xv = from + (to - from) * i / N;
+      const yv = f(xv);
+      if (!isFinite(yv) || yv > ymax + far || yv < ymin - far) { pen = false; continue; }
+      d += (pen ? " L" : " M") + px(xv).toFixed(1) + " " + py(yv).toFixed(1);
+      pen = true;
+      if (yv >= ymin && yv <= ymax) last = [xv, yv];
+    }
+    return { d: d.trim(), last: last };
+  }
+
+  // ----- coordinate system with straight lines and curves -----
   function graph(c) {
     const xmin = c.xmin !== undefined ? Number(c.xmin) : -5, xmax = c.xmax !== undefined ? Number(c.xmax) : 5;
     const ymin = c.ymin !== undefined ? Number(c.ymin) : -5, ymax = c.ymax !== undefined ? Number(c.ymax) : 5;
@@ -429,6 +455,15 @@ window.GaussicaFigures = (function () {
     (c.lines || []).forEach(function (ln) {
       const k = Number(ln.k), m = Number(ln.m);
       s("line", { x1: x(xmin - 1), y1: y(k * (xmin - 1) + m), x2: x(xmax + 1), y2: y(k * (xmax + 1) + m), "class": "fig-graphline" + (ln.tone ? " is-" + ln.tone : "") }, g);
+    });
+    (c.curves || []).forEach(function (cv) {
+      const f = curveFunction(cv.fn);
+      if (!f) return;
+      const from = cv.from !== undefined ? Number(cv.from) : xmin, to = cv.to !== undefined ? Number(cv.to) : xmax;
+      const path = curvePath(f, from, to, ymin, ymax, x, y);
+      if (!path.d) return;
+      s("path", { d: path.d, fill: "none", "class": "fig-graphline fig-curve" + (cv.tone ? " is-" + cv.tone : "") }, g);
+      if (cv.label && path.last) text(svg, x(path.last[0]) - 6, y(path.last[1]) - 10, cv.label, "fig-dim", "end");
     });
     (c.points || []).forEach(function (p) {
       s("circle", { cx: x(p.x), cy: y(p.y), r: 6, "class": "fig-point" + (p.tone === "coral" ? " is-q" : "") }, svg);

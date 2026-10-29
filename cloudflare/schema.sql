@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
   role          TEXT NOT NULL CHECK (role IN ('student', 'teacher')),
   password_hash TEXT NOT NULL,
   class_id      INTEGER REFERENCES classes(id) ON DELETE SET NULL,
-  created_at    TEXT NOT NULL
+  created_at    TEXT NOT NULL,
+  caregiver     INTEGER NOT NULL DEFAULT 0   -- 1: a caregiver (vårdnadshavare), a teacher account whose class is a family
 );
 CREATE TABLE IF NOT EXISTS classes (
   id         INTEGER PRIMARY KEY,

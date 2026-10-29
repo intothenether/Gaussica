@@ -92,7 +92,7 @@ async function withServer(fn) {
 
 async function api() {
   if (filter && "api".indexOf(filter) < 0) return;
-  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"], ["api delete", "tests/api-delete.js", "cookie"], ["api planner", "tests/api-planner.js", "cookie"]]) {
+  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"], ["api delete", "tests/api-delete.js", "cookie"], ["api planner", "tests/api-planner.js", "cookie"], ["api caregivers", "tests/api-caregiver.js", "cookie"]]) {
     try {
       await withServer(async (base, code, dir) => {
         const args = mode ? [base, mode, code] : [];
@@ -120,6 +120,8 @@ async function api() {
   run("worksheets", "tests/worksheet.js");
   run("offline", "tests/offline.js");
   run("worker deletion", "tests/worker-delete.js");
+  run("worker caregivers", "tests/worker-caregiver.js");
+  run("words for families", "tests/words.js");
   run("school documents", "tests/school-docs.js");
   run("fonts", "tests/fonts.js");
   run("themes", "tests/theme.js");
@@ -138,6 +140,7 @@ async function api() {
   run("pet in the problems", "tests/personal.js");
   run("pet peeking", "tests/peek.js");
   run("new formats", "tests/formats.js");
+  run("curves in graphs", "tests/curves.js");
   run("workshop", "tests/workshop.js");
   run("syllabus", "tests/lgr22.js");
   await api();

@@ -4,6 +4,8 @@
   const filters = document.querySelector("#area-filters");
   const graph = document.querySelector("#lesson-graph");
   const panel = document.querySelector("#lesson-panel");
+  const popup = document.querySelector("#lesson-popup");
+  const popupCard = document.querySelector("#lesson-popup-card");
   const progressNotice = document.querySelector("#progress-notice");
   const studentProfileBar = document.querySelector("#student-profile-bar");
   const studentModal = document.querySelector("#student-modal");
@@ -71,6 +73,9 @@
 
   function getActiveStudent() { return currentUser; }
 
+  // Teachers and caregivers (vårdnadshavare) share the view of their classes (a caregiver's class is the family); only teachers edit lessons.
+  function isGuide(u) { return Boolean(u && (u.role === "teacher" || u.role === "caregiver")); }
+
   async function loadUserData(user) {
     const data = await API.get("/api/me/data");
     currentUser = Object.assign({}, user, {
@@ -79,6 +84,8 @@
     });
     lessonProgress = currentUser.lessonProgress;
     window.GaussicaUser = currentUser;
+    // "lärare" and "elev" are "vårdnadshavare" and "barn" for a family (words.js)
+    if (window.GaussicaWords) window.GaussicaWords.setMode(currentUser.role === "caregiver" ? "caregiver" : currentUser.role === "student" && currentUser.guide === "caregiver" ? "family" : null);
     restoreOutbox();
     // the colour theme the student has chosen follows the account
     if (window.GaussicaTheme) window.GaussicaTheme.sync(lessonProgress.theme);
@@ -430,6 +437,7 @@
     validateCourse();
     activeLessonId = course.lessons[0] ? course.lessons[0].id : "";
     initPreview();
+    initPopup();
     initMapState();
     renderFilters();
     renderGraph();
@@ -540,7 +548,10 @@
   // Students see a short path by default and open the full graph on request; teachers always see the graph.
   const MAP_KEY = "gaussica.map";
   let mapOpen = true;
-  let panelShown = true;   // the lesson panel is hidden for students until they ask for "Mer om lektionen"
+  // The overview of a lesson is a pop-up over the page: it opens when a node on the map is chosen, or "Mer om lektionen" in the short path,
+  // so that nothing has to be scrolled to. popupOpener is what had the focus, to give it back when the pop-up closes.
+  let popupOpen = false;
+  let popupOpener = null;
 
   function readMapPref() {
     try { return window.localStorage.getItem(MAP_KEY) === "open"; } catch (e) { return false; }
@@ -549,7 +560,7 @@
   function initMapState() {
     const student = isStudent();
     mapOpen = student ? readMapPref() : true;
-    panelShown = !student;
+    popupOpen = false;
     const toggle = document.getElementById("map-toggle");
     const row = document.getElementById("map-toggle-row");
     if (row) row.hidden = !student;
@@ -579,13 +590,60 @@
   }
 
   function updatePanelVisibility() {
-    if (panel) panel.hidden = !(mapOpen || panelShown);
+    if (popup) popup.hidden = !popupOpen;
+    document.body.classList.toggle("lesson-popup-open", popupOpen);
+  }
+
+  // Shows the pop-up (it is drawn already, see renderPanel) and moves the focus into it.
+  function openPopup() {
+    if (!popupOpen) {
+      popupOpener = document.activeElement && document.activeElement !== document.body ? document.activeElement : null;
+      popupOpen = true;
+    }
+    updatePanelVisibility();
+    popupCard.scrollTop = 0;
+    panel.scrollTop = 0;
+    popupCard.focus({ preventScroll: true });
+  }
+
+  // silent: closed by a new route (a lesson is opened in the player, say), so the address and the focus are left as they are.
+  function closePopup(silent) {
+    if (!popupOpen) return;
+    popupOpen = false;
+    updatePanelVisibility();
+    const id = activeLessonId;
+    let back = popupOpener;
+    popupOpener = null;
+    if (silent) return;
+    // the address of a lesson (#id) is left, or the pop-up would open again when the page is loaded
+    const hash = window.location.hash.replace(/^#/, "");
+    if (hash && course && course.lessons.some(function (l) { return l.id === hash; }) && window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search + "#larstig");
+    }
+    if (!back || !back.isConnected) back = graph.querySelector('[data-lesson-id="' + id + '"]');   // the map has been drawn again since
+    if (back && typeof back.focus === "function") back.focus({ preventScroll: true });
+  }
+
+  function initPopup() {
+    if (!popup || popup.dataset.bound) return;
+    popup.dataset.bound = "1";
+    document.body.appendChild(popup);   // out of the section, so that nothing around it can move or clip it
+    popup.addEventListener("click", function (e) { if (e.target === popup) closePopup(); });
+    document.getElementById("lesson-popup-close").addEventListener("click", function () { closePopup(); });
+    popup.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { e.stopPropagation(); closePopup(); return; }
+      if (e.key !== "Tab") return;
+      // the focus stays inside the pop-up
+      const items = Array.prototype.filter.call(popupCard.querySelectorAll("button, a[href], input, select, textarea, [tabindex]:not([tabindex='-1'])"), function (n) { return !n.disabled && n.offsetParent !== null; });
+      if (!items.length) { e.preventDefault(); return; }
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === popupCard)) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
   }
 
   function showLessonPanel(id) {
-    panelShown = true;
     openLesson(id);
-    panel.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function renderGraph() {
@@ -604,11 +662,12 @@
       getProgress: getLessonProgress,
       emptyText: course.areaNotes[activeArea],
       onSelect: function (id) {
+        const opener = document.activeElement;
         activeLessonId = id;
-        panelShown = true;
         renderGraph();
         renderPanel();
-        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        if (!popupOpen) popupOpener = opener && opener !== document.body ? opener : null;
+        openPopup();
       }
     });
     renderCoach();
@@ -638,11 +697,11 @@
   let previewAsStudent = false;
 
   function isStudent() {
-    return Boolean(currentUser && (currentUser.role === "student" || (currentUser.role === "teacher" && previewAsStudent)));
+    return Boolean(currentUser && (currentUser.role === "student" || (isGuide(currentUser) && previewAsStudent)));
   }
 
   function setPreview(on) {
-    previewAsStudent = Boolean(on) && Boolean(currentUser && currentUser.role === "teacher");
+    previewAsStudent = Boolean(on) && isGuide(currentUser);
     try { window.sessionStorage.setItem(PREVIEW_KEY, previewAsStudent ? "1" : "0"); } catch (e) { /* storage blocked */ }
     applyPreviewUi();
     initMapState();
@@ -652,14 +711,14 @@
   }
 
   function applyPreviewUi() {
-    const teacher = Boolean(currentUser && currentUser.role === "teacher");
+    const teacher = isGuide(currentUser);
     const sw = document.getElementById("view-switch");
     const banner = document.getElementById("preview-banner");
     const adminLink = document.getElementById("admin-top-link");
     document.body.classList.toggle("is-previewing", previewAsStudent);
     if (sw) {
       sw.hidden = !teacher;
-      sw.textContent = previewAsStudent ? "🧑‍🏫 Tillbaka till lärarvyn" : "👀 Visa som elev";
+      sw.textContent = previewAsStudent ? (currentUser.role === "caregiver" ? "👨‍👩‍👧 Tillbaka till mina barn" : "🧑‍🏫 Tillbaka till lärarvyn") : "👀 Visa som elev";
     }
     if (banner) banner.hidden = !previewAsStudent;
     if (adminLink && teacher) adminLink.hidden = previewAsStudent;
@@ -679,7 +738,7 @@
       back.dataset.bound = "1";
       back.addEventListener("click", function () { setPreview(false); });
     }
-    try { previewAsStudent = currentUser && currentUser.role === "teacher" && window.sessionStorage.getItem(PREVIEW_KEY) === "1"; } catch (e) { previewAsStudent = false; }
+    try { previewAsStudent = isGuide(currentUser) && window.sessionStorage.getItem(PREVIEW_KEY) === "1"; } catch (e) { previewAsStudent = false; }
     applyPreviewUi();
   }
 
@@ -2662,13 +2721,13 @@
     const lesson = course.lessons.find(function (item) { return item.id === id; });
     if (!lesson) return;
     activeLessonId = id;
-    panelShown = true;
     if (activeArea !== "alla" && activeArea !== lesson.area) {
       activeArea = "alla";
       renderFilters();
     }
     renderGraph();
     renderPanel();
+    openPopup();
   }
 
   // ============ PROBLEM PATTERN GENERATION SYSTEM ============
@@ -2912,7 +2971,7 @@
       if (banner) parent.appendChild(banner);
       const comments = window.GaussicaMailbox.inline(lesson.id, null);
       if (comments) parent.appendChild(comments);
-    } else if (currentUser && currentUser.role === "teacher") {
+    } else if (isGuide(currentUser)) {
       const give = makeElement("button", "secondary-button give-assignment", "📌 Ge som uppdrag");
       give.type = "button";
       give.addEventListener("click", function () {
@@ -3038,6 +3097,7 @@
     // Check if this is a parent lesson with sub-lessons
     const isParent = lesson.isParentLesson && lesson.subLessons && lesson.subLessons.length > 0;
     
+    popupCard.setAttribute("aria-label", lesson.title);
     const header = makeElement("div", "panel-header");
     const metadata = makeElement("div", "panel-metadata");
     metadata.append(
@@ -3144,7 +3204,7 @@
   }
 
   function showTeacherLinks() {
-    if (!currentUser || currentUser.role !== "teacher") return;
+    if (!isGuide(currentUser)) return;
     document.querySelectorAll(".admin-top-link, .footer-admin-link").forEach(function (a) { a.hidden = false; });
     applyPreviewUi();
     refreshTeacherChat();
@@ -3159,15 +3219,15 @@
     const btn = makeElement("button", "student-profile-btn");
     btn.type = "button";
     btn.title = "Mitt konto";
-    btn.setAttribute("aria-label", "Inloggad som " + current.name + ". Öppna kontomenyn.");
 
     const avatar = makeElement("span", "student-avatar", current.name.charAt(0).toUpperCase());
+    avatar.setAttribute("aria-hidden", "true");
     if (current.color) avatar.style.background = current.color;
 
     const info = makeElement("div", "student-info");
     info.append(
       makeElement("span", "student-name", current.name),
-      makeElement("span", "student-class", (current.role === "teacher" ? "Lärare" : (current.className || "Elev")) + " • Konto ▾")
+      makeElement("span", "student-class", (current.role === "teacher" ? "Lärare" : current.role === "caregiver" ? "Vårdnadshavare" : (current.className || "Elev")) + " • Konto ▾")
     );
 
     btn.append(avatar, info);
@@ -3224,10 +3284,13 @@
   }
 
   function myDataSection(u) {
-    const isTeacher = u.role === "teacher";
+    const isTeacher = isGuide(u);
+    const family = u.role === "caregiver";
     const box = makeElement("div", "account-form account-data");
     box.appendChild(makeElement("h4", "", "Mina uppgifter"));
-    const info = makeElement("p", "account-note", isTeacher
+    const info = makeElement("p", "account-note", family
+      ? "Du kan ladda ner dina egna uppgifter. Barnens uppgifter laddar du ner under Mina barn, för ett barn i taget eller för alla."
+      : isTeacher
       ? "Du kan ladda ner dina egna uppgifter. Elevernas uppgifter laddar du ner i lärarvyn."
       : "Du kan ladda ner allt som sparats om dig, eller radera ditt konto.");
     const msg = makeElement("p", "account-msg");
@@ -3247,7 +3310,9 @@
     const del = document.createElement("details");
     del.className = "account-danger";
     del.appendChild(makeElement("summary", "", "Radera mitt konto"));
-    del.appendChild(makeElement("p", "account-note", isTeacher
+    del.appendChild(makeElement("p", "account-note", family
+      ? "Det här raderar ditt konto, familjen, barnens konton och allt barnen har gjort. Det går inte att ångra. Ladda ner barnens uppgifter först om du vill spara dem."
+      : isTeacher
       ? "Det här raderar ditt konto, alla dina klasser, alla elever i dem och allt de gjort. Det går inte att ångra. Ladda ner uppgifterna i lärarvyn först om du vill spara dem."
       : "Det här raderar ditt konto och allt du gjort: dina svar, ditt djur och dina meddelanden. Det går inte att ångra. Din lärare får veta att du inte längre finns i klassen."));
     const wrap = makeElement("label", "account-field");
@@ -3263,7 +3328,7 @@
       dmsg.className = "account-msg";
       dmsg.textContent = "";
       if (!pass.value) { dmsg.className = "account-msg is-error"; dmsg.textContent = "Skriv ditt lösenord först."; pass.focus(); return; }
-      if (!window.confirm(isTeacher ? "Radera ditt konto, dina klasser och alla elever i dem? Det går inte att ångra." : "Radera ditt konto och allt du gjort? Det går inte att ångra.")) return;
+      if (!window.confirm(family ? "Radera ditt konto, familjen och barnens konton? Det går inte att ångra." : isTeacher ? "Radera ditt konto, dina klasser och alla elever i dem? Det går inte att ångra." : "Radera ditt konto och allt du gjort? Det går inte att ångra.")) return;
       go.disabled = true;
       try {
         await API.post("/api/me/delete", { password: pass.value });
@@ -3295,7 +3360,7 @@
     const headerLeft = makeElement("div");
     headerLeft.append(
       makeElement("h3", "", "Mitt konto"),
-      makeElement("p", "", u.name + " · " + u.username + " · " + (u.role === "teacher" ? "lärare" : (u.className || "elev")))
+      makeElement("p", "", u.name + " · " + u.username + " · " + (u.role === "teacher" ? "lärare" : u.role === "caregiver" ? "vårdnadshavare" : (u.className || "elev")))
     );
     const closeBtn = makeElement("button", "modal-close-btn", "✕");
     closeBtn.type = "button";
@@ -3458,7 +3523,7 @@
   }
 
   async function refreshTeacherChat() {
-    if (!currentUser || currentUser.role !== "teacher" || document.visibilityState === "hidden") return;
+    if (!isGuide(currentUser) || document.visibilityState === "hidden") return;
     try {
       const r = await API.get("/api/teacher/chat/unread");
       const grew = r.unread > shownTeacherChat;
@@ -3475,7 +3540,7 @@
   // refetch: true loads fresh data from the server; false redraws from what is already loaded.
   async function renderAdminPage(refetch) {
     if (!adminPage) return;
-    if (!currentUser || currentUser.role !== "teacher") {
+    if (!isGuide(currentUser)) {
       adminPage.replaceChildren(makeElement("p", "course-error", "Den här sidan är bara för lärare."));
       return;
     }
@@ -3498,6 +3563,7 @@
       }
     }
     window.GaussicaTeacher.render(adminPage, {
+      caregiver: currentUser.role === "caregiver",
       students: teacherCache.students,
       classes: teacherCache.classes,
       assignments: teacherCache.assignments,
@@ -3511,6 +3577,7 @@
         back: function () { window.location.hash = "#larstig"; },
         exportCSV: exportAttemptsCSV,
         exportJSON: exportDataJSON,
+        addChild: function (payload) { return API.post("/api/teacher/students", payload).then(function (r) { return r.student; }); },
         createClass: function (name) { return API.post("/api/teacher/classes", { name: name }).then(function (r) { return r["class"]; }); },
         resetPassword: function (studentId) {
           return API.post("/api/teacher/students/" + encodeURIComponent(studentId) + "/password").then(function (r) { return r.password; });
@@ -3565,6 +3632,8 @@
 
   function checkRoute() {
     const hash = window.location.hash || "";
+    // the pop-up of a lesson stays only for the address of a lesson; any other route (the player, a test, the start) closes it
+    if (popupOpen && !(course && course.lessons.some(function (l) { return "#" + l.id === hash; }))) closePopup(true);
     const playId = hash.indexOf("#play/") === 0 ? hash.slice(6) : "";
     const practiceId = hash.indexOf("#practice/") === 0 ? decodeURIComponent(hash.slice(10)) : "";
     if (hash !== "#nivatest" && hash.indexOf("#prov/") !== 0) window.GaussicaTest.closeActive();
@@ -3612,7 +3681,7 @@
     }
     window.GaussicaPlayer.close(true);
     if (hash === "#admin" || hash.startsWith("#admin/")) {
-      if (!currentUser || currentUser.role !== "teacher") {
+      if (!isGuide(currentUser)) {
         window.location.hash = "#larstig";
         return;
       }

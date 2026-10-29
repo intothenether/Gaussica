@@ -166,10 +166,9 @@ window.GaussicaPlayer = (function () {
     close.setAttribute("aria-label", "Avsluta lektionen");
     close.title = "Avsluta (Esc)";
     const bar = el("div", "pl-bar");
-    bar.setAttribute("role", "progressbar");
-    bar.setAttribute("aria-valuemin", "0");
-    bar.setAttribute("aria-valuemax", String(state.steps.length));
-    bar.setAttribute("aria-valuenow", String(Math.min(state.index, state.steps.length)));
+    // the steps are buttons, so the bar is a group of them (a progressbar may not hold buttons)
+    bar.setAttribute("role", "group");
+    bar.setAttribute("aria-label", "Stegen i lektionen");
     state.steps.forEach(function (st, i) {
       const seg = el("button", "pl-seg");
       seg.type = "button";
@@ -180,6 +179,7 @@ window.GaussicaPlayer = (function () {
       if (i === state.index) cls += " is-current";
       seg.className = cls;
       seg.setAttribute("aria-label", st.type === "learn" ? "Läs" : "Fråga " + st.number);
+      if (i === state.index) seg.setAttribute("aria-current", "step");
       seg.addEventListener("click", function () { go(i); });
       bar.appendChild(seg);
     });
@@ -190,9 +190,10 @@ window.GaussicaPlayer = (function () {
     const actions = el("div", "pl-top-actions");
     const labelled = function (icon, text, className, onClick, tip) {
       const b = button("", className, onClick);
-      b.append(el("span", "pl-btn-icon", icon), el("span", "pl-btn-label", " " + text));
-      b.title = tip;
-      b.setAttribute("aria-label", text + ". " + tip);
+      const ic = el("span", "pl-btn-icon", icon);
+      ic.setAttribute("aria-hidden", "true");
+      b.append(ic, el("span", "pl-btn-label", " " + text));
+      b.title = tip;   // the name of the button is its text, the tip is its description
       return b;
     };
     if (rulesLesson()) actions.appendChild(labelled("💡", "Regler", "pl-rules", openRules, "Se regeln och förklaringen igen utan att lämna lektionen."));

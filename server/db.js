@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 
-const SCHEMA_VERSION = 6;
+const SCHEMA_VERSION = 7;
 
 function open(dbPath) {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -145,6 +145,11 @@ function migrate(db) {
   if (version < 6) {
     // a prov (generated test) is an assignment of kind 'prov' whose settings are kept here as JSON
     db.exec("ALTER TABLE assignments ADD COLUMN config TEXT;");
+  }
+  if (version < 7) {
+    // a caregiver (vårdnadshavare) is a teacher account with this flag: the same classes (a family), assignments and messages,
+    // but no editing of lessons and no teacher code needed
+    db.exec("ALTER TABLE users ADD COLUMN caregiver INTEGER NOT NULL DEFAULT 0;");
   }
   db.exec("PRAGMA user_version = " + SCHEMA_VERSION);
 }

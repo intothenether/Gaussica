@@ -121,6 +121,30 @@ window.GaussicaPracticeEditor = (function () {
         ] }
     },
     {
+      id: "sortera-lista", label: "Sortera: saker i två grupper", note: "Ett Sortera-uppdrag. Varje gång dras size saker ur listan, med några från varje grupp. category är gruppens nummer (från 0).",
+      template: { mode: "sortera", size: 6, prompt: "Sortera talen: är de jämna eller udda?", categories: ["Jämna", "Udda"],
+        pool: [{ text: "14", category: 0, explain: "14 slutar på 4, alltså jämnt." }, { text: "27", category: 1, explain: "27 slutar på 7, alltså udda." }, { text: "30", category: 0 }, { text: "45", category: 1 },
+          { text: "52", category: 0 }, { text: "63", category: 1 }, { text: "18", category: 0 }, { text: "71", category: 1 }] }
+    },
+    {
+      id: "ordna-lista", label: "Ordna: tal som ska stå i ordning", note: "Ett Ordna-uppdrag. Varje gång dras size saker med olika value ur listan, och rätt ordning är den efter value.",
+      template: { mode: "ordna", size: 4, prompt: "Sätt talen i ordning, det minsta först.", top: "Minst", bottom: "Störst",
+        pool: [{ text: "53", value: 53 }, { text: "305", value: 305 }, { text: "350", value: 350 }, { text: "503", value: 503 }, { text: "35", value: 35 }, { text: "530", value: 530 }] }
+    },
+    {
+      id: "hitta-felet-lista", label: "Hitta felet: lösningar med ett fel", note: "Ett Hitta felet-uppdrag. Varje gång dras en lösning ur listan. wrong är det felaktiga stegets nummer (från 0).",
+      template: { mode: "hittafelet", prompt: "Vilket steg är fel?",
+        pool: [{ steps: ["3x + 2 = 14", "3x = 14 + 2", "3x = 16", "x = 16/3"], wrong: 1, explain: "Du tar bort 2 på båda sidor: 14 − 2.", fix: "3x = 12 och x = 4", hint: "Vad gör du med 2:an?" },
+          { steps: ["2x + 5 = 19", "2x = 19 − 5", "2x = 14", "x = 14 · 2"], wrong: 3, explain: "Du delar med 2: x = 14/2 = 7.", fix: "x = 7" },
+          { steps: ["x + 4 = 9", "x = 9 + 4", "x = 13"], wrong: 1, explain: "Du tar bort 4 på båda sidor: 9 − 4.", fix: "x = 5" },
+          { steps: ["x − 3 = 5", "x = 5 − 3", "x = 2"], wrong: 1, explain: "Du lägger till 3 på båda sidor: 5 + 3.", fix: "x = 8" },
+          { steps: ["2x = 12", "x = 12 · 2", "x = 24"], wrong: 1, explain: "Du delar med 2: 12/2.", fix: "x = 6" }] }
+    },
+    {
+      id: "luckor-tal", label: "Fyll i luckorna: text med slumptal", note: "Ett Fyll i luckorna-uppdrag där talen slumpas. Luckorna skrivs [[1]], [[2]] ... och rätt svar som uttryck. Ett svar kan vara flera: [\"=a*7\", \"sju\"].",
+      template: { mode: "lucktext", vars: { w: [2, 9], d: [2, 6] }, prompt: "Fyll i luckorna om tid.", text: "{w} veckor är [[1]] dagar. {d} dygn är [[2]] timmar.", blanks: [{ answer: ["=w*7"] }, { answer: ["=d*24"], hint: "Ett dygn är 24 timmar." }] }
+    },
+    {
       id: "sf-ord", label: "Sant eller falskt: ordlista (begrepp)", note: "Ett Sant/falskt-uppdrag av en lista påståenden. Varje gång väljs size stycken slumpmässigt, med både sanna och falska när listan har båda. Bra för begreppslektioner: lägg till ett sant och ett falskt påstående per begrepp.",
       template: { mode: "santfalskt", size: 4, prompt: "Sant eller falskt?",
         pool: [
@@ -202,7 +226,40 @@ window.GaussicaPracticeEditor = (function () {
 
   function PR() { return window.GaussicaPractice; }
 
-  const BUILTIN = new Set(["abs", "sqrt", "round", "floor", "ceil", "min", "max", "pow", "mod", "sgd", "divcount", "isprime", "primecount", "nextprime", "fact", "sin", "cos", "tan", "asin", "acos", "atan", "pi"]);
+  // The templates of the new formats (see formats.js): a list to draw from (sortera, ordna, hittafelet) or numbers in a text with gaps (lucktext).
+  // They are edited as JSON, and checked here by making questions and asking the format what is wrong with them.
+  const FORMAT_MODES = { sortera: "so", ordna: "or", hittafelet: "hf", lucktext: "lt" };
+  const FORMAT_NAMES = { sortera: "Sortera", ordna: "Ordna", hittafelet: "Hitta felet", lucktext: "Fyll i luckorna" };
+  function isFormat(t) { return Boolean(t && FORMAT_MODES[t.mode]); }
+
+  function checkFormat(t) {
+    const errors = [], warnings = [];
+    const FM = window.GaussicaFormats;
+    if (t.mode !== "lucktext" && (!Array.isArray(t.pool) || t.pool.length < 2)) errors.push("Listan (pool) behöver minst två " + (t.mode === "hittafelet" ? "lösningar." : "saker."));
+    if (t.mode === "lucktext" && (typeof t.text !== "string" || !Array.isArray(t.blanks) || !t.blanks.length)) errors.push("Texten med luckor (text, med [[1]], [[2]] ...) och blanks krävs.");
+    if (errors.length || !PR() || !FM) return { errors: errors, warnings: warnings };
+    const N = 100;
+    let fails = 0;
+    const variants = new Set();
+    const said = {};
+    for (let i = 0; i < N; i++) {
+      const q = PR().build(t, 1000 + i * 7919);
+      if (!q) { fails += 1; continue; }
+      variants.add(JSON.stringify([q.items, q.steps, q.text, q.blanks]));
+      FM.problems(Object.assign({}, q, { type: q.format })).forEach(function (m) { if (!said[m]) { said[m] = true; errors.push(FORMAT_NAMES[t.mode] + ": " + m + "."); } });
+      if ((/NaN|undefined|Infinity/.test([q.items, q.steps, q.text, q.blanks].filter(function (x) { return x !== undefined; }).map(function (x) { return JSON.stringify(x); }).join(" ")) || /\[\[|\]\]/.test(String(q.text || ""))) && !said.unresolved) { said.unresolved = true; errors.push("Något i texten blev inte ifyllt. Kontrollera namnen på slumptalen."); }
+    }
+    if (fails === N) errors.push("Det går inte att skapa en enda fråga. Kontrollera listan och villkoren.");
+    else if (fails > N * 0.2) warnings.push("Det misslyckades att skapa en fråga i " + fails + " av " + N + " försök.");
+    if (variants.size < 5 && fails < N) warnings.push("Frågorna blir för lika: bara " + variants.size + " olika på " + N + " försök. Lägg till fler i listan eller bredare talintervall.");
+    if (t.mode === "sortera" && Array.isArray(t.pool) && t.categories && t.categories.length) {
+      const per = t.categories.map(function (c, k) { return t.pool.filter(function (p) { return (typeof p.category === "number" ? p.category : t.categories.map(String).indexOf(String(p.category))) === k; }).length; });
+      if (Math.min.apply(null, per) < 2) warnings.push("Någon grupp har färre än två saker i listan, så varje runda ser likadan ut.");
+    }
+    return { errors: errors, warnings: warnings };
+  }
+
+  const BUILTIN = new Set(["abs", "sqrt", "round", "floor", "ceil", "min", "max", "pow", "lg", "ln", "log", "exp", "mod", "sgd", "divcount", "isprime", "primecount", "nextprime", "fact", "sin", "cos", "tan", "asin", "acos", "atan", "pi"]);
 
   // Names written in {…}, in "=…" answers and in uträkningar that are neither a random number, a calculated value nor a random word.
   function unknownNames(t) {
@@ -240,6 +297,7 @@ window.GaussicaPracticeEditor = (function () {
     const errors = [], warnings = [];
     const isPool = Array.isArray(t.pool);
     if (!t.id || !ID_RE.test(t.id)) errors.push("Mallens namn får bara ha bokstäver, siffror, bindestreck och understreck.");
+    if (isFormat(t)) { const r = checkFormat(t); return { errors: errors.concat(r.errors), warnings: r.warnings }; }
     if (isPool) {
       if (t.pool.length < 2) errors.push(t.mode === "santfalskt" ? "En sant/falskt-lista behöver minst två påståenden." : "En begreppsmall behöver minst två begrepp.");
       if (t.mode === "santfalskt") {
@@ -366,10 +424,10 @@ window.GaussicaPracticeEditor = (function () {
     const card = el("details", "pe-card");
     card.open = ctx.open[t.id] !== undefined ? ctx.open[t.id] : list.length === 1;
     card.addEventListener("toggle", function () { ctx.open[t.id] = card.open; });
-    const isPool = Array.isArray(t.pool) || Array.isArray(t.statements);   // edited as JSON, not in the form
+    const isPool = Array.isArray(t.pool) || Array.isArray(t.statements) || isFormat(t);   // edited as JSON, not in the form
 
     const sum = el("summary", "pe-sum");
-    sum.append(el("span", "pe-sum-id", t.id || "utan namn"), el("span", "pe-sum-text", Array.isArray(t.statements) ? "Sant eller falskt (påståenden)" : t.mode === "santfalskt" ? "Sant eller falskt (lista)" : isPool ? "Begreppsmall" : (t.prompt || "")));
+    sum.append(el("span", "pe-sum-id", t.id || "utan namn"), el("span", "pe-sum-text", Array.isArray(t.statements) ? "Sant eller falskt (påståenden)" : t.mode === "santfalskt" ? "Sant eller falskt (lista)" : isFormat(t) ? FORMAT_NAMES[t.mode] + " (" + (t.prompt || "") + ")" : isPool ? "Begreppsmall" : (t.prompt || "")));
     card.appendChild(sum);
     const body = el("div", "pe-body");
     card.appendChild(body);
@@ -405,7 +463,10 @@ window.GaussicaPracticeEditor = (function () {
     };
     const edited = function () { ctx.changed(); refresh(); };
 
-    if (isPool) {
+    if (isFormat(t)) {
+      body.appendChild(el("p", "le-hint", "Det här är en mall för " + FORMAT_NAMES[t.mode] + " (se README, avsnittet Nya format). Den ändras som JSON längst ned. " + (t.mode === "lucktext" ? "Luckorna skrivs [[1]], [[2]] ... och rätt svar som uttryck, till exempel \"=a*7\"." : "Varje gång dras några saker ur listan (pool).")));
+      body.appendChild(forSection(t, ctx, edited));
+    } else if (isPool) {
       body.appendChild(el("p", "le-hint", Array.isArray(t.statements) || t.mode === "santfalskt"
         ? "Det här är ett Sant/falskt-uppdrag. Påståendena ändras som JSON längst ned (se galleriet för ett exempel). Kontrollen och exemplen nedan fungerar som vanligt."
         : "Det här är en begreppsmall (para ihop eller fråga efter begrepp). Den fylls i av knappen \"Skapa av begreppskorten\" och kan ändras som JSON längst ned."));
@@ -690,6 +751,7 @@ window.GaussicaPracticeEditor = (function () {
         const fig = window.GaussicaFigures.render(q.visual);
         if (fig) { fig.classList.add("pe-fig"); card.appendChild(fig); }
       }
+      if (q.format && window.GaussicaFormats) card.appendChild(el("p", "le-hint", window.GaussicaFormats.summary(q)));
       if (q.pairs) card.appendChild(el("p", "le-hint", "Par: " + q.pairs.map(function (p) { return p.term; }).join(", ")));
       if (q.statements) {
         // a true/false round: every statement with its right answer
@@ -734,7 +796,8 @@ window.GaussicaPracticeEditor = (function () {
       row.append(text, button("Lägg till", "le-btn le-btn-small", function () {
         const t = Object.assign({ id: uniqueId(list, s.id) }, JSON.parse(JSON.stringify(s.template)));
         const firstTask = ctx.tasks()[0];
-        if (Array.isArray(t.statements) || t.mode === "santfalskt") t["for"] = ctx.tasks().filter(function (x) { return /^sf-/.test(x.id); }).map(function (x) { return x.id; });   // review of a true/false task gives a true/false round
+        if (FORMAT_MODES[t.mode]) t["for"] = ctx.tasks().filter(function (x) { return x.id.indexOf(FORMAT_MODES[t.mode] + "-") === 0; }).map(function (x) { return x.id; });
+        else if (Array.isArray(t.statements) || t.mode === "santfalskt") t["for"] = ctx.tasks().filter(function (x) { return /^sf-/.test(x.id); }).map(function (x) { return x.id; });   // review of a true/false task gives a true/false round
         else if (firstTask && !t["for"]) t["for"] = [firstTask.id];
         list.push(t);
         ctx.open[t.id] = true;
