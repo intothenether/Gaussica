@@ -56,7 +56,7 @@ window.GaussicaFigures = (function () {
 
   function text(parent, x, y, str, cls, anchor) {
     const t = s("text", { x: x, y: y, "class": "fig-text " + (cls || ""), "text-anchor": anchor || "middle" }, parent);
-    t.textContent = str;
+    if (window.GaussicaText && String(str).indexOf("^") >= 0) window.GaussicaText.svg(t, str); else t.textContent = str;   // powers: 2^x with a raised x
     return t;
   }
 

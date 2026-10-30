@@ -191,7 +191,8 @@ window.GaussicaFormats = (function () {
   function frame(parent, problem, ctx, kind, help) {
     const section = el("section", "exercise word-problem fm-exercise fm-" + kind);
     if (ctx.headingId) section.setAttribute("aria-labelledby", ctx.headingId);
-    const heading = el("h3", "", problem.prompt);
+    const heading = el("h3", "");
+    if (window.GaussicaText) window.GaussicaText.set(heading, problem.prompt); else heading.textContent = problem.prompt;   // powers and fractions as on paper
     if (ctx.headingId) heading.id = ctx.headingId;
     section.append(el("p", "eyebrow", ctx.labelText || NAMES[kind].toUpperCase()), heading);
     const listen = ctx.listen ? ctx.listen(function () { return problem.prompt + " " + summary(problem); }) : null;

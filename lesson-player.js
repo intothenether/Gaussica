@@ -354,7 +354,6 @@ window.GaussicaPlayer = (function () {
   // field, so the student never has to scroll to answer. state.hosts are created once per question.
   function footer(foot, tone, message, actions, say) {
     foot.className = "pl-foot is-" + tone;
-    foot.replaceChildren();
     if (state.peek) state.peek.set(tone);
     const msg = el("div", "pl-foot-msg");
     // the pet says it in a speech bubble if the student has one (say = { kind, ... }), otherwise it is plain text
@@ -363,6 +362,15 @@ window.GaussicaPlayer = (function () {
     else if (message) msg.textContent = message;
     const acts = el("div", "pl-foot-actions");
     actions.forEach(function (a) { acts.appendChild(a); });
+    // The row with the answer field is kept when only the message and the buttons change (a wrong answer, say). Taking the field out of the
+    // page and putting it back would close the keyboard of a phone.
+    const kept = state.hosts ? foot.querySelector(".pl-foot-row") : null;
+    if (kept && kept.contains(state.hosts.answer) && kept.querySelector(".pl-foot-msg") && kept.querySelector(".pl-foot-actions")) {
+      kept.querySelector(".pl-foot-msg").replaceWith(msg);
+      kept.querySelector(".pl-foot-actions").replaceWith(acts);
+      return;
+    }
+    foot.replaceChildren();
     const row = el("div", "pl-foot-row");
     if (state.hosts) {
       foot.appendChild(state.hosts.question);

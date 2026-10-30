@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 const { signIn, openLesson } = require("./helpers");
 
 // The gymnasium lessons show their functions as curves, with the table of values after them.
-for (const [id, curves, label] of [["exponentialfunktioner", 2, "y = 2^x"], ["andragradsfunktioner", 1, "y = x² − 4x + 3"], ["logaritmer", 1, "(10, 1)"]]) {
+for (const [id, curves, label] of [["exponentialfunktioner", 2, "y = 2x"], ["andragradsfunktioner", 1, "y = x² − 4x + 3"], ["logaritmer", 1, "(10, 1)"]]) {
   test("a graph with " + curves + " curve(s) in " + id, async ({ page }) => {
     await signIn(page);
     await openLesson(page, id, ".fig-curve");

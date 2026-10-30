@@ -2578,6 +2578,7 @@
 
     const submit = makeElement("button", "primary-button answer-button", "Kolla svaret");
     submit.type = "submit";
+    keepFocus(submit);   // the keyboard of a phone stays open, so that a wrong answer can be changed at once
     form.append(answerField, submit);
 
     const feedback = makeElement("p", "feedback-message", saved.feedback || "");
@@ -2693,11 +2694,12 @@
       exercise.keys.forEach(function (key) {
         const b = makeElement("button", "answer-key", key);
         b.type = "button";
+        keepFocus(b);
         b.addEventListener("click", function () {
           const start = answer.selectionStart === null ? answer.value.length : answer.selectionStart;
           const end = answer.selectionEnd === null ? start : answer.selectionEnd;
           answer.value = answer.value.slice(0, start) + key + answer.value.slice(end);
-          answer.focus();
+          answer.focus({ preventScroll: true });
           answer.setSelectionRange(start + key.length, start + key.length);
           answer.dispatchEvent(new Event("input", { bubbles: true }));
         });
@@ -2715,6 +2717,14 @@
       section.append(feedback);
     }
     parent.appendChild(section);
+  }
+
+  // A button that does its work without taking the focus from the field the student is typing in. On a phone, the focus leaving the
+  // field closes the keyboard; the click still comes, and the field keeps its cursor.
+  function keepFocus(button) {
+    const hold = function (e) { e.preventDefault(); };
+    button.addEventListener("pointerdown", hold);
+    button.addEventListener("mousedown", hold);
   }
 
   function openLesson(id) {
