@@ -61,3 +61,42 @@ test("in a lesson the pet peeks over the footer: calm, then looking at the hint,
   await expect(page.locator("#lesson-player .pl-foot")).toHaveClass(/is-correct/);
   expect((await eyesOf())[2]).toBe(true);
 });
+
+test("the shop is one place: no separate tab for themes, and the locked pieces sit among the others", async ({ page }) => {
+  await signIn(page);
+  await page.locator(".hp-shop").click();
+  const tabs = page.locator("#pet-overlay .pet-tab");
+  await expect(tabs).toHaveText(["Hattar", "Ansikte", "Halsband", "Bakgrund", "Rum", "Mat och lek", "Mitt djur"]);
+
+  // hats: ordinary ones first, then a piece of a theme (locked by lessons), then the ones a badge opens (locked by badges)
+  const names = await page.locator("#pet-overlay .pet-item .pet-item-name").allTextContents();
+  expect(names.indexOf("Liten planta")).toBeGreaterThan(names.indexOf("Räknehatt"));
+  const theme = page.locator("#pet-overlay .pet-item", { hasText: "Räknehatt" });
+  await expect(theme).toHaveClass(/is-locked/);
+  await expect(theme.locator(".pet-item-tag")).toHaveText(/Siffervännen/);
+  await expect(theme.locator(".pet-item-price")).toContainText("🔒");
+  const badge = page.locator("#pet-overlay .pet-item", { hasText: "Liten planta" });
+  await expect(badge).toHaveClass(/is-locked/);
+  await expect(badge.locator(".pet-item-tag")).toHaveText(/Märke/);
+
+  // a locked piece says what opens it, and cannot be bought
+  await badge.click();
+  await expect(page.locator("#pet-overlay .pet-action .pet-short")).toContainText(/🔒.*märket/);
+  await expect(page.locator("#pet-overlay .pet-action").getByRole("button", { name: /Köp/ })).toHaveCount(0);
+  await theme.click();
+  await expect(page.locator("#pet-overlay .pet-action .pet-short")).toContainText(/🔒.*lektion/);
+
+  // every part of the shop has some of them, and an ordinary piece is not locked
+  for (const tab of ["Ansikte", "Halsband", "Bakgrund"]) {
+    await tabs.filter({ hasText: new RegExp("^" + tab + "$") }).click();
+    expect(await page.locator("#pet-overlay .pet-item.is-locked").count()).toBeGreaterThan(1);
+    expect(await page.locator("#pet-overlay .pet-item:not(.is-locked)").count()).toBeGreaterThan(2);
+  }
+
+  // what opens them is told in one place
+  const info = page.locator("#pet-overlay .pet-unlock-info");
+  await info.locator("summary").click();
+  await expect(info).toContainText("Siffervännen");
+  await expect(info).toContainText("Regnbågen");
+  await expect(info).toContainText(/märkena/);
+});

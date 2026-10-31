@@ -192,7 +192,29 @@ const counts = Pet.areaCounts({ lessons: lessons, getProgress: (id) => prog[id] 
 ok(counts.tal === 1 && !counts.geometri, "finished lessons are counted per area: " + JSON.stringify(counts));
 
 
-// ----- more animals -----
+// ----- the pieces that badges unlock (and all of the shop in one place) -----
+require(ROOT + "rewards.js");
+window.GaussicaRewards.init({ getUser: () => ({ id: 1, attempts: [], rewards: true }), getCourse: () => ({ lessons: lessons }), getProgress: () => ({ answers: {} }), isActive: () => true, mailbox: null });
+const badgeIds = window.GaussicaRewards.badgeList().badges.map((x) => x.id);
+const earnedItems = Art.ITEMS.filter((i) => i.badges);
+ok(earnedItems.length >= 12 && ["hat", "face", "neck", "bg"].every((s) => earnedItems.some((i) => i.slot === s)), "there are things that badges unlock, in every part of the shop (" + earnedItems.length + ")");
+ok(earnedItems.every((i) => !i.set && i.badges.length >= 1 && i.badges.every((id) => badgeIds.includes(id))), "each is unlocked by badges that exist, and is not also a piece of a theme");
+ok(new Set(earnedItems.map((i) => i.id)).size === earnedItems.length && earnedItems.every((i) => i.id.startsWith("markt-") && /viewBox/.test(Art.thumb(i.id)) && !/NaN/.test(Art.thumb(i.id))), "with ids of their own and a thumbnail");
+ok(badgeIds.every((id) => earnedItems.some((i) => i.badges.includes(id))), "every badge opens something in the shop");
+const lockedBadge = { id: "direkt", name: "Rätt direkt", text: "Få tre stjärnor på en lektion.", earned: false };
+const sikte = Art.item("markt-sikte");
+ok(Pet.lockOf(sikte, {}, [lockedBadge]) && Pet.lockOf(sikte, {}, [lockedBadge]).kind === "badge" && !Pet.lockOf(sikte, {}, [Object.assign({}, lockedBadge, { earned: true })]), "a piece is locked until its badge is earned");
+ok(!Pet.lockOf(sikte, {}, undefined) && !Pet.lockOf(sikte, {}), "without the list of badges nothing is locked by badges");
+b = Pet.buyItem(pet, "markt-sikte", 99, {}, [lockedBadge]);
+ok(b.error && /Den är låst/.test(b.error) && /märket ”Rätt direkt”/.test(b.error) && /tre stjärnor/.test(b.error), "buying it without the badge is refused, and says which badge: " + b.error);
+b = Pet.buyItem(pet, "markt-sikte", 99, {}, [Object.assign({}, lockedBadge, { earned: true })]);
+ok(!b.error && b.pet.worn.face === "markt-sikte" && b.pet.owned["markt-sikte"] === Art.item("markt-sikte").price, "with the badge it is bought and put on");
+const rainbow = Art.item("markt-regnbage");
+const fiveBadges = ["tal", "form", "mat", "samband", "data"].map((id) => ({ id: id, name: id, text: "", earned: true }));
+ok(Pet.lockOf(rainbow, {}, fiveBadges.map((x, n) => (n === 3 ? Object.assign({}, x, { earned: false }) : x))).missing.length === 1 && !Pet.lockOf(rainbow, {}, fiveBadges), "a piece that needs five badges needs all five");
+ok(/märkena/.test(Pet.lockText(Pet.lockOf(rainbow, {}, fiveBadges.map((x) => Object.assign({}, x, { earned: false }))))), "and it says märkena when there are several");
+ok(Pet.lockOf(tal, { tal: 1 }, []).kind === "area", "a piece of a theme is still locked by lessons, and says so");
+
 const ALL = ["dog", "tax", "cat", "penguin", "rabbit", "hedgehog", "fox", "hamster", "dragon", "axolotl", "pig", "cow", "cockatiel"];
 ok(ALL.every((k) => Art.KINDS[k]) && Object.keys(Art.KINDS).length === 13, "thirteen animals");
 ALL.forEach((k) => {

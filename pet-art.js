@@ -3,7 +3,9 @@
 //
 //   GaussicaPetArt.KINDS                      { dog (a pug), tax (a dachshund), cat, penguin, rabbit, hedgehog, fox, hamster, dragon, axolotl, pig, cow, cockatiel }:
 //                                             name, colours, default names, and the favourite food and toy (likes: { food, toy })
-//   GaussicaPetArt.ITEMS                      the shop: [{ id, slot, name, price, view, set?, need? }]  (slot: hat | face | neck | bg)
+//   GaussicaPetArt.ITEMS                      the shop: [{ id, slot, name, price, view, set?, need?, badges? }]  (slot: hat | face | neck | bg)
+//                                             a piece with `set` and `need` is locked until enough lessons of the area are finished; a piece with `badges`
+//                                             (ids of the badges of rewards.js, "märken") until all of them are earned
 //   GaussicaPetArt.SETS                       the themed sets, one for each area of the course: pieces with set and need
 //                                             (the number of finished lessons in the area that unlocks the piece)
 //   GaussicaPetArt.item(id)                   one item
@@ -696,6 +698,63 @@ window.GaussicaPetArt = (function () {
         wedge(100, 150, 14, 0, 140, "#e0506d") + wedge(100, 150, 14, 140, 250, "#4c9be8") + wedge(100, 150, 14, 250, 360, "#f2c94c") + '<circle cx="100" cy="150" r="15" fill="none" stroke="#6b7893" stroke-width="2"/>'; })
   ];
   THEMED.forEach(function (it) { ITEMS.push(it); });
+
+  // ===== pieces that are unlocked by badges ("märken", see rewards.js) =====
+  // badges: the ids of the badges that all have to be earned. The piece is bought with coins as the others, once it is unlocked.
+  function earned(badges, slot, id, name, price, view, art) {
+    return { id: id, slot: slot, name: name, price: price, view: view, art: art, badges: [].concat(badges) };
+  }
+
+  const EARNED = [
+    earned("forsta", "hat", "markt-planta", "Liten planta", 15, "70 10 60 54", function () {
+      return '<ellipse cx="100" cy="57" rx="13" ry="4.5" fill="#8a5a3a"/><path d="M100,56 Q97,42 100,28" stroke="#3a9e6a" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+        '<path d="M100,42 Q82,38 78,24 Q97,24 100,42 Z" fill="#43b581"/><path d="M100,36 Q118,32 122,18 Q103,18 100,36 Z" fill="#5fd39a"/>'; }),
+    earned("fem", "hat", "markt-stjarnkrona", "Stjärnkrona", 30, "50 4 100 54", function () {
+      return '<path d="M64,58 Q100,40 136,58 L134,46 Q100,30 66,46 Z" fill="#f2c94c" stroke="#d9a520" stroke-width="2" stroke-linejoin="round"/>' +
+        star(78, 30, 9, "#fff3b8", "#d9a520") + star(100, 17, 12, "#fff3b8", "#d9a520") + star(122, 30, 9, "#fff3b8", "#d9a520"); }),
+    earned("tio", "neck", "markt-tiomedalj", "Tiomedalj", 25, "66 108 68 70", function () {
+      return '<path d="M78,118 L100,150 M122,118 L100,150" stroke="#4c9be8" stroke-width="7" stroke-linecap="round"/><circle cx="100" cy="155" r="16" fill="#c9803f" stroke="#9c5f26" stroke-width="3"/>' +
+        '<circle cx="100" cy="155" r="11" fill="none" stroke="#e8b27a" stroke-width="1.5"/><text x="100" y="161" text-anchor="middle" font-size="15" font-weight="800" font-family="Nunito, Arial, sans-serif" fill="#fff">10</text>'; }),
+    earned("tjugo", "hat", "markt-lager", "Lagerkrans", 40, "46 8 108 56", function () {
+      let leaves = "";
+      for (let i = 0; i <= 7; i++) {
+        const t = i / 7, l = curvePoint([62, 58], [56, 22], [100, 16], t), r = curvePoint([138, 58], [144, 22], [100, 16], t);
+        leaves += '<ellipse cx="' + l[0].toFixed(1) + '" cy="' + l[1].toFixed(1) + '" rx="8" ry="4.5" fill="' + (i % 2 ? "#43a05a" : "#5fb36a") + '" transform="rotate(' + (-70 + i * 12) + ' ' + l[0].toFixed(1) + ' ' + l[1].toFixed(1) + ')"/>' +
+          '<ellipse cx="' + r[0].toFixed(1) + '" cy="' + r[1].toFixed(1) + '" rx="8" ry="4.5" fill="' + (i % 2 ? "#43a05a" : "#5fb36a") + '" transform="rotate(' + (70 - i * 12) + ' ' + r[0].toFixed(1) + ' ' + r[1].toFixed(1) + ')"/>';
+      }
+      return leaves + '<circle cx="100" cy="17" r="5" fill="#f2c94c" stroke="#d9a520" stroke-width="2"/>'; }),
+    earned("direkt", "face", "markt-sikte", "Siktesglasögon", 25, "56 62 88 44", function () {
+      const lens = function (cx) { return '<circle cx="' + cx + '" cy="82" r="14" fill="rgba(255,255,255,.4)" stroke="#2a2630" stroke-width="3"/><path d="M' + cx + ',69 V95 M' + (cx - 13) + ',82 H' + (cx + 13) + '" stroke="#e0506d" stroke-width="2" stroke-linecap="round"/><circle cx="' + cx + '" cy="82" r="3" fill="#e0506d"/>'; };
+      return lens(84) + lens(116) + '<path d="M98,82 H102 M70,80 L62,76 M130,80 L138,76" stroke="#2a2630" stroke-width="3" stroke-linecap="round" fill="none"/>'; }),
+    earned("ge-inte-upp", "face", "markt-pannband", "Kämpapannband", 20, "50 44 106 44", function () {
+      return '<path d="M56,62 Q100,48 144,62 L144,73 Q100,59 56,73 Z" fill="#e0506d" stroke="#b83c56" stroke-width="2" stroke-linejoin="round"/><circle cx="100" cy="62" r="8" fill="#fff"/><circle cx="100" cy="62" r="4.5" fill="#e0506d"/>' +
+        '<path d="M144,66 L158,76 M144,70 L156,86" stroke="#b83c56" stroke-width="5" stroke-linecap="round"/>'; }),
+    earned("pysslare", "hat", "markt-pyssel", "Pysslarhatt", 25, "46 0 108 72", function () {
+      return '<path d="M70,56 L100,4 L130,56 Z" fill="#8a5cd1"/><ellipse cx="100" cy="56" rx="38" ry="8" fill="#6e45b8"/><circle cx="100" cy="5" r="5" fill="#ffe27a"/>' +
+        star(92, 32, 6, "#ffe27a") + star(110, 42, 5, "#ffe27a") + star(104, 20, 4, "#fff3b8"); }),
+    earned("begrepp", "neck", "markt-bok", "Ordboken", 20, "62 108 76 68", function () {
+      return '<path d="M72,118 Q100,148 128,118" fill="none" stroke="#9aa4b8" stroke-width="2.5"/><rect x="84" y="144" width="32" height="27" rx="3" fill="#e0506d" stroke="#b83c56" stroke-width="2"/>' +
+        '<path d="M88,147 V168" stroke="#fff" stroke-width="2" opacity=".7"/><text x="102" y="164" text-anchor="middle" font-size="13" font-weight="800" font-family="Nunito, Arial, sans-serif" fill="#fff">Aa</text>'; }),
+    earned("uppdrag", "neck", "markt-uppdrag", "Uppdragsbricka", 20, "66 108 68 74", function () {
+      return '<path d="M78,118 L100,150 M122,118 L100,150" stroke="#43b581" stroke-width="7" stroke-linecap="round"/><rect x="84" y="146" width="32" height="30" rx="7" fill="#fff" stroke="#2f8f64" stroke-width="3"/>' +
+        '<path d="M92,162 L98,168 L110,154" fill="none" stroke="#2f8f64" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>'; }),
+    earned("ovare", "bg", "markt-gympa", "Träningshallen", 30, "0 0 200 200", function () {
+      let rungs = "";
+      for (let y = 26; y < 140; y += 16) rungs += '<path d="M12,' + y + ' H62" stroke="#c28a4d" stroke-width="4" stroke-linecap="round"/>';
+      return '<rect width="200" height="200" fill="#f7ead2"/><rect x="12" y="10" width="6" height="134" fill="#c28a4d"/><rect x="56" y="10" width="6" height="134" fill="#c28a4d"/>' + rungs +
+        '<rect y="148" width="200" height="52" fill="#dba765"/><path d="M0,166 H200 M0,184 H200" stroke="#c28a4d" stroke-width="2"/><circle cx="160" cy="164" r="14" fill="#e8544a"/><path d="M146,164 H174 M160,150 Q150,164 160,178 M160,150 Q170,164 160,178" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/>'; }),
+    earned("tabell", "bg", "markt-tabell", "Tabellrummet", 30, "0 0 200 200", function () {
+      let grid = "";
+      for (let r = 1; r <= 4; r++) for (let c = 1; c <= 4; c++) grid += '<text x="' + (38 + (c - 1) * 40) + '" y="' + (44 + (r - 1) * 26) + '" text-anchor="middle" font-size="15" font-weight="800" font-family="Nunito, Arial, sans-serif" fill="#f4f1e8" opacity=".95">' + (r * c) + '</text>';
+      return '<rect width="200" height="200" fill="#f4e6c8"/><rect x="12" y="12" width="176" height="124" rx="6" fill="#2f6b57" stroke="#a9773e" stroke-width="6"/>' +
+        '<path d="M58,22 V126 M98,22 V126 M138,22 V126 M24,58 H176 M24,84 H176 M24,110 H176" stroke="#f4f1e8" stroke-width="1.5" opacity=".35"/>' + grid + '<rect y="152" width="200" height="48" fill="#d9b779"/>'; }),
+    // all the area badges: the rainbow
+    earned(["tal", "form", "mat", "samband", "data"], "bg", "markt-regnbage", "Regnbågen", 50, "0 0 200 200", function () {
+      let arcs = "";
+      ["#e0506d", "#ff9f43", "#ffd54a", "#43b581", "#4c9be8", "#8a5cd1"].forEach(function (c, i) { const r = 84 - i * 9; arcs += '<path d="M' + (100 - r) + ',150 A' + r + ',' + r + ' 0 0 1 ' + (100 + r) + ',150" fill="none" stroke="' + c + '" stroke-width="9"/>'; });
+      return '<rect width="200" height="200" fill="#d3ecfb"/>' + arcs + '<ellipse cx="30" cy="152" rx="30" ry="12" fill="#fff"/><ellipse cx="170" cy="152" rx="30" ry="12" fill="#fff"/><ellipse cx="100" cy="212" rx="150" ry="52" fill="#7cc576"/>'; })
+  ];
+  EARNED.forEach(function (it) { ITEMS.push(it); });
 
 
   // ===== the pet's room: wallpaper, rug, bed, window, shelf, lamp, plant and toy =====

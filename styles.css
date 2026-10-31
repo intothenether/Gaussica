@@ -3474,6 +3474,7 @@ body.player-open .cookie-notice { display: none; }
 .view-switch:hover { background: var(--sky-soft); }
 .view-switch[hidden] { display: none; }
 body.is-previewing .view-switch { border-color: var(--pink-deep); color: var(--pink-deep); }
+body.is-previewing .view-switch:hover { background: var(--pink-pale); }
 .preview-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px; padding: 10px 16px; background: var(--coral-soft); border-bottom: 3px solid var(--pink-line); color: #8a3b52; font: 700 14px "Nunito", sans-serif; text-align: center; }
 .preview-banner[hidden] { display: none; }
 .preview-back { padding: 6px 14px; border: 2px solid var(--pink-deep); border-radius: 999px; background: #fff; color: var(--pink-deep); font: 700 13px "Nunito", sans-serif; cursor: pointer; }
@@ -5065,3 +5066,9 @@ body.lesson-popup-open { overflow: hidden; }
 .fx-cube-front { fill: #8fc0ee; stroke: #4a6aa0; stroke-width: 1.2; }
 .fx-cube-top { fill: #c5e0f7; stroke: #4a6aa0; stroke-width: 1.2; }
 .fx-cube-side { fill: #6f9fd2; stroke: #4a6aa0; stroke-width: 1.2; }
+
+/* The shop: the pieces of the themes and the things badges unlock are with the others, with a line saying which they are */
+.pet-item-tag { color: var(--brand); font-size: 11px; font-weight: 800; line-height: 1.1; text-align: center; }
+.pet-unlock-info { margin-top: 12px; padding: 8px 12px; border-radius: 12px; background: var(--surface-soft, #f6f7fb); font-size: 13.5px; }
+.pet-unlock-info > summary { cursor: pointer; font-weight: 800; }
+.pet-unlock-list { margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; line-height: 1.45; }

@@ -251,6 +251,6 @@ window.GaussicaRewards = (function () {
 
   return {
     init: init, enabled: enabled, lessonStars: lessonStars, starsFor: starsFor, starsText: starsText, check: check, celebrate: celebrate,
-    openCollection: openCollection, overview: overview
+    openCollection: openCollection, overview: overview, badgeList: badgeList
   };
 }());

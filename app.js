@@ -423,6 +423,7 @@
       getProgress: getLessonProgress,
       enabled: function () { return window.GaussicaRewards.enabled(); },
       lessonStars: function (lesson) { return window.GaussicaRewards.lessonStars(lesson); },
+      badges: function () { return window.GaussicaRewards.badgeList().badges; },   // the badges, for the things of the shop that are unlocked by them
       doneAssignments: function () { return window.GaussicaMailbox.doneIds(); },
       save: function (record) {
         record.updatedAt = Date.now();
