@@ -12,56 +12,130 @@
   "summary": "Arean visar hur stor yta en figur täcker. Vi räknar hur många kvadratrutor som ryms inuti.",
   "explanationTitle": "Rutor i rader och kolumner",
   "explanation": "Problemet: Hur mycket gräsmatta behövs för en kvadrat med sidan 4 meter? Längden runt hjälper inte här. Vi behöver veta hur många rutor ytan täcker. Det är area. En kvadrat med sidan 4 cm kan täckas av 4 rader med 4 rutor, och varje ruta är 1 cm². Det blir 4 · 4 = 16 rutor, så arean är 16 cm². Area mäts i kvadratenheter som cm² och m².",
-  "visual": {
-    "type": "kvadrat",
-    "w": 4,
-    "unit": "cm",
-    "grid": true,
-    "sides": "all",
-    "title": "16 rutor à 1 cm²"
-  },
   "rule": "Area = sidan · sidan",
   "ruleLabel": "KVADRATENS AREA",
   "example": "Sidan 5 m ger arean 5 · 5 = 25 m². Man kan också skriva sidan ”i kvadrat”: 5².",
   "practice": [
     {
       "id": "area",
-      "for": ["exercise"],
-      "vars": {"s":[3,15]},
-      "derive": [{"name":"p","expr":"s*s"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "s": [
+          3,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "s*s"
+        }
+      ],
       "prompt": "Kvadraten har sidan {s} cm. Vad är arean i cm²?",
-      "visual": {"type":"kvadrat","w":"=s","unit":"cm","grid":true},
-      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "visual": {
+        "type": "kvadrat",
+        "w": "=s",
+        "unit": "cm",
+        "grid": true
+      },
+      "answer": [
+        "=p",
+        "{p} cm2",
+        "{p}cm2",
+        "{p} cm²",
+        "{p}cm²"
+      ],
       "correct": "Rätt! {s} · {s} = {p} cm².",
       "feedback": [
-        {"answers":["=4*s"],"message":"Det är omkretsen. Arean är sidan gånger sidan."},
-        {"answers":["=2*s"],"message":"Arean är sidan gånger sidan, inte två sidor."}
+        {
+          "answers": [
+            "=4*s"
+          ],
+          "message": "Det är omkretsen. Arean är sidan gånger sidan."
+        },
+        {
+          "answers": [
+            "=2*s"
+          ],
+          "message": "Arean är sidan gånger sidan, inte två sidor."
+        }
       ]
     },
     {
       "id": "kakel",
-      "for": ["word-0"],
-      "vars": {"s":[10,40,5]},
-      "derive": [{"name":"p","expr":"s*s"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "s": [
+          10,
+          40,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "s*s"
+        }
+      ],
       "prompt": "Ett kakel är kvadratiskt med sidan {s} cm. Hur stor yta täcker kakelplattan?",
-      "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
+      "answer": [
+        "=p",
+        "{p} cm2",
+        "{p}cm2",
+        "{p} cm²",
+        "{p}cm²"
+      ],
       "correct": "Rätt! {s} · {s} = {p} cm².",
-      "feedback": [{"answers":["=4*s"],"message":"Det är omkretsen. Ytan är sidan gånger sidan."}]
+      "feedback": [
+        {
+          "answers": [
+            "=4*s"
+          ],
+          "message": "Det är omkretsen. Ytan är sidan gånger sidan."
+        }
+      ]
     },
     {
       "id": "sida-fran-area",
-      "for": ["word-1"],
-      "vars": {"s":[2,12]},
-      "derive": [{"name":"a","expr":"s*s"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "s": [
+          2,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "s*s"
+        }
+      ],
       "prompt": "En kvadrat har arean {a} cm². Hur lång är sidan?",
-      "answer": ["=s","{s} cm","{s}cm"],
+      "answer": [
+        "=s",
+        "{s} cm",
+        "{s}cm"
+      ],
       "correct": "Rätt! {s} · {s} = {a}, så sidan är {s} cm.",
       "feedback": [
         {
-          "answers": ["=a/2"],
+          "answers": [
+            "=a/2"
+          ],
           "message": "Sidan gånger sidan ska bli {a}. Vilket tal gånger sig självt blir {a}?"
         },
-        {"answers":["=a/4"],"message":"Fyra sidor hör till omkretsen. Här ska sidan gånger sidan bli {a}."}
+        {
+          "answers": [
+            "=a/4"
+          ],
+          "message": "Fyra sidor hör till omkretsen. Här ska sidan gånger sidan bli {a}."
+        }
       ]
     }
   ],
@@ -166,6 +240,24 @@
           "message": "6 är 3 + 3. Arean är sidan gånger sidan."
         }
       ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "kvadrat",
+      "title": "4 · 4 = 16 rutor, så arean är 16 cm²",
+      "w": 4,
+      "unit": "cm",
+      "grid": true,
+      "fill": true
+    },
+    {
+      "type": "kvadrat",
+      "w": 4,
+      "unit": "cm",
+      "grid": true,
+      "sides": "all",
+      "title": "16 rutor à 1 cm²"
     }
   ]
 }

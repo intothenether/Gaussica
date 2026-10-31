@@ -28,6 +28,11 @@
 //   trigonometri { angle, names, labels:{hyp,opp,adj,angle} }   right triangle with the sides named from one angle
 //   strecktabell { rows:[{label,n}], counts }        tally chart, groups of five (counts shows the number at the end of each row)
 // tallinje also takes sequence:{start,step,count}; monster takes generator:"L"|"kvadrat"|"trappa"|"rad"|"faktorer", n, only.
+//
+// Animation: tallinje (animate: true, the jumps are drawn one after the other), klocka (animate: true, the hands turn to the time) and rektangel
+// (fill: true, the squares of the grid fill one by one; trace: true, the outline is drawn) can move. The figures of figures-more.js (grupper, tiobas,
+// pengar, brak, termometer, linjal, kalender, tidslinje, tarning, snurra, pase) are added through register() and move by themselves. Nothing moves
+// with prefers-reduced-motion, and a button "Spela igen" plays it again.
 
 window.GaussicaFigures = (function () {
   "use strict";
@@ -39,13 +44,62 @@ window.GaussicaFigures = (function () {
     staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", vag: "BALANSVÅG", pythagoras: "PYTHAGORAS", tradiagram: "TRÄDDIAGRAM", parallellogram: "FIGUR", trapets: "FIGUR", kroppar: "KROPPAR", linjer: "LINJER", strecktabell: "STRECKTABELL", langdivision: "LÅNGDIVISION", areamodell: "AREAMODELL", trigonometri: "TRIGONOMETRI"
   };
 
+  // Figures that are added by other files (figures-more.js): type -> { badge, render }
+  const EXTRA = {};
+
+  function register(type, badgeText, renderFn) {
+    EXTRA[String(type).toLowerCase()] = { badge: badgeText, render: renderFn };
+  }
+
   function supports(type) {
-    return Object.prototype.hasOwnProperty.call(TYPES, String(type || "").toLowerCase());
+    const t = String(type || "").toLowerCase();
+    return Object.prototype.hasOwnProperty.call(TYPES, t) || Object.prototype.hasOwnProperty.call(EXTRA, t);
   }
 
   function badge(type) {
-    return TYPES[String(type || "").toLowerCase()] || "FIGUR";
+    const t = String(type || "").toLowerCase();
+    return TYPES[t] || (EXTRA[t] && EXTRA[t].badge) || "FIGUR";
   }
+
+  // ----- movement -----
+  // A figure that moves: its parts have the classes fx-pop, fx-draw, fx-rise, fx-slide, fx-sweep or fx-spin (see the rules in styles.css) and a delay
+  // in --d. It waits (hidden) until it is on the screen, plays, and can be played again with the button. With reduced motion everything is simply shown.
+  function motionOk() {
+    return !(typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
+  function animated(el, opts) {
+    if (!el || !el.classList) return el;
+    el.classList.add("fx");
+    if (!motionOk()) return el;
+    const play = function () {
+      el.classList.remove("is-playing");
+      void el.offsetWidth;   // so that the same movement can start again
+      el.classList.add("is-playing");
+    };
+    el.classList.add("is-waiting");
+    const start = function () { el.classList.remove("is-waiting"); play(); };
+    if (typeof IntersectionObserver === "function") {
+      const io = new IntersectionObserver(function (entries) {
+        if (entries.some(function (e) { return e.isIntersecting; })) { io.disconnect(); start(); }
+      }, { threshold: 0.2 });
+      io.observe(el);
+    } else {
+      start();
+    }
+    if (!opts || opts.replay !== false) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "fx-replay";
+      b.textContent = "▶ Spela igen";
+      b.addEventListener("click", function () { el.classList.remove("is-waiting"); play(); });
+      el.appendChild(b);
+    }
+    return el;
+  }
+
+  // the delay of the n-th part, in seconds
+  function delay(n, every) { return "--d:" + (Math.round(n * (every || 0.12) * 100) / 100) + "s"; }
 
   function s(tag, attrs, parent) {
     const e = document.createElementNS(NS, tag);
@@ -114,14 +168,15 @@ window.GaussicaFigures = (function () {
       if (major) text(svg, x(v), y0 + 28, fmt(v), "fig-ticklabel");
     }
 
-    jumps.forEach(function (j) {
+    jumps.forEach(function (j, i) {
       const x1 = x(j.from), x2 = x(j.to);
       const span = Math.abs(x2 - x1);
       const h = Math.min(46, 14 + span * 0.25);
       const ya = y0 - 12;
-      s("path", { d: "M" + x1 + " " + ya + " C" + x1 + " " + (ya - h) + " " + x2 + " " + (ya - h) + " " + x2 + " " + (ya - 3), "class": "fig-jump" }, svg);
-      s("polygon", { points: (x2 - 5) + "," + (ya - 8) + " " + (x2 + 5) + "," + (ya - 8) + " " + x2 + "," + ya, "class": "fig-arrow" }, svg);
-      if (j.label) text(svg, (x1 + x2) / 2, ya - h * 0.75 - 6, j.label, "fig-jumplabel");
+      const g = s("g", c.animate ? { "class": "fx-pop", style: delay(i, 0.55) } : {}, svg);
+      s("path", { d: "M" + x1 + " " + ya + " C" + x1 + " " + (ya - h) + " " + x2 + " " + (ya - h) + " " + x2 + " " + (ya - 3), "class": "fig-jump" }, g);
+      s("polygon", { points: (x2 - 5) + "," + (ya - 8) + " " + (x2 + 5) + "," + (ya - 8) + " " + x2 + "," + ya, "class": "fig-arrow" }, g);
+      if (j.label) text(g, (x1 + x2) / 2, ya - h * 0.75 - 6, j.label, "fig-jumplabel");
     });
 
     points.forEach(function (p) {
@@ -134,7 +189,8 @@ window.GaussicaFigures = (function () {
         s("line", { x1: x(p.value), y1: y0 - 15, x2: x(p.value), y2: y0 - 9, "class": "fig-tick" }, svg);
       }
     });
-    return wrap([svg]);
+    const figure = wrap([svg]);
+    return c.animate && jumps.length ? animated(figure) : figure;
   }
 
   // ----- rectangle / square -----
@@ -152,7 +208,18 @@ window.GaussicaFigures = (function () {
       for (let j = 1; j < h; j++) s("line", { x1: x0, y1: y0 + j * sc, x2: x0 + rw, y2: y0 + j * sc, "class": "fig-grid" }, svg);
       s("rect", { x: x0, y: y0, width: rw, height: rh, "class": "fig-shape-line" }, svg);
     }
-    if (c.outline) s("rect", { x: x0, y: y0, width: rw, height: rh, "class": "fig-outline" }, svg);
+    // fill: every square of the grid in turn (area as the number of squares); trace: the outline is drawn (perimeter as the way around)
+    if (c.fill && w <= 24 && h <= 24) {
+      for (let j = 0; j < h; j++) {
+        for (let i = 0; i < w; i++) {
+          s("rect", { x: x0 + i * sc + 1.5, y: y0 + j * sc + 1.5, width: sc - 3, height: sc - 3, rx: 3, "class": "fig-areacell fx-pop", style: delay(j * w + i, Math.min(0.12, 2.4 / (w * h))) }, svg);
+        }
+      }
+    }
+    if (c.outline) {
+      const o = s("rect", { x: x0, y: y0, width: rw, height: rh, "class": "fig-outline" + (c.trace ? " fx-draw" : "") }, svg);
+      if (c.trace) o.setAttribute("style", "--len:" + Math.round(2 * (rw + rh)) + "px;--dur:2.2s");
+    }
     const q = 11;
     s("path", { d: "M" + (x0 + q) + " " + (y0 + rh) + " v-" + q + " h-" + q, "class": "fig-right" }, svg);
     const lw = (c.labels && c.labels.w) || (fmt(w) + (unit ? " " + unit : ""));
@@ -162,7 +229,8 @@ window.GaussicaFigures = (function () {
     if (all) text(svg, x0 + rw / 2, y0 - 12, lw, "fig-dim");
     text(svg, x0 + rw + 12, y0 + rh / 2 + 5, lh, "fig-dim", "start");
     if (all) text(svg, x0 - 12, y0 + rh / 2 + 5, lh, "fig-dim", "end");
-    return wrap([svg]);
+    const figure = wrap([svg]);
+    return c.fill || (c.trace && c.outline) ? animated(figure) : figure;
   }
 
   // ----- triangle -----
@@ -503,13 +571,19 @@ window.GaussicaFigures = (function () {
       text(svg, cx + (R - 26) * Math.sin(a), cy - (R - 26) * Math.cos(a) + 5, String(n), "fig-clocknum");
     }
     const hourA = ((h % 12) + m / 60) * 30 * Math.PI / 180, minA = m * 6 * Math.PI / 180;
-    s("line", { x1: cx, y1: cy, x2: cx + 46 * Math.sin(hourA), y2: cy - 46 * Math.cos(hourA), "class": "fig-hand-hour" }, svg);
-    s("line", { x1: cx, y1: cy, x2: cx + 68 * Math.sin(minA), y2: cy - 68 * Math.cos(minA), "class": "fig-hand-min" }, svg);
+    // animate: the hands are drawn pointing at 12 and turn to the time (the turn is in --turn, see .fx-sweep)
+    const hand = function (len, a, cls, turnDeg, dly) {
+      const x2 = cx + len * Math.sin(a), y2 = cy - len * Math.cos(a);
+      if (!c.animate) return s("line", { x1: cx, y1: cy, x2: x2, y2: y2, "class": cls }, svg);
+      return s("line", { x1: cx, y1: cy, x2: cx, y2: cy - len, "class": cls + " fx-sweep", style: "--turn:" + turnDeg + "deg;--d:" + dly + "s;transform:rotate(" + turnDeg + "deg)" }, svg);
+    };
+    hand(46, hourA, "fig-hand-hour", ((h % 12) + m / 60) * 30, 0.2);
+    hand(68, minA, "fig-hand-min", m * 6, 0);
     s("circle", { cx: cx, cy: cy, r: 5, "class": "fig-point" }, svg);
     if (c.digital !== false) text(svg, cx, 226, String(h) + ":" + (m < 10 ? "0" : "") + m, "fig-clockdigital");
     const wrapEl = wrap([svg]);
     svg.style.maxWidth = "250px";
-    return wrapEl;
+    return c.animate ? animated(wrapEl) : wrapEl;
   }
 
   // ----- uppställning: written column arithmetic, shown one step at a time -----
@@ -1260,8 +1334,12 @@ window.GaussicaFigures = (function () {
     if (type === "langdivision") return longdivision(config);
     if (type === "areamodell") return areamodel(config);
     if (type === "trigonometri") return trig(config);
+    if (EXTRA[type]) return EXTRA[type].render(config);
     return null;
   }
 
-  return { supports: supports, badge: badge, render: render };
+  // what figures-more.js builds with
+  const kit = { s: s, text: text, svgRoot: svgRoot, wrap: wrap, fmt: fmt, animated: animated, delay: delay };
+
+  return { supports: supports, badge: badge, render: render, register: register, kit: kit };
 }());

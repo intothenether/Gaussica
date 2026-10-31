@@ -11,28 +11,6 @@
   "summary": "Längd mäter vi i centimeter och meter. 1 meter är 100 centimeter.",
   "explanationTitle": "Mät med samma enhet som alla andra",
   "explanation": "Problemet: Hur lång är ett bord? Mäter du med handbredder får du ett svar, och någon annan med större händer får ett annat. Vi behöver en enhet som är lika för alla. Då kan vi jämföra längder och förstå varandra. Små saker mäter vi i centimeter, förkortat cm. Längre saker mäter vi i meter, förkortat m. 1 meter är 100 centimeter. När du mäter med linjal lägger du 0 mot början av det du mäter och läser av där det slutar. Räkna från 0, inte från 1.",
-  "visual": {
-    "type": "tallinje",
-    "title": "En penna mäts med linjal: den slutar vid 14",
-    "min": 0,
-    "max": 16,
-    "step": 1,
-    "labelEvery": 2,
-    "points": [
-      {
-        "value": 0,
-        "label": "start"
-      },
-      {
-        "value": 14,
-        "label": "slut"
-      }
-    ],
-    "range": {
-      "from": 0,
-      "to": 14
-    }
-  },
   "rule": "1 m är 100 cm. Börja mäta vid 0 på linjalen.",
   "ruleLabel": "MÄTA LÄNGD",
   "example": "En penna börjar vid 0 och slutar vid 14 på linjalen, så den är 14 cm lång. En dörr är ungefär 2 m, alltså 200 cm.",
@@ -221,6 +199,36 @@
           "message": "Kolla platsen för 50: 50 cm är fem tiotal. 200 + 50 blir något annat än 205."
         }
       ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "linjal",
+      "title": "En penna mätt med linjal: börja vid 0",
+      "length": 7,
+      "object": "penna"
+    },
+    {
+      "type": "tallinje",
+      "title": "En penna mäts med linjal: den slutar vid 14",
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "labelEvery": 2,
+      "points": [
+        {
+          "value": 0,
+          "label": "start"
+        },
+        {
+          "value": 14,
+          "label": "slut"
+        }
+      ],
+      "range": {
+        "from": 0,
+        "to": 14
+      }
     }
   ]
 }

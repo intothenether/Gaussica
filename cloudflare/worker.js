@@ -112,6 +112,9 @@ function senderLabel(u, className) {
 // ----- validation -----
 const FAMILY_MAX = 10;   // children in the family of a caregiver
 
+// Set when the database has been seen to have the tables of migrations/007-multi.sql (checked once for each running copy of the worker).
+let multiSchemaSeen = false;
+
 const validUsername = (u) => typeof u === "string" && u.length >= 3 && u.length <= 30 && /^[\p{L}\p{N}._-]+$/u.test(u);
 
 function checkPassword(pw, username) {
@@ -152,20 +155,62 @@ function createApi(env, request) {
 
   // A caregiver is stored as a teacher with the flag `caregiver` (migrations/006-caregiver.sql); the site is told the role "caregiver". A
   // student whose class belongs to a caregiver (a family) gets guide: "caregiver", so that the pages can say vårdnadshavare where they say lärare.
-  const publicUser = (u) => ({
-    id: u.id, username: u.username, name: u.display_name, role: u.role === "teacher" && u.caregiver ? "caregiver" : u.role,
-    guide: u.role === "student" ? (u.guide_caregiver ? "caregiver" : "teacher") : undefined,
-    classId: u.class_id || null, className: u.class_name || null, color: COLORS[u.id % COLORS.length],
-    rewards: u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards)
-  });
+  // A student can be in several classes: a school class and a family. guide is "caregiver" when all of them are families, "teacher" when none is,
+  // and "both" when there are both kinds. Stars and animals are on when any of the classes has them on.
+  const publicUser = (u) => {
+    const classes = u.classes || [];
+    const families = classes.filter((c) => c.owner_caregiver).length;
+    return {
+      id: u.id, username: u.username, name: u.display_name, role: u.role === "teacher" && u.caregiver ? "caregiver" : u.role,
+      guide: u.role === "student" ? (!classes.length ? "teacher" : families === classes.length ? "caregiver" : families ? "both" : "teacher") : undefined,
+      classId: classes.length ? classes[0].id : (u.class_id || null), className: classes.length ? classes.map((c) => c.name).join(" · ") : (u.class_name || null),
+      classes: u.role === "student" ? classes.map((c) => ({ id: c.id, name: c.name, family: Boolean(c.owner_caregiver) })) : undefined,
+      color: COLORS[u.id % COLORS.length],
+      rewards: u.role === "student" && classes.length ? classes.some((c) => Boolean(c.rewards)) : (u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards))
+    };
+  };
 
-  // the guide of a student is looked up only where the user is handed to the site (not on every request), and an old database without the column is fine
+  // (a database that has not had migrations/006-caregiver.sql yet has no column caregiver: no family then)
+  const classesOfStudent = (id) => {
+    const sql = (owner) => "SELECT c.id, c.name, c.code, " + owner + " AS owner_caregiver, COALESCE(cs.rewards, 1) AS rewards FROM class_members m JOIN classes c ON c.id = m.class_id " +
+      "JOIN users g ON g.id = c.teacher_id LEFT JOIN class_settings cs ON cs.class_id = c.id WHERE m.user_id = ? ORDER BY m.joined_at, c.id";
+    return all(sql("g.caregiver"), id).catch(() => all(sql("0"), id));
+  };
+
+  // the classes of a student are looked up only where the user is handed to the site (not on every request)
   async function withGuide(u) {
-    if (u && u.role === "student" && u.class_id) {
-      const g = await tryOne("SELECT g.caregiver AS c FROM classes c JOIN users g ON g.id = c.teacher_id WHERE c.id = ?", u.class_id);
-      u.guide_caregiver = Boolean(g && g.c);
-    }
+    if (u && u.role === "student") u.classes = await classesOfStudent(u.id);
     return u;
+  }
+
+  // The first class of a student is kept in users.class_id; it follows the memberships.
+  async function fixPrimaryClass(userId) {
+    const list = await classesOfStudent(userId);
+    await run("UPDATE users SET class_id = ? WHERE id = ?", list.length ? list[0].id : null, userId);
+  }
+
+  async function addMember(classId, userId) {
+    await run("INSERT OR IGNORE INTO class_members (class_id, user_id, joined_at) VALUES (?, ?, ?)", classId, userId, nowIso());
+    await run("UPDATE users SET class_id = ? WHERE id = ? AND class_id IS NULL", classId, userId);
+  }
+
+  async function newGuideCode() {
+    let code;
+    for (let i = 0; i < 10; i++) {
+      code = "V" + randomCode(9);
+      if (!(await one("SELECT 1 AS x FROM classes WHERE guide_code = ?", code))) break;
+    }
+    return code;
+  }
+
+  // A class with its owner as its first guide.
+  async function makeClass(name, ownerId) {
+    const code = await newClassCode();
+    const guideCode = await newGuideCode();
+    const res = await run("INSERT INTO classes (name, code, guide_code, teacher_id, created_at) VALUES (?, ?, ?, ?, ?)", name, code, guideCode, ownerId, nowIso());
+    const id = res.meta.last_row_id;
+    await run("INSERT OR IGNORE INTO class_guides (class_id, user_id) VALUES (?, ?)", id, ownerId);
+    return { id, code, guideCode };
   }
 
   const userById = (id) => one("SELECT u.*, c.name AS class_name, COALESCE(cs.rewards, 1) AS rewards FROM users u LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE u.id = ?", id);
@@ -251,14 +296,19 @@ function createApi(env, request) {
     checkPassword(b.password, username);
 
     let classId = null;
+    let joinClass = null;   // a caregiver who joins the family of somebody else
     if (role === "student") {
       const cls = await one("SELECT id FROM classes WHERE code = ?", normalizeCode(b.classCode));
       if (!cls) throw new ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
       const owner = await tryOne("SELECT g.caregiver AS c FROM classes c JOIN users g ON g.id = c.teacher_id WHERE c.id = ?", cls.id);
-      if (owner && owner.c && (await one("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'", cls.id)).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+      if (owner && owner.c && (await one("SELECT COUNT(*) AS n FROM class_members WHERE class_id = ?", cls.id)).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
       classId = cls.id;
     } else if (kind === "caregiver") {
       if (env.CAREGIVER_SIGNUP === "off") throw new ApiError(403, "Konton för vårdnadshavare är avstängda här.");
+      if (str(b.guideCode, 40).trim()) {
+        joinClass = await one("SELECT id FROM classes WHERE guide_code = ?", normalizeCode(b.guideCode));
+        if (!joinClass) throw new ApiError(400, "Koden för vuxna stämmer inte. Fråga den som skapade familjen.");
+      }
     } else {
       if (!env.TEACHER_CODE) throw new ApiError(503, "Lärarregistrering är inte påslagen. Sätt hemligheten TEACHER_CODE i Cloudflare.");
       if (!safeEqual(normalizeCode(b.teacherCode), normalizeCode(env.TEACHER_CODE))) throw new ApiError(403, "Lärarkoden stämmer inte.");
@@ -276,9 +326,11 @@ function createApi(env, request) {
       if (/no such column|has no column/i.test(String(e && e.message))) throw new ApiError(503, "Databasen är inte uppdaterad för vårdnadshavare. Kör migrations/006-caregiver.sql (se cloudflare/README.md).");
       throw new ApiError(409, "Användarnamnet är redan upptaget.");
     }
-    // a caregiver starts with a family, so there is a code to give the children at once
+    if (role === "student") await addMember(classId, userId);
+    // a caregiver starts with a family, so there is a code to give the children at once, or joins the family of the other adult
     if (kind === "caregiver") {
-      await run("INSERT INTO classes (name, code, teacher_id, created_at) VALUES (?, ?, ?, ?)", "Familjen " + displayName.trim().split(/\s+/).pop(), await newClassCode(), userId, nowIso());
+      if (joinClass) await run("INSERT OR IGNORE INTO class_guides (class_id, user_id) VALUES (?, ?)", joinClass.id, userId);
+      else await makeClass("Familjen " + displayName.trim().split(/\s+/).pop(), userId);
     }
     const token = await startSession(userId);
     return [201, { user: publicUser(await withGuide(await userById(userId))), token }];
@@ -336,10 +388,10 @@ function createApi(env, request) {
   }
 
   // with the prov settings when the database has them (migrations/005-prov.sql), without when it does not
-  function studentAssignments(classId, userId) {
+  function studentAssignments(userId) {
     const sql = (cols) => "SELECT a.id, a.lesson_id, a.kind, " + cols + "a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
-      "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id";
-    return all(sql("a.config, "), classId, userId).catch(() => all(sql(""), classId, userId));
+      "WHERE a.archived = 0 AND a.class_id IN (SELECT class_id FROM class_members WHERE user_id = ?) AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id";
+    return all(sql("a.config, "), userId, userId).catch(() => all(sql(""), userId, userId));
   }
 
   async function myData() {
@@ -348,12 +400,13 @@ function createApi(env, request) {
     const [progress, attempts, assignments, feedback, chat] = await Promise.all([
       progressOf(s.user.id),
       all("SELECT id, data, created_at FROM attempts WHERE user_id = ? ORDER BY id", s.user.id),
-      isStudent && s.user.class_id ? studentAssignments(s.user.class_id, s.user.id) : [],
+      isStudent ? studentAssignments(s.user.id) : [],
       isStudent ? all(
         "SELECT f.id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at, u.display_name AS teacher FROM feedback f " +
         "JOIN users u ON u.id = f.teacher_id WHERE f.student_id = ? ORDER BY f.id DESC LIMIT 200", s.user.id) : [],
       // An older database without the chat table must not break the rest of the page.
-      isStudent ? all("SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at FROM chat WHERE student_id = ? ORDER BY id DESC LIMIT 200", s.user.id).catch(() => []) : []
+      isStudent ? all("SELECT c.id, c.student_id, c.from_teacher, c.text, c.lesson_id, c.task_id, c.context, c.created_at, c.read_at, c.class_id, u.display_name AS guide " +
+        "FROM chat c LEFT JOIN users u ON u.id = c.teacher_id AND c.from_teacher = 1 WHERE c.student_id = ? ORDER BY c.id DESC LIMIT 200", s.user.id).catch(() => []) : []
     ]);
     return [200, { progress, attempts: attempts.map(attemptFromRow), assignments: assignments.map(publicAssignment), feedback: feedback.map(publicFeedback), chat: chat.reverse().map(publicChat) }];
   }
@@ -430,7 +483,7 @@ function createApi(env, request) {
     let context = null;
     try { context = r.context ? JSON.parse(r.context) : null; } catch (e) { /* skip corrupt context */ }
     return {
-      id: r.id, studentId: String(r.student_id), fromTeacher: Boolean(r.from_teacher), text: r.text,
+      id: r.id, studentId: String(r.student_id), fromTeacher: Boolean(r.from_teacher), text: r.text, classId: r.class_id || null, guide: r.guide || null,
       lessonId: r.lesson_id || null, taskId: r.task_id || null, context, createdAt: r.created_at, read: Boolean(r.read_at)
     };
   };
@@ -452,10 +505,14 @@ function createApi(env, request) {
   async function studentChat() {
     const s = await requireUser();
     if (s.user.role !== "student") throw new ApiError(403, "Bara elever kan skriva till läraren här.");
-    if (!s.user.class_id) throw new ApiError(400, "Du är inte med i någon klass än.");
-    const teacher = await one("SELECT teacher_id FROM classes WHERE id = ?", s.user.class_id);
-    if (!teacher) throw new ApiError(400, "Klassen har ingen lärare.");
     const b = await readJson(request, 8000);
+    // to the guides of one of the classes of the student: the one asked for, or the first
+    const mine = await classesOfStudent(s.user.id);
+    if (!mine.length) throw new ApiError(400, "Du är inte med i någon klass än.");
+    const chosen = b.classId === undefined || b.classId === null ? mine[0] : mine.find((c) => c.id === Number(b.classId));
+    if (!chosen) throw new ApiError(400, "Du är inte med i den klassen.");
+    const teacher = await one("SELECT teacher_id FROM classes WHERE id = ?", chosen.id);
+    if (!teacher) throw new ApiError(400, "Klassen har ingen lärare.");
     const text = str(b.text, 600).trim();
     if (!text) throw new ApiError(400, "Skriv något först.");
     const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
@@ -466,8 +523,8 @@ function createApi(env, request) {
         "SELECT COUNT(*) AS n FROM chat WHERE student_id = ? AND from_teacher = 0 AND id > COALESCE((SELECT MAX(id) FROM chat WHERE student_id = ? AND from_teacher = 1), 0)",
         s.user.id, s.user.id);
       if (open.n >= CHAT_UNANSWERED_MAX) throw new ApiError(429, "Du har redan skickat flera meddelanden. Vänta tills din lärare har svarat.");
-      const res = await run("INSERT INTO chat (student_id, teacher_id, from_teacher, text, lesson_id, task_id, context, created_at) VALUES (?, ?, 0, ?, ?, ?, ?, ?)",
-        s.user.id, teacher.teacher_id, text, lessonId, taskId, cleanChatContext(b.context), nowIso());
+      const res = await run("INSERT INTO chat (student_id, teacher_id, from_teacher, text, lesson_id, task_id, context, created_at, class_id) VALUES (?, ?, 0, ?, ?, ?, ?, ?, ?)",
+        s.user.id, teacher.teacher_id, text, lessonId, taskId, cleanChatContext(b.context), nowIso(), chosen.id);
       return [201, { id: res.meta.last_row_id }];
     } catch (err) { return chatMissing(err); }
   }
@@ -485,8 +542,12 @@ function createApi(env, request) {
     const text = str(b.text, 600).trim();
     if (!text) throw new ApiError(400, "Skriv något först.");
     try {
-      const res = await run("INSERT INTO chat (student_id, teacher_id, from_teacher, text, created_at) VALUES (?, ?, 1, ?, ?)", student.id, s.user.id, text, nowIso());
-      await run("UPDATE chat SET read_at = ? WHERE student_id = ? AND teacher_id = ? AND from_teacher = 0 AND read_at IS NULL", nowIso(), student.id, s.user.id);   // answering means having read
+      // the answer goes to the class the question came from (the last one that was asked), or else the first class the two have in common
+      const shared = await sharedClasses(student.id, s.user.id);
+      const asked = await one("SELECT class_id FROM chat WHERE student_id = ? AND from_teacher = 0 AND class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) ORDER BY id DESC LIMIT 1", student.id, s.user.id);
+      const cls = (b.classId !== undefined && shared.find((c) => c.id === Number(b.classId))) || (asked && shared.find((c) => c.id === asked.class_id)) || shared[0];
+      const res = await run("INSERT INTO chat (student_id, teacher_id, from_teacher, text, created_at, class_id) VALUES (?, ?, 1, ?, ?, ?)", student.id, s.user.id, text, nowIso(), cls.id);
+      await run("UPDATE chat SET read_at = ? WHERE student_id = ? AND class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) AND from_teacher = 0 AND read_at IS NULL", nowIso(), student.id, s.user.id);   // answering means having read
       return [201, { id: res.meta.last_row_id }];
     } catch (err) { return chatMissing(err); }
   }
@@ -495,13 +556,13 @@ function createApi(env, request) {
     const s = await requireGuide();
     const b = await readJson(request, 2000);
     const student = await studentOfTeacher(b.studentId, s.user.id);
-    await run("UPDATE chat SET read_at = ? WHERE student_id = ? AND teacher_id = ? AND from_teacher = 0 AND read_at IS NULL", nowIso(), student.id, s.user.id).catch(() => null);
+    await run("UPDATE chat SET read_at = ? WHERE student_id = ? AND class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) AND from_teacher = 0 AND read_at IS NULL", nowIso(), student.id, s.user.id).catch(() => null);
     return [200, { ok: true }];
   }
 
   async function teacherChatUnread() {
     const s = await requireGuide();
-    const r = await one("SELECT COUNT(*) AS n FROM chat WHERE teacher_id = ? AND from_teacher = 0 AND read_at IS NULL", s.user.id).catch(() => ({ n: 0 }));
+    const r = await one("SELECT COUNT(*) AS n FROM chat WHERE class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) AND from_teacher = 0 AND read_at IS NULL", s.user.id).catch(() => ({ n: 0 }));
     return [200, { unread: r.n }];
   }
 
@@ -579,15 +640,77 @@ function createApi(env, request) {
 
   async function listClasses() {
     const s = await requireGuide();
-    return [200, { classes: (await all(
-      "SELECT c.id, c.name, c.code, c.created_at, (SELECT COUNT(*) FROM users u WHERE u.class_id = c.id) AS students, " +
+    const rows = await all(
+      "SELECT c.id, c.name, c.code, c.guide_code, c.teacher_id, c.created_at, (SELECT COUNT(*) FROM class_members m WHERE m.class_id = c.id) AS students, " +
       "COALESCE((SELECT rewards FROM class_settings WHERE class_id = c.id), 1) AS rewards " +
-      "FROM classes c WHERE c.teacher_id = ? ORDER BY c.name", s.user.id)).map((c) => Object.assign({}, c, { rewards: Boolean(c.rewards) })) }];
+      "FROM classes c JOIN class_guides cg ON cg.class_id = c.id WHERE cg.user_id = ? ORDER BY c.name", s.user.id);
+    const out = [];
+    for (const c of rows) {
+      const own = c.teacher_id === s.user.id;
+      const guides = await all("SELECT u.id, u.display_name, u.caregiver FROM class_guides cg JOIN users u ON u.id = cg.user_id WHERE cg.class_id = ? ORDER BY cg.rowid", c.id);
+      out.push({
+        id: c.id, name: c.name, code: c.code, created_at: c.created_at, students: c.students, rewards: Boolean(c.rewards),
+        owner: own, guideCode: own ? c.guide_code : null,
+        guides: guides.map((g) => ({ id: g.id, name: g.display_name, caregiver: Boolean(g.caregiver), owner: g.id === c.teacher_id, you: g.id === s.user.id }))
+      });
+    }
+    return [200, { classes: out }];
   }
+
+  // Another adult joins a class as a guide (the other parent joins the family) with the code for adults.
+  async function joinAsGuide() {
+    const s = await requireGuide();
+    const b = await readJson(request, 2000);
+    const cls = await one("SELECT id, name FROM classes WHERE guide_code = ?", normalizeCode(b.guideCode));
+    if (!cls) throw new ApiError(400, "Koden för vuxna stämmer inte. Fråga den som skapade klassen eller familjen.");
+    await run("INSERT OR IGNORE INTO class_guides (class_id, user_id) VALUES (?, ?)", cls.id, s.user.id);
+    return [200, { ok: true, classId: cls.id, name: cls.name }];
+  }
+
+  // The owner removes a guide; a guide who is not the owner can leave. The owner cannot leave (the class is deleted instead).
+  async function removeGuide(classId, userId) {
+    const s = await requireGuide();
+    const cls = await guidedClass(classId, s.user.id);
+    if (!cls) throw new ApiError(404, "Klassen finns inte.");
+    const target = Number(userId);
+    if (target === cls.teacher_id) throw new ApiError(400, "Den som skapade klassen kan inte lämna den. Radera klassen i stället.");
+    if (target !== s.user.id && cls.teacher_id !== s.user.id) throw new ApiError(403, "Bara den som skapade klassen kan ta bort en annan vuxen.");
+    await run("DELETE FROM class_guides WHERE class_id = ? AND user_id = ?", cls.id, target);
+    return [200, { ok: true }];
+  }
+
+  // A student joins another class with its code (a school class, a family), or leaves one.
+  async function joinClass() {
+    const s = await requireUser();
+    if (s.user.role !== "student") throw new ApiError(403, "Bara elever kan gå med i en klass.");
+    const b = await readJson(request, 2000);
+    const cls = await one("SELECT id FROM classes WHERE code = ?", normalizeCode(b.classCode));
+    if (!cls) throw new ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
+    const owner = await tryOne("SELECT g.caregiver AS c FROM classes c JOIN users g ON g.id = c.teacher_id WHERE c.id = ?", cls.id);
+    const already = await one("SELECT 1 AS x FROM class_members WHERE class_id = ? AND user_id = ?", cls.id, s.user.id);
+    if (owner && owner.c && !already && (await one("SELECT COUNT(*) AS n FROM class_members WHERE class_id = ?", cls.id)).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+    await addMember(cls.id, s.user.id);
+    return [200, { user: publicUser(await withGuide(await userById(s.user.id))) }];
+  }
+
+  async function leaveClass(classId) {
+    const s = await requireUser();
+    if (s.user.role !== "student") throw new ApiError(403, "Bara elever kan lämna en klass.");
+    const id = Number(classId);
+    if (!(await one("SELECT 1 AS x FROM class_members WHERE class_id = ? AND user_id = ?", id, s.user.id))) throw new ApiError(404, "Du är inte med i den klassen.");
+    await run("DELETE FROM class_members WHERE class_id = ? AND user_id = ?", id, s.user.id);
+    await fixPrimaryClass(s.user.id);
+    return [200, { user: publicUser(await withGuide(await userById(s.user.id))) }];
+  }
+
+  // a class that the user is a guide of (any guide), and the classes a guide and a student have in common
+  const guidedClass = (id, userId) => one("SELECT c.* FROM classes c JOIN class_guides cg ON cg.class_id = c.id WHERE c.id = ? AND cg.user_id = ?", Number(id), userId);
+  const sharedClasses = (studentId, guideId) => all(
+    "SELECT c.* FROM classes c JOIN class_members m ON m.class_id = c.id JOIN class_guides cg ON cg.class_id = c.id WHERE m.user_id = ? AND cg.user_id = ? ORDER BY c.id", studentId, guideId);
 
   async function updateClass(id) {
     const s = await requireGuide();
-    const cls = await one("SELECT id FROM classes WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
+    const cls = await guidedClass(id, s.user.id);
     if (!cls) throw new ApiError(404, "Klassen finns inte.");
     const b = await readJson(request, 2000);
     if (typeof b.rewards === "boolean") {
@@ -602,23 +725,22 @@ function createApi(env, request) {
     const name = str(b.name, 60).trim();
     if (!name) throw new ApiError(400, "Ge klassen ett namn.");
     if (s.user.caregiver && (await one("SELECT COUNT(*) AS n FROM classes WHERE teacher_id = ?", s.user.id)).n >= 1) throw new ApiError(400, "Du har redan en familj.");
-    const code = await newClassCode();
-    const res = await run("INSERT INTO classes (name, code, teacher_id, created_at) VALUES (?, ?, ?, ?)", name, code, s.user.id, nowIso());
-    return [201, { "class": { id: res.meta.last_row_id, name, code, students: 0 } }];
+    const made = await makeClass(name, s.user.id);
+    return [201, { "class": { id: made.id, name, code: made.code, guideCode: made.guideCode, students: 0, owner: true } }];
   }
 
   // A guide makes the account of a child (a young child has no one else to do it): the name, a user name and a password.
   async function createStudent() {
     const s = await requireGuide();
     const b = await readJson(request, 5000);
-    const cls = await one("SELECT id FROM classes WHERE id = ? AND teacher_id = ?", Number(b.classId), s.user.id);
+    const cls = await guidedClass(b.classId, s.user.id);
     if (!cls) throw new ApiError(400, "Välj en av dina klasser.");
     const username = str(b.username, 40).trim();
     const displayName = str(b.displayName, 80).trim();
     if (!validUsername(username)) throw new ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
     if (!displayName) throw new ApiError(400, "Ange namnet.");
     checkPassword(b.password, username);
-    if (s.user.caregiver && (await one("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'", cls.id)).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+    if (s.user.caregiver && (await one("SELECT COUNT(*) AS n FROM class_members WHERE class_id = ?", cls.id)).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
     if (await one("SELECT 1 AS x FROM users WHERE username = ?", username)) throw new ApiError(409, "Användarnamnet är redan upptaget.");
     let id;
     try {
@@ -627,20 +749,20 @@ function createApi(env, request) {
     } catch (e) {
       throw new ApiError(409, "Användarnamnet är redan upptaget.");
     }
+    await addMember(cls.id, id);
     return [201, { student: { id: String(id), username, name: displayName, classId: cls.id } }];
   }
 
   async function teacherStudents() {
     const s = await requireGuide();
     const [students, progressRows, attemptRows, feedbackRows, chatRows] = await Promise.all([
-      all("SELECT u.id, u.username, u.display_name, u.created_at, u.class_id, c.name AS class_name FROM users u " +
-        "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? AND u.role = 'student' ORDER BY u.display_name", s.user.id),
-      all("SELECT p.user_id, p.lesson_id, p.data FROM progress p JOIN users u ON u.id = p.user_id " +
-        "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ?", s.user.id),
-      all("SELECT a.id, a.user_id, a.data, a.created_at FROM attempts a JOIN users u ON u.id = a.user_id " +
-        "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? ORDER BY a.id", s.user.id),
-      all("SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.teacher_id = ? ORDER BY f.id", s.user.id),
-      all("SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at FROM chat WHERE teacher_id = ? ORDER BY id DESC LIMIT 1000", s.user.id).catch(() => [])
+      all("SELECT u.id, u.username, u.display_name, u.created_at, GROUP_CONCAT(c.name, ' · ') AS class_name, GROUP_CONCAT(c.id) AS class_ids FROM users u " +
+        "JOIN class_members m ON m.user_id = u.id JOIN class_guides cg ON cg.class_id = m.class_id AND cg.user_id = ? JOIN classes c ON c.id = m.class_id " +
+        "WHERE u.role = 'student' GROUP BY u.id ORDER BY u.display_name", s.user.id),
+      all("SELECT p.user_id, p.lesson_id, p.data FROM progress p WHERE p.user_id IN (" + MINE_STUDENTS + ")", s.user.id),
+      all("SELECT a.id, a.user_id, a.data, a.created_at FROM attempts a WHERE a.user_id IN (" + MINE_STUDENTS + ") ORDER BY a.id", s.user.id),
+      all("SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) ORDER BY f.id", s.user.id),
+      all("SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at, class_id FROM chat WHERE class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) ORDER BY id DESC LIMIT 1000", s.user.id).catch(() => [])
     ]);
     const chat = {};
     chatRows.reverse().forEach((r) => { (chat[r.student_id] = chat[r.student_id] || []).push(publicChat(r)); });
@@ -652,14 +774,14 @@ function createApi(env, request) {
     });
     attemptRows.forEach((r) => { (attempts[r.user_id] = attempts[r.user_id] || []).push(attemptFromRow(r)); });
     return [200, { students: students.map((u) => ({
-      id: String(u.id), username: u.username, name: u.display_name, "class": u.class_name, classId: u.class_id,
+      id: String(u.id), username: u.username, name: u.display_name, "class": u.class_name, classIds: String(u.class_ids).split(",").map(Number), classId: Number(String(u.class_ids).split(",")[0]),
       color: COLORS[u.id % COLORS.length], createdAt: u.created_at,
       lessonProgress: progress[u.id] || {}, attempts: attempts[u.id] || [], feedback: sent[u.id] || [], chat: chat[u.id] || []
     })) }];
   }
 
   async function studentOfTeacher(studentId, teacherId) {
-    const st = await one("SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'", Number(studentId), teacherId);
+    const st = await one("SELECT u.* FROM users u WHERE u.id = ? AND u.role = 'student' AND u.id IN (" + MINE_STUDENTS + ")", Number(studentId), teacherId);
     if (!st) throw new ApiError(404, "Eleven finns inte i dina klasser.");
     return st;
   }
@@ -669,7 +791,7 @@ function createApi(env, request) {
     const s = await requireGuide();
     const sql = (cols) => "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, " + cols + "a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
       "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
-      "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id";
+      "WHERE a.archived = 0 AND a.class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id";
     // a database made before prov existed has no column "config" (migrations/005-prov.sql adds it)
     const rows = await all(sql("a.config, "), s.user.id).catch(() => all(sql(""), s.user.id));
     return [200, { assignments: rows.map(publicAssignment) }];
@@ -678,12 +800,12 @@ function createApi(env, request) {
   async function createAssignment() {
     const s = await requireGuide();
     const b = await readJson(request, 5000);
-    const cls = await one("SELECT * FROM classes WHERE id = ? AND teacher_id = ?", Number(b.classId), s.user.id);
+    const cls = await guidedClass(b.classId, s.user.id);
     if (!cls) throw new ApiError(400, "Välj en av dina klasser.");
     let studentId = null;
     if (b.studentId !== undefined && b.studentId !== null && b.studentId !== "") {
-      const st = await one("SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'", Number(b.studentId), s.user.id);
-      if (!st || st.class_id !== cls.id) throw new ApiError(400, "Eleven går inte i den klassen.");
+      const st = await one("SELECT u.* FROM users u JOIN class_members m ON m.user_id = u.id WHERE u.id = ? AND m.class_id = ? AND u.role = 'student'", Number(b.studentId), cls.id);
+      if (!st) throw new ApiError(400, "Eleven går inte i den klassen.");
       studentId = st.id;
     }
     const lessonId = str(b.lessonId, 80);
@@ -709,7 +831,7 @@ function createApi(env, request) {
 
   async function archiveAssignment(id) {
     const s = await requireGuide();
-    await run("UPDATE assignments SET archived = 1 WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
+    await run("UPDATE assignments SET archived = 1 WHERE id = ? AND class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?)", Number(id), s.user.id);
     return [200, { ok: true }];
   }
 
@@ -724,14 +846,16 @@ function createApi(env, request) {
     const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
     const taskId = b.taskId ? str(b.taskId, 80) : null;
     if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw new ApiError(400, "Ogiltigt id.");
-    const res = await run("INSERT INTO feedback (student_id, teacher_id, lesson_id, task_id, text, sticker, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      student.id, s.user.id, lessonId, taskId, text, sticker, nowIso());
+    const shared = await sharedClasses(student.id, s.user.id);
+    const cls = (b.classId !== undefined && shared.find((c) => c.id === Number(b.classId))) || shared[0];
+    const res = await run("INSERT INTO feedback (student_id, teacher_id, lesson_id, task_id, text, sticker, created_at, class_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      student.id, s.user.id, lessonId, taskId, text, sticker, nowIso(), cls.id);
     return [201, { id: res.meta.last_row_id }];
   }
 
   async function removeFeedback(id) {
     const s = await requireGuide();
-    await run("DELETE FROM feedback WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
+    await run("DELETE FROM feedback WHERE id = ? AND class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?)", Number(id), s.user.id);
     return [200, { ok: true }];
   }
 
@@ -744,43 +868,67 @@ function createApi(env, request) {
     return [200, { password: temp }];
   }
 
-  // The statements that remove the students picked by `cond` (a test on users, e.g. "id = ?" or "class_id = ?") and everything
-  // that belongs to them. They are meant for db.batch, which runs them as one transaction. Messages sent through the
-  // feedback form are found by the sender text (see senderLabel).
-  function studentPurge(cond, ...params) {
-    const ids = "(SELECT id FROM users WHERE role = 'student' AND " + cond + ")";
+  // The statements that remove the students picked by `ids` (a SELECT of user ids, with its parameters) and everything that belongs to them. They
+  // are meant for db.batch, which runs them as one transaction. Messages sent through the feedback form are found by the sender text (see senderLabel).
+  function studentPurge(ids, ...params) {
     const del = (sql) => db.prepare(sql).bind(...params);
     return [
       del("DELETE FROM site_feedback WHERE sender IN (SELECT u.display_name || ' (elev' || COALESCE(', klass ' || c.name, '') || ')' FROM users u " +
-        "LEFT JOIN classes c ON c.id = u.class_id WHERE u.role = 'student' AND u." + cond + ")"),
+        "LEFT JOIN classes c ON c.id = u.class_id WHERE u.id IN " + ids + ")"),
       del("DELETE FROM chat WHERE student_id IN " + ids),
       del("DELETE FROM attempts WHERE user_id IN " + ids),
       del("DELETE FROM progress WHERE user_id IN " + ids),
       del("DELETE FROM sessions WHERE user_id IN " + ids),
       del("DELETE FROM feedback WHERE student_id IN " + ids),
       del("DELETE FROM assignments WHERE student_id IN " + ids),
-      del("DELETE FROM users WHERE role = 'student' AND " + cond)
+      del("DELETE FROM users WHERE role = 'student' AND id IN " + ids)
     ];
   }
+
+  // The students who are in these classes and in no other (the classes are a SELECT of class ids, written twice in the parameters).
+  const onlyIn = (classSelect) => "(SELECT m.user_id FROM class_members m WHERE m.class_id IN (" + classSelect + ") AND NOT EXISTS " +
+    "(SELECT 1 FROM class_members m2 WHERE m2.user_id = m.user_id AND m2.class_id NOT IN (" + classSelect + ")))";
 
   async function deleteStudent(studentId) {
     const s = await requireGuide();
     const student = await studentOfTeacher(studentId, s.user.id);
-    await db.batch(studentPurge("id = ?", student.id));
+    // the student leaves the classes the two share; the account goes when no class is left
+    const shared = await sharedClasses(student.id, s.user.id);
+    const left = await one("SELECT COUNT(*) AS n FROM class_members WHERE user_id = ? AND class_id NOT IN (SELECT class_id FROM class_guides WHERE user_id = ?)", student.id, s.user.id);
+    if (left.n === 0) {
+      await db.batch(studentPurge("(SELECT ?)", student.id).concat([db.prepare("DELETE FROM class_members WHERE user_id = ?").bind(student.id)]));
+    } else {
+      const statements = [];
+      shared.forEach((c) => {
+        statements.push(db.prepare("DELETE FROM class_members WHERE class_id = ? AND user_id = ?").bind(c.id, student.id));
+        statements.push(db.prepare("DELETE FROM feedback WHERE student_id = ? AND class_id = ?").bind(student.id, c.id));
+        statements.push(db.prepare("DELETE FROM chat WHERE student_id = ? AND class_id = ?").bind(student.id, c.id));
+      });
+      await db.batch(statements);
+      await fixPrimaryClass(student.id);
+    }
     return [200, { ok: true }];
   }
 
-  // A class is removed together with all its students and their data (end of the school year).
+  // A class is removed by its owner, together with its students and their data (end of the school year). A student who is in another class too
+  // keeps the account and loses only this class (and what belongs to it).
   async function deleteClass(id) {
     const s = await requireGuide();
     const cls = await one("SELECT id FROM classes WHERE id = ? AND teacher_id = ?", Number(id), s.user.id);
-    if (!cls) throw new ApiError(404, "Klassen finns inte.");
-    const count = await one("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'", cls.id);
-    await db.batch(studentPurge("class_id = ?", cls.id).concat([
+    if (!cls) throw new ApiError(404, "Klassen finns inte, eller så är det någon annan som har skapat den.");
+    const count = await one("SELECT COUNT(*) AS n FROM class_members WHERE class_id = ?", cls.id);
+    await db.batch(studentPurge(onlyIn("SELECT ?"), cls.id, cls.id).concat([
+      db.prepare("DELETE FROM feedback WHERE class_id = ?").bind(cls.id),
+      db.prepare("DELETE FROM chat WHERE class_id = ?").bind(cls.id),
       db.prepare("DELETE FROM assignments WHERE class_id = ?").bind(cls.id),
       db.prepare("DELETE FROM class_settings WHERE class_id = ?").bind(cls.id),
+      db.prepare("DELETE FROM class_members WHERE class_id = ?").bind(cls.id),
+      db.prepare("DELETE FROM class_guides WHERE class_id = ?").bind(cls.id),
       db.prepare("DELETE FROM classes WHERE id = ?").bind(cls.id)
     ]));
+    // students who stay: their first class may have been this one
+    const stay = await all("SELECT id FROM users WHERE role = 'student' AND class_id IS NULL AND id IN (SELECT user_id FROM class_members)");
+    for (const u of stay) await fixPrimaryClass(u.id);
     return [200, { ok: true, students: count ? count.n : 0 }];
   }
 
@@ -793,12 +941,14 @@ function createApi(env, request) {
     let statements;
     if (s.user.role === "teacher") {
       const mine = "(SELECT id FROM classes WHERE teacher_id = ?)";
-      statements = studentPurge("class_id IN " + mine, uid).concat([
+      statements = studentPurge(onlyIn("SELECT id FROM classes WHERE teacher_id = ?"), uid, uid).concat([
         db.prepare("DELETE FROM assignments WHERE class_id IN " + mine + " OR teacher_id = ?").bind(uid, uid),
         db.prepare("DELETE FROM class_settings WHERE class_id IN " + mine).bind(uid),
+        db.prepare("DELETE FROM chat WHERE class_id IN " + mine + " OR teacher_id = ?").bind(uid, uid),
+        db.prepare("DELETE FROM feedback WHERE class_id IN " + mine + " OR teacher_id = ?").bind(uid, uid),
+        db.prepare("DELETE FROM class_members WHERE class_id IN " + mine).bind(uid),
+        db.prepare("DELETE FROM class_guides WHERE class_id IN " + mine + " OR user_id = ?").bind(uid, uid),
         db.prepare("DELETE FROM classes WHERE teacher_id = ?").bind(uid),
-        db.prepare("DELETE FROM chat WHERE teacher_id = ?").bind(uid),
-        db.prepare("DELETE FROM feedback WHERE teacher_id = ?").bind(uid),
         db.prepare("UPDATE lessons SET updated_by = NULL WHERE updated_by = ?").bind(uid),
         db.prepare("DELETE FROM site_feedback WHERE sender = ?").bind(senderLabel(s.user, null)),
         db.prepare("DELETE FROM sessions WHERE user_id = ?").bind(uid),
@@ -807,14 +957,30 @@ function createApi(env, request) {
         db.prepare("DELETE FROM users WHERE id = ?").bind(uid)
       ]);
     } else {
-      statements = studentPurge("id = ?", uid);
+      statements = studentPurge("(SELECT ?)", uid).concat([db.prepare("DELETE FROM class_members WHERE user_id = ?").bind(uid)]);
     }
     await db.batch(statements);
     return [200, { ok: true }];
   }
 
+  // The students of a guide: those who are in a class the guide is a guide of.
+  const MINE_STUDENTS = "SELECT m.user_id FROM class_members m JOIN class_guides cg ON cg.class_id = m.class_id WHERE cg.user_id = ?";
+
+  // Without the tables of migrations/007-multi.sql nothing works, so that is said at once instead of failing in some query.
+  async function requireMultiSchema() {
+    if (multiSchemaSeen) return;
+    try {
+      await one("SELECT 1 AS x FROM class_members LIMIT 1");
+      multiSchemaSeen = true;
+    } catch (e) {
+      if (/no such table/i.test(String(e && e.message))) throw new ApiError(503, "Databasen behöver uppdateras (migrations/007-multi.sql, se cloudflare/README.md).");
+      throw e;
+    }
+  }
+
   async function handle(method, p) {
     let m;
+    await requireMultiSchema();
     await housekeeping();
     if (method === "GET" && p === "/api/me") { const s = await currentSession(); return [200, { user: s ? publicUser(await withGuide(s.user)) : null }]; }
     if (method === "POST" && p === "/api/register") return register();
@@ -838,6 +1004,10 @@ function createApi(env, request) {
     if (method === "POST" && p === "/api/attempts") return postAttempt();
     if (method === "GET" && p === "/api/lessons") return listLessons();
     if ((m = /^\/api\/lessons\/([^/]+)$/.exec(p)) && method === "PUT") return putLesson(decodeURIComponent(m[1]));
+    if (method === "POST" && p === "/api/me/classes") return joinClass();
+    if ((m = /^\/api\/me\/classes\/(\d+)$/.exec(p)) && method === "DELETE") return leaveClass(m[1]);
+    if (method === "POST" && p === "/api/teacher/join") return joinAsGuide();
+    if ((m = /^\/api\/teacher\/classes\/(\d+)\/guides\/(\d+)$/.exec(p)) && method === "DELETE") return removeGuide(m[1], m[2]);
     if (method === "GET" && p === "/api/teacher/classes") return listClasses();
     if (method === "POST" && p === "/api/teacher/classes") return createClass();
     if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "PUT") return updateClass(m[1]);

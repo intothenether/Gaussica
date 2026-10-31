@@ -49,7 +49,7 @@ test("caregiver: signs up without a code, and has a family with a code", async (
   await expect(page.locator("#admin-title")).toHaveText("Mina barn");
   await expect(page.locator(".admin-badge")).toHaveText("VÅRDNADSHAVARE");
   await expect(page.locator(".tv-family")).toContainText("Familjen Andersson");
-  await expect(page.locator(".tv-family .tv-code")).toHaveText(/^[A-Z0-9]{6}$/);
+  await expect(page.locator(".tv-family .tv-class .tv-code")).toHaveText(/^[A-Z0-9]{6}$/);
   await expect(page.locator(".tv-family")).toContainText("0 barn av 10");
   // the words of a family on the whole page, and nothing about classes or students
   const text = await page.locator("#admin-page").innerText();

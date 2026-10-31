@@ -88,6 +88,17 @@ npx wrangler deploy
 
 `RESEND_API_KEY` är nyckeln du skapade och `FEEDBACK_TO` är din e-postadress. Utan egen domän skickas mejlet från onboarding@resend.dev, och då måste `FEEDBACK_TO` vara samma adress som du registrerade Resend med. Meddelandena sparas också i databasen. Vill du läsa dem där: `npx wrangler d1 execute gaussica --remote --command "SELECT created_at, kind, text, sender FROM site_feedback ORDER BY id DESC LIMIT 20"`.
 
+### Version med flera vuxna och flera klasser (kör FÖRE `deploy`)
+
+En klass kan ha flera vuxna (de två vårdnadshavarna i en familj, två lärare) och en elev kan vara med i flera klasser (en skolklass och en familj). Det kräver nya tabeller, `class_members` och `class_guides`, och kolumnerna `guide_code` (klasser) och `class_id` (chat och feedback). **Till skillnad från de tidigare migreringarna går inget att göra utan dem:** utan tabellerna svarar API:t överallt att databasen behöver uppdateras. Den gamla versionen av API:t fortsätter att fungera på den uppdaterade databasen, så kör migreringen först och driftsätt sedan:
+
+```bash
+npx wrangler d1 execute gaussica --remote --file=migrations/007-multi.sql
+npx wrangler deploy
+```
+
+Migreringen gör varje elev till medlem i sin klass och varje lärare eller vårdnadshavare till vuxen i sin klass, ger varje klass en kod för vuxna och sätter klass på alla gamla meddelanden och kommentarer. Ny databas: det räcker med `schema.sql`. Kör inte `007-multi.sql` en andra gång, då ger den felet "duplicate column name".
+
 ### Version med vårdnadshavare
 
 Ett konto som vårdnadshavare är ett lärarkonto med en markering, kolumnen `caregiver` i tabellen `users`. Kör migreringen en gång före `deploy`:

@@ -41,11 +41,29 @@ function createApi(db, options) {
     userByName: db.prepare("SELECT * FROM users WHERE username = ?"),
     userById: db.prepare("SELECT u.*, c.name AS class_name, g.caregiver AS guide_caregiver, COALESCE(cs.rewards, 1) AS rewards FROM users u LEFT JOIN classes c ON c.id = u.class_id LEFT JOIN users g ON g.id = c.teacher_id LEFT JOIN class_settings cs ON cs.class_id = u.class_id WHERE u.id = ?"),
     insertUser: db.prepare("INSERT INTO users (username, display_name, role, password_hash, class_id, created_at, caregiver) VALUES (?, ?, ?, ?, ?, ?, ?)"),
-    countClassStudents: db.prepare("SELECT COUNT(*) AS n FROM users WHERE class_id = ? AND role = 'student'"),
+    countClassStudents: db.prepare("SELECT COUNT(*) AS n FROM class_members m JOIN users u ON u.id = m.user_id WHERE m.class_id = ? AND u.role = 'student'"),
+    insertMember: db.prepare("INSERT OR IGNORE INTO class_members (class_id, user_id, joined_at) VALUES (?, ?, ?)"),
+    deleteMember: db.prepare("DELETE FROM class_members WHERE class_id = ? AND user_id = ?"),
+    classesOfStudent: db.prepare(
+      "SELECT c.id, c.name, c.code, g.caregiver AS owner_caregiver, COALESCE(cs.rewards, 1) AS rewards FROM class_members m JOIN classes c ON c.id = m.class_id " +
+      "JOIN users g ON g.id = c.teacher_id LEFT JOIN class_settings cs ON cs.class_id = c.id WHERE m.user_id = ? ORDER BY m.joined_at, c.id"),
+    isMember: db.prepare("SELECT 1 AS x FROM class_members WHERE class_id = ? AND user_id = ?"),
+    setPrimaryClass: db.prepare("UPDATE users SET class_id = ? WHERE id = ?"),
+    insertGuide: db.prepare("INSERT OR IGNORE INTO class_guides (class_id, user_id) VALUES (?, ?)"),
+    deleteGuide: db.prepare("DELETE FROM class_guides WHERE class_id = ? AND user_id = ?"),
+    guidesOfClass: db.prepare("SELECT u.id, u.display_name, u.caregiver FROM class_guides cg JOIN users u ON u.id = cg.user_id WHERE cg.class_id = ? ORDER BY cg.rowid"),
+    classByGuideCode: db.prepare("SELECT * FROM classes WHERE guide_code = ?"),
+    sharedClasses: db.prepare(
+      "SELECT c.* FROM classes c JOIN class_members m ON m.class_id = c.id JOIN class_guides cg ON cg.class_id = c.id WHERE m.user_id = ? AND cg.user_id = ? ORDER BY c.id"),
+    otherClassCount: db.prepare("SELECT COUNT(*) AS n FROM class_members WHERE user_id = ? AND class_id != ?"),
+    deleteClassFeedback: db.prepare("DELETE FROM feedback WHERE class_id = ?"),
+    deleteClassChat: db.prepare("DELETE FROM chat WHERE class_id = ?"),
+    deleteFeedbackOf: db.prepare("DELETE FROM feedback WHERE student_id = ? AND class_id = ?"),
+    deleteChatOf: db.prepare("DELETE FROM chat WHERE student_id = ? AND class_id = ?"),
     countClassesOf: db.prepare("SELECT COUNT(*) AS n FROM classes WHERE teacher_id = ?"),
     classOwner: db.prepare("SELECT u.caregiver AS caregiver FROM classes c JOIN users u ON u.id = c.teacher_id WHERE c.id = ?"),
     classByCode: db.prepare("SELECT * FROM classes WHERE code = ?"),
-    insertClass: db.prepare("INSERT INTO classes (name, code, teacher_id, created_at) VALUES (?, ?, ?, ?)"),
+    insertClass: db.prepare("INSERT INTO classes (name, code, guide_code, teacher_id, created_at) VALUES (?, ?, ?, ?, ?)"),
     insertSession: db.prepare("INSERT INTO sessions (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)"),
     sessionUser: db.prepare(
       "SELECT u.*, c.name AS class_name, g.caregiver AS guide_caregiver, COALESCE(cs.rewards, 1) AS rewards FROM sessions s JOIN users u ON u.id = s.user_id " +
@@ -66,51 +84,55 @@ function createApi(db, options) {
       "INSERT INTO lessons (id, data, updated_at, updated_by) VALUES (?, ?, ?, ?) " +
       "ON CONFLICT (id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at, updated_by = excluded.updated_by"),
     teacherClasses: db.prepare(
-      "SELECT c.id, c.name, c.code, c.created_at, (SELECT COUNT(*) FROM users u WHERE u.class_id = c.id) AS students, " +
+      "SELECT c.id, c.name, c.code, c.guide_code, c.teacher_id, c.created_at, (SELECT COUNT(*) FROM class_members m WHERE m.class_id = c.id) AS students, " +
       "COALESCE((SELECT rewards FROM class_settings WHERE class_id = c.id), 1) AS rewards " +
-      "FROM classes c WHERE c.teacher_id = ? ORDER BY c.name"),
+      "FROM classes c JOIN class_guides cg ON cg.class_id = c.id WHERE cg.user_id = ? ORDER BY c.name"),
     setRewards: db.prepare("INSERT INTO class_settings (class_id, rewards) VALUES (?, ?) ON CONFLICT (class_id) DO UPDATE SET rewards = excluded.rewards"),
     teacherStudents: db.prepare(
-      "SELECT u.id, u.username, u.display_name, u.created_at, u.class_id, c.name AS class_name FROM users u " +
-      "JOIN classes c ON c.id = u.class_id WHERE c.teacher_id = ? AND u.role = 'student' ORDER BY u.display_name"),
+      "SELECT u.id, u.username, u.display_name, u.created_at, GROUP_CONCAT(c.name, ' · ') AS class_name, GROUP_CONCAT(c.id) AS class_ids FROM users u " +
+      "JOIN class_members m ON m.user_id = u.id JOIN class_guides cg ON cg.class_id = m.class_id AND cg.user_id = ? JOIN classes c ON c.id = m.class_id " +
+      "WHERE u.role = 'student' GROUP BY u.id ORDER BY u.display_name"),
     studentOfTeacher: db.prepare(
-      "SELECT u.* FROM users u JOIN classes c ON c.id = u.class_id WHERE u.id = ? AND c.teacher_id = ? AND u.role = 'student'"),
+      "SELECT u.* FROM users u WHERE u.id = ? AND u.role = 'student' AND EXISTS " +
+      "(SELECT 1 FROM class_members m JOIN class_guides cg ON cg.class_id = m.class_id WHERE m.user_id = u.id AND cg.user_id = ?)"),
     deleteUser: db.prepare("DELETE FROM users WHERE id = ?"),
     deleteClass: db.prepare("DELETE FROM classes WHERE id = ?"),
-    studentIdsOfClass: db.prepare("SELECT id FROM users WHERE class_id = ? AND role = 'student'"),
+    studentIdsOfClass: db.prepare("SELECT m.user_id AS id FROM class_members m JOIN users u ON u.id = m.user_id WHERE m.class_id = ? AND u.role = 'student'"),
     classIdsOfTeacher: db.prepare("SELECT id FROM classes WHERE teacher_id = ?"),
     deleteSiteFeedbackBy: db.prepare("DELETE FROM site_feedback WHERE sender = ?"),
-    classOfTeacher: db.prepare("SELECT * FROM classes WHERE id = ? AND teacher_id = ?"),
+    classOfTeacher: db.prepare("SELECT c.* FROM classes c JOIN class_guides cg ON cg.class_id = c.id WHERE c.id = ? AND cg.user_id = ?"),
+    classOwnedBy: db.prepare("SELECT * FROM classes WHERE id = ? AND teacher_id = ?"),
     insertAssignment: db.prepare("INSERT INTO assignments (class_id, student_id, teacher_id, lesson_id, note, due_date, created_at, kind, config) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"),
     assignmentsForStudent: db.prepare(
       "SELECT a.id, a.lesson_id, a.kind, a.config, a.note, a.due_date, a.created_at, u.display_name AS teacher FROM assignments a JOIN users u ON u.id = a.teacher_id " +
-      "WHERE a.archived = 0 AND a.class_id = ? AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id"),
+      "WHERE a.archived = 0 AND a.class_id IN (SELECT class_id FROM class_members WHERE user_id = ?) AND (a.student_id IS NULL OR a.student_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id"),
     assignmentsForTeacher: db.prepare(
       "SELECT a.id, a.class_id, a.student_id, a.lesson_id, a.kind, a.config, a.note, a.due_date, a.created_at, c.name AS class_name, s.display_name AS student_name " +
       "FROM assignments a JOIN classes c ON c.id = a.class_id LEFT JOIN users s ON s.id = a.student_id " +
-      "WHERE a.archived = 0 AND a.teacher_id = ? ORDER BY a.due_date IS NULL, a.due_date, a.id"),
-    archiveAssignment: db.prepare("UPDATE assignments SET archived = 1 WHERE id = ? AND teacher_id = ?"),
-    insertFeedback: db.prepare("INSERT INTO feedback (student_id, teacher_id, lesson_id, task_id, text, sticker, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"),
+      "WHERE a.archived = 0 AND a.class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) ORDER BY a.due_date IS NULL, a.due_date, a.id"),
+    archiveAssignment: db.prepare("UPDATE assignments SET archived = 1 WHERE id = ? AND class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?)"),
+    insertFeedback: db.prepare("INSERT INTO feedback (student_id, teacher_id, lesson_id, task_id, text, sticker, created_at, class_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
     feedbackForStudent: db.prepare(
       "SELECT f.id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at, u.display_name AS teacher FROM feedback f " +
       "JOIN users u ON u.id = f.teacher_id WHERE f.student_id = ? ORDER BY f.id DESC LIMIT 200"),
     feedbackForTeacher: db.prepare(
-      "SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.teacher_id = ? ORDER BY f.id"),
+      "SELECT f.id, f.student_id, f.lesson_id, f.task_id, f.text, f.sticker, f.created_at, f.read_at FROM feedback f WHERE f.class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) ORDER BY f.id"),
     markFeedbackRead: db.prepare("UPDATE feedback SET read_at = ? WHERE id = ? AND student_id = ? AND read_at IS NULL"),
-    deleteFeedback: db.prepare("DELETE FROM feedback WHERE id = ? AND teacher_id = ?"),
+    deleteFeedback: db.prepare("DELETE FROM feedback WHERE id = ? AND class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?)"),
     insertSiteFeedback: db.prepare("INSERT INTO site_feedback (kind, text, email, page, context, sender, agent, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
     siteFeedbackEmailed: db.prepare("UPDATE site_feedback SET emailed = 1 WHERE id = ?"),
     classTeacher: db.prepare("SELECT teacher_id FROM classes WHERE id = ?"),
-    insertChat: db.prepare("INSERT INTO chat (student_id, teacher_id, from_teacher, text, lesson_id, task_id, context, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
+    insertChat: db.prepare("INSERT INTO chat (student_id, teacher_id, from_teacher, text, lesson_id, task_id, context, created_at, class_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"),
     chatForStudent: db.prepare(
-      "SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at FROM chat WHERE student_id = ? ORDER BY id DESC LIMIT 200"),
+      "SELECT c.id, c.student_id, c.from_teacher, c.text, c.lesson_id, c.task_id, c.context, c.created_at, c.read_at, c.class_id, u.display_name AS guide " +
+      "FROM chat c LEFT JOIN users u ON u.id = c.teacher_id AND c.from_teacher = 1 WHERE c.student_id = ? ORDER BY c.id DESC LIMIT 200"),
     chatForTeacher: db.prepare(
-      "SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at FROM chat WHERE teacher_id = ? ORDER BY id DESC LIMIT 1000"),
+      "SELECT id, student_id, from_teacher, text, lesson_id, task_id, context, created_at, read_at, class_id FROM chat WHERE class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) ORDER BY id DESC LIMIT 1000"),
     chatUnanswered: db.prepare(
       "SELECT COUNT(*) AS n FROM chat WHERE student_id = ? AND from_teacher = 0 AND id > COALESCE((SELECT MAX(id) FROM chat WHERE student_id = ? AND from_teacher = 1), 0)"),
     chatReadByStudent: db.prepare("UPDATE chat SET read_at = ? WHERE student_id = ? AND from_teacher = 1 AND read_at IS NULL"),
-    chatReadByTeacher: db.prepare("UPDATE chat SET read_at = ? WHERE student_id = ? AND teacher_id = ? AND from_teacher = 0 AND read_at IS NULL"),
-    chatUnreadForTeacher: db.prepare("SELECT COUNT(*) AS n FROM chat WHERE teacher_id = ? AND from_teacher = 0 AND read_at IS NULL"),
+    chatReadByTeacher: db.prepare("UPDATE chat SET read_at = ? WHERE student_id = ? AND class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) AND from_teacher = 0 AND read_at IS NULL"),
+    chatUnreadForTeacher: db.prepare("SELECT COUNT(*) AS n FROM chat WHERE class_id IN (SELECT class_id FROM class_guides WHERE user_id = ?) AND from_teacher = 0 AND read_at IS NULL"),
     getSetting: db.prepare("SELECT value FROM settings WHERE key = ?"),
     setSetting: db.prepare("INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value")
   };
@@ -193,11 +215,17 @@ function createApi(db, options) {
   // A caregiver is stored as a teacher with the flag `caregiver`; the site is told the role "caregiver". A student whose class belongs to a
   // caregiver (a family) gets guide: "caregiver", so that the pages can say vårdnadshavare where they say lärare.
   function publicUser(u) {
+    // a student can be in several classes: a school class and a family. guide is "caregiver" when all of them are families, "teacher" when
+    // none is, and "both" when there are both kinds. Stars and animals are on when any of the classes has them on.
+    const classes = u.role === "student" ? q.classesOfStudent.all(u.id) : [];
+    const families = classes.filter(function (c) { return c.owner_caregiver; }).length;
     return {
       id: u.id, username: u.username, name: u.display_name, role: u.role === "teacher" && u.caregiver ? "caregiver" : u.role,
-      guide: u.role === "student" ? (u.guide_caregiver ? "caregiver" : "teacher") : undefined,
-      classId: u.class_id || null, className: u.class_name || null, color: COLORS[u.id % COLORS.length],
-      rewards: u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards)
+      guide: u.role === "student" ? (!classes.length ? "teacher" : families === classes.length ? "caregiver" : families ? "both" : "teacher") : undefined,
+      classId: classes.length ? classes[0].id : (u.class_id || null), className: classes.length ? classes.map(function (c) { return c.name; }).join(" · ") : (u.class_name || null),
+      classes: u.role === "student" ? classes.map(function (c) { return { id: c.id, name: c.name, family: Boolean(c.owner_caregiver) }; }) : undefined,
+      color: COLORS[u.id % COLORS.length],
+      rewards: u.role === "student" && classes.length ? classes.some(function (c) { return Boolean(c.rewards); }) : (u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards))
     };
   }
 
@@ -236,6 +264,35 @@ function createApi(db, options) {
     return code;
   }
 
+  // The code that makes another adult a guide of a class (the other parent, a second teacher). It is longer than the code of the students.
+  function newGuideCode() {
+    let code;
+    for (let i = 0; i < 10; i++) {
+      code = "V" + sec.randomCode(9);
+      if (!q.classByGuideCode.get(code)) break;
+    }
+    return code;
+  }
+
+  // A class with its owner as its first guide.
+  function makeClass(name, ownerId) {
+    const id = Number(q.insertClass.run(name, newClassCode(), newGuideCode(), ownerId, nowIso()).lastInsertRowid);
+    q.insertGuide.run(id, ownerId);
+    return id;
+  }
+
+  // The first class of a student is kept in users.class_id (for the old code and for the name shown); it follows the memberships.
+  function fixPrimaryClass(userId) {
+    const list = q.classesOfStudent.all(userId);
+    q.setPrimaryClass.run(list.length ? list[0].id : null, userId);
+  }
+
+  function addMember(classId, userId) {
+    q.insertMember.run(classId, userId, nowIso());
+    const u = q.userById.get(userId);
+    if (u && !u.class_id) q.setPrimaryClass.run(classId, userId);
+  }
+
   function ip(req) { return req.socket.remoteAddress || "?"; }
 
   // ----- validation -----
@@ -262,6 +319,7 @@ function createApi(db, options) {
     checkPassword(b.password, username);
 
     let classId = null;
+    let joinClass = null;   // a caregiver who joins the family of somebody else
     if (role === "student") {
       const cls = q.classByCode.get(sec.normalizeCode(b.classCode));
       if (!cls) throw new ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
@@ -270,6 +328,10 @@ function createApi(db, options) {
       classId = cls.id;
     } else if (kind === "caregiver") {
       if (!caregiverSignup()) throw new ApiError(403, "Konton för vårdnadshavare är avstängda här.");
+      if (str(b.guideCode, 40).trim()) {
+        joinClass = q.classByGuideCode.get(sec.normalizeCode(b.guideCode));
+        if (!joinClass) throw new ApiError(400, "Koden för vuxna stämmer inte. Fråga den som skapade familjen.");
+      }
     } else if (!sec.safeEqual(sec.normalizeCode(b.teacherCode), teacherCode())) {
       throw new ApiError(403, "Lärarkoden stämmer inte.");
     }
@@ -282,8 +344,9 @@ function createApi(db, options) {
     } catch (e) {
       throw new ApiError(409, "Användarnamnet är redan upptaget.");
     }
-    // a caregiver starts with a family, so there is a code to give the children at once
-    if (kind === "caregiver") q.insertClass.run(familyName(displayName), newClassCode(), userId, nowIso());
+    if (role === "student") addMember(classId, userId);
+    // a caregiver starts with a family, so there is a code to give the children at once, or joins the family of the other adult
+    if (kind === "caregiver") { if (joinClass) q.insertGuide.run(joinClass.id, userId); else makeClass(familyName(displayName), userId); }
     startSession(res, userId);
     send(res, 201, { user: publicUser(q.userById.get(userId)) });
   }
@@ -318,10 +381,10 @@ function createApi(db, options) {
 
   function myData(req, res) {
     const s = requireUser(req);
-    const student = s.user.role === "student" && s.user.class_id;
+    const student = s.user.role === "student";
     send(res, 200, {
       progress: progressOf(s.user.id), attempts: attemptsOf(s.user.id),
-      assignments: student ? q.assignmentsForStudent.all(s.user.class_id, s.user.id).map(publicAssignment) : [],
+      assignments: student ? q.assignmentsForStudent.all(s.user.id, s.user.id).map(publicAssignment) : [],
       feedback: s.user.role === "student" ? q.feedbackForStudent.all(s.user.id).map(publicFeedback) : [],
       chat: s.user.role === "student" ? q.chatForStudent.all(s.user.id).reverse().map(publicChat) : []
     });
@@ -403,7 +466,7 @@ function createApi(db, options) {
     let context = null;
     try { context = r.context ? JSON.parse(r.context) : null; } catch (e) { /* skip corrupt context */ }
     return {
-      id: r.id, studentId: String(r.student_id), fromTeacher: Boolean(r.from_teacher), text: r.text,
+      id: r.id, studentId: String(r.student_id), fromTeacher: Boolean(r.from_teacher), text: r.text, classId: r.class_id || null, guide: r.guide || null,
       lessonId: r.lesson_id || null, taskId: r.task_id || null, context: context, createdAt: r.created_at, read: Boolean(r.read_at)
     };
   }
@@ -423,10 +486,14 @@ function createApi(db, options) {
   async function studentChat(req, res) {
     const s = requireUser(req);
     if (s.user.role !== "student") throw new ApiError(403, "Bara elever kan skriva till läraren här.");
-    if (!s.user.class_id) throw new ApiError(400, "Du är inte med i någon klass än.");
-    const teacher = q.classTeacher.get(s.user.class_id);
-    if (!teacher) throw new ApiError(400, "Klassen har ingen lärare.");
     const b = await readJson(req, 8000);
+    // to the guides of one of the classes of the student: the one asked for, or the first
+    const mine = q.classesOfStudent.all(s.user.id);
+    if (!mine.length) throw new ApiError(400, "Du är inte med i någon klass än.");
+    const chosen = b.classId === undefined || b.classId === null ? mine[0] : mine.find(function (c) { return c.id === Number(b.classId); });
+    if (!chosen) throw new ApiError(400, "Du är inte med i den klassen.");
+    const teacher = q.classTeacher.get(chosen.id);
+    if (!teacher) throw new ApiError(400, "Klassen har ingen lärare.");
     const text = str(b.text, 600).trim();
     if (!text) throw new ApiError(400, "Skriv något först.");
     const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
@@ -435,7 +502,7 @@ function createApi(db, options) {
     if (q.chatUnanswered.get(s.user.id, s.user.id).n >= CHAT_UNANSWERED_MAX) {
       throw new ApiError(429, "Du har redan skickat flera meddelanden. Vänta tills din lärare har svarat.");
     }
-    const id = Number(q.insertChat.run(s.user.id, teacher.teacher_id, 0, text, lessonId, taskId, cleanChatContext(b.context), nowIso()).lastInsertRowid);
+    const id = Number(q.insertChat.run(s.user.id, teacher.teacher_id, 0, text, lessonId, taskId, cleanChatContext(b.context), nowIso(), chosen.id).lastInsertRowid);
     send(res, 201, { id: id });
   }
 
@@ -452,7 +519,11 @@ function createApi(db, options) {
     if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
     const text = str(b.text, 600).trim();
     if (!text) throw new ApiError(400, "Skriv något först.");
-    const id = Number(q.insertChat.run(student.id, s.user.id, 1, text, null, null, null, nowIso()).lastInsertRowid);
+    // the answer goes to the class the question came from (the last one that was asked), or else the first class the two have in common
+    const shared = q.sharedClasses.all(student.id, s.user.id);
+    const asked = q.chatForTeacher.all(s.user.id).find(function (r) { return r.student_id === student.id && !r.from_teacher; });
+    const cls = (b.classId !== undefined && shared.find(function (c) { return c.id === Number(b.classId); })) || (asked && shared.find(function (c) { return c.id === asked.class_id; })) || shared[0];
+    const id = Number(q.insertChat.run(student.id, s.user.id, 1, text, null, null, null, nowIso(), cls.id).lastInsertRowid);
     q.chatReadByTeacher.run(nowIso(), student.id, s.user.id);   // answering means having read
     send(res, 201, { id: id });
   }
@@ -585,7 +656,61 @@ function createApi(db, options) {
   // ----- teacher -----
   function listClasses(req, res) {
     const s = requireGuide(req);
-    send(res, 200, { classes: q.teacherClasses.all(s.user.id).map(function (c) { return Object.assign({}, c, { rewards: Boolean(c.rewards) }); }) });
+    send(res, 200, { classes: q.teacherClasses.all(s.user.id).map(function (c) {
+      const own = c.teacher_id === s.user.id;
+      return {
+        id: c.id, name: c.name, code: c.code, created_at: c.created_at, students: c.students, rewards: Boolean(c.rewards),
+        owner: own, guideCode: own ? c.guide_code : null,
+        guides: q.guidesOfClass.all(c.id).map(function (g) { return { id: g.id, name: g.display_name, caregiver: Boolean(g.caregiver), owner: g.id === c.teacher_id, you: g.id === s.user.id }; })
+      };
+    }) });
+  }
+
+  // Another adult joins a class as a guide (the other parent joins the family) with the code for adults.
+  async function joinAsGuide(req, res) {
+    const s = requireGuide(req);
+    const b = await readJson(req, 2000);
+    const cls = q.classByGuideCode.get(sec.normalizeCode(b.guideCode));
+    if (!cls) throw new ApiError(400, "Koden för vuxna stämmer inte. Fråga den som skapade klassen eller familjen.");
+    q.insertGuide.run(cls.id, s.user.id);
+    send(res, 200, { ok: true, classId: cls.id, name: cls.name });
+  }
+
+  // The owner removes a guide; a guide who is not the owner can leave. The owner cannot leave (the class is deleted instead).
+  function removeGuide(req, res, classId, userId) {
+    const s = requireGuide(req);
+    const cls = q.classOfTeacher.get(Number(classId), s.user.id);
+    if (!cls) throw new ApiError(404, "Klassen finns inte.");
+    const target = Number(userId);
+    if (target === cls.teacher_id) throw new ApiError(400, "Den som skapade klassen kan inte lämna den. Radera klassen i stället.");
+    if (target !== s.user.id && cls.teacher_id !== s.user.id) throw new ApiError(403, "Bara den som skapade klassen kan ta bort en annan vuxen.");
+    q.deleteGuide.run(cls.id, target);
+    send(res, 200, { ok: true });
+  }
+
+  // A student joins another class with its code (a school class, a family), or leaves one.
+  async function joinClass(req, res) {
+    const s = requireUser(req);
+    if (s.user.role !== "student") throw new ApiError(403, "Bara elever kan gå med i en klass.");
+    const b = await readJson(req, 2000);
+    const cls = q.classByCode.get(sec.normalizeCode(b.classCode));
+    if (!cls) throw new ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
+    const owner = q.classOwner.get(cls.id);
+    if (owner && owner.caregiver && !q.isMember.get(cls.id, s.user.id) && q.countClassStudents.get(cls.id).n >= FAMILY_MAX) throw new ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+    addMember(cls.id, s.user.id);
+    send(res, 200, { user: publicUser(q.userById.get(s.user.id)) });
+  }
+
+  function leaveClass(req, res, classId) {
+    const s = requireUser(req);
+    if (s.user.role !== "student") throw new ApiError(403, "Bara elever kan lämna en klass.");
+    const id = Number(classId);
+    if (!q.isMember.get(id, s.user.id)) throw new ApiError(404, "Du är inte med i den klassen.");
+    inTransaction(function () {
+      q.deleteMember.run(id, s.user.id);
+      fixPrimaryClass(s.user.id);
+    });
+    send(res, 200, { user: publicUser(q.userById.get(s.user.id)) });
   }
 
   async function updateClass(req, res, id) {
@@ -603,11 +728,9 @@ function createApi(db, options) {
     const name = str(b.name, 60).trim();
     if (!name) throw new ApiError(400, "Ge klassen ett namn.");
     if (s.user.caregiver && q.countClassesOf.get(s.user.id).n >= 1) throw new ApiError(400, "Du har redan en familj.");
-    let row;
-    const code = newClassCode();
-    const id = Number(q.insertClass.run(name, code, s.user.id, nowIso()).lastInsertRowid);
-    row = { id: id, name: name, code: code, students: 0 };
-    send(res, 201, { class: row });
+    const id = makeClass(name, s.user.id);
+    const made = q.classOwnedBy.get(id, s.user.id);
+    send(res, 201, { class: { id: id, name: name, code: made.code, guideCode: made.guide_code, students: 0, owner: true } });
   }
 
   // A guide makes the account of a child (a young child has no one else to do it): the name, a user name and a password.
@@ -629,6 +752,7 @@ function createApi(db, options) {
     } catch (e) {
       throw new ApiError(409, "Användarnamnet är redan upptaget.");
     }
+    q.insertMember.run(cls.id, id, nowIso());
     send(res, 201, { student: { id: String(id), username: username, name: displayName, classId: cls.id } });
   }
 
@@ -641,7 +765,7 @@ function createApi(db, options) {
     const students = q.teacherStudents.all(s.user.id).map(function (u) {
       return {
         feedback: sent[u.id] || [], chat: chat[u.id] || [],
-        id: String(u.id), username: u.username, name: u.display_name, class: u.class_name, classId: u.class_id,
+        id: String(u.id), username: u.username, name: u.display_name, class: u.class_name, classIds: String(u.class_ids).split(",").map(Number), classId: Number(String(u.class_ids).split(",")[0]),
         color: COLORS[u.id % COLORS.length], createdAt: u.created_at,
         lessonProgress: progressOf(u.id), attempts: attemptsOf(u.id)
       };
@@ -663,7 +787,7 @@ function createApi(db, options) {
     let studentId = null;
     if (b.studentId !== undefined && b.studentId !== null && b.studentId !== "") {
       const st = q.studentOfTeacher.get(Number(b.studentId), s.user.id);
-      if (!st || st.class_id !== cls.id) throw new ApiError(400, "Eleven går inte i den klassen.");
+      if (!st || !q.isMember.get(cls.id, st.id)) throw new ApiError(400, "Eleven går inte i den klassen.");
       studentId = st.id;
     }
     const lessonId = str(b.lessonId, 80);
@@ -695,7 +819,9 @@ function createApi(db, options) {
     const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
     const taskId = b.taskId ? str(b.taskId, 80) : null;
     if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw new ApiError(400, "Ogiltigt id.");
-    const id = Number(q.insertFeedback.run(student.id, s.user.id, lessonId, taskId, text, sticker, nowIso()).lastInsertRowid);
+    const shared = q.sharedClasses.all(student.id, s.user.id);
+    const cls = (b.classId !== undefined && shared.find(function (c) { return c.id === Number(b.classId); })) || shared[0];
+    const id = Number(q.insertFeedback.run(student.id, s.user.id, lessonId, taskId, text, sticker, nowIso(), cls.id).lastInsertRowid);
     send(res, 201, { id: id });
   }
 
@@ -729,8 +855,16 @@ function createApi(db, options) {
     q.deleteUser.run(id);
   }
 
+  // The students of a class lose it; those who have no other class are deleted with everything about them. What belongs to the class (messages, cheers,
+  // assignments) goes too.
   function purgeClass(classId) {
-    q.studentIdsOfClass.all(classId).forEach(function (r) { purgeUser(r.id); });
+    q.studentIdsOfClass.all(classId).forEach(function (r) {
+      if (q.otherClassCount.get(r.id, classId).n === 0) { purgeUser(r.id); return; }
+      q.deleteMember.run(classId, r.id);
+      fixPrimaryClass(r.id);
+    });
+    q.deleteClassFeedback.run(classId);
+    q.deleteClassChat.run(classId);
     q.deleteClass.run(classId);
   }
 
@@ -738,15 +872,23 @@ function createApi(db, options) {
     const s = requireGuide(req);
     const student = q.studentOfTeacher.get(Number(studentId), s.user.id);
     if (!student) throw new ApiError(404, "Eleven finns inte i dina klasser.");
-    inTransaction(function () { purgeUser(student.id); });
+    // the student leaves the classes the two share; the account goes when no class is left
+    inTransaction(function () {
+      q.sharedClasses.all(student.id, s.user.id).forEach(function (c) {
+        q.deleteMember.run(c.id, student.id);
+        q.deleteFeedbackOf.run(student.id, c.id);
+        q.deleteChatOf.run(student.id, c.id);
+      });
+      if (!q.classesOfStudent.all(student.id).length) purgeUser(student.id); else fixPrimaryClass(student.id);
+    });
     send(res, 200, { ok: true });
   }
 
   // A class is removed together with all its students and their data (end of the school year).
   function deleteClass(req, res, id) {
     const s = requireGuide(req);
-    const cls = q.classOfTeacher.get(Number(id), s.user.id);
-    if (!cls) throw new ApiError(404, "Klassen finns inte.");
+    const cls = q.classOwnedBy.get(Number(id), s.user.id);
+    if (!cls) throw new ApiError(404, "Klassen finns inte, eller så är det någon annan som har skapat den.");
     const students = q.studentIdsOfClass.all(cls.id).length;
     inTransaction(function () { purgeClass(cls.id); });
     send(res, 200, { ok: true, students: students });
@@ -805,6 +947,10 @@ function createApi(db, options) {
       if (method === "POST" && p === "/api/attempts") return await postAttempt(req, res);
       if (method === "GET" && p === "/api/lessons") return listLessons(req, res);
       if ((m = /^\/api\/lessons\/([^/]+)$/.exec(p)) && method === "PUT") return await putLesson(req, res, decodeURIComponent(m[1]));
+      if (method === "POST" && p === "/api/me/classes") return await joinClass(req, res);
+      if ((m = /^\/api\/me\/classes\/(\d+)$/.exec(p)) && method === "DELETE") return leaveClass(req, res, m[1]);
+      if (method === "POST" && p === "/api/teacher/join") return await joinAsGuide(req, res);
+      if ((m = /^\/api\/teacher\/classes\/(\d+)\/guides\/(\d+)$/.exec(p)) && method === "DELETE") return removeGuide(req, res, m[1], m[2]);
       if (method === "GET" && p === "/api/teacher/classes") return listClasses(req, res);
       if (method === "POST" && p === "/api/teacher/classes") return await createClass(req, res);
       if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(p)) && method === "PUT") return await updateClass(req, res, m[1]);

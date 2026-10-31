@@ -122,7 +122,7 @@ window.GaussicaHeatmap = (function () {
       if (unread) reasons.push({ kind: "chat", text: unread === 1 ? "Har ställt en fråga till dig" : "Har ställt " + unread + " frågor till dig" });
       const today = new Date(); today.setHours(0, 0, 0, 0);
       (ctx.assignments || []).forEach(function (a) {
-        if (a.kind === "prov" || a.classId !== s.classId || (a.studentId && String(a.studentId) !== s.id) || !a.dueDate) return;
+        if (a.kind === "prov" || !window.GaussicaTeacher.inClass(s, a.classId) || (a.studentId && String(a.studentId) !== s.id) || !a.dueDate) return;
         const due = new Date(a.dueDate + "T00:00:00");
         if (!(due < today) || assignmentDone(a, s, ctx)) return;
         const lesson = ctx.course.lessons.find(function (l) { return l.id === a.lessonId; });

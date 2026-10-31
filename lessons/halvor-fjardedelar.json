@@ -11,32 +11,6 @@
   "summary": "Delar vi något i lika stora delar får varje del ett namn: en halv, en tredjedel, en fjärdedel.",
   "explanationTitle": "Rättvisa delar",
   "explanation": "Problemet: Två barn ska dela en pizza rättvist. Hur delar de den så att båda får lika mycket, och hur säger vi hur mycket var och en fick? Vi behöver ord för delar av en helhet. Delar vi något i två lika stora delar är varje del en halv. Delar vi i tre lika stora delar är varje del en tredjedel, och i fyra lika stora delar en fjärdedel. Delarna måste vara lika stora, annars har namnet ingen betydelse. Vi skriver en halv som 1/2: helheten är delad i 2 delar och vi tar 1 av dem. Hälften av en mängd får du genom att dela mängden lika i två grupper. Hälften av 8 äpplen är 4 äpplen.",
-  "visual": {
-    "type": "tabell",
-    "title": "Delar av en helhet",
-    "headers": [
-      "Delad i",
-      "Varje del heter",
-      "Skrivs"
-    ],
-    "rows": [
-      [
-        "2 lika delar",
-        "en halv",
-        "1/2"
-      ],
-      [
-        "3 lika delar",
-        "en tredjedel",
-        "1/3"
-      ],
-      [
-        "4 lika delar",
-        "en fjärdedel",
-        "1/4"
-      ]
-    ]
-  },
   "rule": "Delarna måste vara lika stora. 1/2 betyder 1 av 2 lika delar.",
   "ruleLabel": "DELAR AV EN HELHET",
   "example": "En pizza delas i 4 lika stora bitar. En bit är en fjärdedel, 1/4. Hälften av 8 äpplen är 4 äpplen.",
@@ -228,6 +202,53 @@
           ],
           "message": "6 är en fjärdedel av 24. Hälften är större."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "brak",
+      "title": "En halv, en tredjedel och en fjärdedel",
+      "shape": "cirkel",
+      "compare": [
+        {
+          "parts": 2,
+          "shaded": 1
+        },
+        {
+          "parts": 3,
+          "shaded": 1
+        },
+        {
+          "parts": 4,
+          "shaded": 1
+        }
+      ]
+    },
+    {
+      "type": "tabell",
+      "title": "Delar av en helhet",
+      "headers": [
+        "Delad i",
+        "Varje del heter",
+        "Skrivs"
+      ],
+      "rows": [
+        [
+          "2 lika delar",
+          "en halv",
+          "1/2"
+        ],
+        [
+          "3 lika delar",
+          "en tredjedel",
+          "1/3"
+        ],
+        [
+          "4 lika delar",
+          "en fjärdedel",
+          "1/4"
+        ]
       ]
     }
   ]

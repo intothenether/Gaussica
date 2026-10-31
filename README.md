@@ -149,9 +149,22 @@ figur som `visual`, ritad av `figures.js`. Typerna är:
 | `symmetri` | Former med symmetrilinjer | `items: [{ shape, axes, label }]` |
 | `monster` | Växande mönster och rutnät av prickar | `steps: [{ label, rows, cols }]` eller `cells` |
 | `talrutnat` | Talen från–till, med markerade tal (t.ex. primtal) | `from`, `to`, `columns`, `highlight` |
+| `grupper` | Lika stora grupper av saker (multiplikation och division, med rest) | `groups`, `per`, `item` (kula, apple, stjarna, kaka, fisk, blomma, penna), `mode` (`gange` eller `dela`), `remainder`, `hide` |
+| `tiobas` | Platsvärde: tusenkuber, hundrarutor, tiostavar och ental | `value` (upp till 9999), `total` |
+| `pengar` | Svenska mynt och sedlar | `items: [{ value, n }]`, `total` |
+| `brak` | En helhet i lika delar, några färgade | `shape` (cirkel eller rektangel), `parts`, `shaded`, `compare: [{ parts, shaded }]` |
+| `termometer` | Termometer, även under noll | `value` eller `values: [{ value, label }]`, `min`, `max`, `step` |
+| `linjal` | Linjal med ett föremål, i centimeter | `length`, `from`, `object` (penna, suddgummi, sladd), `hide` |
+| `kalender` | En månad, veckan börjar på måndag | `year`, `month`, `days`, `range: { from, to }`, `note` |
+| `tidslinje` | Tiden mellan två klockslag | `from`, `to` ("09:20"), `label`, `hide` |
+| `tarning` | Tärningar | `values: [1 till 6]` |
+| `snurra` | Lyckohjul som snurrar och stannar | `sectors: [{ label, n }]`, `land` |
+| `pase` | Påse med kulor | `items: [{ color (rod, bla, gul, gron), n }]` |
 | `graf` | Koordinatsystem med punkter, linjer och kurvor | `xmin`, `xmax`, `ymin`, `ymax`, `points`, `lines`, `curves: [{ fn, label, tone, from, to }]` |
 
 Exempel: `{ "type": "tallinje", "min": 0, "max": 20, "step": 1, "points": [{ "value": 13, "label": "?" }] }`.
+**Rörelse.** De nya figurerna (`figures-more.js`) rör sig av sig själva när de kommer i bild: sakerna poppar upp en och en, kvicksilvret stiger, hjulet snurrar. Dessutom kan `tallinje` (`"animate": true`: hoppen ritas ett i taget), `klocka` (`"animate": true`: visarna vrider sig till tiden) och `rektangel` (`"fill": true`: rutorna fylls en och en, area som antal rutor; `"outline": true, "trace": true`: omkretsen ritas) röra sig. Figuren väntar dold tills den syns, och knappen "Spela igen" visar den en gång till. Med inställningen för minskad rörelse står allt stilla och visas färdigt. Nya typer läggs till med `GaussicaFigures.register(typ, märke, funktion)`. Åk 3 och 4 har fått figurer i `platsvarde`, `addition`, `subtraktion`, `multiplikation`, `division`, `tid-klocka`, `kalendern`, `pengar-vaxel`, `mata-langd`, `halvor-fjardedelar`, `sakert-mojligt`, `stora-tal`, `division-med-rest`, `brak`, `brak-del`, `negativa-tal`, `area`, `kvadratens-area`, `tidsintervall`, `kassakvitto`, `begrepp-sannolikhet` och `vinklar`, och hoppen, klockorna och omkretsarna som fanns rör sig nu. Testerna: `tests/figures-more.js` och `tests/browser/figures-lower.spec.js`.
+
 Kurvor i `graf` ritas från ett uttryck i `x`: `{ "fn": "2^x", "label": "y = 2^x", "tone": "brand" }` (`tone` är `brand` för blått, annars rosa; `from` och `to` begränsar kurvan). Uttrycken kan använda `lg`, `ln`, `exp` och `log(bas, x)` utöver de vanliga funktionerna. Kurvan ritas med 240 punkter och bryts där värdet inte finns (till exempel `ln(x)` för x ≤ 0) eller ligger långt utanför bilden. Exempel finns i lektionerna om exponentialfunktioner, andragradsfunktioner och logaritmer.
 Figurerna kan redigeras som JSON i lektionseditorn. Svar med enheter, till exempel
 `24 cm`, `24cm` eller `25 cm²`, godkänns som talet.
@@ -645,12 +658,13 @@ När Gaussica används hemma finns ingen lärare och ingen klass. Då skapar en 
 
 **Orden.** `words.js` byter orden där sidan själv talar: lärare blir vårdnadshavare, elev blir barn och klass blir familj för vårdnadshavaren (lärarvyn, kontot, felmeddelanden), och "din lärare" blir "din vårdnadshavare" för barnet (chatten, uppdragen, djurets ord). Lektionerna, svaren och det människor har skrivit ändras aldrig (`tests/words.js`, och webbläsartestet `tests/browser/caregiver.spec.js` letar efter ord som läckt kvar).
 
+**Flera vuxna och flera klasser.** En klass eller familj kan ha flera vuxna (tabellen `class_guides`): den som skapade den har en kod för vuxna, och den andra vårdnadshavaren skriver koden när hen skapar konto ("Kod för vuxna") eller under "Gå med i en annan familj" i Mina barn. Båda ser då samma barn, uppdrag, hejarop och frågor, och den som skapade familjen kan ta bort en vuxen (en vuxen kan lämna själv). Ett barn kan vara med i flera klasser (tabellen `class_members`): en skolklass och en familj, med "Gå med i en klass eller familj till med en kod" i Mitt konto. Barnet ser uppdrag och hejarop från alla, och väljer vem hen frågar ("Vem frågar du?"). Det som läraren skrev stannar i skolklassen och det som föräldrarna skrev i familjen: hejarop och meddelanden hör till en klass (`class_id`), medan barnets framsteg och svar syns för alla vuxna, eftersom det är samma konto. Raderar man en klass behåller barn som är med i en annan klass sitt konto, och bara barn som inte har någon klass kvar raderas. Stjärnor och djur är på om någon av klasserna har dem på. Skolord och familjeord blandas inte: ett barn i båda ser "lärare" och "vårdnadshavare" med namn. Nytt API: `POST /api/me/classes` och `DELETE /api/me/classes/:id` (barnet), `POST /api/teacher/join` och `DELETE /api/teacher/classes/:id/guides/:userId` (de vuxna). Migrering för Cloudflare: `cloudflare/migrations/007-multi.sql`, som måste köras före driftsättningen. Tester: `tests/multi-scenario.js` körs mot servern, Cloudflare-API:t och demoläget (`tests/api-multi.js`, `tests/worker-multi.js`, `tests/local-multi.js`) och `tests/browser/multi.spec.js`.
+
 **Inte gjort än** (förslag, i ungefär den ordning de är värda att göra):
 - Ett veckobrev med sammanfattningen per e-post (kräver att vårdnadshavaren anger en adress; Resend används redan för feedback).
 - Skärmtid: en vårdnadshavare ställer in "klart för idag efter 20 minuter", med ett vänligt stopp i spelaren.
 - Egna belöningar: vårdnadshavaren skriver vad mynten kan bytas mot ("välja film", "glass på lördag") och godkänner när barnet vill lösa in.
 - Vuxenstöd i lektionerna: en kort ruta "Så förklarar du det" och vanliga missförstånd, och ett lugnare läge där vårdnadshavaren ser facit medan barnet arbetar.
-- Fler vuxna per barn (mormor, den andra föräldern) och barn som både går i en skolklass och har en familj: kräver att ett barn kan tillhöra flera klasser.
 - Bildinloggning eller PIN för barn som inte kan skriva lösenord än.
 - Ett eget integritetsavsnitt för hem: vårdnadshavaren är den som godkänner barnets konto, och texterna om skolans avtal och konsekvensbedömning gäller inte.
 - "Vad gör vi i skolan nu?": välj ämnet från skolans läsår (kursplanen i `lgr22.js` finns redan) så att övningen hemma följer det barnet möter i klassrummet.

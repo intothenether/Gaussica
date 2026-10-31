@@ -9,6 +9,18 @@
   "summary": "Addition lägger ihop mängder. När ental eller tiotal blir fler än nio växlar vi till nästa plats.",
   "explanationTitle": "Växla när en plats blir full",
   "explanation": "Räkna 358 + 176 från entalen: 8 + 6 = 14 ental. Det är 1 tiotal och 4 ental. Lägg tiotalen och hundratalen på samma sätt och växla när det behövs.",
+  "visuals": [
+    {
+      "type": "tiobas",
+      "title": "358: 3 hundratal, 5 tiotal och 8 ental",
+      "value": 358
+    },
+    {
+      "type": "tiobas",
+      "title": "176: 1 hundratal, 7 tiotal och 6 ental. Lägg ihop plats för plats, och växla tio ental till ett tiotal.",
+      "value": 176
+    }
+  ],
   "rule": "358 + 176 = 400 + 120 + 14 = 534",
   "ruleLabel": "LÄGG IHOP PLATS FÖR PLATS",
   "example": "Tio ental kan bytas mot ett tiotal och tio tiotal mot ett hundratal. Värdet ändras inte när vi växlar.",

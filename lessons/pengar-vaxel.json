@@ -12,36 +12,6 @@
   "summary": "Växel är det du får tillbaka när du betalar mer än det kostar. Du kan räkna den genom att räkna uppåt.",
   "explanationTitle": "Räkna uppåt till det du betalade",
   "explanation": "Problemet: Du köper en bok för 37 kronor och betalar med en 50-lapp. Hur mycket ska du få tillbaka? Du kan dra ifrån, men många räknar lättare uppåt, som kassapersonalen gör. Vi behöver ett snabbt sätt att hitta skillnaden. Det kallas att räkna upp växeln. Växel är det du får tillbaka när du betalar mer än det kostar. Räkna från priset upp till nästa tiotal: från 37 till 40 är det 3. Räkna sedan vidare till det du betalade: från 40 till 50 är det 10. Växeln är 3 + 10 = 13 kronor. Du kan också dra ifrån: 50 − 37 = 13. Kontrollera alltid: priset plus växeln ska bli det du betalade.",
-  "visual": {
-    "type": "tallinje",
-    "title": "Från 37 upp till 50",
-    "min": 30,
-    "max": 50,
-    "step": 1,
-    "labelEvery": 5,
-    "points": [
-      {
-        "value": 37,
-        "label": "pris"
-      },
-      {
-        "value": 50,
-        "label": "betalar"
-      }
-    ],
-    "jumps": [
-      {
-        "from": 37,
-        "to": 40,
-        "label": "+3"
-      },
-      {
-        "from": 40,
-        "to": 50,
-        "label": "+10"
-      }
-    ]
-  },
   "rule": "Pris + växel = det du betalar",
   "ruleLabel": "VÄXEL",
   "example": "Pris 62 kr, du betalar 100 kr. 62 + 8 = 70 och 70 + 30 = 100. Växeln är 8 + 30 = 38 kr.",
@@ -305,6 +275,68 @@
           "message": "12 är 3 · 4. Räkna 3 · 10 och 4 · 5 och lägg ihop."
         }
       ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "pengar",
+      "title": "Du betalar med en 50-lapp",
+      "items": [
+        {
+          "value": 50,
+          "n": 1
+        }
+      ]
+    },
+    {
+      "type": "pengar",
+      "title": "Växeln är 13 kr: 37 + 13 = 50",
+      "items": [
+        {
+          "value": 10,
+          "n": 1
+        },
+        {
+          "value": 2,
+          "n": 1
+        },
+        {
+          "value": 1,
+          "n": 1
+        }
+      ],
+      "total": true
+    },
+    {
+      "type": "tallinje",
+      "title": "Från 37 upp till 50",
+      "min": 30,
+      "max": 50,
+      "step": 1,
+      "labelEvery": 5,
+      "points": [
+        {
+          "value": 37,
+          "label": "pris"
+        },
+        {
+          "value": 50,
+          "label": "betalar"
+        }
+      ],
+      "jumps": [
+        {
+          "from": 37,
+          "to": 40,
+          "label": "+3"
+        },
+        {
+          "from": 40,
+          "to": 50,
+          "label": "+10"
+        }
+      ],
+      "animate": true
     }
   ]
 }

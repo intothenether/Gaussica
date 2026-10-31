@@ -9,6 +9,15 @@
   "summary": "Multiplikation är ett snabbt sätt att räkna lika stora grupper. En bild med rader och kolumner visar varför ordningen kan bytas.",
   "explanationTitle": "Flera lika stora grupper",
   "explanation": "Problemet: Hur många kulor är det i 7 påsar med 8 kulor i varje? Du kan skriva 8 + 8 + 8 + 8 + 8 + 8 + 8, men det är långt och lätt att tappa bort sig. Vi behöver ett kortare sätt att skriva lika stora grupper. Sju grupper med åtta saker i varje grupp är 8 + 8 + 8 + 8 + 8 + 8 + 8. Multiplikation skriver samma sak kortare: 7 · 8.",
+  "visuals": [
+    {
+      "type": "grupper",
+      "title": "7 grupper med 8 kulor i varje: 7 · 8",
+      "groups": 7,
+      "per": 8,
+      "item": "kula"
+    }
+  ],
   "rule": "7 · 8 = 7 grupper med 8 = 56",
   "ruleLabel": "LIKA STORA GRUPPER",
   "example": "En rektangel med 7 rader och 8 kolumner har 56 rutor. Att vända rektangeln visar att 7 · 8 och 8 · 7 ger samma antal.",

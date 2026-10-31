@@ -145,6 +145,7 @@
   ],
   "layout": [
     "explanation",
+    "visual",
     "comp:0",
     "comp:1",
     "comp:2",
@@ -427,6 +428,39 @@
           "message": "Troligt betyder: Något som har stor chans att hända. Det är inte det som frågas. Läs begreppskorten igen."
         }
       ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "tarning",
+      "title": "Alla sex möjliga utfall när du kastar en tärning",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "type": "snurra",
+      "title": "Ett lyckohjul med fyra lika stora fält: lika stor chans för alla",
+      "sectors": [
+        {
+          "label": "1"
+        },
+        {
+          "label": "2"
+        },
+        {
+          "label": "3"
+        },
+        {
+          "label": "4"
+        }
+      ],
+      "land": 2
     }
   ]
 }

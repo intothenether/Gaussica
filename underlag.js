@@ -52,7 +52,7 @@ window.GaussicaUnderlag = (function () {
   function provsOf(student, ctx) {
     if (!window.GaussicaProv) return [];
     return (ctx.assignments || []).filter(function (a) {
-      return a.kind === "prov" && a.config && a.classId === student.classId && (!a.studentId || String(a.studentId) === student.id);
+      return a.kind === "prov" && a.config && window.GaussicaTeacher.inClass(student, a.classId) && (!a.studentId || String(a.studentId) === student.id);
     }).map(function (a) {
       const rec = window.GaussicaProv.recordOf(student, a);
       return rec && rec.finishedAt ? { title: a.config.title, score: window.GaussicaProv.scoreOf(rec), total: rec.total || rec.answers.length, at: rec.finishedAt } : null;

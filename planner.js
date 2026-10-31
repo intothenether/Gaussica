@@ -126,7 +126,7 @@ window.GaussicaPlanner = (function () {
 
     if (!ui.classId || !ctx.classes.some(function (c) { return String(c.id) === String(ui.classId); })) ui.classId = String(ctx.classes[0].id);
     const lessons = ctx.course.lessons;
-    const students = ctx.students.filter(function (s) { return String(s.classId) === String(ui.classId); });
+    const students = ctx.students.filter(function (s) { return window.GaussicaTeacher.inClass(s, ui.classId); });
     const cls = ctx.classes.find(function (c) { return String(c.id) === String(ui.classId); });
 
     const controls = el("div", "tv-sort pl-controls");

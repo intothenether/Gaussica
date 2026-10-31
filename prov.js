@@ -249,7 +249,7 @@ window.GaussicaProv = (function () {
   }
 
   function targetsOf(a, ctx) {
-    return ctx.students.filter(function (s) { return s.classId === a.classId && (!a.studentId || String(a.studentId) === s.id); });
+    return ctx.students.filter(function (s) { return window.GaussicaTeacher.inClass(s, a.classId) && (!a.studentId || String(a.studentId) === s.id); });
   }
 
   function form(ctx) {
@@ -263,7 +263,7 @@ window.GaussicaProv = (function () {
     const fillStudents = function () {
       studentSel.replaceChildren();
       const all = el("option", "", "Hela klassen"); all.value = ""; studentSel.appendChild(all);
-      ctx.students.filter(function (s) { return String(s.classId) === classSel.value; }).forEach(function (s) { const o = el("option", "", s.name); o.value = s.id; studentSel.appendChild(o); });
+      ctx.students.filter(function (s) { return window.GaussicaTeacher.inClass(s, classSel.value); }).forEach(function (s) { const o = el("option", "", s.name); o.value = s.id; studentSel.appendChild(o); });
     };
     fillStudents();
     classSel.addEventListener("change", fillStudents);

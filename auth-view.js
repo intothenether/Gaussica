@@ -277,6 +277,12 @@ window.GaussicaAuth = (function () {
         passField.classList.add("has-toggle");
         passField.appendChild(toggle);
         form.appendChild(passField);
+        let guideCode = null;
+        if (mode === "register" && role === "caregiver") {
+          guideCode = input("text", "guideCode", "off", { maxlength: "40" });
+          guideCode.required = false;
+          form.appendChild(field("auth-guide", "Kod för vuxna (valfritt)", guideCode, "Har den andra vårdnadshavaren redan skapat familjen? Skriv koden för vuxna, så får du samma familj i stället för en egen."));
+        }
         if (mode === "register" && role !== "caregiver") {
           code = input("text", "code", "off", { maxlength: "40" });
           form.appendChild(role === "student"
@@ -303,7 +309,7 @@ window.GaussicaAuth = (function () {
               result = await API.post("/api/login", { username: user.value.trim(), password: pass.value });
             } else {
               const payload = { role: role, displayName: name.value.trim(), username: user.value.trim(), password: pass.value };
-              if (role === "student") payload.classCode = code.value; else if (role === "teacher") payload.teacherCode = code.value;
+              if (role === "student") payload.classCode = code.value; else if (role === "teacher") payload.teacherCode = code.value; else if (guideCode && guideCode.value.trim()) payload.guideCode = guideCode.value.trim();
               result = await API.post("/api/register", payload);
             }
             hideScreen();

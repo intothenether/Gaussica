@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 
-const SCHEMA_VERSION = 7;
+const SCHEMA_VERSION = 8;
 
 function open(dbPath) {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -150,6 +150,35 @@ function migrate(db) {
     // a caregiver (vårdnadshavare) is a teacher account with this flag: the same classes (a family), assignments and messages,
     // but no editing of lessons and no teacher code needed
     db.exec("ALTER TABLE users ADD COLUMN caregiver INTEGER NOT NULL DEFAULT 0;");
+  }
+  if (version < 8) {
+    // a student can be in several classes (a school class and a family), and a class has several guides (two parents, two teachers):
+    // class_members and class_guides. users.class_id stays as the first class of a student. Messages and cheers belong to a class, so that
+    // what the teacher wrote stays out of the family and the other way round.
+    db.exec(`
+      CREATE TABLE class_members (
+        class_id  INTEGER NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+        user_id   INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        joined_at TEXT NOT NULL,
+        PRIMARY KEY (class_id, user_id)
+      );
+      CREATE INDEX class_members_user ON class_members (user_id);
+      CREATE TABLE class_guides (
+        class_id INTEGER NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+        user_id  INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        PRIMARY KEY (class_id, user_id)
+      );
+      CREATE INDEX class_guides_user ON class_guides (user_id);
+      ALTER TABLE classes ADD COLUMN guide_code TEXT;
+      ALTER TABLE chat ADD COLUMN class_id INTEGER;
+      ALTER TABLE feedback ADD COLUMN class_id INTEGER;
+      INSERT INTO class_members (class_id, user_id, joined_at) SELECT class_id, id, created_at FROM users WHERE class_id IS NOT NULL AND role = 'student';
+      INSERT INTO class_guides (class_id, user_id) SELECT id, teacher_id FROM classes;
+      UPDATE classes SET guide_code = 'V' || UPPER(HEX(RANDOMBLOB(5)));
+      UPDATE chat SET class_id = (SELECT class_id FROM users WHERE users.id = chat.student_id);
+      UPDATE feedback SET class_id = (SELECT class_id FROM users WHERE users.id = feedback.student_id);
+      CREATE UNIQUE INDEX classes_guide_code ON classes (guide_code);
+    `);
   }
   db.exec("PRAGMA user_version = " + SCHEMA_VERSION);
 }

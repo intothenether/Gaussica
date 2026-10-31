@@ -12,36 +12,6 @@
   "summary": "Varje rad på ett kvitto är antal gånger styckpris. Du lägger ihop raderna och drar summan från det du betalade för att få växeln.",
   "explanationTitle": "Läs ett kvitto rad för rad",
   "explanation": "Problemet: Du handlar i affären och får ett kvitto med flera rader. På kvittot står 3 bullar à 12 kr, en juice för 18 kr och längst ned totalsumman. Hur vet du att kassören har räknat rätt, och hur mycket ska du få tillbaka? Varje rad är en liten uträkning: antal gånger styckpris. Bullarna kostar 3 · 12 = 36 kr. Sedan lägger du ihop alla rader: 36 + 18 = 54 kr. Betalar du med 100 kr får du tillbaka 100 − 54 = 46 kr i växel. Läser du ett kvitto rad för rad kan du själv kontrollera det.",
-  "visual": {
-    "type": "tabell",
-    "title": "Ett kvitto",
-    "headers": [
-      "Vara",
-      "Antal",
-      "Pris per styck",
-      "Summa"
-    ],
-    "rows": [
-      [
-        "Bulle",
-        "3",
-        "12 kr",
-        "36 kr"
-      ],
-      [
-        "Juice",
-        "1",
-        "18 kr",
-        "18 kr"
-      ],
-      [
-        "Totalt",
-        "",
-        "",
-        "54 kr"
-      ]
-    ]
-  },
   "rule": "En rad är antal · styckpris. Lägg ihop alla rader för summan. Växeln är det du betalade minus summan.",
   "ruleLabel": "KVITTO OCH VÄXEL",
   "example": "2 pennor à 9 kr och ett suddgummi för 6 kr. Pennorna kostar 2 · 9 = 18 kr, och summan är 18 + 6 = 24 kr. Du betalar med 50 kr och får 50 − 24 = 26 kr tillbaka.",
@@ -259,6 +229,53 @@
           ],
           "message": "Varje rad är antal gånger styckpris. Multiplicera först och lägg sedan ihop raderna."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "pengar",
+      "title": "Totalt 54 kr: en 50-lapp och två tvåkronor",
+      "items": [
+        {
+          "value": 50,
+          "n": 1
+        },
+        {
+          "value": 2,
+          "n": 2
+        }
+      ],
+      "total": true
+    },
+    {
+      "type": "tabell",
+      "title": "Ett kvitto",
+      "headers": [
+        "Vara",
+        "Antal",
+        "Pris per styck",
+        "Summa"
+      ],
+      "rows": [
+        [
+          "Bulle",
+          "3",
+          "12 kr",
+          "36 kr"
+        ],
+        [
+          "Juice",
+          "1",
+          "18 kr",
+          "18 kr"
+        ],
+        [
+          "Totalt",
+          "",
+          "",
+          "54 kr"
+        ]
       ]
     }
   ]

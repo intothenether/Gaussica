@@ -9,6 +9,13 @@
   "summary": "Subtraktion kan visa vad som blir kvar eller skillnaden mellan två tal. Platsvärde hjälper oss att växla mellan ental, tiotal och hundratal.",
   "explanationTitle": "Växla när en plats inte räcker",
   "explanation": "I 502 − 278 kan vi inte ta 8 ental från 2 ental. Växla därför ett hundratal till tio tiotal. Växla sedan ett av tiotalen till tio ental och dra ifrån varje plats.",
+  "visuals": [
+    {
+      "type": "tiobas",
+      "title": "502: 5 hundratal, inga tiotal och 2 ental. Här måste du växla ett hundratal till tiotal.",
+      "value": 502
+    }
+  ],
   "rule": "502 − 278 = 4 hundratal, 12 tiotal, 12 ental − 278 = 224",
   "ruleLabel": "VÄXLA UTAN ATT ÄNDRA VÄRDET",
   "example": "Ett hundratal är lika mycket som tio tiotal. Växling byter namn på samma mängd. Den tar inte bort något.",

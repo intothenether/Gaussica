@@ -795,7 +795,7 @@
   function sendChatMessage(payload) {
     return API.post("/api/me/chat", payload).then(function (r) {
       (currentUser.chat = currentUser.chat || []).push({
-        id: r.id, studentId: String(currentUser.id), fromTeacher: false, text: payload.text, lessonId: payload.lessonId || null, taskId: payload.taskId || null,
+        id: r.id, studentId: String(currentUser.id), fromTeacher: false, text: payload.text, classId: payload.classId || currentUser.classId || null, lessonId: payload.lessonId || null, taskId: payload.taskId || null,
         context: payload.context || null, createdAt: new Date().toISOString(), read: true
       });
       return r;
@@ -3359,6 +3359,61 @@
     return box;
   }
 
+  // A student can be in several classes: a school class and a family. Here they are listed, one can be left, and another joined with its code.
+  function myClassesSection(u) {
+    const box = makeElement("div", "account-form account-classes");
+    if (u.role !== "student") return box;
+    box.appendChild(makeElement("h4", "", "Mina klasser och familjer"));
+    const classes = u.classes || [];
+    const msg = makeElement("p", "account-msg");
+    msg.setAttribute("role", "status");
+    const done = function () { flushProgress(false).then(function () { window.location.reload(); }); };   // everything is read again for the classes
+    if (classes.length) {
+      const list = makeElement("ul", "account-class-list");
+      classes.forEach(function (c) {
+        const li = makeElement("li");
+        li.appendChild(makeElement("span", "", c.name + (c.family ? " (familj)" : "")));
+        const leave = makeElement("button", "tv-btn is-danger tv-small", "Lämna");
+        leave.type = "button";
+        leave.addEventListener("click", function () {
+          if (!window.confirm("Lämna " + c.name + "? Du ser inte uppdrag och meddelanden därifrån längre. Det du har gjort finns kvar på ditt konto.")) return;
+          leave.disabled = true;
+          API.del("/api/me/classes/" + encodeURIComponent(c.id)).then(done).catch(function (err) { leave.disabled = false; msg.className = "account-msg is-error"; msg.textContent = err.message; });
+        });
+        li.appendChild(leave);
+        list.appendChild(li);
+      });
+      box.appendChild(list);
+    } else {
+      box.appendChild(makeElement("p", "account-note", "Du är inte med i någon klass eller familj just nu."));
+    }
+    const form = makeElement("form", "account-join");
+    const wrap = makeElement("label", "account-field");
+    const code = document.createElement("input");
+    code.type = "text";
+    code.autocomplete = "off";
+    code.required = true;
+    code.maxLength = 40;
+    code.setAttribute("autocapitalize", "characters");
+    wrap.append(makeElement("span", "", "Gå med i en klass eller familj till med en kod"), code);
+    const join = makeElement("button", "tv-btn", "Gå med");
+    join.type = "submit";
+    form.append(wrap, join);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      msg.className = "account-msg";
+      msg.textContent = "";
+      join.disabled = true;
+      API.post("/api/me/classes", { classCode: code.value }).then(done).catch(function (err) {
+        join.disabled = false;
+        msg.className = "account-msg is-error";
+        msg.textContent = err.message;
+      });
+    });
+    box.append(form, msg);
+    return box;
+  }
+
   // "Mitt konto": who is signed in, change password, sign out.
   function renderStudentModal() {
     if (!studentModalCard) return;
@@ -3420,7 +3475,7 @@
       flushProgress(false).then(function () { window.GaussicaAuth.logout(); });
     });
 
-    studentModalCard.append(header, form, themeSection(), myDataSection(u), logout);
+    studentModalCard.append(header, form, themeSection(), myClassesSection(u), myDataSection(u), logout);
 
     if (studentModal && !studentModal.dataset.listenerAdded) {
       studentModal.dataset.listenerAdded = "true";
@@ -3587,6 +3642,8 @@
         back: function () { window.location.hash = "#larstig"; },
         exportCSV: exportAttemptsCSV,
         exportJSON: exportDataJSON,
+        joinAsGuide: function (code) { return API.post("/api/teacher/join", { guideCode: code }); },
+        removeGuide: function (classId, userId) { return API.del("/api/teacher/classes/" + encodeURIComponent(classId) + "/guides/" + encodeURIComponent(userId)); },
         addChild: function (payload) { return API.post("/api/teacher/students", payload).then(function (r) { return r.student; }); },
         createClass: function (name) { return API.post("/api/teacher/classes", { name: name }).then(function (r) { return r["class"]; }); },
         resetPassword: function (studentId) {

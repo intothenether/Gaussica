@@ -313,7 +313,7 @@ window.GaussicaWorksheet = (function () {
       if (!lessons.length) { error.textContent = "Välj minst en lektion."; error.hidden = false; return; }
       let names = [""];
       if (mode.value === "class") {
-        names = (ctx.students || []).filter(function (s) { return String(s.classId) === classSel.value; }).map(function (s) { return s.name; }).sort(function (a, b) { return a.localeCompare(b, "sv"); });
+        names = (ctx.students || []).filter(function (s) { return window.GaussicaTeacher.inClass(s, classSel.value); }).map(function (s) { return s.name; }).sort(function (a, b) { return a.localeCompare(b, "sv"); });
         if (!names.length) { error.textContent = "Klassen har inga elever än. Välj ett blad till alla i stället."; error.hidden = false; return; }
       } else if (mode.value === "variants") {
         names = []; for (let i = 0; i < Number(variants.value); i++) names.push("");

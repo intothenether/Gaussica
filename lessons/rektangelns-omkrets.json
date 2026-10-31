@@ -20,7 +20,8 @@
     "unit": "cm",
     "sides": "all",
     "outline": true,
-    "title": "Rektangel 7 cm · 3 cm"
+    "title": "Rektangel 7 cm · 3 cm",
+    "trace": true
   },
   "rule": "Omkrets = 2 · (längd + bredd)",
   "ruleLabel": "REKTANGELNS OMKRETS",
@@ -28,45 +29,151 @@
   "practice": [
     {
       "id": "omkrets",
-      "for": ["exercise"],
-      "vars": {"l":[4,15],"b":[2,9]},
-      "where": [{"expr":"l-b","min":1}],
-      "derive": [{"name":"p","expr":"2*(l+b)"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "l": [
+          4,
+          15
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "l-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "2*(l+b)"
+        }
+      ],
       "prompt": "Rektangeln är {l} cm lång och {b} cm bred. Vad är omkretsen i cm?",
-      "visual": {"type":"rektangel","w":"=l","h":"=b","unit":"cm","sides":"all","outline":true},
-      "answer": ["=p","{p} cm","{p}cm"],
+      "visual": {
+        "type": "rektangel",
+        "w": "=l",
+        "h": "=b",
+        "unit": "cm",
+        "sides": "all",
+        "outline": true
+      },
+      "answer": [
+        "=p",
+        "{p} cm",
+        "{p}cm"
+      ],
       "correct": "Rätt! 2 · ({l} + {b}) = 2 · {l+b} = {p} cm.",
       "feedback": [
         {
-          "answers": ["=l+b"],
+          "answers": [
+            "=l+b"
+          ],
           "message": "Det är bara två sidor. En rektangel har fyra sidor, två långa och två korta."
         },
-        {"answers":["=l*b"],"message":"Det är arean. Omkretsen är sträckan runt om."}
+        {
+          "answers": [
+            "=l*b"
+          ],
+          "message": "Det är arean. Omkretsen är sträckan runt om."
+        }
       ]
     },
     {
       "id": "tradgard",
-      "for": ["word-0"],
-      "vars": {"l":[6,30],"b":[3,15]},
-      "where": [{"expr":"l-b","min":1}],
-      "derive": [{"name":"p","expr":"2*(l+b)"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "l": [
+          6,
+          30
+        ],
+        "b": [
+          3,
+          15
+        ]
+      },
+      "where": [
+        {
+          "expr": "l-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "2*(l+b)"
+        }
+      ],
       "prompt": "En trädgård är {l} m lång och {b} m bred. Hur långt staket behövs runt hela?",
-      "answer": ["=p","{p} m","{p}m"],
+      "answer": [
+        "=p",
+        "{p} m",
+        "{p}m"
+      ],
       "correct": "Rätt! 2 · ({l} + {b}) = {p} m.",
-      "feedback": [{"answers":["=l*b"],"message":"Det är arean. Staketet går runt om, så du ska räkna omkretsen."}]
+      "feedback": [
+        {
+          "answers": [
+            "=l*b"
+          ],
+          "message": "Det är arean. Staketet går runt om, så du ska räkna omkretsen."
+        }
+      ]
     },
     {
       "id": "saknad-sida",
-      "for": ["word-1"],
-      "vars": {"l":[5,15],"b":[2,9]},
-      "where": [{"expr":"l-b","min":1}],
-      "derive": [{"name":"p","expr":"2*(l+b)"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "l": [
+          5,
+          15
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "l-b",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "2*(l+b)"
+        }
+      ],
       "prompt": "En rektangel har omkretsen {p} cm och längden {l} cm. Hur bred är den?",
-      "answer": ["=b","{b} cm","{b}cm"],
+      "answer": [
+        "=b",
+        "{b} cm",
+        "{b}cm"
+      ],
       "correct": "Rätt! {p}/2 = {p/2} är längd plus bredd. {p/2} − {l} = {b} cm.",
       "feedback": [
-        {"answers":["=p-l"],"message":"Omkretsen innehåller två längder och två bredder. Dela med 2 först."},
-        {"answers":["=p/2"],"message":"Det är längd plus bredd tillsammans. Ta bort längden {l}."}
+        {
+          "answers": [
+            "=p-l"
+          ],
+          "message": "Omkretsen innehåller två längder och två bredder. Dela med 2 först."
+        },
+        {
+          "answers": [
+            "=p/2"
+          ],
+          "message": "Det är längd plus bredd tillsammans. Ta bort längden {l}."
+        }
       ]
     }
   ],

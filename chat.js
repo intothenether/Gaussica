@@ -76,10 +76,15 @@ window.GaussicaChat = (function () {
     opener = null;
   }
 
+  // the classes of the student, when there are several (a school class and a family): then it is said who is asked
+  function classes() { const c = user().classes; return Array.isArray(c) && c.length > 1 ? c : []; }
+  function className(id) { const c = classes().find(function (x) { return x.id === id; }); return c ? c.name : ""; }
+
   function bubble(m) {
     const row = el("div", "chat-row " + (m.fromTeacher ? "is-teacher" : "is-me"));
     const b = el("div", "chat-bubble");
-    if (m.fromTeacher) b.appendChild(el("strong", "chat-who", "Din lärare"));
+    if (m.fromTeacher) b.appendChild(el("strong", "chat-who", m.guide || "Din lärare"));
+    if (classes().length && m.classId && className(m.classId)) b.appendChild(el("span", "chat-about", (m.fromTeacher ? "Från " : "Till ") + className(m.classId)));
     if (!m.fromTeacher && m.context) {
       const about = describe(m.context);
       if (about) b.appendChild(el("span", "chat-about", "Om: " + about));
@@ -100,10 +105,10 @@ window.GaussicaChat = (function () {
     const panel = el("div", "chat-panel");
     panel.setAttribute("role", "dialog");
     panel.setAttribute("aria-modal", "true");
-    panel.setAttribute("aria-label", "Fråga din lärare");
+    panel.setAttribute("aria-label", classes().length ? "Fråga en vuxen" : "Fråga din lärare");
 
     const head = el("header", "chat-head");
-    head.appendChild(el("h2", "chat-title", "💬 Fråga din lärare"));
+    head.appendChild(el("h2", "chat-title", classes().length ? "💬 Fråga en vuxen" : "💬 Fråga din lärare"));
     const closeBtn = el("button", "chat-close", "✕");
     closeBtn.type = "button";
     closeBtn.setAttribute("aria-label", "Stäng");
@@ -136,6 +141,16 @@ window.GaussicaChat = (function () {
     }
 
     const form = el("form", "chat-form");
+    // who is asked: the guides of one of the classes
+    let to = null;
+    if (classes().length) {
+      const wrap = el("label", "chat-to");
+      wrap.appendChild(el("span", "", "Vem frågar du?"));
+      to = el("select");
+      classes().forEach(function (c) { const o = el("option", "", c.name); o.value = String(c.id); to.appendChild(o); });
+      wrap.appendChild(to);
+      form.appendChild(wrap);
+    }
     const area = el("textarea", "chat-input");
     area.maxLength = MAX;
     area.rows = 3;
@@ -161,7 +176,7 @@ window.GaussicaChat = (function () {
       shown = key;
       thread.replaceChildren();
       if (!list.length) {
-        thread.appendChild(el("p", "chat-empty", "Här kan du skriva till din lärare. Fråga om något du inte förstår, eller berätta var du fastnade."));
+        thread.appendChild(el("p", "chat-empty", classes().length ? "Här kan du skriva till en vuxen. Fråga om något du inte förstår, eller berätta var du fastnade." : "Här kan du skriva till din lärare. Fråga om något du inte förstår, eller berätta var du fastnade."));
       }
       list.forEach(function (m) { thread.appendChild(bubble(m)); });
       if (atEnd) thread.scrollTop = thread.scrollHeight;
@@ -176,6 +191,7 @@ window.GaussicaChat = (function () {
       error.hidden = true;
       send.disabled = true;
       const payload = { text: text };
+      if (to) payload.classId = Number(to.value);
       if (ctx && attach && attach.checked) {
         payload.lessonId = ctx.lessonId || null;
         payload.taskId = ctx.taskId || null;

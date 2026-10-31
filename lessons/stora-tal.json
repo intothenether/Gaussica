@@ -11,30 +11,6 @@
   "summary": "Stora tal delar du i grupper om tre siffror. Då kan du läsa, skriva och jämföra dem.",
   "explanationTitle": "Hur läser vi tal som 3 482 106?",
   "explanation": "Problemet: Hur många invånare har en stor stad, och hur långt är det till månen? Sådana tal har många siffror, och 3482106 är svårt att läsa när siffrorna står tätt. Vi behöver ett sätt att dela upp dem. Det gör vi i grupper om tre siffror, från höger, med ett litet mellanrum emellan: 3 482 106. Varje grupp har ett namn. Längst till höger är ental, tiotal och hundratal. Nästa grupp är tusental, och sedan kommer miljoner. Talet 3 482 106 läses tre miljoner fyrahundraåttiotvå tusen etthundrasex. Platsen avgör vad en siffra är värd. I 3 482 106 står 4 på hundratusentalsplatsen, så den är värd 400 000. När du jämför två tal är det med flest siffror störst. Har de lika många siffror jämför du från vänster, siffra för siffra.",
-  "visual": {
-    "type": "tabell",
-    "title": "3 482 106 i platsvärdestabellen",
-    "headers": [
-      "Miljoner",
-      "Hundra-tusental",
-      "Tio-tusental",
-      "Tusental",
-      "Hundratal",
-      "Tiotal",
-      "Ental"
-    ],
-    "rows": [
-      [
-        "3",
-        "4",
-        "8",
-        "2",
-        "1",
-        "0",
-        "6"
-      ]
-    ]
-  },
   "rule": "Dela stora tal i grupper om tre siffror, från höger",
   "ruleLabel": "STORA TAL",
   "example": "3 482 106 är 3 miljoner, 482 tusen och 106. Siffran 4 är värd 400 000.",
@@ -420,6 +396,38 @@
           ],
           "message": "Du har tagit bort för många nollor. Efter 99 999 kommer 100 000."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "tiobas",
+      "title": "Platserna i ett stort tal, från höger: ental, tiotal, hundratal och tusental",
+      "value": 3482,
+      "total": true
+    },
+    {
+      "type": "tabell",
+      "title": "3 482 106 i platsvärdestabellen",
+      "headers": [
+        "Miljoner",
+        "Hundra-tusental",
+        "Tio-tusental",
+        "Tusental",
+        "Hundratal",
+        "Tiotal",
+        "Ental"
+      ],
+      "rows": [
+        [
+          "3",
+          "4",
+          "8",
+          "2",
+          "1",
+          "0",
+          "6"
+        ]
       ]
     }
   ]

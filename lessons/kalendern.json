@@ -12,32 +12,6 @@
   "summary": "Ett dygn är 24 timmar, en vecka är 7 dagar och ett år är 12 månader. Du räknar med dem som med vanliga tal.",
   "explanationTitle": "Tid i större bitar",
   "explanation": "Problemet: Din födelsedag är om tre veckor. Är det långt kvar? Och hur många timmar är ett dygn? Klockan hjälper oss med timmar och minuter, men för längre tid behövs större enheter. Ett dygn är 24 timmar. En vecka är 7 dygn. Ett år är 12 månader eller 365 dagar, och 366 dagar vid skottår. Månaderna är olika långa: de flesta har 30 eller 31 dagar och februari har 28, eller 29 vid skottår. Vill du veta hur många dagar det är i flera veckor multiplicerar du med 7. Vill du veta hur många timmar det är i flera dygn multiplicerar du med 24.",
-  "visual": {
-    "type": "tabell",
-    "title": "Tid i kalendern",
-    "headers": [
-      "Enhet",
-      "Hur lång?"
-    ],
-    "rows": [
-      [
-        "1 dygn",
-        "24 timmar"
-      ],
-      [
-        "1 vecka",
-        "7 dagar"
-      ],
-      [
-        "1 år",
-        "12 månader"
-      ],
-      [
-        "1 år",
-        "365 dagar (366 vid skottår)"
-      ]
-    ]
-  },
   "rule": "1 dygn = 24 timmar, 1 vecka = 7 dagar, 1 år = 12 månader.",
   "ruleLabel": "TID I KALENDERN",
   "example": "3 veckor är 3 · 7 = 21 dagar. 2 dygn är 2 · 24 = 48 timmar.",
@@ -298,6 +272,49 @@
           ],
           "message": "12 månader är ett år. Frågan gäller 3 år."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "kalender",
+      "title": "Idag är den 5 oktober. Tre veckor, 21 dagar, senare är det den 26:e.",
+      "year": 2026,
+      "month": 10,
+      "days": [
+        5,
+        26
+      ],
+      "range": {
+        "from": 5,
+        "to": 26
+      },
+      "note": "3 veckor = 21 dagar"
+    },
+    {
+      "type": "tabell",
+      "title": "Tid i kalendern",
+      "headers": [
+        "Enhet",
+        "Hur lång?"
+      ],
+      "rows": [
+        [
+          "1 dygn",
+          "24 timmar"
+        ],
+        [
+          "1 vecka",
+          "7 dagar"
+        ],
+        [
+          "1 år",
+          "12 månader"
+        ],
+        [
+          "1 år",
+          "365 dagar (366 vid skottår)"
+        ]
       ]
     }
   ]

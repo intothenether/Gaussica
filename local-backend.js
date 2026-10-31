@@ -40,6 +40,14 @@ window.GaussicaLocal = (function () {
         if (parsed && Array.isArray(parsed.users)) {
           const merged = Object.assign(empty(), parsed);
           merged.next = Object.assign(empty().next, parsed.next);   // data saved before assignments existed
+          // data saved before several adults and classes: the old single class and the teacher become the lists
+          merged.classes.forEach(function (c) {
+            if (!Array.isArray(c.guideIds)) c.guideIds = [c.teacherId];
+            if (!c.guideCode) c.guideCode = "V" + randomCode(9);
+          });
+          merged.users.forEach(function (u) { if (u.role === "student" && !Array.isArray(u.classIds)) u.classIds = u.classId ? [u.classId] : []; });
+          merged.chat.forEach(function (c) { if (c.classId === undefined) { const s = merged.users.find(function (u) { return u.id === c.studentId; }); c.classId = s ? s.classId || null : null; } });
+          merged.feedback.forEach(function (x) { if (x.classId === undefined) { const s = merged.users.find(function (u) { return u.id === x.studentId; }); x.classId = s ? s.classId || null : null; } });
           return merged;
         }
       }
@@ -116,12 +124,36 @@ window.GaussicaLocal = (function () {
     return c ? db.users.find(function (x) { return x.id === c.teacherId; }) : null;
   }
 
+  function classesOf(u) {
+    return (u.classIds || []).map(function (id) { return db.classes.find(function (c) { return c.id === id; }); }).filter(Boolean);
+  }
+
+  // The first class of a student is kept in classId; it follows the memberships.
+  function fixPrimaryClass(u) {
+    u.classIds = (u.classIds || []).filter(function (id) { return db.classes.some(function (c) { return c.id === id; }); });
+    u.classId = u.classIds[0] || null;
+  }
+
+  function addMember(u, classId) {
+    if (!u.classIds) u.classIds = [];
+    if (u.classIds.indexOf(classId) < 0) u.classIds.push(classId);
+    if (!u.classId) u.classId = classId;
+  }
+
+  const isGuideOf = function (c, userId) { return (c.guideIds || [c.teacherId]).indexOf(userId) >= 0; };
+
+  // A student can be in several classes: a school class and a family. guide is "caregiver" when all of them are families, "teacher" when none is,
+  // and "both" when there are both kinds. Stars and animals are on when any of the classes has them on.
   function publicUser(u) {
+    const classes = u.role === "student" ? classesOf(u) : [];
+    const families = classes.filter(function (c) { return (classOwner(c.id) || {}).caregiver; }).length;
     return {
       id: u.id, username: u.username, name: u.displayName, role: u.role === "teacher" && u.caregiver ? "caregiver" : u.role,
-      guide: u.role === "student" ? ((classOwner(u.classId) || {}).caregiver ? "caregiver" : "teacher") : undefined,
-      classId: u.classId || null, className: className(u), color: COLORS[u.id % COLORS.length],
-      rewards: classRewards(u.classId)
+      guide: u.role === "student" ? (!classes.length ? "teacher" : families === classes.length ? "caregiver" : families ? "both" : "teacher") : undefined,
+      classId: classes.length ? classes[0].id : (u.classId || null), className: classes.length ? classes.map(function (c) { return c.name; }).join(" · ") : className(u),
+      classes: u.role === "student" ? classes.map(function (c) { return { id: c.id, name: c.name, family: Boolean((classOwner(c.id) || {}).caregiver) }; }) : undefined,
+      color: COLORS[u.id % COLORS.length],
+      rewards: u.role === "student" && classes.length ? classes.some(function (c) { return c.rewards !== false; }) : classRewards(u.classId)
     };
   }
 
@@ -186,13 +218,37 @@ window.GaussicaLocal = (function () {
     });
   }
 
-  function teacherClassIds(teacherId) {
-    return db.classes.filter(function (c) { return c.teacherId === teacherId; }).map(function (c) { return c.id; });
+  // the classes a guide is a guide of (the owner or another adult), and the classes a guide and a student have in common
+  function teacherClassIds(guideId) {
+    return db.classes.filter(function (c) { return isGuideOf(c, guideId); }).map(function (c) { return c.id; });
   }
 
-  function studentOfTeacher(studentId, teacherId) {
-    const ids = teacherClassIds(teacherId);
-    return db.users.find(function (u) { return u.id === studentId && u.role === "student" && ids.indexOf(u.classId) >= 0; }) || null;
+  function sharedClasses(student, guideId) {
+    return classesOf(student).filter(function (c) { return isGuideOf(c, guideId); });
+  }
+
+  function studentOfTeacher(studentId, guideId) {
+    return db.users.find(function (u) { return u.id === studentId && u.role === "student" && sharedClasses(u, guideId).length > 0; }) || null;
+  }
+
+  function newGuideCode() {
+    let code;
+    for (let i = 0; i < 10; i++) {
+      code = "V" + randomCode(9);
+      if (!db.classes.some(function (c) { return c.guideCode === code; })) break;
+    }
+    return code;
+  }
+
+  // A class with its owner as its first guide.
+  function makeClass(name, ownerId) {
+    const cls = { id: db.next.cls++, name: name, code: newClassCode(), guideCode: newGuideCode(), teacherId: ownerId, guideIds: [ownerId], createdAt: nowIso() };
+    db.classes.push(cls);
+    return cls;
+  }
+
+  function membersOf(classId) {
+    return db.users.filter(function (u) { return u.role === "student" && (u.classIds || []).indexOf(classId) >= 0; });
   }
 
   function publicAssignment(a, extra) {
@@ -231,15 +287,20 @@ window.GaussicaLocal = (function () {
     checkPassword(b.password, username);
 
     let classId = null;
+    let joinClass = null;   // a caregiver who joins the family of somebody else
     if (role === "student") {
       const code = normalizeCode(b.classCode);
       const cls = db.classes.find(function (c) { return c.code === code; });
       if (!cls) throw ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
       const owner = classOwner(cls.id);
-      if (owner && owner.caregiver && db.users.filter(function (s) { return s.classId === cls.id && s.role === "student"; }).length >= FAMILY_MAX) throw ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+      if (owner && owner.caregiver && membersOf(cls.id).length >= FAMILY_MAX) throw ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
       classId = cls.id;
     } else if (kind === "caregiver") {
-      /* no code: anyone may be a caregiver */
+      if (str(b.guideCode, 40).trim()) {
+        const gc = normalizeCode(b.guideCode);
+        joinClass = db.classes.find(function (c) { return normalizeCode(c.guideCode) === gc; });
+        if (!joinClass) throw ApiError(400, "Koden för vuxna stämmer inte. Fråga den som skapade familjen.");
+      }
     } else if (normalizeCode(b.teacherCode) !== TEACHER_CODE) {
       throw ApiError(403, "Lärarkoden stämmer inte.");
     }
@@ -250,9 +311,10 @@ window.GaussicaLocal = (function () {
       passwordHash: await hashPassword(b.password), classId: classId, createdAt: nowIso()
     };
     if (kind === "caregiver") user.caregiver = true;
+    if (role === "student") user.classIds = classId ? [classId] : [];
     db.users.push(user);
-    // a caregiver starts with a family, so there is a code to give the children at once
-    if (kind === "caregiver") db.classes.push({ id: db.next.cls++, name: familyName(displayName), code: newClassCode(), teacherId: user.id, createdAt: nowIso() });
+    // a caregiver starts with a family, so there is a code to give the children at once, or joins the family of the other adult
+    if (kind === "caregiver") { if (joinClass) joinClass.guideIds.push(user.id); else makeClass(familyName(displayName), user.id); }
     db.session = user.id;
     save();
     return { user: publicUser(user) };
@@ -331,7 +393,8 @@ window.GaussicaLocal = (function () {
   // ----- assignments and feedback -----
   function listAssignments() {
     const u = requireGuide();
-    return { assignments: db.assignments.filter(function (a) { return a.teacherId === u.id && !a.archived; }).sort(byDue).map(function (a) { return publicAssignment(a, true); }) };
+    const mine = teacherClassIds(u.id);
+    return { assignments: db.assignments.filter(function (a) { return mine.indexOf(a.classId) >= 0 && !a.archived; }).sort(byDue).map(function (a) { return publicAssignment(a, true); }) };
   }
 
   // The settings of a prov: { title, lessons: [ids], perLesson, minutes (0 = no time limit), showResult }
@@ -345,12 +408,12 @@ window.GaussicaLocal = (function () {
 
   function createAssignment(b) {
     const u = requireGuide();
-    const cls = db.classes.find(function (c) { return c.id === Number(b.classId) && c.teacherId === u.id; });
+    const cls = db.classes.find(function (c) { return c.id === Number(b.classId) && isGuideOf(c, u.id); });
     if (!cls) throw ApiError(400, "Välj en av dina klasser.");
     let studentId = null;
     if (b.studentId !== undefined && b.studentId !== null && b.studentId !== "") {
       const st = studentOfTeacher(Number(b.studentId), u.id);
-      if (!st || st.classId !== cls.id) throw ApiError(400, "Eleven går inte i den klassen.");
+      if (!st || (st.classIds || []).indexOf(cls.id) < 0) throw ApiError(400, "Eleven går inte i den klassen.");
       studentId = st.id;
     }
     const lessonId = str(b.lessonId, 80);
@@ -368,7 +431,8 @@ window.GaussicaLocal = (function () {
 
   function archiveAssignment(id) {
     const u = requireGuide();
-    const a = db.assignments.find(function (x) { return x.id === Number(id) && x.teacherId === u.id; });
+    const mine = teacherClassIds(u.id);
+    const a = db.assignments.find(function (x) { return x.id === Number(id) && mine.indexOf(x.classId) >= 0; });
     if (a) { a.archived = true; save(); }
     return { ok: true };
   }
@@ -384,7 +448,9 @@ window.GaussicaLocal = (function () {
     const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
     const taskId = b.taskId ? str(b.taskId, 80) : null;
     if ((lessonId && !ID_RE.test(lessonId)) || (taskId && !ID_RE.test(taskId))) throw ApiError(400, "Ogiltigt id.");
-    const f = { id: db.next.feedback++, studentId: student.id, teacherId: u.id, lessonId: lessonId, taskId: taskId, text: text, sticker: sticker, createdAt: nowIso(), readAt: null };
+    const shared = sharedClasses(student, u.id);
+    const cls = (b.classId !== undefined && shared.find(function (c) { return c.id === Number(b.classId); })) || shared[0];
+    const f = { id: db.next.feedback++, studentId: student.id, teacherId: u.id, classId: cls.id, lessonId: lessonId, taskId: taskId, text: text, sticker: sticker, createdAt: nowIso(), readAt: null };
     db.feedback.push(f);
     save();
     return { id: f.id };
@@ -392,7 +458,8 @@ window.GaussicaLocal = (function () {
 
   function removeFeedback(id) {
     const u = requireGuide();
-    db.feedback = db.feedback.filter(function (f) { return !(f.id === Number(id) && f.teacherId === u.id); });
+    const mine = teacherClassIds(u.id);
+    db.feedback = db.feedback.filter(function (f) { return !(f.id === Number(id) && mine.indexOf(f.classId) >= 0); });
     save();
     return { ok: true };
   }
@@ -401,8 +468,9 @@ window.GaussicaLocal = (function () {
   const CHAT_UNANSWERED_MAX = 6;
 
   function publicChat(c) {
+    const guide = c.fromTeacher ? db.users.find(function (u) { return u.id === c.teacherId; }) : null;
     return {
-      id: c.id, studentId: String(c.studentId), fromTeacher: c.fromTeacher, text: c.text,
+      id: c.id, studentId: String(c.studentId), fromTeacher: c.fromTeacher, text: c.text, classId: c.classId || null, guide: guide ? guide.displayName : null,
       lessonId: c.lessonId || null, taskId: c.taskId || null, context: c.context || null, createdAt: c.createdAt, read: Boolean(c.readAt)
     };
   }
@@ -421,8 +489,11 @@ window.GaussicaLocal = (function () {
   function studentChat(b) {
     const u = requireUser();
     if (u.role !== "student") throw ApiError(403, "Bara elever kan skriva till läraren här.");
-    const cls = u.classId && db.classes.find(function (c) { return c.id === u.classId; });
-    if (!cls) throw ApiError(400, "Du är inte med i någon klass än.");
+    const mine = classesOf(u);
+    if (!mine.length) throw ApiError(400, "Du är inte med i någon klass än.");
+    // to the guides of one of the classes of the student: the one asked for, or the first
+    const cls = b.classId === undefined || b.classId === null ? mine[0] : mine.find(function (c) { return c.id === Number(b.classId); });
+    if (!cls) throw ApiError(400, "Du är inte med i den klassen.");
     const text = str(b.text, 600).trim();
     if (!text) throw ApiError(400, "Skriv något först.");
     const lessonId = b.lessonId ? str(b.lessonId, 80) : null;
@@ -431,7 +502,7 @@ window.GaussicaLocal = (function () {
     let open = 0;
     db.chat.filter(function (c) { return c.studentId === u.id; }).forEach(function (c) { open = c.fromTeacher ? 0 : open + 1; });
     if (open >= CHAT_UNANSWERED_MAX) throw ApiError(429, "Du har redan skickat flera meddelanden. Vänta tills din lärare har svarat.");
-    const c = { id: db.next.chat++, studentId: u.id, teacherId: cls.teacherId, fromTeacher: false, text: text, lessonId: lessonId, taskId: taskId,
+    const c = { id: db.next.chat++, studentId: u.id, teacherId: cls.teacherId, classId: cls.id, fromTeacher: false, text: text, lessonId: lessonId, taskId: taskId,
       context: cleanChatContext(b.context), createdAt: nowIso(), readAt: null };
     db.chat.push(c);
     save();
@@ -446,9 +517,10 @@ window.GaussicaLocal = (function () {
     return { ok: true };
   }
 
-  function markChatReadByTeacher(studentId, teacherId) {
+  function markChatReadByTeacher(studentId, guideId) {
     const now = nowIso();
-    db.chat.forEach(function (c) { if (c.studentId === studentId && c.teacherId === teacherId && !c.fromTeacher && !c.readAt) c.readAt = now; });
+    const mine = teacherClassIds(guideId);
+    db.chat.forEach(function (c) { if (c.studentId === studentId && mine.indexOf(c.classId) >= 0 && !c.fromTeacher && !c.readAt) c.readAt = now; });
   }
 
   function teacherChat(b) {
@@ -457,7 +529,12 @@ window.GaussicaLocal = (function () {
     if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
     const text = str(b.text, 600).trim();
     if (!text) throw ApiError(400, "Skriv något först.");
-    const c = { id: db.next.chat++, studentId: student.id, teacherId: t.id, fromTeacher: true, text: text, lessonId: null, taskId: null, context: null, createdAt: nowIso(), readAt: null };
+    // the answer goes to the class the question came from (the last one that was asked), or else the first class the two have in common
+    const shared = sharedClasses(student, t.id);
+    const mineIds = shared.map(function (c) { return c.id; });
+    const asked = db.chat.filter(function (x) { return x.studentId === student.id && !x.fromTeacher && mineIds.indexOf(x.classId) >= 0; }).pop();
+    const cls = (b.classId !== undefined && shared.find(function (c) { return c.id === Number(b.classId); })) || (asked && shared.find(function (c) { return c.id === asked.classId; })) || shared[0];
+    const c = { id: db.next.chat++, studentId: student.id, teacherId: t.id, classId: cls.id, fromTeacher: true, text: text, lessonId: null, taskId: null, context: null, createdAt: nowIso(), readAt: null };
     db.chat.push(c);
     markChatReadByTeacher(student.id, t.id);   // answering means having read
     save();
@@ -475,7 +552,8 @@ window.GaussicaLocal = (function () {
 
   function teacherChatUnread() {
     const t = requireGuide();
-    return { unread: db.chat.filter(function (c) { return c.teacherId === t.id && !c.fromTeacher && !c.readAt; }).length };
+    const mine = teacherClassIds(t.id);
+    return { unread: db.chat.filter(function (c) { return mine.indexOf(c.classId) >= 0 && !c.fromTeacher && !c.readAt; }).length };
   }
 
   function markRead(b) {
@@ -490,15 +568,71 @@ window.GaussicaLocal = (function () {
   function listClasses() {
     const u = requireGuide();
     return {
-      classes: db.classes.filter(function (c) { return c.teacherId === u.id; }).map(function (c) {
-        return { id: c.id, name: c.name, code: c.code, created_at: c.createdAt, students: db.users.filter(function (s) { return s.classId === c.id; }).length, rewards: c.rewards !== false };
+      classes: db.classes.filter(function (c) { return isGuideOf(c, u.id); }).map(function (c) {
+        const own = c.teacherId === u.id;
+        return {
+          id: c.id, name: c.name, code: c.code, created_at: c.createdAt, students: membersOf(c.id).length, rewards: c.rewards !== false,
+          owner: own, guideCode: own ? c.guideCode : null,
+          guides: c.guideIds.map(function (id) { return db.users.find(function (x) { return x.id === id; }); }).filter(Boolean).map(function (g) {
+            return { id: g.id, name: g.displayName, caregiver: Boolean(g.caregiver), owner: g.id === c.teacherId, you: g.id === u.id };
+          })
+        };
       }).sort(function (a, b) { return a.name.localeCompare(b.name, "sv"); })
     };
   }
 
+  // Another adult joins a class as a guide (the other parent joins the family) with the code for adults.
+  function joinAsGuide(b) {
+    const u = requireGuide();
+    const gc = normalizeCode(b.guideCode);
+    const cls = db.classes.find(function (c) { return gc && normalizeCode(c.guideCode) === gc; });
+    if (!cls) throw ApiError(400, "Koden för vuxna stämmer inte. Fråga den som skapade klassen eller familjen.");
+    if (cls.guideIds.indexOf(u.id) < 0) cls.guideIds.push(u.id);
+    save();
+    return { ok: true, classId: cls.id, name: cls.name };
+  }
+
+  // The owner removes a guide; a guide who is not the owner can leave. The owner cannot leave (the class is deleted instead).
+  function removeGuide(classId, userId) {
+    const u = requireGuide();
+    const cls = db.classes.find(function (c) { return c.id === Number(classId) && isGuideOf(c, u.id); });
+    if (!cls) throw ApiError(404, "Klassen finns inte.");
+    const target = Number(userId);
+    if (target === cls.teacherId) throw ApiError(400, "Den som skapade klassen kan inte lämna den. Radera klassen i stället.");
+    if (target !== u.id && cls.teacherId !== u.id) throw ApiError(403, "Bara den som skapade klassen kan ta bort en annan vuxen.");
+    cls.guideIds = cls.guideIds.filter(function (id) { return id !== target; });
+    save();
+    return { ok: true };
+  }
+
+  // A student joins another class with its code (a school class, a family), or leaves one.
+  function joinClass(b) {
+    const u = requireUser();
+    if (u.role !== "student") throw ApiError(403, "Bara elever kan gå med i en klass.");
+    const code = normalizeCode(b.classCode);
+    const cls = db.classes.find(function (c) { return c.code === code; });
+    if (!cls) throw ApiError(400, "Koden stämmer inte. Fråga din lärare eller vårdnadshavare efter rätt kod.");
+    const owner = classOwner(cls.id);
+    if (owner && owner.caregiver && (u.classIds || []).indexOf(cls.id) < 0 && membersOf(cls.id).length >= FAMILY_MAX) throw ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+    addMember(u, cls.id);
+    save();
+    return { user: publicUser(u) };
+  }
+
+  function leaveClass(classId) {
+    const u = requireUser();
+    if (u.role !== "student") throw ApiError(403, "Bara elever kan lämna en klass.");
+    const id = Number(classId);
+    if ((u.classIds || []).indexOf(id) < 0) throw ApiError(404, "Du är inte med i den klassen.");
+    u.classIds = u.classIds.filter(function (x) { return x !== id; });
+    fixPrimaryClass(u);
+    save();
+    return { user: publicUser(u) };
+  }
+
   function updateClass(id, b) {
     const u = requireGuide();
-    const c = db.classes.find(function (x) { return x.id === Number(id) && x.teacherId === u.id; });
+    const c = db.classes.find(function (x) { return x.id === Number(id) && isGuideOf(x, u.id); });
     if (!c) throw ApiError(404, "Klassen finns inte.");
     if (typeof b.rewards === "boolean") { c.rewards = b.rewards; save(); }
     return { ok: true };
@@ -507,16 +641,16 @@ window.GaussicaLocal = (function () {
   // A guide makes the account of a child (a young child has no one else to do it): the name, a user name and a password.
   async function createStudent(b) {
     const u = requireGuide();
-    const cls = db.classes.find(function (c) { return c.id === Number(b.classId) && c.teacherId === u.id; });
+    const cls = db.classes.find(function (c) { return c.id === Number(b.classId) && isGuideOf(c, u.id); });
     if (!cls) throw ApiError(400, "Välj en av dina klasser.");
     const username = str(b.username, 40).trim();
     const displayName = str(b.displayName, 80).trim();
     if (!validUsername(username)) throw ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
     if (!displayName) throw ApiError(400, "Ange namnet.");
     checkPassword(b.password, username);
-    if (u.caregiver && db.users.filter(function (s) { return s.classId === cls.id && s.role === "student"; }).length >= FAMILY_MAX) throw ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
+    if (u.caregiver && membersOf(cls.id).length >= FAMILY_MAX) throw ApiError(400, "Familjen har redan " + FAMILY_MAX + " barn.");
     if (db.users.some(function (x) { return x.username === username; })) throw ApiError(409, "Användarnamnet är redan upptaget.");
-    const user = { id: db.next.user++, username: username, displayName: displayName, role: "student", passwordHash: await hashPassword(b.password), classId: cls.id, createdAt: nowIso() };
+    const user = { id: db.next.user++, username: username, displayName: displayName, role: "student", passwordHash: await hashPassword(b.password), classId: cls.id, classIds: [cls.id], createdAt: nowIso() };
     db.users.push(user);
     save();
     return { student: { id: String(user.id), username: username, name: displayName, classId: cls.id } };
@@ -527,24 +661,23 @@ window.GaussicaLocal = (function () {
     const name = str(b.name, 60).trim();
     if (!name) throw ApiError(400, "Ge klassen ett namn.");
     if (u.caregiver && db.classes.some(function (c) { return c.teacherId === u.id; })) throw ApiError(400, "Du har redan en familj.");
-    const code = newClassCode();
-    const cls = { id: db.next.cls++, name: name, code: code, teacherId: u.id, createdAt: nowIso() };
-    db.classes.push(cls);
+    const cls = makeClass(name, u.id);
     save();
-    return { "class": { id: cls.id, name: name, code: code, students: 0 } };
+    return { "class": { id: cls.id, name: name, code: cls.code, guideCode: cls.guideCode, students: 0, owner: true } };
   }
 
   function teacherStudents() {
     const u = requireGuide();
     const ids = teacherClassIds(u.id);
-    const students = db.users.filter(function (s) { return s.role === "student" && ids.indexOf(s.classId) >= 0; })
+    const students = db.users.filter(function (s) { return s.role === "student" && sharedClasses(s, u.id).length > 0; })
       .sort(function (a, b) { return a.displayName.localeCompare(b.displayName, "sv"); })
       .map(function (s) {
+        const shared = sharedClasses(s, u.id);
         return {
-          id: String(s.id), username: s.username, name: s.displayName, "class": className(s), classId: s.classId,
+          id: String(s.id), username: s.username, name: s.displayName, "class": shared.map(function (c) { return c.name; }).join(" · "), classIds: shared.map(function (c) { return c.id; }), classId: shared[0].id,
           color: COLORS[s.id % COLORS.length], createdAt: s.createdAt, lessonProgress: progressOf(s.id), attempts: attemptsOf(s.id),
-          feedback: db.feedback.filter(function (f) { return f.studentId === s.id && f.teacherId === u.id; }).map(function (f) { return publicFeedback(f, true); }),
-          chat: db.chat.filter(function (c) { return c.studentId === s.id && c.teacherId === u.id; }).slice(-300).map(publicChat)
+          feedback: db.feedback.filter(function (f) { return f.studentId === s.id && ids.indexOf(f.classId) >= 0; }).map(function (f) { return publicFeedback(f, true); }),
+          chat: db.chat.filter(function (c) { return c.studentId === s.id && ids.indexOf(c.classId) >= 0; }).slice(-300).map(publicChat)
         };
       });
     return { students: students };
@@ -567,6 +700,7 @@ window.GaussicaLocal = (function () {
     if (!user) return;
     if (user.role === "teacher") {
       db.classes.filter(function (c) { return c.teacherId === id; }).forEach(function (c) { purgeClass(c.id); });
+      db.classes.forEach(function (c) { c.guideIds = (c.guideIds || []).filter(function (g) { return g !== id; }); });   // a guide of somebody else's class just leaves it
     }
     db.users = db.users.filter(function (u) { return u.id !== id; });
     db.attempts = db.attempts.filter(function (a) { return a.userId !== id; });
@@ -577,8 +711,16 @@ window.GaussicaLocal = (function () {
     if (db.session === id) db.session = null;
   }
 
+  // The students of a class lose it; those who have no other class are deleted with everything about them. What belongs to the class (messages,
+  // cheers, assignments) goes too.
   function purgeClass(classId) {
-    db.users.filter(function (u) { return u.classId === classId && u.role === "student"; }).forEach(function (u) { purgeUser(u.id); });
+    membersOf(classId).forEach(function (u) {
+      if ((u.classIds || []).filter(function (id) { return id !== classId; }).length === 0) { purgeUser(u.id); return; }
+      u.classIds = u.classIds.filter(function (id) { return id !== classId; });
+      fixPrimaryClass(u);
+    });
+    db.feedback = db.feedback.filter(function (x) { return x.classId !== classId; });
+    db.chat = db.chat.filter(function (x) { return x.classId !== classId; });
     db.assignments = db.assignments.filter(function (a) { return a.classId !== classId; });
     db.classes = db.classes.filter(function (c) { return c.id !== classId; });
   }
@@ -587,7 +729,12 @@ window.GaussicaLocal = (function () {
     const t = requireGuide();
     const student = studentOfTeacher(Number(studentId), t.id);
     if (!student) throw ApiError(404, "Eleven finns inte i dina klasser.");
-    purgeUser(student.id);
+    // the student leaves the classes the two share; the account goes when no class is left
+    const shared = sharedClasses(student, t.id).map(function (c) { return c.id; });
+    student.classIds = (student.classIds || []).filter(function (id) { return shared.indexOf(id) < 0; });
+    db.feedback = db.feedback.filter(function (x) { return !(x.studentId === student.id && shared.indexOf(x.classId) >= 0); });
+    db.chat = db.chat.filter(function (x) { return !(x.studentId === student.id && shared.indexOf(x.classId) >= 0); });
+    if (!student.classIds.length) purgeUser(student.id); else fixPrimaryClass(student);
     save();
     return { ok: true };
   }
@@ -595,8 +742,8 @@ window.GaussicaLocal = (function () {
   function deleteClass(id) {
     const t = requireGuide();
     const cls = db.classes.find(function (c) { return c.id === Number(id) && c.teacherId === t.id; });
-    if (!cls) throw ApiError(404, "Klassen finns inte.");
-    const students = db.users.filter(function (u) { return u.classId === cls.id && u.role === "student"; }).length;
+    if (!cls) throw ApiError(404, "Klassen finns inte, eller så är det någon annan som har skapat den.");
+    const students = membersOf(cls.id).length;
     purgeClass(cls.id);
     save();
     return { ok: true, students: students };
@@ -627,7 +774,7 @@ window.GaussicaLocal = (function () {
       return {
         progress: progressOf(u.id), attempts: attemptsOf(u.id),
         assignments: isStudent ? db.assignments.filter(function (a) {
-          return !a.archived && a.classId === u.classId && (!a.studentId || a.studentId === u.id);
+          return !a.archived && (u.classIds || []).indexOf(a.classId) >= 0 && (!a.studentId || a.studentId === u.id);
         }).sort(byDue).map(function (a) { return publicAssignment(a, false); }) : [],
         feedback: isStudent ? db.feedback.filter(function (f) { return f.studentId === u.id; }).sort(function (a, b) { return b.id - a.id; }).slice(0, 200)
           .map(function (f) { return publicFeedback(f, false); }) : [],
@@ -644,6 +791,10 @@ window.GaussicaLocal = (function () {
     if (method === "POST" && path === "/api/attempts") return postAttempt(body);
     if (method === "GET" && path === "/api/lessons") { requireUser(); return { lessons: Object.keys(db.lessons).map(function (k) { return copy(db.lessons[k]); }) }; }
     if ((m = /^\/api\/lessons\/([^/]+)$/.exec(path)) && method === "PUT") return putLesson(decodeURIComponent(m[1]), body);
+    if (method === "POST" && path === "/api/me/classes") return joinClass(body);
+    if ((m = /^\/api\/me\/classes\/(\d+)$/.exec(path)) && method === "DELETE") return leaveClass(m[1]);
+    if (method === "POST" && path === "/api/teacher/join") return joinAsGuide(body);
+    if ((m = /^\/api\/teacher\/classes\/(\d+)\/guides\/(\d+)$/.exec(path)) && method === "DELETE") return removeGuide(m[1], m[2]);
     if (method === "GET" && path === "/api/teacher/classes") return listClasses();
     if (method === "POST" && path === "/api/teacher/classes") return createClass(body);
     if ((m = /^\/api\/teacher\/classes\/(\d+)$/.exec(path)) && method === "PUT") return updateClass(m[1], body);

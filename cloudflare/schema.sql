@@ -16,8 +16,23 @@ CREATE TABLE IF NOT EXISTS classes (
   name       TEXT NOT NULL,
   code       TEXT NOT NULL UNIQUE,
   teacher_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  created_at TEXT NOT NULL
+  created_at TEXT NOT NULL,
+  guide_code TEXT UNIQUE   -- the code that makes another adult a guide of the class (the other parent, a second teacher)
 );
+-- a student can be in several classes (a school class and a family), and a class has several guides (the owner is classes.teacher_id)
+CREATE TABLE IF NOT EXISTS class_members (
+  class_id  INTEGER NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+  user_id   INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  joined_at TEXT NOT NULL,
+  PRIMARY KEY (class_id, user_id)
+);
+CREATE INDEX IF NOT EXISTS class_members_user ON class_members (user_id);
+CREATE TABLE IF NOT EXISTS class_guides (
+  class_id INTEGER NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
+  user_id  INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  PRIMARY KEY (class_id, user_id)
+);
+CREATE INDEX IF NOT EXISTS class_guides_user ON class_guides (user_id);
 CREATE TABLE IF NOT EXISTS sessions (
   token_hash TEXT PRIMARY KEY,
   user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -70,7 +85,8 @@ CREATE TABLE IF NOT EXISTS feedback (
   text       TEXT NOT NULL DEFAULT '',
   sticker    TEXT,
   created_at TEXT NOT NULL,
-  read_at    TEXT
+  read_at    TEXT,
+  class_id   INTEGER
 );
 CREATE INDEX IF NOT EXISTS feedback_student ON feedback (student_id, created_at);
 CREATE TABLE IF NOT EXISTS class_settings (
@@ -87,7 +103,8 @@ CREATE TABLE IF NOT EXISTS chat (
   task_id      TEXT,
   context      TEXT,
   created_at   TEXT NOT NULL,
-  read_at      TEXT
+  read_at      TEXT,
+  class_id     INTEGER
 );
 CREATE INDEX IF NOT EXISTS chat_student ON chat (student_id, id);
 CREATE INDEX IF NOT EXISTS chat_teacher ON chat (teacher_id, from_teacher, read_at);

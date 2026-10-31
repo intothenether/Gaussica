@@ -27,6 +27,27 @@
   "summary": "Täljaren berättar hur många delar vi har. Nämnaren berättar hur många lika stora delar helheten består av.",
   "explanationTitle": "Samma helhet måste delas lika",
   "explanation": "Problemet: Hur skriver du hälften av en pizza, eller tre fjärdedelar av en chokladkaka? Hela tal räcker inte, för det är delar av en helhet. Vi behöver ett sätt att skriva delar. Det är bråk. För att lägga ihop 1/2 och 1/4 behöver delarna vara lika stora. En halv är lika mycket som två fjärdedelar. Då blir 1/2 + 1/4 samma sak som 2/4 + 1/4.",
+  "visuals": [
+    {
+      "type": "brak",
+      "title": "En halv är lika mycket som två fjärdedelar, och 1/2 + 1/4 är 3/4",
+      "shape": "rektangel",
+      "compare": [
+        {
+          "parts": 2,
+          "shaded": 1
+        },
+        {
+          "parts": 4,
+          "shaded": 2
+        },
+        {
+          "parts": 4,
+          "shaded": 3
+        }
+      ]
+    }
+  ],
   "rule": "1/2 + 1/4 = 2/4 + 1/4 = 3/4",
   "ruleLabel": "GEMENSAM NÄMNARE",
   "example": "Nämnaren talar om hur stora delarna är. När vi räknar tillsammans gör vi delarna lika stora. Vi adderar inte nämnarna.",

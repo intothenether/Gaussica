@@ -38,7 +38,8 @@
         "to": 40,
         "label": "upp"
       }
-    ]
+    ],
+    "animate": true
   },
   "rule": "Siffran till höger: 0 till 4 nedåt, 5 till 9 uppåt",
   "ruleLabel": "AVRUNDA",

@@ -11,42 +11,6 @@
   "summary": "För att räkna hur lång tid något tar räknar du i steg: till nästa hela timme, hela timmar och minuterna som blir kvar.",
   "explanationTitle": "Räkna tid i steg",
   "explanation": "Problemet: Filmen börjar 14:20 och slutar 16:05. Hur länge varar den? Du kan inte bara dra bort 14:20 från 16:05 som vanliga tal, för en timme har 60 minuter och inte 100. Därför räknar vi i steg. Gå först till nästa hela timme, sedan hela timmar, och till sist de minuter som är kvar. Från 14:20 till 15:00 är det 40 minuter. Från 15:00 till 16:00 är det 1 timme, alltså 60 minuter. Från 16:00 till 16:05 är det 5 minuter. Tillsammans blir det 40 + 60 + 5 = 105 minuter, alltså 1 timme och 45 minuter.",
-  "visual": {
-    "type": "tabell",
-    "title": "Filmen från 14:20 till 16:05",
-    "headers": [
-      "Steg",
-      "Från",
-      "Till",
-      "Tid"
-    ],
-    "rows": [
-      [
-        "1",
-        "14:20",
-        "15:00",
-        "40 min"
-      ],
-      [
-        "2",
-        "15:00",
-        "16:00",
-        "60 min"
-      ],
-      [
-        "3",
-        "16:00",
-        "16:05",
-        "5 min"
-      ],
-      [
-        "Summa",
-        "14:20",
-        "16:05",
-        "105 min"
-      ]
-    ]
-  },
   "rule": "Räkna i steg: till nästa hela timme, hela timmar, och minuterna kvar. En timme är 60 minuter.",
   "ruleLabel": "TIDSINTERVALL",
   "example": "Från 09:40 till 11:15: 20 minuter till 10:00, 60 minuter till 11:00 och 15 minuter till 11:15. Tillsammans 95 minuter.",
@@ -272,6 +236,50 @@
           ],
           "message": "60 minuter är en hel timme. Klockan är redan 10:40."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "tidslinje",
+      "title": "Filmen varar från 14:20 till 16:05",
+      "from": "14:20",
+      "to": "16:05"
+    },
+    {
+      "type": "tabell",
+      "title": "Filmen från 14:20 till 16:05",
+      "headers": [
+        "Steg",
+        "Från",
+        "Till",
+        "Tid"
+      ],
+      "rows": [
+        [
+          "1",
+          "14:20",
+          "15:00",
+          "40 min"
+        ],
+        [
+          "2",
+          "15:00",
+          "16:00",
+          "60 min"
+        ],
+        [
+          "3",
+          "16:00",
+          "16:05",
+          "5 min"
+        ],
+        [
+          "Summa",
+          "14:20",
+          "16:05",
+          "105 min"
+        ]
       ]
     }
   ]

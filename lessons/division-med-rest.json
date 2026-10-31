@@ -12,32 +12,6 @@
   "summary": "Ibland går det inte att dela lika utan att något blir över. Det som blir över kallas rest.",
   "explanationTitle": "Vad gör vi när det inte går jämnt ut?",
   "explanation": "Problemet: Hittills har vi delat tal som går jämnt ut, till exempel 15 delat med 5. Men vad händer när 17 kakor ska delas på 5 barn? Det går inte jämnt ut, och ändå vill vi veta både hur många varje barn får och hur många som blir över. Vi behöver ett sätt att skriva det som blir över. Det kallas rest. Om du delar 17 kakor lika på 5 barn får varje barn 3 kakor, och 2 kakor blir över. Vi skriver: 17 delat med 5 är 3 rest 2. Resten är alltid mindre än talet du delar med. Annars kunde du ha delat ut en gång till. Så här hittar du svaret: leta upp den närmaste tabellen som inte går över talet. 5 · 3 = 15 är närmast under 17, och 17 − 15 = 2. Kontrollera med multiplikation: 5 · 3 + 2 = 17.",
-  "visual": {
-    "type": "tabell",
-    "title": "Hitta närmaste tabell under talet",
-    "headers": [
-      "Dela",
-      "Närmaste tabell",
-      "Svar"
-    ],
-    "rows": [
-      [
-        "17 lika på 5",
-        "5 · 3 = 15",
-        "3 rest 2"
-      ],
-      [
-        "23 lika på 4",
-        "4 · 5 = 20",
-        "5 rest 3"
-      ],
-      [
-        "30 lika på 6",
-        "6 · 5 = 30",
-        "5, ingen rest"
-      ]
-    ]
-  },
   "rule": "Resten är alltid mindre än talet du delar med",
   "ruleLabel": "RESTEN",
   "example": "23 delat med 4: 4 · 5 = 20 och 23 − 20 = 3, alltså 5 rest 3. Kontroll: 4 · 5 + 3 = 23.",
@@ -340,6 +314,43 @@
           ],
           "message": "Resten betyder att 2 personer inte får plats. De behöver en femte bil."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "grupper",
+      "title": "17 kakor delas på 5 barn: 3 var, och 2 blir över",
+      "groups": 5,
+      "per": 3,
+      "remainder": 2,
+      "item": "kaka",
+      "mode": "dela"
+    },
+    {
+      "type": "tabell",
+      "title": "Hitta närmaste tabell under talet",
+      "headers": [
+        "Dela",
+        "Närmaste tabell",
+        "Svar"
+      ],
+      "rows": [
+        [
+          "17 lika på 5",
+          "5 · 3 = 15",
+          "3 rest 2"
+        ],
+        [
+          "23 lika på 4",
+          "4 · 5 = 20",
+          "5 rest 3"
+        ],
+        [
+          "30 lika på 6",
+          "6 · 5 = 30",
+          "5, ingen rest"
+        ]
       ]
     }
   ]

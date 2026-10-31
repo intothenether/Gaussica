@@ -57,7 +57,8 @@
         "to": 15,
         "label": "+3"
       }
-    ]
+    ],
+    "animate": true
   },
   "rule": "Hitta ändringen från ett steg till nästa, och använd den en gång till.",
   "ruleLabel": "MÖNSTRETS REGEL",

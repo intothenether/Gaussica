@@ -9,6 +9,11 @@ window.GaussicaTeacher = (function () {
 
   const ui = { studentId: null, lessonId: "alla", sort: "attention", classId: "alla", notice: null, assignLesson: "", assignKind: "lesson", assignClass: "", assignScroll: false, threadOpen: {}, chatDraft: {} };
 
+  // a student can be in several classes (a school class and a family): classIds are the ones this guide shares with the student
+  function inClass(student, classId) {
+    return (student.classIds || [student.classId]).map(String).indexOf(String(classId)) >= 0;
+  }
+
   function el(tag, className, text) {
     const e = document.createElement(tag);
     if (className) e.className = className;
@@ -156,7 +161,7 @@ window.GaussicaTeacher = (function () {
   function draw(container, ctx) {
     if (ui.classId !== "alla" && !ctx.classes.some(function (c) { return String(c.id) === ui.classId; })) ui.classId = "alla";
     const students = ui.classId === "alla" ? ctx.students
-      : ctx.students.filter(function (s) { return String(s.classId) === ui.classId; });
+      : ctx.students.filter(function (s) { return inClass(s, ui.classId); });
     const data = analyzeClass(students, ctx.course);
     if (!ui.studentId || !students.some(function (s) { return s.id === ui.studentId; })) {
       ui.studentId = students[0] && students[0].id;
@@ -348,35 +353,71 @@ window.GaussicaTeacher = (function () {
     return section;
   }
 
-  // The family: its code, the children (an account can be made here for a child who cannot do it alone), and the setting for stars and animals.
-  function familySection(ctx) {
-    const section = el("section", "admin-card-section tv-section tv-family");
-    section.appendChild(el("h3", "", "Familjen"));
-    const family = ctx.classes[0];
-    if (!family) {
-      section.appendChild(el("p", "admin-card-description", "Du har ingen familj just nu. Skapa en så får du en kod som barnen kan skapa konto med."));
-      const form = el("form", "tv-class-form");
-      const input = el("input");
-      input.type = "text"; input.maxLength = 60; input.required = true; input.value = ""; input.placeholder = "T.ex. Familjen Andersson";
-      input.setAttribute("aria-label", "Familjens namn");
-      const submit = button("+ Skapa familj", "tv-btn", function () {});
-      submit.type = "submit";
-      form.append(input, submit);
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        submit.disabled = true;
-        ctx.actions.createClass(input.value.trim()).then(function (c) {
-          ui.notice = { text: "Familjen skapades. Kod för barnen:", code: c.code };
-          ctx.refresh();
-        }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
-      });
-      section.appendChild(form);
-      return section;
+  // The adults of a class (the two parents of a family, two teachers): who they are, the code that adds another (only the owner has it), and a way
+  // to remove one or to leave.
+  function guidesBlock(ctx, c) {
+    const box = el("div", "tv-guides");
+    box.appendChild(el("h4", "", "Vuxna i " + (ctx.caregiver ? "familjen" : "klassen")));
+    const list = el("ul", "tv-guide-list");
+    (c.guides || []).forEach(function (g) {
+      const li = el("li");
+      li.appendChild(el("span", "tv-guide-name", g.name + (g.you ? " (du)" : "") + (g.owner ? " · skapade " + (ctx.caregiver ? "familjen" : "klassen") : "")));
+      const removable = (c.owner && !g.owner) || (g.you && !g.owner);
+      if (removable) {
+        const out = button(g.you ? "Lämna" : "Ta bort", "tv-btn is-danger tv-small", function () {
+          if (!window.confirm(g.you ? "Lämna " + c.name + "? Du ser inte barnen här längre." : "Ta bort " + g.name + " från " + c.name + "?")) return;
+          ctx.actions.removeGuide(c.id, g.id).then(function () {
+            ui.notice = { text: g.you ? "Du har lämnat " + c.name + "." : g.name + " är borttagen." };
+            ctx.refresh();
+          }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+        });
+        li.appendChild(out);
+      }
+      list.appendChild(li);
+    });
+    box.appendChild(list);
+    if (c.owner && c.guideCode) {
+      const row = el("p", "tv-guide-code");
+      row.append(document.createTextNode("Kod för en annan vuxen: "), el("span", "tv-code", c.guideCode));
+      box.appendChild(row);
+      box.appendChild(el("p", "tv-muted", ctx.caregiver
+        ? "Den andra vårdnadshavaren skapar konto som vårdnadshavare och skriver koden i rutan Kod för vuxna, eller skriver den under Gå med i en annan familj nedan. Då ser båda samma barn, uppdrag och frågor."
+        : "En kollega som har ett konto skriver koden under Gå med i en annan klass nedan. Då ser ni båda samma elever, uppdrag och frågor."));
     }
-    section.appendChild(el("p", "admin-card-description", "Barnen skapar konto med familjekoden, eller så lägger du till dem här. Du ser bara barn i din egen familj."));
+    return box;
+  }
+
+  // A person who is a guide joins another class or family with the code for adults.
+  function joinGuideForm(ctx) {
+    const form = el("form", "tv-join-guide");
+    form.appendChild(el("h4", "", ctx.caregiver ? "Gå med i en annan familj" : "Gå med i en annan klass"));
+    form.appendChild(el("p", "tv-muted", ctx.caregiver
+      ? "Har den andra vårdnadshavaren, eller någon annan i familjen, skapat familjen? Skriv koden för vuxna."
+      : "Har en kollega skapat klassen? Skriv koden för vuxna."));
+    const input = el("input");
+    input.type = "text"; input.required = true; input.maxLength = 40; input.autocomplete = "off"; input.placeholder = "Kod för vuxna";
+    input.setAttribute("aria-label", "Kod för vuxna");
+    const submit = button("Gå med", "tv-btn", function () {});
+    submit.type = "submit";
+    form.append(input, submit);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      submit.disabled = true;
+      ctx.actions.joinAsGuide(input.value.trim()).then(function (r) {
+        ui.notice = { text: "Du är med i " + r.name + " nu." };
+        ctx.refresh();
+      }).catch(function (err) { ui.notice = { text: err.message, error: true }; submit.disabled = false; ctx.rerender(); });
+    });
+    return form;
+  }
+
+  // One family: its code, the adults, the children (an account can be made here for a child who cannot do it alone), and the setting for stars and animals.
+  function familyCard(ctx, family) {
+    const card = el("div", "tv-family-card");
     const info = el("div", "tv-class");
-    info.append(el("strong", "", family.name), el("span", "tv-code", family.code), el("span", "tv-muted", plural(family.students, "barn", "barn") + " av 10"));
-    section.appendChild(info);
+    info.append(el("strong", "", family.name), el("span", "tv-code", family.code), el("span", "tv-muted", plural(family.students, "barn", "barn") + (family.owner ? " av 10" : "")));
+    card.appendChild(info);
+    card.appendChild(guidesBlock(ctx, family));
 
     const add = el("form", "tv-add-child");
     add.appendChild(el("h4", "", "Lägg till ett barn"));
@@ -407,7 +448,7 @@ window.GaussicaTeacher = (function () {
         ctx.refresh();
       }).catch(function (err) { ui.notice = { text: err.message, error: true }; submit.disabled = false; ctx.rerender(); });
     });
-    section.appendChild(add);
+    card.appendChild(add);
 
     const label = el("label", "tv-toggle");
     const box = el("input");
@@ -420,19 +461,54 @@ window.GaussicaTeacher = (function () {
     });
     label.append(box, document.createTextNode(" Stjärnor, märken och djur"));
     label.title = "När det är på ser barnen stjärnor för klara lektioner och märken de kan samla. Ingen jämförelse mellan barn.";
-    const wipe = button("Radera familjen", "tv-btn is-danger tv-small", function () {
-      const typed = window.prompt("Det här raderar familjen " + family.name + ", " + plural(family.students, "barn", "barn") + " och allt barnen gjort. Det går inte att ångra.\n\nSkriv familjens namn (" + family.name + ") för att bekräfta:");
-      if (typed === null) return;
-      if (typed.trim().toLowerCase() !== family.name.trim().toLowerCase()) { ui.notice = { text: "Namnet stämde inte, så ingenting raderades.", error: true }; ctx.rerender(); return; }
-      ctx.actions.deleteClass(family.id).then(function () {
-        ui.notice = { text: "Familjen och barnens uppgifter har raderats." };
-        ui.studentId = null;
-        ctx.refresh();
-      }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
-    });
     const row = el("div", "tv-class");
-    row.append(label, wipe);
-    section.appendChild(row);
+    row.appendChild(label);
+    if (family.owner) {
+      row.appendChild(button("Radera familjen", "tv-btn is-danger tv-small", function () {
+        const typed = window.prompt("Det här raderar familjen " + family.name + " och alla barn som bara finns i den, med allt barnen gjort. Barn som också går i en skolklass behåller sitt konto. Det går inte att ångra.\n\nSkriv familjens namn (" + family.name + ") för att bekräfta:");
+        if (typed === null) return;
+        if (typed.trim().toLowerCase() !== family.name.trim().toLowerCase()) { ui.notice = { text: "Namnet stämde inte, så ingenting raderades.", error: true }; ctx.rerender(); return; }
+        ctx.actions.deleteClass(family.id).then(function () {
+          ui.notice = { text: "Familjen och barnens uppgifter har raderats." };
+          ui.studentId = null;
+          ctx.refresh();
+        }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+      }));
+    }
+    card.appendChild(row);
+    return card;
+  }
+
+  // The families of a caregiver: their own and those they have joined (the other parent made it), and the form to join one.
+  function familySection(ctx) {
+    const section = el("section", "admin-card-section tv-section tv-family");
+    section.appendChild(el("h3", "", ctx.classes.length > 1 ? "Familjer" : "Familjen"));
+    const ownFamily = ctx.classes.some(function (c) { return c.owner; });
+    if (!ctx.classes.length) {
+      section.appendChild(el("p", "admin-card-description", "Du har ingen familj just nu. Skapa en så får du en kod som barnen kan skapa konto med, eller gå med i en som den andra vårdnadshavaren har skapat."));
+    } else {
+      section.appendChild(el("p", "admin-card-description", "Barnen skapar konto med familjekoden, eller så lägger du till dem här. Du ser bara barn i din egen familj."));
+    }
+    ctx.classes.forEach(function (c) { section.appendChild(familyCard(ctx, c)); });
+    if (!ownFamily) {
+      const form = el("form", "tv-class-form");
+      const input = el("input");
+      input.type = "text"; input.maxLength = 60; input.required = true; input.value = ""; input.placeholder = "T.ex. Familjen Andersson";
+      input.setAttribute("aria-label", "Familjens namn");
+      const submit = button("+ Skapa familj", "tv-btn", function () {});
+      submit.type = "submit";
+      form.append(input, submit);
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        submit.disabled = true;
+        ctx.actions.createClass(input.value.trim()).then(function (c) {
+          ui.notice = { text: "Familjen skapades. Kod för barnen:", code: c.code };
+          ctx.refresh();
+        }).catch(function (err) { ui.notice = { text: err.message, error: true }; ctx.rerender(); });
+      });
+      section.appendChild(form);
+    }
+    section.appendChild(joinGuideForm(ctx));
     return section;
   }
 
@@ -665,8 +741,10 @@ window.GaussicaTeacher = (function () {
         });
         label.append(box, document.createTextNode(" Stjärnor, märken och djur"));
         label.title = "När det är på ser eleverna stjärnor för klara lektioner och märken de kan samla. Ingen jämförelse mellan elever.";
-        row.append(label, wipe);
+        row.append(label);
+        if (c.owner) row.appendChild(wipe);
         list.appendChild(row);
+        if ((c.guides || []).length > 1 || (c.owner && c.guideCode)) list.appendChild(guidesBlock(ctx, c));
       });
       section.appendChild(list);
     }
@@ -689,6 +767,7 @@ window.GaussicaTeacher = (function () {
       });
     });
     section.appendChild(form);
+    section.appendChild(joinGuideForm(ctx));
     return section;
   }
 
@@ -733,7 +812,7 @@ window.GaussicaTeacher = (function () {
     const fillStudents = function () {
       studentSel.replaceChildren();
       const all = el("option", "", "Hela klassen"); all.value = ""; studentSel.appendChild(all);
-      ctx.students.filter(function (s) { return String(s.classId) === classSel.value; }).forEach(function (s) {
+      ctx.students.filter(function (s) { return inClass(s, classSel.value); }).forEach(function (s) {
         const o = el("option", "", s.name); o.value = s.id; studentSel.appendChild(o);
       });
     };
@@ -830,7 +909,7 @@ window.GaussicaTeacher = (function () {
   // practice questions: ideas for what to hand out as "Öva mer".
   function classWeaknesses(ctx, classId) {
     const Coach = window.GaussicaCoach;
-    const students = ctx.students.filter(function (s) { return String(s.classId) === String(classId); });
+    const students = ctx.students.filter(function (s) { return inClass(s, classId); });
     const byLesson = new Map();
     students.forEach(function (s) {
       const w = Coach.weaknesses({ lessons: ctx.course.lessons, student: s });
@@ -909,7 +988,7 @@ window.GaussicaTeacher = (function () {
     if (a.note) card.appendChild(el("p", "tv-assign-note", "“" + a.note + "”"));
 
     const targets = ctx.students.filter(function (s) {
-      return s.classId === a.classId && (!a.studentId || String(a.studentId) === s.id);
+      return inClass(s, a.classId) && (!a.studentId || String(a.studentId) === s.id);
     });
     if (lesson && targets.length) {
       const states = targets.map(function (s) {
@@ -1625,7 +1704,7 @@ window.GaussicaTeacher = (function () {
 
     // assignments for this student
     const mine = (ctx.assignments || []).filter(function (x) {
-      return x.classId === s.classId && (!x.studentId || String(x.studentId) === s.id);
+      return inClass(s, x.classId) && (!x.studentId || String(x.studentId) === s.id);
     });
     if (mine.length) {
       page.appendChild(el("h2", "", "Uppdrag"));
@@ -1681,5 +1760,5 @@ window.GaussicaTeacher = (function () {
     ui.assignScroll = true;
   }
 
-  return { render: render, prefillAssignment: prefillAssignment, analyzeStudent: analyzeStudent, analyzeClass: analyzeClass };
+  return { render: render, inClass: inClass, prefillAssignment: prefillAssignment, analyzeStudent: analyzeStudent, analyzeClass: analyzeClass };
 }());

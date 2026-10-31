@@ -92,7 +92,7 @@ async function withServer(fn) {
 
 async function api() {
   if (filter && "api".indexOf(filter) < 0) return;
-  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"], ["api delete", "tests/api-delete.js", "cookie"], ["api planner", "tests/api-planner.js", "cookie"], ["api caregivers", "tests/api-caregiver.js", "cookie"]]) {
+  for (const [name, script, mode] of [["api basics", "tests/api-basic.js"], ["api assignments", "tests/api-assign.js", "cookie"], ["api chat", "tests/api-chat.js", "cookie"], ["api feedback", "tests/api-feedback.js", "cookie"], ["api delete", "tests/api-delete.js", "cookie"], ["api planner", "tests/api-planner.js", "cookie"], ["api caregivers", "tests/api-caregiver.js", "cookie"], ["api several adults and classes", "tests/api-multi.js", "cookie"]]) {
     try {
       await withServer(async (base, code, dir) => {
         const args = mode ? [base, mode, code] : [];
@@ -121,8 +121,11 @@ async function api() {
   run("offline", "tests/offline.js");
   run("worker deletion", "tests/worker-delete.js");
   run("worker caregivers", "tests/worker-caregiver.js");
+  run("worker several adults and classes", "tests/worker-multi.js");
+  run("demo several adults and classes", "tests/local-multi.js");
   run("words for families", "tests/words.js");
   run("powers in text", "tests/richtext.js");
+  run("figures for the lower years", "tests/figures-more.js");
   run("school documents", "tests/school-docs.js");
   run("fonts", "tests/fonts.js");
   run("themes", "tests/theme.js");
