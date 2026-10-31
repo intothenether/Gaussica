@@ -1035,7 +1035,14 @@ export default {
     try {
       const origin = request.headers.get("Origin");
       if (origin && !cors["Access-Control-Allow-Origin"]) throw new ApiError(403, "Otillåten ursprungsadress.");
-      if (url.pathname === "/" || url.pathname === "/health") return reply(200, { ok: true, service: "gaussica-api" }, cors);
+      if (url.pathname === "/") return reply(200, { ok: true, service: "gaussica-api" }, cors);
+      if (url.pathname === "/health") {
+        // for a monitor: does the database have what this version of the worker needs (see cloudflare/migrate.js)
+        let schema = "ok";
+        try { await env.DB.prepare("SELECT 1 AS x FROM class_members LIMIT 1").first(); }
+        catch (e) { schema = /no such table/i.test(String(e && e.message)) ? "behöver migrations/007-multi.sql" : "fel: " + String(e && e.message).slice(0, 80); }
+        return reply(200, { ok: true, service: "gaussica-api", schema: schema }, cors);
+      }
       const [status, body] = await createApi(env, request).handle(request.method, url.pathname);
       return reply(status, body, cors);
     } catch (err) {

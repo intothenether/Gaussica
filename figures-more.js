@@ -14,6 +14,8 @@
 //   tarning     { values:[1..6] }                          dice with dots
 //   snurra      { sectors:[{label, n}], land }              a spinner that turns and stops on sector number `land` (from 0)
 //   pase        { items:[{color, n}], label }               a bag of marbles (rod, bla, gul, gron)
+//   matglas     { capacity, level, unit, label, hide }       a measuring jug in litres (capacity) with decilitre marks, filled to `level` litres
+//   volym       { w, h, d, unit, label }                     a block built of unit cubes, layer by layer (volume = w · h · d)
 
 (function () {
   "use strict";
@@ -428,6 +430,56 @@
     return animated(wrap([svg]));
   }
 
+  // ----- measuring jug -----
+  function matglas(c) {
+    const cap = Math.max(0.5, Math.min(5, num(c.capacity, 1)));
+    const level = Math.max(0, Math.min(cap, num(c.level, cap / 2)));
+    const W = 360, H = 330, x0 = 110, x1 = 250, top = 40, bottom = 280;
+    const y = function (l) { return bottom - l / cap * (bottom - top); };
+    const svg = svgRoot(Object.assign({ alt: "Ett måttglas som rymmer " + fmt(cap) + " liter, fyllt till " + fmt(Math.round(level * 100) / 10) + " deciliter" }, c), W, H);
+    s("path", { d: "M" + (x0 - 8) + " " + (top - 8) + " L" + x0 + " " + top + " L" + x0 + " " + bottom + " Q" + x0 + " " + (bottom + 14) + " " + (x0 + 14) + " " + (bottom + 14) + " L" + (x1 - 14) + " " + (bottom + 14) + " Q" + x1 + " " + (bottom + 14) + " " + x1 + " " + bottom + " L" + x1 + " " + top + " L" + (x1 + 8) + " " + (top - 8), "class": "fx-glass" }, svg);
+    s("path", { d: "M" + x1 + " " + (top + 30) + " q42 4 42 40 t-42 60", "class": "fx-handle" }, svg);
+    if (level > 0) s("rect", { x: x0 + 3, y: y(level), width: x1 - x0 - 6, height: bottom + 12 - y(level), rx: 6, "class": "fx-water fx-rise" }, svg).setAttribute("style", "--dur:1.5s");
+    const dl = Math.round(cap * 10);
+    for (let i = 0; i <= dl; i++) {
+      const yy = y(i / 10), major = i % 5 === 0 || i === dl;
+      s("line", { x1: x0, y1: yy, x2: x0 + (major ? 26 : 14), y2: yy, "class": major ? "fig-tick" : "fig-grid" }, svg);
+      if (i % 2 === 0 || major) text(svg, x0 - 8, yy + 4, i % 10 === 0 ? (i / 10) + " l" : i + " dl", "fig-ticklabel", "end");
+    }
+    text(svg, (x0 + x1) / 2, H - 8, c.hide ? "? dl" : (c.label || fmt(Math.round(level * 100) / 10) + " dl"), "fig-dim fx-fade", "middle");
+    return animated(wrap([svg]));
+  }
+
+  // ----- block of unit cubes -----
+  function volym(c) {
+    const w = int(c.w, 1, 8, 3), h = int(c.h, 1, 8, 2), d = int(c.d, 1, 8, 2);
+    const u = Math.min(34, 300 / (w + d * 0.6), 220 / (h + d * 0.6)), dx = u * 0.5, dy = u * 0.35;
+    const W = w * u + d * dx + 120, H = h * u + d * dy + 90;
+    const svg = svgRoot(Object.assign({ alt: "En kloss av kuber: " + w + " långa, " + d + " djupa och " + h + " höga, " + w * h * d + " kuber" }, c), W, H);
+    const ox = 20, oy = d * dy + 20;
+    // layer by layer from the bottom, and in each layer the back first, so that the front covers the back
+    let n = 0;
+    for (let layer = 0; layer < h; layer++) {
+      for (let k = d - 1; k >= 0; k--) {
+        for (let i = 0; i < w; i++) {
+          const x = ox + i * u + k * dx, y = oy + (h - 1 - layer) * u + (d - 1 - k) * dy - (d - 1) * dy + (d - 1) * dy;
+          const g = s("g", { "class": "fx-pop", style: delay(n++, Math.min(0.06, 2.6 / (w * h * d))) }, svg);
+          s("rect", { x: x, y: y, width: u, height: u, "class": "fx-cube-front" }, g);
+          s("polygon", { points: x + "," + y + " " + (x + dx) + "," + (y - dy) + " " + (x + u + dx) + "," + (y - dy) + " " + (x + u) + "," + y, "class": "fx-cube-top" }, g);
+          s("polygon", { points: (x + u) + "," + y + " " + (x + u + dx) + "," + (y - dy) + " " + (x + u + dx) + "," + (y + u - dy) + " " + (x + u) + "," + (y + u), "class": "fx-cube-side" }, g);
+        }
+      }
+    }
+    const unit = c.unit || "cm";
+    text(svg, ox + w * u / 2, H - 38, w + " " + unit, "fig-dim", "middle");
+    text(svg, ox + w * u + d * dx + 14, oy + h * u / 2, h + " " + unit, "fig-dim", "start");
+    text(svg, ox + w * u + d * dx * 0.55 + 18, oy - 4, d + " " + unit, "fig-dim", "start");
+    text(svg, W / 2, H - 10, c.label || (w + " · " + h + " · " + d + " = " + w * h * d + " kuber"), "fig-dim fx-fade", "middle");
+    return animated(wrap([svg]));
+  }
+
+  F.register("matglas", "MÅTTGLAS", matglas);
+  F.register("volym", "VOLYM", volym);
   F.register("grupper", "GRUPPER", groups);
   F.register("tiobas", "PLATSVÄRDE", tiobas);
   F.register("pengar", "PENGAR", pengar);

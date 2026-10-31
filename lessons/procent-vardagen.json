@@ -11,42 +11,6 @@
   "summary": "Med procent kan du räkna ut rabatter och prishöjningar, och hur stor andel något är av en helhet.",
   "explanationTitle": "Hur räknar vi ut en rabatt i huvudet?",
   "explanation": "Problemet: Vi vet att procent betyder hundradelar. Men i affären står det 25 % rabatt, och du vill snabbt veta vad det blir i kronor, utan miniräknare. Hur gör du? Nyckeln är att bygga på de procent som är lätta. Några procent är lätta att räkna ut i huvudet. 50 % är hälften, 25 % är en fjärdedel och 10 % är en tiondel. 1 % är en hundradel. Andra procent bygger du av dem: 30 % är tre gånger 10 %. Vid en rabatt tar du bort procentbeloppet från priset. Vid en prishöjning lägger du till det. Rabatt 20 % på 150 kr: 10 % är 15 kr, 20 % är 30 kr, och det nya priset blir 150 − 30 = 120 kr. Vill du veta hur många procent en del är av en helhet delar du delen med helheten och multiplicerar med 100: 6 av 25 är 6/25 = 24/100, alltså 24 %.",
-  "visual": {
-    "type": "tabell",
-    "title": "Procent av 80 kr i huvudet",
-    "headers": [
-      "Procent",
-      "Så räknar du",
-      "Av 80 kr"
-    ],
-    "rows": [
-      [
-        "50 %",
-        "Hälften",
-        "40 kr"
-      ],
-      [
-        "25 %",
-        "En fjärdedel",
-        "20 kr"
-      ],
-      [
-        "10 %",
-        "En tiondel",
-        "8 kr"
-      ],
-      [
-        "30 %",
-        "Tre gånger 10 %",
-        "24 kr"
-      ],
-      [
-        "1 %",
-        "En hundradel",
-        "0,8 kr"
-      ]
-    ]
-  },
   "rule": "Rabatt: priset minus procentbeloppet. Höjning: priset plus procentbeloppet.",
   "ruleLabel": "RABATT OCH HÖJNING",
   "example": "Rabatt 20 % på 150 kr: 10 % är 15 kr, 20 % är 30 kr, nytt pris 120 kr. Höjning 10 % på 800 kr: 10 % är 80 kr, nytt pris 880 kr.",
@@ -402,6 +366,51 @@
           ],
           "message": "Du har multiplicerat med 20. 30 kr är 20 %, en femtedel, så veckopengen är 5 gånger 30."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "hundrarutor",
+      "title": "20 % rabatt: 20 av 100 delar tas bort från priset",
+      "filled": 20,
+      "label": "20 %",
+      "animate": true
+    },
+    {
+      "type": "tabell",
+      "title": "Procent av 80 kr i huvudet",
+      "headers": [
+        "Procent",
+        "Så räknar du",
+        "Av 80 kr"
+      ],
+      "rows": [
+        [
+          "50 %",
+          "Hälften",
+          "40 kr"
+        ],
+        [
+          "25 %",
+          "En fjärdedel",
+          "20 kr"
+        ],
+        [
+          "10 %",
+          "En tiondel",
+          "8 kr"
+        ],
+        [
+          "30 %",
+          "Tre gånger 10 %",
+          "24 kr"
+        ],
+        [
+          "1 %",
+          "En hundradel",
+          "0,8 kr"
+        ]
       ]
     }
   ]

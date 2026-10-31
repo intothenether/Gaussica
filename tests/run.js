@@ -123,6 +123,9 @@ async function api() {
   run("worker caregivers", "tests/worker-caregiver.js");
   run("worker several adults and classes", "tests/worker-multi.js");
   run("demo several adults and classes", "tests/local-multi.js");
+  run("migrations", "tests/migrate.js");
+  run("mistakes in numbers", "tests/misconceptions.js");
+  run("help for adults", "tests/parent-guide.js");
   run("words for families", "tests/words.js");
   run("powers in text", "tests/richtext.js");
   run("figures for the lower years", "tests/figures-more.js");

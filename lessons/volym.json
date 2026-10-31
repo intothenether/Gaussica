@@ -12,33 +12,6 @@
   "summary": "Volym säger hur mycket rum något tar eller rymmer. För en låda räknar du längd gånger bredd gånger höjd.",
   "explanationTitle": "Lager på lager av kuber",
   "explanation": "Problemet: Area säger hur stor en yta är. Men hur mycket vatten rymmer ett akvarium, eller hur många sockerbitar får plats i en låda? Det är inte en yta, för lådan har också höjd. Vi behöver ett sätt att mäta hur mycket rum något tar. Det kallas volym. Volym mäts i kubikenheter, som kubikcentimeter (cm³) och kubikmeter (m³). En kubikcentimeter är en liten kub som är 1 cm på alla håll. Volymen är hur många sådana kuber som får plats. För ett rätblock, en låda med raka sidor, räknar du först hur många kuber som får plats i botten: längd gånger bredd. Sedan räknar du hur många lager det blir: höjden. Volym = längd · bredd · höjd. Ett block som är 4 cm långt, 3 cm brett och 2 cm högt har volymen 4 · 3 · 2 = 24 cm³. Vätskor mäts ofta i liter. 1 liter är 1000 cm³.",
-  "visual": {
-    "type": "tabell",
-    "title": "Botten gånger höjd",
-    "headers": [
-      "Längd",
-      "Bredd",
-      "Höjd",
-      "Kuber i botten",
-      "Volym"
-    ],
-    "rows": [
-      [
-        "4 cm",
-        "3 cm",
-        "2 cm",
-        "4 · 3 = 12",
-        "12 · 2 = 24 cm³"
-      ],
-      [
-        "5 cm",
-        "2 cm",
-        "3 cm",
-        "5 · 2 = 10",
-        "10 · 3 = 30 cm³"
-      ]
-    ]
-  },
   "rule": "Volym = längd · bredd · höjd",
   "ruleLabel": "VOLYM",
   "example": "En låda som är 10 cm lång, 5 cm bred och 4 cm hög har volymen 10 · 5 · 4 = 200 cm³.",
@@ -303,6 +276,43 @@
           ],
           "message": "Du har tagit bort två nollor. Dela med 1000 tar bort tre nollor."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "volym",
+      "title": "4 · 3 · 2 = 24 kuber, så volymen är 24 cm³",
+      "w": 4,
+      "h": 3,
+      "d": 2,
+      "unit": "cm"
+    },
+    {
+      "type": "tabell",
+      "title": "Botten gånger höjd",
+      "headers": [
+        "Längd",
+        "Bredd",
+        "Höjd",
+        "Kuber i botten",
+        "Volym"
+      ],
+      "rows": [
+        [
+          "4 cm",
+          "3 cm",
+          "2 cm",
+          "4 · 3 = 12",
+          "12 · 2 = 24 cm³"
+        ],
+        [
+          "5 cm",
+          "2 cm",
+          "3 cm",
+          "5 · 2 = 10",
+          "10 · 3 = 30 cm³"
+        ]
       ]
     }
   ]

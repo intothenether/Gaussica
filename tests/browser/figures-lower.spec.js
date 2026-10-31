@@ -19,7 +19,14 @@ const LESSONS = [
   ["area", ".fx .fig-areacell"],
   ["tidsintervall", ".fx .fx-draw"],
   ["kassakvitto", ".fx .fx-coin"],
-  ["begrepp-sannolikhet", ".fx .fx-die"]
+  ["begrepp-sannolikhet", ".fx .fx-die"],
+  ["matning-liter-gram", ".fx .fx-glass"],
+  ["volym", ".fx .fx-cube-front"],
+  ["procent", ".fx .fig-hcell"],
+  ["brak-likavarda", ".fx .fx-slice"],
+  ["negativa-tal-rakna", ".fx .fx-mercury"],
+  ["delare", ".fx .fx-ball"],
+  ["slump", ".fx .fx-die"]
 ];
 
 for (const [id, selector] of LESSONS) {

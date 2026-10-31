@@ -12,37 +12,6 @@
   "summary": "Hälften kan skrivas som 1/2, 0,5 och 50 %. Det är samma tal på tre sätt.",
   "explanationTitle": "Växla mellan bråk, decimaltal och procent",
   "explanation": "Problemet: Hälften kan skrivas som 1/2, som 0,5 och som 50 %. Hur vet vi att det är samma sak, och när är det smart att välja det ena eller det andra? Vi behöver ett sätt att växla mellan dem. Talet 100 hjälper oss: procent betyder hundradelar. Hälften är 50 av 100, alltså 50/100, 0,50 och 50 %. En fjärdedel är 25 av 100, alltså 25 %. Tre fjärdedelar är 75 %. En tiondel är 10 av 100, alltså 10 %. Dessa fyra bör du kunna utantill. När du jämför tal är det lättast att skriva dem alla på samma sätt, till exempel som procent.",
-  "visual": {
-    "type": "tabell",
-    "title": "Samma tal på tre sätt",
-    "headers": [
-      "Bråk",
-      "Decimaltal",
-      "Procent"
-    ],
-    "rows": [
-      [
-        "1/2",
-        "0,5",
-        "50 %"
-      ],
-      [
-        "1/4",
-        "0,25",
-        "25 %"
-      ],
-      [
-        "3/4",
-        "0,75",
-        "75 %"
-      ],
-      [
-        "1/10",
-        "0,1",
-        "10 %"
-      ]
-    ]
-  },
   "rule": "Procent betyder hundradelar. 50 % = 50/100 = 0,5 = 1/2.",
   "ruleLabel": "TRE SÄTT, SAMMA TAL",
   "example": "1/4 är lika med 25 av 100, alltså 0,25 och 25 %.",
@@ -257,6 +226,46 @@
           ],
           "message": "30 % är det minsta av de tre. Skriv alla som procent: 50 %, 40 % och 30 %."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "hundrarutor",
+      "title": "En fjärdedel, 0,25 och 25 % är samma tal",
+      "filled": 25,
+      "label": "1/4 = 0,25 = 25 %",
+      "animate": true
+    },
+    {
+      "type": "tabell",
+      "title": "Samma tal på tre sätt",
+      "headers": [
+        "Bråk",
+        "Decimaltal",
+        "Procent"
+      ],
+      "rows": [
+        [
+          "1/2",
+          "0,5",
+          "50 %"
+        ],
+        [
+          "1/4",
+          "0,25",
+          "25 %"
+        ],
+        [
+          "3/4",
+          "0,75",
+          "75 %"
+        ],
+        [
+          "1/10",
+          "0,1",
+          "10 %"
+        ]
       ]
     }
   ]

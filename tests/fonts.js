@@ -19,7 +19,7 @@ files.forEach((f) => {
 ok(/font-family: "Nunito"/.test(css) && /font-family: "Lexend"/.test(css), "both Nunito and Lexend are declared");
 ok(fs.existsSync(path.join(ROOT, "fonts", "README.md")) && /Open Font License/.test(read("fonts/README.md")), "the font licence is included");
 
-["styles.css", "index.html", "server.js", "sw.js", "app.js", "privacy.js"].forEach((f) => {
+["styles.css", "index.html", "server.js", "sw.js", "app.js", "account.js", "privacy.js"].forEach((f) => {
   ok(!/fonts\.googleapis|fonts\.gstatic/.test(read(f)), f + " has no reference to Google's font servers");
 });
 ok(!/@import/.test(css), "the style sheet imports nothing from other servers");

@@ -13,30 +13,6 @@
   "summary": "Plus går åt höger på tallinjen och minus åt vänster, även när du startar under noll.",
   "explanationTitle": "Hur räknar vi med tal under noll?",
   "explanation": "Problemet: Vi kan skriva tal under noll, men hur räknar vi med dem? Vad är −4 + 7, eller 2 − 6? Vi har varken tabeller eller uppställning för det. Men vi har tallinjen, och den fortsätter åt vänster förbi noll. Lösningen är att räkna som på tallinjen. På tallinjen går du åt höger när du adderar och åt vänster när du subtraherar. Det gäller även under noll. −4 + 7: börja på −4 och gå 7 steg åt höger. Du hamnar på 3. 2 − 6: börja på 2 och gå 6 steg åt vänster. Du hamnar på −4. Att lägga till ett negativt tal är som att dra ifrån: 2 + (−5) = 2 − 5 = −3. Att dra ifrån ett negativt tal är som att lägga till: 4 − (−3) = 4 + 3 = 7. Minus och minus blir alltså plus.",
-  "visual": {
-    "type": "tallinje",
-    "title": "2 − 6 = −4: gå 6 steg åt vänster från 2",
-    "min": -10,
-    "max": 10,
-    "step": 1,
-    "labelEvery": 1,
-    "points": [
-      {
-        "value": 2,
-        "label": "start"
-      },
-      {
-        "value": -4
-      }
-    ],
-    "jumps": [
-      {
-        "from": 2,
-        "to": -4,
-        "label": "−6"
-      }
-    ]
-  },
   "rule": "Plus: åt höger. Minus: åt vänster. Minus ett minustal: åt höger.",
   "ruleLabel": "TALLINJEN",
   "example": "−4 + 7 = 3. 2 − 6 = −4. 2 + (−5) = −3. 4 − (−3) = 7.",
@@ -351,6 +327,45 @@
           "message": "Att dra ifrån ett minustal är som att lägga till 3. Gå åt höger från 4."
         }
       ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "termometer",
+      "title": "−4 grader, och sedan sju grader varmare: 3 grader",
+      "values": [
+        {
+          "value": -4
+        },
+        {
+          "value": 3
+        }
+      ]
+    },
+    {
+      "type": "tallinje",
+      "title": "2 − 6 = −4: gå 6 steg åt vänster från 2",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "labelEvery": 1,
+      "points": [
+        {
+          "value": 2,
+          "label": "start"
+        },
+        {
+          "value": -4
+        }
+      ],
+      "jumps": [
+        {
+          "from": 2,
+          "to": -4,
+          "label": "−6"
+        }
+      ],
+      "animate": true
     }
   ]
 }

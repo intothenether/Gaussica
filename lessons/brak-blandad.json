@@ -31,7 +31,8 @@
         "to": 1.75,
         "label": "3/4"
       }
-    ]
+    ],
+    "animate": true
   },
   "rule": "t/n: dela t med n. Hela och rest/n",
   "ruleLabel": "BLANDAD FORM",

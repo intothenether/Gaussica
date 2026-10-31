@@ -67,6 +67,13 @@ test("caregiver: adds a child, who signs in and sees vårdnadshavare, and the we
   await page.locator('input[name="childName"]').fill("Lo Andersson");
   await page.locator('input[name="childUser"]').fill("lo.a");
   await page.locator('input[name="childPass"]').fill("barnets-losen-1");
+  // the account is not made until the caregiver has agreed, and the text about the data is one click away
+  await page.getByRole("button", { name: "+ Skapa barnets konto" }).click();
+  await expect(page.locator(".tv-notice")).toHaveCount(0);
+  await page.locator(".tv-consent").getByRole("button", { name: "Så hanteras dina uppgifter" }).click();
+  await expect(page.locator("#privacy-overlay")).toContainText("Hemma: för vårdnadshavare");
+  await page.locator("#privacy-overlay").getByRole("button", { name: "Okej" }).click();
+  await page.locator('input[name="childConsent"]').check();
   await page.getByRole("button", { name: "+ Skapa barnets konto" }).click();
   await expect(page.locator(".tv-notice")).toContainText("Kontot för Lo Andersson skapades");
   await expect(page.locator(".tv-family")).toContainText("1 barn av 10");
@@ -136,4 +143,26 @@ test("caregiver: the family page and the sign-up have no accessibility violation
   await page.locator("#admin-top-link").click();
   await expect(page.locator(".tv-family")).toBeVisible();
   expect(await scan()).toEqual([]);
+});
+
+test("caregiver: the lesson overview has help for adults, and the child's view of the site does not", async ({ page }) => {
+  await start(page);
+  await registerCaregiver(page);
+  const lessonId = await page.evaluate(() => window.course.lessons.find((l) => l.id === "division-med-rest").id);
+  await page.evaluate((id) => window.openLesson(id), lessonId);
+  const guide = page.locator("#lesson-popup .parent-guide");
+  await expect(guide).toBeVisible();
+  await guide.locator("summary").first().click();
+  await expect(guide).toContainText("Så förklarar du det");
+  await expect(guide).toContainText("Det här går ofta fel");
+  await expect(guide).toContainText("Prata om det");
+  // the answers are there for the adult
+  await guide.locator(".parent-guide-facit summary").click();
+  await expect(guide.locator(".parent-guide-facit li").first()).toContainText("Fråga 1:");
+  await page.keyboard.press("Escape");
+  // shown as the child sees it: no help for adults
+  await page.locator("#view-switch").click();
+  await page.evaluate((id) => window.openLesson(id), lessonId);
+  await expect(page.locator("#lesson-popup .start-card")).toBeVisible();
+  await expect(page.locator("#lesson-popup .parent-guide")).toHaveCount(0);
 });

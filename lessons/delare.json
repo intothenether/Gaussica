@@ -14,62 +14,113 @@
   "summary": "En delare till ett tal är ett tal som delar det utan rest. 3 är en delare till 12 eftersom 12/3 = 4.",
   "explanationTitle": "Alla sätt att göra lika stora grupper",
   "explanation": "Problemet: 12 kakor ska delas lika utan att något blir över. Hur många barn kan det vara? Och vad händer med 13 kakor? Vi behöver veta vilka tal som går att dela lika. Det är delare. Med 12 rutor kan du lägga rader på flera sätt: 1 · 12, 2 · 6 och 3 · 4. Talen som ingår, 1, 2, 3, 4, 6 och 12, är delare till 12. Delarna kommer i par: 1 och 12, 2 och 6, 3 och 4. Ett tal är alltid delbart med 1 och med sig självt.",
-  "visual": {
-    "type": "monster",
-    "title": "12 rutor på tre sätt",
-    "steps": [
-      {
-        "label": "1 · 12",
-        "rows": 1,
-        "cols": 12
-      },
-      {
-        "label": "2 · 6",
-        "rows": 2,
-        "cols": 6
-      },
-      {
-        "label": "3 · 4",
-        "rows": 3,
-        "cols": 4
-      }
-    ]
-  },
   "rule": "Ett tal är en delare till ett annat tal om det går jämnt upp. 10 delat med 5 är 2, så 5 är en delare till 10.",
   "ruleLabel": "DELARE",
   "example": "Delarna till 10 är 1, 2, 5 och 10. Talet 4 är ingen delare eftersom 10 delat med 4 ger 2 med resten 2.",
   "practice": [
     {
       "id": "antal-delare",
-      "for": ["exercise"],
-      "vars": {"n":[6,48]},
-      "derive": [{"name":"c","expr":"divcount(n)"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          6,
+          48
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "divcount(n)"
+        }
+      ],
       "prompt": "Hur många delare har talet {n}?",
-      "answer": ["=c"],
+      "answer": [
+        "=c"
+      ],
       "correct": "Rätt! {n} har {c} delare.",
       "feedback": [
-        {"answers":["=c-1","=c-2"],"message":"Glöm inte att både 1 och talet självt är delare."},
-        {"answers":["=c+1"],"message":"Dubbelkolla: räkna varje delare bara en gång."}
+        {
+          "answers": [
+            "=c-1",
+            "=c-2"
+          ],
+          "message": "Glöm inte att både 1 och talet självt är delare."
+        },
+        {
+          "answers": [
+            "=c+1"
+          ],
+          "message": "Dubbelkolla: räkna varje delare bara en gång."
+        }
       ]
     },
     {
       "id": "delbart-ja",
-      "for": ["word-0"],
-      "vars": {"d":[3,9],"k":[3,12]},
-      "derive": [{"name":"n","expr":"d*k"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "d": [
+          3,
+          9
+        ],
+        "k": [
+          3,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*k"
+        }
+      ],
       "prompt": "Är {n} delbart med {d}? Svara ja eller nej.",
-      "answer": ["ja","Ja"],
+      "answer": [
+        "ja",
+        "Ja"
+      ],
       "correct": "Ja! {d} · {k} = {n}, så {d} går jämnt upp i {n}.",
       "feedback": []
     },
     {
       "id": "delbart-nej",
-      "for": ["word-0"],
-      "vars": {"d":[3,9],"k":[3,12],"r":[1,2]},
-      "where": [{"expr":"d-r","min":1}],
-      "derive": [{"name":"n","expr":"d*k+r"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "d": [
+          3,
+          9
+        ],
+        "k": [
+          3,
+          12
+        ],
+        "r": [
+          1,
+          2
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-r",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*k+r"
+        }
+      ],
       "prompt": "Är {n} delbart med {d}? Svara ja eller nej.",
-      "answer": ["nej","Nej"],
+      "answer": [
+        "nej",
+        "Nej"
+      ],
       "correct": "Nej. {d} · {k} = {d*k}, och {n} är {r} mer, så {d} går inte jämnt upp i {n}.",
       "feedback": []
     }
@@ -152,6 +203,36 @@
             "3"
           ],
           "message": "3 är antalet par. Varje par ger två olika antal tallrikar."
+        }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "grupper",
+      "title": "12 = 3 · 4, så 3 och 4 är delare i 12",
+      "groups": 3,
+      "per": 4,
+      "item": "kula"
+    },
+    {
+      "type": "monster",
+      "title": "12 rutor på tre sätt",
+      "steps": [
+        {
+          "label": "1 · 12",
+          "rows": 1,
+          "cols": 12
+        },
+        {
+          "label": "2 · 6",
+          "rows": 2,
+          "cols": 6
+        },
+        {
+          "label": "3 · 4",
+          "rows": 3,
+          "cols": 4
         }
       ]
     }

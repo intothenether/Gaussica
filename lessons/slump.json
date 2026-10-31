@@ -13,37 +13,6 @@
   "summary": "Slump betyder att vi inte kan veta på förhand vad som händer. Chansen kan ändå beskrivas med tal, till exempel 1 av 6.",
   "explanationTitle": "Chans är önskade utfall av alla utfall",
   "explanation": "Problemet: Du kastar en tärning. Blir det en femma? Du kan inte veta, men vissa saker är mer troliga än andra. Hur beskriver vi hur troligt något är med ett tal? Vi behöver ett mått på chans. När du kastar en vanlig tärning finns 6 lika troliga utfall: 1, 2, 3, 4, 5 och 6. Chansen att få en femma är 1 av 6, alltså 1/6. Chansen att få ett jämnt tal är 3 av 6, eftersom 2, 4 och 6 är jämna, och 3/6 = 1/2. Något säkert har sannolikheten 1 och något omöjligt har sannolikheten 0.",
-  "visual": {
-    "type": "stapeldiagram",
-    "title": "Resultat av 60 tärningskast",
-    "unit": "kast",
-    "data": [
-      {
-        "label": "1",
-        "value": 9
-      },
-      {
-        "label": "2",
-        "value": 11
-      },
-      {
-        "label": "3",
-        "value": 10
-      },
-      {
-        "label": "4",
-        "value": 12
-      },
-      {
-        "label": "5",
-        "value": 8
-      },
-      {
-        "label": "6",
-        "value": 10
-      }
-    ]
-  },
   "components": [
     {
       "type": "text",
@@ -56,38 +25,111 @@
   "practice": [
     {
       "id": "storre-an",
-      "for": ["exercise"],
-      "vars": {"n":[1,5]},
-      "derive": [{"name":"g","expr":"6-n"},{"name":"k","expr":"sgd(6-n,6)"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "g",
+          "expr": "6-n"
+        },
+        {
+          "name": "k",
+          "expr": "sgd(6-n,6)"
+        }
+      ],
       "prompt": "Du kastar en vanlig tärning. Vad är chansen att få ett tal större än {n}? Svara som bråk.",
-      "answer": ["{g}/6","{g/k}/{6/k}"],
+      "answer": [
+        "{g}/6",
+        "{g/k}/{6/k}"
+      ],
       "correct": "Rätt! {g} av 6 utfall är större än {n}: {g}/6.",
       "feedback": [
         {
-          "answers": ["1/{g}"],
+          "answers": [
+            "1/{g}"
+          ],
           "message": "Nämnaren är alla möjliga utfall, 6 stycken. Täljaren är antalet gynnsamma utfall."
         }
       ]
     },
     {
       "id": "pase",
-      "for": ["word-0"],
-      "vars": {"r":[1,8],"b":[1,8]},
-      "derive": [{"name":"t","expr":"r+b"},{"name":"k","expr":"sgd(r,r+b)"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "r": [
+          1,
+          8
+        ],
+        "b": [
+          1,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "r+b"
+        },
+        {
+          "name": "k",
+          "expr": "sgd(r,r+b)"
+        }
+      ],
       "prompt": "I en påse ligger {r} röda och {b} blå kulor. Du drar en kula utan att titta. Vad är chansen att få en röd? Svara som bråk.",
-      "answer": ["{r}/{t}","{r/k}/{t/k}"],
+      "answer": [
+        "{r}/{t}",
+        "{r/k}/{t/k}"
+      ],
       "correct": "Rätt! {r} av {t} kulor är röda: {r}/{t}.",
-      "feedback": [{"answers":["{r}/{b}"],"message":"Nämnaren ska vara alla kulor, {t} stycken, inte bara de blå."}]
+      "feedback": [
+        {
+          "answers": [
+            "{r}/{b}"
+          ],
+          "message": "Nämnaren ska vara alla kulor, {t} stycken, inte bara de blå."
+        }
+      ]
     },
     {
       "id": "forvantat",
-      "for": ["word-1"],
-      "vars": {"n":[10,100,10]},
-      "derive": [{"name":"r","expr":"n/2"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "n": [
+          10,
+          100,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "n/2"
+        }
+      ],
       "prompt": "Du singlar slant {n} gånger. Ungefär hur många gånger förväntar du dig krona?",
-      "answer": ["=r"],
+      "answer": [
+        "=r"
+      ],
       "correct": "Rätt! Chansen är 1/2, så ungefär {n} · 1/2 = {r} gånger.",
-      "feedback": [{"answers":["=n"],"message":"Det vore om det blev krona varje gång. Chansen för krona är 1/2."}]
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "Det vore om det blev krona varje gång. Chansen för krona är 1/2."
+        }
+      ]
     }
   ],
   "exercise": {
@@ -187,6 +229,51 @@
             "sannolikt"
           ],
           "message": "Titta på tärningens sidor: de visar 1 till 6. En sjua kan aldrig komma."
+        }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "tarning",
+      "title": "Alla sex möjliga utfall när du kastar en tärning",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "type": "stapeldiagram",
+      "title": "Resultat av 60 tärningskast",
+      "unit": "kast",
+      "data": [
+        {
+          "label": "1",
+          "value": 9
+        },
+        {
+          "label": "2",
+          "value": 11
+        },
+        {
+          "label": "3",
+          "value": 10
+        },
+        {
+          "label": "4",
+          "value": 12
+        },
+        {
+          "label": "5",
+          "value": 8
+        },
+        {
+          "label": "6",
+          "value": 10
         }
       ]
     }

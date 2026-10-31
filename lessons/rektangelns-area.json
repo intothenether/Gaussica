@@ -19,7 +19,8 @@
     "h": 4,
     "unit": "cm",
     "grid": true,
-    "title": "24 rutor à 1 cm²"
+    "title": "24 rutor à 1 cm²",
+    "fill": true
   },
   "rule": "Area = längd · bredd",
   "ruleLabel": "REKTANGELNS AREA",

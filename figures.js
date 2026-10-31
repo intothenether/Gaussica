@@ -30,7 +30,7 @@
 // tallinje also takes sequence:{start,step,count}; monster takes generator:"L"|"kvadrat"|"trappa"|"rad"|"faktorer", n, only.
 //
 // Animation: tallinje (animate: true, the jumps are drawn one after the other), klocka (animate: true, the hands turn to the time) and rektangel
-// (fill: true, the squares of the grid fill one by one; trace: true, the outline is drawn) can move. The figures of figures-more.js (grupper, tiobas,
+// (fill: true, the squares of the grid fill one by one; trace: true, the outline is drawn) and hundrarutor (animate: true, the filled squares come one by one) can move. The figures of figures-more.js (grupper, tiobas,
 // pengar, brak, termometer, linjal, kalender, tidslinje, tarning, snurra, pase) are added through register() and move by themselves. Nothing moves
 // with prefers-reduced-motion, and a button "Spela igen" plays it again.
 
@@ -547,12 +547,12 @@ window.GaussicaFigures = (function () {
     const svg = svgRoot(c, size + 4, size + (c.label ? 34 : 4));
     for (let i = 0; i < 100; i++) {
       const cx = (i % 10) * (cs + gap) + 2, cy = Math.floor(i / 10) * (cs + gap) + 2;
-      s("rect", { x: cx, y: cy, width: cs, height: cs, rx: 5, "class": "fig-hcell" + (i < filled ? " is-on" : "") }, svg);
+      s("rect", { x: cx, y: cy, width: cs, height: cs, rx: 5, "class": "fig-hcell" + (i < filled ? " is-on" : "") + (c.animate && i < filled ? " fx-pop" : ""), style: c.animate && i < filled ? delay(i, Math.min(0.05, 2.2 / Math.max(1, filled))) : "" }, svg);
     }
     if (c.label) text(svg, (size + 4) / 2, size + 26, c.label, "fig-dim");
     const wrapEl = wrap([svg]);
     svg.style.maxWidth = "300px";
-    return wrapEl;
+    return c.animate ? animated(wrapEl) : wrapEl;
   }
 
   // ----- analog clock -----

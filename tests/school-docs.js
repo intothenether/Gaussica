@@ -32,7 +32,7 @@ const dpa = fs.readFileSync(path.join(DIR, "personuppgiftsbitradesavtal.md"), "u
 
 // the documents must describe the deletion the product actually has
 const radering = fs.readFileSync(path.join(DIR, "radering-och-gallring.md"), "utf8");
-const app = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8");
+const app = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8") + fs.readFileSync(path.join(__dirname, "..", "account.js"), "utf8");   // the account is in account.js
 const teacher = fs.readFileSync(path.join(__dirname, "..", "teacher-view.js"), "utf8");
 ok(/Radera mitt konto/.test(radering) && /Radera mitt konto/.test(app), "the account deletion in the documents matches the button");
 ok(/Radera klassen/.test(radering) && /Radera klassen/.test(teacher), "the class deletion in the documents matches the button");

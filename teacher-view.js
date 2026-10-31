@@ -272,7 +272,8 @@ window.GaussicaTeacher = (function () {
       lr.tasks.forEach(function (tr) {
         if (tr.status !== "fix") return;
         const last = tr.subs[tr.subs.length - 1];
-        out.push({ lesson: lr.lesson.title, prompt: tr.prompt, given: last ? last.answer : "", correct: String(tr.correct || "").split(" / ")[0], at: last ? last.timestamp : "" });
+        out.push({ lesson: lr.lesson.title, lessonId: lr.lesson.id, prompt: tr.prompt, given: last ? last.answer : "", correct: String(tr.correct || "").split(" / ")[0], at: last ? last.timestamp : "",
+          pattern: last && last.misconception && String(last.misconception).length <= 70 ? last.misconception : "" });
       });
     });
     return out.sort(function (x, y) { return String(y.at || "").localeCompare(String(x.at || "")); });
@@ -316,6 +317,11 @@ window.GaussicaTeacher = (function () {
         li.appendChild(el("strong", "", h.lesson));
         if (h.prompt) li.appendChild(el("span", "tv-help-prompt", h.prompt));
         li.appendChild(el("span", "tv-help-answers", (h.given ? "Svarade: " + h.given + ". " : "") + "Rätt svar (för vuxna): " + (h.correct || "–")));
+        // a pattern that the site recognised in the answer ("Glömde att växla"), and the way to the help for adults of the lesson
+        if (h.pattern) li.appendChild(el("span", "tv-help-pattern", "💡 Mönster: " + h.pattern));
+        if (h.lessonId && typeof window.openLesson === "function") {
+          li.appendChild(button("Så förklarar du det", "tv-btn tv-small", function () { window.openLesson(h.lessonId); }));
+        }
         list.appendChild(li);
       });
       box.appendChild(list);
@@ -436,6 +442,13 @@ window.GaussicaTeacher = (function () {
     const user = make("Användarnamn", "text", "childUser", "off", "3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
     const pass = make("Lösenord", "text", "childPass", "off", "Minst 8 tecken. Skriv upp det, barnet använder det för att logga in.");
     add.appendChild(fields);
+    // the caregiver is the one who agrees to the account of the child
+    const consentLabel = el("label", "tv-consent");
+    const consent = el("input");
+    consent.type = "checkbox"; consent.name = "childConsent"; consent.required = true;
+    consentLabel.append(consent, el("span", "", " Jag är barnets vårdnadshavare och godkänner att kontot skapas och att barnets uppgifter sparas så som det står i "));
+    if (window.GaussicaPrivacy) consentLabel.appendChild(window.GaussicaPrivacy.link("Så hanteras dina uppgifter", "pv-link"));
+    add.appendChild(consentLabel);
     const submit = button("+ Skapa barnets konto", "tv-btn", function () {});
     submit.type = "submit";
     add.appendChild(submit);

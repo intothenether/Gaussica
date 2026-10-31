@@ -5042,3 +5042,26 @@ body.lesson-popup-open { overflow: hidden; }
 .fx-m-red { fill: #e2574c; } .fx-m-blue { fill: #4c9be8; } .fx-m-yellow { fill: #ffc933; } .fx-m-green { fill: #43b581; }
 
 .fig-areacell { fill: #9ccbf0; stroke: var(--brand); stroke-width: 1.2; }
+
+.tv-help-pattern { color: var(--brand); font-weight: 700; }
+.tv-help-list li .tv-btn { align-self: flex-start; margin-top: 4px; }
+
+/* Help for adults in the overview of a lesson (caregivers) */
+.parent-guide { margin: 16px 0 4px; padding: 12px 16px; border: 2px solid var(--sky-line, #bcd3ee); border-radius: 16px; background: var(--sky-soft, #eef5ff); }
+.parent-guide > summary { cursor: pointer; font-weight: 800; color: var(--brand); }
+.parent-guide h4 { margin: 14px 0 4px; font: 800 14px "Nunito", sans-serif; }
+.parent-guide ul, .parent-guide ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14.5px; line-height: 1.55; }
+.parent-guide-note { margin: 10px 0 0; color: var(--muted); font-size: 12.5px; }
+.parent-guide-facit { margin-top: 12px; }
+.parent-guide-facit > summary { cursor: pointer; font-weight: 700; }
+
+.tv-consent { display: block; margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; }
+.tv-consent input { margin-right: 6px; }
+
+/* the measuring jug and the block of cubes */
+.fx-glass { fill: rgba(190, 225, 250, .25); stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.fx-handle { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.fx-water { fill: #6db8ee; opacity: .85; transform-box: fill-box; transform-origin: 50% 100%; }
+.fx-cube-front { fill: #8fc0ee; stroke: #4a6aa0; stroke-width: 1.2; }
+.fx-cube-top { fill: #c5e0f7; stroke: #4a6aa0; stroke-width: 1.2; }
+.fx-cube-side { fill: #6f9fd2; stroke: #4a6aa0; stroke-width: 1.2; }

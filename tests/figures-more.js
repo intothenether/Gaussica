@@ -39,7 +39,9 @@ const CASES = [
   ["tidslinje", { type: "tidslinje", from: "09:20", to: "10:10" }],
   ["tarning", { type: "tarning", values: [1, 3, 6] }],
   ["snurra", { type: "snurra", sectors: [{ label: "1" }, { label: "2" }, { label: "3", n: 2 }], land: 2 }],
-  ["pase", { type: "pase", items: [{ color: "rod", n: 3 }, { color: "bla", n: 1 }] }]
+  ["pase", { type: "pase", items: [{ color: "rod", n: 3 }, { color: "bla", n: 1 }] }],
+  ["matglas", { type: "matglas", capacity: 1, level: 0.6 }],
+  ["volym", { type: "volym", w: 4, h: 3, d: 2 }]
 ];
 CASES.forEach(([type, cfg]) => {
   ok(Fig.supports(type) && Fig.badge(type) !== "FIGUR", type + " is a figure with a name");
@@ -76,6 +78,11 @@ ok(count({ type: "tarning", values: [2, 5] }, "fx-pip") === 7, "dice with 2 and 
 const spin = withClass(Fig.render({ type: "snurra", sectors: [{ label: "A" }, { label: "B" }, { label: "C" }, { label: "D" }], land: 0 }), "fx-spin")[0];
 ok(spin && /--turn:1[01]\d\d/.test(spin.attrs.style), "the spinner turns three times and a little");
 ok(count({ type: "pase", items: [{ color: "rod", n: 3 }, { color: "bla", n: 2 }] }, "fx-pop") === 5, "five marbles in the bag");
+
+ok(textsOf(Fig.render({ type: "matglas", capacity: 1, level: 0.6 })).indexOf("6 dl") >= 0 && textsOf(Fig.render({ type: "matglas", capacity: 3, level: 3 })).indexOf("30 dl") >= 0, "the jug says the decilitres: 6 dl, and 3 litres are 30 dl");
+ok(count({ type: "matglas", capacity: 1, level: 0.6 }, "fx-rise") === 1 && count({ type: "matglas", capacity: 1, level: 0 }, "fx-rise") === 0, "the water rises, and an empty jug has none");
+ok(count({ type: "volym", w: 4, h: 3, d: 2 }, "fx-pop") === 24 && textsOf(Fig.render({ type: "volym", w: 4, h: 3, d: 2 })).indexOf("4 · 3 · 2 = 24 kuber") >= 0, "a block of 4 · 3 · 2 is 24 cubes, and says so");
+ok(count({ type: "hundrarutor", filled: 25, animate: true }, "fx-pop") === 25 && count({ type: "hundrarutor", filled: 25 }, "fx-pop") === 0, "the hundred grid: 25 squares come in, and stand still when not asked to move");
 
 // the movement of the old figures
 ok(count({ type: "tallinje", min: 0, max: 20, jumps: [{ from: 8, to: 13, label: "+5" }], animate: true }, "fx-pop") === 1, "a number line: the jump moves");

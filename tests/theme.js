@@ -90,7 +90,7 @@ ok(store[T.KEY] === "korall", "the choice is remembered in the browser");
 
 // ----- the page -----
 const html = fs.readFileSync(ROOT + "index.html", "utf8");
-const app = fs.readFileSync(ROOT + "app.js", "utf8");
+const app = fs.readFileSync(ROOT + "app.js", "utf8") + fs.readFileSync(ROOT + "account.js", "utf8");   // the account is in account.js
 ok(html.indexOf('<script src="./theme.js"></script>') > 0 && html.indexOf("theme.js") < html.indexOf("</head>"), "theme.js is loaded in the head, without defer, so that the page is never shown in the wrong colours");
 ok(/meta name="theme-color" content="#ffeaf1"/.test(html), "the browser colour starts as the default theme");
 ["today", "more-cards", "more-peek", "more-badge", "next-card", "hero-pet", "hero-step", "knep-card", "journey-card", "train-card", "workshop-card"].forEach((id) => ok(html.indexOf('id="' + id + '"') > 0, "the start page has #" + id));
