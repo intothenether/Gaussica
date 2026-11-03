@@ -167,35 +167,67 @@
       "pool": [
         {
           "term": "delare",
-          "definition": "Ett tal som går jämnt upp i ett annat tal."
+          "definition": "Ett tal som går jämnt upp i ett annat tal.",
+          "examples": [
+            "3 är en delare till 12, eftersom 12 ÷ 3 = 4.",
+            "Talet 1 är en delare till alla tal."
+          ]
         },
         {
           "term": "multipel",
-          "definition": "Ett tal som finns i ett annat tals multiplikationstabell."
+          "definition": "Ett tal som finns i ett annat tals multiplikationstabell.",
+          "examples": [
+            "12 är en multipel av 3.",
+            "6, 12 och 18 är multiplar av 6."
+          ]
         },
         {
           "term": "delbar",
-          "definition": "Ett tal är delbart med ett annat om det går att dela utan att något blir över."
+          "definition": "Ett tal är delbart med ett annat om det går att dela utan att något blir över.",
+          "examples": [
+            "12 är delbart med 4.",
+            "Ett tal som slutar på 0 är delbart med 10."
+          ]
         },
         {
           "term": "primtal",
-          "definition": "Ett tal större än 1 som bara har 1 och sig självt som delare."
+          "definition": "Ett tal större än 1 som bara har 1 och sig självt som delare.",
+          "examples": [
+            "7 är ett primtal: bara 1 och 7 går jämnt upp.",
+            "2, 3, 5 och 11 är primtal."
+          ]
         },
         {
           "term": "sammansatt tal",
-          "definition": "Ett tal större än 1 som har fler delare än 1 och sig självt."
+          "definition": "Ett tal större än 1 som har fler delare än 1 och sig självt.",
+          "examples": [
+            "12 är ett sammansatt tal: 1, 2, 3, 4, 6 och 12 går jämnt upp.",
+            "9 och 15 är sammansatta tal."
+          ]
         },
         {
           "term": "gemensam delare",
-          "definition": "Ett tal som är delare till två eller flera tal."
+          "definition": "Ett tal som är delare till två eller flera tal.",
+          "examples": [
+            "2 är en gemensam delare till 6 och 8.",
+            "En gemensam delare går jämnt upp i båda talen."
+          ]
         },
         {
           "term": "största gemensamma delare",
-          "definition": "Det största talet som är delare till båda talen."
+          "definition": "Det största talet som är delare till båda talen.",
+          "examples": [
+            "Största gemensamma delare till 12 och 18 är 6.",
+            "Största gemensamma delare är det största talet som är delare till båda."
+          ]
         },
         {
           "term": "rest",
-          "definition": "Det som blir över när en division inte går jämnt upp."
+          "definition": "Det som blir över när en division inte går jämnt upp.",
+          "examples": [
+            "13 ÷ 4 blir 3 och 1 i rest.",
+            "Går en division jämnt upp är resten noll."
+          ]
         }
       ]
     },
@@ -215,6 +247,10 @@
           "alt": [
             "delaren",
             "delarna"
+          ],
+          "examples": [
+            "3 är en delare till 12, eftersom 12 ÷ 3 = 4.",
+            "Talet 1 är en delare till alla tal."
           ]
         },
         {
@@ -223,6 +259,10 @@
           "alt": [
             "multipeln",
             "multiplar"
+          ],
+          "examples": [
+            "12 är en multipel av 3.",
+            "6, 12 och 18 är multiplar av 6."
           ]
         },
         {
@@ -231,6 +271,10 @@
           "alt": [
             "delbart",
             "delbarhet"
+          ],
+          "examples": [
+            "12 är delbart med 4.",
+            "Ett tal som slutar på 0 är delbart med 10."
           ]
         },
         {
@@ -239,6 +283,10 @@
           "alt": [
             "primtalet",
             "ett primtal"
+          ],
+          "examples": [
+            "7 är ett primtal: bara 1 och 7 går jämnt upp.",
+            "2, 3, 5 och 11 är primtal."
           ]
         },
         {
@@ -247,6 +295,10 @@
           "alt": [
             "sammansatta tal",
             "sammansatt"
+          ],
+          "examples": [
+            "12 är ett sammansatt tal: 1, 2, 3, 4, 6 och 12 går jämnt upp.",
+            "9 och 15 är sammansatta tal."
           ]
         },
         {
@@ -254,6 +306,10 @@
           "definition": "Ett tal som är delare till två eller flera tal.",
           "alt": [
             "gemensamma delare"
+          ],
+          "examples": [
+            "2 är en gemensam delare till 6 och 8.",
+            "En gemensam delare går jämnt upp i båda talen."
           ]
         },
         {
@@ -261,6 +317,10 @@
           "definition": "Det största talet som är delare till båda talen.",
           "alt": [
             "sgd"
+          ],
+          "examples": [
+            "Största gemensamma delare till 12 och 18 är 6.",
+            "Största gemensamma delare är det största talet som är delare till båda."
           ]
         },
         {
@@ -268,6 +328,10 @@
           "definition": "Det som blir över när en division inte går jämnt upp.",
           "alt": [
             "resten"
+          ],
+          "examples": [
+            "13 ÷ 4 blir 3 och 1 i rest.",
+            "Går en division jämnt upp är resten noll."
           ]
         }
       ]
@@ -330,6 +394,557 @@
           "text": "Ett sammansatt tal har bara 1 och sig självt som delare.",
           "answer": false,
           "explain": "Det har ett primtal. Ett sammansatt tal har fler delare, till exempel 12."
+        }
+      ]
+    },
+    {
+      "id": "d-delare-ja",
+      "vars": {
+        "d": [
+          2,
+          9
+        ],
+        "k": [
+          3,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*k"
+        }
+      ],
+      "prompt": "Är {d} en delare till {n}? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Ja! {n} ÷ {d} = {k}, det går jämnt upp, så {d} är en delare till {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "{n} delat med {d} blir {k} och inget blir över. Det som går jämnt upp är en delare."
+        }
+      ],
+      "terms": [
+        "delare"
+      ]
+    },
+    {
+      "id": "d-delare-nej",
+      "vars": {
+        "d": [
+          3,
+          9
+        ],
+        "k": [
+          3,
+          11
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-r",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*k+r"
+        }
+      ],
+      "prompt": "Är {d} en delare till {n}? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Nej! {n} ÷ {d} blir {k} med {r} över, så det går inte jämnt upp.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Räkna {n} ÷ {d}. Går det jämnt upp, utan att något blir över?"
+        }
+      ],
+      "terms": [
+        "delare"
+      ]
+    },
+    {
+      "id": "d-multipel-ja",
+      "vars": {
+        "m": [
+          2,
+          9
+        ],
+        "k": [
+          3,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "m*k"
+        }
+      ],
+      "prompt": "Är {n} en multipel av {m}? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Ja! {n} = {m} · {k}, så {n} finns i {m}:ans multiplikationstabell.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "En multipel finns i multiplikationstabellen. Hur många gånger går {m} i {n}?"
+        }
+      ],
+      "terms": [
+        "multipel"
+      ]
+    },
+    {
+      "id": "d-multipel-nej",
+      "vars": {
+        "m": [
+          3,
+          9
+        ],
+        "k": [
+          3,
+          11
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "m-r",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "m*k+r"
+        }
+      ],
+      "prompt": "Är {n} en multipel av {m}? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Nej! {m} · {k} = {m*k} och {m} · {k+1} = {m*(k+1)}, så {n} hamnar mellan två multiplar.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Multiplarna av {m} är {m}, {m*2}, {m*3} och så vidare. Finns {n} bland dem?"
+        }
+      ],
+      "terms": [
+        "multipel"
+      ]
+    },
+    {
+      "id": "d-rest",
+      "vars": {
+        "d": [
+          3,
+          9
+        ],
+        "k": [
+          3,
+          11
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-r",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*k+r"
+        }
+      ],
+      "prompt": "Vad blir resten när du delar {n} med {d}? Skriv talet.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {n} = {d} · {k} + {r}, så resten är {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur många gånger {d} ryms i {n}. Resten är det som blir över."
+        }
+      ],
+      "terms": [
+        "rest"
+      ]
+    },
+    {
+      "id": "d-primtal-ord",
+      "pick": {
+        "p": [
+          "11",
+          "13",
+          "17",
+          "19",
+          "23",
+          "29",
+          "31",
+          "37",
+          "41",
+          "43",
+          "47"
+        ]
+      },
+      "prompt": "Är {$p} ett primtal eller ett sammansatt tal? Skriv primtal eller sammansatt tal.",
+      "answer": [
+        "primtal",
+        "ett primtal"
+      ],
+      "correct": "Rätt! {$p} är ett primtal: bara 1 och {$p} går jämnt upp.",
+      "feedback": [
+        {
+          "answers": [
+            "sammansatt tal",
+            "sammansatta tal",
+            "sammansatt"
+          ],
+          "message": "Ett sammansatt tal har fler delare än 1 och sig självt. {$p} har bara de två."
+        }
+      ],
+      "terms": [
+        "primtal"
+      ]
+    },
+    {
+      "id": "d-sammansatt-ord",
+      "pick": {
+        "c": [
+          "14",
+          "15",
+          "21",
+          "22",
+          "25",
+          "26",
+          "27",
+          "33",
+          "35",
+          "39",
+          "45",
+          "49",
+          "51",
+          "55"
+        ]
+      },
+      "prompt": "Är {$c} ett primtal eller ett sammansatt tal? Skriv primtal eller sammansatt tal.",
+      "answer": [
+        "sammansatt tal",
+        "sammansatta tal",
+        "sammansatt"
+      ],
+      "correct": "Rätt! {$c} är ett sammansatt tal: det har fler delare än 1 och sig självt.",
+      "feedback": [
+        {
+          "answers": [
+            "primtal",
+            "ett primtal"
+          ],
+          "message": "Ett primtal har bara 1 och sig självt som delare. Hitta en delare till {$c} som inte är 1 eller talet självt."
+        }
+      ],
+      "terms": [
+        "sammansatt tal"
+      ]
+    },
+    {
+      "id": "d-sgd",
+      "vars": {
+        "g": [
+          2,
+          9
+        ],
+        "x": [
+          2,
+          6
+        ],
+        "y": [
+          3,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "sgd(x,y)",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "expr": "y-x",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "a",
+          "expr": "g*x"
+        },
+        {
+          "name": "b",
+          "expr": "g*y"
+        }
+      ],
+      "prompt": "Vad är största gemensamma delare till {a} och {b}? Skriv talet.",
+      "answer": [
+        "=g"
+      ],
+      "correct": "Rätt! {g} går jämnt upp i både {a} och {b}, och inget större tal gör det.",
+      "feedback": [
+        {
+          "answers": [
+            "=a",
+            "=b"
+          ],
+          "message": "Det är ett av talen själva. Största gemensamma delare är det största talet som går jämnt upp i båda."
+        },
+        {
+          "answers": [
+            "=1"
+          ],
+          "message": "1 är en gemensam delare, men det finns en större. Vilket är det största talet som går jämnt upp i båda?"
+        }
+      ],
+      "terms": [
+        "största gemensamma delare",
+        "gemensam delare"
+      ]
+    },
+    {
+      "id": "d-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Är talet ett primtal eller ett sammansatt tal?",
+      "categories": [
+        "Primtal",
+        "Sammansatta tal"
+      ],
+      "pool": [
+        {
+          "text": "2",
+          "category": 0,
+          "explain": "2 är ett primtal: bara 1 och 2 går jämnt upp."
+        },
+        {
+          "text": "3",
+          "category": 0,
+          "explain": "3 är ett primtal: bara 1 och 3 går jämnt upp."
+        },
+        {
+          "text": "4",
+          "category": 1,
+          "explain": "4 = 2 · 2, så det har fler delare än 1 och 4."
+        },
+        {
+          "text": "5",
+          "category": 0,
+          "explain": "5 är ett primtal: bara 1 och 5 går jämnt upp."
+        },
+        {
+          "text": "6",
+          "category": 1,
+          "explain": "6 = 2 · 3, så det har fler delare än 1 och 6."
+        },
+        {
+          "text": "7",
+          "category": 0,
+          "explain": "7 är ett primtal: bara 1 och 7 går jämnt upp."
+        },
+        {
+          "text": "8",
+          "category": 1,
+          "explain": "8 = 2 · 4, så det har fler delare än 1 och 8."
+        },
+        {
+          "text": "9",
+          "category": 1,
+          "explain": "9 = 3 · 3, så det har fler delare än 1 och 9."
+        },
+        {
+          "text": "10",
+          "category": 1,
+          "explain": "10 = 2 · 5, så det har fler delare än 1 och 10."
+        },
+        {
+          "text": "11",
+          "category": 0,
+          "explain": "11 är ett primtal: bara 1 och 11 går jämnt upp."
+        },
+        {
+          "text": "12",
+          "category": 1,
+          "explain": "12 = 2 · 6, så det har fler delare än 1 och 12."
+        },
+        {
+          "text": "13",
+          "category": 0,
+          "explain": "13 är ett primtal: bara 1 och 13 går jämnt upp."
+        },
+        {
+          "text": "14",
+          "category": 1,
+          "explain": "14 = 2 · 7, så det har fler delare än 1 och 14."
+        },
+        {
+          "text": "15",
+          "category": 1,
+          "explain": "15 = 3 · 5, så det har fler delare än 1 och 15."
+        },
+        {
+          "text": "16",
+          "category": 1,
+          "explain": "16 = 2 · 8, så det har fler delare än 1 och 16."
+        },
+        {
+          "text": "17",
+          "category": 0,
+          "explain": "17 är ett primtal: bara 1 och 17 går jämnt upp."
+        },
+        {
+          "text": "18",
+          "category": 1,
+          "explain": "18 = 2 · 9, så det har fler delare än 1 och 18."
+        },
+        {
+          "text": "19",
+          "category": 0,
+          "explain": "19 är ett primtal: bara 1 och 19 går jämnt upp."
+        },
+        {
+          "text": "20",
+          "category": 1,
+          "explain": "20 = 2 · 10, så det har fler delare än 1 och 20."
+        },
+        {
+          "text": "21",
+          "category": 1,
+          "explain": "21 = 3 · 7, så det har fler delare än 1 och 21."
+        },
+        {
+          "text": "22",
+          "category": 1,
+          "explain": "22 = 2 · 11, så det har fler delare än 1 och 22."
+        },
+        {
+          "text": "23",
+          "category": 0,
+          "explain": "23 är ett primtal: bara 1 och 23 går jämnt upp."
+        },
+        {
+          "text": "24",
+          "category": 1,
+          "explain": "24 = 2 · 12, så det har fler delare än 1 och 24."
+        },
+        {
+          "text": "25",
+          "category": 1,
+          "explain": "25 = 5 · 5, så det har fler delare än 1 och 25."
+        },
+        {
+          "text": "26",
+          "category": 1,
+          "explain": "26 = 2 · 13, så det har fler delare än 1 och 26."
+        },
+        {
+          "text": "27",
+          "category": 1,
+          "explain": "27 = 3 · 9, så det har fler delare än 1 och 27."
+        },
+        {
+          "text": "28",
+          "category": 1,
+          "explain": "28 = 2 · 14, så det har fler delare än 1 och 28."
+        },
+        {
+          "text": "29",
+          "category": 0,
+          "explain": "29 är ett primtal: bara 1 och 29 går jämnt upp."
+        },
+        {
+          "text": "30",
+          "category": 1,
+          "explain": "30 = 2 · 15, så det har fler delare än 1 och 30."
+        },
+        {
+          "text": "31",
+          "category": 0,
+          "explain": "31 är ett primtal: bara 1 och 31 går jämnt upp."
+        },
+        {
+          "text": "32",
+          "category": 1,
+          "explain": "32 = 2 · 16, så det har fler delare än 1 och 32."
+        },
+        {
+          "text": "33",
+          "category": 1,
+          "explain": "33 = 3 · 11, så det har fler delare än 1 och 33."
+        },
+        {
+          "text": "34",
+          "category": 1,
+          "explain": "34 = 2 · 17, så det har fler delare än 1 och 34."
+        },
+        {
+          "text": "35",
+          "category": 1,
+          "explain": "35 = 5 · 7, så det har fler delare än 1 och 35."
+        },
+        {
+          "text": "36",
+          "category": 1,
+          "explain": "36 = 2 · 18, så det har fler delare än 1 och 36."
+        },
+        {
+          "text": "37",
+          "category": 0,
+          "explain": "37 är ett primtal: bara 1 och 37 går jämnt upp."
+        },
+        {
+          "text": "38",
+          "category": 1,
+          "explain": "38 = 2 · 19, så det har fler delare än 1 och 38."
+        },
+        {
+          "text": "39",
+          "category": 1,
+          "explain": "39 = 3 · 13, så det har fler delare än 1 och 39."
+        },
+        {
+          "text": "40",
+          "category": 1,
+          "explain": "40 = 2 · 20, så det har fler delare än 1 och 40."
         }
       ]
     }

@@ -27,7 +27,7 @@ ok(Art.ITEMS.filter((i) => i.price <= 20).length >= 4, "there is something cheap
 // every animal, colour and item can be drawn, and the markup is clean
 let drawn = 0;
 Object.keys(Art.KINDS).forEach((kind) => {
-  ok(Art.KINDS[kind].colors.length === 4 && Art.KINDS[kind].names.length >= 3, kind + ": colours and names");
+  ok(Art.KINDS[kind].colors.length === (kind === "axolotl" ? 5 : 4) && Art.KINDS[kind].names.length >= 3, kind + ": colours and names (the axolotl has a fifth, blue)");
   Art.KINDS[kind].colors.forEach((c) => {
     Art.ITEMS.forEach((it) => {
       const worn = {}, room = {};
@@ -356,6 +356,19 @@ ok(rea(Art.thing("boll"), false).how === "play" && rea(Art.thing("boll"), true).
 const hows = new Set([rea(null).how, rea(Art.item("hatt-kock")).how, rea(Art.thing("applet")).how, rea(Art.thing("boll")).how, rea(Art.item("bg-gras")).how]);
 ok(hows.size === 5, "five different reactions");
 ALL.forEach((kind) => ok(/class="pet-gaze"/.test(Art.svg({ kind: kind, color: Art.KINDS[kind].colors[0].id }, {})) && /class="pet-gaze"/.test(Art.svg({ kind: kind, color: Art.KINDS[kind].colors[0].id }, { mood: "happy" })), kind + ": the eyes can look around, also the happy ones"));
+
+// ----- the axolotl: a salamander with feathery gills, four legs and a blue option -----
+const blue = Art.KINDS.axolotl.colors.find((c) => c.id === "bla");
+ok(blue && blue.name === "Blå" && /^#[0-9a-f]{6}$/i.test(blue.body) && parseInt(blue.body.slice(5, 7), 16) > 200 && parseInt(blue.body.slice(1, 3), 16) < 170, "the axolotl has a cyan blue colour: " + (blue && blue.body));
+const axo = Art.svg({ kind: "axolotl", color: "bla" }, {});
+ok(axo.includes(blue.body) && axo.includes(blue.dark) && !/NaN/.test(axo), "and it is drawn in it");
+ok((axo.match(/stroke-width="3" stroke-linecap="round"\/>/g) || []).length >= 24, "six gills with fine filaments along both sides of each");
+ok(Art.pointer("axolotl", "bla").includes('data-arm="foot"') && Art.ARM.axolotl === "foot", "it points with a foot with four toes, not a hand");
+// nothing of the picture is outside the wide crop of the map (8 to 192), also the gills
+const xs = [];
+axo.replace(/(?:cx|x)="(-?\d+(?:\.\d+)?)"/g, (m, v) => xs.push(Number(v)));
+(axo.match(/[ML] ?(-?\d+(?:\.\d+)?),/g) || []).forEach((m) => xs.push(Number(m.replace(/[ML ,]/g, ""))));
+ok(Math.min.apply(null, xs) >= 8 && Math.max.apply(null, xs) <= 192, "the gills and the tail are inside the crop of the map (" + Math.min.apply(null, xs) + " to " + Math.max.apply(null, xs) + ")");
 
 console.log(failures ? failures + " FAILED" : "All pet checks passed (" + drawn + " drawings)");
 process.exit(failures ? 1 : 0);

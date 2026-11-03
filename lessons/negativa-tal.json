@@ -190,6 +190,420 @@
           "message": "Från {a} upp till 0 är det {0-a} steg, och sedan {b} steg till. Lägg ihop stegen."
         }
       ]
+    },
+    {
+      "id": "nt-hitta-felet",
+      "mode": "hittafelet",
+      "prompt": "Här har någon tänkt fel om negativa tal. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Elsa räknar ut −3 + 5. Vilket steg är fel?",
+          "steps": [
+            "Elsa startar på −3 på tallinjen.",
+            "Plus 5 betyder 5 steg åt höger.",
+            "Hon räknar 3 + 5 = 8 och skriver −8."
+          ],
+          "wrong": 2,
+          "explain": "Går du 5 steg åt höger från −3 passerar du noll och hamnar på 2.",
+          "fix": "−3 + 5 = 2.",
+          "hint": "Åt vilket håll går du, och var hamnar du?"
+        },
+        {
+          "prompt": "Ali jämför −2 och −7. Vilket steg är fel?",
+          "steps": [
+            "2 är mindre än 7.",
+            "Alltså ligger −2 längre åt vänster än −7.",
+            "Därför är −2 mindre än −7."
+          ],
+          "wrong": 1,
+          "explain": "Det är tvärtom för negativa tal. −7 ligger längre från noll, längre åt vänster, så −7 är mindre än −2.",
+          "fix": "−7 är mindre än −2.",
+          "hint": "Vilket tal ligger längst åt vänster på tallinjen?"
+        },
+        {
+          "prompt": "Mira räknar ut 2 − 5 grader. Vilket steg är fel?",
+          "steps": [
+            "Temperaturen är 2 grader.",
+            "Den sjunker 5 grader, så hon går 5 steg åt vänster.",
+            "Hon svarar 3 grader."
+          ],
+          "wrong": 2,
+          "explain": "Från 2 går du 2 steg till noll och 3 steg till: −3 grader.",
+          "fix": "Svaret är −3 grader.",
+          "hint": "Passerar du noll?"
+        },
+        {
+          "prompt": "Omar räknar ut −4 − 3. Vilket steg är fel?",
+          "steps": [
+            "Omar startar på −4.",
+            "Minus 3 betyder 3 steg åt vänster.",
+            "Han hamnar på −1."
+          ],
+          "wrong": 2,
+          "explain": "Åt vänster blir talet mindre: från −4 till −7. Du hamnar på −7.",
+          "fix": "−4 − 3 = −7.",
+          "hint": "Åt vilket håll går du, och blir talet större eller mindre?"
+        },
+        {
+          "prompt": "Lea jämför temperaturerna −1 °C och −8 °C och säger att −8 är varmast. Vilket steg är fel?",
+          "steps": [
+            "8 är större än 1.",
+            "Alltså är −8 större än −1.",
+            "Därför är −8 °C varmast."
+          ],
+          "wrong": 1,
+          "explain": "Ju längre under noll, desto kallare. −8 ligger längre åt vänster än −1 och är mindre.",
+          "fix": "−1 °C är varmast.",
+          "hint": "Vilken temperatur ligger längst under noll?"
+        }
+      ]
+    },
+    {
+      "id": "nt-sant-falskt",
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "−7 är mindre än −2.",
+          "answer": true,
+          "explain": "−7 ligger längre åt vänster på tallinjen."
+        },
+        {
+          "text": "−1 är större än −10.",
+          "answer": true,
+          "explain": "−1 ligger längre åt höger."
+        },
+        {
+          "text": "0 är ett negativt tal.",
+          "answer": false,
+          "explain": "Noll är varken negativt eller positivt."
+        },
+        {
+          "text": "Alla negativa tal är mindre än alla positiva tal.",
+          "answer": true,
+          "explain": "De negativa ligger till vänster om noll och de positiva till höger."
+        },
+        {
+          "text": "−5 är större än −3, eftersom 5 är större än 3.",
+          "answer": false,
+          "explain": "−5 ligger längre åt vänster, så −5 är mindre än −3."
+        },
+        {
+          "text": "Om det är −4 grader och det blir 6 grader varmare är det 2 grader.",
+          "answer": true,
+          "explain": "Från −4 går du 6 steg åt höger."
+        },
+        {
+          "text": "−5 och 5 ligger lika långt från noll.",
+          "answer": true,
+          "explain": "De ligger på var sin sida om noll."
+        },
+        {
+          "text": "−10 grader är varmare än −2 grader.",
+          "answer": false,
+          "explain": "−10 ligger längre åt vänster, så det är kallare."
+        }
+      ]
+    },
+    {
+      "id": "nt-ordna-temperaturer",
+      "mode": "ordna",
+      "size": 5,
+      "prompt": "Sätt temperaturerna i ordning, kallast först.",
+      "top": "Kallast",
+      "bottom": "Varmast",
+      "pool": [
+        {
+          "text": "−9 °C",
+          "value": -9
+        },
+        {
+          "text": "−6 °C",
+          "value": -6
+        },
+        {
+          "text": "−4 °C",
+          "value": -4
+        },
+        {
+          "text": "−1 °C",
+          "value": -1
+        },
+        {
+          "text": "0 °C",
+          "value": 0
+        },
+        {
+          "text": "2 °C",
+          "value": 2
+        },
+        {
+          "text": "5 °C",
+          "value": 5
+        },
+        {
+          "text": "8 °C",
+          "value": 8
+        }
+      ]
+    },
+    {
+      "id": "nt-sortera-kallare",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Är det kallare eller varmare än −3 °C?",
+      "categories": [
+        "Kallare än −3 °C",
+        "Varmare än −3 °C"
+      ],
+      "pool": [
+        {
+          "text": "−10 °C",
+          "category": 0,
+          "explain": "10 under noll är längre åt vänster än 3 under noll."
+        },
+        {
+          "text": "−8 °C",
+          "category": 0,
+          "explain": "8 under noll är längre åt vänster än 3 under noll."
+        },
+        {
+          "text": "−6 °C",
+          "category": 0,
+          "explain": "6 under noll är längre åt vänster än 3 under noll."
+        },
+        {
+          "text": "−5 °C",
+          "category": 0,
+          "explain": "5 under noll är längre åt vänster än 3 under noll."
+        },
+        {
+          "text": "−4 °C",
+          "category": 0,
+          "explain": "4 under noll är längre åt vänster än 3 under noll."
+        },
+        {
+          "text": "−2 °C",
+          "category": 1,
+          "explain": "-2 ligger till höger om −3 på tallinjen."
+        },
+        {
+          "text": "−1 °C",
+          "category": 1,
+          "explain": "-1 ligger till höger om −3 på tallinjen."
+        },
+        {
+          "text": "0 °C",
+          "category": 1,
+          "explain": "0 ligger till höger om −3 på tallinjen."
+        },
+        {
+          "text": "2 °C",
+          "category": 1,
+          "explain": "2 ligger till höger om −3 på tallinjen."
+        },
+        {
+          "text": "4 °C",
+          "category": 1,
+          "explain": "4 ligger till höger om −3 på tallinjen."
+        },
+        {
+          "text": "7 °C",
+          "category": 1,
+          "explain": "7 ligger till höger om −3 på tallinjen."
+        }
+      ]
+    },
+    {
+      "id": "nt-luckor-over-noll",
+      "mode": "lucktext",
+      "vars": {
+        "a": [
+          -9,
+          -2
+        ],
+        "k": [
+          3,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "a+k",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a+k"
+        },
+        {
+          "name": "t",
+          "expr": "-a"
+        }
+      ],
+      "prompt": "Fyll i luckorna.",
+      "text": "Du startar på {a} på tallinjen och går {k} steg åt höger. Efter [[1]] steg är du på noll, och sedan går du [[2]] steg till. Du hamnar på [[3]].",
+      "blanks": [
+        {
+          "answer": [
+            "=t"
+          ],
+          "hint": "Avståndet från {a} till noll."
+        },
+        {
+          "answer": [
+            "=r"
+          ],
+          "hint": "Alla steg minus de du redan gått."
+        },
+        {
+          "answer": [
+            "=r"
+          ],
+          "hint": "Det är där du går klart."
+        }
+      ]
+    },
+    {
+      "id": "nt-tillbaka",
+      "vars": {
+        "x": [
+          -9,
+          3
+        ],
+        "d": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "x+d"
+        }
+      ],
+      "prompt": "Temperaturen blev {x} grader efter att den sjunkit {d} grader. Vilken temperatur var det först? Skriv talet.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Sjönk den {d} grader var den {d} grader varmare först: {x} + {d} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x-d"
+          ],
+          "message": "Då har du låtit den sjunka ännu mer. Tänk baklänges: först var det varmare."
+        }
+      ]
+    },
+    {
+      "id": "nt-mitt-emellan",
+      "vars": {
+        "a": [
+          -9,
+          -1
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(a+b,2)",
+          "min": 0,
+          "max": 0
+        }
+      ],
+      "derive": [
+        {
+          "name": "m",
+          "expr": "(a+b)/2"
+        }
+      ],
+      "prompt": "Vilket tal ligger mitt emellan {a} och {b} på tallinjen? Skriv talet.",
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! Avståndet mellan talen är {b-a}, och hälften av det är {(b-a)/2} steg från {a}: {m}.",
+      "feedback": [
+        {
+          "answers": [
+            "=0"
+          ],
+          "message": "Noll ligger bara mitt emellan om talen är lika långt från noll. Mät avståndet mellan talen."
+        }
+      ]
+    },
+    {
+      "id": "nt-avstand",
+      "vars": {
+        "a": [
+          -9,
+          -1
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "b-a"
+        }
+      ],
+      "prompt": "Hur många steg är det mellan {a} och {b} på tallinjen? Skriv talet.",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! Från {a} till 0 är {-a} steg och från 0 till {b} är {b} steg: {d} steg.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen med tecken, men det ger inte avståndet. Räkna stegen från det ena talet till det andra."
+        },
+        {
+          "answers": [
+            "=abs(a)",
+            "=b"
+          ],
+          "message": "Det är bara en del av vägen. Gå hela vägen från det ena talet till det andra."
+        }
+      ]
+    },
+    {
+      "id": "nt-motsatt",
+      "vars": {
+        "a": [
+          -9,
+          -1
+        ]
+      },
+      "derive": [
+        {
+          "name": "m",
+          "expr": "-a"
+        }
+      ],
+      "prompt": "Vilket tal ligger lika långt från noll som {a}, men på andra sidan? Skriv talet.",
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! {a} och {m} ligger lika långt från noll, på var sin sida.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "Det är samma tal. Du ska till andra sidan om noll."
+        }
+      ]
     }
   ],
   "exercise": {

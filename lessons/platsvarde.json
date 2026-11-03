@@ -23,68 +23,644 @@
   "practice": [
     {
       "id": "tiotal",
-      "for": ["exercise"],
-      "vars": {"th":[1,9],"h":[1,9],"t":[1,9],"o":[1,9]},
-      "where": [{"expr":"abs(t-th)","min":1},{"expr":"abs(t-h)","min":1},{"expr":"abs(t-o)","min":1}],
-      "derive": [{"name":"n","expr":"th*1000+h*100+t*10+o"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "th": [
+          1,
+          9
+        ],
+        "h": [
+          1,
+          9
+        ],
+        "t": [
+          1,
+          9
+        ],
+        "o": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(t-th)",
+          "min": 1
+        },
+        {
+          "expr": "abs(t-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(t-o)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "th*1000+h*100+t*10+o"
+        }
+      ],
       "prompt": "Vad är {t}:ans värde i talet {n}?",
-      "answer": ["=t*10"],
+      "answer": [
+        "=t*10"
+      ],
       "correct": "Rätt! {t} står på tiotalsplatsen, så den är värd {t} · 10 = {t*10}.",
       "feedback": [
         {
-          "answers": ["=t"],
+          "answers": [
+            "=t"
+          ],
           "message": "{t} är siffran. Dess värde beror på platsen den står på. Tiotalsplatsen är värd 10 gånger siffran."
         },
         {
-          "answers": ["=t*100"],
+          "answers": [
+            "=t*100"
+          ],
           "message": "Det är hundratalsplatsen du har räknat med. {t} står en plats längre till höger."
         }
       ]
     },
     {
       "id": "hundratal",
-      "for": ["exercise"],
-      "vars": {"th":[1,9],"h":[1,9],"t":[1,9],"o":[1,9]},
-      "where": [{"expr":"abs(h-th)","min":1},{"expr":"abs(h-t)","min":1},{"expr":"abs(h-o)","min":1}],
-      "derive": [{"name":"n","expr":"th*1000+h*100+t*10+o"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "th": [
+          1,
+          9
+        ],
+        "h": [
+          1,
+          9
+        ],
+        "t": [
+          1,
+          9
+        ],
+        "o": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(h-th)",
+          "min": 1
+        },
+        {
+          "expr": "abs(h-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(h-o)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "th*1000+h*100+t*10+o"
+        }
+      ],
       "prompt": "Vad är {h}:ans värde i talet {n}?",
-      "answer": ["=h*100"],
+      "answer": [
+        "=h*100"
+      ],
       "correct": "Rätt! {h} står på hundratalsplatsen, så den är värd {h} · 100 = {h*100}.",
       "feedback": [
-        {"answers":["=h"],"message":"{h} är siffran. Dess värde beror på platsen den står på."},
         {
-          "answers": ["=h*10"],
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} är siffran. Dess värde beror på platsen den står på."
+        },
+        {
+          "answers": [
+            "=h*10"
+          ],
           "message": "Det är tiotalsplatsen du har räknat med. Hundratalen står en plats längre åt vänster."
         }
       ]
     },
     {
       "id": "skriv-talet",
-      "for": ["exercise"],
-      "vars": {"th":[1,9],"h":[0,9],"t":[0,9],"o":[0,9]},
-      "derive": [{"name":"n","expr":"th*1000+h*100+t*10+o"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "th": [
+          1,
+          9
+        ],
+        "h": [
+          0,
+          9
+        ],
+        "t": [
+          0,
+          9
+        ],
+        "o": [
+          0,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "th*1000+h*100+t*10+o"
+        }
+      ],
       "prompt": "Skriv talet med siffror: {th} tusental, {h} hundratal, {t} tiotal och {o} ental.",
-      "answer": ["=n"],
+      "answer": [
+        "=n"
+      ],
       "correct": "Rätt! Talet blir {n}.",
       "feedback": [
         {
-          "answers": ["=th+h+t+o"],
+          "answers": [
+            "=th+h+t+o"
+          ],
           "message": "Det är siffrorna sammanlagda. Skriv i stället siffrorna efter varandra: tusental, hundratal, tiotal, ental."
         }
       ]
     },
     {
       "id": "tio-mer",
-      "for": ["word-0"],
-      "vars": {"n":[100,9980]},
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          100,
+          9980
+        ]
+      },
       "prompt": "Vilket tal är 10 mer än {n}?",
-      "answer": ["=n+10"],
+      "answer": [
+        "=n+10"
+      ],
       "correct": "Rätt! 10 mer än {n} är {n+10}.",
       "feedback": [
-        {"answers":["=n+1"],"message":"Du lade till 1. 10 mer ändrar tiotalssiffran."},
         {
-          "answers": ["=n+100"],
+          "answers": [
+            "=n+1"
+          ],
+          "message": "Du lade till 1. 10 mer ändrar tiotalssiffran."
+        },
+        {
+          "answers": [
+            "=n+100"
+          ],
           "message": "Du lade till 100. 10 mer ändrar tiotalssiffran, inte hundratalssiffran."
+        }
+      ]
+    },
+    {
+      "id": "pv-hitta-felet",
+      "mode": "hittafelet",
+      "prompt": "Här har någon tänkt fel om platsvärde. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Mira säger något om siffran 3 i talet 4 307. Vilket steg är fel?",
+          "steps": [
+            "I 4 307 står siffran 3 på hundratalsplatsen.",
+            "Hundratalsplatsen visar hur många hundratal det finns.",
+            "Alltså är 3:an värd 3 tior."
+          ],
+          "wrong": 2,
+          "explain": "3:an står på hundratalsplatsen, så den är värd 3 hundratal, alltså 300.",
+          "fix": "3:an är värd 300.",
+          "hint": "Vilken plats visar hundratal?"
+        },
+        {
+          "prompt": "Omar skriver tre tusental, två tiotal och fem ental med siffror. Vilket steg är fel?",
+          "steps": [
+            "Tre tusental är 3 000.",
+            "Två tiotal är 20 och fem ental är 5.",
+            "Han lägger ihop ordningen 3, 2 och 5 och skriver 325."
+          ],
+          "wrong": 2,
+          "explain": "Det finns inga hundratal, men platsen måste ändå fyllas av en nolla: 3 000 + 20 + 5 = 3 025.",
+          "fix": "Skriv 3 025.",
+          "hint": "Hur många hundratal finns det?"
+        },
+        {
+          "prompt": "Lea jämför 3 482 och 3 842. Vilket steg är fel?",
+          "steps": [
+            "Båda talen har siffrorna 3, 4, 8 och 2.",
+            "Siffrorna står på olika platser i de två talen.",
+            "Alltså är talen lika stora."
+          ],
+          "wrong": 2,
+          "explain": "Platsen avgör värdet. 3 842 har 8 hundratal och 3 482 har bara 4 hundratal, så 3 842 är större.",
+          "fix": "3 842 är större än 3 482.",
+          "hint": "Är en siffra värd lika mycket på alla platser?"
+        },
+        {
+          "prompt": "Ali räknar ut hur mycket pengar han har: 2 hundralappar, 4 tior och 5 enkronor. Vilket steg är fel?",
+          "steps": [
+            "2 hundralappar är 200 kr.",
+            "4 tior är 40 kr och 5 enkronor är 5 kr.",
+            "Han räknar 2 + 4 + 5 och svarar 11 kr."
+          ],
+          "wrong": 2,
+          "explain": "Sedlarna och mynten är värda olika mycket. Du ska lägga ihop värdena: 200 + 40 + 5 = 245 kr.",
+          "fix": "Han har 245 kr.",
+          "hint": "Är varje siffra värd lika mycket här?"
+        },
+        {
+          "prompt": "Elsa ska skriva talet som kommer efter 3 099. Vilket steg är fel?",
+          "steps": [
+            "3 099 har 9 tiotal och 9 ental.",
+            "Hon lägger till 1 på entalen: 9 + 1 = 10.",
+            "Hon skriver 3 0100."
+          ],
+          "wrong": 2,
+          "explain": "10 ental är 1 tiotal, och 10 tiotal är 1 hundratal. Talet efter 3 099 är 3 100.",
+          "fix": "Skriv 3 100.",
+          "hint": "Vad händer när en plats får 10?"
+        }
+      ]
+    },
+    {
+      "id": "pv-sant-falskt",
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "Siffran 5 är värd lika mycket i 5, 50 och 500.",
+          "answer": false,
+          "explain": "Platsen bestämmer värdet: 5 ental, 5 tiotal och 5 hundratal."
+        },
+        {
+          "text": "Nollan i 405 behövs för att hålla plats åt tiotalen.",
+          "answer": true,
+          "explain": "Utan nollan skulle 405 bli 45."
+        },
+        {
+          "text": "I 7 321 är 7:an värd 7 tusental.",
+          "answer": true,
+          "explain": "7:an står på tusentalsplatsen: 7 000."
+        },
+        {
+          "text": "Talet 3 124 är större än 3 214.",
+          "answer": false,
+          "explain": "Båda har 3 tusental, men 3 214 har 2 hundratal och 3 124 bara 1."
+        },
+        {
+          "text": "10 tiotal är lika mycket som 1 hundratal.",
+          "answer": true,
+          "explain": "10 · 10 = 100."
+        },
+        {
+          "text": "10 hundratal är lika mycket som 1 tiotal.",
+          "answer": false,
+          "explain": "10 hundratal är 1 000, alltså 1 tusental."
+        },
+        {
+          "text": "I 6 060 är de två sexorna värda lika mycket.",
+          "answer": false,
+          "explain": "Den ena är 6 000 och den andra 60."
+        },
+        {
+          "text": "3 hundratal och 4 ental skrivs 34.",
+          "answer": false,
+          "explain": "Det finns inga tiotal, så en nolla håller platsen: 304."
+        },
+        {
+          "text": "Ett tal med fler siffror är större än ett tal med färre siffror, om det inte börjar med nolla.",
+          "answer": true,
+          "explain": "Fler siffror betyder att talet når en högre plats."
+        },
+        {
+          "text": "Siffran 9 är värd 90 i talet 2 094.",
+          "answer": true,
+          "explain": "9:an står på tiotalsplatsen."
+        }
+      ]
+    },
+    {
+      "id": "pv-ordna-samma-siffror",
+      "mode": "ordna",
+      "size": 4,
+      "prompt": "Alla talen har samma siffror, men på olika platser. Sätt dem i ordning, minst först.",
+      "top": "Minst",
+      "bottom": "Störst",
+      "pool": [
+        {
+          "text": "358",
+          "value": 358
+        },
+        {
+          "text": "385",
+          "value": 385
+        },
+        {
+          "text": "538",
+          "value": 538
+        },
+        {
+          "text": "583",
+          "value": 583
+        },
+        {
+          "text": "835",
+          "value": 835
+        },
+        {
+          "text": "853",
+          "value": 853
+        }
+      ]
+    },
+    {
+      "id": "pv-sortera-vardet",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Hur mycket är siffran 7 värd i talet?",
+      "categories": [
+        "7",
+        "70",
+        "700"
+      ],
+      "pool": [
+        {
+          "text": "478",
+          "category": 0,
+          "explain": "7:an står på entalsplatsen."
+        },
+        {
+          "text": "1 237",
+          "category": 0,
+          "explain": "7:an står på entalsplatsen."
+        },
+        {
+          "text": "6 057",
+          "category": 0,
+          "explain": "7:an står på entalsplatsen."
+        },
+        {
+          "text": "9 007",
+          "category": 0,
+          "explain": "7:an står på entalsplatsen."
+        },
+        {
+          "text": "372",
+          "category": 1,
+          "explain": "7:an står på tiotalsplatsen: 7 tior är 70."
+        },
+        {
+          "text": "1 276",
+          "category": 1,
+          "explain": "7:an står på tiotalsplatsen: 7 tior är 70."
+        },
+        {
+          "text": "4 570",
+          "category": 1,
+          "explain": "7:an står på tiotalsplatsen: 7 tior är 70."
+        },
+        {
+          "text": "8 075",
+          "category": 1,
+          "explain": "7:an står på tiotalsplatsen: 7 tior är 70."
+        },
+        {
+          "text": "713",
+          "category": 2,
+          "explain": "7:an står på hundratalsplatsen: 7 hundratal är 700."
+        },
+        {
+          "text": "2 748",
+          "category": 2,
+          "explain": "7:an står på hundratalsplatsen: 7 hundratal är 700."
+        },
+        {
+          "text": "5 703",
+          "category": 2,
+          "explain": "7:an står på hundratalsplatsen: 7 hundratal är 700."
+        },
+        {
+          "text": "9 760",
+          "category": 2,
+          "explain": "7:an står på hundratalsplatsen: 7 hundratal är 700."
+        }
+      ]
+    },
+    {
+      "id": "pv-luckor-flytta",
+      "mode": "lucktext",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "Fyll i luckorna.",
+      "text": "I talet {n} står siffran {b} på tiotalsplatsen och är värd [[1]]. Flyttas den ett steg åt vänster, till hundratalsplatsen, blir den värd [[2]]. Varje steg åt vänster gör en siffra [[3]] gånger så mycket värd.",
+      "blanks": [
+        {
+          "answer": [
+            "=b*10"
+          ],
+          "hint": "Tiotal: siffran gånger 10."
+        },
+        {
+          "answer": [
+            "=b*100"
+          ],
+          "hint": "Hundratal: siffran gånger 100."
+        },
+        {
+          "answer": [
+            "10",
+            "tio"
+          ],
+          "hint": "Från tiotal till hundratal är det tio gånger så mycket."
+        }
+      ]
+    },
+    {
+      "id": "pv-nolla-halller-plats",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+c"
+        }
+      ],
+      "prompt": "{a} hundratal, inga tiotal och {c} ental. Vilket tal är det? Skriv talet med siffror.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Inga tiotal betyder en nolla på tiotalsplatsen: {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*10+c"
+          ],
+          "message": "Då har du glömt att tiotalsplatsen ska hållas av en nolla. Utan nollan hamnar {a} på fel plats."
+        }
+      ]
+    },
+    {
+      "id": "pv-hur-manga-tiotal",
+      "vars": {
+        "h": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Hur många tiotal ryms i {h} hundratal? Skriv talet.",
+      "answer": [
+        "=h*10"
+      ],
+      "correct": "Rätt! 1 hundratal är 10 tiotal, så {h} hundratal är {h*10} tiotal.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "1 hundratal är inte 1 tiotal. Hur många tiotal är ett helt hundratal?"
+        },
+        {
+          "answers": [
+            "=h*100"
+          ],
+          "message": "{h*100} är hur mycket det är värt, inte hur många tiotal det är."
+        }
+      ]
+    },
+    {
+      "id": "pv-byt-siffra",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        },
+        {
+          "name": "m",
+          "expr": "a*100+c"
+        }
+      ],
+      "prompt": "Siffran {b} i talet {n} byts mot en nolla. Vilket tal blir det? Skriv talet.",
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! {b} tiotal försvinner, och {n} − {b*10} = {m}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*10+c"
+          ],
+          "message": "Siffrorna ska stå kvar på sina platser. Nollan tar tiotalens plats, så {a} är fortfarande hundratal."
+        }
+      ]
+    },
+    {
+      "id": "pv-pengar",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "Du har {a} hundralappar, {b} tior och {c} enkronor. Hur många kronor har du? Skriv talet.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! {a} · 100 + {b} · 10 + {c} = {n} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b+c"
+          ],
+          "message": "Du har räknat hur många sedlar och mynt det är. Men de är värda olika mycket: en hundralapp är 100 kr och en tia 10 kr."
         }
       ]
     }

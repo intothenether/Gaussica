@@ -93,3 +93,38 @@ test("fyll i luckorna: a gap with choices is a list", async ({ page }) => {
   await page.locator("#lesson-player .fm-check").click();
   await expect(page.locator("#lesson-player .pl-foot")).toHaveClass(/is-correct/);
 });
+
+test("sant eller falskt: a wrong try is told how many are wrong, never which, also after several tries", async ({ page }) => {
+  const errors = watchErrors(page);
+  const lesson = require("../../lessons/begrepp-rakna.json");
+  const truth = new Map(lesson.components.find((c) => c.type === "santfalskt").statements.map((s) => [s.text, s.answer]));
+  await openLesson(page, "begrepp-rakna", ".tf-list");
+  const rows = page.locator("#lesson-player .tf-list .tf-row");
+  const n = await rows.count();
+  expect(n).toBe(6);
+  // everything "Sant": the false ones are wrong
+  const wrongCount = Array.from(truth.values()).filter((a) => !a).length;
+  const answerAll = async (allTrue) => {
+    for (let i = 0; i < n; i++) {
+      const text = (await rows.nth(i).locator(".tf-body").innerText()).trim();
+      const value = allTrue ? true : truth.get(text);
+      const button = rows.nth(i).locator(value ? ".tf-yes" : ".tf-no-btn");
+      if ((await button.getAttribute("aria-pressed")) !== "true") await button.click();   // a second tap would take it back
+    }
+  };
+  await answerAll(true);
+  const check = page.locator("#lesson-player .tf-check");
+  for (let i = 0; i < 3; i++) {
+    await check.click();
+    await expect(page.locator("#lesson-player .feedback-message")).toContainText((n - wrongCount) + " av " + n + " rätt, så " + wrongCount + " påståenden är fel.");
+    await expect(page.locator("#lesson-player .tf-row.is-wrong")).toHaveCount(0);
+    await expect(page.locator("#lesson-player .feedback-message")).not.toContainText("markerade");
+    await page.waitForTimeout(250);
+  }
+  // the right answers still solve it
+  await answerAll(false);
+  await check.click();
+  await expect(page.locator("#lesson-player .pl-foot")).toHaveClass(/is-correct/);
+  await expect(page.locator("#lesson-player .tf-explain")).toHaveCount(6);
+  expect(errors).toEqual([]);
+});

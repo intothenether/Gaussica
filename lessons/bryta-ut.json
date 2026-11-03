@@ -1,0 +1,762 @@
+{
+  "id": "bryta-ut",
+  "input": "math",
+  "stepSolve": true,
+  "area": "algebra",
+  "title": "Bryt ut en gemensam faktor",
+  "level": "Från summa till produkt · ungefär åk 8",
+  "grade": 8,
+  "duration": "9 min",
+  "prerequisites": [
+    "parenteser-uttryck"
+  ],
+  "summary": "Att bryta ut är att multiplicera in baklänges: du hittar en faktor som finns i alla termer och skriver uttrycket som en produkt.",
+  "explanationTitle": "Hur skriver vi en summa som en produkt?",
+  "explanation": "Problemet: Du vet att 3(x + 4) = 3x + 12. Men om du får 3x + 12, hur hittar du tillbaka till 3(x + 4)? Att kunna det gör uttryck kortare och är en nyckel när du löser ekvationer senare. Titta på 6x + 9. Både 6x och 9 går att dela med 3, så 3 är en gemensam faktor. Skriv 3 utanför en parentes och lägg det som blir kvar inuti: 6x + 9 = 3(2x + 3). Du kollar genom att multiplicera in igen: 3 · 2x = 6x och 3 · 3 = 9. Välj den största gemensamma faktorn. Annars finns det mer att bryta ut: 12x + 18 = 6(2x + 3), inte 2(6x + 9), för i 2(6x + 9) går 6x och 9 fortfarande att dela med 3. Bokstaven kan också vara en faktor: 4x² + 6x = 2x(2x + 3). Skriv x² som x^2 när du svarar.",
+  "visual": {
+    "type": "areamodell",
+    "title": "6x + 9 = 3(2x + 3): rektangeln har höjden 3 och bredden 2x + 3",
+    "cols": [
+      "2x",
+      "3"
+    ],
+    "rows": [
+      "3"
+    ],
+    "cells": [
+      [
+        "6x",
+        "9"
+      ]
+    ],
+    "widths": [
+      0.62,
+      0.38
+    ],
+    "heights": [
+      1
+    ]
+  },
+  "rule": "Hitta den största gemensamma faktorn, skriv den utanför parentesen och det som blir kvar inuti",
+  "ruleLabel": "BRYT UT",
+  "example": "6x + 9 = 3(2x + 3). 12x + 18 = 6(2x + 3). 4x² + 6x = 2x(2x + 3).",
+  "components": [
+    {
+      "type": "arbetat-exempel",
+      "title": "Så bryter du ut en faktor",
+      "intro": "Fråga dig vilket tal som går att dela alla termer med. Det är faktorn du skriver utanför.",
+      "start": "6x + 9",
+      "steps": [
+        {
+          "line": "3 · 2x + 3 · 3",
+          "say": "Skriv varje term som 3 gånger något: 6x = 3 · 2x och 9 = 3 · 3."
+        },
+        {
+          "line": "3(2x + 3)",
+          "say": "Skriv 3 utanför en parentes och det som blir kvar inuti."
+        }
+      ],
+      "note": "Kontrollera genom att multiplicera in: 3 · 2x + 3 · 3 = 6x + 9."
+    },
+    {
+      "type": "sortera",
+      "title": "Utvecklat eller utbrutet?",
+      "prompt": "Är uttrycket utvecklat (en summa) eller utbrutet (en produkt)?",
+      "categories": [
+        "Utvecklat (en summa)",
+        "Utbrutet (en produkt)"
+      ],
+      "shuffle": true,
+      "items": [
+        {
+          "text": "3x + 6",
+          "category": 0,
+          "explain": "Termer som läggs ihop: en summa."
+        },
+        {
+          "text": "3(x + 2)",
+          "category": 1,
+          "explain": "3 gånger parentesen: en produkt."
+        },
+        {
+          "text": "5x − 10",
+          "category": 0,
+          "explain": "En summa av två termer."
+        },
+        {
+          "text": "5(x − 2)",
+          "category": 1,
+          "explain": "En produkt."
+        },
+        {
+          "text": "2x(x + 4)",
+          "category": 1,
+          "explain": "En produkt av 2x och parentesen."
+        },
+        {
+          "text": "2x² + 8x",
+          "category": 0,
+          "explain": "En summa av två termer."
+        }
+      ]
+    },
+    {
+      "type": "hittafelet",
+      "title": "Hitta felet",
+      "prompt": "Mira bryter ut 4 ur 8x + 12. Vilket steg är fel?",
+      "steps": [
+        "8x delat med 4 är 2x.",
+        "12 delat med 4 är 3.",
+        "Hon skriver 4(2x + 12)."
+      ],
+      "wrong": 2,
+      "explain": "Alla termer ska delas med 4, också 12. Det som blir kvar är 2x + 3, så svaret är 4(2x + 3).",
+      "fix": "4(2x + 3)",
+      "hint": "Delade hon båda termerna med 4?"
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt?",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "6x + 9 = 3(2x + 3)",
+          "answer": true,
+          "explain": "Multiplicera in: 3 · 2x = 6x och 3 · 3 = 9."
+        },
+        {
+          "text": "6x + 9 = 3(2x + 9)",
+          "answer": false,
+          "explain": "3 · 9 är 27, inte 9. Dela alla termer med 3."
+        },
+        {
+          "text": "12x + 18 = 2(6x + 9) är det mest utbrutna",
+          "answer": false,
+          "explain": "Det går att bryta ut 6: 12x + 18 = 6(2x + 3)."
+        },
+        {
+          "text": "x² + 5x = x(x + 5)",
+          "answer": true,
+          "explain": "x är en faktor i båda termerna."
+        },
+        {
+          "text": "Att bryta ut är det motsatta mot att multiplicera in i en parentes.",
+          "answer": true,
+          "explain": "3(x + 2) = 3x + 6 går åt ena hållet och 3x + 6 = 3(x + 2) åt det andra."
+        },
+        {
+          "text": "4x + 7 går att bryta ut en faktor ur.",
+          "answer": false,
+          "explain": "4 och 7 har ingen gemensam faktor utom 1."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Bryt ut den största gemensamma faktorn: 6x + 9. Skriv svaret med parentes.",
+    "keys": [
+      "^"
+    ],
+    "answer": [
+      "3(2x + 3)"
+    ],
+    "form": "utbrutet",
+    "correct": "Rätt! 6x + 9 = 3 · 2x + 3 · 3 = 3(2x + 3).",
+    "feedback": [
+      {
+        "answers": [
+          "3(2x + 9)"
+        ],
+        "message": "Du delade 6x med 3 men inte 9. Alla termer ska delas med faktorn."
+      },
+      {
+        "answers": [
+          "2x + 3"
+        ],
+        "message": "Du har glömt faktorn 3 utanför parentesen. Multiplicerar du in får du inte tillbaka 6x + 9."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Bryt ut den största gemensamma faktorn: 10x + 15. Skriv svaret med parentes.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "5(2x + 3)"
+      ],
+      "form": "utbrutet",
+      "correct": "Rätt! 10x = 5 · 2x och 15 = 5 · 3.",
+      "feedback": [
+        {
+          "answers": [
+            "5(2x + 15)"
+          ],
+          "message": "Du delade 10x med 5 men inte 15. Alla termer ska delas."
+        },
+        {
+          "answers": [
+            "2x + 3"
+          ],
+          "message": "Du har glömt faktorn 5 utanför parentesen."
+        }
+      ]
+    },
+    {
+      "prompt": "Bryt ut den största gemensamma faktorn: 4x − 8. Skriv svaret med parentes.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "4(x - 2)",
+        "4(x − 2)"
+      ],
+      "form": "utbrutet",
+      "correct": "Rätt! 4x = 4 · x och 8 = 4 · 2.",
+      "feedback": [
+        {
+          "answers": [
+            "4(x + 2)"
+          ],
+          "message": "Minustecknet ska vara kvar: 4x − 8 = 4(x − 2)."
+        },
+        {
+          "answers": [
+            "4(x - 8)"
+          ],
+          "message": "Du delade 4x med 4 men inte 8."
+        }
+      ]
+    },
+    {
+      "prompt": "Bryt ut x ur x² + 5x. Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x(x + 5)"
+      ],
+      "form": "utbrutet",
+      "correct": "Rätt! x² = x · x och 5x = x · 5.",
+      "feedback": [
+        {
+          "answers": [
+            "x(x + 5x)"
+          ],
+          "message": "Du delade bara den första termen med x. Dela 5x också: 5x delat med x är 5."
+        },
+        {
+          "answers": [
+            "x(x + 5) + x"
+          ],
+          "message": "Alla termer ska rymmas inuti parentesen, inget ska stå utanför."
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "id": "bu-plus",
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "a": [
+          1,
+          6
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "sgd(a,b)",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "k*a"
+        },
+        {
+          "name": "q",
+          "expr": "k*b"
+        }
+      ],
+      "prompt": "Bryt ut den största gemensamma faktorn: {p}x + {q}. Skriv svaret med parentes.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{k}({a}x + {b})"
+      ],
+      "form": "utbrutet",
+      "correct": "Rätt! {p}x = {k} · {a}x och {q} = {k} · {b}, så {p}x + {q} = {k}({a}x + {b}).",
+      "feedback": [
+        {
+          "answers": [
+            "{k}({a}x + {q})"
+          ],
+          "message": "Du delade {p}x med {k} men inte {q}. Alla termer ska delas med faktorn."
+        },
+        {
+          "answers": [
+            "{a}x + {b}"
+          ],
+          "message": "Du har glömt faktorn {k} utanför parentesen."
+        }
+      ]
+    },
+    {
+      "id": "bu-minus",
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "a": [
+          1,
+          6
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "sgd(a,b)",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "k*a"
+        },
+        {
+          "name": "q",
+          "expr": "k*b"
+        }
+      ],
+      "prompt": "Bryt ut den största gemensamma faktorn: {p}x − {q}. Skriv svaret med parentes.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{k}({a}x − {b})"
+      ],
+      "form": "utbrutet",
+      "correct": "Rätt! {p}x = {k} · {a}x och {q} = {k} · {b}, och minustecknet är kvar: {k}({a}x − {b}).",
+      "feedback": [
+        {
+          "answers": [
+            "{k}({a}x + {b})"
+          ],
+          "message": "Minustecknet ska vara kvar inuti parentesen."
+        },
+        {
+          "answers": [
+            "{k}({a}x − {q})"
+          ],
+          "message": "Du delade {p}x med {k} men inte {q}."
+        }
+      ]
+    },
+    {
+      "id": "bu-bokstav",
+      "vars": {
+        "n": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Bryt ut x ur x² + {n}x. Skriv x² som x^2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "x(x + {n})"
+      ],
+      "form": "utbrutet",
+      "correct": "Rätt! x² = x · x och {n}x = x · {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "x(x + {n}x)"
+          ],
+          "message": "Du delade bara den första termen med x. Dela {n}x också."
+        }
+      ]
+    },
+    {
+      "id": "bu-vilken",
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "a": [
+          1,
+          6
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "sgd(a,b)",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "k*a"
+        },
+        {
+          "name": "q",
+          "expr": "k*b"
+        }
+      ],
+      "prompt": "Vilken är den största gemensamma faktorn i {p}x + {q}? Skriv talet.",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! Både {p} och {q} går att dela med {k}, och inget större tal går i båda.",
+      "feedback": [
+        {
+          "answers": [
+            "=1"
+          ],
+          "message": "1 går alltid att bryta ut, men det finns en större gemensam faktor. Vilket tal går i både {p} och {q}?"
+        },
+        {
+          "answers": [
+            "=a",
+            "=b"
+          ],
+          "message": "Det är bara en del. Faktorn ska gå att dela båda termerna med."
+        }
+      ]
+    },
+    {
+      "id": "bu-kolla",
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "a": [
+          1,
+          6
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "k*a"
+        },
+        {
+          "name": "q",
+          "expr": "k*b"
+        }
+      ],
+      "prompt": "Multiplicera in: {k}({a}x + {b}). Skriv svaret utan parentes.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{p}x + {q}"
+      ],
+      "form": "utanparentes",
+      "correct": "Rätt! {k} · {a}x = {p}x och {k} · {b} = {q}.",
+      "feedback": [
+        {
+          "answers": [
+            "{p}x + {b}"
+          ],
+          "message": "Du multiplicerade bara första termen. Faktorn ska multipliceras med båda termerna."
+        }
+      ]
+    },
+    {
+      "id": "bu-sant-falskt",
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "6x + 9 = 3(2x + 3)",
+          "answer": true,
+          "explain": "3 · 2x = 6x och 3 · 3 = 9."
+        },
+        {
+          "text": "6x + 9 = 3(2x + 9)",
+          "answer": false,
+          "explain": "3 · 9 är 27."
+        },
+        {
+          "text": "x² + 5x = x(x + 5)",
+          "answer": true,
+          "explain": "x är en faktor i båda termerna."
+        },
+        {
+          "text": "4x + 7 = 4(x + 7)",
+          "answer": false,
+          "explain": "4 · 7 är 28, inte 7."
+        },
+        {
+          "text": "10x − 15 = 5(2x − 3)",
+          "answer": true,
+          "explain": "5 · 2x = 10x och 5 · 3 = 15."
+        },
+        {
+          "text": "12x + 18 = 2(6x + 9) är fullständigt utbrutet",
+          "answer": false,
+          "explain": "6x + 9 går att dela med 3. Bryt ut 6: 6(2x + 3)."
+        },
+        {
+          "text": "Att bryta ut och att multiplicera in är varandras motsatser.",
+          "answer": true,
+          "explain": "Det ena tar bort parentesen och det andra sätter dit den."
+        },
+        {
+          "text": "3x + 5 går att bryta ut 3 ur.",
+          "answer": false,
+          "explain": "5 går inte att dela med 3 utan att det blir en decimal eller ett bråk."
+        },
+        {
+          "text": "2x² + 4x = 2x(x + 2)",
+          "answer": true,
+          "explain": "2x är en faktor i båda termerna."
+        },
+        {
+          "text": "6x + 9 = 3(2x + 3) och 3(2x + 3) = 6x + 3",
+          "answer": false,
+          "explain": "Multiplicera in båda termerna: 3 · 3 = 9, inte 3."
+        }
+      ],
+      "for": [
+        "sf-3"
+      ]
+    },
+    {
+      "id": "bu-hitta-felet",
+      "mode": "hittafelet",
+      "prompt": "Här har någon tänkt fel. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Mira bryter ut 4 ur 8x + 12. Vilket steg är fel?",
+          "steps": [
+            "8x delat med 4 är 2x.",
+            "12 delat med 4 är 3.",
+            "Hon skriver 4(2x + 12)."
+          ],
+          "wrong": 2,
+          "explain": "Alla termer ska delas med 4, också 12: 4(2x + 3).",
+          "fix": "4(2x + 3)",
+          "hint": "Delade hon båda termerna med 4?"
+        },
+        {
+          "prompt": "Omar bryter ut 5 ur 10x − 15. Vilket steg är fel?",
+          "steps": [
+            "10x delat med 5 är 2x.",
+            "15 delat med 5 är 3.",
+            "Han skriver 5(2x + 3)."
+          ],
+          "wrong": 2,
+          "explain": "Minustecknet framför 15 ska vara kvar: 5(2x − 3).",
+          "fix": "5(2x − 3)",
+          "hint": "Vilket tecken var det framför 15?"
+        },
+        {
+          "prompt": "Elsa bryter ut den största faktorn ur 12x + 18. Vilket steg är fel?",
+          "steps": [
+            "12x och 18 går båda att dela med 2.",
+            "12x delat med 2 är 6x och 18 delat med 2 är 9.",
+            "Hon skriver 2(6x + 9) och säger att hon är klar."
+          ],
+          "wrong": 2,
+          "explain": "6x och 9 går att dela med 3, så det finns mer att bryta ut: 12x + 18 = 6(2x + 3).",
+          "fix": "6(2x + 3)",
+          "hint": "Går termerna inuti parentesen att dela med något mer?"
+        },
+        {
+          "prompt": "Ali bryter ut x ur x² + 5x. Vilket steg är fel?",
+          "steps": [
+            "x² delat med x är x.",
+            "5x delat med x är 5x.",
+            "Han skriver x(x + 5x)."
+          ],
+          "wrong": 1,
+          "explain": "5x delat med x är 5, inte 5x: svaret är x(x + 5).",
+          "fix": "x(x + 5)",
+          "hint": "Vad blir kvar av 5x när x delas bort?"
+        },
+        {
+          "prompt": "Lea kontrollerar 3(2x + 3) genom att multiplicera in. Vilket steg är fel?",
+          "steps": [
+            "3 · 2x är 6x.",
+            "3 · 3 är 6.",
+            "Hon får 6x + 6 och säger att det inte stämmer med 6x + 9."
+          ],
+          "wrong": 1,
+          "explain": "3 · 3 är 9, inte 6. Då blir det 6x + 9, och det stämmer.",
+          "fix": "3 · 3 = 9",
+          "hint": "Vad är 3 gånger 3?"
+        }
+      ],
+      "for": [
+        "hf-2"
+      ]
+    },
+    {
+      "id": "bu-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Är uttrycket utvecklat (en summa) eller utbrutet (en produkt)?",
+      "categories": [
+        "Utvecklat (en summa)",
+        "Utbrutet (en produkt)"
+      ],
+      "pool": [
+        {
+          "text": "3x + 6",
+          "category": 0,
+          "explain": "En summa."
+        },
+        {
+          "text": "5x − 10",
+          "category": 0,
+          "explain": "En summa."
+        },
+        {
+          "text": "2x² + 8x",
+          "category": 0,
+          "explain": "En summa."
+        },
+        {
+          "text": "x² + 3x",
+          "category": 0,
+          "explain": "En summa."
+        },
+        {
+          "text": "6x + 4",
+          "category": 0,
+          "explain": "En summa."
+        },
+        {
+          "text": "9x − 3",
+          "category": 0,
+          "explain": "En summa."
+        },
+        {
+          "text": "3(x + 2)",
+          "category": 1,
+          "explain": "En produkt."
+        },
+        {
+          "text": "5(x − 2)",
+          "category": 1,
+          "explain": "En produkt."
+        },
+        {
+          "text": "2x(x + 4)",
+          "category": 1,
+          "explain": "En produkt."
+        },
+        {
+          "text": "x(x + 3)",
+          "category": 1,
+          "explain": "En produkt."
+        },
+        {
+          "text": "2(3x + 2)",
+          "category": 1,
+          "explain": "En produkt."
+        },
+        {
+          "text": "3(3x − 1)",
+          "category": 1,
+          "explain": "En produkt."
+        }
+      ],
+      "for": [
+        "so-1"
+      ]
+    },
+    {
+      "id": "bu-luckor",
+      "mode": "lucktext",
+      "vars": {
+        "k": [
+          2,
+          7
+        ],
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          1,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "sgd(a,b)",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "k*a"
+        },
+        {
+          "name": "q",
+          "expr": "k*b"
+        }
+      ],
+      "prompt": "Fyll i luckorna.",
+      "text": "I {p}x + {q} går båda termerna att dela med [[1]]. Då är {p}x + {q} = [[2]]({a}x + {b}). Multiplicerar du in igen får du tillbaka [[3]]x + {q}.",
+      "blanks": [
+        {
+          "answer": [
+            "=k"
+          ],
+          "hint": "Vilket tal går i både {p} och {q}?"
+        },
+        {
+          "answer": [
+            "=k"
+          ],
+          "hint": "Samma tal står utanför parentesen."
+        },
+        {
+          "answer": [
+            "=p"
+          ],
+          "hint": "{k} · {a}."
+        }
+      ]
+    }
+  ]
+}

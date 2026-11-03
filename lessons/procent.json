@@ -24,46 +24,595 @@
   "practice": [
     {
       "id": "procent-av",
-      "for": ["exercise"],
-      "vars": {"p":[10,75,5],"t":[20,400,20]},
-      "where": [{"expr":"mod(p*t,100)","equals":0}],
-      "derive": [{"name":"r","expr":"p*t/100"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "p": [
+          10,
+          75,
+          5
+        ],
+        "t": [
+          20,
+          400,
+          20
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(p*t,100)",
+          "equals": 0
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "p*t/100"
+        }
+      ],
       "prompt": "Hur mycket är {p} % av {t}?",
-      "answer": ["=r"],
+      "answer": [
+        "=r"
+      ],
       "correct": "Rätt! {p} % av {t} = {p}/100 · {t} = {r}.",
       "feedback": [
         {
-          "answers": ["=p*t"],
+          "answers": [
+            "=p*t"
+          ],
           "message": "Du har bara multiplicerat. Procent betyder hundradelar, så dela också med 100."
         },
-        {"answers":["=t-r"],"message":"Det är det som blir kvar. Frågan gäller själva delen, {p} % av {t}."}
+        {
+          "answers": [
+            "=t-r"
+          ],
+          "message": "Det är det som blir kvar. Frågan gäller själva delen, {p} % av {t}."
+        }
       ]
     },
     {
       "id": "rabatt",
-      "for": ["word-0"],
-      "pick": {"sak":["En tröja","En jacka","Ett par skor","En väska"]},
-      "vars": {"p":[10,50,10],"t":[100,600,50]},
-      "where": [{"expr":"mod(p*t,100)","equals":0}],
-      "derive": [{"name":"r","expr":"t-p*t/100"},{"name":"d","expr":"p*t/100"}],
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "sak": [
+          "En tröja",
+          "En jacka",
+          "Ett par skor",
+          "En väska"
+        ]
+      },
+      "vars": {
+        "p": [
+          10,
+          50,
+          10
+        ],
+        "t": [
+          100,
+          600,
+          50
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(p*t,100)",
+          "equals": 0
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "t-p*t/100"
+        },
+        {
+          "name": "d",
+          "expr": "p*t/100"
+        }
+      ],
       "prompt": "{$sak} kostar {t} kr. Nu är det {p} % rabatt. Vad kostar det nu?",
-      "answer": ["=r","{r} kr"],
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
       "correct": "Rätt! Rabatten är {d} kr, och {t} − {d} = {r} kr.",
-      "feedback": [{"answers":["=d"],"message":"{d} kr är rabatten. Frågan är vad det kostar efter rabatten."}]
+      "feedback": [
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "{d} kr är rabatten. Frågan är vad det kostar efter rabatten."
+        }
+      ]
     },
     {
       "id": "andel",
-      "for": ["word-1"],
-      "vars": {"y":[4,50],"x":[1,40]},
-      "where": [{"expr":"mod(x*100,y)","equals":0},{"expr":"y-x","min":1}],
-      "derive": [{"name":"pct","expr":"x*100/y"}],
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "y": [
+          4,
+          50
+        ],
+        "x": [
+          1,
+          40
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(x*100,y)",
+          "equals": 0
+        },
+        {
+          "expr": "y-x",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "pct",
+          "expr": "x*100/y"
+        }
+      ],
       "prompt": "I en klass med {y} elever är {x} elever sjuka. Hur många procent av eleverna är sjuka?",
-      "answer": ["=pct","{pct} %"],
+      "answer": [
+        "=pct",
+        "{pct} %"
+      ],
       "correct": "Rätt! {x}/{y} = {pct}/100, alltså {pct} %.",
       "feedback": [
         {
-          "answers": ["=x"],
+          "answers": [
+            "=x"
+          ],
           "message": "{x} är antalet elever. Du ska räkna ut hur många procent det är av {y} elever."
+        }
+      ]
+    },
+    {
+      "id": "pr-hitta-felet",
+      "mode": "hittafelet",
+      "prompt": "Här har någon tänkt fel om procent. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Elsa räknar ut 20 % av 150. Vilket steg är fel?",
+          "steps": [
+            "20 % betyder 20 hundradelar, alltså 20/100.",
+            "Elsa räknar 150 · 20 = 3 000.",
+            "Hon svarar 3 000."
+          ],
+          "wrong": 1,
+          "explain": "Du ska multiplicera med 20/100, alltså också dela med 100: 150 · 20/100 = 30.",
+          "fix": "20 % av 150 är 30.",
+          "hint": "Vad betyder procent?"
+        },
+        {
+          "prompt": "Omar räknar ut priset efter 25 % rabatt på 400 kr. Vilket steg är fel?",
+          "steps": [
+            "Priset är 400 kr.",
+            "Rabatten är 25, så han räknar 400 − 25.",
+            "Han svarar 375 kr."
+          ],
+          "wrong": 1,
+          "explain": "25 % är inte 25 kr. 25 % av 400 är 100 kr, så priset blir 300 kr.",
+          "fix": "Priset är 300 kr.",
+          "hint": "Är 25 % samma sak som 25 kr?"
+        },
+        {
+          "prompt": "Mira vet att 10 % av ett tal är 7. Vilket steg är fel?",
+          "steps": [
+            "10 % är en tiondel av talet.",
+            "En tiondel av talet är 7.",
+            "Hela talet är 7 + 10 = 17."
+          ],
+          "wrong": 2,
+          "explain": "Hela talet är tio tiondelar: 10 · 7 = 70.",
+          "fix": "Talet är 70.",
+          "hint": "Hur många tiondelar är det i en hel?"
+        },
+        {
+          "prompt": "Ali köper en tröja för 500 kr efter att priset höjts 25 %. Han säger att priset var 500 − 25 = 475 kr först. Vilket steg är fel?",
+          "steps": [
+            "Priset höjdes 25 %.",
+            "Ali tar bort 25 kr från priset.",
+            "Han säger att det kostade 475 kr först."
+          ],
+          "wrong": 1,
+          "explain": "25 % är inte 25 kr. Det gamla priset plus en fjärdedel av det är 500 kr, så det gamla priset var 400 kr.",
+          "fix": "Priset var 400 kr.",
+          "hint": "Är 25 % samma sak som 25 kr?"
+        },
+        {
+          "prompt": "Lea räknar ut 1 % av 300 genom att göra 300 · 1 = 300. Vilket steg är fel?",
+          "steps": [
+            "1 % betyder 1 hundradel.",
+            "Lea multiplicerar 300 med 1.",
+            "Hon svarar 300."
+          ],
+          "wrong": 1,
+          "explain": "1 % är en hundradel, så du ska dela med 100: 300 ÷ 100 = 3.",
+          "fix": "1 % av 300 är 3.",
+          "hint": "Vad betyder procent?"
+        }
+      ]
+    },
+    {
+      "id": "pr-sant-falskt",
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "50 % av ett tal är hälften av talet.",
+          "answer": true,
+          "explain": "50/100 = 1/2."
+        },
+        {
+          "text": "25 % av 80 är lika mycket som 80 delat med 4.",
+          "answer": true,
+          "explain": "25 % är en fjärdedel."
+        },
+        {
+          "text": "10 % av 200 är mer än 10 % av 50.",
+          "answer": true,
+          "explain": "Samma procent av en större helhet är mer."
+        },
+        {
+          "text": "100 % av ett tal är hälften av talet.",
+          "answer": false,
+          "explain": "100 % är hela talet."
+        },
+        {
+          "text": "Först 50 % rabatt och sedan 50 % rabatt till ger 100 % rabatt.",
+          "answer": false,
+          "explain": "Den andra rabatten gäller det nya, lägre priset. Priset blir en fjärdedel: 75 % rabatt."
+        },
+        {
+          "text": "20 % av 50 är lika mycket som 50 % av 20.",
+          "answer": true,
+          "explain": "Båda är 10."
+        },
+        {
+          "text": "10 % av ett tal får du genom att dela det med 10.",
+          "answer": true,
+          "explain": "10 % är en tiondel."
+        },
+        {
+          "text": "Stiger ett pris 10 % och sjunker sedan 10 % är priset tillbaka på samma som först.",
+          "answer": false,
+          "explain": "Sänkningen gäller det högre priset, så priset blir lägre än först."
+        },
+        {
+          "text": "5 % är mer än 1/10.",
+          "answer": false,
+          "explain": "5 % är 1/20, och det är mindre än 1/10."
+        },
+        {
+          "text": "30 % är nästan en tredjedel.",
+          "answer": true,
+          "explain": "En tredjedel är ungefär 33 %."
+        }
+      ]
+    },
+    {
+      "id": "pr-sortera-lika",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Vilket är samma sak som 25 %, 50 % och 10 %?",
+      "categories": [
+        "25 %",
+        "50 %",
+        "10 %"
+      ],
+      "pool": [
+        {
+          "text": "en fjärdedel",
+          "category": 0
+        },
+        {
+          "text": "0,25",
+          "category": 0
+        },
+        {
+          "text": "1/4",
+          "category": 0
+        },
+        {
+          "text": "25/100",
+          "category": 0
+        },
+        {
+          "text": "hälften",
+          "category": 1
+        },
+        {
+          "text": "0,5",
+          "category": 1
+        },
+        {
+          "text": "1/2",
+          "category": 1
+        },
+        {
+          "text": "50/100",
+          "category": 1
+        },
+        {
+          "text": "en tiondel",
+          "category": 2
+        },
+        {
+          "text": "0,1",
+          "category": 2
+        },
+        {
+          "text": "1/10",
+          "category": 2
+        },
+        {
+          "text": "10/100",
+          "category": 2
+        }
+      ]
+    },
+    {
+      "id": "pr-ordna-former",
+      "mode": "ordna",
+      "size": 4,
+      "prompt": "Sätt dem i ordning, minst först.",
+      "top": "Minst",
+      "bottom": "Störst",
+      "pool": [
+        {
+          "text": "10 %",
+          "value": 0.1
+        },
+        {
+          "text": "1/4",
+          "value": 0.25
+        },
+        {
+          "text": "0,3",
+          "value": 0.3
+        },
+        {
+          "text": "40 %",
+          "value": 0.4
+        },
+        {
+          "text": "hälften",
+          "value": 0.5
+        },
+        {
+          "text": "3/4",
+          "value": 0.75
+        },
+        {
+          "text": "0,9",
+          "value": 0.9
+        },
+        {
+          "text": "1/5",
+          "value": 0.2
+        }
+      ]
+    },
+    {
+      "id": "pr-luckor-betydelse",
+      "mode": "lucktext",
+      "vars": {
+        "p": [
+          10,
+          80,
+          10
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "2*p"
+        },
+        {
+          "name": "h",
+          "expr": "p/10"
+        }
+      ],
+      "prompt": "Fyll i luckorna.",
+      "text": "{p} % betyder {p} av [[1]] lika stora delar. {p} % av 200 är [[2]], eftersom 1 % av 200 är [[3]].",
+      "blanks": [
+        {
+          "answer": [
+            "100",
+            "hundra"
+          ],
+          "hint": "Procent betyder hundradelar."
+        },
+        {
+          "answer": [
+            "=x"
+          ],
+          "hint": "1 % av 200 är 2."
+        },
+        {
+          "answer": [
+            "2"
+          ],
+          "hint": "200 delat med 100."
+        }
+      ]
+    },
+    {
+      "id": "pr-skala",
+      "vars": {
+        "x": [
+          2,
+          20
+        ]
+      },
+      "prompt": "10 % av ett tal är {x}. Hur mycket är 30 % av samma tal? Skriv talet.",
+      "answer": [
+        "=3*x"
+      ],
+      "correct": "Rätt! 30 % är tre gånger så mycket som 10 %: 3 · {x} = {3*x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x+30"
+          ],
+          "message": "Procent kan inte läggas till som kronor. 30 % är tre gånger 10 %."
+        },
+        {
+          "answers": [
+            "=10*x"
+          ],
+          "message": "{10*x} är hela talet, 100 %. Du söker 30 %."
+        }
+      ]
+    },
+    {
+      "id": "pr-helhet",
+      "vars": {
+        "x": [
+          2,
+          20
+        ]
+      },
+      "prompt": "10 % av ett tal är {x}. Vad är hela talet? Skriv talet.",
+      "answer": [
+        "=10*x"
+      ],
+      "correct": "Rätt! 10 % är en tiondel, så hela talet är 10 · {x} = {10*x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x+10"
+          ],
+          "message": "Hela talet är 100 %. Hur många gånger ryms 10 % i 100 %?"
+        },
+        {
+          "answers": [
+            "=x"
+          ],
+          "message": "{x} är bara 10 % av talet. Hela talet är 100 %."
+        }
+      ]
+    },
+    {
+      "id": "pr-halften",
+      "vars": {
+        "x": [
+          3,
+          30
+        ]
+      },
+      "prompt": "50 % av ett tal är {x}. Vad är hela talet? Skriv talet.",
+      "answer": [
+        "=2*x"
+      ],
+      "correct": "Rätt! 50 % är hälften, så hela talet är 2 · {x} = {2*x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x/2"
+          ],
+          "message": "Det är hälften av hälften. Om hälften av talet är {x}, hur stort är då hela talet?"
+        }
+      ]
+    },
+    {
+      "id": "pr-uppskatta-mer",
+      "vars": {
+        "p": [
+          55,
+          90,
+          5
+        ],
+        "t": [
+          20,
+          400,
+          20
+        ]
+      },
+      "prompt": "Utan att räkna ut svaret: är {p} % av {t} mer eller mindre än hälften av {t}? Skriv mer eller mindre.",
+      "answer": [
+        "mer"
+      ],
+      "correct": "Rätt! {p} % är mer än 50 %, så delen är mer än hälften av {t}.",
+      "feedback": [
+        {
+          "answers": [
+            "mindre"
+          ],
+          "message": "Hälften är 50 %. Är {p} % mer eller mindre än 50 %?"
+        }
+      ]
+    },
+    {
+      "id": "pr-uppskatta-mindre",
+      "vars": {
+        "p": [
+          5,
+          45,
+          5
+        ],
+        "t": [
+          20,
+          400,
+          20
+        ]
+      },
+      "prompt": "Utan att räkna ut svaret: är {p} % av {t} mer eller mindre än hälften av {t}? Skriv mer eller mindre.",
+      "answer": [
+        "mindre"
+      ],
+      "correct": "Rätt! {p} % är mindre än 50 %, så delen är mindre än hälften av {t}.",
+      "feedback": [
+        {
+          "answers": [
+            "mer"
+          ],
+          "message": "Hälften är 50 %. Är {p} % mer eller mindre än 50 %?"
+        }
+      ]
+    },
+    {
+      "id": "pr-hur-mycket-rabatt",
+      "vars": {
+        "p": [
+          10,
+          40,
+          10
+        ],
+        "k": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "100*k"
+        },
+        {
+          "name": "x",
+          "expr": "100*k*(100-p)/100"
+        }
+      ],
+      "prompt": "En vara kostade {t} kr. Du betalar {x} kr efter rabatt. Hur många procent rabatt fick du? Skriv talet.",
+      "answer": [
+        "=p"
+      ],
+      "correct": "Rätt! Rabatten var {t-x} kr av {t} kr, och det är {p} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=t-x"
+          ],
+          "message": "Det är rabatten i kronor. Frågan gäller hur många procent av priset den var."
         }
       ]
     }

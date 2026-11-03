@@ -76,7 +76,15 @@
     if (!same(wantedValue, ops[p.op])) return null;
     if (p.op === "+") {
       if (a + b >= 0 && same(value, byPlace(a, b, (x, y) => (x + y) % 10)) && !same(value, a + b)) {
-        return result("Glömde att växla", "Du lade ihop plats för plats men glömde växla. När en plats får tio eller fler skriver du bara det som blir över och flyttar tiotalet, hundratalet och så vidare till nästa plats: 8 + 6 = 14 ental är 4 ental och 1 tiotal till tiotalen.");
+        // the first place, from the right, where the two digits make ten or more: the example is taken from the question itself
+        const A = digits(a).reverse(), B = digits(b).reverse();
+        let at = 0;
+        while (at < Math.max(A.length, B.length) && (A[at] || 0) + (B[at] || 0) < 10) at++;
+        const places = ["ental", "tiotal", "hundratal", "tusental", "tiotusental", "hundratusental"];
+        const the = ["entalen", "tiotalen", "hundratalen", "tusentalen", "tiotusentalen", "hundratusentalen"];
+        const sum = (A[at] || 0) + (B[at] || 0);
+        const example = at < Math.max(A.length, B.length) && places[at + 1] ? " Titta på " + the[at] + ": " + (A[at] || 0) + " + " + (B[at] || 0) + " = " + sum + " " + places[at] + ". Hur många av dem blir kvar på platsen, och hur många flyttas till " + the[at + 1] + "?" : "";
+        return result("Glömde att växla", "Du lade ihop plats för plats men glömde växla. När en plats får tio eller fler skriver du bara det som blir över och flyttar tiotalet, hundratalet och så vidare till nästa plats." + example);
       }
       return null;
     }
@@ -145,7 +153,8 @@
     const right = asksMax ? Math.max.apply(null, numbers) : Math.min.apply(null, numbers);
     if (same(value, right)) return null;
     if (asksMax && places(chosen) === most && most !== fewest) {
-      return result("Trodde att fler decimaler betyder större", "Ett tal med fler siffror efter kommat är inte större. Jämför plats för plats: först tiondelarna, sedan hundradelarna. 0,5 är fem tiondelar och 0,25 är bara två tiondelar och lite till.");
+      const rightText = found.find((x) => same(toNumber(x), right));
+      return result("Trodde att fler decimaler betyder större", "Ett tal med fler siffror efter kommat är inte större. Jämför plats för plats: först tiondelarna, sedan hundradelarna. Hur många tiondelar har " + chosen + ", och hur många har " + rightText + "?");
     }
     if (asksMin && places(chosen) === fewest && most !== fewest) {
       return result("Trodde att fler decimaler betyder större", "Ett tal med fler siffror efter kommat är inte större, så det med färre siffror är inte alltid minst. Jämför plats för plats: först tiondelarna, sedan hundradelarna.");

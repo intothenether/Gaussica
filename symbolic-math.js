@@ -12,6 +12,8 @@
     if (typeof str !== "string") str = String(str || "");
     return str
       .trim()
+      // Upphöjt: x² och (x + 1)³ blir x^2 och (x + 1)^3
+      .replace(/²/g, "^2").replace(/³/g, "^3")
       // Ersätt decimalkomma med punkt
       .replace(/(\d+),(\d+)/g, "$1.$2")
       // Ersätt unicode-minus och tankstreck med vanligt bindestreck
@@ -130,21 +132,21 @@
 
     // Multiplikation och division
     function parseTerm() {
-      let node = parsePower();
+      let node = parseUnary();
       while (peek() && (peek().value === "*" || peek().value === "/")) {
         const op = consume().value;
-        const right = parsePower();
+        const right = parseUnary();
         node = { type: "BINARY_OP", op: op, left: node, right: right };
       }
       return node;
     }
 
-    // Potenser: a ^ b (högerassociativ)
+    // Potenser: a ^ b (högerassociativ). Ett minustecken framför gäller hela potensen: -x^2 är -(x^2), och i exponenten går 2^-1 bra.
     function parsePower() {
-      let node = parseUnary();
+      let node = parsePrimary();
       if (peek() && peek().value === "^") {
         consume("^");
-        const right = parsePower();
+        const right = parseUnary();
         node = { type: "BINARY_OP", op: "^", left: node, right: right };
       }
       return node;
@@ -161,7 +163,7 @@
         consume("+");
         return parseUnary();
       }
-      return parsePrimary();
+      return parsePower();
     }
 
     // Primära uttryck: tal, variabler, parenteser, funktionsanrop
@@ -284,9 +286,27 @@
     return m ? "(" + (Number(m[1]) * Number(m[3]) + Number(m[2])) + "/" + m[3] + ")" : str;
   }
 
+  // An inequality as a letter, a sign and a number: "x < 4", "4 > x", "x ≥ 1/2" all come out as { v, op, n } with the letter first.
+  const FLIP = { "<": ">", ">": "<", "<=": ">=", ">=": "<=" };
+  function parseInequality(str) {
+    const s = cleanMathString(String(str)).replace(/\s+/g, "").replace(/≤/g, "<=").replace(/≥/g, ">=");
+    const m = /^(.+?)(<=|>=|<|>)(.+)$/.exec(s);
+    if (!m) return null;
+    const value = function (t) { try { const ast = parse(t); const v = evaluateAST(ast, {}); return typeof v === "number" && isFinite(v) ? v : null; } catch (e) { return null; } };
+    if (/^[a-z]$/i.test(m[1]) && value(m[3]) !== null) return { v: m[1].toLowerCase(), op: m[2], n: value(m[3]) };
+    if (/^[a-z]$/i.test(m[3]) && value(m[1]) !== null) return { v: m[3].toLowerCase(), op: FLIP[m[2]], n: value(m[1]) };
+    return null;
+  }
+
   function areEquivalent(studentInput, expectedInput) {
     if (studentInput === undefined || studentInput === null) return false;
     if (expectedInput === undefined || expectedInput === null) return false;
+    // inequalities: the same letter, the same sign and the same number, whichever side the letter is on
+    if (/[<>≤≥]/.test(String(studentInput) + String(expectedInput))) {
+      const a = parseInequality(studentInput), b = parseInequality(expectedInput);
+      if (a && b) return a.v === b.v && a.op === b.op && Math.abs(a.n - b.n) < 1e-9;
+      return cleanMathString(String(studentInput)).toLowerCase().replace(/\s+/g, "") === cleanMathString(String(expectedInput)).toLowerCase().replace(/\s+/g, "");
+    }
     studentInput = mixedToImproper(studentInput);
     expectedInput = mixedToImproper(expectedInput);
 
@@ -433,7 +453,7 @@
     // 2. Distributiva lagen (endast multiplicerat första termen)
     // T.ex. 3(x + 4) -> svarat 3x + 4 i stället för 3x + 12
     if (fullContext.includes("(") || fullContext.includes("parentes") || fullContext.includes("multiplicer") || fullContext.includes("förenkla")) {
-      const matchParen = (promptText + " " + fullContext).match(/(\d+)\s*\*?\s*\(\s*([a-z0-9]+)\s*([+-])\s*(\d+)\s*\)/i);
+      const matchParen = promptText.match(/(\d+)\s*\*?\s*\(\s*([a-z0-9]+)\s*([+-])\s*(\d+)\s*\)/i);
       if (matchParen) {
         const k = parseFloat(matchParen[1]);
         const innerTerm = matchParen[2];
@@ -450,10 +470,17 @@
       }
     }
 
+    // Every diagnosis below is read from the numbers of the question itself (promptText): a wrong answer is only called a known mistake when it is exactly what
+    // that mistake gives for these numbers. (They used to look for fixed numbers like 16 and 260, and fired in any question that had the same right answer.)
+
     // 3. Associativa lagen & teckenfel vid subtraktion av parentes
     // a - (b + c) svarat som a - b + c
-    if (fullContext.includes("-") && (fullContext.includes("(") || fullContext.includes("parentes"))) {
-      if (areEquivalent(sClean + " - 2", eClean) || areEquivalent(sClean + " + 2", eClean)) {
+    const minusParen = /(\d+)\s*[−-]\s*\(\s*(\d+)\s*([+−-])\s*(\d+)\s*\)/.exec(promptText);
+    if (minusParen && !isNaN(sNum) && !isNaN(eNum)) {
+      const a = parseFloat(minusParen[1]), b = parseFloat(minusParen[2]), c = parseFloat(minusParen[4]), plus = minusParen[3] === "+";
+      const rightValue = plus ? a - b - c : a - b + c;
+      const slipped = plus ? a - b + c : a - b - c;
+      if (Math.abs(eNum - rightValue) < 1e-9 && Math.abs(sNum - slipped) < 1e-9) {
         return {
           code: "ASSOCIATIVE_SIGN_ERROR",
           title: "Teckenfel vid parentes (associativa regeln)",
@@ -463,37 +490,27 @@
     }
 
     // 4. Bråkaddition: Adderat täljare med täljare och nämnare med nämnare
-    // T.ex. 1/2 + 1/3 = 2/5 (eller 1/2 + 1/4 = 2/6 = 1/3)
-    if (fullContext.includes("/") || fullContext.includes("bråk") || fullContext.includes("addera") || fullContext.includes("+") || fullContext.includes("fjärdedel") || fullContext.includes("halv")) {
-      const fracMatch = (promptText + " " + fullContext).match(/(\d+)\s*\/\s*(\d+)\s*\+\s*(\d+)\s*\/\s*(\d+)/);
-      if (fracMatch) {
-        const num1 = parseInt(fracMatch[1], 10);
-        const den1 = parseInt(fracMatch[2], 10);
-        const num2 = parseInt(fracMatch[3], 10);
-        const den2 = parseInt(fracMatch[4], 10);
-        const badNum = num1 + num2;
-        const badDen = den1 + den2;
-        if (areEquivalent(studentAnswer, badNum + "/" + badDen) || sClean === badNum + "/" + badDen) {
-          return {
-            code: "FRACTION_ADDITION_ACROSS",
-            title: "Bråkaddition utan gemensam nämnare",
-            explanation: "Du har lagt ihop täljare med täljare (" + num1 + " + " + num2 + " = " + badNum + ") och nämnare med nämnare (" + den1 + " + " + den2 + " = " + badDen + "). Bråk kan bara adderas när delarna är lika stora. Hitta en gemensam nämnare först!"
-          };
-        }
-      }
-      if (sClean === "2/6" || sClean === "1/6" || sClean === "2/4" || sClean === "2/5" || sClean === "3/5" || sClean === "1/3") {
-        if (!areEquivalent(studentAnswer, expectedAnswer) && (fullContext.includes("bråk") || fullContext.includes("/"))) {
-          return {
-            code: "FRACTION_ADDITION_ACROSS",
-            title: "Bråkaddition utan gemensam nämnare",
-            explanation: "Du verkar ha lagt ihop täljarna för sig och nämnarna för sig. För att addera bråk måste delarna ha samma nämnare (vara lika stora)!"
-          };
-        }
+    // T.ex. 1/2 + 1/3 = 2/5
+    const fracMatch = promptText.match(/(\d+)\s*\/\s*(\d+)\s*\+\s*(\d+)\s*\/\s*(\d+)/);
+    if (fracMatch) {
+      const num1 = parseInt(fracMatch[1], 10);
+      const den1 = parseInt(fracMatch[2], 10);
+      const num2 = parseInt(fracMatch[3], 10);
+      const den2 = parseInt(fracMatch[4], 10);
+      const badNum = num1 + num2;
+      const badDen = den1 + den2;
+      if (areEquivalent(studentAnswer, badNum + "/" + badDen) || sClean === badNum + "/" + badDen) {
+        return {
+          code: "FRACTION_ADDITION_ACROSS",
+          title: "Bråkaddition utan gemensam nämnare",
+          explanation: "Du har lagt ihop täljare med täljare (" + num1 + " + " + num2 + " = " + badNum + ") och nämnare med nämnare (" + den1 + " + " + den2 + " = " + badDen + "). Bråk kan bara adderas när delarna är lika stora. Hitta en gemensam nämnare först!"
+        };
       }
     }
 
-    // 5. Bråkdivision: Glömt att invertera det andra bråket
-    if (fullContext.includes("dela") && fullContext.includes("bråk")) {
+    // 5. Bråkdivision: Glömt att invertera det andra bråket (1/2 : 1/4 svarat som 1/8)
+    const fracDiv = promptText.match(/(\d+)\s*\/\s*(\d+)\s*(?:[:÷]|delat med|dividerat med)\s*(\d+)\s*\/\s*(\d+)/);
+    if (fracDiv && areEquivalent(studentAnswer, (parseInt(fracDiv[1], 10) * parseInt(fracDiv[3], 10)) + "/" + (parseInt(fracDiv[2], 10) * parseInt(fracDiv[4], 10)))) {
       return {
         code: "FRACTION_DIVISION_INVERT",
         title: "Glömt invertera vid bråkdivision",
@@ -501,37 +518,45 @@
       };
     }
 
-    // 6. Ekvationsbalans: Teckenfel vid flytt över likhetstecknet
-    // T.ex. 3x + 2 = 14 -> x = 16 i stället för 4 (eller 3x = 16)
-    if (fullContext.includes("ekvation") || fullContext.includes("likhetstecknet") || fullContext.includes("=")) {
-      if (sNum === 16 || sNum === 16/3) {
-        return {
-          code: "EQUATION_SIGN_INVERSION",
-          title: "Ekvationsbalans: fel tecken vid överflyttning",
-          explanation: "Det ser ut som att 2 lades till i stället för att subtraheras. För att nollställa +2 på vänster sida måste du ta bort 2 från båda sidor: 14 − 2 = 12."
-        };
-      }
-      // Halvfärdig ekvationslösning (stannade vid 3x = 12)
-      if (sNum === 12 && eNum === 4) {
-        return {
-          code: "EQUATION_HALFWAY",
-          title: "Halvfärdig lösning",
-          explanation: "Du subtraherade 2 och fick 12. Det är ett helt rätt första steg! Men 3x betyder 3 gånger x. Dela 12 med 3 för att få vad x ensamt är."
-        };
-      }
-      // Multiplicerat i stället för dividerat (12 * 3 = 36)
-      if (sNum === 36 && eNum === 4) {
-        return {
-          code: "EQUATION_MULT_INSTEAD_OF_DIV",
-          title: "Multiplikation i stället för division",
-          explanation: "För att få x ensamt ur 3x = 12 måste du göra motsatsen till multiplikation: dividera båda sidor med 3."
-        };
+    // 6. Ekvationsbalans: ax + b = c (eller ax − b = c)
+    const linear = /(\d*)\s*x\s*([+−-])\s*(\d+)\s*=\s*(\d+)/.exec(promptText);
+    if (linear && !isNaN(sNum) && !isNaN(eNum)) {
+      const a = linear[1] === "" ? 1 : parseFloat(linear[1]);
+      const sign = linear[2] === "+" ? 1 : -1;
+      const b = parseFloat(linear[3]), c = parseFloat(linear[4]);
+      const moved = c - sign * b;
+      const flipped = c + sign * b;
+      const close = (x, y) => Math.abs(x - y) < 1e-9;
+      if (a > 0 && close(eNum, moved / a) && !close(sNum, eNum)) {
+        // the sign was not changed when b moved across the equals sign
+        if (close(sNum, flipped / a) || close(sNum, flipped)) {
+          return {
+            code: "EQUATION_SIGN_INVERSION",
+            title: "Ekvationsbalans: fel tecken vid överflyttning",
+            explanation: "Det ser ut som att " + b + " " + (sign === 1 ? "lades till i stället för att subtraheras" : "drogs ifrån i stället för att läggas till") + ". För att få bort " + (sign === 1 ? "+" : "−") + b + " på vänster sida måste du " + (sign === 1 ? "ta bort " : "lägga till ") + b + " på båda sidor."
+          };
+        }
+        // stopped when the x is still multiplied by a number (ax = moved)
+        if (a !== 1 && close(sNum, moved)) {
+          return {
+            code: "EQUATION_HALFWAY",
+            title: "Halvfärdig lösning",
+            explanation: "Du fick " + moved + " och det är ett helt rätt första steg! Men " + a + "x betyder " + a + " gånger x. Vad behöver du göra för att få x ensamt?"
+          };
+        }
+        // multiplied where the x should be freed by dividing
+        if (a !== 1 && close(sNum, moved * a)) {
+          return {
+            code: "EQUATION_MULT_INSTEAD_OF_DIV",
+            title: "Multiplikation i stället för division",
+            explanation: "För att få x ensamt ur " + a + "x = " + moved + " måste du göra motsatsen till multiplikation: dividera båda sidor med " + a + "."
+          };
+        }
       }
     }
 
     // 7. Räkneordning (PEMDAS / Multiplikation före addition)
     // T.ex. i 40 + 12 * 5 = 100, svarat (40 + 12) * 5 = 260
-    // Eller i 2 + 3 * 4 = 14, svarat 20
     if (!isNaN(sNum) && !isNaN(eNum)) {
       const pemdasMatch = promptText.match(/(\d+)\s*([+−-])\s*(\d+)\s*([*·×])\s*(\d+)/);
       if (pemdasMatch) {
@@ -548,27 +573,12 @@
           };
         }
       }
-      if (sNum === 260 && eNum === 100) {
-        return {
-          code: "ORDER_OF_OPERATIONS",
-          title: "Räkneordningsfel (precedens)",
-          explanation: "Multiplikation ska alltid räknas före addition! Beräkna först sträckpriset 12 · 5 = 60 kr, och lägg sedan till startavgiften 40 kr: 40 + 60 = 100 kr."
-        };
-      }
-      if (sNum === 10 && eNum === 9) {
-        return {
-          code: "ORDER_OF_OPERATIONS",
-          title: "Räkneordningsfel (precedens)",
-          explanation: "Räkna multiplikationen först: 2 · 4 = 8, och addera därefter 1: 8 + 1 = 9."
-        };
-      }
     }
 
-    // 8. Summa i stället för skillnad (Diagram och textuppgifter)
-    // T.ex. 12 och 5 röster, frågan gäller "hur många fler", studenten svarar 17 (12 + 5)
-    // Eller 18 cyklar och 11 går, svarat 29 (18 + 11)
-    if (fullContext.includes("fler") || fullContext.includes("skillnad") || fullContext.includes("diagram")) {
-      if ((sNum === 17 && eNum === 7) || (sNum === 29 && eNum === 7)) {
+    // 8. Summa i stället för skillnad ("hur många fler?" frågar efter skillnaden mellan två tal)
+    if (!isNaN(sNum) && !isNaN(eNum) && /fler|skillnad/.test(promptText)) {
+      const two = (promptText.match(/\d+(?:[.,]\d+)?/g) || []).map((x) => parseFloat(x.replace(",", ".")));
+      if (two.length === 2 && Math.abs(sNum - (two[0] + two[1])) < 1e-9 && Math.abs(eNum - Math.abs(two[0] - two[1])) < 1e-9) {
         return {
           code: "SUM_INSTEAD_OF_DIFFERENCE",
           title: "Summa i stället för skillnad",
@@ -687,6 +697,7 @@
     parse: parse,
     evaluateAST: evaluateAST,
     areEquivalent: areEquivalent,
+    parseInequality: parseInequality,
     diagnoseMisconception: diagnoseMisconception,
     evaluateScratchpad: evaluateScratchpad
   };

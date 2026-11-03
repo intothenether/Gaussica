@@ -1,5 +1,7 @@
 {
   "id": "ekvationer-bada-sidor",
+  "input": "math",
+  "stepSolve": true,
   "area": "algebra",
   "title": "Ekvationer med x på båda sidor",
   "level": "Samla x på ena sidan · ungefär åk 8",
@@ -350,6 +352,45 @@
           "message": "28 kr är beloppet de har då. Frågan gäller hur många veckor det tar."
         }
       ]
+    }
+  ],
+  "components": [
+    {
+      "type": "ekvationsmodell",
+      "title": "5x + 3 = 2x + 15 med bitar",
+      "a": 5,
+      "b": 3,
+      "c": 15,
+      "d": 2
+    },
+    {
+      "type": "arbetat-exempel",
+      "title": "Så löser du 5x + 3 = 2x + 15",
+      "intro": "Samla x på ena sidan och talen på den andra. Det du gör på ena sidan gör du på den andra.",
+      "start": "5x + 3 = 2x + 15",
+      "steps": [
+        {
+          "line": "5x + 3 − 2x = 2x + 15 − 2x",
+          "say": "Ta bort 2x från båda sidor."
+        },
+        {
+          "line": "3x + 3 = 15",
+          "say": "Räkna ut: 5x − 2x är 3x."
+        },
+        {
+          "line": "3x + 3 − 3 = 15 − 3",
+          "say": "Ta bort 3 från båda sidor."
+        },
+        {
+          "line": "3x = 12",
+          "say": "Räkna ut."
+        },
+        {
+          "line": "x = 4",
+          "say": "Dela båda sidor med 3."
+        }
+      ],
+      "note": "Kontrollera: 5 · 4 + 3 = 23 och 2 · 4 + 15 = 23. Båda sidor blir lika."
     }
   ]
 }

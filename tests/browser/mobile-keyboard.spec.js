@@ -19,7 +19,7 @@ test("phone: the ^ key writes a power and the field keeps the focus", async ({ p
   await tap(page, field);
   expect(await focusIsInField(page)).toBe(true);
   await page.keyboard.type("x");
-  await tap(page, page.locator("#lesson-player .answer-key", { hasText: "^" }).first());
+  await tap(page, page.locator("#lesson-player .answer-key", { hasText: "xⁿ" }).first());
   await expect(field).toHaveValue("x^");
   expect(await focusIsInField(page)).toBe(true);
   // the cursor is after the sign, so the next character goes there

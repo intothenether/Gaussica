@@ -40,7 +40,7 @@ idx.lessons.forEach((f) => {
       if (!q) { fails++; continue; }
       generated++;
       const p = q.problem;
-      prompts.add(p.prompt + JSON.stringify(p.visual || "") + JSON.stringify(p.pairs || "") + JSON.stringify(p.statements || "") + JSON.stringify([p.items, p.steps, p.text, p.blanks]));
+      prompts.add(p.prompt + JSON.stringify(p.visual || "") + JSON.stringify(p.visuals || "") + JSON.stringify(p.pairs || "") + JSON.stringify(p.statements || "") + JSON.stringify([p.items, p.steps, p.text, p.blanks]));
       if (p.format) {
         // a question in one of the new formats: it is a component like the ones in the lessons, and has to be a good one
         FM.problems(Object.assign({}, p, { type: p.format })).forEach((m) => bad(where, p.format + ": " + m));

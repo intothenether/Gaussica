@@ -167,35 +167,67 @@
       "pool": [
         {
           "term": "medelvärde",
-          "definition": "Summan av alla värden delad med antalet värden."
+          "definition": "Summan av alla värden delad med antalet värden.",
+          "examples": [
+            "Medelvärdet av 2, 4 och 6 är 4.",
+            "Medelvärdet får du när du delar summan med antalet."
+          ]
         },
         {
           "term": "median",
-          "definition": "Mittenvärdet när alla värden står i storleksordning."
+          "definition": "Mittenvärdet när alla värden står i storleksordning.",
+          "examples": [
+            "Medianen av 2, 5 och 9 är 5.",
+            "Medianen är mittenvärdet i storleksordning."
+          ]
         },
         {
           "term": "typvärde",
-          "definition": "Det värde som förekommer flest gånger."
+          "definition": "Det värde som förekommer flest gånger.",
+          "examples": [
+            "Typvärdet av 2, 3, 3, 7 är 3.",
+            "Typvärdet är det som förekommer flest gånger."
+          ]
         },
         {
           "term": "variationsbredd",
-          "definition": "Skillnaden mellan det största och det minsta värdet."
+          "definition": "Skillnaden mellan det största och det minsta värdet.",
+          "examples": [
+            "Variationsbredden av 2, 5 och 9 är 7.",
+            "Variationsbredden är skillnaden mellan störst och minst."
+          ]
         },
         {
           "term": "frekvens",
-          "definition": "Hur många gånger ett värde förekommer."
+          "definition": "Hur många gånger ett värde förekommer.",
+          "examples": [
+            "Om 3 finns två gånger är frekvensen 2.",
+            "Frekvensen visar hur många gånger ett värde finns."
+          ]
         },
         {
           "term": "utfall",
-          "definition": "Ett möjligt resultat av ett slumpförsök."
+          "definition": "Ett möjligt resultat av ett slumpförsök.",
+          "examples": [
+            "En sexa är ett utfall när du kastar en tärning.",
+            "Varje möjligt resultat av ett försök är ett utfall."
+          ]
         },
         {
           "term": "sannolikhet",
-          "definition": "Ett mått på hur stor chansen är att något händer."
+          "definition": "Ett mått på hur stor chansen är att något händer.",
+          "examples": [
+            "Sannolikheten att få en sexa på en tärning är 1/6.",
+            "Sannolikheten är ett mått på hur stor chansen är."
+          ]
         },
         {
           "term": "diagram",
-          "definition": "En bild som visar hur värden är fördelade."
+          "definition": "En bild som visar hur värden är fördelade.",
+          "examples": [
+            "Staplarna i ett diagram visar hur många som valt varje frukt.",
+            "Ett diagram visar hur värden är fördelade."
+          ]
         }
       ]
     },
@@ -214,6 +246,10 @@
           "definition": "Summan av alla värden delad med antalet värden.",
           "alt": [
             "medelvärdet"
+          ],
+          "examples": [
+            "Medelvärdet av 2, 4 och 6 är 4.",
+            "Medelvärdet får du när du delar summan med antalet."
           ]
         },
         {
@@ -221,6 +257,10 @@
           "definition": "Mittenvärdet när alla värden står i storleksordning.",
           "alt": [
             "medianen"
+          ],
+          "examples": [
+            "Medianen av 2, 5 och 9 är 5.",
+            "Medianen är mittenvärdet i storleksordning."
           ]
         },
         {
@@ -228,6 +268,10 @@
           "definition": "Det värde som förekommer flest gånger.",
           "alt": [
             "typvärdet"
+          ],
+          "examples": [
+            "Typvärdet av 2, 3, 3, 7 är 3.",
+            "Typvärdet är det som förekommer flest gånger."
           ]
         },
         {
@@ -235,6 +279,10 @@
           "definition": "Skillnaden mellan det största och det minsta värdet.",
           "alt": [
             "variationsbredden"
+          ],
+          "examples": [
+            "Variationsbredden av 2, 5 och 9 är 7.",
+            "Variationsbredden är skillnaden mellan störst och minst."
           ]
         },
         {
@@ -242,6 +290,10 @@
           "definition": "Hur många gånger ett värde förekommer.",
           "alt": [
             "frekvensen"
+          ],
+          "examples": [
+            "Om 3 finns två gånger är frekvensen 2.",
+            "Frekvensen visar hur många gånger ett värde finns."
           ]
         },
         {
@@ -249,6 +301,10 @@
           "definition": "Ett möjligt resultat av ett slumpförsök.",
           "alt": [
             "utfallet"
+          ],
+          "examples": [
+            "En sexa är ett utfall när du kastar en tärning.",
+            "Varje möjligt resultat av ett försök är ett utfall."
           ]
         },
         {
@@ -257,6 +313,10 @@
           "alt": [
             "sannolikheten",
             "chans"
+          ],
+          "examples": [
+            "Sannolikheten att få en sexa på en tärning är 1/6.",
+            "Sannolikheten är ett mått på hur stor chansen är."
           ]
         },
         {
@@ -264,6 +324,10 @@
           "definition": "En bild som visar hur värden är fördelade.",
           "alt": [
             "diagrammet"
+          ],
+          "examples": [
+            "Staplarna i ett diagram visar hur många som valt varje frukt.",
+            "Ett diagram visar hur värden är fördelade."
           ]
         }
       ]
@@ -326,6 +390,377 @@
           "text": "Ett utfall är en gång man gör ett slumpförsök.",
           "answer": false,
           "explain": "Ett utfall är ett möjligt resultat av ett försök, till exempel en sexa."
+        }
+      ]
+    },
+    {
+      "id": "st-median",
+      "vars": {
+        "a": [
+          2,
+          20
+        ],
+        "d1": [
+          1,
+          5
+        ],
+        "d2": [
+          1,
+          5
+        ],
+        "d3": [
+          1,
+          5
+        ],
+        "d4": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "x2",
+          "expr": "a+d1"
+        },
+        {
+          "name": "x3",
+          "expr": "x2+d2"
+        },
+        {
+          "name": "x4",
+          "expr": "x3+d3"
+        },
+        {
+          "name": "x5",
+          "expr": "x4+d4"
+        },
+        {
+          "name": "sum",
+          "expr": "a+x2+x3+x4+x5"
+        }
+      ],
+      "pick": {
+        "lista": [
+          "{x4}, {a}, {x5}, {x2}, {x3}",
+          "{x2}, {x4}, {x3}, {x5}, {a}",
+          "{x5}, {x3}, {x2}, {a}, {x4}",
+          "{a}, {x5}, {x4}, {x3}, {x2}",
+          "{x3}, {a}, {x5}, {x2}, {x4}"
+        ]
+      },
+      "prompt": "Talen är {$lista}. Vad är medianen? Skriv talet.",
+      "answer": [
+        "=x3"
+      ],
+      "correct": "Rätt! I storleksordning är mittenvärdet {x3}.",
+      "feedback": [
+        {
+          "answers": [
+            "=sum/5"
+          ],
+          "message": "Det är medelvärdet, summan delad med antalet. Medianen är mittenvärdet när talen står i storleksordning."
+        },
+        {
+          "answers": [
+            "=x5-a"
+          ],
+          "message": "Det är variationsbredden, skillnaden mellan störst och minst. Medianen är mittenvärdet i storleksordning."
+        },
+        {
+          "answers": [
+            "=a",
+            "=x5"
+          ],
+          "message": "Det är det minsta eller det största talet. Medianen är det som hamnar mitt emellan när talen står i storleksordning."
+        }
+      ],
+      "terms": [
+        "median"
+      ]
+    },
+    {
+      "id": "st-variationsbredd",
+      "vars": {
+        "a": [
+          2,
+          20
+        ],
+        "d1": [
+          1,
+          5
+        ],
+        "d2": [
+          1,
+          5
+        ],
+        "d3": [
+          1,
+          5
+        ],
+        "d4": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "x2",
+          "expr": "a+d1"
+        },
+        {
+          "name": "x3",
+          "expr": "x2+d2"
+        },
+        {
+          "name": "x4",
+          "expr": "x3+d3"
+        },
+        {
+          "name": "x5",
+          "expr": "x4+d4"
+        },
+        {
+          "name": "sum",
+          "expr": "a+x2+x3+x4+x5"
+        }
+      ],
+      "pick": {
+        "lista": [
+          "{x4}, {a}, {x5}, {x2}, {x3}",
+          "{x2}, {x4}, {x3}, {x5}, {a}",
+          "{x5}, {x3}, {x2}, {a}, {x4}",
+          "{a}, {x5}, {x4}, {x3}, {x2}",
+          "{x3}, {a}, {x5}, {x2}, {x4}"
+        ]
+      },
+      "prompt": "Talen är {$lista}. Vad är variationsbredden? Skriv talet.",
+      "answer": [
+        "=x5-a"
+      ],
+      "correct": "Rätt! Det största talet är {x5} och det minsta är {a}, så variationsbredden är {x5} − {a} = {x5-a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x5"
+          ],
+          "message": "{x5} är det största talet. Variationsbredden är skillnaden mellan det största och det minsta."
+        },
+        {
+          "answers": [
+            "=x3"
+          ],
+          "message": "Det är medianen, mittenvärdet. Variationsbredden är skillnaden mellan det största och det minsta."
+        }
+      ],
+      "terms": [
+        "variationsbredd"
+      ]
+    },
+    {
+      "id": "st-medelvarde",
+      "vars": {
+        "a": [
+          2,
+          20
+        ],
+        "d1": [
+          1,
+          5
+        ],
+        "d2": [
+          1,
+          5
+        ],
+        "d3": [
+          1,
+          5
+        ],
+        "d4": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "x2",
+          "expr": "a+d1"
+        },
+        {
+          "name": "x3",
+          "expr": "x2+d2"
+        },
+        {
+          "name": "x4",
+          "expr": "x3+d3"
+        },
+        {
+          "name": "x5",
+          "expr": "x4+d4"
+        },
+        {
+          "name": "sum",
+          "expr": "a+x2+x3+x4+x5"
+        }
+      ],
+      "where": [
+        {
+          "expr": "mod(sum,5)",
+          "min": 0,
+          "max": 0
+        }
+      ],
+      "pick": {
+        "lista": [
+          "{x4}, {a}, {x5}, {x2}, {x3}",
+          "{x2}, {x4}, {x3}, {x5}, {a}",
+          "{x5}, {x3}, {x2}, {a}, {x4}",
+          "{a}, {x5}, {x4}, {x3}, {x2}",
+          "{x3}, {a}, {x5}, {x2}, {x4}"
+        ]
+      },
+      "prompt": "Talen är {$lista}. Vad är medelvärdet? Skriv talet.",
+      "answer": [
+        "=sum/5"
+      ],
+      "correct": "Rätt! Summan är {sum} och det finns 5 tal, så medelvärdet är {sum} ÷ 5 = {sum/5}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x3"
+          ],
+          "message": "Det är medianen, mittenvärdet. Medelvärdet är summan av alla värden delad med antalet värden."
+        },
+        {
+          "answers": [
+            "=sum"
+          ],
+          "message": "Det är summan av talen. Medelvärdet är summan delad med antalet värden."
+        }
+      ],
+      "terms": [
+        "medelvärde"
+      ]
+    },
+    {
+      "id": "st-typvarde",
+      "vars": {
+        "a": [
+          2,
+          20
+        ],
+        "b": [
+          2,
+          20
+        ],
+        "c": [
+          2,
+          20
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "pick": {
+        "lista": [
+          "{b}, {a}, {c}, {a}, {b}, {a}",
+          "{a}, {c}, {b}, {a}, {b}, {a}",
+          "{c}, {a}, {a}, {b}, {a}, {b}",
+          "{a}, {b}, {a}, {b}, {c}, {a}"
+        ]
+      },
+      "prompt": "Talen är {$lista}. Vad är typvärdet? Skriv talet.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! {a} förekommer 3 gånger, oftast av alla, så typvärdet är {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} förekommer bara 2 gånger. Typvärdet är det värde som förekommer flest gånger."
+        },
+        {
+          "answers": [
+            "=c"
+          ],
+          "message": "{c} förekommer bara en gång. Typvärdet är det värde som förekommer flest gånger."
+        }
+      ],
+      "terms": [
+        "typvärde"
+      ]
+    },
+    {
+      "id": "st-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Vilket begrepp passar beskrivningen?",
+      "categories": [
+        "Medelvärde",
+        "Median",
+        "Typvärde",
+        "Variationsbredd"
+      ],
+      "pool": [
+        {
+          "text": "Summan delad med antalet värden",
+          "category": 0
+        },
+        {
+          "text": "4 + 6 + 8 delat med 3",
+          "category": 0
+        },
+        {
+          "text": "Alla värden jämnt fördelade",
+          "category": 0
+        },
+        {
+          "text": "Mittenvärdet när talen står i storleksordning",
+          "category": 1
+        },
+        {
+          "text": "Hälften av värdena är mindre och hälften större",
+          "category": 1
+        },
+        {
+          "text": "I 3, 5, 9 är det 5",
+          "category": 1
+        },
+        {
+          "text": "Det värde som förekommer flest gånger",
+          "category": 2
+        },
+        {
+          "text": "I 2, 4, 4, 7 är det 4",
+          "category": 2
+        },
+        {
+          "text": "Det som är vanligast",
+          "category": 2
+        },
+        {
+          "text": "Skillnaden mellan störst och minst",
+          "category": 3
+        },
+        {
+          "text": "Största värdet minus minsta värdet",
+          "category": 3
+        },
+        {
+          "text": "I 3, 5, 9 är det 6",
+          "category": 3
         }
       ]
     }

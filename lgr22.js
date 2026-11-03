@@ -110,7 +110,7 @@ window.GaussicaLgr22 = (function () {
     "brak-del": ["t46-brak", "t13-brak"], "brak-tallinje": ["t46-brak"], "brak-likavarda": ["t46-brak"], "brak-jämfora": ["t46-brak"],
     "brak-rakna": ["t46-brak"], "brak-blandad": ["t46-brak"], "brak-multiplikation": ["t79-rakna"], "begrepp-brak": ["t46-brak"],
     "procent": ["t46-procent"], "procent-vardagen": ["t46-procent"], "procentuell-forandring": ["t79-procent"],
-    "ekvation": ["a79-ekv"], "ekvationer-bada-sidor": ["a79-ekv"], "parenteser-uttryck": ["a79-uttr"], "kvadreringsreglerna": ["a79-uttr"],
+    "ekvation": ["a79-ekv"], "ekvationer-bada-sidor": ["a79-ekv"], "parenteser-uttryck": ["a79-uttr"], "kvadreringsreglerna": ["a79-uttr"], "samla-termer": ["a79-uttr"], "bryta-ut": ["a79-uttr"], "olikheter": ["a79-ekv"],
     "andragradsekvationer": ["a79-ekv"], "ekvationssystem": ["a79-ekv"], "begrepp-algebra": ["a79-uttr", "sf79-funk"],
     "funktioner": ["sf79-funk"], "linjara-funktioner-km": ["sf79-funk"], "tallinjen": ["t13-tal"], "negativa-tal": ["t46-hel"],
     "negativa-tal-rakna": ["t46-hel", "t46-rakna"], "koordinatsystem": ["sf46-koord"], "begrepp-koordinat": ["sf46-koord"],

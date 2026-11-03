@@ -255,7 +255,6 @@ window.GaussicaQuestions = (function () {
     const feedback = makeElement("p", "feedback-message", "");
     feedback.setAttribute("role", "status");
     feedback.setAttribute("aria-live", "polite");
-    let fails = 0;
     let solved = false;
 
     function paint(i) {
@@ -330,15 +329,14 @@ window.GaussicaQuestions = (function () {
         finish(true);
         return;
       }
-      fails += 1;
       const right = statements.length - wrong.length;
+      // Only how many, never which: pointing at a wrong statement is the same as giving the right answer (it is true or false)
       const note = statements.length === 1
         ? "Inte riktigt. Läs påståendet en gång till och tänk efter."
-        : right + " av " + statements.length + " rätt. Läs de du är osäker på igen och ändra dem du tror är fel.";
-      // after a second failed try the wrong ones are marked, so that nobody gets stuck
-      rows.forEach(function (r, i) { r.li.classList.toggle("is-wrong", fails >= 2 && wrong.indexOf(i) >= 0); });
+        : right + " av " + statements.length + " rätt, så " + wrong.length + (wrong.length === 1 ? " påstående är fel." : " påståenden är fel.") + " Läs de du är osäker på igen och ändra dem du tror är fel.";
+      rows.forEach(function (r) { r.li.classList.remove("is-wrong"); });
       feedback.className = "feedback-message feedback-hint";
-      feedback.textContent = fails >= 2 ? note + " De markerade är fel." : note;
+      feedback.textContent = note;
       const shown = wrong.slice(0, 2).map(function (i) { return "”" + (statements[i].text.length > 60 ? statements[i].text.slice(0, 57) + "…" : statements[i].text) + "”"; }).join(" och ");
       storeAnswerProgress(lesson.id, taskId, answerText, "", note, "hint", false, "Fel på " + shown, promptText, labelText);
       finish(false);
@@ -377,7 +375,7 @@ window.GaussicaQuestions = (function () {
     if (exercise.format && window.GaussicaFormats) return renderFormat(parent, lesson, exercise, taskId, labelText, opts);
     if (Array.isArray(exercise.pairs)) return renderMatching(parent, lesson, exercise, taskId, labelText, opts);
     if (Array.isArray(exercise.statements)) return renderTrueFalse(parent, lesson, exercise, taskId, labelText, opts);
-    const finish = function (isCorrect) { if (opts && opts.onResult) opts.onResult(isCorrect); };
+    const finish = function (isCorrect, how) { if (opts && opts.onResult) opts.onResult(isCorrect, how); };
     questionShownAt[lesson.id + "|" + taskId] = Date.now();
     const saved = savedEntry(lesson.id, taskId);
     if (isPractice(taskId)) practiceProblems[lesson.id + "|" + taskId] = exercise;
@@ -395,6 +393,25 @@ window.GaussicaQuestions = (function () {
     const teacherNotes = isStudent() && !isPractice(taskId) ? window.GaussicaMailbox.inline(lesson.id, taskId) : null;
     if (teacherNotes) section.appendChild(teacherNotes);
     renderVisualsFor(section, exercise);
+
+    // --- LÖS STEG FÖR STEG: for the lessons that teach solving, every line is checked against the line above (steps.js) ---
+    let stepsUi = null;
+    const ALG = window.GaussicaAlgebra;
+    if (lesson.stepSolve === true && exercise.stepSolve !== false && window.GaussicaSteps && ALG) {
+      const found = ALG.extractMath(exercise.prompt);
+      if (found && (found.kind === "expression" || found.vars.length === 1)) {
+        stepsUi = window.GaussicaSteps.create({
+          start: found.text, kind: found.kind, keepFocus: keepFocus,
+          onSolved: function (value) {
+            answer.value = String(value).trim();
+            answer.dispatchEvent(new Event("input", { bubbles: true }));
+            submit.classList.add("is-ready");
+          }
+        });
+        section.appendChild(stepsUi.el);
+      }
+    }
+    const stepsText = function () { return stepsUi && stepsUi.lines.length ? stepsUi.text() : ""; };
 
     // --- RITYTA: pen, text and bits to place; saved with the answer so the teacher can see it ---
     const drawKey = lesson.id + "|" + taskId;
@@ -461,14 +478,104 @@ window.GaussicaQuestions = (function () {
     feedback.classList.toggle("feedback-correct", saved.feedbackType === "correct");
     feedback.classList.toggle("feedback-hint", saved.feedbackType === "hint");
 
+    // What the student has done so far with this question, for the signals around a wrong answer (feedback-signals.js)
+    const signals = window.GaussicaSignals;
+    let wrongTries = 0, lastShownAt = 0, lastShownText = "", pausedUntil = 0;
+
+    // A question whose answer is a word has a word bank under the field (wordbank.js), and a word that is almost right in the spelling counts (spelling.js)
+    const WB = window.GaussicaWordBank, SP = window.GaussicaSpelling;
+    const bankWords = WB && WB.when() !== "none" ? WB.options(exercise, lesson) : [];
+    const readingSettings = window.GaussicaReading && window.GaussicaReading.settings ? window.GaussicaReading.settings() : {};
+    let tappedWord = "", revealBank = function () {};
+    let bankRow = null;
+    if (bankWords.length) {
+      const when = WB.when();
+      bankRow = makeElement("div", "answer-bank");
+      bankRow.setAttribute("role", "group");
+      bankRow.setAttribute("aria-label", "Ordbank");
+      const chips = makeElement("span", "answer-bank-words");
+      chips.appendChild(makeElement("span", "answer-bank-label", "Välj ett ord, eller skriv själv:"));
+      const toggle = makeElement("button", "answer-bank-toggle", "");
+      toggle.type = "button";
+      const setOpen = function (open) {
+        chips.hidden = !open;
+        toggle.textContent = open ? "Skriv själv" : "Visa ordbank";
+        toggle.setAttribute("aria-expanded", String(open));
+      };
+      bankWords.forEach(function (w) {
+        const chip = makeElement("button", "answer-key answer-bank-word", w);
+        chip.type = "button";
+        keepFocus(chip);
+        chip.addEventListener("click", function () {
+          tappedWord = w;
+          answer.value = w;
+          answer.focus({ preventScroll: true });
+          answer.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+        chips.appendChild(chip);
+      });
+      keepFocus(toggle);
+      toggle.addEventListener("click", function () { setOpen(chips.hidden); });
+      bankRow.append(chips, toggle);
+      setOpen(when === "show");
+      revealBank = function () { if (when === "afterMiss" && chips.hidden) setOpen(true); };
+    }
+    // a right answer counts for the bank: one point when a word was tapped, two when it was typed
+    const bankPoint = function (value) { if (bankWords.length) WB.add(tappedWord && value.trim().toLowerCase() === tappedWord.toLowerCase() ? 1 : 2); };
+
+    // A wrong answer with its hint on the screen: the field shakes, the phone buzzes, the hint can be read aloud. And if this one came faster than
+    // the last hint can have been read, "Kolla svaret" waits a moment (the answer was checked all the same, and a right one is never held back).
+    function wrongSignals(spoken) {
+      const now = Date.now(), text = spoken || feedback.textContent;
+      const rapid = wrongTries > 0 && lastShownAt > 0 && now - lastShownAt < signals.readingMs(lastShownText);
+      wrongTries += 1;
+      lastShownAt = now;
+      lastShownText = text;
+      signals.wrong(answer);
+      revealBank();
+      signals.buzz();
+      signals.readAloud(text);
+      signals.clipped(feedback);
+      if (rapid) {
+        pausedUntil = now + signals.PAUSE_MS;
+        signals.pause(submit, feedback, signals.PAUSE_MS);
+      }
+      return { rapid: rapid, tries: wrongTries };
+    }
+
+    // The hint stays on the screen while the answer is changed: it is what the student needs to read to change it. The frame on the field goes.
     answer.addEventListener("input", function () {
-      feedback.className = "feedback-message";
-      feedback.textContent = "";
-      storeAnswerProgress(lesson.id, taskId, answer.value, "", "", "", false, null, exercise.prompt, labelText);
+      answer.classList.remove("is-wrong");
+      storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), "", "", false, null, exercise.prompt, labelText);
     });
 
+    // An answer to a question about an equation is first put into the equation, as on paper (substitution.js): the equation, the answer in place of the
+    // letter, what the two sides come to. Then the answer is marked. A click or another press on "Kolla svaret" skips to the end.
+    const SUB = window.GaussicaSubstitution;
+    const ASKS_FOR_X = /\b(lös|lösning|lösa|vad är [a-z]\b|vilket värde|bestäm|beräkna|värdet på|ekvationen)/i;
+    const substHost = makeElement("div", "subst-host");
+    let animating = null, played = 0;
     form.addEventListener("submit", function (event) {
       event.preventDefault();
+      if (animating) { animating.skip(); return; }
+      const typed = answer.value.trim();
+      const info = typed && SUB && exercise.substitute !== false && ASKS_FOR_X.test(exercise.prompt) ? SUB.available(exercise.prompt, typed) : null;
+      // a wrong answer that comes while the last hint is still being read is not taken, so nothing is played for it either
+      if (info && !(!info.equal && Date.now() < pausedUntil)) {
+        substHost.replaceChildren();
+        feedback.className = "feedback-message";
+        feedback.textContent = "";
+        const play = SUB.play(info, { speed: played++ ? 0.6 : 1, onDone: function () { animating = null; submit.classList.remove("is-checking"); handleSubmit(); } });
+        animating = play;
+        submit.classList.add("is-checking");
+        substHost.appendChild(play.el);
+        return;
+      }
+      handleSubmit();
+    });
+
+    function handleSubmit() {
+      if (window.GaussicaSpeech) window.GaussicaSpeech.stop();
       const rawValue = answer.value.trim();
       const value = rawValue.toLowerCase().replace(/\s+/g, "");
 
@@ -484,6 +591,23 @@ window.GaussicaQuestions = (function () {
         });
       }
 
+      // A word that is almost right in the spelling is the right word: the student knows it and cannot spell it yet. It is shown how it is spelled.
+      const slipped = !isCorrect && !exercise.exact && readingSettings.spelling !== "strict" && SP
+        ? SP.match(rawValue, exercise.answer, SP.contextFor(lesson, exercise)) : null;
+      if (slipped) {
+        const note = readingSettings.spelling === "quiet" ? "" : " Ordet stavas ”" + slipped.word + "”.";
+        feedback.className = "feedback-message feedback-correct";
+        window.GaussicaText.set(feedback, exercise.correct);
+        if (note) feedback.appendChild(makeElement("strong", "feedback-spelling", note));
+        storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), exercise.correct + note, "correct", true, "Stavning: skrev ”" + slipped.wrote + "”, ska vara ”" + slipped.word + "”", exercise.prompt, labelText);
+        bankPoint(rawValue);
+        finish(true);
+        return;
+      }
+
+      // A new wrong answer while the last hint is still being read is not taken, only pointed at it. A right answer always is.
+      if (!isCorrect && Date.now() < pausedUntil) { signals.nudge(feedback); return; }
+
       // The right value written as a calculation ("36/6" for 6): where the point is to calculate, ask for the number.
       const MS = window.MATTE_SYMBOLIC;
       if (isCorrect && MS && MS.isCalculation(rawValue) && MS.expectsPlainNumber(exercise.answer) &&
@@ -491,7 +615,7 @@ window.GaussicaQuestions = (function () {
         const note = "Det stämmer, men du ska räkna ut svaret och skriva det som ett tal. Skriv talet i stället för uträkningen.";
         feedback.className = "feedback-message feedback-hint";
         window.GaussicaText.set(feedback, note);
-        storeAnswerProgress(lesson.id, taskId, answer.value, "", note, "hint", false, "Skrev en uträkning i stället för ett svar", exercise.prompt, labelText);
+        storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), note, "hint", false, "Skrev en uträkning i stället för ett svar", exercise.prompt, labelText);
         finish(false);
         return;
       }
@@ -501,7 +625,7 @@ window.GaussicaQuestions = (function () {
       if (formNote) {
         feedback.className = "feedback-message feedback-hint";
         window.GaussicaText.set(feedback, formNote);
-        storeAnswerProgress(lesson.id, taskId, answer.value, "", formNote, "hint", false, "Skrev rätt värde på fel sätt", exercise.prompt, labelText);
+        storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), formNote, "hint", false, "Skrev rätt värde på fel sätt", exercise.prompt, labelText);
         finish(false);
         return;
       }
@@ -509,7 +633,8 @@ window.GaussicaQuestions = (function () {
       if (isCorrect) {
         feedback.className = "feedback-message feedback-correct";
         window.GaussicaText.set(feedback, exercise.correct);
-        storeAnswerProgress(lesson.id, taskId, answer.value, "", exercise.correct, "correct", true, null, exercise.prompt, labelText);
+        storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), exercise.correct, "correct", true, null, exercise.prompt, labelText);
+        bankPoint(rawValue);
         finish(true);
         return;
       }
@@ -525,8 +650,19 @@ window.GaussicaQuestions = (function () {
       if (misconception) {
         feedback.className = "feedback-message feedback-hint";
         window.GaussicaText.set(feedback, misconception.message);
-        storeAnswerProgress(lesson.id, taskId, answer.value, "", misconception.message, "hint", false, misconception.message, exercise.prompt, labelText);
-        finish(false);
+        storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), misconception.message, "hint", false, misconception.message, exercise.prompt, labelText);
+        finish(false, wrongSignals());
+        return;
+      }
+
+      // 2b. The usual mistakes of algebra, found from what one wrong rule or step gives, with a check by numbers (algebra.js)
+      const algebraSlip = ALG ? ALG.diagnose(rawValue, exercise.prompt) : null;
+      if (algebraSlip) {
+        feedback.className = "feedback-message feedback-hint feedback-diagnosed";
+        feedback.replaceChildren();
+        feedback.append(makeElement("span", "feedback-diagnosed-badge", "💡 Upptäckt mönster: " + algebraSlip.title), makeElement("p", "", algebraSlip.explanation));
+        storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), algebraSlip.title + ": " + algebraSlip.explanation, "hint", false, algebraSlip.title, exercise.prompt, labelText);
+        finish(false, wrongSignals(algebraSlip.explanation));
         return;
       }
 
@@ -547,17 +683,33 @@ window.GaussicaQuestions = (function () {
         const badge = makeElement("span", "feedback-diagnosed-badge", "💡 Upptäckt mönster: " + autoDiagnosis.title);
         const explanationP = makeElement("p", "", autoDiagnosis.explanation);
         feedback.append(badge, explanationP);
-        storeAnswerProgress(lesson.id, taskId, answer.value, "", autoDiagnosis.title + ": " + autoDiagnosis.explanation, "hint", false, autoDiagnosis.title, exercise.prompt, labelText);
-        finish(false);
+        storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), autoDiagnosis.title + ": " + autoDiagnosis.explanation, "hint", false, autoDiagnosis.title, exercise.prompt, labelText);
+        finish(false, wrongSignals(autoDiagnosis.explanation));
+        return;
+      }
+
+      // 3b. Careful guesses about what happened to the answer (another way of counting, a first step only, digits in another order, too large ...).
+      // Said as a question or a pointer, never as the solution (slips.js)
+      const slip = window.GaussicaSlips ? window.GaussicaSlips.diagnose(rawValue, exercise.prompt, exercise.answer, { variant: wrongTries }) : null;
+      if (slip) {
+        feedback.className = "feedback-message feedback-hint" + (slip.generic ? "" : " feedback-diagnosed");
+        feedback.replaceChildren();
+        if (slip.generic) {
+          feedback.textContent = slip.explanation;
+        } else {
+          feedback.append(makeElement("span", "feedback-diagnosed-badge", "💡 Tips: " + slip.title), makeElement("p", "", slip.explanation));
+        }
+        storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), slip.explanation, "hint", false, slip.title, exercise.prompt, labelText);
+        finish(false, wrongSignals(slip.explanation));
         return;
       }
 
       // 4. Standardledtråd
       feedback.className = "feedback-message feedback-hint";
       feedback.textContent = "Det svaret stämmer inte riktigt ännu. Titta på förklaringen ovan och prova att ta ett steg i taget.";
-      storeAnswerProgress(lesson.id, taskId, answer.value, "", feedback.textContent, "hint", false, "Generellt beräkningsfel", exercise.prompt, labelText);
-      finish(false);
-    });
+      storeAnswerProgress(lesson.id, taskId, answer.value, stepsText(), feedback.textContent, "hint", false, "Generellt beräkningsfel", exercise.prompt, labelText);
+      finish(false, wrongSignals());
+    }
 
     // Keys for signs that are hard to find on a keyboard (< > ≠, brackets): "keys": ["<", "=", ">"] on a question
     let keysRow = null;
@@ -581,14 +733,27 @@ window.GaussicaQuestions = (function () {
       });
     }
 
+    // Lessons that write maths (input: "math"): buttons for x², a power, a root, a fraction and brackets, and a line that shows what is written as on paper
+    const MI = window.GaussicaMathInput;
+    let previewLine = null;
+    if (MI && (lesson.input === "math" || exercise.input === "math")) {
+      // the signs of the question itself (< > = ...) come after the ones for maths
+      keysRow = MI.keys(answer, { keepFocus: keepFocus, extra: Array.isArray(exercise.keys) ? exercise.keys : [] });
+      previewLine = MI.preview(answer);
+    }
+
     if (opts && opts.answerHost) {   // the player keeps these in its bottom bar
       if (keysRow) opts.answerHost.appendChild(keysRow);
+      if (bankRow) opts.answerHost.appendChild(bankRow);
       opts.answerHost.appendChild(form);
-      (opts.feedbackHost || section).appendChild(feedback);
+      if (previewLine) opts.answerHost.appendChild(previewLine);
+      (opts.feedbackHost || section).append(substHost, feedback);
     } else {
+      if (bankRow) section.append(bankRow);
       section.append(form);
       if (keysRow) section.appendChild(keysRow);
-      section.append(feedback);
+      if (previewLine) section.appendChild(previewLine);
+      section.append(substHost, feedback);
     }
     parent.appendChild(section);
   }

@@ -177,9 +177,54 @@ window.GaussicaPractice = (function () {
     return out;
   }
 
+  // ----- terms: what is easily mixed up, and the ways to ask about one -----
+  const STOP = { som: 1, det: 1, den: 1, ett: 1, eller: 1, till: 1, från: 1, med: 1, och: 1, att: 1, man: 1, inte: 1, när: 1, där: 1, vad: 1, hur: 1, kallas: 1, också: 1, tecknet: 1, finns: 1 };
+  function wordsOf(p) {
+    const set = {};
+    String(p.definition || "").toLowerCase().replace(/[^a-zåäö ]+/g, " ").split(/\s+/).forEach(function (w) { if (w.length >= 4 && !STOP[w]) set[w.slice(0, 5)] = 1; });
+    return set;
+  }
+  // how alike two explanations are (the words they share, of all the words they have): "Svaret på en addition" and "Svaret på en subtraktion" share most of theirs
+  function likeness(a, b) {
+    const x = wordsOf(a), y = wordsOf(b);
+    const xs = Object.keys(x), ys = Object.keys(y);
+    if (!xs.length || !ys.length) return 0;
+    const shared = xs.filter(function (w) { return y[w]; }).length;
+    return shared / (xs.length + ys.length - shared);
+  }
+  // the pool in the order of how easily the terms are mixed up with the first one (the first one stays first)
+  function nearest(pool) {
+    const first = pool[0];
+    const rest = pool.slice(1).map(function (p, i) { return { p: p, i: i, s: likeness(first, p) }; });
+    rest.sort(function (a, b) { return b.s - a.s || a.i - b.i; });
+    return [first].concat(rest.map(function (r) { return r.p; }));
+  }
+  // The sentence with the term (and its other forms) left out as ___, or null if it does not have the term in it or if a part of the word is left
+  function hidden(sentence, p) {
+    let s = String(sentence);
+    const forms = [p.term].concat(p.alt || []).filter(function (w) { return /[a-zåäö]{3,}/i.test(w); }).sort(function (a, b) { return b.length - a.length; });
+    let changed = false;
+    forms.forEach(function (w) {
+      const re = new RegExp(w.replace(/[.*+?^$()|[\]\\{}]/g, "\\$&"), "gi");
+      if (re.test(s)) { changed = true; s = s.replace(re, "___"); }
+    });
+    if (!changed) return null;
+    const stem = String(p.term).toLowerCase().replace(/[^a-zåäö]/g, "");
+    if (stem.length >= 5 && s.toLowerCase().indexOf(stem.slice(0, stem.length - 2)) >= 0) return null;
+    return s;
+  }
+  // the ways to ask about a term: its explanation, and the examples with the word missing
+  function faces(p) {
+    const out = [{ kind: "definition", text: p.definition }];
+    [].concat(p.examples || [], p.example || []).forEach(function (e) { const h = hidden(e, p); if (h) out.push({ kind: "example", text: h }); });
+    return out;
+  }
+
   // Terms and explanations ("begrepp"): template.pool = [{ term, definition, alt: [other accepted spellings] }].
-  //   mode "koppla" (default): a matching round with template.size pairs
-  //   mode "fraga": one explanation, the student writes the term
+  //   mode "koppla" (default): a matching round with template.size pairs. The pairs are a term and the terms it is most easily mixed up with (the ones
+  //                            whose explanations use the same words), each shown with its explanation or with an example that has the term left out
+  //   mode "fraga": one explanation (or an example with the word missing), the student writes the term
+  //   a pool item may have examples: ["I 3 + 4 = 7 är 7 summan."]
   //   mode "santfalskt": template.pool = [{ text, answer: true | false, explain }], a true/false round with template.size statements
   function buildFromPool(template, seed) {
     const rand = rng(seed);
@@ -210,20 +255,43 @@ window.GaussicaPractice = (function () {
     }
     if (template.mode === "fraga") {
       const p = pool[0];
+      const accepted = [p.term].concat(p.alt || []);
+      const plain = function (s) { return String(s).toLowerCase().replace(/s+/g, ""); };
+      const cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
+      // a term of the pool given for another explanation: what that term means (these words are also what the word bank offers instead)
+      const feedback = [];
+      pool.slice(1).forEach(function (q) {
+        const answers = [q.term].concat(q.alt || []).filter(function (a) { return !accepted.some(function (x) { return plain(x) === plain(a); }); });
+        if (answers.length) feedback.push({ answers: answers, message: cap(q.term) + " betyder: " + String(q.definition).replace(/[.!?]+$/, "") + ". Det är inte det som frågas. Läs förklaringen en gång till." });
+      });
+      // asked with the explanation or with an example where the word is missing: not always the same sentence for the same word
+      const options = faces(p);
+      const face = options[Math.floor(rand() * options.length)];
+      // the words it is easiest to mix up with are what the word bank offers
+      const near = nearest(pool).slice(1, 5).map(function (q) { return q.term; });
       return {
-        prompt: (template.prompt || "Vilket begrepp passar förklaringen? Skriv begreppet.") + " ”" + p.definition + "”",
-        answer: [p.term].concat(p.alt || []),
-        correct: "Rätt! " + p.term.charAt(0).toUpperCase() + p.term.slice(1) + ": " + p.definition,
-        feedback: []
+        prompt: face.kind === "example" ? "Vilket ord fattas? Skriv begreppet. ”" + face.text + "”" : (template.prompt || "Vilket begrepp passar förklaringen? Skriv begreppet.") + " ”" + face.text + "”",
+        answer: accepted,
+        correct: "Rätt! " + cap(p.term) + ": " + p.definition,
+        feedback: feedback,
+        bank: near,
+        terms: [p.term], level: 2
       };
     }
     const size = Math.max(2, Math.min(template.size || 4, pool.length));
+    // one term and those it is most easily mixed up with: with other terms the explanations tell them apart by their first words
+    const picked = nearest(pool).slice(0, size);
     return {
       prompt: template.prompt || "Para ihop varje begrepp med rätt förklaring.",
-      pairs: pool.slice(0, size).map(function (p) { return { term: p.term, definition: p.definition }; }),
+      pairs: picked.map(function (p) {
+        const options = faces(p);
+        const face = options[Math.floor(rand() * options.length)];
+        return { term: p.term, definition: face.text };
+      }),
       answer: ["alla par rätt"],
       correct: template.correct || "Alla begrepp är rätt ihopparade!",
-      feedback: []
+      feedback: [],
+      terms: picked.map(function (p) { return p.term; }), level: 1
     };
   }
 
@@ -297,6 +365,8 @@ window.GaussicaPractice = (function () {
         if (answers.length && f.message) feedback.push({ answers: answers, message: f.message });
       });
       const problem = { prompt: r.prompt, answer: answer, correct: r.correct, feedback: feedback };
+      // which terms the question is about, and how much it asks of the student (3: to use it on numbers it has not seen before): see terms.js
+      if (Array.isArray(template.terms) && template.terms.length) { problem.terms = template.terms.slice(); problem.level = template.level || 3; }
       if (typeof template.allowExpression === "boolean") problem.allowExpression = template.allowExpression;
       if (typeof template.form === "string") problem.form = template.form;
       if (Array.isArray(template.keys)) problem.keys = template.keys;
@@ -332,15 +402,22 @@ window.GaussicaPractice = (function () {
     return list[list.length - 1];
   }
 
-  // Fresh question for a lesson that differs from the prompts in `avoid` (a Set of strings).
-  function fresh(lesson, weights, avoid) {
-    for (let i = 0; i < 25; i++) {
+  // Fresh question for a lesson that differs from the prompts in `avoid` (a Set of strings). `bias(problem)` (optional) says how much a student needs a question
+  // (terms.js: the terms that are not safe yet): a few questions are made and one of them is drawn, the ones that are needed most with the best chance.
+  function fresh(lesson, weights, avoid, bias) {
+    const found = [];
+    for (let i = 0; i < 30 && found.length < (bias ? 8 : 1); i++) {
       const t = chooseTemplate(lesson, weights);
-      if (!t) return null;
+      if (!t) break;
       const q = generate(lesson, t.id, randomSeed());
-      if (q && !(avoid && avoid.has(q.problem.prompt))) return q;
+      if (q && !(avoid && avoid.has(q.problem.prompt)) && !found.some(function (x) { return x.problem.prompt === q.problem.prompt; })) found.push(q);
     }
-    return null;
+    if (!found.length) return null;
+    if (!bias || found.length === 1) return found[0];
+    const scores = found.map(function (q) { return Math.max(0.05, Number(bias(q.problem)) || 0); });
+    let r = Math.random() * scores.reduce(function (a, b) { return a + b; }, 0);
+    for (let i = 0; i < found.length; i++) { r -= scores[i]; if (r <= 0) return found[i]; }
+    return found[found.length - 1];
   }
 
   return {

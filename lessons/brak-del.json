@@ -30,41 +30,514 @@
   "practice": [
     {
       "id": "taljare",
-      "for": ["exercise"],
-      "vars": {"b":[3,12]},
-      "derive": [{"name":"a","expr":"b-2"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          3,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "b-2"
+        }
+      ],
       "prompt": "Vilket tal är täljaren i bråket {a}/{b}?",
-      "answer": ["=a"],
+      "answer": [
+        "=a"
+      ],
       "correct": "Rätt! Täljaren är det övre talet, {a}.",
-      "feedback": [{"answers":["=b"],"message":"{b} är nämnaren, det nedre talet. Täljaren står överst."}]
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} är nämnaren, det nedre talet. Täljaren står överst."
+        }
+      ]
     },
     {
       "id": "farglagda",
-      "for": ["exercise"],
-      "vars": {"b":[3,10],"a":[1,9]},
-      "where": [{"expr":"b-a","min":1}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          3,
+          10
+        ],
+        "a": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
       "prompt": "En cirkel är delad i {b} lika stora delar. {a} av delarna är färgade. Vilket bråk är färgat? Svara som bråk.",
-      "answer": ["{a}/{b}"],
+      "answer": [
+        "{a}/{b}"
+      ],
       "correct": "Rätt! {a} av {b} delar är färgade: {a}/{b}.",
       "feedback": [
         {
-          "answers": ["{b}/{a}"],
+          "answers": [
+            "{b}/{a}"
+          ],
           "message": "Täljaren (överst) visar antalet färgade delar och nämnaren (nederst) hur många delar helheten är delad i."
         }
       ]
     },
     {
       "id": "del-av",
-      "for": ["word-0"],
-      "vars": {"n":[2,6],"k":[2,9]},
-      "derive": [{"name":"t","expr":"n*k"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          2,
+          6
+        ],
+        "k": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "n*k"
+        }
+      ],
       "prompt": "Vad är 1/{n} av {t}?",
-      "answer": ["=k"],
+      "answer": [
+        "=k"
+      ],
       "correct": "Rätt! {t}/{n} = {k}.",
       "feedback": [
         {
-          "answers": ["=t*n"],
+          "answers": [
+            "=t*n"
+          ],
           "message": "1/{n} betyder att du delar {t} i {n} lika delar. Du ska dela, inte multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "bd-hitta-felet",
+      "mode": "hittafelet",
+      "prompt": "Här har någon tänkt fel om bråk. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Lea delar en pizza i 3 delar. Vilket steg är fel?",
+          "steps": [
+            "Pizzan delas i 3 delar, men en del är mycket större än de andra.",
+            "Lea tar den lilla delen.",
+            "Hon säger att hon har 1/3 av pizzan."
+          ],
+          "wrong": 2,
+          "explain": "Ett bråk kräver lika stora delar. Här är delarna olika stora, så den lilla delen är inte 1/3.",
+          "fix": "Dela pizzan i 3 lika stora delar.",
+          "hint": "Är delarna lika stora?"
+        },
+        {
+          "prompt": "Omar färglägger 2 av 5 lika stora delar. Vilket steg är fel?",
+          "steps": [
+            "Figuren är delad i 5 lika stora delar.",
+            "Omar färglägger 2 av dem.",
+            "Han skriver bråket 5/2."
+          ],
+          "wrong": 2,
+          "explain": "Täljaren visar hur många delar som är färgade, och nämnaren hur många delar helheten är delad i: 2/5.",
+          "fix": "Skriv 2/5.",
+          "hint": "Vilket tal ska stå överst?"
+        },
+        {
+          "prompt": "Mira jämför 1/8 och 1/4. Vilket steg är fel?",
+          "steps": [
+            "1/8 är en hel delad i 8 lika delar, och 1/4 en hel delad i 4 lika delar.",
+            "8 är större än 4.",
+            "Alltså är 1/8 större än 1/4."
+          ],
+          "wrong": 2,
+          "explain": "Delas en hel i fler delar blir varje del mindre. En åttondel är mindre än en fjärdedel.",
+          "fix": "1/4 är större än 1/8.",
+          "hint": "Blir delarna större eller mindre när de blir fler?"
+        },
+        {
+          "prompt": "Ali delar 12 kulor lika mellan 4 barn och säger att varje barn får 1/4 av kulorna, alltså 4 kulor. Vilket steg är fel?",
+          "steps": [
+            "12 kulor delas lika på 4 barn.",
+            "Varje barn får 12 delat med 4 kulor.",
+            "Det är 1/4 av kulorna, alltså 4 kulor."
+          ],
+          "wrong": 2,
+          "explain": "1/4 av 12 är 12 delat med 4, alltså 3 kulor, inte 4. Barnen får 3 kulor var.",
+          "fix": "Varje barn får 3 kulor.",
+          "hint": "Hur många kulor är 12 delat med 4?"
+        },
+        {
+          "prompt": "Lea säger att 3/3 är mindre än en hel eftersom 3 är en liten nämnare. Vilket steg är fel?",
+          "steps": [
+            "3/3 betyder 3 av 3 lika stora delar.",
+            "Alla delar är med.",
+            "Därför är 3/3 mindre än en hel."
+          ],
+          "wrong": 2,
+          "explain": "Är alla delar med är det en hel. 3/3 = 1.",
+          "fix": "3/3 är lika med en hel.",
+          "hint": "Hur många delar saknas?"
+        }
+      ]
+    },
+    {
+      "id": "bd-sant-falskt",
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "Hälften av en liten pizza och hälften av en stor pizza är lika mycket.",
+          "answer": false,
+          "explain": "Hälften av olika stora helheter är olika mycket."
+        },
+        {
+          "text": "Ju fler lika delar en helhet delas i, desto mindre blir varje del.",
+          "answer": true,
+          "explain": "En tiondel är mindre än en femtedel."
+        },
+        {
+          "text": "3/3 är lika med en hel.",
+          "answer": true,
+          "explain": "Alla delar är med: tre tredjedelar är en hel."
+        },
+        {
+          "text": "I 3/4 visar 4 hur många delar vi har.",
+          "answer": false,
+          "explain": "Nämnaren 4 visar hur många lika delar helheten är delad i. Täljaren 3 visar hur många vi har."
+        },
+        {
+          "text": "1/5 är större än 1/4.",
+          "answer": false,
+          "explain": "Delas en hel i 5 delar blir varje del mindre än när den delas i 4."
+        },
+        {
+          "text": "En halv är samma sak som två fjärdedelar.",
+          "answer": true,
+          "explain": "2/4 = 1/2."
+        },
+        {
+          "text": "Ett bråk kan vara större än en hel.",
+          "answer": true,
+          "explain": "5/4 är fem fjärdedelar: mer än en hel."
+        },
+        {
+          "text": "Delarna i ett bråk måste vara lika stora.",
+          "answer": true,
+          "explain": "Annars säger bråket inget om hur mycket det är."
+        },
+        {
+          "text": "4/4 är större än en hel.",
+          "answer": false,
+          "explain": "4/4 är fyra av fyra delar: precis en hel."
+        },
+        {
+          "text": "1/2 av 8 kulor är lika många som 4/8 av 8 kulor.",
+          "answer": true,
+          "explain": "Båda är 4 kulor, för 1/2 = 4/8."
+        }
+      ]
+    },
+    {
+      "id": "bd-ordna-styckdelar",
+      "mode": "ordna",
+      "size": 4,
+      "prompt": "Alla bråken har täljaren 1. Sätt dem i ordning efter hur stor delen är, minst först.",
+      "top": "Minst",
+      "bottom": "Störst",
+      "pool": [
+        {
+          "text": "1/2",
+          "value": 0.5
+        },
+        {
+          "text": "1/3",
+          "value": 0.3333333333333333
+        },
+        {
+          "text": "1/4",
+          "value": 0.25
+        },
+        {
+          "text": "1/5",
+          "value": 0.2
+        },
+        {
+          "text": "1/6",
+          "value": 0.16666666666666666
+        },
+        {
+          "text": "1/8",
+          "value": 0.125
+        },
+        {
+          "text": "1/10",
+          "value": 0.1
+        }
+      ]
+    },
+    {
+      "id": "bd-sortera-halften",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Är bråket mindre än hälften, precis hälften eller mer än hälften?",
+      "categories": [
+        "Mindre än hälften",
+        "Precis hälften",
+        "Mer än hälften"
+      ],
+      "pool": [
+        {
+          "text": "1/4",
+          "category": 0,
+          "explain": "1 är mindre än hälften av 4."
+        },
+        {
+          "text": "3/8",
+          "category": 0,
+          "explain": "Hälften av 8 är 4, och 3 är mindre."
+        },
+        {
+          "text": "2/5",
+          "category": 0,
+          "explain": "Hälften av 5 är 2,5, och 2 är mindre."
+        },
+        {
+          "text": "1/3",
+          "category": 0,
+          "explain": "Hälften av 3 är 1,5, och 1 är mindre."
+        },
+        {
+          "text": "2/4",
+          "category": 1,
+          "explain": "2 är hälften av 4."
+        },
+        {
+          "text": "4/8",
+          "category": 1,
+          "explain": "4 är hälften av 8."
+        },
+        {
+          "text": "3/6",
+          "category": 1,
+          "explain": "3 är hälften av 6."
+        },
+        {
+          "text": "5/10",
+          "category": 1,
+          "explain": "5 är hälften av 10."
+        },
+        {
+          "text": "3/4",
+          "category": 2,
+          "explain": "3 är mer än hälften av 4."
+        },
+        {
+          "text": "5/8",
+          "category": 2,
+          "explain": "Hälften av 8 är 4, och 5 är mer."
+        },
+        {
+          "text": "2/3",
+          "category": 2,
+          "explain": "Hälften av 3 är 1,5, och 2 är mer."
+        },
+        {
+          "text": "4/5",
+          "category": 2,
+          "explain": "Hälften av 5 är 2,5, och 4 är mer."
+        }
+      ]
+    },
+    {
+      "id": "bd-luckor-kvar",
+      "mode": "lucktext",
+      "vars": {
+        "b": [
+          4,
+          9
+        ],
+        "a": [
+          1,
+          3
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "b-a"
+        }
+      ],
+      "prompt": "Fyll i luckorna.",
+      "text": "En pizza delas i {b} lika stora delar. Du äter {a} av dem. Du har ätit {a}/[[1]] av pizzan, och det är [[2]] delar kvar. De som är kvar är [[3]]/{b} av pizzan.",
+      "blanks": [
+        {
+          "answer": [
+            "=b"
+          ],
+          "hint": "Nämnaren är antalet delar helheten är delad i."
+        },
+        {
+          "answer": [
+            "=r"
+          ],
+          "hint": "Alla delar minus de du åt."
+        },
+        {
+          "answer": [
+            "=r"
+          ],
+          "hint": "Täljaren är hur många delar det är."
+        }
+      ]
+    },
+    {
+      "id": "bd-hela",
+      "vars": {
+        "b": [
+          3,
+          9
+        ],
+        "k": [
+          2,
+          4
+        ]
+      },
+      "prompt": "En hel delas i {b} lika delar. Hur många {b}-delar behövs för att få {k} hela? Skriv talet.",
+      "answer": [
+        "=b*k"
+      ],
+      "correct": "Rätt! {b} delar är en hel, så {k} hela är {k} · {b} = {b*k} delar.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} delar är en hel. Du ska få {k} hela."
+        },
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "Hur många delar behövs för en enda hel?"
+        }
+      ]
+    },
+    {
+      "id": "bd-saknas",
+      "vars": {
+        "b": [
+          4,
+          12
+        ],
+        "a": [
+          1,
+          3
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "b-a"
+        }
+      ],
+      "prompt": "Du har {a}/{b} av en pizza. Hur många {b}-delar saknas för att du ska ha en hel pizza? Skriv talet.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! En hel pizza är {b}/{b}, och {b} − {a} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} är de delar du har. Du ska ta reda på hur många som saknas."
+        },
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} delar är en hel pizza. Du har redan några av dem."
+        }
+      ]
+    },
+    {
+      "id": "bd-hela-mangden",
+      "vars": {
+        "x": [
+          2,
+          9
+        ],
+        "b": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "x*b"
+        }
+      ],
+      "prompt": "{x} kulor är 1/{b} av alla kulor. Hur många kulor finns det? Skriv talet.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Om {x} kulor är en {b}-del är hela mängden {b} · {x} = {n} kulor.",
+      "feedback": [
+        {
+          "answers": [
+            "=x"
+          ],
+          "message": "{x} kulor är bara en del. Hela mängden är {b} sådana delar."
+        },
+        {
+          "answers": [
+            "=x/b"
+          ],
+          "message": "Du har delat, men delen är redan känd. Hela mängden är större än delen."
+        }
+      ]
+    },
+    {
+      "id": "bd-storst",
+      "vars": {
+        "b": [
+          2,
+          6
+        ],
+        "c": [
+          7,
+          12
+        ]
+      },
+      "prompt": "Vilken del är störst: 1/{b} eller 1/{c}? Skriv bråket.",
+      "answer": [
+        "1/{b}"
+      ],
+      "correct": "Rätt! Delas en hel i färre delar ({b}) blir varje del större än när den delas i fler ({c}).",
+      "feedback": [
+        {
+          "answers": [
+            "1/{c}"
+          ],
+          "message": "{c} är ett större tal, men nämnaren visar hur många delar helheten delas i. Fler delar ger mindre delar."
         }
       ]
     }

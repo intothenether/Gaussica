@@ -167,35 +167,67 @@
       "pool": [
         {
           "term": "bråk",
-          "definition": "Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck."
+          "definition": "Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck.",
+          "examples": [
+            "3/4 och 1/2 är bråk.",
+            "Ett bråk har ett bråkstreck."
+          ]
         },
         {
           "term": "täljare",
-          "definition": "Talet över bråkstrecket. Det visar hur många delar man har."
+          "definition": "Talet över bråkstrecket. Det visar hur många delar man har.",
+          "examples": [
+            "I 3/4 är 3 täljaren.",
+            "Talet över bråkstrecket kallas täljaren."
+          ]
         },
         {
           "term": "nämnare",
-          "definition": "Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i."
+          "definition": "Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i.",
+          "examples": [
+            "I 3/4 är 4 nämnaren.",
+            "Talet under bråkstrecket kallas nämnaren."
+          ]
         },
         {
           "term": "likvärdiga bråk",
-          "definition": "Bråk som skrivs olika men har samma värde."
+          "definition": "Bråk som skrivs olika men har samma värde.",
+          "examples": [
+            "1/2 och 2/4 är likvärdiga bråk.",
+            "2/3 och 4/6 är likvärdiga bråk."
+          ]
         },
         {
           "term": "förkorta",
-          "definition": "Dela täljare och nämnare med samma tal så att bråket blir enklare."
+          "definition": "Dela täljare och nämnare med samma tal så att bråket blir enklare.",
+          "examples": [
+            "Att förkorta 6/8 med 2 ger 3/4.",
+            "Att förkorta ett bråk gör det enklare."
+          ]
         },
         {
           "term": "förlänga",
-          "definition": "Multiplicera täljare och nämnare med samma tal."
+          "definition": "Multiplicera täljare och nämnare med samma tal.",
+          "examples": [
+            "Att förlänga 1/2 med 3 ger 3/6.",
+            "Att förlänga ett bråk ger ett likvärdigt bråk."
+          ]
         },
         {
           "term": "decimaltal",
-          "definition": "Ett tal med decimaltecken (komma) som visar delar av en hel."
+          "definition": "Ett tal med decimaltecken (komma) som visar delar av en hel.",
+          "examples": [
+            "0,5 är ett decimaltal.",
+            "0,25 och 3,7 är decimaltal."
+          ]
         },
         {
           "term": "procent",
-          "definition": "Hundradelar. 1 % betyder 1/100."
+          "definition": "Hundradelar. 1 % betyder 1/100.",
+          "examples": [
+            "25 procent betyder 25 hundradelar.",
+            "Hälften är 50 procent."
+          ]
         }
       ]
     },
@@ -212,13 +244,21 @@
         {
           "term": "bråk",
           "definition": "Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck.",
-          "alt": []
+          "alt": [],
+          "examples": [
+            "3/4 och 1/2 är bråk.",
+            "Ett bråk har ett bråkstreck."
+          ]
         },
         {
           "term": "täljare",
           "definition": "Talet över bråkstrecket. Det visar hur många delar man har.",
           "alt": [
             "täljaren"
+          ],
+          "examples": [
+            "I 3/4 är 3 täljaren.",
+            "Talet över bråkstrecket kallas täljaren."
           ]
         },
         {
@@ -226,6 +266,10 @@
           "definition": "Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i.",
           "alt": [
             "nämnaren"
+          ],
+          "examples": [
+            "I 3/4 är 4 nämnaren.",
+            "Talet under bråkstrecket kallas nämnaren."
           ]
         },
         {
@@ -234,6 +278,10 @@
           "alt": [
             "likvärdiga",
             "likvärdigt"
+          ],
+          "examples": [
+            "1/2 och 2/4 är likvärdiga bråk.",
+            "2/3 och 4/6 är likvärdiga bråk."
           ]
         },
         {
@@ -242,6 +290,10 @@
           "alt": [
             "förkortning",
             "att förkorta"
+          ],
+          "examples": [
+            "Att förkorta 6/8 med 2 ger 3/4.",
+            "Att förkorta ett bråk gör det enklare."
           ]
         },
         {
@@ -250,6 +302,10 @@
           "alt": [
             "förlängning",
             "att förlänga"
+          ],
+          "examples": [
+            "Att förlänga 1/2 med 3 ger 3/6.",
+            "Att förlänga ett bråk ger ett likvärdigt bråk."
           ]
         },
         {
@@ -257,6 +313,10 @@
           "definition": "Ett tal med decimaltecken (komma) som visar delar av en hel.",
           "alt": [
             "decimaltalet"
+          ],
+          "examples": [
+            "0,5 är ett decimaltal.",
+            "0,25 och 3,7 är decimaltal."
           ]
         },
         {
@@ -264,6 +324,10 @@
           "definition": "Hundradelar. 1 % betyder 1/100.",
           "alt": [
             "procenten"
+          ],
+          "examples": [
+            "25 procent betyder 25 hundradelar.",
+            "Hälften är 50 procent."
           ]
         }
       ]
@@ -326,6 +390,590 @@
           "text": "6/8 förkortat med 2 blir 12/16.",
           "answer": false,
           "explain": "Att förkorta är att dela. 6/8 förkortat med 2 blir 3/4."
+        }
+      ]
+    },
+    {
+      "id": "b-taljare-ord",
+      "vars": {
+        "a": [
+          1,
+          8
+        ],
+        "b": [
+          3,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "I bråket {a}/{b} står talet {a} över bråkstrecket. Vad kallas det talet? Skriv begreppet.",
+      "answer": [
+        "täljare",
+        "täljaren"
+      ],
+      "correct": "Rätt! {a} är täljaren i {a}/{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "nämnare",
+            "nämnaren"
+          ],
+          "message": "Nämnare betyder: Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "bråk"
+          ],
+          "message": "Bråk betyder: Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "förkorta",
+            "förkortning",
+            "att förkorta"
+          ],
+          "message": "Förkorta betyder: Dela täljare och nämnare med samma tal så att bråket blir enklare. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "förlänga",
+            "förlängning",
+            "att förlänga"
+          ],
+          "message": "Förlänga betyder: Multiplicera täljare och nämnare med samma tal. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "täljare"
+      ]
+    },
+    {
+      "id": "b-namnare-ord",
+      "vars": {
+        "a": [
+          1,
+          8
+        ],
+        "b": [
+          3,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "I bråket {a}/{b} står talet {b} under bråkstrecket. Vad kallas det talet? Skriv begreppet.",
+      "answer": [
+        "nämnare",
+        "nämnaren"
+      ],
+      "correct": "Rätt! {b} är nämnaren i {a}/{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "täljare",
+            "täljaren"
+          ],
+          "message": "Täljare betyder: Talet över bråkstrecket. Det visar hur många delar man har. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "bråk"
+          ],
+          "message": "Bråk betyder: Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "förkorta",
+            "förkortning",
+            "att förkorta"
+          ],
+          "message": "Förkorta betyder: Dela täljare och nämnare med samma tal så att bråket blir enklare. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "förlänga",
+            "förlängning",
+            "att förlänga"
+          ],
+          "message": "Förlänga betyder: Multiplicera täljare och nämnare med samma tal. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "nämnare"
+      ]
+    },
+    {
+      "id": "b-vilken-taljare",
+      "vars": {
+        "a": [
+          1,
+          8
+        ],
+        "b": [
+          3,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "Vilket tal är täljaren i bråket {a}/{b}? Skriv talet.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Täljaren är talet över bråkstrecket: {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} är nämnaren, talet under bråkstrecket. Täljaren står över."
+        }
+      ],
+      "terms": [
+        "täljare"
+      ]
+    },
+    {
+      "id": "b-vilken-namnare",
+      "vars": {
+        "a": [
+          1,
+          8
+        ],
+        "b": [
+          3,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "Vilket tal är nämnaren i bråket {a}/{b}? Skriv talet.",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! Nämnaren är talet under bråkstrecket: {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} är täljaren, talet över bråkstrecket. Nämnaren står under."
+        }
+      ],
+      "terms": [
+        "nämnare"
+      ]
+    },
+    {
+      "id": "b-forlang-namnare",
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          2,
+          9
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        }
+      ],
+      "prompt": "Du förlänger {a}/{b} med {k}. Vad blir den nya nämnaren? Skriv talet.",
+      "answer": [
+        "=bk"
+      ],
+      "correct": "Rätt! När du förlänger multiplicerar du täljare och nämnare med {k}: {b} · {k} = {bk}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} är den gamla nämnaren. När du förlänger multiplicerar du både täljare och nämnare med {k}."
+        },
+        {
+          "answers": [
+            "=b+k"
+          ],
+          "message": "Du har lagt till {k}. Att förlänga är att multiplicera täljare och nämnare med samma tal."
+        }
+      ],
+      "terms": [
+        "förlänga",
+        "nämnare"
+      ]
+    },
+    {
+      "id": "b-forlang-taljare",
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          2,
+          9
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        }
+      ],
+      "prompt": "Du förlänger {a}/{b} med {k}. Vad blir den nya täljaren? Skriv talet.",
+      "answer": [
+        "=ak"
+      ],
+      "correct": "Rätt! {a} · {k} = {ak}, så det nya bråket är {ak}/{bk}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} är den gamla täljaren. När du förlänger multiplicerar du både täljare och nämnare med {k}."
+        },
+        {
+          "answers": [
+            "=a+k"
+          ],
+          "message": "Du har lagt till {k}. Att förlänga är att multiplicera täljare och nämnare med samma tal."
+        }
+      ],
+      "terms": [
+        "förlänga",
+        "täljare"
+      ]
+    },
+    {
+      "id": "b-forkorta-namnare",
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          2,
+          9
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        }
+      ],
+      "prompt": "Du förkortar {ak}/{bk} med {k}. Vad blir den nya nämnaren? Skriv talet.",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! {bk} ÷ {k} = {b}, så det förkortade bråket är {a}/{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=bk"
+          ],
+          "message": "{bk} är den gamla nämnaren. När du förkortar delar du både täljare och nämnare med {k}."
+        },
+        {
+          "answers": [
+            "=bk-k"
+          ],
+          "message": "Du har dragit ifrån {k}. Att förkorta är att dela täljare och nämnare med samma tal."
+        }
+      ],
+      "terms": [
+        "förkorta",
+        "nämnare"
+      ]
+    },
+    {
+      "id": "b-procent-decimal",
+      "vars": {
+        "p": [
+          5,
+          95,
+          5
+        ]
+      },
+      "prompt": "Skriv {p} % som ett decimaltal.",
+      "answer": [
+        "=p/100"
+      ],
+      "correct": "Rätt! Procent betyder hundradelar: {p} % = {p}/100 = {p/100}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p"
+          ],
+          "message": "Procent betyder hundradelar, så {p} % är {p}/100 och inte {p} hela."
+        },
+        {
+          "answers": [
+            "=p/10"
+          ],
+          "message": "{p} % är {p} hundradelar, inte {p} tiondelar."
+        }
+      ],
+      "terms": [
+        "procent",
+        "decimaltal"
+      ]
+    },
+    {
+      "id": "b-decimal-av-brak",
+      "vars": {
+        "a": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Skriv bråket {a}/10 som ett decimaltal.",
+      "answer": [
+        "=a/10"
+      ],
+      "correct": "Rätt! {a}/10 är {a} tiondelar, alltså {a/10}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a/100"
+          ],
+          "message": "{a}/10 är {a} tiondelar, inte {a} hundradelar."
+        },
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a}/10 är mindre än en hel. Hur många tiondelar är det?"
+        }
+      ],
+      "terms": [
+        "decimaltal",
+        "bråk"
+      ]
+    },
+    {
+      "id": "b-likvardiga-ja",
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          2,
+          9
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        }
+      ],
+      "prompt": "Är {a}/{b} och {ak}/{bk} likvärdiga bråk? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Ja! {ak}/{bk} är {a}/{b} förlängt med {k}, så de har samma värde.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "De har samma värde: {ak}/{bk} är {a}/{b} förlängt med {k}. Bråk som skrivs olika men har samma värde är likvärdiga."
+        }
+      ],
+      "terms": [
+        "likvärdiga bråk"
+      ]
+    },
+    {
+      "id": "b-likvardiga-nej",
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          2,
+          9
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        },
+        {
+          "name": "c",
+          "expr": "ak+1"
+        }
+      ],
+      "prompt": "Är {a}/{b} och {c}/{bk} likvärdiga bråk? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Nej! Förlänger du {a}/{b} med {k} blir det {ak}/{bk}, och det är inte samma sak som {c}/{bk}.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Förläng {a}/{b} med {k} och jämför med {c}/{bk}. Har de verkligen samma täljare?"
+        }
+      ],
+      "terms": [
+        "likvärdiga bråk"
+      ]
+    },
+    {
+      "id": "b-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Hur är talet skrivet?",
+      "categories": [
+        "Bråk",
+        "Decimaltal",
+        "Procent"
+      ],
+      "pool": [
+        {
+          "text": "1/2",
+          "category": 0
+        },
+        {
+          "text": "3/4",
+          "category": 0
+        },
+        {
+          "text": "2/5",
+          "category": 0
+        },
+        {
+          "text": "1/4",
+          "category": 0
+        },
+        {
+          "text": "0,5",
+          "category": 1
+        },
+        {
+          "text": "0,75",
+          "category": 1
+        },
+        {
+          "text": "0,4",
+          "category": 1
+        },
+        {
+          "text": "0,25",
+          "category": 1
+        },
+        {
+          "text": "50 %",
+          "category": 2
+        },
+        {
+          "text": "75 %",
+          "category": 2
+        },
+        {
+          "text": "40 %",
+          "category": 2
+        },
+        {
+          "text": "25 %",
+          "category": 2
         }
       ]
     }

@@ -119,7 +119,10 @@
 
   // ===== settings =====
   const KEY = "gaussica-reading";
-  const DEFAULTS = { size: 0, font: "standard", spacing: false, rate: 1 };
+  // read: the hint after a wrong answer is read aloud by itself (off: sound in a classroom is a surprise). buzz: a phone buzzes a little at a wrong answer.
+  // spelling: an answer that is a word, almost right in the spelling, counts ("note": with the right spelling shown, "quiet": without, "strict": it does not, see spelling.js).
+  // bank: the word bank under the field ("fade": it goes as the student gets on, "always", "off", see wordbank.js).
+  const DEFAULTS = { size: 0, font: "standard", spacing: false, rate: 1, read: false, buzz: true, spelling: "note", bank: "fade" };
 
   function settings() {
     try {
@@ -128,7 +131,9 @@
         const s = JSON.parse(raw);
         return {
           size: [0, 1, 2].indexOf(s.size) >= 0 ? s.size : 0, font: s.font === "lexend" ? "lexend" : "standard",
-          spacing: Boolean(s.spacing), rate: [0.8, 1, 1.25].indexOf(s.rate) >= 0 ? s.rate : 1
+          spacing: Boolean(s.spacing), rate: [0.8, 1, 1.25].indexOf(s.rate) >= 0 ? s.rate : 1,
+          read: s.read === true, buzz: s.buzz !== false,
+          spelling: ["note", "quiet", "strict"].indexOf(s.spelling) >= 0 ? s.spelling : "note", bank: ["fade", "always", "off"].indexOf(s.bank) >= 0 ? s.bank : "fade"
         };
       }
     } catch (e) { /* storage blocked: the defaults */ }
@@ -223,6 +228,25 @@
     cb.addEventListener("change", function () { s.spacing = cb.checked; update("spacing", cb.checked); });
     spacing.append(cb, el("span", "", "Luftig text, med mer plats mellan rader och ord"));
     body.appendChild(spacing);
+
+    // answers that are words: spelling, and the word bank
+    body.appendChild(choice("Stavning i svar med ord", [{ value: "note", label: "Nästan rätt räknas, visa rätt stavning" }, { value: "quiet", label: "Nästan rätt räknas" }, { value: "strict", label: "Bara exakt stavning" }],
+      function () { return s.spelling; }, function (v) { s.spelling = v; update("spelling", v); }));
+    body.appendChild(choice("Ordbank under svarsfältet", [{ value: "fade", label: "Försvinner när det går bra" }, { value: "always", label: "Alltid" }, { value: "off", label: "Aldrig" }],
+      function () { return s.bank; }, function (v) { s.bank = v; update("bank", v); }));
+
+    // what happens at a wrong answer, besides the hint being written
+    const toggle = function (label, get, set) {
+      const row = el("label", "rd-check");
+      const box = document.createElement("input");
+      box.type = "checkbox";
+      box.checked = get();
+      box.addEventListener("change", function () { set(box.checked); });
+      row.append(box, el("span", "", label));
+      return row;
+    };
+    if (synth()) body.appendChild(toggle("Läs upp tipset av sig självt när svaret blir fel", function () { return s.read; }, function (v) { s.read = v; update("read", v); }));
+    if (typeof navigator !== "undefined" && navigator.vibrate) body.appendChild(toggle("Vibrera lite när svaret blir fel", function () { return s.buzz; }, function (v) { s.buzz = v; update("buzz", v); }));
 
     if (synth()) {
       body.appendChild(choice("Uppläsningens hastighet", [{ value: 0.8, label: "Långsam" }, { value: 1, label: "Vanlig" }, { value: 1.25, label: "Snabb" }],

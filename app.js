@@ -37,6 +37,8 @@
       if (MS && MS.isMixed(text)) return "Det stämmer, men skriv svaret som ett bråk, utan hela tal framför.";
     } else if (form === "utanparentes") {
       if (/[()]/.test(text)) return "Det stämmer, men skriv uttrycket utan parentes. Multiplicera ut parentesen först.";
+    } else if (form === "utbrutet") {
+      if (window.GaussicaAlgebra) return window.GaussicaAlgebra.factoredNote(text);
     } else if (form === "grundpotens") {
       // a number from 1 up to (not including) 10, times a power of ten: 3,5 · 10^4
       const m = /^\s*(\d+(?:[.,]\d+)?)\s*[*·×]\s*10\s*\^\s*\(?[-−]?\d+\)?\s*$/.exec(text);
@@ -1238,6 +1240,10 @@
         parent.appendChild(renderConceptCards(comp));
         return;
       }
+      if (comp.type === "arbetat-exempel" && window.GaussicaWorkedSteps) {   // a worked example, one step at a time
+        parent.appendChild(window.GaussicaWorkedSteps.render(comp));
+        return;
+      }
       if (window.GaussicaFigures && window.GaussicaFigures.supports(comp.type)) {   // a figure used as a block between the text
         parent.appendChild(renderVisualComponent(comp));
         return;
@@ -1482,6 +1488,8 @@
     }
     card.append(copy, actions);
     parent.appendChild(card);
+    // a lesson about terms shows how well the student knows each (terms.js)
+    if (isStudent() && window.GaussicaTerms) { const known = window.GaussicaTerms.panel(lesson, currentUser); if (known) parent.appendChild(known); }
 
     const list = makeElement("ol", "step-list");
     steps.forEach(function (st, index) {

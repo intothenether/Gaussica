@@ -166,35 +166,67 @@
       "pool": [
         {
           "term": "siffra",
-          "definition": "Ett av tecknen 0, 1, 2, 3, 4, 5, 6, 7, 8 och 9. Med siffror skriver vi tal."
+          "definition": "Ett av tecknen 0, 1, 2, 3, 4, 5, 6, 7, 8 och 9. Med siffror skriver vi tal.",
+          "examples": [
+            "Talet 7 skrivs med en siffra.",
+            "Det finns tio olika siffror, från 0 till 9."
+          ]
         },
         {
           "term": "tal",
-          "definition": "Något som visar hur många eller hur mycket. Ett tal skrivs med en eller flera siffror."
+          "definition": "Något som visar hur många eller hur mycket. Ett tal skrivs med en eller flera siffror.",
+          "examples": [
+            "9, 52 och 3 000 är alla tal.",
+            "Ett tal skrivs med en eller flera siffror."
+          ]
         },
         {
           "term": "ental",
-          "definition": "Platsen längst till höger i ett tal. Siffran där visar hur många enskilda ettor det finns."
+          "definition": "Platsen längst till höger i ett tal. Siffran där visar hur många enskilda ettor det finns.",
+          "examples": [
+            "I 47 står siffran 7 på platsen för ental.",
+            "Platsen längst till höger i ett tal är entalsplatsen."
+          ]
         },
         {
           "term": "tiotal",
-          "definition": "Platsen närmast till vänster om entalen. Siffran där visar hur många tior det finns."
+          "definition": "Platsen närmast till vänster om entalen. Siffran där visar hur många tior det finns.",
+          "examples": [
+            "I 47 står siffran 4 på platsen för tiotal.",
+            "Platsen närmast till vänster om entalen är tiotalsplatsen."
+          ]
         },
         {
           "term": "hundratal",
-          "definition": "Platsen där siffran visar hur många hundra det finns."
+          "definition": "Platsen där siffran visar hur många hundra det finns.",
+          "examples": [
+            "I 538 står siffran 5 på platsen för hundratal.",
+            "Siffran 3 i 345 står på hundratalsplatsen."
+          ]
         },
         {
           "term": "tusental",
-          "definition": "Platsen där siffran visar hur många tusen det finns."
+          "definition": "Platsen där siffran visar hur många tusen det finns.",
+          "examples": [
+            "I 2 345 står siffran 2 på platsen för tusental.",
+            "Siffran 4 i 4 009 står på tusentalsplatsen."
+          ]
         },
         {
           "term": "jämnt tal",
-          "definition": "Ett tal som går att dela upp i par utan att något blir över. Det slutar på 0, 2, 4, 6 eller 8."
+          "definition": "Ett tal som går att dela upp i par utan att något blir över. Det slutar på 0, 2, 4, 6 eller 8.",
+          "examples": [
+            "8, 12 och 40 är jämna tal.",
+            "Ett jämnt tal slutar på 0, 2, 4, 6 eller 8."
+          ]
         },
         {
           "term": "udda tal",
-          "definition": "Ett tal som inte går att dela upp i par, det blir en över. Det slutar på 1, 3, 5, 7 eller 9."
+          "definition": "Ett tal som inte går att dela upp i par, det blir en över. Det slutar på 1, 3, 5, 7 eller 9.",
+          "examples": [
+            "7, 13 och 25 är udda tal.",
+            "Ett udda tal slutar på 1, 3, 5, 7 eller 9."
+          ]
         }
       ]
     },
@@ -211,13 +243,21 @@
         {
           "term": "siffra",
           "definition": "Ett av tecknen 0, 1, 2, 3, 4, 5, 6, 7, 8 och 9. Med siffror skriver vi tal.",
-          "alt": []
+          "alt": [],
+          "examples": [
+            "Talet 7 skrivs med en siffra.",
+            "Det finns tio olika siffror, från 0 till 9."
+          ]
         },
         {
           "term": "tal",
           "definition": "Något som visar hur många eller hur mycket. Ett tal skrivs med en eller flera siffror.",
           "alt": [
             "tal"
+          ],
+          "examples": [
+            "9, 52 och 3 000 är alla tal.",
+            "Ett tal skrivs med en eller flera siffror."
           ]
         },
         {
@@ -227,6 +267,10 @@
             "entalen",
             "entalet",
             "entalsplatsen"
+          ],
+          "examples": [
+            "I 47 står siffran 7 på platsen för ental.",
+            "Platsen längst till höger i ett tal är entalsplatsen."
           ]
         },
         {
@@ -236,6 +280,10 @@
             "tiotalen",
             "tiotalet",
             "tiotalsplatsen"
+          ],
+          "examples": [
+            "I 47 står siffran 4 på platsen för tiotal.",
+            "Platsen närmast till vänster om entalen är tiotalsplatsen."
           ]
         },
         {
@@ -245,6 +293,10 @@
             "hundratalen",
             "hundratalet",
             "hundratalsplatsen"
+          ],
+          "examples": [
+            "I 538 står siffran 5 på platsen för hundratal.",
+            "Siffran 3 i 345 står på hundratalsplatsen."
           ]
         },
         {
@@ -254,6 +306,10 @@
             "tusentalen",
             "tusentalet",
             "tusentalsplatsen"
+          ],
+          "examples": [
+            "I 2 345 står siffran 2 på platsen för tusental.",
+            "Siffran 4 i 4 009 står på tusentalsplatsen."
           ]
         },
         {
@@ -262,6 +318,10 @@
           "alt": [
             "jämnt",
             "jämna tal"
+          ],
+          "examples": [
+            "8, 12 och 40 är jämna tal.",
+            "Ett jämnt tal slutar på 0, 2, 4, 6 eller 8."
           ]
         },
         {
@@ -270,6 +330,10 @@
           "alt": [
             "udda",
             "udda tal"
+          ],
+          "examples": [
+            "7, 13 och 25 är udda tal.",
+            "Ett udda tal slutar på 1, 3, 5, 7 eller 9."
           ]
         }
       ]
@@ -332,6 +396,698 @@
           "text": "Ett udda tal går att dela upp i par utan att något blir över.",
           "answer": false,
           "explain": "Ett udda tal har alltid en över. Det är jämna tal som går att dela upp i par."
+        }
+      ]
+    },
+    {
+      "id": "t-plats-ental",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "I talet {n} står siffran {c} på en plats. Vad kallas platsen? Skriv begreppet.",
+      "answer": [
+        "ental",
+        "entalen",
+        "entalet",
+        "entalsplatsen"
+      ],
+      "correct": "Rätt! Siffran {c} står på entalsplatsen i {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "tiotal",
+            "tiotalen",
+            "tiotalet",
+            "tiotalsplatsen"
+          ],
+          "message": "Tiotal betyder: Platsen närmast till vänster om entalen. Siffran där visar hur många tior det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "hundratal",
+            "hundratalen",
+            "hundratalet",
+            "hundratalsplatsen"
+          ],
+          "message": "Hundratal betyder: Platsen där siffran visar hur många hundra det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "tusental",
+            "tusentalen",
+            "tusentalet",
+            "tusentalsplatsen"
+          ],
+          "message": "Tusental betyder: Platsen där siffran visar hur många tusen det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "siffra"
+          ],
+          "message": "Siffra betyder: Ett av tecknen 0, 1, 2, 3, 4, 5, 6, 7, 8 och 9. Med siffror skriver vi tal. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "ental"
+      ]
+    },
+    {
+      "id": "t-plats-tiotal",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "I talet {n} står siffran {b} på en plats. Vad kallas platsen? Skriv begreppet.",
+      "answer": [
+        "tiotal",
+        "tiotalen",
+        "tiotalet",
+        "tiotalsplatsen"
+      ],
+      "correct": "Rätt! Siffran {b} står på tiotalsplatsen i {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "ental",
+            "entalen",
+            "entalet",
+            "entalsplatsen"
+          ],
+          "message": "Ental betyder: Platsen längst till höger i ett tal. Siffran där visar hur många enskilda ettor det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "hundratal",
+            "hundratalen",
+            "hundratalet",
+            "hundratalsplatsen"
+          ],
+          "message": "Hundratal betyder: Platsen där siffran visar hur många hundra det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "tusental",
+            "tusentalen",
+            "tusentalet",
+            "tusentalsplatsen"
+          ],
+          "message": "Tusental betyder: Platsen där siffran visar hur många tusen det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "siffra"
+          ],
+          "message": "Siffra betyder: Ett av tecknen 0, 1, 2, 3, 4, 5, 6, 7, 8 och 9. Med siffror skriver vi tal. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "tiotal"
+      ]
+    },
+    {
+      "id": "t-plats-hundratal",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "I talet {n} står siffran {a} på en plats. Vad kallas platsen? Skriv begreppet.",
+      "answer": [
+        "hundratal",
+        "hundratalen",
+        "hundratalet",
+        "hundratalsplatsen"
+      ],
+      "correct": "Rätt! Siffran {a} står på hundratalsplatsen i {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "ental",
+            "entalen",
+            "entalet",
+            "entalsplatsen"
+          ],
+          "message": "Ental betyder: Platsen längst till höger i ett tal. Siffran där visar hur många enskilda ettor det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "tiotal",
+            "tiotalen",
+            "tiotalet",
+            "tiotalsplatsen"
+          ],
+          "message": "Tiotal betyder: Platsen närmast till vänster om entalen. Siffran där visar hur många tior det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "tusental",
+            "tusentalen",
+            "tusentalet",
+            "tusentalsplatsen"
+          ],
+          "message": "Tusental betyder: Platsen där siffran visar hur många tusen det finns. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "siffra"
+          ],
+          "message": "Siffra betyder: Ett av tecknen 0, 1, 2, 3, 4, 5, 6, 7, 8 och 9. Med siffror skriver vi tal. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "hundratal"
+      ]
+    },
+    {
+      "id": "t-siffra-ental",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "Vilken siffra står på entalsplatsen i talet {n}? Skriv siffran.",
+      "answer": [
+        "=c"
+      ],
+      "correct": "Rätt! I {n} står {c} på entalsplatsen.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} står på tiotalsplatsen, näst längst till höger. Entalen står längst till höger."
+        },
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} står på hundratalsplatsen, längst till vänster. Entalen står längst till höger."
+        }
+      ],
+      "terms": [
+        "ental",
+        "siffra"
+      ]
+    },
+    {
+      "id": "t-siffra-tiotal",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "Vilken siffra står på tiotalsplatsen i talet {n}? Skriv siffran.",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! I {n} står {b} på tiotalsplatsen.",
+      "feedback": [
+        {
+          "answers": [
+            "=c"
+          ],
+          "message": "{c} står på entalsplatsen, längst till höger. Tiotalen står precis till vänster om den."
+        },
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} står på hundratalsplatsen. Tiotalen står mellan hundratalen och entalen."
+        }
+      ],
+      "terms": [
+        "tiotal",
+        "siffra"
+      ]
+    },
+    {
+      "id": "t-siffra-hundratal",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "Vilken siffra står på hundratalsplatsen i talet {n}? Skriv siffran.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! I {n} står {a} på hundratalsplatsen.",
+      "feedback": [
+        {
+          "answers": [
+            "=c"
+          ],
+          "message": "{c} står på entalsplatsen, längst till höger. Hundratalen står längst till vänster i ett tresiffrigt tal."
+        },
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} står på tiotalsplatsen. Hundratalen står längst till vänster i ett tresiffrigt tal."
+        }
+      ],
+      "terms": [
+        "hundratal",
+        "siffra"
+      ]
+    },
+    {
+      "id": "t-varde-tiotal",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*100+b*10+c"
+        }
+      ],
+      "prompt": "Vilket värde har siffran {b} i talet {n}? Skriv talet.",
+      "answer": [
+        "=b*10"
+      ],
+      "correct": "Rätt! {b} står på tiotalsplatsen, så den är värd {b} tior, alltså {b*10}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "Siffran {b} står på tiotalsplatsen. Dess värde är {b} tior, inte bara {b}."
+        },
+        {
+          "answers": [
+            "=b*100"
+          ],
+          "message": "Siffran {b} står på tiotalsplatsen, inte på hundratalsplatsen."
+        }
+      ],
+      "terms": [
+        "tiotal",
+        "siffra"
+      ]
+    },
+    {
+      "id": "t-jamnt",
+      "vars": {
+        "n": [
+          10,
+          99
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(n,2)",
+          "min": 0,
+          "max": 0
+        }
+      ],
+      "prompt": "Är talet {n} ett jämnt eller ett udda tal? Skriv jämnt eller udda.",
+      "answer": [
+        "jämnt",
+        "jämnt tal",
+        "jämna tal"
+      ],
+      "correct": "Rätt! {n} slutar på {mod(n,10)}, så det är ett jämnt tal.",
+      "feedback": [
+        {
+          "answers": [
+            "udda",
+            "udda tal"
+          ],
+          "message": "Udda tal slutar på 1, 3, 5, 7 eller 9. {n} slutar på {mod(n,10)}, så det går att dela upp i par."
+        }
+      ],
+      "terms": [
+        "jämnt tal"
+      ]
+    },
+    {
+      "id": "t-udda",
+      "vars": {
+        "n": [
+          10,
+          99
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(n,2)",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "prompt": "Är talet {n} ett jämnt eller ett udda tal? Skriv jämnt eller udda.",
+      "answer": [
+        "udda",
+        "udda tal"
+      ],
+      "correct": "Rätt! {n} slutar på {mod(n,10)}, så det är ett udda tal.",
+      "feedback": [
+        {
+          "answers": [
+            "jämnt",
+            "jämnt tal",
+            "jämna tal"
+          ],
+          "message": "Jämna tal slutar på 0, 2, 4, 6 eller 8. {n} slutar på {mod(n,10)}, så det blir en över."
+        }
+      ],
+      "terms": [
+        "udda tal"
+      ]
+    },
+    {
+      "id": "t-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "På vilken plats står siffran?",
+      "categories": [
+        "Ental",
+        "Tiotal",
+        "Hundratal"
+      ],
+      "pool": [
+        {
+          "text": "Siffran 3 i talet 453",
+          "category": 0,
+          "explain": "3 står längst till höger, på entalsplatsen."
+        },
+        {
+          "text": "Siffran 5 i talet 453",
+          "category": 1,
+          "explain": "5 står näst längst till höger, på tiotalsplatsen."
+        },
+        {
+          "text": "Siffran 4 i talet 453",
+          "category": 2,
+          "explain": "4 står längst till vänster, på hundratalsplatsen."
+        },
+        {
+          "text": "Siffran 8 i talet 728",
+          "category": 0,
+          "explain": "8 står längst till höger, på entalsplatsen."
+        },
+        {
+          "text": "Siffran 2 i talet 728",
+          "category": 1,
+          "explain": "2 står näst längst till höger, på tiotalsplatsen."
+        },
+        {
+          "text": "Siffran 7 i talet 728",
+          "category": 2,
+          "explain": "7 står längst till vänster, på hundratalsplatsen."
+        },
+        {
+          "text": "Siffran 9 i talet 619",
+          "category": 0,
+          "explain": "9 står längst till höger, på entalsplatsen."
+        },
+        {
+          "text": "Siffran 1 i talet 619",
+          "category": 1,
+          "explain": "1 står näst längst till höger, på tiotalsplatsen."
+        },
+        {
+          "text": "Siffran 6 i talet 619",
+          "category": 2,
+          "explain": "6 står längst till vänster, på hundratalsplatsen."
+        },
+        {
+          "text": "Siffran 5 i talet 385",
+          "category": 0,
+          "explain": "5 står längst till höger, på entalsplatsen."
+        },
+        {
+          "text": "Siffran 8 i talet 385",
+          "category": 1,
+          "explain": "8 står näst längst till höger, på tiotalsplatsen."
+        },
+        {
+          "text": "Siffran 3 i talet 385",
+          "category": 2,
+          "explain": "3 står längst till vänster, på hundratalsplatsen."
+        },
+        {
+          "text": "Siffran 2 i talet 942",
+          "category": 0,
+          "explain": "2 står längst till höger, på entalsplatsen."
+        },
+        {
+          "text": "Siffran 4 i talet 942",
+          "category": 1,
+          "explain": "4 står näst längst till höger, på tiotalsplatsen."
+        },
+        {
+          "text": "Siffran 9 i talet 942",
+          "category": 2,
+          "explain": "9 står längst till vänster, på hundratalsplatsen."
+        },
+        {
+          "text": "Siffran 1 i talet 571",
+          "category": 0,
+          "explain": "1 står längst till höger, på entalsplatsen."
+        },
+        {
+          "text": "Siffran 7 i talet 571",
+          "category": 1,
+          "explain": "7 står näst längst till höger, på tiotalsplatsen."
+        },
+        {
+          "text": "Siffran 5 i talet 571",
+          "category": 2,
+          "explain": "5 står längst till vänster, på hundratalsplatsen."
+        },
+        {
+          "text": "Siffran 4 i talet 264",
+          "category": 0,
+          "explain": "4 står längst till höger, på entalsplatsen."
+        },
+        {
+          "text": "Siffran 6 i talet 264",
+          "category": 1,
+          "explain": "6 står näst längst till höger, på tiotalsplatsen."
+        },
+        {
+          "text": "Siffran 2 i talet 264",
+          "category": 2,
+          "explain": "2 står längst till vänster, på hundratalsplatsen."
+        },
+        {
+          "text": "Siffran 7 i talet 837",
+          "category": 0,
+          "explain": "7 står längst till höger, på entalsplatsen."
+        },
+        {
+          "text": "Siffran 3 i talet 837",
+          "category": 1,
+          "explain": "3 står näst längst till höger, på tiotalsplatsen."
+        },
+        {
+          "text": "Siffran 8 i talet 837",
+          "category": 2,
+          "explain": "8 står längst till vänster, på hundratalsplatsen."
         }
       ]
     }

@@ -166,35 +166,67 @@
       "pool": [
         {
           "term": "hörn",
-          "definition": "Platsen där två sidor i en figur möts."
+          "definition": "Platsen där två sidor i en figur möts.",
+          "examples": [
+            "En kvadrat har fyra hörn.",
+            "Där två sidor möts finns ett hörn."
+          ]
         },
         {
           "term": "sida",
-          "definition": "En rak linje som begränsar en figur."
+          "definition": "En rak linje som begränsar en figur.",
+          "examples": [
+            "En triangel har tre sidor.",
+            "Varje rak linje runt en figur är en sida."
+          ]
         },
         {
           "term": "rät vinkel",
-          "definition": "En vinkel som är exakt 90 grader, som hörnet på ett papper."
+          "definition": "En vinkel som är exakt 90 grader, som hörnet på ett papper.",
+          "examples": [
+            "Hörnet på ett papper är en rät vinkel.",
+            "En rät vinkel är 90 grader."
+          ]
         },
         {
           "term": "parallella linjer",
-          "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts."
+          "definition": "Linjer som alltid har samma avstånd mellan sig och aldrig möts.",
+          "examples": [
+            "Skenorna på ett järnvägsspår är parallella linjer.",
+            "Parallella linjer möts aldrig."
+          ]
         },
         {
           "term": "symmetrilinje",
-          "definition": "En linje som delar en figur i två delar som är varandras spegelbilder."
+          "definition": "En linje som delar en figur i två delar som är varandras spegelbilder.",
+          "examples": [
+            "Linjen som delar ett hjärta i två lika delar är en symmetrilinje.",
+            "En kvadrat har fyra symmetrilinjer."
+          ]
         },
         {
           "term": "månghörning",
-          "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning."
+          "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning.",
+          "examples": [
+            "En triangel är en månghörning.",
+            "En femhörning är en månghörning."
+          ]
         },
         {
           "term": "omkrets",
-          "definition": "Längden runt en figurs ytterkant."
+          "definition": "Längden runt en figurs ytterkant.",
+          "examples": [
+            "Omkretsen av en kvadrat med sidan 3 cm är 12 cm.",
+            "Omkretsen är längden runt en figur."
+          ]
         },
         {
           "term": "area",
-          "definition": "Hur stor yta en figur täcker, mätt i kvadratenheter."
+          "definition": "Hur stor yta en figur täcker, mätt i kvadratenheter.",
+          "examples": [
+            "En kvadrat med sidan 3 cm har arean 9 cm².",
+            "Arean mäts i kvadratenheter."
+          ]
         }
       ]
     },
@@ -214,6 +246,10 @@
           "alt": [
             "hörnet",
             "hörnen"
+          ],
+          "examples": [
+            "En kvadrat har fyra hörn.",
+            "Där två sidor möts finns ett hörn."
           ]
         },
         {
@@ -222,6 +258,10 @@
           "alt": [
             "sidan",
             "sidor"
+          ],
+          "examples": [
+            "En triangel har tre sidor.",
+            "Varje rak linje runt en figur är en sida."
           ]
         },
         {
@@ -229,6 +269,10 @@
           "definition": "En vinkel som är exakt 90 grader, som hörnet på ett papper.",
           "alt": [
             "rät"
+          ],
+          "examples": [
+            "Hörnet på ett papper är en rät vinkel.",
+            "En rät vinkel är 90 grader."
           ]
         },
         {
@@ -237,6 +281,10 @@
           "alt": [
             "parallella",
             "parallell"
+          ],
+          "examples": [
+            "Skenorna på ett järnvägsspår är parallella linjer.",
+            "Parallella linjer möts aldrig."
           ]
         },
         {
@@ -244,6 +292,10 @@
           "definition": "En linje som delar en figur i två delar som är varandras spegelbilder.",
           "alt": [
             "symmetrilinjen"
+          ],
+          "examples": [
+            "Linjen som delar ett hjärta i två lika delar är en symmetrilinje.",
+            "En kvadrat har fyra symmetrilinjer."
           ]
         },
         {
@@ -251,6 +303,10 @@
           "definition": "En platt figur med bara raka sidor, till exempel en triangel eller en femhörning.",
           "alt": [
             "månghörningen"
+          ],
+          "examples": [
+            "En triangel är en månghörning.",
+            "En femhörning är en månghörning."
           ]
         },
         {
@@ -258,6 +314,10 @@
           "definition": "Längden runt en figurs ytterkant.",
           "alt": [
             "omkretsen"
+          ],
+          "examples": [
+            "Omkretsen av en kvadrat med sidan 3 cm är 12 cm.",
+            "Omkretsen är längden runt en figur."
           ]
         },
         {
@@ -265,6 +325,10 @@
           "definition": "Hur stor yta en figur täcker, mätt i kvadratenheter.",
           "alt": [
             "arean"
+          ],
+          "examples": [
+            "En kvadrat med sidan 3 cm har arean 9 cm².",
+            "Arean mäts i kvadratenheter."
           ]
         }
       ]
@@ -327,6 +391,325 @@
           "text": "Ett hörn är en rak linje som begränsar en figur.",
           "answer": false,
           "explain": "En rak linje som begränsar en figur kallas sida. Ett hörn är där två sidor möts."
+        }
+      ]
+    },
+    {
+      "id": "g-horn",
+      "vars": {
+        "n": [
+          3,
+          8
+        ]
+      },
+      "prompt": "En månghörning har {n} sidor. Hur många hörn har den? Skriv talet.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! I en månghörning möts två sidor i varje hörn, så det finns lika många hörn som sidor: {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n-1",
+            "=n+1"
+          ],
+          "message": "Räkna igen. I varje hörn möts två sidor, och runt hela figuren finns lika många hörn som sidor."
+        }
+      ],
+      "terms": [
+        "hörn",
+        "sida",
+        "månghörning"
+      ]
+    },
+    {
+      "id": "g-omkrets",
+      "vars": {
+        "a": [
+          3,
+          15
+        ],
+        "b": [
+          2,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-b",
+          "min": 1
+        }
+      ],
+      "prompt": "En rektangel har sidorna {a} cm och {b} cm. Vad är omkretsen? Skriv talet.",
+      "answer": [
+        "=2*(a+b)"
+      ],
+      "correct": "Rätt! Omkretsen är längden runt: {a} + {b} + {a} + {b} = {2*(a+b)} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "Du har räknat arean. Omkretsen är längden runt figuren: lägg ihop alla sidor."
+        },
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Det är bara två av sidorna. Omkretsen är längden runt hela figuren."
+        }
+      ],
+      "terms": [
+        "omkrets"
+      ]
+    },
+    {
+      "id": "g-area",
+      "vars": {
+        "a": [
+          3,
+          15
+        ],
+        "b": [
+          2,
+          12
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-b",
+          "min": 1
+        }
+      ],
+      "prompt": "En rektangel har sidorna {a} cm och {b} cm. Vad är arean? Skriv talet.",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! Arean är hur stor yta figuren täcker: {a} · {b} = {a*b} kvadratcentimeter.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*(a+b)"
+          ],
+          "message": "Du har räknat omkretsen. Arean är hur stor yta figuren täcker: längd gånger bredd."
+        },
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Arean är hur stor yta figuren täcker. Hur många kvadrater får plats?"
+        }
+      ],
+      "terms": [
+        "area"
+      ]
+    },
+    {
+      "id": "g-omkrets-ord",
+      "pick": {
+        "ctx": [
+          "Du sätter staket runt en rektangulär trädgård.",
+          "Du lägger ett band runt kanten på en tavla.",
+          "Du går ett varv längs kanten på en fotbollsplan.",
+          "Du limmar en list runt kanten på ett bord.",
+          "Du lägger ett snöre runt en rektangulär låda.",
+          "Du sätter ett staket runt en rektangulär hage."
+        ]
+      },
+      "prompt": "{$ctx} Mäter du omkretsen eller arean? Skriv begreppet.",
+      "answer": [
+        "omkrets",
+        "omkretsen"
+      ],
+      "correct": "Rätt! Du mäter längden runt kanten, och det är omkretsen.",
+      "feedback": [
+        {
+          "answers": [
+            "area",
+            "arean"
+          ],
+          "message": "Area betyder: Hur stor yta en figur täcker, mätt i kvadratenheter. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "omkrets"
+      ]
+    },
+    {
+      "id": "g-area-ord",
+      "pick": {
+        "ctx": [
+          "Du målar golvet i ett rum.",
+          "Du lägger gräsmatta på en rektangulär tomt.",
+          "Du köper tyg som ska täcka ett helt bord.",
+          "Du färglägger hela en rektangulär ritning.",
+          "Du lägger kakel över hela en rektangulär vägg.",
+          "Du täcker en hel rektangulär bänk med folie."
+        ]
+      },
+      "prompt": "{$ctx} Mäter du omkretsen eller arean? Skriv begreppet.",
+      "answer": [
+        "area",
+        "arean"
+      ],
+      "correct": "Rätt! Du täcker en yta, och hur stor den är kallas area.",
+      "feedback": [
+        {
+          "answers": [
+            "omkrets",
+            "omkretsen"
+          ],
+          "message": "Omkrets betyder: Längden runt en figurs ytterkant. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "area"
+      ]
+    },
+    {
+      "id": "g-ratvinkel-ja",
+      "pick": {
+        "h": [
+          "hörnet på ett A4-papper",
+          "hörnet på en kvadrat",
+          "ett hörn på en rektangel",
+          "hörnet på en dörr",
+          "hörnet på en bok",
+          "hörnet på en ruta i ett rutnät",
+          "hörnet på ett fönster"
+        ]
+      },
+      "prompt": "Är vinkeln i {$h} en rät vinkel? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Ja! Hörnen på de här sakerna är exakt 90 grader.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "En rät vinkel är exakt 90 grader, som hörnet på ett papper. Hur ser {$h} ut?"
+        }
+      ],
+      "terms": [
+        "rät vinkel"
+      ]
+    },
+    {
+      "id": "g-ratvinkel-nej",
+      "vars": {
+        "v": [
+          20,
+          170,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(v-90)",
+          "min": 5
+        }
+      ],
+      "prompt": "En vinkel är {v} grader. Är det en rät vinkel? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Nej! En rät vinkel är exakt 90 grader, och {v} grader är inte det.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "En rät vinkel är exakt 90 grader, som hörnet på ett papper. Är {v} exakt 90?"
+        }
+      ],
+      "terms": [
+        "rät vinkel"
+      ]
+    },
+    {
+      "id": "g-symmetri",
+      "vars": {
+        "n": [
+          3,
+          8
+        ]
+      },
+      "prompt": "En regelbunden {n}-hörning har lika långa sidor och lika stora vinklar. Hur många symmetrilinjer har den? Skriv talet.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! En regelbunden {n}-hörning har {n} symmetrilinjer.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*n"
+          ],
+          "message": "Varje symmetrilinje ska bara räknas en gång, även om den går genom två hörn."
+        }
+      ],
+      "terms": [
+        "symmetrilinje"
+      ]
+    },
+    {
+      "id": "g-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Hör det till omkrets eller area?",
+      "categories": [
+        "Omkrets",
+        "Area"
+      ],
+      "pool": [
+        {
+          "text": "Staket runt en tomt",
+          "category": 0
+        },
+        {
+          "text": "Ram runt en tavla",
+          "category": 0
+        },
+        {
+          "text": "Ett varv runt en löparbana",
+          "category": 0
+        },
+        {
+          "text": "Mäts i centimeter (cm)",
+          "category": 0
+        },
+        {
+          "text": "Längden runt en figur",
+          "category": 0
+        },
+        {
+          "text": "Lista runt ett bord",
+          "category": 0
+        },
+        {
+          "text": "Färg till en vägg",
+          "category": 1
+        },
+        {
+          "text": "Gräsmatta på en tomt",
+          "category": 1
+        },
+        {
+          "text": "Golv som ska läggas",
+          "category": 1
+        },
+        {
+          "text": "Mäts i kvadratcentimeter (cm²)",
+          "category": 1
+        },
+        {
+          "text": "Hur stor yta en figur täcker",
+          "category": 1
+        },
+        {
+          "text": "Tyg som täcker ett bord",
+          "category": 1
         }
       ]
     }

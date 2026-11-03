@@ -1276,13 +1276,14 @@ window.GaussicaPet = (function () {
   }
 
   // ----- the pet's voice in the lessons: a speech bubble, short and kind -----
-  // kind: start (first question), right, rightAgain (after a mistake), wrong, wrongAgain, open (questions left), done
+  // kind: start (first question), right, rightAgain (after a mistake), wrong, wrongAgain, wrongRapid (a new try before the hint was read), open (questions left), done
   const SAYINGS = {
     start: ["Nu är det din tur. Ta det lugnt, ett steg i taget!", "Du klarar det här. Ta all tid du behöver!"],
     right: ["Snyggt!", "Där satt den!", "Bra jobbat!", "Just så!"],
     rightAgain: ["Rätt! Bra att du fortsatte!", "Du gav inte upp, och nu satt den!"],
     wrong: ["Nästan! Läs tipset och prova igen.", "Inte riktigt än. Läs tipset och försök en gång till.", "Det är okej att göra fel. Läs tipset och prova igen."],
     wrongAgain: ["Du kämpar på, bra! Läs tipset en gång till.", "Fortsätt försöka, du är på väg!"],
+    wrongRapid: ["Vänta lite! Läs tipset först, det hjälper.", "Ta det lugnt. Tipset ovanför svaret kan hjälpa dig.", "Stopp ett litet tag. Läs tipset, och prova sedan igen."],
     wrongAgainExample: ["Svårt? Titta på ett löst exempel, eller läs tipset en gång till.", "Ta ett löst exempel om du vill, och prova sedan igen."],
     open: ["Några frågor kvar. Du klarar dem!"],
     done: ["Hela lektionen klar! Det här var duktigt.", "Så bra! Nu har du lärt dig något nytt."],

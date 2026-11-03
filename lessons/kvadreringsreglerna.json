@@ -1,5 +1,7 @@
 {
   "id": "kvadreringsreglerna",
+  "input": "math",
+  "stepSolve": true,
   "area": "algebra",
   "title": "Kvadreringsreglerna och konjugatregeln",
   "level": "Tre regler som kortar ner räkningen · ungefär åk 9",
@@ -271,6 +273,58 @@
           "message": "Du har dragit bort 100. Dra bort 1² = 1."
         }
       ]
+    }
+  ],
+  "components": [
+    {
+      "type": "arbetat-exempel",
+      "title": "Så utvecklar du (x + 3)²",
+      "intro": "Ett kvadrat betyder att parentesen multipliceras med sig själv. Areamodellen visar de fyra delarna.",
+      "figure": {
+        "type": "areamodell",
+        "cols": [
+          "x",
+          "3"
+        ],
+        "rows": [
+          "x",
+          "3"
+        ],
+        "cells": [
+          [
+            "x²",
+            "3x"
+          ],
+          [
+            "3x",
+            "9"
+          ]
+        ],
+        "widths": [
+          0.55,
+          0.45
+        ],
+        "heights": [
+          0.55,
+          0.45
+        ]
+      },
+      "start": "(x + 3)^2",
+      "steps": [
+        {
+          "line": "(x + 3)(x + 3)",
+          "say": "Kvadrat betyder att den multipliceras med sig själv."
+        },
+        {
+          "line": "x^2 + 3x + 3x + 9",
+          "say": "Fyra rutor: x · x, x · 3, 3 · x och 3 · 3."
+        },
+        {
+          "line": "x^2 + 6x + 9",
+          "say": "De två lika rutorna 3x och 3x läggs ihop. Det är mellantermen."
+        }
+      ],
+      "note": "Kontrollera med x = 1: (1 + 3)² = 16 och 1 + 6 + 9 = 16."
     }
   ]
 }

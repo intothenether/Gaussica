@@ -125,6 +125,13 @@ async function api() {
   run("demo several adults and classes", "tests/local-multi.js");
   run("migrations", "tests/migrate.js");
   run("mistakes in numbers", "tests/misconceptions.js");
+  run("diagnoses of algebra and arithmetic", "tests/diagnoses.js");
+  run("careful hints (slips)", "tests/slips.js");
+  run("feedback checks", "tests/feedback-lint.js");
+  run("feedback gaps", "tests/gaps.js");
+  run("spelling and the word bank", "tests/spelling.js");
+  run("terms: faces, mastery and Öva mer", "tests/terms.js");
+  run("algebra: steps, mistakes and the check of an answer", "tests/algebra.js");
   run("help for adults", "tests/parent-guide.js");
   run("words for families", "tests/words.js");
   run("powers in text", "tests/richtext.js");

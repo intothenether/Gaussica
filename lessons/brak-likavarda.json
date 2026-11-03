@@ -42,51 +42,711 @@
   "practice": [
     {
       "id": "forlang",
-      "for": ["exercise"],
-      "vars": {"b":[2,6],"a":[1,5],"k":[2,5]},
-      "where": [{"expr":"b-a","min":1},{"expr":"sgd(a,b)","equals":1}],
-      "derive": [{"name":"p","expr":"a*k"},{"name":"q","expr":"b*k"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          2,
+          6
+        ],
+        "a": [
+          1,
+          5
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        },
+        {
+          "expr": "sgd(a,b)",
+          "equals": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*k"
+        },
+        {
+          "name": "q",
+          "expr": "b*k"
+        }
+      ],
       "prompt": "Skriv {a}/{b} som ett likvärdigt bråk med nämnaren {q}.",
-      "answer": ["{p}/{q}"],
+      "answer": [
+        "{p}/{q}"
+      ],
       "correct": "Rätt! Multiplicera täljare och nämnare med {k}: {a}/{b} = {p}/{q}.",
       "feedback": [
         {
-          "answers": ["{a}/{q}"],
+          "answers": [
+            "{a}/{q}"
+          ],
           "message": "Du ändrade bara nämnaren. Multiplicera både täljare och nämnare med {k}."
         },
         {
-          "answers": ["{a+k}/{q}"],
+          "answers": [
+            "{a+k}/{q}"
+          ],
           "message": "Du lade till i stället för att multiplicera. Både täljaren och nämnaren multipliceras med {k}."
         }
       ]
     },
     {
       "id": "saknad-taljare",
-      "for": ["exercise"],
-      "vars": {"b":[2,6],"a":[1,5],"k":[2,5]},
-      "where": [{"expr":"b-a","min":1},{"expr":"sgd(a,b)","equals":1}],
-      "derive": [{"name":"p","expr":"a*k"},{"name":"q","expr":"b*k"}],
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          2,
+          6
+        ],
+        "a": [
+          1,
+          5
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        },
+        {
+          "expr": "sgd(a,b)",
+          "equals": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*k"
+        },
+        {
+          "name": "q",
+          "expr": "b*k"
+        }
+      ],
       "prompt": "{a}/{b} = ?/{q}. Vilket tal ska stå i stället för frågetecknet?",
-      "answer": ["=p"],
+      "answer": [
+        "=p"
+      ],
       "correct": "Rätt! Nämnaren blev {k} gånger större, så täljaren också: {a} · {k} = {p}.",
       "feedback": [
         {
-          "answers": ["=a"],
+          "answers": [
+            "=a"
+          ],
           "message": "Täljaren ska också bli {k} gånger större, eftersom nämnaren gick från {b} till {q}."
         }
       ]
     },
     {
       "id": "forkorta",
-      "for": ["word-0"],
-      "vars": {"b":[2,6],"a":[1,5],"k":[2,5]},
-      "where": [{"expr":"b-a","min":1},{"expr":"sgd(a,b)","equals":1}],
-      "derive": [{"name":"p","expr":"a*k"},{"name":"q","expr":"b*k"}],
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "b": [
+          2,
+          6
+        ],
+        "a": [
+          1,
+          5
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        },
+        {
+          "expr": "sgd(a,b)",
+          "equals": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*k"
+        },
+        {
+          "name": "q",
+          "expr": "b*k"
+        }
+      ],
       "prompt": "Förkorta {p}/{q} så mycket du kan. Svara som bråk.",
-      "answer": ["{a}/{b}"],
+      "answer": [
+        "{a}/{b}"
+      ],
       "correct": "Rätt! Dela täljare och nämnare med {k}: {p}/{q} = {a}/{b}.",
       "feedback": [
-        {"answers":["{a}/{q}","{p}/{b}"],"message":"Du måste dela både täljare och nämnare med samma tal."}
+        {
+          "answers": [
+            "{a}/{q}",
+            "{p}/{b}"
+          ],
+          "message": "Du måste dela både täljare och nämnare med samma tal."
+        }
+      ]
+    },
+    {
+      "id": "bl-hitta-felet",
+      "mode": "hittafelet",
+      "prompt": "Här har någon tänkt fel om likvärdiga bråk. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Omar vill hitta ett bråk som är lika mycket som 2/3. Vilket steg är fel?",
+          "steps": [
+            "Omar vill ha ett bråk som är lika mycket som 2/3.",
+            "Han lägger till 2 både i täljaren och i nämnaren och får 4/5.",
+            "Han säger att 4/5 är lika mycket som 2/3."
+          ],
+          "wrong": 1,
+          "explain": "Att förlänga är att multiplicera täljare och nämnare med samma tal, inte att lägga till. 2/3 förlängt med 2 är 4/6.",
+          "fix": "Förläng med 2: 2/3 = 4/6.",
+          "hint": "Ska man lägga till eller multiplicera?"
+        },
+        {
+          "prompt": "Mira förkortar 6/8. Vilket steg är fel?",
+          "steps": [
+            "Mira vill förkorta 6/8 med 2.",
+            "Hon delar täljaren: 6 delat med 2 är 3.",
+            "Hon behåller nämnaren och får 3/8."
+          ],
+          "wrong": 2,
+          "explain": "När du förkortar delar du både täljare och nämnare med samma tal: 6/8 blir 3/4.",
+          "fix": "Dela nämnaren också: 3/4.",
+          "hint": "Gjorde hon samma sak med båda talen?"
+        },
+        {
+          "prompt": "Lea jämför 1/2 och 2/5. Vilket steg är fel?",
+          "steps": [
+            "1/2 har täljaren 1 och nämnaren 2.",
+            "2/5 har täljaren 2 och nämnaren 5.",
+            "Täljaren är dubbelt så stor, så bråken är lika mycket."
+          ],
+          "wrong": 2,
+          "explain": "Båda talen måste växa lika mycket. Från 1 till 2 är det gånger 2, men från 2 till 5 är det inte gånger 2. Bråken är inte lika.",
+          "fix": "2/5 är inte lika mycket som 1/2.",
+          "hint": "Har nämnaren också blivit dubbelt så stor?"
+        },
+        {
+          "prompt": "Ali säger att 3/6 och 1/2 är likvärdiga eftersom 3/6 går att förkorta. Vilket steg är fel?",
+          "steps": [
+            "3 och 6 kan båda delas med 3.",
+            "3/6 förkortat med 3 blir 1/2.",
+            "Därför är 3/6 och 1/2 olika bråk."
+          ],
+          "wrong": 2,
+          "explain": "Förkortar du ändras bara hur bråket skrivs. 3/6 och 1/2 är lika mycket, alltså likvärdiga.",
+          "fix": "3/6 och 1/2 är likvärdiga.",
+          "hint": "Ändras värdet när man förkortar?"
+        },
+        {
+          "prompt": "Mira vill skriva 2/5 med nämnaren 15. Vilket steg är fel?",
+          "steps": [
+            "15 är 3 gånger 5.",
+            "Hon multiplicerar nämnaren med 3 och får 15.",
+            "Hon behåller täljaren 2 och skriver 2/15."
+          ],
+          "wrong": 2,
+          "explain": "Täljaren måste också multipliceras med 3: 2 · 3 = 6, så 2/5 = 6/15.",
+          "fix": "Skriv 6/15.",
+          "hint": "Gjorde hon samma sak med täljaren?"
+        }
+      ]
+    },
+    {
+      "id": "bl-sant-falskt",
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "Om du multiplicerar täljare och nämnare med samma tal får du ett likvärdigt bråk.",
+          "answer": true,
+          "explain": "Du delar varje del i lika många mindre delar, och bråket är lika mycket."
+        },
+        {
+          "text": "Om du lägger till samma tal i täljare och nämnare får du ett likvärdigt bråk.",
+          "answer": false,
+          "explain": "1/2 och 2/3 är inte lika mycket."
+        },
+        {
+          "text": "2/4, 3/6 och 5/10 är alla lika mycket som 1/2.",
+          "answer": true,
+          "explain": "I alla är täljaren hälften av nämnaren."
+        },
+        {
+          "text": "Ett bråk kan bara skrivas på ett sätt.",
+          "answer": false,
+          "explain": "Det finns oändligt många likvärdiga bråk: 1/2, 2/4, 3/6 …"
+        },
+        {
+          "text": "1/3 och 3/9 är likvärdiga.",
+          "answer": true,
+          "explain": "3/9 är 1/3 förlängt med 3."
+        },
+        {
+          "text": "2/3 och 3/4 är lika mycket.",
+          "answer": false,
+          "explain": "2/3 = 8/12 och 3/4 = 9/12."
+        },
+        {
+          "text": "När du förkortar ett bråk ändras värdet.",
+          "answer": false,
+          "explain": "Förkortar du ändras bara hur bråket skrivs, inte hur mycket det är."
+        },
+        {
+          "text": "6/8 kan förkortas till 3/4.",
+          "answer": true,
+          "explain": "Båda talen delas med 2."
+        },
+        {
+          "text": "1/2 förlängt med 5 är 5/10.",
+          "answer": true,
+          "explain": "Täljare och nämnare multipliceras med 5."
+        },
+        {
+          "text": "4/6 förkortat med 2 är 2/3.",
+          "answer": true,
+          "explain": "4 delat med 2 är 2, och 6 delat med 2 är 3."
+        }
+      ]
+    },
+    {
+      "id": "bl-sortera-likvardiga",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Vilket bråk är lika mycket som 1/2 och vilket som 1/3?",
+      "categories": [
+        "Lika mycket som 1/2",
+        "Lika mycket som 1/3",
+        "Ingetdera"
+      ],
+      "pool": [
+        {
+          "text": "2/4",
+          "category": 0,
+          "explain": "2 är hälften av 4."
+        },
+        {
+          "text": "3/6",
+          "category": 0,
+          "explain": "3 är hälften av 6."
+        },
+        {
+          "text": "5/10",
+          "category": 0,
+          "explain": "5 är hälften av 10."
+        },
+        {
+          "text": "4/8",
+          "category": 0,
+          "explain": "4 är hälften av 8."
+        },
+        {
+          "text": "2/6",
+          "category": 1,
+          "explain": "2 är en tredjedel av 6."
+        },
+        {
+          "text": "3/9",
+          "category": 1,
+          "explain": "3 är en tredjedel av 9."
+        },
+        {
+          "text": "4/12",
+          "category": 1,
+          "explain": "4 är en tredjedel av 12."
+        },
+        {
+          "text": "5/15",
+          "category": 1,
+          "explain": "5 är en tredjedel av 15."
+        },
+        {
+          "text": "3/5",
+          "category": 2,
+          "explain": "Varken hälften av 5 eller en tredjedel av 5."
+        },
+        {
+          "text": "2/5",
+          "category": 2,
+          "explain": "Varken hälften eller en tredjedel av 5."
+        },
+        {
+          "text": "3/4",
+          "category": 2,
+          "explain": "Hälften av 4 är 2, en tredjedel av 4 är inget heltal."
+        },
+        {
+          "text": "4/9",
+          "category": 2,
+          "explain": "Varken hälften eller en tredjedel av 9."
+        }
+      ]
+    },
+    {
+      "id": "bl-luckor-forlang",
+      "mode": "lucktext",
+      "vars": {
+        "a": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          7
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        }
+      ],
+      "prompt": "Fyll i luckorna.",
+      "text": "{a}/{b} förlängt med {k} blir [[1]]/[[2]]. Täljaren och nämnaren har båda [[3]] med {k}, och därför är det nya bråket [[4]] mycket som {a}/{b}.",
+      "blanks": [
+        {
+          "answer": [
+            "=ak"
+          ],
+          "hint": "Täljaren gånger {k}."
+        },
+        {
+          "answer": [
+            "=bk"
+          ],
+          "hint": "Nämnaren gånger {k}."
+        },
+        {
+          "answer": [
+            "multiplicerats",
+            "multiplicerat",
+            "multiplicerade"
+          ],
+          "options": [
+            "multiplicerats",
+            "adderats",
+            "subtraherats"
+          ],
+          "hint": "Att förlänga är inte att lägga till."
+        },
+        {
+          "answer": [
+            "lika"
+          ],
+          "options": [
+            "lika",
+            "mer",
+            "mindre"
+          ],
+          "hint": "Likvärdiga bråk är lika mycket."
+        }
+      ]
+    },
+    {
+      "id": "bl-vilket-tal",
+      "vars": {
+        "a": [
+          1,
+          5
+        ],
+        "b": [
+          2,
+          7
+        ],
+        "k": [
+          2,
+          6
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        }
+      ],
+      "prompt": "{a}/{b} = {ak}/{bk}. Med vilket tal har bråket förlängts? Skriv talet.",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! {a} · {k} = {ak} och {b} · {k} = {bk}.",
+      "feedback": [
+        {
+          "answers": [
+            "=ak-a",
+            "=bk-b"
+          ],
+          "message": "Förlänger gör man genom att multiplicera, inte genom att lägga till. Hur många gånger större är {bk} än {b}?"
+        }
+      ]
+    },
+    {
+      "id": "bl-storre-andra",
+      "vars": {
+        "a": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          6
+        ],
+        "k": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        },
+        {
+          "name": "c",
+          "expr": "a*k+1"
+        }
+      ],
+      "prompt": "Vilket bråk är störst: {a}/{b} eller {c}/{bk}? Skriv det större bråket.",
+      "answer": [
+        "{c}/{bk}"
+      ],
+      "correct": "Rätt! {a}/{b} är lika mycket som {ak}/{bk}, och {c}/{bk} har en del mer.",
+      "feedback": [
+        {
+          "answers": [
+            "{a}/{b}"
+          ],
+          "message": "Förläng {a}/{b} med {k}, så har båda bråken samma nämnare och du kan jämföra täljarna."
+        }
+      ]
+    },
+    {
+      "id": "bl-storre-forsta",
+      "vars": {
+        "a": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          6
+        ],
+        "k": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        },
+        {
+          "name": "c",
+          "expr": "a*k-1"
+        }
+      ],
+      "prompt": "Vilket bråk är störst: {a}/{b} eller {c}/{bk}? Skriv det större bråket.",
+      "answer": [
+        "{a}/{b}"
+      ],
+      "correct": "Rätt! {a}/{b} är lika mycket som {ak}/{bk}, och {c}/{bk} har en del mindre.",
+      "feedback": [
+        {
+          "answers": [
+            "{c}/{bk}"
+          ],
+          "message": "Förläng {a}/{b} med {k}, så har båda bråken samma nämnare och du kan jämföra täljarna."
+        }
+      ]
+    },
+    {
+      "id": "bl-figurer-ja",
+      "vars": {
+        "a": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          6
+        ],
+        "k": [
+          2,
+          3
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "brak",
+          "shape": "rektangel",
+          "parts": "=b",
+          "shaded": "=a",
+          "title": "Första figuren: {a} av {b} delar är färgade"
+        },
+        {
+          "type": "brak",
+          "shape": "rektangel",
+          "parts": "=bk",
+          "shaded": "=ak",
+          "title": "Andra figuren: {ak} av {bk} delar är färgade"
+        }
+      ],
+      "prompt": "Figurerna är lika stora. Är det lika mycket färgat i dem? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Ja! {a}/{b} och {ak}/{bk} är likvärdiga: den andra figuren är delad i {k} gånger så många delar, och {k} gånger så många är färgade.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Figurerna är delade i olika många delar, men titta på hur stor del av hela figuren som är färgad."
+        }
+      ]
+    },
+    {
+      "id": "bl-figurer-nej",
+      "vars": {
+        "a": [
+          1,
+          4
+        ],
+        "b": [
+          2,
+          6
+        ],
+        "k": [
+          2,
+          3
+        ]
+      },
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ak",
+          "expr": "a*k+1"
+        },
+        {
+          "name": "bk",
+          "expr": "b*k"
+        }
+      ],
+      "visuals": [
+        {
+          "type": "brak",
+          "shape": "rektangel",
+          "parts": "=b",
+          "shaded": "=a",
+          "title": "Första figuren: {a} av {b} delar är färgade"
+        },
+        {
+          "type": "brak",
+          "shape": "rektangel",
+          "parts": "=bk",
+          "shaded": "=ak",
+          "title": "Andra figuren: {ak} av {bk} delar är färgade"
+        }
+      ],
+      "prompt": "Figurerna är lika stora. Är det lika mycket färgat i dem? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Nej! {a}/{b} är lika mycket som {a*k}/{bk}, och i den andra figuren är en del mer färgad: {ak}/{bk}.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Förläng {a}/{b} med {k} och jämför med {ak}/{bk}. Är de lika?"
+        }
       ]
     }
   ],

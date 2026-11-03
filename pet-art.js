@@ -112,7 +112,8 @@ window.GaussicaPetArt = (function () {
         { id: "rosa", name: "Rosa", body: "#f7bccb", dark: "#e8728f", light: "#ffe6ec" },
         { id: "guld", name: "Guld", body: "#f3dc92", dark: "#e3a25a", light: "#fff3cf" },
         { id: "vit", name: "Vit", body: "#f8f2ea", dark: "#f08a9a", light: "#ffffff" },
-        { id: "mork", name: "Mörk", body: "#6a6874", dark: "#45434f", light: "#9a98a6" }
+        { id: "mork", name: "Mörk", body: "#6a6874", dark: "#45434f", light: "#9a98a6" },
+        { id: "bla", name: "Blå", body: "#8fdcf2", dark: "#2f9bd0", light: "#e2f8fd" }
       ]
     },
     pig: {
@@ -213,6 +214,12 @@ window.GaussicaPetArt = (function () {
     if (kind === "tax") {
       return '<g class="pet-eyes">' + pos.map(function (p) {
         return '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="9.7" ry="10.5" fill="' + INK + '"/><circle cx="' + (p[0] + 3.1) + '" cy="' + (p[1] - 4) + '" r="3.8" fill="#fff"/><circle cx="' + (p[0] - 3.1) + '" cy="' + (p[1] + 4) + '" r="1.8" fill="#fff" opacity=".85"/>';
+      }).join("") + '</g>';
+    }
+    if (kind === "axolotl") {
+      // small round beads with a shine, like the real animal's eyes
+      return '<g class="pet-eyes">' + pos.map(function (p) {
+        return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="5.2" fill="' + INK + '"/><circle cx="' + (p[0] + 1.9) + '" cy="' + (p[1] - 2) + '" r="1.9" fill="#fff"/><circle cx="' + (p[0] - 1.6) + '" cy="' + (p[1] + 1.8) + '" r="0.9" fill="#fff" opacity=".8"/>';
       }).join("") + '</g>';
     }
     const ry = kind === "cat" ? 7.5 : kind === "tax" ? 7 : 6.5;
@@ -363,27 +370,64 @@ window.GaussicaPetArt = (function () {
       '<path d="M88,111 Q100,120 112,111" stroke="' + INK + '" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
   }
 
-  // an axolotl: a wide smiling face, feathery gills on both sides, a soft round body with tiny hands and a flat tail
+  // an axolotl: a salamander, not a person. A wide flat head with a long smile and tiny bright eyes, three feathery gills on each side that sweep out and up,
+  // a low body that rests on four short legs with little toes (no hands held up), and a long flat tail with a fin.
   function axolotl(c, mood) {
-    // three feathery gills on each side: a thin curved stalk with a round tip
-    const gill = function (x1, y1, x2, y2, side) {
-      const m = side < 0 ? 1 : -1;
+    const num = function (n) { return Math.round(n * 10) / 10; };
+    // one gill: a curved stalk with a row of fine filaments along both sides of it, shorter towards the tip. `side` is -1 for the left, 1 for the right.
+    const gill = function (p0, ctrl, p2, side, scale) {
       const X = function (x) { return side < 0 ? x : 200 - x; };
-      return '<path d="M' + X(x1) + ',' + y1 + ' Q' + X((x1 + x2) / 2) + ',' + (y1 + (y2 - y1) * 0.4 - 6) + ' ' + X(x2) + ',' + y2 + '" stroke="' + c.dark + '" stroke-width="8" stroke-linecap="round" fill="none"/>' +
-        '<circle cx="' + X(x2) + '" cy="' + y2 + '" r="6.5" fill="' + c.dark + '"/><circle cx="' + X(x2 - m * 1.5) + '" cy="' + (y2 - 1.5) + '" r="2.4" fill="#fff" opacity=".4"/>';
+      const at = function (t) {
+        const u = 1 - t;
+        return [u * u * p0[0] + 2 * u * t * ctrl[0] + t * t * p2[0], u * u * p0[1] + 2 * u * t * ctrl[1] + t * t * p2[1]];
+      };
+      const tangent = function (t) {
+        const dx = 2 * (1 - t) * (ctrl[0] - p0[0]) + 2 * t * (p2[0] - ctrl[0]), dy = 2 * (1 - t) * (ctrl[1] - p0[1]) + 2 * t * (p2[1] - ctrl[1]);
+        const l = Math.sqrt(dx * dx + dy * dy) || 1;
+        return [dx / l, dy / l];
+      };
+      let out = '';
+      const lengths = [11, 11.5, 10, 7.5];
+      [0.3, 0.48, 0.66, 0.84].forEach(function (t, i) {
+        const p = at(t), d = tangent(t), n = [-d[1], d[0]];
+        [-1, 1].forEach(function (s) {
+          // the filaments lean forward, towards the tip, about 55 degrees from the stalk
+          const dir = [d[0] * 0.57 + n[0] * 0.82 * s, d[1] * 0.57 + n[1] * 0.82 * s];
+          const len = lengths[i] * (scale || 1);
+          out += '<path d="M' + num(X(p[0])) + ',' + num(p[1]) + ' L' + num(X(p[0] + dir[0] * len)) + ',' + num(p[1] + dir[1] * len) + '" stroke="' + c.dark + '" stroke-width="3" stroke-linecap="round"/>';
+        });
+      });
+      const tip = at(1);
+      return '<path d="M' + X(p0[0]) + ',' + p0[1] + ' Q' + X(ctrl[0]) + ',' + ctrl[1] + ' ' + X(p2[0]) + ',' + p2[1] + '" stroke="' + c.dark + '" stroke-width="5" stroke-linecap="round" fill="none"/>' + out +
+        '<circle cx="' + num(X(tip[0])) + '" cy="' + num(tip[1]) + '" r="3.4" fill="' + c.dark + '"/>';
     };
-    return '<g class="pet-tail"><path d="M128,162 Q170,178 178,148 Q180,134 166,140 Q162,152 134,150 Z" fill="' + c.body + '"/><path d="M150,160 Q172,166 172,150" stroke="' + c.dark + '" stroke-width="2" fill="none" opacity=".35" stroke-linecap="round"/></g>' +
-      '<ellipse cx="80" cy="178" rx="15" ry="7.5" fill="' + c.body + '"/><ellipse cx="120" cy="178" rx="15" ry="7.5" fill="' + c.body + '"/>' +
-      '<ellipse cx="100" cy="146" rx="38" ry="34" fill="' + c.body + '"/><ellipse cx="100" cy="153" rx="24" ry="23" fill="' + c.light + '"/>' +
-      '<ellipse cx="62" cy="150" rx="10" ry="8" fill="' + c.body + '"/><ellipse cx="138" cy="150" rx="10" ry="8" fill="' + c.body + '"/>' +
-      '<path d="M57,154 v4 M62,155 v4 M67,154 v4 M133,154 v4 M138,155 v4 M143,154 v4" stroke="rgba(0,0,0,.18)" stroke-width="1.8" stroke-linecap="round"/>' +
-      gill(68, 70, 30, 54, -1) + gill(62, 86, 20, 84, -1) + gill(68, 102, 30, 114, -1) + gill(68, 70, 30, 54, 1) + gill(62, 86, 20, 84, 1) + gill(68, 102, 30, 114, 1) +
-      '<ellipse cx="100" cy="90" rx="47" ry="37" fill="' + c.body + '"/>' +
-      '<circle cx="82" cy="62" r="2.6" fill="' + c.light + '" opacity=".9"/><circle cx="100" cy="58" r="2.6" fill="' + c.light + '" opacity=".9"/><circle cx="118" cy="62" r="2.6" fill="' + c.light + '" opacity=".9"/>' +
-      '<circle cx="66" cy="102" r="8" fill="#ff9bb0" opacity=".42"/><circle cx="134" cy="102" r="8" fill="#ff9bb0" opacity=".42"/>' +
+    // a short leg and a foot with small round toes, on one side (the other side is the same, turned over)
+    const leg = function (side) {
+      const X = function (x) { return side < 0 ? x : 200 - x; };
+      return '<path d="M' + X(62) + ',144 Q' + X(48) + ',152 ' + X(44) + ',166" stroke="' + c.body + '" stroke-width="15" stroke-linecap="round" fill="none"/>' +
+        '<ellipse cx="' + X(44) + '" cy="170" rx="11" ry="6.5" fill="' + c.body + '"/>' +
+        '<circle cx="' + X(35) + '" cy="172" r="3.6" fill="' + c.body + '"/><circle cx="' + X(41) + '" cy="176" r="3.6" fill="' + c.body + '"/><circle cx="' + X(48) + '" cy="176.5" r="3.6" fill="' + c.body + '"/><circle cx="' + X(54) + '" cy="173" r="3.6" fill="' + c.body + '"/>' +
+        '<path d="M' + X(38) + ',172 v3 M' + X(44) + ',174 v3 M' + X(50) + ',174 v3" stroke="' + c.dark + '" stroke-width="1.4" stroke-linecap="round" opacity=".35"/>';
+    };
+    const foot = function (side) {
+      const X = function (x) { return side < 0 ? x : 200 - x; };
+      return '<ellipse cx="' + X(76) + '" cy="181" rx="16" ry="7" fill="' + c.body + '"/>' +
+        '<circle cx="' + X(63) + '" cy="183" r="3.3" fill="' + c.body + '"/><circle cx="' + X(69) + '" cy="187" r="3.3" fill="' + c.body + '"/><circle cx="' + X(76) + '" cy="188" r="3.3" fill="' + c.body + '"/>';
+    };
+    return '<g class="pet-tail"><path d="M128,160 Q156,152 176,142 Q190,136 189,148 Q186,166 150,176 Q138,177 128,172 Z" fill="' + c.body + '"/>' +
+      '<path d="M134,160 Q158,154 178,143" stroke="' + c.dark + '" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".35"/>' +
+      '<path d="M150,168 Q170,164 184,152" stroke="' + c.light + '" stroke-width="3" stroke-linecap="round" fill="none" opacity=".45"/></g>' +
+      foot(-1) + foot(1) +
+      '<ellipse cx="100" cy="150" rx="49" ry="29" fill="' + c.body + '"/><ellipse cx="100" cy="158" rx="30" ry="17" fill="' + c.light + '"/>' +
+      leg(-1) + leg(1) +
+      gill([60, 74], [40, 60], [26, 44], -1, 1) + gill([57, 89], [36, 84], [20, 84], -1, 1) + gill([60, 103], [40, 112], [26, 124], -1, 1) +
+      gill([60, 74], [40, 60], [26, 44], 1, 1) + gill([57, 89], [36, 84], [20, 84], 1, 1) + gill([60, 103], [40, 112], [26, 124], 1, 1) +
+      '<ellipse cx="100" cy="90" rx="54" ry="35" fill="' + c.body + '"/>' +
+      '<circle cx="81" cy="67" r="1.9" fill="' + c.dark + '" opacity=".18"/><circle cx="93" cy="62" r="1.9" fill="' + c.dark + '" opacity=".18"/><circle cx="107" cy="62" r="1.9" fill="' + c.dark + '" opacity=".18"/><circle cx="119" cy="67" r="1.9" fill="' + c.dark + '" opacity=".18"/><circle cx="100" cy="68" r="1.7" fill="' + c.dark + '" opacity=".14"/>' +
       eyes("axolotl", mood, c) +
-      '<circle cx="96" cy="94" r="1.5" fill="' + INK + '" opacity=".5"/><circle cx="104" cy="94" r="1.5" fill="' + INK + '" opacity=".5"/>' +
-      '<path d="M80,102 Q100,120 120,102" stroke="' + INK + '" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+      '<circle cx="96" cy="95" r="1.5" fill="' + INK + '" opacity=".5"/><circle cx="104" cy="95" r="1.5" fill="' + INK + '" opacity=".5"/>' +
+      '<path d="M71,103 Q100,118 129,103" stroke="' + INK + '" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M71,103 q-3.5,-1 -4.5,-4.5 M129,103 q3.5,-1 4.5,-4.5" stroke="' + INK + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
   }
 
   // a pig: a round pink head with a big snout, floppy ears, a round body, a curly tail and little hooves
@@ -1023,10 +1067,10 @@ window.GaussicaPetArt = (function () {
   // ===== the arm that points =====
   // An arm, a paw, a hoof, a claw, a flipper or a wing reaching to the left, for the pet that peeks over the step card and points at the
   // button (see peek in pet.js). 90 wide and 36 high, the shoulder at the right edge (behind the head) and the tip at the left.
-  // The kind of limb is in data-arm: paw, hoof, hand, claw, flipper or wing.
+  // The kind of limb is in data-arm: paw, hoof, foot, claw, flipper or wing.
   const ARM = {
     dog: "paw", tax: "paw", cat: "paw", fox: "paw", rabbit: "paw", hamster: "paw", hedgehog: "paw",
-    pig: "hoof", cow: "hoof", axolotl: "hand", dragon: "claw", penguin: "flipper", cockatiel: "wing"
+    pig: "hoof", cow: "hoof", axolotl: "foot", dragon: "claw", penguin: "flipper", cockatiel: "wing"
   };
 
   function pointer(kind, colorId) {
@@ -1054,6 +1098,10 @@ window.GaussicaPetArt = (function () {
       tip = '<ellipse cx="24" cy="18" rx="13" ry="11" fill="' + B + '"' + st + '/>' +
         '<ellipse cx="9" cy="11" rx="8" ry="3.6" fill="' + B + '"' + st + '/><ellipse cx="6" cy="18" rx="10" ry="3.8" fill="' + B + '"' + st + '/><ellipse cx="9" cy="25" rx="8" ry="3.6" fill="' + B + '"' + st + '/>' +
         '<circle cx="1.6" cy="18" r="1.4" fill="' + Lt + '"/>';
+    } else if (type === "foot") {
+      // a salamander's foot: a rounded sole with four short toes
+      tip = '<ellipse cx="24" cy="18" rx="13" ry="11" fill="' + B + '"' + st + '/>' +
+        '<ellipse cx="8" cy="8.5" rx="7" ry="3.4" fill="' + B + '"' + st + '/><ellipse cx="4.5" cy="15.2" rx="8.5" ry="3.5" fill="' + B + '"' + st + '/><ellipse cx="4.5" cy="21.2" rx="8.5" ry="3.5" fill="' + B + '"' + st + '/><ellipse cx="8" cy="27.8" rx="7" ry="3.4" fill="' + B + '"' + st + '/>';
     } else if (type === "claw") {
       tip = '<ellipse cx="26" cy="18" rx="13" ry="11" fill="' + B + '"' + st + '/>' +
         '<path d="M15,9 L1,12 L15,15 Z" fill="' + Lt + '"' + st + '/><path d="M13,16 L0,18 L13,20 Z" fill="' + Lt + '"' + st + '/><path d="M15,21 L1,25 L15,27 Z" fill="' + Lt + '"' + st + '/>';

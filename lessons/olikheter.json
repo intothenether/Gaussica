@@ -1,0 +1,786 @@
+{
+  "id": "olikheter",
+  "input": "math",
+  "area": "algebra",
+  "title": "Olikheter",
+  "level": "När svaret är många tal · ungefär åk 8",
+  "grade": 8,
+  "duration": "10 min",
+  "prerequisites": [
+    "ekvation"
+  ],
+  "summary": "En olikhet säger att något är större eller mindre än ett tal. Lösningen är många tal, inte bara ett.",
+  "explanationTitle": "Vad är en olikhet?",
+  "explanation": "Problemet: Du har 50 kr och en glass kostar 12 kr. Hur många glassar kan du köpa? Fyra går, fem går inte, och tre, två och en går också. Med en ekvation, 12x = 50, får du bara ett svar, men här finns flera. Det är en olikhet. Vi skriver 12x ≤ 50. Tecknen är < (mindre än), > (större än), ≤ (mindre än eller lika med) och ≥ (större än eller lika med). Du löser en olikhet som en ekvation: samma sak på båda sidor. 3x + 2 < 14 ger 3x < 12 och x < 4. Alla tal som är mindre än 4 är lösningar, till exempel 3, 0 och −7, och 4 själv är inte med. På tallinjen är det hela området till vänster om 4. Men en sak skiljer sig: när du multiplicerar eller delar båda sidor med ett negativt tal vänds tecknet. −2x < 6 ger x > −3, eftersom ett tal som blir mindre när det multipliceras med −2 måste ha varit större. Kontrollera alltid med ett tal: x = 0 ger 0 < 6, och 0 > −3 stämmer också.",
+  "visual": {
+    "type": "tallinje",
+    "title": "x < 4: alla tal till vänster om 4, men inte 4 själv",
+    "min": 0,
+    "max": 8,
+    "step": 1,
+    "labelEvery": 1,
+    "points": [
+      {
+        "value": 4,
+        "label": "4 (inte med)"
+      }
+    ],
+    "range": {
+      "from": 0,
+      "to": 4
+    }
+  },
+  "rule": "Lös som en ekvation. Vänd tecknet när du multiplicerar eller delar med ett negativt tal",
+  "ruleLabel": "OLIKHETER",
+  "example": "3x + 2 < 14 ger x < 4. −2x < 6 ger x > −3.",
+  "components": [
+    {
+      "type": "arbetat-exempel",
+      "title": "Så löser du 3x + 2 < 14",
+      "intro": "Samma steg som för en ekvation: samma sak på båda sidor. Tecknet < står kvar hela vägen.",
+      "start": "3x + 2 < 14",
+      "steps": [
+        {
+          "line": "3x + 2 − 2 < 14 − 2",
+          "say": "Ta bort 2 från båda sidor."
+        },
+        {
+          "line": "3x < 12",
+          "say": "Räkna ut."
+        },
+        {
+          "line": "x < 4",
+          "say": "Dela båda sidor med 3. Tre är positivt, så tecknet står kvar."
+        }
+      ],
+      "note": "Kontrollera med ett tal i lösningen, x = 0: 3 · 0 + 2 = 2, och 2 < 14 stämmer."
+    },
+    {
+      "type": "arbetat-exempel",
+      "title": "Så löser du −2x < 6",
+      "intro": "Här delar du med ett negativt tal. Då vänds tecknet.",
+      "start": "−2x < 6",
+      "steps": [
+        {
+          "line": "x > −3",
+          "say": "Dela båda sidor med −2. Talet är negativt, så < blir >."
+        }
+      ],
+      "note": "Kontrollera med x = 0: −2 · 0 = 0, och 0 < 6 stämmer. Och 0 > −3 stämmer också."
+    },
+    {
+      "type": "sortera",
+      "title": "Är talet en lösning?",
+      "prompt": "Är talet en lösning till x > 3?",
+      "categories": [
+        "Är en lösning till x > 3",
+        "Är inte en lösning"
+      ],
+      "shuffle": true,
+      "items": [
+        {
+          "text": "5",
+          "category": 0,
+          "explain": "5 är större än 3."
+        },
+        {
+          "text": "3",
+          "category": 1,
+          "explain": "3 är inte större än 3: gränsen själv är inte med."
+        },
+        {
+          "text": "3,5",
+          "category": 0,
+          "explain": "3,5 är större än 3."
+        },
+        {
+          "text": "0",
+          "category": 1,
+          "explain": "0 är mindre än 3."
+        },
+        {
+          "text": "100",
+          "category": 0,
+          "explain": "100 är större än 3."
+        },
+        {
+          "text": "−4",
+          "category": 1,
+          "explain": "−4 ligger till vänster om 3."
+        }
+      ]
+    },
+    {
+      "type": "hittafelet",
+      "title": "Hitta felet",
+      "prompt": "Ali löser −2x < 6. Vilket steg är fel?",
+      "steps": [
+        "Han delar båda sidor med −2.",
+        "−2x delat med −2 är x, och 6 delat med −2 är −3.",
+        "Han skriver x < −3."
+      ],
+      "wrong": 2,
+      "explain": "När du delar med ett negativt tal vänds tecknet: x > −3. Prova med x = 0: 0 > −3 stämmer, men 0 < −3 gör det inte.",
+      "fix": "x > −3",
+      "hint": "Var talet han delade med positivt eller negativt?"
+    }
+  ],
+  "exercise": {
+    "prompt": "Lös olikheten 3x + 2 < 14. Skriv svaret som x < ... eller x > ...",
+    "keys": [
+      "<",
+      ">",
+      "≤",
+      "≥"
+    ],
+    "answer": [
+      "x<4",
+      "x < 4",
+      "4>x"
+    ],
+    "correct": "Rätt! 3x < 12, och delar du med 3 får du x < 4.",
+    "feedback": [
+      {
+        "answers": [
+          "x>4"
+        ],
+        "message": "Tecknet är åt fel håll. Prova med x = 0: stämmer 3 · 0 + 2 < 14? Då ska 0 vara en lösning."
+      },
+      {
+        "answers": [
+          "x=4"
+        ],
+        "message": "Det är lösningen till ekvationen. En olikhet har många lösningar."
+      },
+      {
+        "answers": [
+          "x<12"
+        ],
+        "message": "Du tog bort 2 men delade inte med 3. Vad gör du med 3x för att få x ensamt?"
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Lös olikheten 2x − 5 ≥ 7.",
+      "keys": [
+        "<",
+        ">",
+        "≤",
+        "≥"
+      ],
+      "answer": [
+        "x>=6",
+        "x ≥ 6",
+        "6<=x"
+      ],
+      "correct": "Rätt! 2x ≥ 12 och x ≥ 6. 6 själv är med eftersom det står ≥.",
+      "feedback": [
+        {
+          "answers": [
+            "x>6"
+          ],
+          "message": "Tecknet ≥ betyder att 6 själv är med. Då ska det stå ≥, inte >."
+        },
+        {
+          "answers": [
+            "x<=6"
+          ],
+          "message": "Tecknet är åt fel håll. Prova med x = 10: stämmer 2 · 10 − 5 ≥ 7?"
+        }
+      ]
+    },
+    {
+      "prompt": "Lös olikheten −2x < 6.",
+      "keys": [
+        "<",
+        ">",
+        "≤",
+        "≥"
+      ],
+      "answer": [
+        "x>-3",
+        "x > −3",
+        "x>−3"
+      ],
+      "correct": "Rätt! Du delar med −2, så tecknet vänds: x > −3.",
+      "feedback": [
+        {
+          "answers": [
+            "x<-3",
+            "x<−3"
+          ],
+          "message": "Du delade med ett negativt tal. Då vänds tecknet. Prova med x = 0: stämmer 0 < −3?"
+        },
+        {
+          "answers": [
+            "x>3"
+          ],
+          "message": "Talet −3 ska vara negativt: 6 delat med −2."
+        }
+      ]
+    },
+    {
+      "prompt": "Du har 50 kr och en glass kostar 12 kr. Hur många glassar kan du som mest köpa? Skriv talet.",
+      "answer": [
+        "4"
+      ],
+      "correct": "Rätt! 12x ≤ 50 ger x ≤ 4,16… Du kan inte köpa en del av en glass, så som mest 4.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "5 glassar kostar 60 kr och det har du inte. Räkna 12 · 5."
+        },
+        {
+          "answers": [
+            "4,17",
+            "4.17",
+            "4,16",
+            "4.16"
+          ],
+          "message": "Det är rätt tal i olikheten, men du kan bara köpa hela glassar."
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "id": "ok-minre",
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "m": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "a*m+b"
+        }
+      ],
+      "prompt": "Lös olikheten {a}x + {b} < {c}. Skriv svaret som x < ... eller x > ...",
+      "keys": [
+        "<",
+        ">",
+        "≤",
+        "≥"
+      ],
+      "answer": [
+        "x<{m}",
+        "x < {m}",
+        "{m}>x"
+      ],
+      "correct": "Rätt! {a}x < {c-b}, och delar du med {a} får du x < {m}.",
+      "feedback": [
+        {
+          "answers": [
+            "x>{m}"
+          ],
+          "message": "Tecknet är åt fel håll. Prova med x = 0: stämmer {a} · 0 + {b} < {c}? Då ska 0 vara en lösning."
+        },
+        {
+          "answers": [
+            "x={m}"
+          ],
+          "message": "Det är lösningen till ekvationen. En olikhet har många lösningar."
+        },
+        {
+          "answers": [
+            "x<{c-b}"
+          ],
+          "message": "Du tog bort {b} men delade inte med {a}."
+        }
+      ]
+    },
+    {
+      "id": "ok-storre",
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "m": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "a*m-b"
+        }
+      ],
+      "where": [
+        {
+          "expr": "a*m-b",
+          "min": 1
+        }
+      ],
+      "prompt": "Lös olikheten {a}x − {b} > {c}. Skriv svaret som x < ... eller x > ...",
+      "keys": [
+        "<",
+        ">",
+        "≤",
+        "≥"
+      ],
+      "answer": [
+        "x>{m}",
+        "x > {m}",
+        "{m}<x"
+      ],
+      "correct": "Rätt! {a}x > {c+b}, och delar du med {a} får du x > {m}.",
+      "feedback": [
+        {
+          "answers": [
+            "x<{m}"
+          ],
+          "message": "Tecknet är åt fel håll. Prova med ett tal större än {m}: stämmer olikheten då?"
+        },
+        {
+          "answers": [
+            "x>{c+b}"
+          ],
+          "message": "Du lade till {b} men delade inte med {a}."
+        }
+      ]
+    },
+    {
+      "id": "ok-med",
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "m": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "a*m"
+        }
+      ],
+      "prompt": "Lös olikheten {a}x ≤ {c}. Skriv svaret som x ≤ ... eller x ≥ ...",
+      "keys": [
+        "<",
+        ">",
+        "≤",
+        "≥"
+      ],
+      "answer": [
+        "x<={m}",
+        "x ≤ {m}",
+        "{m}>=x"
+      ],
+      "correct": "Rätt! Delar du med {a} får du x ≤ {m}. {m} själv är med eftersom det står ≤.",
+      "feedback": [
+        {
+          "answers": [
+            "x<{m}"
+          ],
+          "message": "Tecknet ≤ betyder att {m} själv är en lösning. Då ska det stå ≤, inte <."
+        },
+        {
+          "answers": [
+            "x>={m}"
+          ],
+          "message": "Tecknet är åt fel håll."
+        }
+      ]
+    },
+    {
+      "id": "ok-negativ",
+      "vars": {
+        "a": [
+          2,
+          5
+        ],
+        "m": [
+          1,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "a*m"
+        }
+      ],
+      "prompt": "Lös olikheten −{a}x < {c}. Skriv svaret som x < ... eller x > ...",
+      "keys": [
+        "<",
+        ">",
+        "≤",
+        "≥"
+      ],
+      "answer": [
+        "x>-{m}",
+        "x > −{m}"
+      ],
+      "correct": "Rätt! Du delar med −{a}, och då vänds tecknet: x > −{m}.",
+      "feedback": [
+        {
+          "answers": [
+            "x<-{m}"
+          ],
+          "message": "Du delade med ett negativt tal. Då vänds tecknet. Prova med x = 0: stämmer −{a} · 0 < {c}? Då ska 0 vara en lösning."
+        },
+        {
+          "answers": [
+            "x>{m}"
+          ],
+          "message": "Talet ska vara negativt: {c} delat med −{a}."
+        }
+      ]
+    },
+    {
+      "id": "ok-ar-losning",
+      "vars": {
+        "k": [
+          2,
+          9
+        ]
+      },
+      "statements": [
+        {
+          "text": "{k+2} är en lösning till x > {k}.",
+          "answer": true,
+          "explain": "{k+2} är större än {k}."
+        },
+        {
+          "text": "{k} är en lösning till x > {k}.",
+          "answer": false,
+          "explain": "{k} är inte större än {k}: gränsen är inte med."
+        },
+        {
+          "text": "{k} är en lösning till x ≥ {k}.",
+          "answer": true,
+          "explain": "≥ betyder att {k} själv är med."
+        },
+        {
+          "text": "{k-1} är en lösning till x > {k}.",
+          "answer": false,
+          "explain": "{k-1} är mindre än {k}."
+        },
+        {
+          "text": "0 är en lösning till x < {k}.",
+          "answer": true,
+          "explain": "0 är mindre än {k}."
+        },
+        {
+          "text": "{k+1} är en lösning till x ≤ {k}.",
+          "answer": false,
+          "explain": "{k+1} är större än {k}."
+        }
+      ]
+    },
+    {
+      "id": "ok-glassar",
+      "vars": {
+        "p": [
+          6,
+          15
+        ],
+        "m": [
+          40,
+          100
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "floor(m/p)"
+        }
+      ],
+      "where": [
+        {
+          "expr": "mod(m,p)",
+          "min": 1
+        }
+      ],
+      "prompt": "Du har {m} kr och en sak kostar {p} kr. Hur många kan du som mest köpa? Skriv talet.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {p}x ≤ {m} ger x ≤ {m/p}, och du kan bara köpa hela: som mest {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=r+1"
+          ],
+          "message": "{r+1} stycken kostar {p*(r+1)} kr och det har du inte."
+        }
+      ]
+    },
+    {
+      "id": "ok-sant-falskt",
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "x < 4 betyder att 4 är en lösning.",
+          "answer": false,
+          "explain": "4 är inte mindre än 4."
+        },
+        {
+          "text": "x ≤ 4 betyder att 4 är en lösning.",
+          "answer": true,
+          "explain": "≤ betyder mindre än eller lika med."
+        },
+        {
+          "text": "Delar du med ett negativt tal vänds tecknet.",
+          "answer": true,
+          "explain": "Tal som är större blir mindre när du multiplicerar med ett negativt tal."
+        },
+        {
+          "text": "3x < 12 har samma lösningar som x < 4.",
+          "answer": true,
+          "explain": "Dela båda sidor med 3."
+        },
+        {
+          "text": "x > 2 och 2 < x betyder samma sak.",
+          "answer": true,
+          "explain": "Båda säger att x är större än 2."
+        },
+        {
+          "text": "−3 < −5",
+          "answer": false,
+          "explain": "−5 ligger längre åt vänster, så −3 är större än −5."
+        },
+        {
+          "text": "En olikhet har alltid bara en lösning.",
+          "answer": false,
+          "explain": "Det är många tal, ofta oändligt många."
+        },
+        {
+          "text": "Om x > 5 är 6 en lösning.",
+          "answer": true,
+          "explain": "6 är större än 5."
+        },
+        {
+          "text": "2x < 8 ger x > 4.",
+          "answer": false,
+          "explain": "Delar du med 2 (positivt) står tecknet kvar: x < 4."
+        },
+        {
+          "text": "−x > 2 ger x < −2.",
+          "answer": true,
+          "explain": "Du multiplicerar med −1, och tecknet vänds."
+        }
+      ],
+      "for": []
+    },
+    {
+      "id": "ok-hitta-felet",
+      "mode": "hittafelet",
+      "prompt": "Här har någon tänkt fel. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Ali löser −2x < 6. Vilket steg är fel?",
+          "steps": [
+            "Han delar båda sidor med −2.",
+            "−2x delat med −2 är x och 6 delat med −2 är −3.",
+            "Han skriver x < −3."
+          ],
+          "wrong": 2,
+          "explain": "Delar du med ett negativt tal vänds tecknet: x > −3.",
+          "fix": "x > −3",
+          "hint": "Var talet han delade med positivt eller negativt?"
+        },
+        {
+          "prompt": "Mira löser 3x + 2 < 14. Vilket steg är fel?",
+          "steps": [
+            "Hon tar bort 2 från båda sidor: 3x < 12.",
+            "Hon delar båda sidor med 3: x < 4.",
+            "Hon svarar att 4 är en lösning."
+          ],
+          "wrong": 2,
+          "explain": "x < 4 betyder alla tal som är mindre än 4. 4 själv är inte mindre än 4.",
+          "fix": "4 är inte med.",
+          "hint": "Är 4 mindre än 4?"
+        },
+        {
+          "prompt": "Omar löser 2x − 5 ≥ 7. Vilket steg är fel?",
+          "steps": [
+            "Han lägger till 5 på båda sidor: 2x ≥ 12.",
+            "Han delar med 2: x ≥ 6.",
+            "Han skriver x > 6."
+          ],
+          "wrong": 2,
+          "explain": "Tecknet ≥ betyder att 6 själv är med. Då ska det stå ≥.",
+          "fix": "x ≥ 6",
+          "hint": "Är 6 en lösning?"
+        },
+        {
+          "prompt": "Lea löser 4x < 20. Vilket steg är fel?",
+          "steps": [
+            "Hon delar båda sidor med 4.",
+            "4x delat med 4 är x och 20 delat med 4 är 5.",
+            "Hon vänder tecknet och skriver x > 5."
+          ],
+          "wrong": 2,
+          "explain": "Hon delade med ett positivt tal, så tecknet ska inte vändas: x < 5.",
+          "fix": "x < 5",
+          "hint": "Var 4 positivt eller negativt?"
+        },
+        {
+          "prompt": "Elsa löser x + 3 > 8. Vilket steg är fel?",
+          "steps": [
+            "Hon tar bort 3 från båda sidor.",
+            "x > 8 − 3.",
+            "Hon skriver x > 11."
+          ],
+          "wrong": 2,
+          "explain": "8 − 3 är 5, inte 11: x > 5.",
+          "fix": "x > 5",
+          "hint": "Tog hon bort eller lade hon till?"
+        }
+      ],
+      "for": [
+        "hf-3"
+      ]
+    },
+    {
+      "id": "ok-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Är talet en lösning till x > 3?",
+      "categories": [
+        "Är en lösning",
+        "Är inte en lösning"
+      ],
+      "pool": [
+        {
+          "text": "5",
+          "category": 0,
+          "explain": "5 > 3."
+        },
+        {
+          "text": "3,5",
+          "category": 0,
+          "explain": "3,5 > 3."
+        },
+        {
+          "text": "100",
+          "category": 0,
+          "explain": "100 > 3."
+        },
+        {
+          "text": "4",
+          "category": 0,
+          "explain": "4 > 3."
+        },
+        {
+          "text": "12",
+          "category": 0,
+          "explain": "12 > 3."
+        },
+        {
+          "text": "3,01",
+          "category": 0,
+          "explain": "3,01 > 3."
+        },
+        {
+          "text": "3",
+          "category": 1,
+          "explain": "3 är inte större än 3."
+        },
+        {
+          "text": "0",
+          "category": 1,
+          "explain": "0 < 3."
+        },
+        {
+          "text": "−4",
+          "category": 1,
+          "explain": "−4 ligger till vänster om 3."
+        },
+        {
+          "text": "2,9",
+          "category": 1,
+          "explain": "2,9 < 3."
+        },
+        {
+          "text": "1",
+          "category": 1,
+          "explain": "1 < 3."
+        },
+        {
+          "text": "−1",
+          "category": 1,
+          "explain": "−1 < 3."
+        }
+      ],
+      "for": [
+        "so-2"
+      ]
+    },
+    {
+      "id": "ok-luckor",
+      "mode": "lucktext",
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "m": [
+          2,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "c",
+          "expr": "a*m"
+        }
+      ],
+      "prompt": "Fyll i luckorna.",
+      "text": "{a}x < {c} ger x < [[1]], eftersom du delar med ett [[2]] tal. Men −{a}x < {c} ger x [[3]] −{m}, eftersom du delar med ett negativt tal.",
+      "blanks": [
+        {
+          "answer": [
+            "=m"
+          ],
+          "hint": "{c} delat med {a}."
+        },
+        {
+          "answer": [
+            "positivt"
+          ],
+          "options": [
+            "positivt",
+            "negativt"
+          ],
+          "hint": "Är {a} positivt eller negativt?"
+        },
+        {
+          "answer": [
+            ">"
+          ],
+          "options": [
+            "<",
+            ">"
+          ],
+          "hint": "Tecknet vänds."
+        }
+      ]
+    }
+  ]
+}

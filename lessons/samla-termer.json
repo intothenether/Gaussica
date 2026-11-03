@@ -1,0 +1,700 @@
+{
+  "id": "samla-termer",
+  "input": "math",
+  "stepSolve": true,
+  "area": "algebra",
+  "title": "Samla lika termer",
+  "level": "Förenkla uttryck · ungefär åk 7",
+  "grade": 7,
+  "duration": "9 min",
+  "prerequisites": [
+    "formler"
+  ],
+  "summary": "Termer med samma bokstavsdel går att lägga ihop. Då blir uttrycket kortare, och det har samma värde som förut.",
+  "explanationTitle": "Vilka termer går att lägga ihop?",
+  "explanation": "Problemet: Du har 3 äpplen och 2 äpplen, och tillsammans är det 5 äpplen. Men vad är 3x + 2x? Och är 3x + 2 samma sak som 5x? Bokstäver ser ut som ett nytt språk, och det är lätt att lägga ihop fel saker. En term är en del av ett uttryck som hänger ihop med plus eller minus: i 3x + 2 är 3x och 2 termer. Termer med samma bokstavsdel kallas lika termer, och de går att lägga ihop, precis som äpplen med äpplen: 3x + 2x är x tagna 3 gånger och x tagna 2 gånger, alltså x tagna 5 gånger, 5x. Bokstavsdelen ändras inte, bara talet framför. Termer som inte är lika går inte att lägga ihop. 3x och 2 är olika slags saker, som äpplen och päron, så 3x + 2 blir kvar som 3x + 2. På samma sätt är x och x² olika, eftersom x · x inte är x. Du kan alltid kontrollera: sätt in ett tal. Med x = 2 blir 3x + 2 lika med 8, men 5x blir 10. De är inte lika. Skriv x² som x^2 när du svarar.",
+  "rule": "Lägg ihop bara lika termer: räkna ihop talen framför och behåll bokstavsdelen",
+  "ruleLabel": "SAMLA TERMER",
+  "example": "2x + 5 + 3x − 1 = 5x + 4. Men 3x + 2 går inte att göra kortare.",
+  "components": [
+    {
+      "type": "arbetat-exempel",
+      "title": "Så samlar du termer",
+      "intro": "Sortera termerna: x-termerna för sig och de vanliga talen för sig. Lägg sedan ihop var grupp.",
+      "start": "2x + 5 + 3x − 1",
+      "steps": [
+        {
+          "line": "2x + 3x + 5 − 1",
+          "say": "Flytta ihop de lika termerna. Tecknet följer med termen."
+        },
+        {
+          "line": "5x + 4",
+          "say": "Lägg ihop x-termerna (2 + 3) och de vanliga talen (5 − 1)."
+        }
+      ],
+      "note": "Kontrollera med x = 2: 2 · 2 + 5 + 3 · 2 − 1 = 14 och 5 · 2 + 4 = 14."
+    },
+    {
+      "type": "sortera",
+      "title": "Går de att lägga ihop?",
+      "prompt": "Går termerna att lägga ihop till en term?",
+      "categories": [
+        "Går att lägga ihop",
+        "Går inte att lägga ihop"
+      ],
+      "shuffle": true,
+      "items": [
+        {
+          "text": "3x och 5x",
+          "category": 0,
+          "explain": "Båda är x-termer."
+        },
+        {
+          "text": "2x och 2",
+          "category": 1,
+          "explain": "2x har x och 2 är ett vanligt tal."
+        },
+        {
+          "text": "x² och 3x²",
+          "category": 0,
+          "explain": "Båda har bokstavsdelen x²."
+        },
+        {
+          "text": "x² och x",
+          "category": 1,
+          "explain": "x · x är inte x, så de är olika termer."
+        },
+        {
+          "text": "4a och 7a",
+          "category": 0,
+          "explain": "Båda är a-termer."
+        },
+        {
+          "text": "3x och 3y",
+          "category": 1,
+          "explain": "x och y är olika bokstäver."
+        },
+        {
+          "text": "5 och 8",
+          "category": 0,
+          "explain": "Två vanliga tal går alltid att lägga ihop."
+        },
+        {
+          "text": "2xy och 5xy",
+          "category": 0,
+          "explain": "Båda har bokstavsdelen xy."
+        }
+      ]
+    },
+    {
+      "type": "hittafelet",
+      "title": "Hitta felet",
+      "prompt": "Elsa förenklar 3x + 2. Vilket steg är fel?",
+      "steps": [
+        "3x är en term med x.",
+        "2 är ett vanligt tal.",
+        "Hon lägger ihop dem: 3x + 2 = 5x."
+      ],
+      "wrong": 2,
+      "explain": "3x och 2 är olika slags termer, så de går inte att lägga ihop. Med x = 2 är 3x + 2 lika med 8, men 5x är 10.",
+      "fix": "3x + 2 går inte att göra kortare.",
+      "hint": "Är 3x och 2 lika termer?"
+    },
+    {
+      "type": "santfalskt",
+      "title": "Sant eller falskt?",
+      "prompt": "Sant eller falskt?",
+      "shuffle": true,
+      "statements": [
+        {
+          "text": "3x + 4x = 7x",
+          "answer": true,
+          "explain": "Lika termer: 3 + 4 = 7 och x är kvar."
+        },
+        {
+          "text": "3x + 4x = 7x²",
+          "answer": false,
+          "explain": "Bokstavsdelen ändras inte när du lägger ihop: x är fortfarande x."
+        },
+        {
+          "text": "x + x = x²",
+          "answer": false,
+          "explain": "x + x = 2x. Först när du multiplicerar, x · x, får du x²."
+        },
+        {
+          "text": "2x + 3 = 5x",
+          "answer": false,
+          "explain": "2x och 3 är olika slags termer. Med x = 1 är 2x + 3 lika med 5, och 5x är också 5, men med x = 2 är det 7 och 10."
+        },
+        {
+          "text": "5x − 2x = 3x",
+          "answer": true,
+          "explain": "5 − 2 = 3 och x är kvar."
+        },
+        {
+          "text": "a + a + a = 3a",
+          "answer": true,
+          "explain": "a tagen tre gånger."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Förenkla 3x + 5x.",
+    "keys": [
+      "^"
+    ],
+    "answer": [
+      "8x"
+    ],
+    "correct": "Rätt! 3 + 5 = 8, och bokstavsdelen x är kvar: 8x.",
+    "feedback": [
+      {
+        "answers": [
+          "8"
+        ],
+        "message": "Du har lagt ihop talen men tappat x. 3x + 5x är x tagna 3 + 5 gånger."
+      },
+      {
+        "answers": [
+          "15x"
+        ],
+        "message": "Du har multiplicerat 3 och 5. Du ska lägga ihop termerna."
+      },
+      {
+        "answers": [
+          "8x^2"
+        ],
+        "message": "Bokstavsdelen ändras inte när du lägger ihop lika termer. x är fortfarande x, inte x²."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Förenkla 2x + 5 + 3x − 4.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "5x + 1"
+      ],
+      "correct": "Rätt! 2x + 3x = 5x och 5 − 4 = 1.",
+      "feedback": [
+        {
+          "answers": [
+            "5x"
+          ],
+          "message": "Du har glömt de vanliga talen: 5 − 4 = 1."
+        },
+        {
+          "answers": [
+            "5x + 9"
+          ],
+          "message": "Minustecknet framför 4 betyder att du drar ifrån: 5 − 4."
+        },
+        {
+          "answers": [
+            "6x"
+          ],
+          "message": "5 och 4 är vanliga tal, inte x-termer. De läggs ihop för sig."
+        }
+      ]
+    },
+    {
+      "prompt": "Förenkla 4x + 3 − x + 2.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "3x + 5"
+      ],
+      "correct": "Rätt! 4x − x = 3x och 3 + 2 = 5.",
+      "feedback": [
+        {
+          "answers": [
+            "5x + 5"
+          ],
+          "message": "Minustecknet framför x gäller x-termen: 4x − x = 3x."
+        },
+        {
+          "answers": [
+            "3x + 1"
+          ],
+          "message": "Titta på tecknet framför 2. Det är plus."
+        }
+      ]
+    },
+    {
+      "prompt": "Förenkla 5a + 2b + 3a − b.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "8a + b"
+      ],
+      "correct": "Rätt! 5a + 3a = 8a och 2b − b = b.",
+      "feedback": [
+        {
+          "answers": [
+            "8a + 3b"
+          ],
+          "message": "−b betyder att du drar ifrån en b: 2b − b = b."
+        },
+        {
+          "answers": [
+            "9ab"
+          ],
+          "message": "a och b är olika bokstäver, så a-termerna och b-termerna läggs ihop var för sig."
+        }
+      ]
+    }
+  ],
+  "practice": [
+    {
+      "id": "sk-plus",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          2,
+          9
+        ],
+        "d": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Förenkla {a}x + {b} + {c}x + {d}.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{a+c}x + {b+d}"
+      ],
+      "correct": "Rätt! {a}x + {c}x = {a+c}x och {b} + {d} = {b+d}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a+b+c+d}x"
+          ],
+          "message": "Du har lagt ihop alla talen som om de vore x-termer. Bara termer med x går att lägga ihop med varandra."
+        },
+        {
+          "answers": [
+            "{a+c}x + {b}",
+            "{a+c}x + {d}"
+          ],
+          "message": "Du har glömt de vanliga talen: {b} + {d}."
+        },
+        {
+          "answers": [
+            "{a+c}x^2 + {b+d}"
+          ],
+          "message": "Bokstavsdelen ändras inte: x är fortfarande x."
+        }
+      ]
+    },
+    {
+      "id": "sk-minus",
+      "vars": {
+        "a": [
+          4,
+          9
+        ],
+        "b": [
+          5,
+          9
+        ],
+        "c": [
+          1,
+          3
+        ],
+        "d": [
+          1,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "a-c",
+          "min": 2
+        },
+        {
+          "expr": "b-d",
+          "min": 1
+        }
+      ],
+      "prompt": "Förenkla {a}x + {b} − {c}x − {d}.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{a-c}x + {b-d}"
+      ],
+      "correct": "Rätt! {a}x − {c}x = {a-c}x och {b} − {d} = {b-d}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a+c}x + {b+d}"
+          ],
+          "message": "Minustecknen betyder att du drar ifrån: {a}x − {c}x och {b} − {d}."
+        },
+        {
+          "answers": [
+            "{a-c}x + {b+d}"
+          ],
+          "message": "Minustecknet framför {d} gäller: {b} − {d}."
+        }
+      ]
+    },
+    {
+      "id": "sk-bokstaver",
+      "vars": {
+        "a": [
+          2,
+          7
+        ],
+        "b": [
+          2,
+          7
+        ],
+        "c": [
+          1,
+          6
+        ],
+        "d": [
+          1,
+          6
+        ]
+      },
+      "prompt": "Förenkla {a}a + {b}b + {c}a + {d}b.",
+      "keys": [
+        "^"
+      ],
+      "answer": [
+        "{a+c}a + {b+d}b"
+      ],
+      "correct": "Rätt! a-termerna: {a} + {c} = {a+c}. b-termerna: {b} + {d} = {b+d}.",
+      "feedback": [
+        {
+          "answers": [
+            "{a+b+c+d}ab"
+          ],
+          "message": "a och b är olika bokstäver, så de går inte att lägga ihop till en term. Samla a-termerna för sig och b-termerna för sig."
+        }
+      ]
+    },
+    {
+      "id": "sk-prova",
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "b": [
+          1,
+          6
+        ],
+        "v": [
+          2,
+          5
+        ]
+      },
+      "prompt": "Är {a}x + {b} lika med {a+b}x? Prova med x = {v}. Vad blir {a}x + {b} då? Skriv talet.",
+      "answer": [
+        "=a*v+b"
+      ],
+      "correct": "Rätt! {a} · {v} + {b} = {a*v+b}, men {a+b}x blir {(a+b)*v}. De är inte lika: {a}x + {b} går inte att skriva som {a+b}x.",
+      "feedback": [
+        {
+          "answers": [
+            "=(a+b)*v"
+          ],
+          "message": "Du har räknat som om {a}x + {b} vore {a+b}x. Sätt in x = {v}: först {a} · {v}, sedan + {b}."
+        }
+      ]
+    },
+    {
+      "id": "sk-fattas",
+      "vars": {
+        "a": [
+          2,
+          8
+        ],
+        "c": [
+          2,
+          8
+        ]
+      },
+      "prompt": "{a}x + □x = {a+c}x. Vilket tal ska stå i rutan? Skriv talet.",
+      "answer": [
+        "=c"
+      ],
+      "correct": "Rätt! {a} + {c} = {a+c}, så rutan är {c}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+c"
+          ],
+          "message": "{a+c} är summan, talet framför x efteråt. Du söker talet som fattas."
+        }
+      ]
+    },
+    {
+      "id": "sk-sant-falskt",
+      "mode": "santfalskt",
+      "size": 4,
+      "prompt": "Sant eller falskt?",
+      "pool": [
+        {
+          "text": "3x + 4x = 7x",
+          "answer": true,
+          "explain": "3 + 4 = 7 och x är kvar."
+        },
+        {
+          "text": "3x + 4x = 7x²",
+          "answer": false,
+          "explain": "Bokstavsdelen ändras inte när du lägger ihop."
+        },
+        {
+          "text": "x + x = x²",
+          "answer": false,
+          "explain": "x + x = 2x."
+        },
+        {
+          "text": "2x + 3 = 5x",
+          "answer": false,
+          "explain": "2x och 3 är olika slags termer."
+        },
+        {
+          "text": "5x − 2x = 3x",
+          "answer": true,
+          "explain": "5 − 2 = 3."
+        },
+        {
+          "text": "a + a + a = 3a",
+          "answer": true,
+          "explain": "a tagen tre gånger."
+        },
+        {
+          "text": "4a + 3b = 7ab",
+          "answer": false,
+          "explain": "a och b är olika bokstäver."
+        },
+        {
+          "text": "x · x = x²",
+          "answer": true,
+          "explain": "En multiplikation, inte en addition."
+        },
+        {
+          "text": "x² + x = x³",
+          "answer": false,
+          "explain": "x² och x är olika termer och går inte att lägga ihop."
+        },
+        {
+          "text": "7y − 3y = 4y",
+          "answer": true,
+          "explain": "7 − 3 = 4."
+        }
+      ],
+      "for": [
+        "sf-3"
+      ]
+    },
+    {
+      "id": "sk-hitta-felet",
+      "mode": "hittafelet",
+      "prompt": "Här har någon tänkt fel. Vilket steg är fel?",
+      "pool": [
+        {
+          "prompt": "Elsa förenklar 3x + 2. Vilket steg är fel?",
+          "steps": [
+            "3x är en term med x.",
+            "2 är ett vanligt tal.",
+            "Hon lägger ihop dem: 3x + 2 = 5x."
+          ],
+          "wrong": 2,
+          "explain": "3x och 2 är olika slags termer och går inte att lägga ihop.",
+          "fix": "3x + 2 går inte att göra kortare.",
+          "hint": "Är 3x och 2 lika termer?"
+        },
+        {
+          "prompt": "Omar förenklar 4x + 3x. Vilket steg är fel?",
+          "steps": [
+            "4x och 3x är lika termer.",
+            "4 + 3 = 7.",
+            "Han skriver svaret 7x²."
+          ],
+          "wrong": 2,
+          "explain": "Bokstavsdelen ändras inte när du lägger ihop: x är kvar, inte x².",
+          "fix": "4x + 3x = 7x.",
+          "hint": "Vad händer med x när du lägger ihop?"
+        },
+        {
+          "prompt": "Mira förenklar 5x − 2x + 4. Vilket steg är fel?",
+          "steps": [
+            "5x − 2x = 3x.",
+            "4 är ett vanligt tal och kan inte läggas ihop med 3x.",
+            "Hon skriver 7x."
+          ],
+          "wrong": 2,
+          "explain": "3x och 4 är olika termer. Svaret är 3x + 4.",
+          "fix": "Svaret är 3x + 4.",
+          "hint": "Går 3x och 4 att lägga ihop?"
+        },
+        {
+          "prompt": "Ali förenklar 2a + 3b. Vilket steg är fel?",
+          "steps": [
+            "2a och 3b har olika bokstäver.",
+            "Han lägger ihop 2 + 3 = 5.",
+            "Han skriver 5ab."
+          ],
+          "wrong": 2,
+          "explain": "a och b är olika bokstäver. 2a + 3b går inte att göra kortare.",
+          "fix": "2a + 3b går inte att förenkla.",
+          "hint": "Är a och b samma bokstav?"
+        },
+        {
+          "prompt": "Lea förenklar 6x − x. Vilket steg är fel?",
+          "steps": [
+            "x är samma sak som 1x.",
+            "6x − 1x = 5x.",
+            "Hon skriver svaret 6."
+          ],
+          "wrong": 2,
+          "explain": "Hon tappade x. 6x − x = 5x.",
+          "fix": "Svaret är 5x.",
+          "hint": "Vad blir kvar av bokstaven?"
+        }
+      ],
+      "for": [
+        "hf-2"
+      ]
+    },
+    {
+      "id": "sk-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Går termerna att lägga ihop?",
+      "categories": [
+        "Går att lägga ihop",
+        "Går inte att lägga ihop"
+      ],
+      "pool": [
+        {
+          "text": "3x och 5x",
+          "category": 0,
+          "explain": "Båda är x-termer."
+        },
+        {
+          "text": "2a och 9a",
+          "category": 0,
+          "explain": "Båda är a-termer."
+        },
+        {
+          "text": "x² och 4x²",
+          "category": 0,
+          "explain": "Båda har x²."
+        },
+        {
+          "text": "7 och 12",
+          "category": 0,
+          "explain": "Två vanliga tal."
+        },
+        {
+          "text": "xy och 3xy",
+          "category": 0,
+          "explain": "Båda har xy."
+        },
+        {
+          "text": "6b och b",
+          "category": 0,
+          "explain": "b är samma sak som 1b."
+        },
+        {
+          "text": "3x och 2",
+          "category": 1,
+          "explain": "Ett tal med x och ett vanligt tal är olika."
+        },
+        {
+          "text": "x och x²",
+          "category": 1,
+          "explain": "x · x är inte x."
+        },
+        {
+          "text": "2a och 2b",
+          "category": 1,
+          "explain": "a och b är olika bokstäver."
+        },
+        {
+          "text": "4x och 4y",
+          "category": 1,
+          "explain": "x och y är olika bokstäver."
+        },
+        {
+          "text": "x² och 5",
+          "category": 1,
+          "explain": "x² och ett vanligt tal är olika."
+        },
+        {
+          "text": "3xy och 3x",
+          "category": 1,
+          "explain": "xy och x är olika bokstavsdelar."
+        }
+      ],
+      "for": [
+        "so-1"
+      ]
+    },
+    {
+      "id": "sk-luckor",
+      "mode": "lucktext",
+      "vars": {
+        "a": [
+          2,
+          7
+        ],
+        "b": [
+          1,
+          6
+        ],
+        "c": [
+          2,
+          7
+        ]
+      },
+      "prompt": "Fyll i luckorna.",
+      "text": "{a}x + {c}x = [[1]]x, eftersom {a} + {c} = [[2]]. Men {a}x + {b} går [[3]] att lägga ihop till en term, eftersom x och ett vanligt tal är olika slags termer.",
+      "blanks": [
+        {
+          "answer": [
+            "=a+c"
+          ],
+          "hint": "Lägg ihop talen framför x."
+        },
+        {
+          "answer": [
+            "=a+c"
+          ],
+          "hint": "{a} + {c}."
+        },
+        {
+          "answer": [
+            "inte"
+          ],
+          "options": [
+            "inte",
+            "gärna"
+          ],
+          "hint": "Går x-termer och vanliga tal att lägga ihop?"
+        }
+      ]
+    }
+  ]
+}

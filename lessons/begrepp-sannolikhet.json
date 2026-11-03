@@ -168,35 +168,67 @@
       "pool": [
         {
           "term": "slump",
-          "definition": "När du inte kan veta i förväg vad som kommer att hända."
+          "definition": "När du inte kan veta i förväg vad som kommer att hända.",
+          "examples": [
+            "När du kastar en tärning bestämmer slumpen vad du får.",
+            "Du kan inte veta i förväg vad slumpen ger."
+          ]
         },
         {
           "term": "försök",
-          "definition": "En gång du gör något där slumpen bestämmer."
+          "definition": "En gång du gör något där slumpen bestämmer.",
+          "examples": [
+            "Varje kast med tärningen är ett försök.",
+            "Ett försök är en gång du gör något där slumpen bestämmer."
+          ]
         },
         {
           "term": "utfall",
-          "definition": "Ett av de sätt som ett försök kan sluta på."
+          "definition": "Ett av de sätt som ett försök kan sluta på.",
+          "examples": [
+            "En sexa är ett utfall när du kastar en tärning.",
+            "Krona och klave är de två utfallen när du singlar slant."
+          ]
         },
         {
           "term": "chans",
-          "definition": "Hur lätt eller svårt det är att något händer."
+          "definition": "Hur lätt eller svårt det är att något händer.",
+          "examples": [
+            "Chansen att få en sexa är liten.",
+            "Ju fler lotter du har, desto större chans har du."
+          ]
         },
         {
           "term": "säker",
-          "definition": "Något som alltid händer."
+          "definition": "Något som alltid händer.",
+          "examples": [
+            "Att solen går upp i morgon är säkert.",
+            "Något som alltid händer är säkert."
+          ]
         },
         {
           "term": "omöjlig",
-          "definition": "Något som aldrig kan hända."
+          "definition": "Något som aldrig kan hända.",
+          "examples": [
+            "Att få en sjua på en tärning är omöjligt.",
+            "Något som aldrig kan hända är omöjligt."
+          ]
         },
         {
           "term": "troligt",
-          "definition": "Något som har stor chans att hända."
+          "definition": "Något som har stor chans att hända.",
+          "examples": [
+            "Det är troligt att det blir kallt på vintern.",
+            "Troligt betyder att det är stor chans."
+          ]
         },
         {
           "term": "lika troligt",
-          "definition": "Två saker som har lika stor chans att hända."
+          "definition": "Två saker som har lika stor chans att hända.",
+          "examples": [
+            "Krona och klave är lika troligt när du singlar slant.",
+            "Att få röd eller blå är lika troligt om det finns lika många av varje."
+          ]
         }
       ]
     },
@@ -216,6 +248,10 @@
           "definition": "När du inte kan veta i förväg vad som kommer att hända.",
           "alt": [
             "slumpen"
+          ],
+          "examples": [
+            "När du kastar en tärning bestämmer slumpen vad du får.",
+            "Du kan inte veta i förväg vad slumpen ger."
           ]
         },
         {
@@ -223,6 +259,10 @@
           "definition": "En gång du gör något där slumpen bestämmer.",
           "alt": [
             "försöket"
+          ],
+          "examples": [
+            "Varje kast med tärningen är ett försök.",
+            "Ett försök är en gång du gör något där slumpen bestämmer."
           ]
         },
         {
@@ -230,6 +270,10 @@
           "definition": "Ett av de sätt som ett försök kan sluta på.",
           "alt": [
             "utfallet"
+          ],
+          "examples": [
+            "En sexa är ett utfall när du kastar en tärning.",
+            "Krona och klave är de två utfallen när du singlar slant."
           ]
         },
         {
@@ -237,6 +281,10 @@
           "definition": "Hur lätt eller svårt det är att något händer.",
           "alt": [
             "chansen"
+          ],
+          "examples": [
+            "Chansen att få en sexa är liten.",
+            "Ju fler lotter du har, desto större chans har du."
           ]
         },
         {
@@ -244,6 +292,10 @@
           "definition": "Något som alltid händer.",
           "alt": [
             "säkert"
+          ],
+          "examples": [
+            "Att solen går upp i morgon är säkert.",
+            "Något som alltid händer är säkert."
           ]
         },
         {
@@ -251,6 +303,10 @@
           "definition": "Något som aldrig kan hända.",
           "alt": [
             "omöjligt"
+          ],
+          "examples": [
+            "Att få en sjua på en tärning är omöjligt.",
+            "Något som aldrig kan hända är omöjligt."
           ]
         },
         {
@@ -258,6 +314,10 @@
           "definition": "Något som har stor chans att hända.",
           "alt": [
             "trolig"
+          ],
+          "examples": [
+            "Det är troligt att det blir kallt på vintern.",
+            "Troligt betyder att det är stor chans."
           ]
         },
         {
@@ -265,6 +325,10 @@
           "definition": "Två saker som har lika stor chans att hända.",
           "alt": [
             "lika trolig"
+          ],
+          "examples": [
+            "Krona och klave är lika troligt när du singlar slant.",
+            "Att få röd eller blå är lika troligt om det finns lika många av varje."
           ]
         }
       ]
@@ -327,6 +391,282 @@
           "text": "Ett utfall är en gång du gör något där slumpen bestämmer.",
           "answer": false,
           "explain": "Det är ett försök. Ett utfall är ett av sätten ett försök kan sluta på."
+        }
+      ]
+    },
+    {
+      "id": "s-sakert",
+      "vars": {
+        "a": [
+          3,
+          12
+        ]
+      },
+      "prompt": "En påse innehåller bara {a} röda kulor. Du drar en kula utan att titta. Är det säkert eller omöjligt att få en röd kula? Skriv begreppet.",
+      "answer": [
+        "säker",
+        "säkert"
+      ],
+      "correct": "Rätt! Alla kulor är röda, så det är säkert.",
+      "feedback": [
+        {
+          "answers": [
+            "omöjlig",
+            "omöjligt"
+          ],
+          "message": "Omöjlig betyder: Något som aldrig kan hända. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "säker"
+      ]
+    },
+    {
+      "id": "s-omojligt",
+      "vars": {
+        "a": [
+          3,
+          12
+        ]
+      },
+      "prompt": "En påse innehåller bara {a} röda kulor. Du drar en kula utan att titta. Är det säkert eller omöjligt att få en blå kula? Skriv begreppet.",
+      "answer": [
+        "omöjlig",
+        "omöjligt"
+      ],
+      "correct": "Rätt! Det finns inga blå kulor, så det är omöjligt.",
+      "feedback": [
+        {
+          "answers": [
+            "säker",
+            "säkert"
+          ],
+          "message": "Säker betyder: Något som alltid händer. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "omöjlig"
+      ]
+    },
+    {
+      "id": "s-troligast-rod",
+      "vars": {
+        "a": [
+          5,
+          12
+        ],
+        "b": [
+          1,
+          4
+        ]
+      },
+      "prompt": "I en påse ligger {a} röda och {b} blå kulor. Du drar en kula utan att titta. Vilken färg är det mest troligt att få? Skriv färgen.",
+      "answer": [
+        "röd",
+        "röda",
+        "rött"
+      ],
+      "correct": "Rätt! Det finns fler röda kulor, så röd har störst chans.",
+      "feedback": [
+        {
+          "answers": [
+            "blå",
+            "blåa"
+          ],
+          "message": "Det finns fler röda än blå kulor ({a} mot {b}), så röd har större chans."
+        }
+      ],
+      "terms": [
+        "troligt",
+        "chans"
+      ]
+    },
+    {
+      "id": "s-troligast-bla",
+      "vars": {
+        "a": [
+          5,
+          12
+        ],
+        "b": [
+          1,
+          4
+        ]
+      },
+      "prompt": "I en påse ligger {b} röda och {a} blå kulor. Du drar en kula utan att titta. Vilken färg är det mest troligt att få? Skriv färgen.",
+      "answer": [
+        "blå",
+        "blåa"
+      ],
+      "correct": "Rätt! Det finns fler blå kulor, så blå har störst chans.",
+      "feedback": [
+        {
+          "answers": [
+            "röd",
+            "röda",
+            "rött"
+          ],
+          "message": "Det finns fler blå än röda kulor ({a} mot {b}), så blå har större chans."
+        }
+      ],
+      "terms": [
+        "troligt",
+        "chans"
+      ]
+    },
+    {
+      "id": "s-lika",
+      "vars": {
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "En påse har {a} röda och {a} blå kulor. Du drar en kula utan att titta. Vad kan du säga om chansen att få röd och chansen att få blå? Skriv begreppet.",
+      "answer": [
+        "lika troligt",
+        "lika trolig",
+        "lika sannolikt"
+      ],
+      "correct": "Rätt! Det finns lika många av varje färg, så det är lika troligt.",
+      "feedback": [
+        {
+          "answers": [
+            "säker",
+            "säkert"
+          ],
+          "message": "Säker betyder: Något som alltid händer. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "omöjlig",
+            "omöjligt"
+          ],
+          "message": "Omöjlig betyder: Något som aldrig kan hända. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "troligt",
+            "trolig"
+          ],
+          "message": "Troligt betyder: Något som har stor chans att hända. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "lika troligt"
+      ]
+    },
+    {
+      "id": "s-utfall-hjul",
+      "vars": {
+        "n": [
+          3,
+          12
+        ]
+      },
+      "prompt": "Ett lyckohjul har {n} lika stora fält. Du snurrar en gång. Hur många olika utfall finns det? Skriv talet.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Varje fält är ett möjligt utfall, så det finns {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n-1",
+            "=n+1"
+          ],
+          "message": "Ett utfall är ett av de sätt som ett försök kan sluta på. Vad kan hjulet landa på?"
+        }
+      ],
+      "terms": [
+        "utfall"
+      ]
+    },
+    {
+      "id": "s-forsok",
+      "vars": {
+        "n": [
+          3,
+          12
+        ]
+      },
+      "prompt": "Du kastar en tärning {n} gånger. Hur många försök gör du? Skriv talet.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Varje kast är ett försök, så du gör {n} försök.",
+      "feedback": [
+        {
+          "answers": [
+            "=6"
+          ],
+          "message": "6 är antalet utfall på en tärning. Ett försök är en gång du kastar, och du kastar flera gånger."
+        }
+      ],
+      "terms": [
+        "försök"
+      ]
+    },
+    {
+      "id": "s-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Hur chansartat är det?",
+      "categories": [
+        "Säker",
+        "Omöjlig",
+        "Möjlig men inte säker"
+      ],
+      "pool": [
+        {
+          "text": "Det blir natt någon gång i dag",
+          "category": 0,
+          "explain": "Det händer alltid: säkert."
+        },
+        {
+          "text": "Du drar en röd kula ur en påse med bara röda kulor",
+          "category": 0,
+          "explain": "Alla är röda: säkert."
+        },
+        {
+          "text": "En vecka har sju dagar",
+          "category": 0,
+          "explain": "Det stämmer alltid: säkert."
+        },
+        {
+          "text": "Du slår en sjua med en vanlig tärning",
+          "category": 1,
+          "explain": "Tärningen går bara till sex: omöjligt."
+        },
+        {
+          "text": "Du drar en blå kula ur en påse med bara röda kulor",
+          "category": 1,
+          "explain": "Det finns inga blå: omöjligt."
+        },
+        {
+          "text": "Varmt vatten fryser till is i en ugn",
+          "category": 1,
+          "explain": "Det händer aldrig: omöjligt."
+        },
+        {
+          "text": "Du slår en sexa med en tärning",
+          "category": 2,
+          "explain": "Det kan hända, men inte varje gång."
+        },
+        {
+          "text": "Du får krona när du singlar slant",
+          "category": 2,
+          "explain": "Det kan hända, men inte varje gång."
+        },
+        {
+          "text": "Du drar en röd kula ur en påse med röda och blå kulor",
+          "category": 2,
+          "explain": "Det kan hända, men det är inte säkert."
+        },
+        {
+          "text": "Du vinner ett spel där alla har lika stor chans",
+          "category": 2,
+          "explain": "Det kan hända, men det är inte säkert."
         }
       ]
     }

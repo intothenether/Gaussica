@@ -122,6 +122,7 @@ window.GaussicaTeacher = (function () {
     const per = students.map(function (s) { return analyzeStudent(s, course); });
     const tasks = new Map();
     const mistakes = new Map();
+    const spelling = new Map();   // an answer that was almost right in the spelling counted as right: the student knows the word (see spelling.js)
 
     per.forEach(function (a) {
       a.lessons.forEach(function (lr) {
@@ -144,10 +145,11 @@ window.GaussicaTeacher = (function () {
         });
       });
       a.student.attempts && a.student.attempts.filter(L.isSubmission).forEach(function (att) {
-        if (att.misconception) mistakes.set(att.misconception, (mistakes.get(att.misconception) || 0) + 1);
+        if (att.misconception && /^Stavning:/.test(att.misconception)) spelling.set(att.misconception, (spelling.get(att.misconception) || 0) + 1);
+        else if (att.misconception) mistakes.set(att.misconception, (mistakes.get(att.misconception) || 0) + 1);
       });
     });
-    return { per: per, tasks: Array.from(tasks.values()), mistakes: mistakes };
+    return { per: per, tasks: Array.from(tasks.values()), mistakes: mistakes, spelling: spelling };
   }
 
   // ===== RENDER =====
@@ -211,6 +213,8 @@ window.GaussicaTeacher = (function () {
     const grid = el("div", "tv-two");
     grid.append(hard, miscs);
     root.appendChild(grid);
+    const gaps = ctx.caregiver ? null : gapList(data);
+    if (gaps) root.appendChild(gaps);
     const detail = studentDetail(data, ctx);
     if (detail) root.appendChild(detail);
     container.appendChild(root);
@@ -1319,6 +1323,7 @@ window.GaussicaTeacher = (function () {
     const keys = Array.from(data.mistakes.keys()).sort(function (a, b) { return data.mistakes.get(b) - data.mistakes.get(a); });
     if (!keys.length) {
       section.appendChild(el("p", "tv-empty", "Inga missuppfattningar har registrerats ännu."));
+      spellingNote(section, data);
       return section;
     }
     const max = data.mistakes.get(keys[0]);
@@ -1333,6 +1338,64 @@ window.GaussicaTeacher = (function () {
       list.appendChild(item);
     });
     section.appendChild(list);
+    spellingNote(section, data);
+    return section;
+  }
+
+  // Answers that were almost right in the spelling: they counted as right, so they are no misunderstandings, but the student has not learnt to spell the word yet
+  function spellingNote(section, data) {
+    const keys = Array.from(data.spelling.keys()).sort(function (a, b) { return data.spelling.get(b) - data.spelling.get(a); });
+    if (!keys.length) return;
+    const box = el("div", "tv-spelling");
+    box.appendChild(el("h4", "", "Stavning"));
+    box.appendChild(el("p", "admin-card-description", "Eleven kunde ordet men stavade det nästan rätt. Svaret räknades som rätt, och eleven fick se hur ordet stavas."));
+    const ul = el("ul", "tv-hard-list");
+    keys.slice(0, 6).forEach(function (k) { ul.appendChild(el("li", "", k.replace(/^Stavning:s*/, "") + " (" + plural(data.spelling.get(k), "gång", "gånger") + ")")); });
+    box.appendChild(ul);
+    section.appendChild(box);
+  }
+
+  // The wrong answers that only got the general hint: where a rule of the lesson is missing (gaps.js)
+  function gapList(data) {
+    if (!window.GaussicaGaps) return null;
+    const gaps = window.GaussicaGaps.collect(data.per.map(function (a) { return a.student; }));
+    const section = el("section", "admin-card-section tv-section tv-gaps");
+    section.append(el("h3", "", "Felsvar utan eget tips"),
+      el("p", "admin-card-description", "Felsvar som fick det allmänna tipset (\"Det svaret stämmer inte riktigt ännu\" eller bara att svaret är för stort eller litet). Skriv en regel för de vanligaste i lektionen, så får nästa elev ett riktigt tips."));
+    if (!gaps.length) {
+      section.appendChild(el("p", "tv-empty", "Inga felsvar saknar eget tips ännu."));
+      return section;
+    }
+    const list = el("ol", "tv-hard-list");
+    gaps.slice(0, 6).forEach(function (g) {
+      const li = el("li", "tv-hard-item");
+      const top = el("div", "tv-hard-top");
+      top.append(el("strong", "", g.lessonTitle + " – " + g.name), el("span", "tv-muted", plural(g.count, "svar", "svar") + " från " + plural(g.students, "elev", "elever")));
+      li.append(top);
+      if (g.fixed) {
+        li.appendChild(el("p", "tv-prompt", g.prompt));
+        const chips = el("div", "tv-chips");
+        chips.appendChild(el("span", "tv-muted", "Felsvar:"));
+        g.answers.forEach(function (a) { chips.appendChild(el("span", "tv-pill is-wrong", a.answer + " (" + a.count + ")")); });
+        li.appendChild(chips);
+        if (g.correct) li.appendChild(el("p", "tv-muted", "Rätt svar: " + g.correct));
+      } else {
+        g.examples.forEach(function (e) { li.appendChild(el("p", "tv-muted", e.prompt + " Svar: " + e.answer + " (rätt: " + e.correct + ")")); });
+      }
+      list.appendChild(li);
+    });
+    section.appendChild(list);
+    section.appendChild(button("Ladda ner som textfil", "admin-action-btn", function () {
+      const blob = new Blob([window.GaussicaGaps.report(gaps)], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "gaussica-felsvar-utan-tips-" + new Date().toISOString().slice(0, 10) + ".txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }));
     return section;
   }
 

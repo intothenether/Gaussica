@@ -67,8 +67,8 @@ ok(faceless.children.length === 1 && faceless.children[0].className === "pet-say
 on = false;
 ok(Pet.peek("hero") === null && Pet.peek("footer") === null, "nothing peeks when the teacher has switched the pet off");
 
-// an arm for every animal: paws, hooves, a hand, a claw, a flipper and a wing
-const WANT = { dog: "paw", tax: "paw", cat: "paw", fox: "paw", rabbit: "paw", hedgehog: "paw", hamster: "paw", pig: "hoof", cow: "hoof", axolotl: "hand", dragon: "claw", penguin: "flipper", cockatiel: "wing" };
+// an arm for every animal: paws, hooves, a foot, a claw, a flipper and a wing
+const WANT = { dog: "paw", tax: "paw", cat: "paw", fox: "paw", rabbit: "paw", hedgehog: "paw", hamster: "paw", pig: "hoof", cow: "hoof", axolotl: "foot", dragon: "claw", penguin: "flipper", cockatiel: "wing" };
 Object.keys(Art.KINDS).forEach((kind) => {
   ok(WANT[kind], kind + ": has a kind of arm in the test");
   Art.KINDS[kind].colors.forEach((col) => {

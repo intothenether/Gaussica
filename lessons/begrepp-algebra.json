@@ -166,35 +166,67 @@
       "pool": [
         {
           "term": "variabel",
-          "definition": "En bokstav som står för ett tal som kan variera eller är okänt."
+          "definition": "En bokstav som står för ett tal som kan variera eller är okänt.",
+          "examples": [
+            "I 3x + 2 är x en variabel.",
+            "En variabel är en bokstav som står för ett tal."
+          ]
         },
         {
           "term": "uttryck",
-          "definition": "Tal, variabler och räknesätt tillsammans, utan likhetstecken."
+          "definition": "Tal, variabler och räknesätt tillsammans, utan likhetstecken.",
+          "examples": [
+            "3x + 2 är ett uttryck, men 3x + 2 = 8 är en ekvation.",
+            "Ett uttryck har inget likhetstecken."
+          ]
         },
         {
           "term": "ekvation",
-          "definition": "En likhet med en okänd som ska bestämmas."
+          "definition": "En likhet med en okänd som ska bestämmas.",
+          "examples": [
+            "3x + 2 = 8 är en ekvation.",
+            "I en ekvation finns ett likhetstecken och en okänd."
+          ]
         },
         {
           "term": "lösning",
-          "definition": "Det värde på den okända som gör att ekvationen stämmer."
+          "definition": "Det värde på den okända som gör att ekvationen stämmer.",
+          "examples": [
+            "x = 2 är lösningen till ekvationen 3x + 2 = 8.",
+            "Lösningen gör att båda sidor blir lika."
+          ]
         },
         {
           "term": "konstant",
-          "definition": "Ett tal som inte ändras, utan en variabel."
+          "definition": "Ett tal som inte ändras, utan en variabel.",
+          "examples": [
+            "I 3x + 2 är 2 en konstant.",
+            "En konstant är ett tal som inte ändras."
+          ]
         },
         {
           "term": "koefficient",
-          "definition": "Talet som multipliceras med en variabel."
+          "definition": "Talet som multipliceras med en variabel.",
+          "examples": [
+            "I 3x + 2 är 3 koefficienten.",
+            "Koefficienten är talet som multipliceras med x."
+          ]
         },
         {
           "term": "funktion",
-          "definition": "En regel som ger exakt ett värde ut för varje värde in."
+          "definition": "En regel som ger exakt ett värde ut för varje värde in.",
+          "examples": [
+            "y = 2x + 1 är en funktion.",
+            "En funktion ger ett värde ut för varje värde in."
+          ]
         },
         {
           "term": "lutning",
-          "definition": "Hur mycket en rät linje stiger eller sjunker för varje steg åt höger. Kallas också k-värde."
+          "definition": "Hur mycket en rät linje stiger eller sjunker för varje steg åt höger. Kallas också k-värde.",
+          "examples": [
+            "Linjen y = 2x + 1 har lutningen 2.",
+            "Lutningen visar hur mycket linjen stiger för varje steg åt höger."
+          ]
         }
       ]
     },
@@ -213,6 +245,10 @@
           "definition": "En bokstav som står för ett tal som kan variera eller är okänt.",
           "alt": [
             "variabeln"
+          ],
+          "examples": [
+            "I 3x + 2 är x en variabel.",
+            "En variabel är en bokstav som står för ett tal."
           ]
         },
         {
@@ -220,6 +256,10 @@
           "definition": "Tal, variabler och räknesätt tillsammans, utan likhetstecken.",
           "alt": [
             "uttrycket"
+          ],
+          "examples": [
+            "3x + 2 är ett uttryck, men 3x + 2 = 8 är en ekvation.",
+            "Ett uttryck har inget likhetstecken."
           ]
         },
         {
@@ -227,6 +267,10 @@
           "definition": "En likhet med en okänd som ska bestämmas.",
           "alt": [
             "ekvationen"
+          ],
+          "examples": [
+            "3x + 2 = 8 är en ekvation.",
+            "I en ekvation finns ett likhetstecken och en okänd."
           ]
         },
         {
@@ -234,6 +278,10 @@
           "definition": "Det värde på den okända som gör att ekvationen stämmer.",
           "alt": [
             "lösningen"
+          ],
+          "examples": [
+            "x = 2 är lösningen till ekvationen 3x + 2 = 8.",
+            "Lösningen gör att båda sidor blir lika."
           ]
         },
         {
@@ -241,6 +289,10 @@
           "definition": "Ett tal som inte ändras, utan en variabel.",
           "alt": [
             "konstanten"
+          ],
+          "examples": [
+            "I 3x + 2 är 2 en konstant.",
+            "En konstant är ett tal som inte ändras."
           ]
         },
         {
@@ -248,6 +300,10 @@
           "definition": "Talet som multipliceras med en variabel.",
           "alt": [
             "koefficienten"
+          ],
+          "examples": [
+            "I 3x + 2 är 3 koefficienten.",
+            "Koefficienten är talet som multipliceras med x."
           ]
         },
         {
@@ -255,6 +311,10 @@
           "definition": "En regel som ger exakt ett värde ut för varje värde in.",
           "alt": [
             "funktionen"
+          ],
+          "examples": [
+            "y = 2x + 1 är en funktion.",
+            "En funktion ger ett värde ut för varje värde in."
           ]
         },
         {
@@ -264,6 +324,10 @@
             "lutningen",
             "k-värde",
             "k-värdet"
+          ],
+          "examples": [
+            "Linjen y = 2x + 1 har lutningen 2.",
+            "Lutningen visar hur mycket linjen stiger för varje steg åt höger."
           ]
         }
       ]
@@ -326,6 +390,482 @@
           "text": "Lutningen säger var linjen skär y-axeln.",
           "answer": false,
           "explain": "Lutningen säger hur mycket linjen stiger för varje steg åt höger. Startvärdet är där den skär y-axeln."
+        }
+      ]
+    },
+    {
+      "id": "a-koefficient-ord",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "I uttrycket {a}x + {b} kallas talet {a} något särskilt. Vad då? Skriv begreppet.",
+      "answer": [
+        "koefficient",
+        "koefficienten"
+      ],
+      "correct": "Rätt! {a} är koefficienten: talet som multipliceras med x.",
+      "feedback": [
+        {
+          "answers": [
+            "konstant",
+            "konstanten"
+          ],
+          "message": "Konstant betyder: Ett tal som inte ändras, utan en variabel. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "variabel",
+            "variabeln"
+          ],
+          "message": "Variabel betyder: En bokstav som står för ett tal som kan variera eller är okänt. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "uttryck",
+            "uttrycket"
+          ],
+          "message": "Uttryck betyder: Tal, variabler och räknesätt tillsammans, utan likhetstecken. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "ekvation",
+            "ekvationen"
+          ],
+          "message": "Ekvation betyder: En likhet med en okänd som ska bestämmas. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "koefficient"
+      ]
+    },
+    {
+      "id": "a-konstant-ord",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "I uttrycket {a}x + {b} kallas talet {b} något särskilt. Vad då? Skriv begreppet.",
+      "answer": [
+        "konstant",
+        "konstanten"
+      ],
+      "correct": "Rätt! {b} är en konstant: ett tal som inte ändras.",
+      "feedback": [
+        {
+          "answers": [
+            "koefficient",
+            "koefficienten"
+          ],
+          "message": "Koefficient betyder: Talet som multipliceras med en variabel. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "variabel",
+            "variabeln"
+          ],
+          "message": "Variabel betyder: En bokstav som står för ett tal som kan variera eller är okänt. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "uttryck",
+            "uttrycket"
+          ],
+          "message": "Uttryck betyder: Tal, variabler och räknesätt tillsammans, utan likhetstecken. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "ekvation",
+            "ekvationen"
+          ],
+          "message": "Ekvation betyder: En likhet med en okänd som ska bestämmas. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "konstant"
+      ]
+    },
+    {
+      "id": "a-variabel-ord",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Vad kallas bokstaven x i uttrycket {a}x + {b}? Skriv begreppet.",
+      "answer": [
+        "variabel",
+        "variabeln"
+      ],
+      "correct": "Rätt! x är en variabel: en bokstav som står för ett tal som kan variera.",
+      "feedback": [
+        {
+          "answers": [
+            "konstant",
+            "konstanten"
+          ],
+          "message": "Konstant betyder: Ett tal som inte ändras, utan en variabel. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "koefficient",
+            "koefficienten"
+          ],
+          "message": "Koefficient betyder: Talet som multipliceras med en variabel. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "uttryck",
+            "uttrycket"
+          ],
+          "message": "Uttryck betyder: Tal, variabler och räknesätt tillsammans, utan likhetstecken. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "lösning",
+            "lösningen"
+          ],
+          "message": "Lösning betyder: Det värde på den okända som gör att ekvationen stämmer. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "variabel"
+      ]
+    },
+    {
+      "id": "a-vilken-koefficient",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Vilket tal är koefficienten i uttrycket {a}x + {b}? Skriv talet.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Koefficienten är talet som multipliceras med x: {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} är konstanten, talet som inte har någon variabel. Koefficienten står framför x."
+        }
+      ],
+      "terms": [
+        "koefficient"
+      ]
+    },
+    {
+      "id": "a-vilken-konstant",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Vilket tal är konstanten i uttrycket {a}x + {b}? Skriv talet.",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! Konstanten är talet utan variabel: {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} är koefficienten, talet som multipliceras med x. Konstanten är talet som står för sig själv."
+        }
+      ],
+      "terms": [
+        "konstant"
+      ]
+    },
+    {
+      "id": "a-uttryck-eller-ekvation",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Är {a}x + {b} ett uttryck eller en ekvation? Skriv uttryck eller ekvation.",
+      "answer": [
+        "uttryck",
+        "uttrycket",
+        "ett uttryck"
+      ],
+      "correct": "Rätt! Det finns inget likhetstecken, så {a}x + {b} är ett uttryck.",
+      "feedback": [
+        {
+          "answers": [
+            "ekvation",
+            "ekvationen",
+            "en ekvation"
+          ],
+          "message": "En ekvation har ett likhetstecken och en okänd som ska bestämmas. Finns det något likhetstecken här?"
+        }
+      ],
+      "terms": [
+        "uttryck",
+        "ekvation"
+      ]
+    },
+    {
+      "id": "a-ekvation-eller-uttryck",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          10,
+          40
+        ]
+      },
+      "prompt": "Är {a}x + {b} = {c} ett uttryck eller en ekvation? Skriv uttryck eller ekvation.",
+      "answer": [
+        "ekvation",
+        "ekvationen",
+        "en ekvation"
+      ],
+      "correct": "Rätt! Det finns ett likhetstecken och en okänd, så det är en ekvation.",
+      "feedback": [
+        {
+          "answers": [
+            "uttryck",
+            "uttrycket",
+            "ett uttryck"
+          ],
+          "message": "Ett uttryck har inget likhetstecken. Titta efter ett likhetstecken här."
+        }
+      ],
+      "terms": [
+        "ekvation",
+        "uttryck"
+      ]
+    },
+    {
+      "id": "a-losning",
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "x": [
+          2,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*x"
+        }
+      ],
+      "prompt": "Vad är lösningen till ekvationen {a}x = {p}? Skriv talet.",
+      "answer": [
+        "=x"
+      ],
+      "correct": "Rätt! Lösningen är {x}, eftersom {a} · {x} = {p}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p"
+          ],
+          "message": "{p} är högerledet. Lösningen är det värde på x som gör att {a} · x blir {p}."
+        },
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} är koefficienten. Lösningen är det värde på x som gör att ekvationen stämmer."
+        }
+      ],
+      "terms": [
+        "lösning",
+        "ekvation"
+      ]
+    },
+    {
+      "id": "a-lutning",
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "m": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Linjen y = {k}x + {m} har en lutning. Vilket tal är lutningen? Skriv talet.",
+      "answer": [
+        "=k"
+      ],
+      "correct": "Rätt! Lutningen är talet framför x: {k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är konstanten, där linjen skär y-axeln. Lutningen är talet som står framför x."
+        }
+      ],
+      "terms": [
+        "lutning"
+      ]
+    },
+    {
+      "id": "a-lutning-ord",
+      "vars": {
+        "k": [
+          2,
+          9
+        ],
+        "m": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Linjen y = {k}x + {m} stiger {k} steg för varje steg åt höger. Vad kallas talet {k} för linjen? Skriv begreppet.",
+      "answer": [
+        "lutning",
+        "lutningen",
+        "k-värde",
+        "k-värdet"
+      ],
+      "correct": "Rätt! {k} är linjens lutning, också kallad k-värdet.",
+      "feedback": [
+        {
+          "answers": [
+            "konstant",
+            "konstanten"
+          ],
+          "message": "Konstant betyder: Ett tal som inte ändras, utan en variabel. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "variabel",
+            "variabeln"
+          ],
+          "message": "Variabel betyder: En bokstav som står för ett tal som kan variera eller är okänt. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "funktion",
+            "funktionen"
+          ],
+          "message": "Funktion betyder: En regel som ger exakt ett värde ut för varje värde in. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "lutning"
+      ]
+    },
+    {
+      "id": "a-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Är det ett uttryck eller en ekvation?",
+      "categories": [
+        "Uttryck",
+        "Ekvation"
+      ],
+      "pool": [
+        {
+          "text": "3x + 2",
+          "category": 0,
+          "explain": "Inget likhetstecken: ett uttryck."
+        },
+        {
+          "text": "5x − 4",
+          "category": 0,
+          "explain": "Inget likhetstecken: ett uttryck."
+        },
+        {
+          "text": "x + 9",
+          "category": 0,
+          "explain": "Inget likhetstecken: ett uttryck."
+        },
+        {
+          "text": "4x",
+          "category": 0,
+          "explain": "Inget likhetstecken: ett uttryck."
+        },
+        {
+          "text": "2x + 7 + x",
+          "category": 0,
+          "explain": "Inget likhetstecken: ett uttryck."
+        },
+        {
+          "text": "6x − 1",
+          "category": 0,
+          "explain": "Inget likhetstecken: ett uttryck."
+        },
+        {
+          "text": "3x + 2 = 11",
+          "category": 1,
+          "explain": "Likhetstecken med en okänd: en ekvation."
+        },
+        {
+          "text": "5x − 4 = 16",
+          "category": 1,
+          "explain": "Likhetstecken med en okänd: en ekvation."
+        },
+        {
+          "text": "x + 9 = 12",
+          "category": 1,
+          "explain": "Likhetstecken med en okänd: en ekvation."
+        },
+        {
+          "text": "4x = 20",
+          "category": 1,
+          "explain": "Likhetstecken med en okänd: en ekvation."
+        },
+        {
+          "text": "2x + 7 = 15",
+          "category": 1,
+          "explain": "Likhetstecken med en okänd: en ekvation."
+        },
+        {
+          "text": "6x − 1 = 17",
+          "category": 1,
+          "explain": "Likhetstecken med en okänd: en ekvation."
         }
       ]
     }

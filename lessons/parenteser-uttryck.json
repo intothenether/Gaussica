@@ -1,5 +1,7 @@
 {
   "id": "parenteser-uttryck",
+  "input": "math",
+  "stepSolve": true,
   "area": "algebra",
   "title": "Parenteser och förenkling",
   "level": "Multiplicera in och samla termer · ungefär åk 8",
@@ -338,6 +340,75 @@
         }
       ],
       "form": "utanparentes"
+    }
+  ],
+  "components": [
+    {
+      "type": "arbetat-exempel",
+      "title": "Så multiplicerar du in i en parentes",
+      "intro": "Faktorn utanför parentesen multipliceras med varje term inuti.",
+      "start": "3(x + 4)",
+      "steps": [
+        {
+          "line": "3 · x + 3 · 4",
+          "say": "Multiplicera 3 med varje term i parentesen."
+        },
+        {
+          "line": "3x + 12",
+          "say": "Räkna ut varje produkt."
+        }
+      ],
+      "note": "Kontrollera med x = 2: 3(2 + 4) = 18 och 3 · 2 + 12 = 18."
+    },
+    {
+      "type": "arbetat-exempel",
+      "title": "Så multiplicerar du två parenteser",
+      "intro": "Varje term i den första parentesen multipliceras med varje term i den andra: fyra produkter, som fyra rutor i en rektangel.",
+      "figure": {
+        "type": "areamodell",
+        "cols": [
+          "x",
+          "5"
+        ],
+        "rows": [
+          "x",
+          "2"
+        ],
+        "cells": [
+          [
+            "x²",
+            "5x"
+          ],
+          [
+            "2x",
+            "10"
+          ]
+        ],
+        "widths": [
+          0.55,
+          0.45
+        ],
+        "heights": [
+          0.55,
+          0.45
+        ]
+      },
+      "start": "(x + 2)(x + 5)",
+      "steps": [
+        {
+          "line": "x · x + x · 5 + 2 · x + 2 · 5",
+          "say": "Multiplicera varje term med varje term. Det är de fyra rutorna."
+        },
+        {
+          "line": "x^2 + 5x + 2x + 10",
+          "say": "Räkna ut varje ruta."
+        },
+        {
+          "line": "x^2 + 7x + 10",
+          "say": "Lägg ihop de lika termerna 5x och 2x."
+        }
+      ],
+      "note": "Kontrollera med x = 1: (1 + 2)(1 + 5) = 18 och 1 + 7 + 10 = 18."
     }
   ]
 }

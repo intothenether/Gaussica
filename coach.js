@@ -272,9 +272,11 @@ window.GaussicaCoach = (function () {
     const weak = weaknesses(ctx);
     const weights = templateWeights(weak[lesson.id]);
     const avoid = recentPrompts(weak, lesson.id);
+    // the terms that are weak or not safe yet are asked about more often (terms.js)
+    const bias = window.GaussicaTerms ? window.GaussicaTerms.bias(lesson, ctx.student) : null;
     const out = [];
     for (let i = 0; i < (count || 5); i++) {
-      const q = PR().fresh(lesson, weights, avoid);
+      const q = PR().fresh(lesson, weights, avoid, bias);
       if (!q) break;
       avoid.add(q.problem.prompt);
       out.push({ lessonId: lesson.id, taskId: q.taskId, templateId: q.templateId, problem: q.problem });
@@ -296,7 +298,7 @@ window.GaussicaCoach = (function () {
     const out = [];
     for (let i = 0; i < count * 3 && out.length < count; i++) {
       const p = picked[i % picked.length];
-      const q = PR().fresh(p.lesson, plan.weights[p.lesson.id], used[p.lesson.id]);
+      const q = PR().fresh(p.lesson, plan.weights[p.lesson.id], used[p.lesson.id], window.GaussicaTerms ? window.GaussicaTerms.bias(p.lesson, ctx.student) : null);
       if (!q) continue;
       used[p.lesson.id].add(q.problem.prompt);
       out.push({ lessonId: p.lesson.id, taskId: q.taskId, templateId: q.templateId, problem: q.problem });

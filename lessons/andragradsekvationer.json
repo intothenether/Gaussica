@@ -1,5 +1,7 @@
 {
   "id": "andragradsekvationer",
+  "input": "math",
+  "stepSolve": true,
   "area": "algebra",
   "title": "Andragradsekvationer",
   "level": "x² och pq-formeln · ungefär åk 9",

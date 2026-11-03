@@ -423,28 +423,30 @@ window.GaussicaPlayer = (function () {
       footer(foot, "correct", state.tries[st.key] ? "✓ Rätt! Bra att du fortsatte!" : "✓ Rätt!", [next], { kind: state.tries[st.key] ? "rightAgain" : "right" });
       if (focusNext) next.focus();
     };
-    const showWrong = function () {
+    const showWrong = function (how) {
       const n = state.tries[st.key] = (state.tries[st.key] || 0) + 1;
+      // a second wrong answer faster than the hint can have been read: the pet asks for the hint to be read first (the field waits a moment, see feedback-signals.js)
+      const rapid = Boolean(how && how.rapid);
       // after two wrong answers: a worked example of a similar question, with other numbers
       if (n >= 2 && !state.hosts.help.firstChild && deps.workedExample) {
         const example = deps.workedExample(isSession() ? st.lessonId : state.lessonId, st.task.id, st.task.problem);
         if (example) state.hosts.help.appendChild(button("💡 Se ett löst exempel", "pl-btn pl-btn-ghost pl-example", function () { openExample(example); }));
       }
-      footer(foot, "wrong", "Inte riktigt – läs tipset och prova igen" + (n > 1 ? " (försök " + (n + 1) + ")" : ""),
-        [backButton(), skip].filter(Boolean), { kind: n >= 2 ? "wrongAgain" : "wrong", example: Boolean(state.hosts.help.firstChild) });
+      footer(foot, "wrong", rapid ? "Läs tipset först, och prova sedan igen" : "Inte riktigt – läs tipset och prova igen" + (n > 1 ? " (försök " + (n + 1) + ")" : ""),
+        [backButton(), skip].filter(Boolean), { kind: rapid ? "wrongRapid" : n >= 2 ? "wrongAgain" : "wrong", example: Boolean(state.hosts.help.firstChild) });
     };
 
     deps.renderQuestion(holder, l, st.task, label, {
       answerHost: state.hosts.answer,
       feedbackHost: state.hosts.feedback,
-      onResult: function (ok) {
+      onResult: function (ok, how) {
         if (isSession()) {
           const r = state.session.results[st.task.id] || (state.session.results[st.task.id] = { completed: false, answered: true, tries: 0 });
           r.answered = true;
           if (ok && !r.completed) { r.completed = true; r.firstTry = r.tries === 0; }
           if (!ok) r.tries += 1;
         }
-        if (ok) showSolved(true); else showWrong();
+        if (ok) showSolved(true); else showWrong(how);
       }
     });
 

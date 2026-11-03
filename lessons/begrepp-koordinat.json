@@ -166,35 +166,67 @@
       "pool": [
         {
           "term": "koordinatsystem",
-          "definition": "Ett rutnät med två tallinjer som visar var punkter ligger."
+          "definition": "Ett rutnät med två tallinjer som visar var punkter ligger.",
+          "examples": [
+            "Axlarna x och y bildar ett koordinatsystem.",
+            "I ett koordinatsystem kan man sätta ut punkter."
+          ]
         },
         {
           "term": "x-axeln",
-          "definition": "Den vågräta tallinjen i ett koordinatsystem."
+          "definition": "Den vågräta tallinjen i ett koordinatsystem.",
+          "examples": [
+            "Den vågräta axeln kallas x-axeln.",
+            "Punkten (4, 0) ligger på x-axeln."
+          ]
         },
         {
           "term": "y-axeln",
-          "definition": "Den lodräta tallinjen i ett koordinatsystem."
+          "definition": "Den lodräta tallinjen i ett koordinatsystem.",
+          "examples": [
+            "Den lodräta axeln kallas y-axeln.",
+            "Punkten (0, 4) ligger på y-axeln."
+          ]
         },
         {
           "term": "origo",
-          "definition": "Punkten där axlarna möts. Dess koordinater är (0, 0)."
+          "definition": "Punkten där axlarna möts. Dess koordinater är (0, 0).",
+          "examples": [
+            "Punkten (0, 0) kallas origo.",
+            "Axlarna möts i origo."
+          ]
         },
         {
           "term": "koordinater",
-          "definition": "De två talen som beskriver var en punkt ligger, skrivna (x, y)."
+          "definition": "De två talen som beskriver var en punkt ligger, skrivna (x, y).",
+          "examples": [
+            "Punkten har koordinaterna (3, 4).",
+            "Koordinaterna skrivs (x, y)."
+          ]
         },
         {
           "term": "vågrät",
-          "definition": "Åt sidorna, som horisonten."
+          "definition": "Åt sidorna, som horisonten.",
+          "examples": [
+            "Horisonten är vågrät.",
+            "En vågrät linje går åt sidorna."
+          ]
         },
         {
           "term": "lodrät",
-          "definition": "Rakt upp och ned, som en flaggstång."
+          "definition": "Rakt upp och ned, som en flaggstång.",
+          "examples": [
+            "En flaggstång är lodrät.",
+            "En lodrät linje går rakt upp och ned."
+          ]
         },
         {
           "term": "punkt",
-          "definition": "En exakt plats utan storlek, som du markerar med en prick."
+          "definition": "En exakt plats utan storlek, som du markerar med en prick.",
+          "examples": [
+            "(3, 4) är en punkt i koordinatsystemet.",
+            "En punkt har ingen storlek."
+          ]
         }
       ]
     },
@@ -211,7 +243,11 @@
         {
           "term": "koordinatsystem",
           "definition": "Ett rutnät med två tallinjer som visar var punkter ligger.",
-          "alt": []
+          "alt": [],
+          "examples": [
+            "Axlarna x och y bildar ett koordinatsystem.",
+            "I ett koordinatsystem kan man sätta ut punkter."
+          ]
         },
         {
           "term": "x-axeln",
@@ -220,6 +256,10 @@
             "x-axel",
             "xaxeln",
             "x axeln"
+          ],
+          "examples": [
+            "Den vågräta axeln kallas x-axeln.",
+            "Punkten (4, 0) ligger på x-axeln."
           ]
         },
         {
@@ -229,6 +269,10 @@
             "y-axel",
             "yaxeln",
             "y axeln"
+          ],
+          "examples": [
+            "Den lodräta axeln kallas y-axeln.",
+            "Punkten (0, 4) ligger på y-axeln."
           ]
         },
         {
@@ -236,6 +280,10 @@
           "definition": "Punkten där axlarna möts. Dess koordinater är (0, 0).",
           "alt": [
             "origon"
+          ],
+          "examples": [
+            "Punkten (0, 0) kallas origo.",
+            "Axlarna möts i origo."
           ]
         },
         {
@@ -244,6 +292,10 @@
           "alt": [
             "koordinaterna",
             "koordinat"
+          ],
+          "examples": [
+            "Punkten har koordinaterna (3, 4).",
+            "Koordinaterna skrivs (x, y)."
           ]
         },
         {
@@ -252,6 +304,10 @@
           "alt": [
             "vågrätt",
             "horisontell"
+          ],
+          "examples": [
+            "Horisonten är vågrät.",
+            "En vågrät linje går åt sidorna."
           ]
         },
         {
@@ -260,6 +316,10 @@
           "alt": [
             "lodrätt",
             "vertikal"
+          ],
+          "examples": [
+            "En flaggstång är lodrät.",
+            "En lodrät linje går rakt upp och ned."
           ]
         },
         {
@@ -267,6 +327,10 @@
           "definition": "En exakt plats utan storlek, som du markerar med en prick.",
           "alt": [
             "punkten"
+          ],
+          "examples": [
+            "(3, 4) är en punkt i koordinatsystemet.",
+            "En punkt har ingen storlek."
           ]
         }
       ]
@@ -329,6 +393,362 @@
           "text": "En punkt är en stor fläck som täcker flera rutor.",
           "answer": false,
           "explain": "En punkt är en exakt plats utan storlek."
+        }
+      ]
+    },
+    {
+      "id": "k-x-koordinat",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "Punkten ({a}, {b}) ligger i ett koordinatsystem. Vilket tal är x-koordinaten? Skriv talet.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Det första talet är x-koordinaten: {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} är y-koordinaten, det andra talet. Det första talet är x-koordinaten."
+        }
+      ],
+      "terms": [
+        "koordinater",
+        "x-axeln"
+      ]
+    },
+    {
+      "id": "k-y-koordinat",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "Punkten ({a}, {b}) ligger i ett koordinatsystem. Vilket tal är y-koordinaten? Skriv talet.",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! Det andra talet är y-koordinaten: {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "{a} är x-koordinaten, det första talet. Det andra talet är y-koordinaten."
+        }
+      ],
+      "terms": [
+        "koordinater",
+        "y-axeln"
+      ]
+    },
+    {
+      "id": "k-axel-x",
+      "vars": {
+        "a": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Punkten ({a}, 0) ligger på en av axlarna. På vilken axel? Skriv x-axeln eller y-axeln.",
+      "answer": [
+        "x-axeln",
+        "x-axel",
+        "xaxeln",
+        "x axeln"
+      ],
+      "correct": "Rätt! När y-koordinaten är 0 ligger punkten på x-axeln.",
+      "feedback": [
+        {
+          "answers": [
+            "y-axeln",
+            "y-axel",
+            "yaxeln",
+            "y axeln"
+          ],
+          "message": "På y-axeln är x-koordinaten 0. Här är y-koordinaten 0, så punkten ligger på en annan axel."
+        }
+      ],
+      "terms": [
+        "x-axeln",
+        "punkt"
+      ]
+    },
+    {
+      "id": "k-axel-y",
+      "vars": {
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Punkten (0, {b}) ligger på en av axlarna. På vilken axel? Skriv x-axeln eller y-axeln.",
+      "answer": [
+        "y-axeln",
+        "y-axel",
+        "yaxeln",
+        "y axeln"
+      ],
+      "correct": "Rätt! När x-koordinaten är 0 ligger punkten på y-axeln.",
+      "feedback": [
+        {
+          "answers": [
+            "x-axeln",
+            "x-axel",
+            "xaxeln",
+            "x axeln"
+          ],
+          "message": "På x-axeln är y-koordinaten 0. Här är x-koordinaten 0, så punkten ligger på en annan axel."
+        }
+      ],
+      "terms": [
+        "y-axeln",
+        "punkt"
+      ]
+    },
+    {
+      "id": "k-vagrat",
+      "vars": {
+        "a": [
+          1,
+          4
+        ],
+        "c": [
+          6,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Du flyttar en punkt från ({a}, {b}) till ({c}, {b}). Är flytten vågrät eller lodrät? Skriv ordet.",
+      "answer": [
+        "vågrät",
+        "vågrätt",
+        "horisontell"
+      ],
+      "correct": "Rätt! Bara x-koordinaten ändras, så punkten flyttas åt sidorna: vågrätt.",
+      "feedback": [
+        {
+          "answers": [
+            "lodrät",
+            "lodrätt",
+            "vertikal"
+          ],
+          "message": "Lodrät betyder rakt upp och ned. Vilken koordinat ändras här, och åt vilket håll?"
+        }
+      ],
+      "terms": [
+        "vågrät",
+        "koordinater"
+      ]
+    },
+    {
+      "id": "k-lodrat",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          4
+        ],
+        "d": [
+          6,
+          9
+        ]
+      },
+      "prompt": "Du flyttar en punkt från ({a}, {b}) till ({a}, {d}). Är flytten vågrät eller lodrät? Skriv ordet.",
+      "answer": [
+        "lodrät",
+        "lodrätt",
+        "vertikal"
+      ],
+      "correct": "Rätt! Bara y-koordinaten ändras, så punkten flyttas rakt upp: lodrätt.",
+      "feedback": [
+        {
+          "answers": [
+            "vågrät",
+            "vågrätt",
+            "horisontell"
+          ],
+          "message": "Vågrät betyder åt sidorna, som horisonten. Vilken koordinat ändras här, och åt vilket håll?"
+        }
+      ],
+      "terms": [
+        "lodrät",
+        "koordinater"
+      ]
+    },
+    {
+      "id": "k-origo-x",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "Du startar i origo, (0, 0), går {a} steg åt höger och {b} steg uppåt. Vilket tal är punktens x-koordinat? Skriv talet.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Åt höger ändrar x-koordinaten: {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "Uppåt ändrar y-koordinaten. Det du går åt höger ändrar x-koordinaten."
+        }
+      ],
+      "terms": [
+        "origo",
+        "koordinater"
+      ]
+    },
+    {
+      "id": "k-origo-y",
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "Du startar i origo, (0, 0), går {a} steg åt höger och {b} steg uppåt. Vilket tal är punktens y-koordinat? Skriv talet.",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! Uppåt ändrar y-koordinaten: {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "Åt höger ändrar x-koordinaten. Det du går uppåt ändrar y-koordinaten."
+        }
+      ],
+      "terms": [
+        "origo",
+        "koordinater"
+      ]
+    },
+    {
+      "id": "k-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Ligger punkten på x-axeln eller på y-axeln?",
+      "categories": [
+        "Ligger på x-axeln",
+        "Ligger på y-axeln"
+      ],
+      "pool": [
+        {
+          "text": "(4, 0)",
+          "category": 0,
+          "explain": "y-koordinaten är 0: på x-axeln."
+        },
+        {
+          "text": "(7, 0)",
+          "category": 0,
+          "explain": "y-koordinaten är 0: på x-axeln."
+        },
+        {
+          "text": "(2, 0)",
+          "category": 0,
+          "explain": "y-koordinaten är 0: på x-axeln."
+        },
+        {
+          "text": "(9, 0)",
+          "category": 0,
+          "explain": "y-koordinaten är 0: på x-axeln."
+        },
+        {
+          "text": "(5, 0)",
+          "category": 0,
+          "explain": "y-koordinaten är 0: på x-axeln."
+        },
+        {
+          "text": "(3, 0)",
+          "category": 0,
+          "explain": "y-koordinaten är 0: på x-axeln."
+        },
+        {
+          "text": "(0, 6)",
+          "category": 1,
+          "explain": "x-koordinaten är 0: på y-axeln."
+        },
+        {
+          "text": "(0, 2)",
+          "category": 1,
+          "explain": "x-koordinaten är 0: på y-axeln."
+        },
+        {
+          "text": "(0, 8)",
+          "category": 1,
+          "explain": "x-koordinaten är 0: på y-axeln."
+        },
+        {
+          "text": "(0, 5)",
+          "category": 1,
+          "explain": "x-koordinaten är 0: på y-axeln."
+        },
+        {
+          "text": "(0, 9)",
+          "category": 1,
+          "explain": "x-koordinaten är 0: på y-axeln."
+        },
+        {
+          "text": "(0, 3)",
+          "category": 1,
+          "explain": "x-koordinaten är 0: på y-axeln."
         }
       ]
     }

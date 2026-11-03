@@ -187,43 +187,83 @@
       "pool": [
         {
           "term": "addition",
-          "definition": "Räknesättet där man lägger ihop tal, man adderar. Tecknet är +."
+          "definition": "Räknesättet där man lägger ihop tal, man adderar. Tecknet är +.",
+          "examples": [
+            "Att räkna 3 + 4 kallas addition.",
+            "Plustecknet visar att man gör en addition."
+          ]
         },
         {
           "term": "subtraktion",
-          "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −."
+          "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −.",
+          "examples": [
+            "Att räkna 9 − 4 kallas subtraktion.",
+            "Minustecknet visar att man gör en subtraktion."
+          ]
         },
         {
           "term": "multiplikation",
-          "definition": "Räknesättet där man lägger ihop lika stora grupper, man multiplicerar. Tecknet är ·."
+          "definition": "Räknesättet där man lägger ihop lika stora grupper, man multiplicerar. Tecknet är ·.",
+          "examples": [
+            "Att räkna 4 · 3 kallas multiplikation.",
+            "Gångertecknet visar att man gör en multiplikation."
+          ]
         },
         {
           "term": "division",
-          "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck."
+          "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck.",
+          "examples": [
+            "Att räkna 12 ÷ 3 kallas division.",
+            "Ett bråkstreck kan visa att man gör en division."
+          ]
         },
         {
           "term": "summa",
-          "definition": "Svaret på en addition."
+          "definition": "Svaret på en addition.",
+          "examples": [
+            "I 3 + 4 = 7 är 7 summan.",
+            "Summan av 5 och 6 är 11."
+          ]
         },
         {
           "term": "differens",
-          "definition": "Svaret på en subtraktion."
+          "definition": "Svaret på en subtraktion.",
+          "examples": [
+            "I 9 − 4 = 5 är 5 differensen.",
+            "Differensen mellan 9 och 4 är 5."
+          ]
         },
         {
           "term": "produkt",
-          "definition": "Svaret på en multiplikation."
+          "definition": "Svaret på en multiplikation.",
+          "examples": [
+            "I 4 · 3 = 12 är 12 produkten.",
+            "Produkten av 6 och 7 är 42."
+          ]
         },
         {
           "term": "kvot",
-          "definition": "Svaret på en division."
+          "definition": "Svaret på en division.",
+          "examples": [
+            "I 12/3 = 4 är 4 kvoten.",
+            "Kvoten av 20 och 4 är 5."
+          ]
         },
         {
           "term": "term",
-          "definition": "Ett av talen som läggs ihop i en addition."
+          "definition": "Ett av talen som läggs ihop i en addition.",
+          "examples": [
+            "I 3 + 4 är 3 och 4 termer.",
+            "I 8 + 2 = 10 är 8 och 2 termer."
+          ]
         },
         {
           "term": "faktor",
-          "definition": "Ett av talen som multipliceras i en multiplikation."
+          "definition": "Ett av talen som multipliceras i en multiplikation.",
+          "examples": [
+            "I 3 · 4 är 3 och 4 faktorer.",
+            "I 6 · 7 = 42 är 6 och 7 faktorer."
+          ]
         }
       ]
     },
@@ -240,28 +280,48 @@
         {
           "term": "addition",
           "definition": "Räknesättet där man lägger ihop tal, man adderar. Tecknet är +.",
-          "alt": []
+          "alt": [],
+          "examples": [
+            "Att räkna 3 + 4 kallas addition.",
+            "Plustecknet visar att man gör en addition."
+          ]
         },
         {
           "term": "subtraktion",
           "definition": "Räknesättet där man tar bort ett tal från ett annat, man subtraherar. Tecknet är −.",
-          "alt": []
+          "alt": [],
+          "examples": [
+            "Att räkna 9 − 4 kallas subtraktion.",
+            "Minustecknet visar att man gör en subtraktion."
+          ]
         },
         {
           "term": "multiplikation",
           "definition": "Räknesättet där man lägger ihop lika stora grupper, man multiplicerar. Tecknet är ·.",
-          "alt": []
+          "alt": [],
+          "examples": [
+            "Att räkna 4 · 3 kallas multiplikation.",
+            "Gångertecknet visar att man gör en multiplikation."
+          ]
         },
         {
           "term": "division",
           "definition": "Räknesättet där man delar upp något lika, man dividerar. Tecknet är ÷ eller ett bråkstreck.",
-          "alt": []
+          "alt": [],
+          "examples": [
+            "Att räkna 12 ÷ 3 kallas division.",
+            "Ett bråkstreck kan visa att man gör en division."
+          ]
         },
         {
           "term": "summa",
           "definition": "Svaret på en addition.",
           "alt": [
             "summan"
+          ],
+          "examples": [
+            "I 3 + 4 = 7 är 7 summan.",
+            "Summan av 5 och 6 är 11."
           ]
         },
         {
@@ -269,6 +329,10 @@
           "definition": "Svaret på en subtraktion.",
           "alt": [
             "differensen"
+          ],
+          "examples": [
+            "I 9 − 4 = 5 är 5 differensen.",
+            "Differensen mellan 9 och 4 är 5."
           ]
         },
         {
@@ -276,6 +340,10 @@
           "definition": "Svaret på en multiplikation.",
           "alt": [
             "produkten"
+          ],
+          "examples": [
+            "I 4 · 3 = 12 är 12 produkten.",
+            "Produkten av 6 och 7 är 42."
           ]
         },
         {
@@ -283,6 +351,10 @@
           "definition": "Svaret på en division.",
           "alt": [
             "kvoten"
+          ],
+          "examples": [
+            "I 12/3 = 4 är 4 kvoten.",
+            "Kvoten av 20 och 4 är 5."
           ]
         },
         {
@@ -291,6 +363,10 @@
           "alt": [
             "termer",
             "termen"
+          ],
+          "examples": [
+            "I 3 + 4 är 3 och 4 termer.",
+            "I 8 + 2 = 10 är 8 och 2 termer."
           ]
         },
         {
@@ -299,6 +375,10 @@
           "alt": [
             "faktorer",
             "faktorn"
+          ],
+          "examples": [
+            "I 3 · 4 är 3 och 4 faktorer.",
+            "I 6 · 7 = 42 är 6 och 7 faktorer."
           ]
         }
       ]
@@ -361,6 +441,915 @@
           "text": "Subtraktion betyder att man lägger ihop tal.",
           "answer": false,
           "explain": "Att lägga ihop är addition. Subtraktion är att ta bort ett tal från ett annat."
+        }
+      ]
+    },
+    {
+      "id": "r-roll-summa",
+      "vars": {
+        "a": [
+          12,
+          89
+        ],
+        "b": [
+          11,
+          59
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "{a} + {b} = {s}. Vad kallas talet {s}? Skriv begreppet.",
+      "answer": [
+        "summa",
+        "summan"
+      ],
+      "correct": "Rätt! {s} är summan, svaret på additionen {a} + {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "differens",
+            "differensen"
+          ],
+          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "produkt",
+            "produkten"
+          ],
+          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "kvot",
+            "kvoten"
+          ],
+          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "term",
+            "termer",
+            "termen"
+          ],
+          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "faktor",
+            "faktorer",
+            "faktorn"
+          ],
+          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "summa"
+      ]
+    },
+    {
+      "id": "r-roll-term",
+      "vars": {
+        "a": [
+          12,
+          89
+        ],
+        "b": [
+          11,
+          59
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "{a} + {b} = {s}. Vad kallas talen {a} och {b}? Skriv begreppet.",
+      "answer": [
+        "term",
+        "termer",
+        "termen"
+      ],
+      "correct": "Rätt! {a} och {b} är termer, talen som läggs ihop.",
+      "feedback": [
+        {
+          "answers": [
+            "summa",
+            "summan"
+          ],
+          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "faktor",
+            "faktorer",
+            "faktorn"
+          ],
+          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "produkt",
+            "produkten"
+          ],
+          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "differens",
+            "differensen"
+          ],
+          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "kvot",
+            "kvoten"
+          ],
+          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "term"
+      ]
+    },
+    {
+      "id": "r-roll-differens",
+      "vars": {
+        "a": [
+          30,
+          99
+        ],
+        "b": [
+          11,
+          29
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "a-b"
+        }
+      ],
+      "prompt": "{a} − {b} = {d}. Vad kallas talet {d}? Skriv begreppet.",
+      "answer": [
+        "differens",
+        "differensen"
+      ],
+      "correct": "Rätt! {d} är differensen, svaret på subtraktionen {a} − {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "summa",
+            "summan"
+          ],
+          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "produkt",
+            "produkten"
+          ],
+          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "kvot",
+            "kvoten"
+          ],
+          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "term",
+            "termer",
+            "termen"
+          ],
+          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "faktor",
+            "faktorer",
+            "faktorn"
+          ],
+          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "differens"
+      ]
+    },
+    {
+      "id": "r-roll-produkt",
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*b"
+        }
+      ],
+      "prompt": "{a} · {b} = {p}. Vad kallas talet {p}? Skriv begreppet.",
+      "answer": [
+        "produkt",
+        "produkten"
+      ],
+      "correct": "Rätt! {p} är produkten, svaret på multiplikationen {a} · {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "summa",
+            "summan"
+          ],
+          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "differens",
+            "differensen"
+          ],
+          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "kvot",
+            "kvoten"
+          ],
+          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "term",
+            "termer",
+            "termen"
+          ],
+          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "faktor",
+            "faktorer",
+            "faktorn"
+          ],
+          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "produkt"
+      ]
+    },
+    {
+      "id": "r-roll-faktor",
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*b"
+        }
+      ],
+      "prompt": "{a} · {b} = {p}. Vad kallas talen {a} och {b}? Skriv begreppet.",
+      "answer": [
+        "faktor",
+        "faktorer",
+        "faktorn"
+      ],
+      "correct": "Rätt! {a} och {b} är faktorer, talen som multipliceras.",
+      "feedback": [
+        {
+          "answers": [
+            "term",
+            "termer",
+            "termen"
+          ],
+          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "produkt",
+            "produkten"
+          ],
+          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "summa",
+            "summan"
+          ],
+          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "differens",
+            "differensen"
+          ],
+          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "kvot",
+            "kvoten"
+          ],
+          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "faktor"
+      ]
+    },
+    {
+      "id": "r-roll-kvot",
+      "vars": {
+        "b": [
+          2,
+          9
+        ],
+        "q": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "b*q"
+        }
+      ],
+      "where": [
+        {
+          "expr": "abs(q-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "{p} ÷ {b} = {q}. Vad kallas talet {q}? Skriv begreppet.",
+      "answer": [
+        "kvot",
+        "kvoten"
+      ],
+      "correct": "Rätt! {q} är kvoten, svaret på divisionen {p} ÷ {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "summa",
+            "summan"
+          ],
+          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "differens",
+            "differensen"
+          ],
+          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "produkt",
+            "produkten"
+          ],
+          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "term",
+            "termer",
+            "termen"
+          ],
+          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+        },
+        {
+          "answers": [
+            "faktor",
+            "faktorer",
+            "faktorn"
+          ],
+          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+        }
+      ],
+      "terms": [
+        "kvot"
+      ]
+    },
+    {
+      "id": "r-vilket-summa",
+      "vars": {
+        "a": [
+          12,
+          89
+        ],
+        "b": [
+          11,
+          59
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "{a} + {b} = {s}. Vilket av talen {a}, {b} och {s} är summan? Skriv talet.",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! Summan är svaret på additionen: {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a",
+            "=b"
+          ],
+          "message": "{a} och {b} är termerna, talen som läggs ihop. Summan är svaret på additionen."
+        }
+      ],
+      "terms": [
+        "summa"
+      ]
+    },
+    {
+      "id": "r-vilket-differens",
+      "vars": {
+        "a": [
+          30,
+          99
+        ],
+        "b": [
+          11,
+          29
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "a-b"
+        }
+      ],
+      "prompt": "{a} − {b} = {d}. Vilket av talen {a}, {b} och {d} är differensen? Skriv talet.",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! Differensen är svaret på subtraktionen: {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a",
+            "=b"
+          ],
+          "message": "{a} och {b} är talen som du räknar med. Differensen är svaret på subtraktionen."
+        }
+      ],
+      "terms": [
+        "differens"
+      ]
+    },
+    {
+      "id": "r-vilket-produkt",
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*b"
+        }
+      ],
+      "prompt": "{a} · {b} = {p}. Vilket av talen {a}, {b} och {p} är produkten? Skriv talet.",
+      "answer": [
+        "=p"
+      ],
+      "correct": "Rätt! Produkten är svaret på multiplikationen: {p}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a",
+            "=b"
+          ],
+          "message": "{a} och {b} är faktorerna, talen som multipliceras. Produkten är svaret på multiplikationen."
+        }
+      ],
+      "terms": [
+        "produkt"
+      ]
+    },
+    {
+      "id": "r-vilken-faktor",
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*b"
+        }
+      ],
+      "where": [
+        {
+          "expr": "b-a",
+          "min": 1
+        }
+      ],
+      "prompt": "{a} · {b} = {p}. Vilket av talen {a}, {b} och {p} är den mindre faktorn? Skriv talet.",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Faktorerna är talen som multipliceras, och den mindre är {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "{b} är också en faktor, men det är den större. Du söker den mindre faktorn."
+        },
+        {
+          "answers": [
+            "=p"
+          ],
+          "message": "{p} är produkten, svaret på multiplikationen. Faktorerna är talen som multipliceras."
+        }
+      ],
+      "terms": [
+        "faktor"
+      ]
+    },
+    {
+      "id": "r-vilket-kvot",
+      "vars": {
+        "b": [
+          2,
+          9
+        ],
+        "q": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "b*q"
+        }
+      ],
+      "where": [
+        {
+          "expr": "abs(q-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "{p} ÷ {b} = {q}. Vilket av talen {p}, {b} och {q} är kvoten? Skriv talet.",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! Kvoten är svaret på divisionen: {q}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p",
+            "=b"
+          ],
+          "message": "{p} är det som delas och {b} är det du delar med. Kvoten är svaret på divisionen."
+        }
+      ],
+      "terms": [
+        "kvot"
+      ]
+    },
+    {
+      "id": "r-gor-summa",
+      "vars": {
+        "a": [
+          12,
+          60
+        ],
+        "b": [
+          11,
+          39
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "Räkna ut summan av {a} och {b}.",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! Summan av {a} och {b} är {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=abs(a-b)"
+          ],
+          "message": "Du har räknat differensen. Summan är svaret när talen läggs ihop."
+        },
+        {
+          "answers": [
+            "=a*b"
+          ],
+          "message": "Du har räknat produkten. Summan är svaret när talen läggs ihop."
+        }
+      ],
+      "terms": [
+        "summa"
+      ]
+    },
+    {
+      "id": "r-gor-differens",
+      "vars": {
+        "a": [
+          30,
+          99
+        ],
+        "b": [
+          11,
+          29
+        ]
+      },
+      "derive": [
+        {
+          "name": "d",
+          "expr": "a-b"
+        }
+      ],
+      "prompt": "Vad är differensen mellan {a} och {b}?",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! Differensen mellan {a} och {b} är {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen, men differensen är skillnaden mellan dem: du tar bort det ena från det andra."
+        }
+      ],
+      "terms": [
+        "differens"
+      ]
+    },
+    {
+      "id": "r-gor-produkt",
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*b"
+        }
+      ],
+      "prompt": "Räkna ut produkten av {a} och {b}.",
+      "answer": [
+        "=p"
+      ],
+      "correct": "Rätt! Produkten av {a} och {b} är {p}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har räknat summan. Produkten är svaret när talen multipliceras."
+        }
+      ],
+      "terms": [
+        "produkt"
+      ]
+    },
+    {
+      "id": "r-gor-kvot",
+      "vars": {
+        "b": [
+          2,
+          9
+        ],
+        "q": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "b*q"
+        }
+      ],
+      "where": [
+        {
+          "expr": "abs(q-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "Vad är kvoten när {p} delas med {b}?",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! Kvoten är {q}, eftersom {p} ÷ {b} = {q}.",
+      "feedback": [
+        {
+          "answers": [
+            "=b"
+          ],
+          "message": "Det är talet du delar med. Kvoten är svaret på divisionen."
+        },
+        {
+          "answers": [
+            "=p"
+          ],
+          "message": "Det är talet som delas. Kvoten är svaret på divisionen."
+        }
+      ],
+      "terms": [
+        "kvot"
+      ]
+    },
+    {
+      "id": "r-saknad-term",
+      "vars": {
+        "a": [
+          12,
+          59
+        ],
+        "b": [
+          11,
+          39
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "Summan av två termer är {s}. Den ena termen är {a}. Vad är den andra termen?",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! {s} − {a} = {b}, så den andra termen är {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s"
+          ],
+          "message": "{s} är summan, alltså svaret på additionen. Du ska hitta den term som fattas."
+        }
+      ],
+      "terms": [
+        "term",
+        "summa"
+      ]
+    },
+    {
+      "id": "r-saknad-faktor",
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "p",
+          "expr": "a*b"
+        }
+      ],
+      "prompt": "Produkten av två faktorer är {p}. Den ena faktorn är {a}. Vad är den andra faktorn?",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! {p} ÷ {a} = {b}, så den andra faktorn är {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p"
+          ],
+          "message": "{p} är produkten, alltså svaret på multiplikationen. Du ska hitta den faktor som fattas."
+        }
+      ],
+      "terms": [
+        "faktor",
+        "produkt"
+      ]
+    },
+    {
+      "id": "r-sortera",
+      "mode": "sortera",
+      "size": 6,
+      "prompt": "Vilket räknesätt hör ordet till?",
+      "categories": [
+        "Addition",
+        "Subtraktion",
+        "Multiplikation",
+        "Division"
+      ],
+      "pool": [
+        {
+          "text": "summa",
+          "category": 0,
+          "explain": "Summan är svaret på en addition."
+        },
+        {
+          "text": "term",
+          "category": 0,
+          "explain": "Termerna är talen som läggs ihop."
+        },
+        {
+          "text": "plus",
+          "category": 0,
+          "explain": "Plus är tecknet för addition."
+        },
+        {
+          "text": "differens",
+          "category": 1,
+          "explain": "Differensen är svaret på en subtraktion."
+        },
+        {
+          "text": "minus",
+          "category": 1,
+          "explain": "Minus är tecknet för subtraktion."
+        },
+        {
+          "text": "subtrahera",
+          "category": 1,
+          "explain": "Att subtrahera är att ta bort."
+        },
+        {
+          "text": "produkt",
+          "category": 2,
+          "explain": "Produkten är svaret på en multiplikation."
+        },
+        {
+          "text": "faktor",
+          "category": 2,
+          "explain": "Faktorerna är talen som multipliceras."
+        },
+        {
+          "text": "gånger",
+          "category": 2,
+          "explain": "Gånger är tecknet för multiplikation."
+        },
+        {
+          "text": "kvot",
+          "category": 3,
+          "explain": "Kvoten är svaret på en division."
+        },
+        {
+          "text": "dividera",
+          "category": 3,
+          "explain": "Att dividera är att dela upp lika."
+        },
+        {
+          "text": "delat med",
+          "category": 3,
+          "explain": "Delat med är ordet för division."
         }
       ]
     }
