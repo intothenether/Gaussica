@@ -3044,6 +3044,7 @@ body { background: var(--cream); }
 .fig-shape { fill: var(--brand-soft); stroke: var(--brand); stroke-width: 3; stroke-linejoin: round; }
 .fig-shape-line { fill: none; stroke: var(--brand); stroke-width: 3; stroke-linejoin: round; }
 .fig-grid { stroke: #a5d1ee; stroke-width: 1.2; }
+.fig-gridline { stroke: #c9e2f3; stroke-width: 1; }
 .fig-outline { fill: none; stroke: var(--accent); stroke-width: 6; stroke-linejoin: round; stroke-linecap: round; opacity: .9; }
 .fig-dash { fill: none; stroke: var(--brand-light); stroke-width: 2; stroke-dasharray: 5 5; }
 .fig-right { fill: none; stroke: var(--ink); stroke-width: 1.8; }
@@ -5191,18 +5192,19 @@ html:is(.is-keyboard, .is-short) .math-preview-label { display: none; }
 @media (prefers-reduced-motion: reduce) { .eqm-x.is-leaving, .eqm-one.is-leaving { animation: none; opacity: .25; } }
 
 /* ---- A worked example, one step at a time (worked-steps.js) ---- */
-.ws { margin: 16px 0; padding: 16px 18px; border: 2px solid var(--sky-line, #d9e4f5); border-radius: 18px; background: var(--paper, #fff); }
-.ws-title { margin: 0 0 8px; font: 800 20px "Nunito", sans-serif; }
-.ws-list { margin: 10px 0; padding: 0; list-style: none; }
-.ws-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; padding: 8px 4px; border-bottom: 1px dashed var(--border, #e3d4dc); }
-.ws-line[hidden] { display: none; }
-.ws-line.is-in { animation: ws-in .45s ease; }
-@keyframes ws-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.ws-say { flex: 0 0 210px; font: 700 14px/1.4 "Nunito", sans-serif; color: var(--pink-deep, #bb3a52); }
-.ws-math { font: 800 22px "Nunito", sans-serif; color: var(--ink); }
-.ws-note { margin: 8px 0; padding: 10px 14px; border-radius: 12px; background: var(--success-soft, #e4f6ea); color: var(--success-dark, #1f7a45); font-weight: 700; }
-.ws-controls { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
-.ws-all, .ws-again { padding: 4px; border: 0; background: none; color: var(--brand); font: 700 14px "Nunito", sans-serif; text-decoration: underline; cursor: pointer; }
-.ws-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-@media (max-width: 560px) { .ws-say { flex-basis: 100%; } }
-@media (prefers-reduced-motion: reduce) { .ws-line.is-in { animation: none; } }
+.wx { margin: 16px 0; padding: 16px 18px; border: 2px solid var(--sky-line, #d9e4f5); border-radius: 18px; background: var(--paper, #fff); }
+.wx-title { margin: 0 0 8px; font: 800 20px "Nunito", sans-serif; }
+.wx-list { margin: 16px 0 14px; padding: 0; list-style: none; }
+.wx-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; min-height: 52px; padding: 12px 6px; box-sizing: border-box; border-bottom: 1px dashed var(--border, #e3d4dc); }
+.wx-line:last-child { border-bottom: 0; }
+.wx-line[hidden] { display: none; }
+.wx-line.is-in { animation: wx-in .45s ease; }
+@keyframes wx-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.wx-say { flex: 0 0 230px; font: 700 14px/1.45 "Nunito", sans-serif; color: var(--pink-deep, #bb3a52); }
+.wx-math { font: 800 22px/1.5 "Nunito", sans-serif; color: var(--ink); }
+.wx-note { margin: 12px 0 4px; padding: 10px 14px; border-radius: 12px; background: var(--success-soft, #e4f6ea); color: var(--success-dark, #1f7a45); font-weight: 700; }
+.wx-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 16px; }
+.wx-all, .wx-again { padding: 4px; border: 0; background: none; color: var(--brand); font: 700 14px "Nunito", sans-serif; text-decoration: underline; cursor: pointer; }
+.wx-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+@media (max-width: 560px) { .wx-say { flex-basis: 100%; } }
+@media (prefers-reduced-motion: reduce) { .wx-line.is-in { animation: none; } }

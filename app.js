@@ -37,6 +37,7 @@
       if (MS && MS.isMixed(text)) return "Det stämmer, men skriv svaret som ett bråk, utan hela tal framför.";
     } else if (form === "utanparentes") {
       if (/[()]/.test(text)) return "Det stämmer, men skriv uttrycket utan parentes. Multiplicera ut parentesen först.";
+      if (window.GaussicaAlgebra) return window.GaussicaAlgebra.collectedNote(text);
     } else if (form === "utbrutet") {
       if (window.GaussicaAlgebra) return window.GaussicaAlgebra.factoredNote(text);
     } else if (form === "grundpotens") {

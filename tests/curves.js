@@ -58,8 +58,21 @@ ok(curves(graph({ curves: [{ fn: "wrong((" }] })).length === 0 && curves(graph({
 ok(curves(graph({ curves: [{ fn: "x", from: 0, to: 2 }], xmin: -5, xmax: 5 }))[0].attrs.d.split(" ").length > 3 && curves(graph({ curves: [{ fn: "x", from: 0, to: 2 }] }))[0].attrs.d.match(/M/g).length === 1, "a curve can have its own range");
 ok(all(graph({ lines: [{ k: 1, m: 0 }], points: [{ x: 0, y: 0 }] })).some((n) => /fig-graphline/.test(n.className)) && curves(graph({ lines: [{ k: 1, m: 0 }] })).length === 0, "straight lines and points work as before");
 
+// ----- the grid only has lines where the axes have numbers -----
+const gridPositions = (fig, vertical) => all(fig).filter((n) => n.tag === "line" && /fig-gridline/.test(n.className) && (vertical ? n.attrs.x1 === n.attrs.x2 : n.attrs.y1 === n.attrs.y2));
+const labelsOf = (fig) => all(fig).filter((n) => n.tag === "text" && /fig-ticklabel/.test(n.className));
+[{ xmin: -5, xmax: 5, ymin: -5, ymax: 5 }, { xmin: 0, xmax: 30, ymin: 0, ymax: 60 }, { xmin: -2, xmax: 13, ymin: -1, ymax: 90 }, { xmin: -1, xmax: 5, ymin: -2, ymax: 6 }].forEach((r) => {
+  const fig = graph(r);
+  const v = gridPositions(fig, true).length, h = gridPositions(fig, false).length;
+  const zeroes = (r.xmin <= 0 && r.xmax >= 0 ? 1 : 0) + (r.ymin <= 0 && r.ymax >= 0 ? 1 : 0);
+  ok(v + h === labelsOf(fig).length + zeroes, "a grid line for each number on the axes, and no others: " + JSON.stringify(r) + " has " + v + " + " + h + " lines and " + labelsOf(fig).length + " numbers");
+  ok(v <= 11 && h <= 11, "at most about ten lines each way: " + v + " and " + h);
+});
+const wide = graph({ xmin: 0, xmax: 30, ymin: 0, ymax: 60 });
+ok(labelsOf(wide).every((t) => Number(t.textContent.replace("−", "-")) % 5 === 0), "the numbers on a wide axis are 5, 10, 15 and so on, not 3, 6, 9");
+
 // ----- the lessons -----
-const idx = JSON.parse(fs.readFileSync(ROOT + "lessons/index.json", "utf8"));
+const idx =JSON.parse(fs.readFileSync(ROOT + "lessons/index.json", "utf8"));
 let inLessons = 0;
 idx.lessons.forEach((f) => {
   const l = JSON.parse(fs.readFileSync(ROOT + "lessons/" + f, "utf8"));

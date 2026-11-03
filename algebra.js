@@ -438,6 +438,49 @@
     };
   }
 
+  // ----- "Förenkla": a right value that is not simplified yet -----
+  // The terms of an expression written out (no brackets): each with the letters it has, so that terms with the same letters are found. 4x + 5 − x has two
+  // terms with x, and 5 and 2 are two numbers: both can be added.
+  function termKeys(text) {
+    const s = String(text).replace(/\s+/g, "").replace(/[−–]/g, "-").replace(/,/g, ".");
+    if (!s) return null;
+    const keys = [];
+    const parts = s.split(/(?=[+-])/).filter(Boolean);
+    for (let i = 0; i < parts.length; i++) {
+      const m = /^[+-]?(\d+(?:\.\d+)?)?([*·]?)(.*)$/.exec(parts[i]);
+      const rest = m[3].replace(/[*·]/g, "");
+      if (m[1] && /^\d/.test(m[3])) return null;   // 2·3: a product of numbers, which is for another check
+      if (!rest) { keys.push("#"); continue; }
+      const factors = rest.match(/[a-zA-Z](?:\^\d+)?/g);
+      if (!factors || factors.join("") !== rest) { keys.push("?" + i); continue; }   // a root, a fraction or something else: not compared
+      keys.push(factors.slice().sort().join(""));
+    }
+    return keys;
+  }
+  function collectedNote(raw) {
+    const keys = termKeys(raw);
+    if (!keys) return "";
+    const seen = new Set();
+    for (const k of keys) {
+      if (k.charAt(0) === "?") continue;
+      if (seen.has(k)) return "Det stämmer, men du kan förenkla mer: det finns termer som är lika och går att lägga ihop (de med samma bokstäver, och de vanliga talen).";
+      seen.add(k);
+    }
+    return "";
+  }
+  // For a question that says Förenkla or Utveckla: the answer has the right value, but is it as short as it can be? Only when the right answer itself is, so that
+  // a question about something else (a factorised form, a root) is left alone.
+  function simplifyNote(raw, prompt, expected) {
+    if (!/^\s*(förenkla|utveckla)/i.test(String(prompt))) return "";
+    const right = Array.isArray(expected) ? String(expected[0] || "") : String(expected || "");
+    if (!right || /[<>=\/]/.test(right) || /[<>=\/]/.test(String(raw))) return "";
+    // the brackets of sqrt(2) and sin(x) are part of the function, not brackets to multiply out
+    const bare = (s) => String(s).replace(/(sqrt|sin|cos|tan|ln|lg|log|exp|abs)\([^()]*\)/gi, "F");
+    if (/[()]/.test(bare(right)) || collectedNote(right)) return "";
+    if (/[()]/.test(bare(raw))) return "Det stämmer, men skriv uttrycket utan parentes. Multiplicera ut parentesen först och samla sedan lika termer.";
+    return collectedNote(raw);
+  }
+
   // An answer to "bryt ut en faktor" is not enough as 6x + 9 (it is equal, but nothing is broken out), nor as 2(3x + 4,5) or 3(2x + 3) when 6 is there to break out
   function factoredNote(raw) {
     const text = String(raw).trim();
@@ -463,7 +506,7 @@
   }
 
   const api = { solutions: solutions, sameSolutions: sameSolutions, sameFunction: sameFunction, stepCheck: stepCheck, diagnose: diagnose, expressionMistake: expressionMistake,
-    inequality: inequality, sameInequality: sameInequality, factoredNote: factoredNote,
+    inequality: inequality, sameInequality: sameInequality, factoredNote: factoredNote, collectedNote: collectedNote, simplifyNote: simplifyNote,
     solutionMistake: solutionMistake, extractMath: extractMath, substitution: substitution, show: show, sidesOf: sidesOf, linear: linear, RULES: RULES };
   root.GaussicaAlgebra = api;
   if (typeof module !== "undefined") module.exports = api;

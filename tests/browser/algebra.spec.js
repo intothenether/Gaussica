@@ -144,15 +144,15 @@ test("a worked example is read one step at a time", async ({ page }) => {
   const errors = watchErrors(page);
   await signIn(page);
   await page.evaluate(() => { location.hash = "#start"; setTimeout(() => { location.hash = "#play/ekvation"; }, 150); });
-  const ws = page.locator("#lesson-player .ws").first();
+  const ws = page.locator("#lesson-player .wx").first();
   await expect(ws).toBeVisible({ timeout: 15000 });
-  await expect(ws.locator(".ws-line:visible")).toHaveCount(1);
+  await expect(ws.locator(".wx-line:visible")).toHaveCount(1);
   await ws.getByRole("button", { name: "Visa första steget" }).click();
-  await expect(ws.locator(".ws-line:visible")).toHaveCount(2);
-  await expect(ws.locator(".ws-live")).toContainText("Ta bort 2 från båda sidor");
+  await expect(ws.locator(".wx-line:visible")).toHaveCount(2);
+  await expect(ws.locator(".wx-live")).toContainText("Ta bort 2 från båda sidor");
   await ws.getByRole("button", { name: "Visa alla steg" }).click();
-  await expect(ws.locator(".ws-line:visible")).toHaveCount(5);
-  await expect(ws.locator(".ws-note")).toBeVisible();
+  await expect(ws.locator(".wx-line:visible")).toHaveCount(5);
+  await expect(ws.locator(".wx-note")).toBeVisible();
   expect(errors).toEqual([]);
 });
 
@@ -187,4 +187,63 @@ test("a broken-out answer must have a bracket and the biggest factor out", async
   await field(page).fill("3(2x+3)");
   await field(page).press("Enter");
   await expect(foot(page)).toHaveClass(/is-correct/, { timeout: 8000 });
+});
+
+test("Förenkla: a right value that is not simplified is told so, and the short form is accepted", async ({ page }) => {
+  await signIn(page);
+  await toQuestion(page, "samla-termer", "Förenkla 3x + 5x");
+  await field(page).fill("3x+5x");
+  await field(page).press("Enter");
+  await expect(hint(page)).toContainText("kan förenkla mer", { timeout: 8000 });
+  await expect(foot(page)).toHaveClass(/is-wrong/);
+  await page.waitForTimeout(2800);
+  await field(page).fill("8x");
+  await field(page).press("Enter");
+  await expect(foot(page)).toHaveClass(/is-correct/, { timeout: 8000 });
+});
+
+test("Förenkla with several terms: 4x + 5 − x for 4x + 3 − x + 2 is not accepted, 3x + 5 is", async ({ page }) => {
+  await signIn(page);
+  await page.evaluate(async () => {
+    const lesson = await (await fetch("lessons/samla-termer.json")).json();
+    const problem = lesson.wordProblems[1];
+    window.GaussicaPlayer.openSession({ kind: "practice", title: "Öva mer", items: [{ lessonId: "samla-termer", taskId: "practice-x-1", templateId: "x", problem: { prompt: problem.prompt, answer: problem.answer, correct: problem.correct, feedback: [] } }], backLabel: "Tillbaka", onExit() {}, onDone() {}, again() {} });
+  });
+  await expect(page.locator("#lesson-player .pl-foot-q")).toContainText("4x + 3 − x + 2");
+  await field(page).fill("4x+5-x");
+  await field(page).press("Enter");
+  await expect(hint(page)).toContainText("kan förenkla mer", { timeout: 8000 });
+  await expect(foot(page)).toHaveClass(/is-wrong/);
+  await page.waitForTimeout(2800);
+  await field(page).fill("3x+5");
+  await field(page).press("Enter");
+  await expect(foot(page)).toHaveClass(/is-correct/, { timeout: 8000 });
+});
+
+test("a worked example has room: the lines do not overlap each other or the buttons", async ({ page }) => {
+  await signIn(page);
+  await page.evaluate(() => { location.hash = "#start"; setTimeout(() => { location.hash = "#play/ekvation"; }, 150); });
+  const wx = page.locator("#lesson-player .wx").first();
+  await expect(wx).toBeVisible({ timeout: 15000 });
+  const boxes = async () => wx.evaluate((root) => {
+    const rect = (e) => { const b = e.getBoundingClientRect(); return { top: b.top, bottom: b.bottom }; };
+    return { lines: Array.from(root.querySelectorAll(".wx-line")).filter((l) => !l.hidden).map((l) => ({ line: rect(l), math: rect(l.querySelector(".wx-math")), say: rect(l.querySelector(".wx-say")) })), controls: rect(root.querySelector(".wx-controls")) };
+  });
+  // at the start: the first line is above the buttons, and the text is inside its row
+  let b = await boxes();
+  expect(b.lines.length).toBe(1);
+  expect(b.controls.top).toBeGreaterThanOrEqual(b.lines[0].line.bottom - 1);
+  expect(b.lines[0].math.bottom).toBeLessThanOrEqual(b.lines[0].line.bottom + 1);
+  await wx.getByRole("button", { name: "Visa första steget" }).click();
+  await wx.getByRole("button", { name: "Visa alla steg" }).click();
+  await page.waitForTimeout(700);
+  b = await boxes();
+  expect(b.lines.length).toBe(5);
+  b.lines.forEach((l, i) => {
+    expect(l.math.top).toBeGreaterThanOrEqual(l.line.top - 1);
+    expect(l.math.bottom).toBeLessThanOrEqual(l.line.bottom + 1);
+    expect(l.line.bottom - l.line.top).toBeGreaterThanOrEqual(48);   // room for the line
+    if (i) expect(l.line.top).toBeGreaterThanOrEqual(b.lines[i - 1].line.bottom - 1);   // one row after the other
+  });
+  expect(b.controls.top).toBeGreaterThanOrEqual(b.lines[4].line.bottom);
 });

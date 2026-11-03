@@ -501,6 +501,21 @@ window.GaussicaFigures = (function () {
   }
 
   // ----- coordinate system with straight lines and curves -----
+  // The positions that get a number on an axis: multiples of 1, 2, 5, 10, ... with at most about ten of them. The grid lines use the same positions, so every line says something.
+  function axisTicks(min, max) {
+    const raw = (max - min) / 10;
+    let step = 1;
+    if (raw > 1) {
+      const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+      const unit = raw / pow;
+      step = (unit <= 1 ? 1 : unit <= 2 ? 2 : unit <= 5 ? 5 : 10) * pow;
+    }
+    const out = [];
+    if (!isFinite(min) || !isFinite(max)) return out;
+    for (let v = Math.ceil(min / step) * step; v <= max + 1e-9; v += step) out.push(Math.round(v * 1e6) / 1e6);
+    return out;
+  }
+
   function graph(c) {
     const xmin = c.xmin !== undefined ? Number(c.xmin) : -5, xmax = c.xmax !== undefined ? Number(c.xmax) : 5;
     const ymin = c.ymin !== undefined ? Number(c.ymin) : -5, ymax = c.ymax !== undefined ? Number(c.ymax) : 5;
@@ -511,14 +526,14 @@ window.GaussicaFigures = (function () {
     const clipId = "clip-" + Math.random().toString(36).slice(2, 8);
     const defs = s("defs", {}, svg);
     s("rect", { x: P, y: P, width: W - 2 * P, height: H - 2 * P }, s("clipPath", { id: clipId }, defs));
-    const tx = Math.max(1, Math.ceil((xmax - xmin) / 10)), ty = Math.max(1, Math.ceil((ymax - ymin) / 10));
-    for (let v = Math.ceil(xmin); v <= xmax; v += 1) s("line", { x1: x(v), y1: P, x2: x(v), y2: H - P, "class": "fig-grid" }, svg);
-    for (let v = Math.ceil(ymin); v <= ymax; v += 1) s("line", { x1: P, y1: y(v), x2: W - P, y2: y(v), "class": "fig-grid" }, svg);
+    const xs = axisTicks(xmin, xmax), ys = axisTicks(ymin, ymax);
+    xs.forEach(function (v) { s("line", { x1: x(v), y1: P, x2: x(v), y2: H - P, "class": "fig-gridline" }, svg); });
+    ys.forEach(function (v) { s("line", { x1: P, y1: y(v), x2: W - P, y2: y(v), "class": "fig-gridline" }, svg); });
     const ax = Math.min(Math.max(0, xmin), xmax), ay = Math.min(Math.max(0, ymin), ymax);
     s("line", { x1: P, y1: y(ay), x2: W - P, y2: y(ay), "class": "fig-axis" }, svg);
     s("line", { x1: x(ax), y1: P, x2: x(ax), y2: H - P, "class": "fig-axis" }, svg);
-    for (let v = Math.ceil(xmin); v <= xmax; v += tx) if (v !== 0) text(svg, x(v), y(ay) + 18, fmt(v), "fig-ticklabel");
-    for (let v = Math.ceil(ymin); v <= ymax; v += ty) if (v !== 0) text(svg, x(ax) - 8, y(v) + 4, fmt(v), "fig-ticklabel", "end");
+    xs.forEach(function (v) { if (v !== 0) text(svg, x(v), y(ay) + 18, fmt(v), "fig-ticklabel"); });
+    ys.forEach(function (v) { if (v !== 0) text(svg, x(ax) - 8, y(v) + 4, fmt(v), "fig-ticklabel", "end"); });
     const g = s("g", { "clip-path": "url(#" + clipId + ")" }, svg);
     (c.lines || []).forEach(function (ln) {
       const k = Number(ln.k), m = Number(ln.m);

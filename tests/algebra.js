@@ -91,6 +91,33 @@ idx.lessons.forEach((f) => {
 console.log("algebra: " + equations + " equations in questions, " + satisfied + " satisfied by the answer that the question says is right");
 ok(equations > 150 && unsatisfied.length === 0, "the right answer of every equation question satisfies the equation: " + unsatisfied.join(" | "));
 
+// ----- Förenkla: the right value is not enough, the answer has to be as short as it can be -----
+const simp = (a, p, e) => A.simplifyNote(a, p, e);
+const P1 = "Förenkla 4x + 3 − x + 2.";
+ok(simp("4x+5-x", P1, ["3x + 5"]) && simp("4x - x + 5", P1, ["3x + 5"]) && simp("4x+3-x+2", P1, ["3x + 5"]), "4x + 5 − x is the right value but not simplified: the x-terms are still apart");
+ok(!simp("3x+5", P1, ["3x + 5"]) && !simp("5 + 3x", P1, ["3x + 5"]) && !simp("5+3x", P1, ["3x + 5"]), "3x + 5 in any order is simplified");
+ok(simp("5a+3a+b", "Förenkla 5a + 2b + 3a − b.", ["8a + b"]) && !simp("8a+b", "Förenkla 5a + 2b + 3a − b.", ["8a + b"]) && !simp("b+8a", "Förenkla 5a + 2b + 3a − b.", ["8a + b"]), "two letters: a-terms together and b-terms together");
+ok(simp("3(x+4)", "Förenkla 3(x + 4).", ["3x + 12"]).includes("utan parentes") && !simp("3x+12", "Förenkla 3(x + 4).", ["3x + 12"]), "brackets left in are not simplified");
+ok(simp("x^2+5x+2x+10", "Förenkla (x + 2)(x + 5).", ["x^2 + 7x + 10"]) && !simp("x^2+7x+10", "Förenkla (x + 2)(x + 5).", ["x^2 + 7x + 10"]) && !simp("x^2+x", "Förenkla x^2 + x.", ["x^2 + x"]), "x² and x are not like terms");
+ok(!simp("xy+3", "Förenkla yx + 3.", ["xy + 3"]) && simp("xy+yx+3", "Förenkla xy + yx + 3.", ["2xy + 3"]), "xy and yx are the same term");
+ok(!simp("3/4", "Förenkla 6/8.", ["3/4"]) && !simp("5√2", "Förenkla √50.", ["5√2"]) && !simp("2+3", "Bryt ut x.", ["5"]) && !simp("x(x+5)", "Bryt ut x ur x^2 + 5x.", ["x(x + 5)"]), "fractions, roots and other questions are left alone");
+ok(!simp("4x+5-x", P1, ["3(x + 1) + 2"]) && !simp("4x+5-x", "Beräkna 4x + 5 − x.", ["3x + 5"]), "only when the question says Förenkla or Utveckla, and the right answer is itself simplified");
+// every right answer of every Förenkla or Utveckla question of the course is itself accepted as simplified
+let simplifyQuestions = 0;
+const flagged = [];
+idx.lessons.forEach((f) => {
+  const lesson = JSON.parse(fs.readFileSync(ROOT + "lessons/" + f, "utf8"));
+  const qs = [lesson.exercise].concat(lesson.wordProblems || []).map((q) => ({ prompt: q.prompt, answer: q.answer, where: lesson.id }));
+  (lesson.practice || []).forEach((t) => { for (let i = 1; i <= 12; i++) { const q = PR.generate(lesson, t.id, i * 7919); if (q && q.problem.prompt && q.problem.answer) qs.push({ prompt: q.problem.prompt, answer: q.problem.answer, where: lesson.id + "/" + t.id }); } });
+  qs.forEach((q) => {
+    if (!/^\s*(förenkla|utveckla)/i.test(String(q.prompt))) return;
+    simplifyQuestions++;
+    q.answer.forEach((a) => { const n = A.simplifyNote(a, q.prompt, q.answer); if (n && flagged.length < 8) flagged.push(q.where + ": " + q.prompt.slice(0, 50) + " | " + a); });
+  });
+});
+console.log("algebra: " + simplifyQuestions + " Förenkla and Utveckla questions, " + flagged.length + " whose own right answer is not accepted as simplified");
+ok(simplifyQuestions > 50 && flagged.length === 0, "the right answers of the course are accepted as simplified: " + flagged.join(" || "));
+
 // ----- the worked examples and the models of the lessons are right -----
 const Model = require(ROOT + "figures-algebra.js");
 let examples = 0, lines = 0;

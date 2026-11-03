@@ -621,7 +621,8 @@ window.GaussicaQuestions = (function () {
       }
 
       // Some questions ask for a particular way of writing the right value (form: "blandad", "brak" or "forenklat").
-      const formNote = isCorrect && exercise.form ? answerFormNote(exercise.form, rawValue) : "";
+      // ... and a question that says Förenkla or Utveckla wants the answer as short as it can be: 4x + 5 − x is the right value but not simplified
+      const formNote = isCorrect ? (exercise.form ? answerFormNote(exercise.form, rawValue) : "") || (ALG ? ALG.simplifyNote(rawValue, exercise.prompt, exercise.answer) : "") : "";
       if (formNote) {
         feedback.className = "feedback-message feedback-hint";
         window.GaussicaText.set(feedback, formNote);

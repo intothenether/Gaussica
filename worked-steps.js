@@ -22,45 +22,45 @@
   function math(target, value) { if (root.GaussicaText) root.GaussicaText.set(target, value); else target.textContent = value; }
 
   function render(comp) {
-    const box = el("section", "ws");
+    const box = el("section", "wx");
     box.appendChild(el("p", "eyebrow", "ARBETAT EXEMPEL"));
-    box.appendChild(el("h3", "ws-title", comp.title || "Så gör du"));
+    box.appendChild(el("h3", "wx-title", comp.title || "Så gör du"));
     if (comp.intro) box.appendChild(el("p", "body-copy", comp.intro));
     if (comp.figure && root.GaussicaFigures && root.GaussicaFigures.supports(comp.figure.type)) {
       const fig = root.GaussicaFigures.render(comp.figure);
       if (fig) box.appendChild(fig);
     }
     const steps = Array.isArray(comp.steps) ? comp.steps : [];
-    const list = el("ol", "ws-list");
-    const start = el("li", "ws-line is-in");
-    start.appendChild(el("span", "ws-say", "Vi börjar med"));
-    const startMath = el("span", "ws-math");
+    const list = el("ol", "wx-list");
+    const start = el("li", "wx-line is-in");
+    start.appendChild(el("span", "wx-say", "Vi börjar med"));
+    const startMath = el("span", "wx-math");
     math(startMath, comp.start || "");
     start.appendChild(startMath);
     list.appendChild(start);
     const rows = steps.map(function (s) {
-      const li = el("li", "ws-line");
+      const li = el("li", "wx-line");
       li.hidden = true;
-      li.appendChild(el("span", "ws-say", s.say || ""));
-      const m = el("span", "ws-math");
+      li.appendChild(el("span", "wx-say", s.say || ""));
+      const m = el("span", "wx-math");
       math(m, s.line || "");
       li.appendChild(m);
       list.appendChild(li);
       return li;
     });
-    const note = comp.note ? el("p", "ws-note") : null;
+    const note = comp.note ? el("p", "wx-note") : null;
     if (note) { math(note, comp.note); note.hidden = true; }
-    const live = el("p", "ws-live");
+    const live = el("p", "wx-live");
     live.setAttribute("role", "status");
     live.setAttribute("aria-live", "polite");
-    live.className = "ws-live";
+    live.className = "wx-live";
 
-    const controls = el("div", "ws-controls");
+    const controls = el("div", "wx-controls");
     const next = el("button", "secondary-button ws-next");
     next.type = "button";
-    const all = el("button", "ws-all", "Visa alla steg");
+    const all = el("button", "wx-all", "Visa alla steg");
     all.type = "button";
-    const again = el("button", "ws-again", "Börja om");
+    const again = el("button", "wx-again", "Börja om");
     again.type = "button";
     controls.append(next, all, again);
 
