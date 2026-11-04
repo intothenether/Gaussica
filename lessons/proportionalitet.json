@@ -16,6 +16,8 @@
   "visual": {
     "type": "graf",
     "title": "Priset på äpplen: en rak linje genom origo",
+    "xlabel": "Vikt (kg)",
+    "ylabel": "Pris (kr)",
     "xmin": 0,
     "xmax": 6,
     "ymin": 0,

@@ -42,7 +42,7 @@ jobs:
       - name: Collect static files
         run: |
           mkdir _site
-          cp index.html favicon.svg logo.svg styles.css manifest.webmanifest *.png *.js _site/
+          cp index.html favicon.svg logo.svg *.css manifest.webmanifest *.png *.js _site/
           cp -r lessons fonts _site/
           rm -f _site/server.js _site/playwright.config.js
       - name: Upload site

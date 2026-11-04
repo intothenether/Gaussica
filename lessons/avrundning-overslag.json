@@ -194,6 +194,213 @@
           "message": "{a-b} är det riktiga svaret. Vid ett överslag räknar du med de avrundade talen."
         }
       ]
+    },
+    {
+      "id": "overslag-pris",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          21,
+          98
+        ],
+        "b": [
+          21,
+          98
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(mod(a,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "mod(a,10)",
+          "min": 1
+        },
+        {
+          "expr": "abs(mod(b,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "mod(b,10)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a+b-round(a/10)*10-round(b/10)*10)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ra",
+          "expr": "round(a/10)*10"
+        },
+        {
+          "name": "rb",
+          "expr": "round(b/10)*10"
+        },
+        {
+          "name": "r",
+          "expr": "ra+rb"
+        }
+      ],
+      "prompt": "{$namn} köper en bok för {a} kr och en tröja för {b} kr. Gör ett överslag med närmaste tiotal: ungefär hur mycket kostar de tillsammans?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! {a} är nära {ra} och {b} är nära {rb}. {ra} + {rb} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b",
+            "{a+b} kr"
+          ],
+          "message": "Det är det exakta svaret. Ett överslag räknar med avrundade tal."
+        }
+      ]
+    },
+    {
+      "id": "tiotal-avrunda",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          101,
+          989
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(mod(a,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "mod(a,10)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "round(a/10)*10"
+        }
+      ],
+      "prompt": "Avrunda {a} till närmaste tiotal.",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {a} ligger närmast {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "Det är talet du började med. Avrunda det till närmaste tiotal."
+        }
+      ]
+    },
+    {
+      "id": "kolla-overslag",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          21,
+          79
+        ],
+        "b": [
+          21,
+          79
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(mod(a,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "mod(a,10)",
+          "min": 1
+        },
+        {
+          "expr": "abs(mod(b,10)-5)",
+          "min": 1
+        },
+        {
+          "expr": "mod(b,10)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a+b-round(a/10)*10-round(b/10)*10)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "ra",
+          "expr": "round(a/10)*10"
+        },
+        {
+          "name": "rb",
+          "expr": "round(b/10)*10"
+        },
+        {
+          "name": "r",
+          "expr": "ra+rb"
+        },
+        {
+          "name": "fel",
+          "expr": "a+b+30"
+        }
+      ],
+      "prompt": "{$namn} räknade {a} + {b} och fick {fel}. Gör ett överslag med närmaste tiotal. Vilket tal ska svaret ligga nära?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {ra} + {rb} = {r}, så svaret borde ligga nära {r}. {fel} är alldeles för stort.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Det är det exakta svaret. Ett överslag räknar med avrundade tal."
+        },
+        {
+          "answers": [
+            "=fel"
+          ],
+          "message": "Det är svaret som kollas. Gör ett eget överslag för att se om det är rimligt."
+        }
+      ]
     }
   ],
   "exercise": {

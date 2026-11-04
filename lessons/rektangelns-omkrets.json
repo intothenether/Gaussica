@@ -175,6 +175,54 @@
           "message": "Det är längd plus bredd tillsammans. Ta bort längden {l}."
         }
       ]
+    },
+    {
+      "id": "varv-plan",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "l": [
+          30,
+          60,
+          5
+        ],
+        "b": [
+          15,
+          30,
+          5
+        ],
+        "k": [
+          2,
+          4
+        ]
+      },
+      "prompt": "{$namn} går {k} varv runt en rektangulär plan som är {l} m lång och {b} m bred. Hur många meter går {$namn}?",
+      "answer": [
+        "=2*(l+b)*k",
+        "{2*(l+b)*k} m"
+      ],
+      "correct": "Rätt! Ett varv är 2 · ({l} + {b}) = {2*(l+b)} m, och {k} varv är {2*(l+b)*k} m.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*(l+b)"
+          ],
+          "message": "Det är bara ett varv. Det är flera varv."
+        }
+      ]
     }
   ],
   "exercise": {

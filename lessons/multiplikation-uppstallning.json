@@ -179,6 +179,78 @@
           "message": "{a*b} är det riktiga svaret. Vid ett överslag använder du det avrundade talet {r}."
         }
       ]
+    },
+    {
+      "id": "stolar",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          24,
+          89
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "prompt": "En biosalong har {b} rader med {a} stolar i varje rad. Hur många stolar finns det?",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! {b} · {a} = {a*b} stolar.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. Det är {b} rader med {a} stolar i varje, så multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "sparar",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          25,
+          95,
+          5
+        ],
+        "b": [
+          4,
+          9
+        ]
+      },
+      "prompt": "{$namn} sparar {a} kr varje vecka i {b} veckor. Hur mycket har {$namn} sparat?",
+      "answer": [
+        "=a*b",
+        "{a*b} kr"
+      ],
+      "correct": "Rätt! {b} · {a} = {a*b} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. Det är {a} kr i {b} veckor, så multiplicera."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -50,6 +50,124 @@
       "feedback": [
         {"answers":["=(a*b+c)*d"],"message":"Gör båda multiplikationerna först och lägg ihop svaren sist."}
       ]
+    },
+    {
+      "id": "kopa-och-kvar",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ],
+        "sak": [
+          "glassar",
+          "bullar",
+          "pennor"
+        ]
+      },
+      "vars": {
+        "n": [
+          2,
+          6
+        ],
+        "p": [
+          5,
+          19
+        ],
+        "k": [
+          3,
+          40
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "n*p+k"
+        }
+      ],
+      "prompt": "{$namn} har {a} kr och köper {n} {$sak} för {p} kr styck. Hur många kronor har {$namn} kvar?",
+      "answer": [
+        "=k",
+        "{k} kr"
+      ],
+      "correct": "Rätt! {n} · {p} = {n*p} kr, och {a} − {n*p} = {k} kr är kvar.",
+      "feedback": [
+        {
+          "answers": [
+            "=(a-n)*p"
+          ],
+          "message": "Du har dragit ifrån före du multiplicerade. Räkna först vad sakerna kostar i alla."
+        },
+        {
+          "answers": [
+            "=a-n-p"
+          ],
+          "message": "Du har dragit ifrån båda talen. Räkna först antal · pris, sedan minus."
+        }
+      ]
+    },
+    {
+      "id": "kort-tre-steg",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          10,
+          30
+        ],
+        "n": [
+          2,
+          5
+        ],
+        "p": [
+          3,
+          9
+        ],
+        "g": [
+          2,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a+n*p-g"
+        }
+      ],
+      "prompt": "{$namn} har {a} kort. {$namn} får {n} paket med {p} kort i varje och ger bort {g} kort. Hur många kort har {$namn} nu?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {n} · {p} = {n*p}, och {a} + {n*p} − {g} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=(a+n)*p-g"
+          ],
+          "message": "Gånger görs före plus: räkna först hur många kort paketen innehåller."
+        }
+      ]
     }
   ],
   "exercise": {

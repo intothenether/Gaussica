@@ -120,7 +120,7 @@ ok(simplifyQuestions > 50 && flagged.length === 0, "the right answers of the cou
 
 // ----- the worked examples and the models of the lessons are right -----
 const Model = require(ROOT + "figures-algebra.js");
-let examples = 0, lines = 0;
+let examples = 0, lines = 0, choices = 0;
 idx.lessons.forEach((f) => {
   const lesson = JSON.parse(fs.readFileSync(ROOT + "lessons/" + f, "utf8"));
   (lesson.components || []).forEach((c, i) => {
@@ -133,6 +133,12 @@ idx.lessons.forEach((f) => {
         const r = A.stepCheck(prev, s.line);
         ok(r.ok, lesson.id + " comp " + i + ": step " + (k + 1) + " of the worked example is not the same as the line above (" + prev + " -> " + s.line + "): " + r.message);
         prev = s.line;
+        if (s.wrong) {
+          const right = String(s.say).split(/(?<=[.!?])\s+/)[0];
+          ok(Array.isArray(s.wrong) && s.wrong.length >= 1 && s.wrong.length <= 3 && s.wrong.every((w) => typeof w === "string" && w.trim() && w !== right), lesson.id + " comp " + i + ": step " + (k + 1) + " has 1 to 3 wrong choices that differ from the right one");
+          ok(new Set(s.wrong).size === s.wrong.length, lesson.id + " comp " + i + ": step " + (k + 1) + " has no wrong choice twice");
+          choices++;
+        }
       });
     }
     if (c.type === "ekvationsmodell") {
@@ -147,6 +153,7 @@ idx.lessons.forEach((f) => {
 });
 console.log("algebra: " + examples + " worked examples, " + lines + " lines each the same as the one above");
 ok(examples >= 5, "the lessons have worked examples (" + examples + ")");
+ok(choices >= 8, "the worked examples ask what to do next in several steps (" + choices + ")");
 
 console.log(failures ? "\n" + failures + " FAILED" : "All checks on algebra passed");
 process.exit(failures ? 1 : 0);

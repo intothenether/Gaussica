@@ -14,6 +14,8 @@
   "visual": {
     "type": "graf",
     "title": "Temperatur (°C) varje dag: prickarna är mätningarna",
+    "xlabel": "Dag",
+    "ylabel": "Temperatur (°C)",
     "xmin": 0,
     "xmax": 6,
     "ymin": 0,
@@ -182,6 +184,8 @@
     "visual": {
       "type": "graf",
       "title": "Temperatur (°C) varje dag: prickarna är mätningarna",
+      "xlabel": "Dag",
+      "ylabel": "Temperatur (°C)",
       "xmin": 0,
       "xmax": 6,
       "ymin": 0,
@@ -235,6 +239,8 @@
       "visual": {
         "type": "graf",
         "title": "Temperatur (°C) varje dag: prickarna är mätningarna",
+        "xlabel": "Dag",
+        "ylabel": "Temperatur (°C)",
         "xmin": 0,
         "xmax": 6,
         "ymin": 0,

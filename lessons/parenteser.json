@@ -50,6 +50,118 @@
           "message": "Parentesen visar att {b} + {c} ska räknas först och sedan dras bort från {a}."
         }
       ]
+    },
+    {
+      "id": "allt-lika-pris",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          2,
+          9
+        ],
+        "p": [
+          3,
+          12
+        ]
+      },
+      "prompt": "{$namn} köper {a} bullar och {b} kakor. Varje sak kostar {p} kr. Hur mycket kostar allt?",
+      "answer": [
+        "=(a+b)*p",
+        "{(a+b)*p} kr"
+      ],
+      "correct": "Rätt! Alla saker kostar lika, så ({a} + {b}) · {p} = {(a+b)*p} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b*p"
+          ],
+          "message": "Du har bara multiplicerat kakorna. Lägg ihop antalen först, med parentes, och multiplicera sedan."
+        }
+      ]
+    },
+    {
+      "id": "bio-och-bibliotek",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          24,
+          32
+        ],
+        "b": [
+          5,
+          9
+        ],
+        "c": [
+          4,
+          8
+        ]
+      },
+      "prompt": "Det är {a} elever i en klass. {b} elever går på bio och {c} går på bibliotek. Hur många elever är kvar?",
+      "answer": [
+        "=a-(b+c)"
+      ],
+      "correct": "Rätt! {b} + {c} = {b+c} elever går, och {a} − {b+c} = {a-b-c}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a-b+c"
+          ],
+          "message": "Båda grupperna ska dras bort. Lägg ihop dem först, med parentes."
+        }
+      ]
+    },
+    {
+      "id": "lag-med-reserver",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "n": [
+          3,
+          6
+        ],
+        "a": [
+          8,
+          12
+        ],
+        "b": [
+          2,
+          4
+        ]
+      },
+      "prompt": "Det finns {n} lag. Varje lag har {a} spelare och {b} reserver. Hur många personer är det sammanlagt?",
+      "answer": [
+        "=n*(a+b)"
+      ],
+      "correct": "Rätt! Varje lag har {a} + {b} = {a+b} personer, och {n} · {a+b} = {n*(a+b)}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*a+b"
+          ],
+          "message": "Reserverna finns i alla lagen. Lägg ihop spelare och reserver först, med parentes."
+        }
+      ]
     }
   ],
   "exercise": {

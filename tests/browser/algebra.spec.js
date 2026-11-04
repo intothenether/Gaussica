@@ -148,8 +148,28 @@ test("a worked example is read one step at a time", async ({ page }) => {
   await expect(ws).toBeVisible({ timeout: 15000 });
   await expect(ws.locator(".wx-line:visible")).toHaveCount(1);
   await ws.getByRole("button", { name: "Visa första steget" }).click();
+  // the student says what to do before the line is shown: a wrong pick shows nothing, the right one shows the line
+  await expect(ws.locator(".wx-ask")).toBeVisible();
+  await expect(ws.locator(".wx-choice")).toHaveCount(3);
+  await expect(ws.locator(".wx-line:visible")).toHaveCount(1);
+  await ws.getByRole("button", { name: "Lägg till 2 på båda sidor." }).click();
+  await expect(ws.locator(".wx-ask-note")).toContainText("Inte riktigt");
+  await expect(ws.locator(".wx-ask-note")).not.toContainText("Ta bort 2");
+  await expect(ws.locator(".wx-line:visible")).toHaveCount(1);
+  await ws.getByRole("button", { name: "Ta bort 2 från båda sidor.", exact: true }).click();
   await expect(ws.locator(".wx-line:visible")).toHaveCount(2);
+  await expect(ws.locator(".wx-ask")).toBeHidden();
   await expect(ws.locator(".wx-live")).toContainText("Ta bort 2 från båda sidor");
+  // a calculation has nothing to choose between: it is shown straight away
+  await ws.getByRole("button", { name: "Nästa steg" }).click();
+  await expect(ws.locator(".wx-line:visible")).toHaveCount(3);
+  // after two wrong picks the step can be shown anyway, so nobody is stuck
+  await ws.getByRole("button", { name: "Nästa steg" }).click();
+  await ws.getByRole("button", { name: "Dela bara x med 3." }).click();
+  await expect(ws.getByRole("button", { name: "Visa steget" })).toBeHidden();
+  await ws.getByRole("button", { name: "Ta bort 3 från båda sidor." }).click();
+  await ws.getByRole("button", { name: "Visa steget" }).click();
+  await expect(ws.locator(".wx-line:visible")).toHaveCount(4);
   await ws.getByRole("button", { name: "Visa alla steg" }).click();
   await expect(ws.locator(".wx-line:visible")).toHaveCount(5);
   await expect(ws.locator(".wx-note")).toBeVisible();

@@ -107,6 +107,77 @@
       "answer": ["=r"],
       "correct": "Rätt! {a} − {b} = {r}.",
       "feedback": [{"answers":["=a+b"],"message":"Det är summan av båda staplarna. Du ska hitta skillnaden."}]
+    },
+    {
+      "id": "mest-minst",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          4,
+          14
+        ],
+        "b": [
+          4,
+          14
+        ],
+        "c": [
+          4,
+          14
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "max(a,b,c)-min(a,b,c)"
+        }
+      ],
+      "prompt": "Diagrammet visar hur många böcker tre klasser läste. Hur många fler böcker läste klassen som läste mest än klassen som läste minst?",
+      "visual": {
+        "type": "staplar",
+        "data": [
+          {
+            "label": "4A",
+            "value": "=a"
+          },
+          {
+            "label": "4B",
+            "value": "=b"
+          },
+          {
+            "label": "4C",
+            "value": "=c"
+          }
+        ],
+        "max": 16
+      },
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Mest är {max(a,b,c)} och minst är {min(a,b,c)}. {max(a,b,c)} − {min(a,b,c)} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=max(a,b,c)"
+          ],
+          "message": "Det är det högsta värdet. Du ska räkna skillnaden mellan det högsta och det lägsta."
+        }
+      ]
     }
   ],
   "exercise": {

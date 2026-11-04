@@ -534,6 +534,10 @@ window.GaussicaFigures = (function () {
     s("line", { x1: x(ax), y1: P, x2: x(ax), y2: H - P, "class": "fig-axis" }, svg);
     xs.forEach(function (v) { if (v !== 0) text(svg, x(v), y(ay) + 18, fmt(v), "fig-ticklabel"); });
     ys.forEach(function (v) { if (v !== 0) text(svg, x(ax) - 8, y(v) + 4, fmt(v), "fig-ticklabel", "end"); });
+    // the names of the axes: x and y unless the figure says what they measure ("xlabel": "Dag", "ylabel": "Temperatur (°C)"); "" leaves one out
+    const xName = c.xlabel !== undefined ? String(c.xlabel) : "x", yName = c.ylabel !== undefined ? String(c.ylabel) : "y";
+    if (xName) text(svg, W - P, y(ay) - 8, xName, "fig-axisname", "end");
+    if (yName) text(svg, x(ax) + 8, P - 10, yName, "fig-axisname", "start");
     const g = s("g", { "clip-path": "url(#" + clipId + ")" }, svg);
     (c.lines || []).forEach(function (ln) {
       const k = Number(ln.k), m = Number(ln.m);

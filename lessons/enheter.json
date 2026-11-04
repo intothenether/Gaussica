@@ -55,6 +55,97 @@
       "answer": ["=r","{r} mm","{r}mm"],
       "correct": "Rätt! 1 cm är 10 mm, så {c} cm är {r} mm.",
       "feedback": [{"answers":["=c*100"],"message":"1 cm är 10 mm, inte 100 mm."}]
+    },
+    {
+      "id": "meter-och-cm",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "m": [
+          1,
+          9
+        ],
+        "c": [
+          10,
+          95
+        ]
+      },
+      "prompt": "En planka är {m} m och {c} cm lång. Hur många centimeter är det?",
+      "answer": [
+        "=m*100+c",
+        "{m*100+c} cm"
+      ],
+      "correct": "Rätt! {m} m är {m*100} cm, och {m*100} + {c} = {m*100+c} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=m+c"
+          ],
+          "message": "Du har lagt ihop meter och centimeter. 1 m är 100 cm, så gör först om meterna."
+        }
+      ]
+    },
+    {
+      "id": "millimeter",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "c": [
+          2,
+          40
+        ],
+        "m": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Hur många millimeter är {c} cm och {m} mm tillsammans?",
+      "answer": [
+        "=c*10+m",
+        "{c*10+m} mm"
+      ],
+      "correct": "Rätt! {c} cm är {c*10} mm, och {c*10} + {m} = {c*10+m} mm.",
+      "feedback": [
+        {
+          "answers": [
+            "=c+m"
+          ],
+          "message": "Du har lagt ihop utan att göra om. 1 cm är 10 mm."
+        }
+      ]
+    },
+    {
+      "id": "km-och-m",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          1,
+          9
+        ],
+        "m": [
+          100,
+          900,
+          50
+        ]
+      },
+      "prompt": "En promenad är {k} km och {m} meter lång. Hur många meter är det?",
+      "answer": [
+        "=k*1000+m",
+        "{k*1000+m} m"
+      ],
+      "correct": "Rätt! {k} km är {k*1000} m, och {k*1000} + {m} = {k*1000+m} m.",
+      "feedback": [
+        {
+          "answers": [
+            "=k+m"
+          ],
+          "message": "Du har lagt ihop km och meter. 1 km är 1000 m, så gör först om kilometrarna."
+        }
+      ]
     }
   ],
   "exercise": {

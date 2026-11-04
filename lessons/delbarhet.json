@@ -35,6 +35,14 @@
   "summary": "Ett tal är delbart med ett annat om divisionen går jämnt ut. Med hjälp av delare kan vi hitta gemensamma delare, SGD och primtal.",
   "explanationTitle": "Fyra steg om tal som går att dela",
   "explanation": "Problemet: På hur många sätt kan 24 delas lika, och vad har 24 gemensamt med 36? Det finns många sätt att dela, och vi behöver ordning på dem. Här går vi igenom delare, gemensamma delare och primtal. Du börjar med att hitta alla delare till ett tal. Sedan jämför du delarna hos två tal för att hitta gemensamma delare och den största av dem. Till sist undersöker du primtalen, talen som bara har två delare.",
+  "visual": {
+    "type": "talrutnat",
+    "title": "Delarna till 24 är markerade: 1, 2, 3, 4, 6, 8, 12 och 24",
+    "from": 1,
+    "to": 30,
+    "columns": 6,
+    "highlight": { "divisorsOf": 24 }
+  },
   "rule": "a är delare till b om b/a går jämnt upp",
   "ruleLabel": "DELBARHET",
   "example": "12/4 = 3 utan rest, så 12 är delbart med 4 och 4 är en delare till 12.",

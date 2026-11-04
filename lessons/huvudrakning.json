@@ -196,6 +196,84 @@
           "message": "Du har bara halverat. Multiplicera sedan med 10: {h} · 10."
         }
       ]
+    },
+    {
+      "id": "nastan-tio",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "t": [
+          2,
+          8
+        ],
+        "b": [
+          11,
+          60
+        ]
+      },
+      "derive": [
+        {
+          "name": "a",
+          "expr": "10*t+9"
+        },
+        {
+          "name": "r",
+          "expr": "a+b"
+        }
+      ],
+      "prompt": "{$namn} köper en sak för {a} kr och en annan för {b} kr. Räkna i huvudet: hur mycket kostar det tillsammans? Tips: {a} är nästan {a+1}.",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! {a+1} + {b} = {a+1+b}, och {a} är ett mindre, så {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+1+b",
+            "{a+1+b} kr"
+          ],
+          "message": "Du har räknat med {a+1}, men det är {a} kr. Dra bort 1 i slutet."
+        }
+      ]
+    },
+    {
+      "id": "dubbla-tva-ganger",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          12,
+          45
+        ]
+      },
+      "prompt": "Räkna i huvudet: {a} · 4. Tips: dubbla två gånger.",
+      "answer": [
+        "=a*4"
+      ],
+      "correct": "Rätt! Dubbelt av {a} är {a*2}, och dubbelt av {a*2} är {a*4}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*2"
+          ],
+          "message": "Det är dubbelt, en gång. Gånger 4 är att dubbla två gånger."
+        }
+      ]
     }
   ],
   "exercise": {

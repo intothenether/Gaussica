@@ -217,6 +217,118 @@
           "message": "{k} bussar rymmer bara {c*k} personer. De {r} som blir över behöver också en buss."
         }
       ]
+    },
+    {
+      "id": "lag",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "c": [
+          4,
+          8
+        ],
+        "q": [
+          2,
+          6
+        ],
+        "r": [
+          1,
+          3
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "c*q+r"
+        }
+      ],
+      "prompt": "Det går {c} elever i varje lag. {n} elever ska delas in. Hur många lag blir fulla?",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {n}/{c} = {q} rest {r}, så {q} lag blir fulla och {r} elever blir över.",
+      "feedback": [
+        {
+          "answers": [
+            "=q+1"
+          ],
+          "message": "Det sista laget blir inte fullt. Räkna bara de lag som blir fulla."
+        }
+      ]
+    },
+    {
+      "id": "kop-med-rest",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ],
+        "sak": [
+          "kort",
+          "klistermärken",
+          "pennor"
+        ]
+      },
+      "vars": {
+        "d": [
+          3,
+          9
+        ],
+        "q": [
+          2,
+          8
+        ],
+        "r": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "d-r",
+          "min": 1
+        },
+        {
+          "expr": "abs(q-r)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q+r"
+        }
+      ],
+      "prompt": "{$namn} har {n} kr och köper {$sak} som kostar {d} kr styck. Hur många {$sak} kan {$namn} köpa, och hur många kronor blir över? Skriv till exempel 4 rest 1.",
+      "answer": [
+        "{q} rest {r}",
+        "{q} r {r}"
+      ],
+      "correct": "Rätt! {d} · {q} = {d*q}, och {n} − {d*q} = {r} kr blir över.",
+      "feedback": [
+        {
+          "answers": [
+            "=q"
+          ],
+          "message": "{q} är antalet du kan köpa, men några kronor blir över. Hur många?"
+        },
+        {
+          "answers": [
+            "=r"
+          ],
+          "message": "{r} är det som blir över. Hur många kan du köpa?"
+        }
+      ]
     }
   ],
   "exercise": {

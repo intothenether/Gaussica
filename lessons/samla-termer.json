@@ -25,7 +25,8 @@
       "steps": [
         {
           "line": "2x + 3x + 5 − 1",
-          "say": "Flytta ihop de lika termerna. Tecknet följer med termen."
+          "say": "Flytta ihop de lika termerna. Tecknet följer med termen.",
+          "wrong": ["Lägg ihop alla tal i uttrycket till ett enda tal.", "Ta bort alla termer med x."]
         },
         {
           "line": "5x + 4",

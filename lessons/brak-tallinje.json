@@ -201,6 +201,101 @@
           "message": "Det är hundradelar. Tiondelar har bara en siffra efter kommatecknet."
         }
       ]
+    },
+    {
+      "id": "del-av-film",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "b": [
+          2,
+          6
+        ],
+        "k": [
+          10,
+          25,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "b*k"
+        }
+      ],
+      "prompt": "En film är {n} minuter lång. {$namn} har sett 1/{b} av filmen. Hur många minuter har {$namn} sett?",
+      "answer": [
+        "=k",
+        "{k} minuter",
+        "{k} min"
+      ],
+      "correct": "Rätt! 1/{b} av {n} är {n}/{b} = {k} minuter.",
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "Det är hela filmen. Du ska ta 1/{b} av den: dela med {b}."
+        }
+      ]
+    },
+    {
+      "id": "storst-stambrak",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "b": [
+          2,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "m",
+          "expr": "min(a,b)"
+        },
+        {
+          "name": "M",
+          "expr": "max(a,b)"
+        }
+      ],
+      "prompt": "Vilket bråk är störst: 1/{a} eller 1/{b}? Skriv bråket.",
+      "answer": [
+        "1/{m}"
+      ],
+      "correct": "Rätt! Ju färre delar, desto större är varje del. 1/{m} är större än 1/{M}.",
+      "feedback": [
+        {
+          "answers": [
+            "1/{M}"
+          ],
+          "message": "Det är det mindre bråket. Tänk på en pizza: ju fler delar den delas i, desto mindre blir varje del."
+        }
+      ]
     }
   ],
   "exercise": {

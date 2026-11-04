@@ -71,8 +71,14 @@ const labelsOf = (fig) => all(fig).filter((n) => n.tag === "text" && /fig-tickla
 const wide = graph({ xmin: 0, xmax: 30, ymin: 0, ymax: 60 });
 ok(labelsOf(wide).every((t) => Number(t.textContent.replace("−", "-")) % 5 === 0), "the numbers on a wide axis are 5, 10, 15 and so on, not 3, 6, 9");
 
+// ----- the axes have names -----
+const names = (fig) => all(fig).filter((n) => n.tag === "text" && /fig-axisname/.test(n.className)).map((n) => n.textContent);
+ok(JSON.stringify(names(graph({}))) === JSON.stringify(["x", "y"]), "the axes are called x and y unless the figure says otherwise");
+ok(JSON.stringify(names(graph({ xlabel: "Vikt (kg)", ylabel: "Pris (kr)" }))) === JSON.stringify(["Vikt (kg)", "Pris (kr)"]), "or what they measure");
+ok(JSON.stringify(names(graph({ xlabel: "", ylabel: "Pris (kr)" }))) === JSON.stringify(["Pris (kr)"]), "an empty name leaves that one out");
+
 // ----- the lessons -----
-const idx =JSON.parse(fs.readFileSync(ROOT + "lessons/index.json", "utf8"));
+const idx = JSON.parse(fs.readFileSync(ROOT + "lessons/index.json", "utf8"));
 let inLessons = 0;
 idx.lessons.forEach((f) => {
   const l = JSON.parse(fs.readFileSync(ROOT + "lessons/" + f, "utf8"));

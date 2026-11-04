@@ -264,7 +264,8 @@
       "steps": [
         {
           "line": "3x + 2 − 2 = 14 − 2",
-          "say": "Ta bort 2 från båda sidor."
+          "say": "Ta bort 2 från båda sidor.",
+          "wrong": ["Ta bort 2 från bara vänstra sidan.", "Lägg till 2 på båda sidor."]
         },
         {
           "line": "3x = 12",
@@ -272,7 +273,8 @@
         },
         {
           "line": "(3x)/3 = 12/3",
-          "say": "Dela båda sidor med 3."
+          "say": "Dela båda sidor med 3.",
+          "wrong": ["Dela bara x med 3.", "Ta bort 3 från båda sidor."]
         },
         {
           "line": "x = 4",

@@ -150,6 +150,79 @@
           "message": "Det är hela omkretsen. Dela den på de fyra sidorna."
         }
       ]
+    },
+    {
+      "id": "varv-kvadrat",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "s": [
+          5,
+          20
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "prompt": "{$namn} springer {k} varv runt en kvadratisk gräsmatta med sidan {s} m. Hur långt springer {$namn}, i meter?",
+      "answer": [
+        "=4*s*k",
+        "{4*s*k} m"
+      ],
+      "correct": "Rätt! Ett varv är 4 · {s} = {4*s} m, och {k} varv är {k} · {4*s} = {4*s*k} m.",
+      "feedback": [
+        {
+          "answers": [
+            "=4*s"
+          ],
+          "message": "Det är bara ett varv. Det är flera varv."
+        }
+      ]
+    },
+    {
+      "id": "staket-pris",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "s": [
+          4,
+          12
+        ],
+        "p": [
+          20,
+          50,
+          10
+        ]
+      },
+      "prompt": "En kvadratisk hage har sidan {s} m. Staket kostar {p} kr per meter. Vad kostar staketet runt hela hagen?",
+      "answer": [
+        "=4*s*p",
+        "{4*s*p} kr"
+      ],
+      "correct": "Rätt! Omkretsen är 4 · {s} = {4*s} m, och {4*s} · {p} = {4*s*p} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=4*s"
+          ],
+          "message": "Det är omkretsen i meter. Multiplicera med priset per meter."
+        }
+      ]
     }
   ],
   "exercise": {

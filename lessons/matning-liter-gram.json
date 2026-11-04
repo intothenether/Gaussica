@@ -222,6 +222,121 @@
           "message": "Du har lagt ihop talen. Det är {n} glas med {d} dl i varje, så multiplicera."
         }
       ]
+    },
+    {
+      "id": "liter-till-dl",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "En flaska rymmer {a} liter. Hur många deciliter är det?",
+      "answer": [
+        "=a*10",
+        "{a*10} dl"
+      ],
+      "correct": "Rätt! 1 liter är 10 dl, så {a} · 10 = {a*10} dl.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "Det är antalet liter. 1 liter är 10 dl, så multiplicera med 10."
+        }
+      ]
+    },
+    {
+      "id": "potatis-och-morotter",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "k": [
+          1,
+          5
+        ],
+        "g": [
+          100,
+          900,
+          50
+        ]
+      },
+      "prompt": "{$namn} köper {k} kg potatis och {g} g morötter. Hur många gram är det tillsammans?",
+      "answer": [
+        "=k*1000+g",
+        "{k*1000+g} g"
+      ],
+      "correct": "Rätt! {k} kg är {k*1000} g, och {k*1000} + {g} = {k*1000+g} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=k+g"
+          ],
+          "message": "Du har lagt ihop kilogram och gram. 1 kg är 1000 g, så gör först om kilogrammen."
+        }
+      ]
+    },
+    {
+      "id": "flaskor-liter",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "q": [
+          2,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "2*q"
+        }
+      ],
+      "prompt": "{$namn} fyller {n} flaskor med 5 dl vatten i varje. Hur många liter vatten går åt?",
+      "answer": [
+        "=q",
+        "{q} liter",
+        "{q} l"
+      ],
+      "correct": "Rätt! {n} · 5 = {n*5} dl, och 10 dl är 1 liter, så {n*5}/10 = {q} liter.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*5",
+            "{n*5} dl"
+          ],
+          "message": "Det är antalet deciliter. 10 dl är 1 liter, så dela med 10."
+        }
+      ]
     }
   ],
   "exercise": {

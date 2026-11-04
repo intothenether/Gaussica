@@ -351,7 +351,8 @@
       "steps": [
         {
           "line": "3 · x + 3 · 4",
-          "say": "Multiplicera 3 med varje term i parentesen."
+          "say": "Multiplicera 3 med varje term i parentesen.",
+          "wrong": ["Multiplicera 3 med bara den första termen.", "Lägg till 3 till varje term i parentesen."]
         },
         {
           "line": "3x + 12",
@@ -397,7 +398,8 @@
       "steps": [
         {
           "line": "x · x + x · 5 + 2 · x + 2 · 5",
-          "say": "Multiplicera varje term med varje term. Det är de fyra rutorna."
+          "say": "Multiplicera varje term med varje term. Det är de fyra rutorna.",
+          "wrong": ["Multiplicera bara de första termerna med varandra och de sista med varandra.", "Lägg ihop alla termerna."]
         },
         {
           "line": "x^2 + 5x + 2x + 10",
@@ -405,7 +407,8 @@
         },
         {
           "line": "x^2 + 7x + 10",
-          "say": "Lägg ihop de lika termerna 5x och 2x."
+          "say": "Lägg ihop de lika termerna 5x och 2x.",
+          "wrong": ["Lägg ihop x² och 5x.", "Multiplicera 5x med 2x."]
         }
       ],
       "note": "Kontrollera med x = 1: (1 + 2)(1 + 5) = 18 och 1 + 7 + 10 = 18."

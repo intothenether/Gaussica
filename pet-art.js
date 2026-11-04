@@ -566,28 +566,6 @@ window.GaussicaPetArt = (function () {
       return '<path d="M78,118 L100,148 M122,118 L100,148" stroke="#e0506d" stroke-width="7" stroke-linecap="round"/><circle cx="100" cy="152" r="14" fill="#f2c94c" stroke="#d9a520" stroke-width="3"/>' + star(100, 152, 8, "#fff6c9"); } },
     { id: "hals-pi", slot: "neck", name: "Pi-halsband", price: 45, view: "62 108 76 68", art: function () {
       return '<path d="M66,120 Q100,150 134,120" fill="none" stroke="#9aa4b8" stroke-width="2.5"/><circle cx="100" cy="150" r="14" fill="#2f9d88" stroke="#1f7a69" stroke-width="3"/><text x="100" y="157" text-anchor="middle" font-size="19" font-weight="800" font-family="Nunito, Arial, sans-serif" fill="#fff">π</text>'; } },
-    // backgrounds
-    { id: "bg-gras", slot: "bg", name: "Äng", price: 25, view: "0 0 200 200", art: function (id) {
-      return '<rect width="200" height="200" fill="#bfe6f7"/><circle cx="160" cy="36" r="16" fill="#ffe27a"/><ellipse cx="100" cy="206" rx="150" ry="46" fill="#7cc576"/><ellipse cx="30" cy="196" rx="70" ry="26" fill="#63b45e"/>' +
-        '<circle cx="34" cy="176" r="4" fill="#ff8fb0"/><circle cx="166" cy="180" r="4" fill="#fff"/><circle cx="150" cy="190" r="3.5" fill="#ffd54a"/>'; } },
-    { id: "bg-natt", slot: "bg", name: "Stjärnhimmel", price: 35, view: "0 0 200 200", art: function () {
-      let s = "";
-      [[24, 30], [60, 20], [150, 26], [176, 70], [18, 110], [182, 130], [48, 62]].forEach(function (p, i) { s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (i % 2 ? 1.8 : 2.6) + '" fill="#fff6c9"/>'; });
-      return '<rect width="200" height="200" fill="#26305e"/>' + s + '<circle cx="158" cy="44" r="14" fill="#fff3b8"/><circle cx="164" cy="40" r="12" fill="#26305e"/><ellipse cx="100" cy="208" rx="140" ry="36" fill="#1c2347"/>'; } },
-    { id: "bg-strand", slot: "bg", name: "Strand", price: 35, view: "0 0 200 200", art: function () {
-      return '<rect width="200" height="200" fill="#c6ebfa"/><rect y="96" width="200" height="40" fill="#5bc0e8"/><path d="M0,104 Q25,98 50,104 T100,104 T150,104 T200,104" fill="none" stroke="#9adcf3" stroke-width="3"/><ellipse cx="100" cy="206" rx="150" ry="62" fill="#f3dca4"/><circle cx="36" cy="40" r="15" fill="#ffe27a"/>'; } },
-    { id: "bg-sno", slot: "bg", name: "Snö", price: 30, view: "0 0 200 200", art: function () {
-      let s = "";
-      [[28, 30], [70, 58], [120, 24], [160, 62], [40, 96], [176, 108], [92, 84]].forEach(function (p) { s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3" fill="#fff"/>'; });
-      return '<rect width="200" height="200" fill="#d6e8f7"/>' + s + '<ellipse cx="100" cy="208" rx="150" ry="44" fill="#fff"/><ellipse cx="170" cy="196" rx="50" ry="22" fill="#eef5fb"/>'; } },
-    { id: "bg-tavla", slot: "bg", name: "Klassrummet", price: 40, view: "0 0 200 200", art: function () {
-      return '<rect width="200" height="200" fill="#f4e6c8"/><rect x="18" y="16" width="164" height="86" rx="6" fill="#2f6b57" stroke="#a9773e" stroke-width="6"/>' +
-        '<text x="100" y="68" text-anchor="middle" font-size="26" font-weight="800" font-family="Nunito, Arial, sans-serif" fill="#f4f1e8" opacity=".92">2 + 2 = 4</text><path d="M32,88 H70" stroke="#f4f1e8" stroke-width="2" opacity=".6"/>' +
-        '<rect y="150" width="200" height="50" fill="#d9b779"/>'; } },
-    { id: "bg-rymd", slot: "bg", name: "Rymden", price: 50, view: "0 0 200 200", art: function () {
-      let s = "";
-      [[20, 24], [72, 14], [128, 30], [182, 20], [30, 120], [176, 100], [58, 70], [150, 76]].forEach(function (p, i) { s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (i % 3 ? 1.5 : 2.4) + '" fill="#fff"/>'; });
-      return '<rect width="200" height="200" fill="#1d1741"/>' + s + '<circle cx="158" cy="52" r="20" fill="#e0861f"/><ellipse cx="158" cy="52" rx="32" ry="7" fill="none" stroke="#f6c453" stroke-width="3" transform="rotate(-18 158 52)"/><circle cx="36" cy="46" r="9" fill="#76c0ec"/><ellipse cx="100" cy="212" rx="130" ry="36" fill="#3a2f74"/>'; } },
     // more hats
     { id: "hatt-kock", slot: "hat", name: "Kockmössa", price: 25, view: "44 -2 112 66", art: function () {
       return '<circle cx="78" cy="34" r="16" fill="#fff" stroke="#e1e6f0" stroke-width="2"/><circle cx="122" cy="34" r="16" fill="#fff" stroke="#e1e6f0" stroke-width="2"/><circle cx="100" cy="26" r="19" fill="#fff" stroke="#e1e6f0" stroke-width="2"/>' +
@@ -633,28 +611,33 @@ window.GaussicaPetArt = (function () {
         '<path d="M100,166 L84,150 Q100,134 116,150 Z" fill="#f6c9b0" stroke="#e0a88a" stroke-width="2" stroke-linejoin="round"/><path d="M100,166 L92,146 M100,166 L100,142 M100,166 L108,146" stroke="#e0a88a" stroke-width="1.8" stroke-linecap="round"/>'; } },
     { id: "hals-hjarta", slot: "neck", name: "Hjärtmedaljong", price: 35, view: "66 108 68 68", art: function () {
       return '<path d="M70,120 Q100,150 130,120" fill="none" stroke="#d9a520" stroke-width="2.6"/>' + heart(100, 154, 12, "#e8394d", "#b83c56") + '<path d="M91,148 Q93,144 97,145" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".8"/>'; } },
-    // more backgrounds
-    { id: "bg-skog", slot: "bg", name: "Skogen", price: 35, view: "0 0 200 200", art: function () {
-      let s = '<rect width="200" height="200" fill="#d6ecd2"/><circle cx="164" cy="30" r="14" fill="#fff3b0"/>';
-      [[22, 128, 38], [62, 140, 30], [150, 132, 34], [184, 146, 26]].forEach(function (t) {
-        s += '<rect x="' + (t[0] - 3) + '" y="' + t[1] + '" width="6" height="26" fill="#8a5f3a"/><polygon points="' + t[0] + ',' + (t[1] - t[2] * 1.4) + ' ' + (t[0] - t[2] / 2) + ',' + (t[1] + 6) + ' ' + (t[0] + t[2] / 2) + ',' + (t[1] + 6) + '" fill="#3f9a62"/>' +
-          '<polygon points="' + t[0] + ',' + (t[1] - t[2] * 1.0) + ' ' + (t[0] - t[2] / 2.4) + ',' + (t[1] - 8) + ' ' + (t[0] + t[2] / 2.4) + ',' + (t[1] - 8) + '" fill="#4fae72"/>'; });
-      return s + '<ellipse cx="100" cy="206" rx="150" ry="44" fill="#6fae6a"/><circle cx="40" cy="184" r="3.4" fill="#ff8fb0"/><circle cx="168" cy="188" r="3.4" fill="#fff"/>'; } },
-    { id: "bg-regnbage", slot: "bg", name: "Regnbåge", price: 40, view: "0 0 200 200", art: function () {
-      let s = '<rect width="200" height="200" fill="#d4ecfb"/>';
-      ["#e8394d", "#f59a3a", "#f6d34a", "#5bbf6e", "#4c9be8", "#8a5cd1"].forEach(function (c, i) { const r = 92 - i * 9; s += '<path d="M' + (100 - r) + ',150 A' + r + ',' + r + ' 0 0 1 ' + (100 + r) + ',150" fill="none" stroke="' + c + '" stroke-width="9"/>'; });
-      return s + '<ellipse cx="30" cy="152" rx="26" ry="11" fill="#fff"/><ellipse cx="170" cy="152" rx="26" ry="11" fill="#fff"/><ellipse cx="100" cy="206" rx="150" ry="44" fill="#9bd68f"/>'; } },
-    { id: "bg-orken", slot: "bg", name: "Öknen", price: 35, view: "0 0 200 200", art: function () {
-      return '<rect width="200" height="200" fill="#fde7b3"/><circle cx="150" cy="44" r="20" fill="#ffd05a"/><ellipse cx="30" cy="186" rx="110" ry="40" fill="#f2c576"/><ellipse cx="170" cy="200" rx="120" ry="44" fill="#e7ae55"/>' +
-        '<rect x="30" y="140" width="9" height="30" rx="4.5" fill="#4aa86b"/><path d="M30,154 H24 V146 M39,150 H45 V143" stroke="#4aa86b" stroke-width="5" stroke-linecap="round" fill="none"/>'; } },
-    { id: "bg-hav", slot: "bg", name: "Under vattnet", price: 40, view: "0 0 200 200", art: function () {
-      let s = '<rect width="200" height="200" fill="#8fd9ea"/><rect width="200" height="60" fill="#b5e8f3" opacity=".7"/>';
-      [[20, 120], [34, 134], [170, 126], [184, 140]].forEach(function (p) { s += '<path d="M' + p[0] + ',200 Q' + (p[0] - 8) + ',' + (p[1] + 30) + ' ' + p[0] + ',' + (p[1] + 14) + ' T' + p[0] + ',' + p[1] + '" fill="none" stroke="#3f9a62" stroke-width="5" stroke-linecap="round"/>'; });
-      [[54, 40, 5], [66, 58, 3], [150, 30, 4], [160, 74, 6], [100, 22, 3]].forEach(function (b) { s += '<circle cx="' + b[0] + '" cy="' + b[1] + '" r="' + b[2] + '" fill="#fff" opacity=".6"/>'; });
-      return s + '<ellipse cx="46" cy="96" rx="12" ry="7" fill="#f59a3a"/><polygon points="58,96 70,88 70,104" fill="#f59a3a"/><circle cx="40" cy="94" r="1.8" fill="#2a2630"/><ellipse cx="100" cy="212" rx="150" ry="40" fill="#f1dba5"/>'; } },
-    { id: "bg-solnedgang", slot: "bg", name: "Solnedgång", price: 40, view: "0 0 200 200", art: function () {
-      return '<rect width="200" height="70" fill="#ff9aa8"/><rect y="70" width="200" height="40" fill="#ffc58a"/><rect y="110" width="200" height="40" fill="#ffe3a3"/><circle cx="100" cy="146" r="30" fill="#ffd96a"/>' +
-        '<path d="M0,150 Q40,130 80,150 Q120,166 160,146 Q184,136 200,148 V200 H0 Z" fill="#4a4f8a"/><ellipse cx="100" cy="212" rx="150" ry="42" fill="#3b3f73"/>'; } },
+    // more hats, glasses and necklaces
+    { id: "hatt-tomte", slot: "hat", name: "Tomteluva", price: 30, view: "46 -6 108 70", art: function () {
+      return '<path d="M64,56 Q68,20 108,8 Q134,2 146,20 Q126,16 124,56 Z" fill="#e0443f"/><rect x="58" y="46" width="84" height="13" rx="6.5" fill="#fff"/><circle cx="146" cy="20" r="8" fill="#fff"/>'; } },
+    { id: "hatt-fest", slot: "hat", name: "Festhatt", price: 20, view: "56 0 88 66", art: function () {
+      return '<path d="M76,56 L100,8 L124,56 Z" fill="#f6d34a"/><path d="M86,36 L110,46 M80,46 L116,60 M92,24 L106,30" stroke="#e0506d" stroke-width="5" stroke-linecap="round"/><rect x="74" y="52" width="52" height="7" rx="3.5" fill="#8a5cd1"/><circle cx="100" cy="8" r="6" fill="#8a5cd1"/>'; } },
+    { id: "hatt-halm", slot: "hat", name: "Halmhatt", price: 25, view: "36 22 128 44", art: function () {
+      return '<ellipse cx="100" cy="54" rx="56" ry="10" fill="#f0cf7a"/><path d="M70,54 Q72,26 100,26 Q128,26 130,54 Z" fill="#f6dc8f"/><rect x="70" y="42" width="60" height="8" fill="#e0506d"/><path d="M42,54 Q100,66 158,54" fill="none" stroke="#d9b45a" stroke-width="2"/>'; } },
+    { id: "hatt-hjalm", slot: "hat", name: "Cykelhjälm", price: 25, view: "52 12 96 52", art: function () {
+      return '<path d="M58,58 Q60,16 100,16 Q140,16 142,58 Z" fill="#ff7a3d"/><path d="M80,20 Q78,40 82,58 M100,16 V58 M120,20 Q122,40 118,58" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".85" fill="none"/><rect x="54" y="54" width="92" height="7" rx="3.5" fill="#d9531c"/>'; } },
+    { id: "glas-skid", slot: "face", name: "Skidglasögon", price: 35, view: "48 60 104 44", art: function () {
+      return '<path d="M66,82 L50,80 M134,82 L150,80" stroke="#2a2630" stroke-width="6" stroke-linecap="round"/><rect x="66" y="70" width="68" height="26" rx="12" fill="#4c9be8" fill-opacity=".75" stroke="#2a2630" stroke-width="3.5"/><path d="M76,78 L90,76" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>'; } },
+    { id: "glas-las", slot: "face", name: "Läsglasögon", price: 20, view: "60 66 80 34", art: function () {
+      return '<g fill="rgba(255,255,255,.3)" stroke="#8a5f3a" stroke-width="3"><rect x="68" y="72" width="26" height="19" rx="4"/><rect x="106" y="72" width="26" height="19" rx="4"/></g><path d="M94,78 H106 M68,76 L61,72 M132,76 L139,72" stroke="#8a5f3a" stroke-width="3" stroke-linecap="round" fill="none"/>'; } },
+    { id: "glas-kinder", slot: "face", name: "Rosa kinder", price: 15, view: "56 84 88 30", art: function () {
+      return '<circle cx="68" cy="100" r="9" fill="#ff8fb0" opacity=".6"/><circle cx="132" cy="100" r="9" fill="#ff8fb0" opacity=".6"/>'; } },
+    { id: "glas-fraknar", slot: "face", name: "Fräknar", price: 15, view: "72 86 56 26", art: function () {
+      return '<g fill="#b06a3a"><circle cx="82" cy="94" r="1.7"/><circle cx="88" cy="99" r="1.7"/><circle cx="92" cy="93" r="1.7"/><circle cx="118" cy="94" r="1.7"/><circle cx="112" cy="99" r="1.7"/><circle cx="108" cy="93" r="1.7"/></g>'; } },
+    { id: "hals-bandana", slot: "neck", name: "Bandana", price: 20, view: "58 108 84 66", art: function () {
+      return '<path d="M62,120 Q100,142 138,120 L100,172 Z" fill="#e0506d"/><g fill="#fff"><circle cx="86" cy="130" r="2.6"/><circle cx="100" cy="140" r="2.6"/><circle cx="114" cy="130" r="2.6"/><circle cx="100" cy="156" r="2.6"/></g>'; } },
+    { id: "hals-parlor", slot: "neck", name: "Pärlhalsband", price: 30, view: "58 108 84 56", art: function () {
+      let s = "";
+      for (let i = 0; i <= 8; i++) { const p = curvePoint([64, 120], [100, 164], [136, 120], i / 8); s += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="5" fill="' + (i % 2 ? "#ffc6d6" : "#fff") + '" stroke="#cfd6e6" stroke-width="1.6"/>'; }
+      return s; } },
+    { id: "hals-horlurar", slot: "neck", name: "Hörlurar", price: 30, view: "46 108 108 66", art: function () {
+      return '<path d="M62,134 Q100,176 138,134" fill="none" stroke="#3a3f58" stroke-width="6" stroke-linecap="round"/><ellipse cx="60" cy="136" rx="9" ry="13" fill="#e0506d" stroke="#3a3f58" stroke-width="3"/><ellipse cx="140" cy="136" rx="9" ry="13" fill="#e0506d" stroke="#3a3f58" stroke-width="3"/>'; } },
+    { id: "hals-kappa", slot: "neck", name: "Hjältekappa", price: 40, view: "50 108 100 76", art: function () {
+      return '<path d="M64,120 Q100,138 136,120 L146,178 Q100,166 54,178 Z" fill="#e0443f"/><path d="M64,120 Q100,138 136,120" fill="none" stroke="#b83c56" stroke-width="3"/><circle cx="100" cy="132" r="5" fill="#f2c94c" stroke="#d9a520" stroke-width="2"/>'; } },
   ];
 
 
@@ -782,23 +765,24 @@ window.GaussicaPetArt = (function () {
     earned("uppdrag", "neck", "markt-uppdrag", "Uppdragsbricka", 20, "66 108 68 74", function () {
       return '<path d="M78,118 L100,150 M122,118 L100,150" stroke="#43b581" stroke-width="7" stroke-linecap="round"/><rect x="84" y="146" width="32" height="30" rx="7" fill="#fff" stroke="#2f8f64" stroke-width="3"/>' +
         '<path d="M92,162 L98,168 L110,154" fill="none" stroke="#2f8f64" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>'; }),
-    earned("ovare", "bg", "markt-gympa", "Träningshallen", 30, "0 0 200 200", function () {
+    earned("ovare", "wall", "markt-gympa", "Träningshallen", 30, "0 0 200 140", function () {
       let rungs = "";
-      for (let y = 26; y < 140; y += 16) rungs += '<path d="M12,' + y + ' H62" stroke="#c28a4d" stroke-width="4" stroke-linecap="round"/>';
-      return '<rect width="200" height="200" fill="#f7ead2"/><rect x="12" y="10" width="6" height="134" fill="#c28a4d"/><rect x="56" y="10" width="6" height="134" fill="#c28a4d"/>' + rungs +
-        '<rect y="148" width="200" height="52" fill="#dba765"/><path d="M0,166 H200 M0,184 H200" stroke="#c28a4d" stroke-width="2"/><circle cx="160" cy="164" r="14" fill="#e8544a"/><path d="M146,164 H174 M160,150 Q150,164 160,178 M160,150 Q170,164 160,178" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/>'; }),
-    earned("tabell", "bg", "markt-tabell", "Tabellrummet", 30, "0 0 200 200", function () {
+      for (let y = 22; y < 122; y += 14) rungs += '<path d="M12,' + y + ' H62" stroke="#c28a4d" stroke-width="4" stroke-linecap="round"/>';
+      return '<rect width="200" height="140" fill="#f7ead2"/><rect x="12" y="8" width="6" height="118" fill="#c28a4d"/><rect x="56" y="8" width="6" height="118" fill="#c28a4d"/>' + rungs +
+        '<rect x="126" y="14" width="46" height="32" rx="3" fill="#fff" stroke="#c28a4d" stroke-width="3"/><rect x="140" y="26" width="18" height="12" fill="none" stroke="#e8544a" stroke-width="2"/><ellipse cx="149" cy="50" rx="11" ry="3.5" fill="none" stroke="#e8544a" stroke-width="3"/>' +
+        '<circle cx="100" cy="124" r="12" fill="#e8544a"/><path d="M88,124 H112 M100,112 Q92,124 100,136 M100,112 Q108,124 100,136" fill="none" stroke="#b83c2f" stroke-width="1.6"/>'; }),
+    earned("tabell", "wall", "markt-tabell", "Tabellrummet", 30, "0 0 200 140", function () {
       let grid = "";
-      for (let r = 1; r <= 4; r++) for (let c = 1; c <= 4; c++) grid += '<text x="' + (38 + (c - 1) * 40) + '" y="' + (44 + (r - 1) * 26) + '" text-anchor="middle" font-size="15" font-weight="800" font-family="Nunito, Arial, sans-serif" fill="#f4f1e8" opacity=".95">' + (r * c) + '</text>';
-      return '<rect width="200" height="200" fill="#f4e6c8"/><rect x="12" y="12" width="176" height="124" rx="6" fill="#2f6b57" stroke="#a9773e" stroke-width="6"/>' +
-        '<path d="M58,22 V126 M98,22 V126 M138,22 V126 M24,58 H176 M24,84 H176 M24,110 H176" stroke="#f4f1e8" stroke-width="1.5" opacity=".35"/>' + grid + '<rect y="152" width="200" height="48" fill="#d9b779"/>'; }),
+      for (let r = 1; r <= 4; r++) for (let c = 1; c <= 4; c++) grid += '<text x="' + (38 + (c - 1) * 40) + '" y="' + (38 + (r - 1) * 22) + '" text-anchor="middle" font-size="15" font-weight="800" font-family="Nunito, Arial, sans-serif" fill="#f4f1e8" opacity=".9">' + (r * c) + '</text>';
+      return '<rect width="200" height="140" fill="#f4e6c8"/><rect x="12" y="10" width="176" height="112" rx="6" fill="#2f6b57" stroke="#a9773e" stroke-width="6"/>' +
+        '<path d="M58,20 V112 M98,20 V112 M138,20 V112 M24,46 H176 M24,68 H176 M24,90 H176" stroke="#f4f1e8" stroke-width="1.5" opacity=".35"/>' + grid + '<rect x="60" y="124" width="80" height="5" rx="2" fill="#a9773e"/>'; }),
     // all the area badges: the rainbow
-    earned(["tal", "form", "mat", "samband", "data"], "bg", "markt-regnbage", "Regnbågen", 50, "0 0 200 200", function () {
+    earned(["tal", "form", "mat", "samband", "data"], "wall", "markt-regnbage", "Regnbågen", 50, "0 0 200 140", function () {
       let arcs = "";
-      ["#e0506d", "#ff9f43", "#ffd54a", "#43b581", "#4c9be8", "#8a5cd1"].forEach(function (c, i) { const r = 84 - i * 9; arcs += '<path d="M' + (100 - r) + ',150 A' + r + ',' + r + ' 0 0 1 ' + (100 + r) + ',150" fill="none" stroke="' + c + '" stroke-width="9"/>'; });
-      return '<rect width="200" height="200" fill="#d3ecfb"/>' + arcs + '<ellipse cx="30" cy="152" rx="30" ry="12" fill="#fff"/><ellipse cx="170" cy="152" rx="30" ry="12" fill="#fff"/><ellipse cx="100" cy="212" rx="150" ry="52" fill="#7cc576"/>'; })
+      ["#e0506d", "#ff9f43", "#ffd54a", "#43b581", "#4c9be8", "#8a5cd1"].forEach(function (c, i) { const r = 84 - i * 9; arcs += '<path d="M' + (100 - r) + ',112 A' + r + ',' + r + ' 0 0 1 ' + (100 + r) + ',112" fill="none" stroke="' + c + '" stroke-width="9"/>'; });
+      return '<rect width="200" height="140" fill="#d3ecfb"/>' + arcs + '<ellipse cx="30" cy="114" rx="28" ry="11" fill="#fff"/><ellipse cx="170" cy="114" rx="28" ry="11" fill="#fff"/><ellipse cx="100" cy="152" rx="150" ry="42" fill="#7cc576"/>'; })
   ];
-  EARNED.forEach(function (it) { ITEMS.push(it); });
+  EARNED.forEach(function (it) { if (it.slot === "wall") it.room = true; ITEMS.push(it); });
 
 
   // ===== the pet's room: wallpaper, rug, bed, window, shelf, lamp, plant and toy =====
@@ -907,10 +891,129 @@ window.GaussicaPetArt = (function () {
     ri("rum-raket", "toy", "Leksaksraket", 35, "112 140 42 46", function () {
       return '<ellipse cx="132" cy="184" rx="11" ry="2.8" fill="#000" opacity=".12"/><path d="M132,144 Q142,156 140,176 H124 Q122,156 132,144 Z" fill="#fff" stroke="#c9d3e6" stroke-width="2"/><circle cx="132" cy="160" r="4.5" fill="#8fd0f2" stroke="#4c9be8" stroke-width="2"/>' +
         '<path d="M124,170 L116,182 L125,178 Z M140,170 L148,182 L139,178 Z" fill="#e0506d"/><path d="M132,144 Q136,150 138,154 H126 Q128,150 132,144 Z" fill="#e0506d"/><path d="M128,177 Q132,186 136,177 Z" fill="#f6a53a"/>'; }),
+    // the backgrounds of before are wallpapers now (a student who had one has the wallpaper: see migrate)
+    ri("rum-vagg-gras", "wall", "Äng", 25, "0 0 200 140", function () {
+      return '<rect width="200" height="140" fill="#bfe6f7"/><circle cx="160" cy="32" r="15" fill="#ffe27a"/><ellipse cx="100" cy="150" rx="150" ry="46" fill="#7cc576"/><ellipse cx="30" cy="144" rx="70" ry="26" fill="#63b45e"/>' +
+        '<circle cx="34" cy="124" r="4" fill="#ff8fb0"/><circle cx="166" cy="126" r="4" fill="#fff"/><circle cx="150" cy="132" r="3.5" fill="#ffd54a"/>'; }),
+    ri("rum-vagg-strand", "wall", "Strand", 35, "0 0 200 140", function () {
+      return '<rect width="200" height="140" fill="#c6ebfa"/><rect y="62" width="200" height="34" fill="#5bc0e8"/><path d="M0,70 Q25,64 50,70 T100,70 T150,70 T200,70" fill="none" stroke="#9adcf3" stroke-width="3"/><ellipse cx="100" cy="152" rx="150" ry="54" fill="#f3dca4"/><circle cx="36" cy="30" r="15" fill="#ffe27a"/>'; }),
+    ri("rum-vagg-sno", "wall", "Snö", 30, "0 0 200 140", function () {
+      let s = "";
+      [[28, 30], [70, 58], [120, 24], [160, 62], [40, 96], [176, 100], [92, 76]].forEach(function (p) { s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="3" fill="#fff"/>'; });
+      return '<rect width="200" height="140" fill="#d6e8f7"/>' + s + '<ellipse cx="100" cy="152" rx="150" ry="40" fill="#fff"/><ellipse cx="170" cy="144" rx="50" ry="20" fill="#eef5fb"/>'; }),
+    ri("rum-vagg-tavla", "wall", "Klassrummet", 40, "0 0 200 140", function () {
+      return '<rect width="200" height="140" fill="#f4e6c8"/><rect x="18" y="14" width="164" height="92" rx="6" fill="#2f6b57" stroke="#a9773e" stroke-width="6"/>' +
+        '<text x="100" y="66" text-anchor="middle" font-size="26" font-weight="800" font-family="Nunito, Arial, sans-serif" fill="#f4f1e8" opacity=".92">2 + 2 = 4</text><path d="M32,88 H70" stroke="#f4f1e8" stroke-width="2" opacity=".6"/><rect x="60" y="108" width="80" height="5" rx="2" fill="#a9773e"/>'; }),
+    ri("rum-vagg-rymd", "wall", "Rymden", 50, "0 0 200 140", function () {
+      let s = "";
+      [[20, 24], [72, 14], [128, 30], [182, 20], [30, 112], [176, 96], [58, 70], [150, 76]].forEach(function (p, i) { s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (i % 3 ? 1.5 : 2.4) + '" fill="#fff"/>'; });
+      return '<rect width="200" height="140" fill="#1d1741"/>' + s + '<circle cx="158" cy="48" r="19" fill="#e0861f"/><ellipse cx="158" cy="48" rx="30" ry="7" fill="none" stroke="#f6c453" stroke-width="3" transform="rotate(-18 158 48)"/><circle cx="36" cy="46" r="9" fill="#76c0ec"/><ellipse cx="100" cy="152" rx="130" ry="30" fill="#3a2f74"/>'; }),
+    ri("rum-vagg-skog", "wall", "Skogen", 35, "0 0 200 140", function () {
+      let s = '<rect width="200" height="140" fill="#d6ecd2"/><circle cx="164" cy="28" r="13" fill="#fff3b0"/>';
+      [[22, 92, 34], [62, 100, 26], [150, 94, 30], [184, 102, 24]].forEach(function (t) {
+        s += '<rect x="' + (t[0] - 3) + '" y="' + t[1] + '" width="6" height="26" fill="#8a5f3a"/><polygon points="' + t[0] + ',' + (t[1] - t[2] * 1.4) + ' ' + (t[0] - t[2] / 2) + ',' + (t[1] + 6) + ' ' + (t[0] + t[2] / 2) + ',' + (t[1] + 6) + '" fill="#3f9a62"/>' +
+          '<polygon points="' + t[0] + ',' + (t[1] - t[2] * 1.0) + ' ' + (t[0] - t[2] / 2.4) + ',' + (t[1] - 8) + ' ' + (t[0] + t[2] / 2.4) + ',' + (t[1] - 8) + '" fill="#4fae72"/>'; });
+      return s + '<ellipse cx="100" cy="150" rx="150" ry="44" fill="#6fae6a"/><circle cx="40" cy="128" r="3.4" fill="#ff8fb0"/><circle cx="168" cy="130" r="3.4" fill="#fff"/>'; }),
+    ri("rum-vagg-regnbage", "wall", "Regnbåge", 40, "0 0 200 140", function () {
+      let s = '<rect width="200" height="140" fill="#d4ecfb"/>';
+      ["#e8394d", "#f59a3a", "#f6d34a", "#5bbf6e", "#4c9be8", "#8a5cd1"].forEach(function (c, i) { const r = 80 - i * 8; s += '<path d="M' + (100 - r) + ',108 A' + r + ',' + r + ' 0 0 1 ' + (100 + r) + ',108" fill="none" stroke="' + c + '" stroke-width="8"/>'; });
+      return s + '<ellipse cx="30" cy="110" rx="24" ry="10" fill="#fff"/><ellipse cx="170" cy="110" rx="24" ry="10" fill="#fff"/><ellipse cx="100" cy="148" rx="150" ry="40" fill="#9bd68f"/>'; }),
+    ri("rum-vagg-orken", "wall", "Öknen", 35, "0 0 200 140", function () {
+      return '<rect width="200" height="140" fill="#fde7b3"/><circle cx="150" cy="36" r="18" fill="#ffd05a"/><ellipse cx="30" cy="138" rx="110" ry="36" fill="#f2c576"/><ellipse cx="170" cy="148" rx="120" ry="40" fill="#e7ae55"/>' +
+        '<rect x="30" y="92" width="9" height="32" rx="4.5" fill="#4aa86b"/><path d="M30,108 H24 V100 M39,104 H45 V97" stroke="#4aa86b" stroke-width="5" stroke-linecap="round" fill="none"/>'; }),
+    ri("rum-vagg-solnedgang", "wall", "Solnedgång", 40, "0 0 200 140", function () {
+      return '<rect width="200" height="50" fill="#ff9aa8"/><rect y="50" width="200" height="30" fill="#ffc58a"/><rect y="80" width="200" height="30" fill="#ffe3a3"/><circle cx="100" cy="108" r="26" fill="#ffd96a"/>' +
+        '<path d="M0,110 Q40,92 80,110 Q120,124 160,106 Q184,98 200,108 V140 H0 Z" fill="#4a4f8a"/>'; }),
+    // new wallpapers
+    ri("rum-vagg-hjartan", "wall", "Hjärtvägg", 25, "0 0 200 140", function () {
+      let s = '<rect width="200" height="140" fill="#fde8ee"/>';
+      for (let y = 16; y < 140; y += 30) for (let x = (y - 16) / 30 % 2 ? 16 : 36; x < 210; x += 40) s += '<path d="M0,7 C-14,-5 -8,-14 0,-7 C8,-14 14,-5 0,7 Z" transform="translate(' + x + ' ' + y + ')" fill="#f7a8bf"/>';
+      return s; }),
+    ri("rum-vagg-moln", "wall", "Molnvägg", 25, "0 0 200 140", function () {
+      let s = '<rect width="200" height="140" fill="#cfe9fb"/>';
+      [[40, 34, 1], [140, 24, 1.1], [92, 82, 1.2], [176, 76, .9], [24, 112, .8]].forEach(function (c) {
+        s += '<g transform="translate(' + c[0] + ' ' + c[1] + ') scale(' + c[2] + ')" fill="#fff"><ellipse cx="0" cy="0" rx="22" ry="10"/><ellipse cx="-12" cy="-6" rx="11" ry="9"/><ellipse cx="8" cy="-9" rx="13" ry="11"/></g>'; });
+      return s; }),
+    ri("rum-vagg-berg", "wall", "Bergsvägg", 35, "0 0 200 140", function () {
+      return '<rect width="200" height="140" fill="#cfe3f5"/><circle cx="162" cy="26" r="12" fill="#fff3b0"/><polygon points="0,140 44,56 76,104 108,38 150,112 176,72 200,120 200,140" fill="#8fa7c6"/>' +
+        '<polygon points="108,38 98,56 108,52 116,58" fill="#fff"/><polygon points="44,56 36,70 44,66 52,72" fill="#fff"/><polygon points="176,72 169,84 176,80 183,86" fill="#fff"/>'; }),
+    ri("rum-vagg-djungel", "wall", "Djungelvägg", 40, "0 0 200 140", function () {
+      let s = '<rect width="200" height="140" fill="#cfeccf"/>';
+      [[20, 40, -30, "#43a05a"], [44, 70, 24, "#5fb36a"], [90, 30, -12, "#2f8f5a"], [128, 64, 28, "#43a05a"], [166, 36, -26, "#5fb36a"], [184, 84, 18, "#2f8f5a"], [66, 112, -20, "#5fb36a"], [146, 110, 24, "#43a05a"]].forEach(function (l) {
+        s += '<ellipse cx="' + l[0] + '" cy="' + l[1] + '" rx="9" ry="27" fill="' + l[3] + '" transform="rotate(' + l[2] + ' ' + l[0] + ' ' + l[1] + ')"/><path d="M' + l[0] + ',' + (l[1] - 22) + ' V' + (l[1] + 22) + '" stroke="#2a7a4a" stroke-width="1.5" transform="rotate(' + l[2] + ' ' + l[0] + ' ' + l[1] + ')"/>'; });
+      return s; }),
+    ri("rum-matta-gras", "rug", "Gräsmatta", 20, "20 150 160 50", function () {
+      return '<ellipse cx="100" cy="176" rx="76" ry="16" fill="#5fb36a"/><ellipse cx="100" cy="176" rx="62" ry="12" fill="#7cc576"/><circle cx="68" cy="177" r="2.6" fill="#fff"/><circle cx="126" cy="174" r="2.6" fill="#ffd54a"/><circle cx="98" cy="180" r="2.6" fill="#ff8fb0"/>'; }),
+    ri("rum-matta-hjarta", "rug", "Hjärtmatta", 25, "20 150 160 50", function () {
+      return '<ellipse cx="100" cy="176" rx="76" ry="16" fill="#e0506d"/><ellipse cx="100" cy="176" rx="64" ry="12.5" fill="#f08aa0"/><path d="M0,6 C-16,-6 -10,-16 0,-8 C10,-16 16,-6 0,6 Z" transform="translate(100 177)" fill="#fff"/>'; }),
+    ri("rum-haengmatta", "bed", "Hängmatta", 40, "0 126 80 60", function () {
+      return '<rect x="3" y="128" width="5" height="52" rx="2" fill="#9a6030"/><rect x="72" y="128" width="5" height="52" rx="2" fill="#9a6030"/><ellipse cx="40" cy="182" rx="36" ry="4" fill="#000" opacity=".1"/>' +
+        '<path d="M8,138 Q40,178 72,138 Z" fill="#f2a65a"/><path d="M16,146 Q40,170 64,146" fill="none" stroke="#fff" stroke-width="2.4" opacity=".7"/><path d="M8,138 Q40,126 72,138" fill="none" stroke="#c98a4b" stroke-width="2"/>'; }),
+    ri("rum-fonster-persienn", "window", "Fönster med persienner", 30, "4 12 64 68", function () {
+      let s = '<rect x="10" y="18" width="52" height="56" rx="4" fill="#fff"/><rect x="15" y="23" width="42" height="46" rx="2" fill="#8fd0f2"/>';
+      for (let y = 25; y < 52; y += 6) s += '<rect x="15" y="' + y + '" width="42" height="4" rx="1" fill="#f6efe2" stroke="#d6c7a8" stroke-width=".8"/>';
+      return s + '<path d="M36,23 V54" stroke="#d6c7a8" stroke-width="1"/><circle cx="36" cy="56" r="2.2" fill="#d6c7a8"/>'; }),
+    ri("rum-hylla-vaxter", "shelf", "Växthylla", 30, "130 22 70 48", function () {
+      let s = '<rect x="136" y="58" width="60" height="6" rx="2" fill="#a9773e"/><path d="M142,64 V72 M190,64 V72" stroke="#8a5f2e" stroke-width="3"/>';
+      [[148, "#d9784a"], [166, "#4c9be8"], [184, "#f2c94c"]].forEach(function (p, i) {
+        s += '<polygon points="' + (p[0] - 7) + ',50 ' + (p[0] + 7) + ',50 ' + (p[0] + 5) + ',58 ' + (p[0] - 5) + ',58" fill="' + p[1] + '"/>' +
+          '<ellipse cx="' + (p[0] - 3) + '" cy="42" rx="3" ry="8" fill="#43b581" transform="rotate(-20 ' + (p[0] - 3) + ' 48)"/><ellipse cx="' + (p[0] + 3) + '" cy="40" rx="3" ry="9" fill="#2f9d6c" transform="rotate(18 ' + (p[0] + 3) + ' 48)"/>' + (i === 1 ? '<circle cx="' + p[0] + '" cy="34" r="3.4" fill="#ff8fb0"/>' : ''); });
+      return s; }),
+    ri("rum-lampa-moln", "lamp", "Molnlampa", 30, "164 56 36 128", function () {
+      return '<ellipse cx="185" cy="176" rx="11" ry="3.5" fill="#6f5f50"/><rect x="183.5" y="90" width="3" height="86" fill="#8a7a6a"/><circle cx="185" cy="76" r="20" fill="#fff6c9" opacity=".35"/>' +
+        '<g fill="#fff" stroke="#dfe9f5" stroke-width="1.4"><ellipse cx="185" cy="80" rx="15" ry="8"/><ellipse cx="178" cy="74" rx="8" ry="7"/><ellipse cx="190" cy="72" rx="9" ry="8"/></g>'; }),
+    ri("rum-bonsai", "plant", "Bonsai", 30, "144 128 36 54", function () {
+      return '<path d="M161,160 Q154,150 160,142 Q166,136 158,130" fill="none" stroke="#7a4d2a" stroke-width="4" stroke-linecap="round"/><circle cx="155" cy="130" r="9" fill="#43b581"/><circle cx="168" cy="136" r="8" fill="#2f9d6c"/><circle cx="160" cy="124" r="8" fill="#58c796"/>' +
+        '<rect x="148" y="160" width="26" height="9" rx="3" fill="#3f86d4"/><rect x="152" y="168" width="18" height="6" fill="#3f86d4"/>'; }),
+    ri("rum-solros", "plant", "Solros", 25, "144 124 36 58", function () {
+      let petals = "";
+      for (let i = 0; i < 10; i++) petals += '<ellipse cx="161" cy="124" rx="3.4" ry="8" fill="#ffd54a" transform="rotate(' + (i * 36) + ' 161 133) translate(0 -1)"/>';
+      return '<path d="M161,158 V136" stroke="#43b581" stroke-width="3.5"/><ellipse cx="152" cy="148" rx="3.4" ry="8" fill="#43b581" transform="rotate(-50 152 148)"/>' + petals + '<circle cx="161" cy="133" r="7" fill="#7a4d2a"/>' +
+        '<polygon points="150,156 172,156 169,178 153,178" fill="#d9784a"/><rect x="149" y="154" width="24" height="5" rx="2" fill="#c06a3c"/>'; }),
+    ri("rum-xylofon", "toy", "Xylofon", 30, "112 148 46 38", function () {
+      let s = '<ellipse cx="134" cy="182" rx="14" ry="3" fill="#000" opacity=".12"/><path d="M118,174 L146,158 M118,178 L146,162" stroke="#a9773e" stroke-width="2.4" stroke-linecap="round"/>';
+      ["#e0506d", "#f59a3a", "#f6d34a", "#43b581", "#4c9be8", "#8a5cd1"].forEach(function (c, i) { s += '<rect x="' + (118 + i * 5) + '" y="' + (170 - i * 2.6 - (6 - i) * 1.2) + '" width="4.4" height="' + (14 - i * 1.5) + '" rx="1.6" fill="' + c + '" transform="rotate(-24 ' + (120 + i * 5) + ' 172)"/>'; });
+      return s; }),
+    ri("rum-drake", "toy", "Drake", 30, "116 140 40 46", function () {
+      return '<ellipse cx="136" cy="184" rx="10" ry="2.6" fill="#000" opacity=".12"/><path d="M136,148 L150,162 L136,176 L122,162 Z" fill="#f6d34a" stroke="#d9a520" stroke-width="1.6"/><path d="M136,148 V176 M122,162 H150" stroke="#e0506d" stroke-width="2"/>' +
+        '<path d="M136,176 Q128,180 132,184 Q140,182 138,186" fill="none" stroke="#8a5cd1" stroke-width="2"/>'; }),
   ];
   ROOM_ITEMS.forEach(function (it) { ITEMS.push(it); });
 
   function isRoomSlot(slot) { return ROOM_SLOT_IDS.indexOf(slot) >= 0; }
+
+  // ===== the backgrounds became wallpapers =====
+  // There are no backgrounds in the shop any more: each of them is a wallpaper of the room. A pet that had bought one owns the wallpaper
+  // for the price it paid (so no coins change), and has it on the wall if the background was the one in use. Stjärnhimmel and Under vattnet
+  // are the wallpapers Stjärnvägg and Havsvägg that were there already. The three that badges unlock (markt-gympa, markt-tabell and
+  // markt-regnbage) keep their ids: they are wallpapers now, so only the place where the pet had it on is moved.
+  // migrate(pet) returns the changed record, or null when there is nothing to change (it can be run again and again).
+  const BG_TO_WALL = {
+    "bg-gras": "rum-vagg-gras", "bg-natt": "rum-vagg-stjarnor", "bg-strand": "rum-vagg-strand", "bg-sno": "rum-vagg-sno", "bg-tavla": "rum-vagg-tavla",
+    "bg-rymd": "rum-vagg-rymd", "bg-skog": "rum-vagg-skog", "bg-regnbage": "rum-vagg-regnbage", "bg-orken": "rum-vagg-orken", "bg-hav": "rum-vagg-hav",
+    "bg-solnedgang": "rum-vagg-solnedgang"
+  };
+
+  function migrate(pet) {
+    if (!pet || typeof pet !== "object" || !pet.kind) return null;
+    const owned = pet.owned || {};
+    const old = Object.keys(owned).filter(function (id) { return BG_TO_WALL[id]; });
+    if (!old.length && !("bg" in pet) && pet.scene === "room") return null;
+    const next = JSON.parse(JSON.stringify(pet));
+    next.owned = next.owned || {};
+    old.forEach(function (id) {
+      const to = BG_TO_WALL[id];
+      next.owned[to] = (Number(next.owned[to]) || 0) + (Number(next.owned[id]) || 0);   // what was paid stays paid
+      delete next.owned[id];
+    });
+    const wore = next.bg && (BG_TO_WALL[next.bg] || next.bg);
+    next.room = next.room || {};
+    // what the pet showed stays what it shows: the background if that was the view, otherwise the wall it already had
+    if (wore && next.owned[wore] !== undefined && item(wore) && item(wore).slot === "wall" && (!next.room.wall || next.scene !== "room")) next.room.wall = wore;
+    delete next.bg;
+    next.scene = "room";
+    return next;
+  }
 
   function item(id) {
     return ITEMS.find(function (i) { return i.id === id; }) || null;
@@ -1042,8 +1145,7 @@ window.GaussicaPetArt = (function () {
       const it = worn[slot] && item(worn[slot]);
       return it && it.slot === slot ? '<g transform="translate(0 ' + shift[slot] + ')">' + it.art() + '</g>' : "";
     };
-    const bgItem = pet.bg && item(pet.bg);
-    const bg = options.bare ? "" : (bgItem && bgItem.slot === "bg" ? bgItem.art() : FREE_BG);
+    const bg = options.bare ? "" : FREE_BG;   // only for a pet that has no room yet (the chooser): the room is where a pet lives
     const body = bodyOf(kind, c, mood);
     const sparks = mood === "happy"
       ? '<g class="pet-sparks"><text class="pet-spark" x="46" y="60">✦</text><text class="pet-spark s2" x="150" y="52">✦</text><text class="pet-spark s3" x="100" y="26">♥</text></g>'
@@ -1130,7 +1232,7 @@ window.GaussicaPetArt = (function () {
     return s.replace(/<g class="pet-sparks">[\s\S]*?<\/g>/, "").replace('viewBox="0 0 200 200"', 'viewBox="' + crop + '"');
   }
 
-  return { KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, pointer: pointer, ARM: ARM, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
+  return { KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, pointer: pointer, ARM: ARM, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, migrate: migrate, BG_TO_WALL: BG_TO_WALL, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
 }());
 
 if (typeof module !== "undefined") module.exports = window.GaussicaPetArt;

@@ -1,5 +1,5 @@
 // Your own pet: one of thirteen animals that you earn coins ("mynt") for by learning, and spend them on clothes, accessories,
-// backgrounds and furniture, and on treats and toys. It is meant to go with the learning, not to replace it:
+// wallpapers and furniture for its room, and on treats and toys. It is meant to go with the learning, not to replace it:
 //
 //  * Coins are paid for finishing lessons and for sticking with a question after a mistake, not for every right answer,
 //    and the repeatable sources have a ceiling. Nothing is lost by staying away: the pet is never sad or hungry.
@@ -17,7 +17,7 @@
 //   GaussicaPet.open()             the room with the shop (the chooser first if there is no pet)
 //
 // Pure parts, also used by the tests: earned(ctx), areaCounts(ctx), lockOf(item, counts, badges), lockText(lock), balanceOf(total, pet), makePet, buyItem, wearItem.
-//   record = { v: 1, kind, color, name, owned: { itemId: pricePaid }, worn: { hat, face, neck }, bg, room: { wall, rug, bed, ... }, scene: "room" | "bg", at,
+//   record = { v: 1, kind, color, name, owned: { itemId: pricePaid }, worn: { hat, face, neck }, room: { wall, rug, bed, ... }, scene: "room", at,
 //              use: { day, food, play, petted, fed, played, love, spent }, quests: { assignmentId: coins } }
 //
 // Two sources that bring a student back to what was hard or to what the teacher asked for:
@@ -214,7 +214,7 @@ window.GaussicaPet = (function () {
 
   function makePet(kind, color, name) {
     const k = Art().KINDS[kind] ? kind : "dog";
-    return { v: 1, kind: k, color: Art().colorOf(k, color).id, name: cleanName(name, k), owned: {}, worn: {}, bg: null, at: new Date().toISOString() };
+    return { v: 1, kind: k, color: Art().colorOf(k, color).id, name: cleanName(name, k), owned: {}, worn: {}, room: {}, scene: "room", at: new Date().toISOString() };
   }
 
   function copy(pet) { return JSON.parse(JSON.stringify(pet)); }
@@ -358,9 +358,8 @@ window.GaussicaPet = (function () {
     return { pet: wearItem(next, it.slot, itemId).pet };
   }
 
-  // Is the item in use? (worn, in the room, or the background)
+  // Is the item in use? (worn, or in the room)
   function isOn(pet, it) {
-    if (it.slot === "bg") return pet.bg === it.id;
     if (Art().isRoomSlot(it.slot)) return (pet.room || {})[it.slot] === it.id;
     return (pet.worn || {})[it.slot] === it.id;
   }
@@ -368,14 +367,12 @@ window.GaussicaPet = (function () {
   // Put an owned item on (itemId) or take the slot's item off (itemId = null).
   function wearItem(pet, slot, itemId) {
     const next = copy(pet);
-    if (slot === "bg") { next.bg = itemId && next.owned[itemId] !== undefined ? itemId : null; return { pet: next }; }
     if (Art().isRoomSlot(slot)) {
       next.room = next.room || {};
       const it = itemId && Art().item(itemId);
       if (!it) delete next.room[slot];
       else if (next.owned[itemId] !== undefined && it.slot === slot) {
         next.room[slot] = itemId;
-        if (!next.scene) next.scene = "room";   // the first thing in the room: from now on the pet is shown in it
       }
       return { pet: next };
     }
@@ -464,7 +461,7 @@ window.GaussicaPet = (function () {
 
   // what the pet can do now, and how likely each thing is: only things that have their place in the room, and sleep at night
   function lifeChoices(pet, hour) {
-    const room = pet && pet.scene === "room" ? (pet.room || {}) : {};
+    const room = (pet && pet.room) || {};
     const out = [];
     Object.keys(LIFE).forEach(function (id) {
       const a = LIFE[id];
@@ -762,7 +759,7 @@ window.GaussicaPet = (function () {
     });
   }
 
-  const TABS = [["hat", "Hattar"], ["face", "Ansikte"], ["neck", "Halsband"], ["bg", "Bakgrund"], ["room", "Rum"], ["care", "Mat och lek"], ["me", "Mitt djur"]];
+  const TABS = [["hat", "Hattar"], ["face", "Ansikte"], ["neck", "Halsband"], ["room", "Rum"], ["care", "Mat och lek"], ["me", "Mitt djur"]];
 
   // The room: the pet, the shop and the settings of the pet.
   function room() {
@@ -777,12 +774,9 @@ window.GaussicaPet = (function () {
         // trying an item on does not change anything until it is bought or put on
         const sel = state.selected && Art().item(state.selected);
         if (sel) {
-          if (sel.slot === "bg") view.bg = sel.id;
-          else if (Art().isRoomSlot(sel.slot)) { view.room = view.room || {}; view.room[sel.slot] = sel.id; }
+          if (Art().isRoomSlot(sel.slot)) { view.room = view.room || {}; view.room[sel.slot] = sel.id; }
           else { view.worn = view.worn || {}; view.worn[sel.slot] = sel.id; }
         }
-        // the room tab shows the room, the background tab the background, the others what the pet shows at home
-        if (state.tab === "room") view.scene = "room"; else if (state.tab === "bg") view.scene = "bg";
         panel.replaceChildren();
         head(panel, pet.name);
         const body = el("div", "pet-body pet-room");
@@ -928,19 +922,7 @@ window.GaussicaPet = (function () {
     const un = unlocks();
     const wrap = el("div", "pet-shop");
     if (state.tab === "room") {
-      const where = el("div", "pet-scene");
-      where.appendChild(el("span", "pet-scene-label", "Visa på startsidan:"));
-      [["room", "Rummet"], ["bg", "Bakgrunden"]].forEach(function (s) {
-        const b = button(s[1], "tv-chip pet-scene-btn" + ((pet.scene || "bg") === s[0] ? " is-on" : ""), function () {
-          const next = copy(petOf());
-          next.scene = s[0];
-          deps.save(next);
-          redraw();
-        });
-        where.appendChild(b);
-      });
-      wrap.appendChild(where);
-      wrap.appendChild(el("p", "pet-hint", "Köp möbler och saker till " + pet.name + "s rum. Det du har på plats syns i rummet."));
+      wrap.appendChild(el("p", "pet-hint", "Köp tapeter, möbler och saker till " + pet.name + "s rum. Det du har på plats syns i rummet."));
       Art().ROOM_SLOTS.forEach(function (slot) {
         const items = Art().ITEMS.filter(function (i) { return i.slot === slot[0]; });
         const section = el("section", "pet-set");
@@ -950,6 +932,7 @@ window.GaussicaPet = (function () {
         section.appendChild(grid);
         wrap.appendChild(section);
       });
+      wrap.appendChild(unlockInfo(pet, un));   // some wallpapers are opened by badges
     } else {
       // all of it in one place: the things that are free to buy, the pieces of the themes and the things that badges unlock
       const grid = el("div", "pet-grid");

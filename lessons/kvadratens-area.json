@@ -137,6 +137,90 @@
           "message": "Fyra sidor hör till omkretsen. Här ska sidan gånger sidan bli {a}."
         }
       ]
+    },
+    {
+      "id": "dubbel-sida",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "s": [
+          2,
+          9
+        ]
+      },
+      "prompt": "En kvadrat har sidan {s} cm. Sidan blir dubbelt så lång. Hur stor är arean då, i cm²?",
+      "answer": [
+        "=4*s*s",
+        "{4*s*s} cm²",
+        "{4*s*s} cm2"
+      ],
+      "correct": "Rätt! Den nya sidan är {2*s} cm, och {2*s} · {2*s} = {4*s*s} cm².",
+      "feedback": [
+        {
+          "answers": [
+            "=2*s*s"
+          ],
+          "message": "Det är dubbelt så stor area. Räkna den nya sidan först och multiplicera den med sig själv."
+        },
+        {
+          "answers": [
+            "=s*s"
+          ],
+          "message": "Det är arean av den första kvadraten. Sidan blir dubbelt så lång: räkna den nya sidan."
+        }
+      ]
+    },
+    {
+      "id": "maleri-burkar",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "k": [
+          2,
+          4
+        ],
+        "m": [
+          1,
+          3
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "k*m"
+        },
+        {
+          "name": "r",
+          "expr": "k*m*m"
+        }
+      ],
+      "prompt": "{$namn} ska måla en kvadratisk vägg med sidan {s} m. En burk färg räcker till {k} m². Hur många burkar behövs?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Arean är {s} · {s} = {s*s} m², och {s*s}/{k} = {r} burkar.",
+      "feedback": [
+        {
+          "answers": [
+            "=s*s"
+          ],
+          "message": "Det är arean i kvadratmeter. En burk räcker till flera kvadratmeter, så dela."
+        }
+      ]
     }
   ],
   "exercise": {

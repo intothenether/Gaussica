@@ -604,6 +604,95 @@
           "message": "Det är samma tal. Du ska till andra sidan om noll."
         }
       ]
+    },
+    {
+      "id": "stiger-dagen",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "s": [
+          -9,
+          -2
+        ],
+        "d": [
+          2,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "s+d"
+        }
+      ],
+      "prompt": "Temperaturen är {s} grader. Under dagen stiger den {d} grader. Vilken temperatur blir det?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Från {s} går du {d} steg åt höger och hamnar på {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s-d"
+          ],
+          "message": "Stiger betyder åt höger på tallinjen, så du ska lägga till {d}."
+        }
+      ]
+    },
+    {
+      "id": "skuld",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          10,
+          50
+        ],
+        "b": [
+          20,
+          80
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(b-a)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "b-a"
+        }
+      ],
+      "prompt": "På {$namn}s konto står det −{a} kr, alltså en skuld. {$namn} sätter in {b} kr. Hur mycket står det på kontot nu?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! Du börjar på −{a} och går {b} steg åt höger, så det blir {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Skulden gör att du börjar under noll. Lägg inte ihop talen: gå {b} steg åt höger från −{a}."
+        }
+      ]
     }
   ],
   "exercise": {

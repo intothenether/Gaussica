@@ -64,6 +64,72 @@
       "answer": ["=p","{p} cm2","{p}cm2","{p} cm²","{p}cm²"],
       "correct": "Rätt! {s} · {s} = {p} cm².",
       "feedback": [{"answers":["=4*s"],"message":"Det är omkretsen. Arean är sidan gånger sidan."}]
+    },
+    {
+      "id": "tva-rum",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "l": [
+          3,
+          8
+        ],
+        "b": [
+          2,
+          6
+        ]
+      },
+      "prompt": "Två rum är lika stora. Varje rum är {l} m långt och {b} m brett. Hur många kvadratmeter är rummen tillsammans?",
+      "answer": [
+        "=2*l*b",
+        "{2*l*b} m²",
+        "{2*l*b} m2"
+      ],
+      "correct": "Rätt! Ett rum är {l} · {b} = {l*b} m², och två rum är {2*l*b} m².",
+      "feedback": [
+        {
+          "answers": [
+            "=l*b"
+          ],
+          "message": "Det är arean av ett rum. Det finns två rum."
+        }
+      ]
+    },
+    {
+      "id": "golv-pris",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "l": [
+          3,
+          8
+        ],
+        "b": [
+          2,
+          6
+        ],
+        "p": [
+          10,
+          50,
+          10
+        ]
+      },
+      "prompt": "Ett golv är {l} m långt och {b} m brett. Golvet ska läggas med parkett som kostar {p} kr per kvadratmeter. Vad kostar parketten?",
+      "answer": [
+        "=l*b*p",
+        "{l*b*p} kr"
+      ],
+      "correct": "Rätt! Arean är {l} · {b} = {l*b} m², och {l*b} · {p} = {l*b*p} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=l*b"
+          ],
+          "message": "Det är arean. Multiplicera den med priset per kvadratmeter."
+        }
+      ]
     }
   ],
   "exercise": {

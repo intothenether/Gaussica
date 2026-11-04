@@ -139,6 +139,104 @@
           "message": "Varje rad är antal gånger styckpris. Multiplicera först, lägg sedan ihop raderna."
         }
       ]
+    },
+    {
+      "id": "tre-rader",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          2,
+          5
+        ],
+        "p": [
+          8,
+          15
+        ],
+        "b": [
+          2,
+          4
+        ],
+        "q": [
+          5,
+          12
+        ],
+        "m": [
+          10,
+          25
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*p+b*q+m"
+        }
+      ],
+      "prompt": "Ett kvitto har {a} bullar à {p} kr, {b} kakor à {q} kr och en dryck för {m} kr. Vad blir totalsumman?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! {a} · {p} = {a*p} och {b} · {q} = {b*q}. {a*p} + {b*q} + {m} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*p+b*q"
+          ],
+          "message": "Du har glömt drycken. Lägg till den också."
+        }
+      ]
+    },
+    {
+      "id": "vaxel-hundralapp",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          31,
+          89
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(n-50)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "100-n"
+        }
+      ],
+      "prompt": "{$namn} köper något för {n} kr och betalar med en hundralapp. Hur mycket får {$namn} tillbaka?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! 100 − {n} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "Det är vad det kostade. Växeln är det som blir över av hundralappen."
+        }
+      ]
     }
   ],
   "exercise": {

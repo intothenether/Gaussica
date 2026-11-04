@@ -371,7 +371,8 @@
       "steps": [
         {
           "line": "5x + 3 − 2x = 2x + 15 − 2x",
-          "say": "Ta bort 2x från båda sidor."
+          "say": "Ta bort 2x från båda sidor.",
+          "wrong": ["Ta bort 3 från båda sidor.", "Lägg till 2x på båda sidor."]
         },
         {
           "line": "3x + 3 = 15",
@@ -379,7 +380,8 @@
         },
         {
           "line": "3x + 3 − 3 = 15 − 3",
-          "say": "Ta bort 3 från båda sidor."
+          "say": "Ta bort 3 från båda sidor.",
+          "wrong": ["Ta bort 3 från bara högra sidan.", "Lägg till 3 på båda sidor."]
         },
         {
           "line": "3x = 12",
@@ -387,7 +389,8 @@
         },
         {
           "line": "x = 4",
-          "say": "Dela båda sidor med 3."
+          "say": "Dela båda sidor med 3.",
+          "wrong": ["Dela båda sidor med 12.", "Multiplicera båda sidor med 3."]
         }
       ],
       "note": "Kontrollera: 5 · 4 + 3 = 23 och 2 · 4 + 15 = 23. Båda sidor blir lika."

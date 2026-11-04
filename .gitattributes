@@ -1,0 +1,5 @@
+# Text files are kept with LF in the repository and in the working copy, on every system (no more "LF will be replaced by CRLF" warnings).
+* text=auto eol=lf
+*.png binary
+*.woff2 binary
+*.db binary

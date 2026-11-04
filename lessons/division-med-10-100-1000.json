@@ -223,6 +223,81 @@
           "message": "Du har lagt ihop talen. Här ska du dela {n} med {d}."
         }
       ]
+    },
+    {
+      "id": "hundralappar",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "q": [
+          2,
+          48
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "q*100"
+        }
+      ],
+      "prompt": "{$namn} har {n} kr i hundralappar. Hur många hundralappar är det?",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {n}/100 = {q}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n/10"
+          ],
+          "message": "Du har delat med 10. En hundralapp är 100 kr, så dela med 100."
+        }
+      ]
+    },
+    {
+      "id": "meter-km",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "q": [
+          2,
+          35
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "q*1000"
+        }
+      ],
+      "prompt": "En väg är {n} meter lång. 1000 meter är 1 kilometer. Hur många kilometer är vägen?",
+      "answer": [
+        "=q",
+        "{q} km"
+      ],
+      "correct": "Rätt! {n}/1000 = {q} km.",
+      "feedback": [
+        {
+          "answers": [
+            "=n/100"
+          ],
+          "message": "Du har delat med 100. Dela med 1000 för att få kilometer."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -166,6 +166,88 @@
           "message": "{d} är antalet djur tillsammans. Hur många av dem är kor?"
         }
       ]
+    },
+    {
+      "id": "klader",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          2,
+          5
+        ],
+        "b": [
+          3,
+          6
+        ]
+      },
+      "prompt": "{$namn} har {a} tröjor och {b} byxor. Hur många olika klädsel kan {$namn} göra med en tröja och ett par byxor?",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! Varje tröja kan paras ihop med varje byxa: {a} · {b} = {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. Varje tröja kan kombineras med varje byxa, så rita en tabell eller ett träd."
+        }
+      ]
+    },
+    {
+      "id": "cyklar-trehjulingar",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "d": [
+          5,
+          9
+        ],
+        "t": [
+          1,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(d-2*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "w",
+          "expr": "2*d+t"
+        }
+      ],
+      "prompt": "På en gård står cyklar (2 hjul) och trehjulingar (3 hjul). Det är {d} fordon och {w} hjul tillsammans. Hur många trehjulingar är det?",
+      "answer": [
+        "=t"
+      ],
+      "correct": "Rätt! Om alla vore cyklar skulle det vara {2*d} hjul. Det är {t} hjul mer, så {t} trehjulingar.",
+      "feedback": [
+        {
+          "answers": [
+            "=d-t"
+          ],
+          "message": "Det är antalet cyklar. Du söker hur många som är trehjulingar."
+        }
+      ]
     }
   ],
   "exercise": {

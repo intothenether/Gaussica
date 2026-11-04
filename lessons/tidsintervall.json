@@ -143,6 +143,61 @@
           "message": "En timme har 60 minuter, inte 100."
         }
       ]
+    },
+    {
+      "id": "filmen",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "h": [
+          12,
+          17
+        ],
+        "a": [
+          20,
+          50,
+          5
+        ],
+        "b": [
+          5,
+          15,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b-30)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "60-a+b"
+        }
+      ],
+      "prompt": "Filmen börjar klockan {h}:{a} och slutar klockan {h+1}:{b|2}. Hur många minuter är filmen?",
+      "answer": [
+        "=r",
+        "{r} min",
+        "{r} minuter"
+      ],
+      "correct": "Rätt! Från {h}:{a} till {h+1}:00 är det {60-a} minuter, och sedan {b} minuter till: {60-a} + {b} = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=60-a"
+          ],
+          "message": "Det är tiden till nästa hela timme. Lägg till minuterna efter den."
+        },
+        {
+          "answers": [
+            "=a-b"
+          ],
+          "message": "Det är skillnaden mellan minutsiffrorna. Räkna först fram till nästa hela timme."
+        }
+      ]
     }
   ],
   "exercise": {

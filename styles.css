@@ -266,6 +266,9 @@ h1, h2, h3, p { margin-top: 0; }.section-heading h2 { font-family: "Nunito", "Se
 .prerequisite-label { width: 100%; font-size: 10.5px; }
 .prerequisite-tag { display: inline-flex; padding: 5px 8px; border: 1px solid var(--border); border-radius: 5px; color: var(--muted); background: var(--paper); font-size: 11px; }
 .prerequisite-link { cursor: pointer; }
+.prerequisite-tag.is-complete { background: var(--success-soft, #e4f6ea); border-color: var(--success, #7cc99a); }
+.prerequisite-tag.is-new { border-style: dashed; }
+.prerequisite-note { width: 100%; margin: 4px 0 0; font-size: 13px; line-height: 1.45; color: var(--ink); }
 .prerequisite-link:hover, .next-link:hover { color: #19274a; text-decoration: underline; }
 .explanation-section { margin-top: 23px; }
 .explanation-section .eyebrow { font-size: 10.5px; }
@@ -3029,6 +3032,7 @@ body { background: var(--cream); }
 .fig-text { font-family: "Nunito", "Segoe UI", sans-serif; font-weight: 600; font-size: 14px; fill: var(--ink); }
 .fig-ticklabel { font-size: 13px; fill: var(--muted); }
 .fig-dim { font-size: 15px; font-weight: 700; }
+.fig-axisname { font-size: 15px; font-weight: 700; font-style: italic; fill: var(--ink); }
 .fig-jumplabel { font-size: 14px; font-weight: 700; fill: var(--brand); }
 .fig-pilltext { font-size: 14px; font-weight: 600; fill: #fff; }
 .fig-numtext { font-size: 15px; font-weight: 800; fill: var(--muted); }
@@ -4410,8 +4414,6 @@ td.hm-cell.is-focus { box-shadow: inset 0 0 0 2px rgba(31, 42, 68, .45); }
 .tv-pet-reason { padding: 8px 12px; border: 2px solid var(--border); border-radius: 10px; font: 600 15px "Nunito", sans-serif; }
 
 /* the pet's room */
-.pet-scene { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 0 0 8px; }
-.pet-scene-label { font-weight: 700; font-size: 14px; }
 
 /* Snabbträning (fluency.js) */
 .train-card { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin: 0 0 18px; padding: 14px 18px; border: 3px solid var(--sky-line); border-radius: 20px; background: var(--sky-soft); }
@@ -4942,112 +4944,6 @@ body.lesson-popup-open { overflow: hidden; }
 .account-class-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 700; }
 .account-join { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 10px; }
 
-/* ===== Figures that move, and the figures of figures-more.js (åk 3 and 4) ===== */
-/* Movement: a figure with the class fx waits hidden (is-waiting) until it is on the screen, then plays (is-playing). The state without these classes is the
-   finished picture, and the animations only say where the parts come from (backwards), so that reduced motion and a failing script show everything. */
-.fx.is-waiting .fx-pop, .fx.is-waiting .fx-slide, .fx.is-waiting .fx-fade { opacity: 0; }
-.fx.is-waiting .fx-rise { transform: scaleY(0); }
-.fx.is-waiting .fx-draw { stroke-dashoffset: var(--len, 600px); }
-.fx-pop, .fx-rise, .fx-sweep, .fx-spin, .fx-unspin { transform-box: fill-box; transform-origin: 50% 50%; }
-.fx-rise { transform-origin: 50% 100%; }
-.fx-sweep { transform-box: view-box; transform-origin: 100px 100px; }
-.fx-draw { stroke-dasharray: var(--len, 600px); }
-.fx.is-playing .fx-pop { animation: fx-pop .5s cubic-bezier(.3, 1.5, .5, 1) backwards; animation-delay: var(--d, 0s); }
-.fx.is-playing .fx-fade { animation: fx-fade .6s ease backwards; animation-delay: 1.2s; }
-.fx.is-playing .fx-slide { animation: fx-slide .9s cubic-bezier(.2, .8, .3, 1) backwards; }
-.fx.is-playing .fx-rise { animation: fx-rise var(--dur, 1.4s) cubic-bezier(.3, .7, .3, 1) backwards; }
-.fx.is-playing .fx-draw { animation: fx-draw var(--dur, 1.2s) ease-out backwards; animation-delay: var(--d, 0s); }
-.fx.is-playing .fx-sweep { animation: fx-sweep 1.8s cubic-bezier(.3, .6, .3, 1) backwards; animation-delay: var(--d, 0s); }
-.fx.is-playing .fx-spin { animation: fx-spin 3.6s cubic-bezier(.12, .6, .1, 1) backwards; }
-.fx.is-playing .fx-unspin { animation: fx-unspin 3.6s cubic-bezier(.12, .6, .1, 1) backwards; }
-@keyframes fx-pop { from { opacity: 0; transform: scale(.25); } }
-@keyframes fx-fade { from { opacity: 0; } }
-@keyframes fx-slide { from { opacity: 0; transform: translateX(-70px); } }
-@keyframes fx-rise { from { transform: scaleY(0); } }
-@keyframes fx-draw { from { stroke-dashoffset: var(--len, 600px); } }
-@keyframes fx-sweep { from { transform: rotate(0deg); } }
-@keyframes fx-spin { from { transform: rotate(0deg); } to { transform: rotate(var(--turn, 1080deg)); } }
-@keyframes fx-unspin { from { transform: rotate(0deg); } to { transform: rotate(var(--turn-neg, -1080deg)); } }
-@media (prefers-reduced-motion: reduce) {
-  .fx .fx-pop, .fx .fx-slide, .fx .fx-fade, .fx .fx-rise, .fx .fx-draw, .fx .fx-sweep, .fx .fx-spin, .fx .fx-unspin { animation: none !important; }
-  .fx-replay { display: none; }
-}
-.fx-replay { display: block; margin: 6px auto 0; padding: 5px 14px; border: 2px solid var(--sky-line, #bcd3ee); border-radius: 999px; background: var(--paper); color: var(--brand); font: 800 12.5px "Nunito", sans-serif; cursor: pointer; }
-.fx-replay:hover { background: var(--sky-soft, #eef5ff); }
-.fig-caption { margin: 6px 0 0; text-align: center; font-weight: 800; font-size: 15px; color: var(--ink); }
-
-/* the things that are counted */
-.fx-c0 { fill: #ef6f88; } .fx-c1 { fill: #4c9be8; } .fx-c2 { fill: #43b581; } .fx-c3 { fill: #ffb300; } .fx-c4 { fill: #9a7be0; } .fx-c5 { fill: #ff8a5b; }
-.fx-ball { stroke: rgba(0, 0, 0, .12); stroke-width: 1.5; }
-.fx-shine { fill: rgba(255, 255, 255, .75); }
-.fx-apple { fill: #e2574c; stroke: #b8392f; stroke-width: 1.5; }
-.fx-stem { fill: none; stroke: #6b4a2a; stroke-width: 2; stroke-linecap: round; }
-.fx-leaf { fill: #43b581; }
-.fx-star { fill: #ffc933; stroke: #d99a00; stroke-width: 1.5; stroke-linejoin: round; }
-.fx-cookie { fill: #d9a25e; stroke: #b07c3a; stroke-width: 1.5; }
-.fx-chip { fill: #6b4a2a; }
-.fx-fish { fill: #ff8a5b; stroke: #d9602d; stroke-width: 1.2; }
-.fx-eye { fill: #25304f; }
-.fx-petal { fill: #ff9ec0; stroke: #e0709a; stroke-width: 1; }
-.fx-heart { fill: #ffd54a; }
-.fx-pencil { fill: #f4c542; stroke: #c99a10; stroke-width: 1.5; }
-.fx-wood { fill: #ecd0a4; stroke: #c4a070; stroke-width: 1; }
-.fx-plate { fill: var(--paper); stroke: var(--sky-line, #bcd3ee); stroke-width: 2.5; }
-.fx-plate.is-rest { stroke: var(--accent); stroke-dasharray: 6 5; }
-.fx-bignum { font: 800 22px "Nunito", sans-serif; fill: var(--brand); }
-
-/* base ten blocks */
-.fx-block { stroke: rgba(37, 48, 79, .35); stroke-width: 1.5; }
-.fx-block.is-thousand { fill: #5b6fb5; } .fx-block.is-back { fill: #7a8dcc; }
-.fx-block.is-hundred { fill: #8fc0ee; } .fx-block.is-ten { fill: #5cc59a; } .fx-block.is-one { fill: #ffbf3f; }
-.fx-blockgrid { stroke: rgba(255, 255, 255, .7); stroke-width: 1; }
-
-/* money */
-.fx-note { stroke: rgba(37, 48, 79, .4); stroke-width: 1.5; }
-.fx-note.is-20 { fill: #cdb9f2; } .fx-note.is-50 { fill: #a6cff2; } .fx-note.is-100 { fill: #f7b9c0; } .fx-note.is-200 { fill: #a8dcb4; } .fx-note.is-500 { fill: #d3c8bd; }
-.fx-noteframe { fill: none; stroke: rgba(255, 255, 255, .8); stroke-width: 1.5; }
-.fx-notetext { font: 800 17px "Nunito", sans-serif; fill: var(--ink); }
-.fx-coin { fill: #d4dbe6; stroke: #8f9bb0; stroke-width: 2; } .fx-coin.is-gold { fill: #ebc258; stroke: #b88f20; }
-.fx-coinring { fill: none; stroke: rgba(255, 255, 255, .7); stroke-width: 1.5; }
-.fx-cointext { font: 800 15px "Nunito", sans-serif; fill: #3b475f; }
-
-/* fractions */
-.fx-slice { fill: var(--paper); stroke: var(--brand); stroke-width: 2.5; stroke-linejoin: round; }
-.fx-slice.is-on { fill: var(--accent); }
-.fx-sliceframe { fill: none; stroke: var(--brand); stroke-width: 3; }
-
-/* thermometer */
-.fx-tube { fill: var(--paper); stroke: var(--ink); stroke-width: 2.5; }
-.fx-mercury { fill: #e2574c; } .fx-mercury.is-cold { fill: #4c9be8; }
-.fx-zeroline { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 4 4; }
-
-/* ruler */
-.fx-ruler { fill: #f8ebb8; stroke: #c9a94a; stroke-width: 2; }
-.fx-eraser { fill: #f5a3b6; stroke: #cf6f88; stroke-width: 1.5; }
-.fx-rope { fill: none; stroke: #8a6a3a; stroke-width: 6; stroke-linecap: round; }
-
-/* calendar */
-.fx-day { fill: var(--accent); }
-.fx-daybg { fill: var(--sky); opacity: .55; }
-.fx-daymarked { fill: #fff; font-weight: 800; }
-.fx-weekend { fill: var(--coral-dark, #c0415d); }
-
-/* dice, spinner and bag */
-.fx-die { fill: #fff; stroke: var(--ink); stroke-width: 2.5; }
-.fx-pip { fill: var(--ink); }
-.fx-sector { stroke: #fff; stroke-width: 3; }
-.fx-sectortext { font: 800 20px "Nunito", sans-serif; fill: #fff; }
-.fx-pointer { fill: var(--ink); stroke: #fff; stroke-width: 2; stroke-linejoin: round; }
-.fx-bag { fill: #dcc08f; stroke: #a98652; stroke-width: 3; }
-.fx-bagtie { fill: none; stroke: #a98652; stroke-width: 4; stroke-linecap: round; }
-.fx-marble { stroke: rgba(0, 0, 0, .15); stroke-width: 1.5; }
-.fx-m-red { fill: #e2574c; } .fx-m-blue { fill: #4c9be8; } .fx-m-yellow { fill: #ffc933; } .fx-m-green { fill: #43b581; }
-
-.fig-areacell { fill: #9ccbf0; stroke: var(--brand); stroke-width: 1.2; }
-
-.tv-help-pattern { color: var(--brand); font-weight: 700; }
-.tv-help-list li .tv-btn { align-self: flex-start; margin-top: 4px; }
-
 /* Help for adults in the overview of a lesson (caregivers) */
 .parent-guide { margin: 16px 0 4px; padding: 12px 16px; border: 2px solid var(--sky-line, #bcd3ee); border-radius: 16px; background: var(--sky-soft, #eef5ff); }
 .parent-guide > summary { cursor: pointer; font-weight: 800; color: var(--brand); }
@@ -5059,14 +4955,6 @@ body.lesson-popup-open { overflow: hidden; }
 
 .tv-consent { display: block; margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; }
 .tv-consent input { margin-right: 6px; }
-
-/* the measuring jug and the block of cubes */
-.fx-glass { fill: rgba(190, 225, 250, .25); stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
-.fx-handle { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
-.fx-water { fill: #6db8ee; opacity: .85; transform-box: fill-box; transform-origin: 50% 100%; }
-.fx-cube-front { fill: #8fc0ee; stroke: #4a6aa0; stroke-width: 1.2; }
-.fx-cube-top { fill: #c5e0f7; stroke: #4a6aa0; stroke-width: 1.2; }
-.fx-cube-side { fill: #6f9fd2; stroke: #4a6aa0; stroke-width: 1.2; }
 
 /* The shop: the pieces of the themes and the things badges unlock are with the others, with a line saying which they are */
 .pet-item-tag { color: var(--brand); font-size: 11px; font-weight: 800; line-height: 1.1; text-align: center; }
@@ -5108,103 +4996,3 @@ html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-bank { margin: 0 0 6px;
 .terms-chip.is-safe { border-color: #3fa66b; background: #e4f6ea; }
 .terms-chip.is-weak { border-style: dashed; }
 .terms-note { margin: 8px 0 0; font-size: 13px; color: var(--ink); opacity: .85; }
-
-/* ---- The check of an answer to an equation, as on paper (substitution.js) ---- */
-.subst-host:empty { display: none; }
-.subst { margin: 0 0 10px; padding: 10px 14px; border: 2px solid var(--sky-line, #d9e4f5); border-radius: 14px; background: var(--paper, #fff); cursor: pointer; }
-.subst-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.subst-row { display: flex; align-items: baseline; gap: 12px; min-height: 30px; opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease; }
-.subst-row.is-in, .subst-verdict.is-in { opacity: 1; transform: none; }
-.subst-label { flex: 0 0 96px; font: 700 13px "Nunito", sans-serif; color: var(--ink); opacity: .8; }
-.subst-put .subst-label { color: var(--pink-deep, #bb3a52); opacity: 1; }
-.subst-math { font: 800 20px "Nunito", sans-serif; color: var(--ink); }
-.subst-result { justify-content: flex-start; padding-left: 108px; }
-.subst-sides { font: 800 26px "Nunito", sans-serif; }
-.subst-left, .subst-right, .subst-equals { display: inline-block; opacity: 0; transform: scale(.7); transition: opacity .3s ease, transform .3s cubic-bezier(.3, 1.6, .5, 1); }
-.subst-left.is-in, .subst-right.is-in, .subst-equals.is-in { opacity: 1; transform: none; }
-.subst.is-done.is-wrong .subst-sides { color: var(--coral-dark, #b23a56); }
-.subst.is-done.is-right .subst-sides { color: var(--success-dark, #1f7a45); }
-.subst-verdict { margin: 4px 0 0; padding-left: 108px; font: 800 16px "Nunito", sans-serif; opacity: 0; transform: translateY(4px); transition: opacity .4s ease, transform .4s ease; }
-.subst-verdict.is-wrong { color: var(--coral-dark, #b23a56); }
-.subst-verdict.is-right { color: var(--success-dark, #1f7a45); }
-.answer-button.is-checking { opacity: .75; cursor: progress; }
-.answer-button.is-ready { animation: ready-pulse 1.2s ease-in-out 3; }
-@keyframes ready-pulse { 50% { box-shadow: 0 0 0 5px var(--sky-line, #d9e4f5); } }
-@media (prefers-reduced-motion: reduce) { .subst-row, .subst-left, .subst-right, .subst-equals, .subst-verdict { transition: none; } .answer-button.is-ready { animation: none; } }
-html:is(.is-keyboard, .is-short) .subst { padding: 6px 10px; margin-bottom: 6px; }
-html:is(.is-keyboard, .is-short) .subst-math { font-size: 16px; }
-html:is(.is-keyboard, .is-short) .subst-sides { font-size: 20px; }
-html:is(.is-keyboard, .is-short) .subst-row { min-height: 22px; }
-@media (max-width: 520px) { .subst-label { flex-basis: 70px; } .subst-result, .subst-verdict { padding-left: 82px; } }
-
-/* ---- Lös steg för steg (steps.js) ---- */
-.steps-box { margin: 14px 0; padding: 14px 16px; border: 2px solid var(--sky-line, #d9e4f5); border-radius: 16px; background: var(--paper, #fff); }
-.steps-title { margin: 0 0 8px; font: 800 16px "Nunito", sans-serif; }
-.steps-optional { font-weight: 600; font-size: 13px; opacity: .75; }
-.steps-list { margin: 0 0 8px; padding: 0; list-style: none; }
-.steps-row { display: flex; align-items: baseline; gap: 10px; padding: 6px 4px; border-bottom: 1px dashed var(--border, #e3d4dc); }
-.steps-mark { flex: 0 0 22px; font-weight: 800; color: var(--brand); }
-.steps-row.is-ok .steps-mark { color: var(--success-dark, #1f7a45); }
-.steps-math { font: 800 18px "Nunito", sans-serif; }
-.steps-how { margin-left: auto; font-size: 12px; opacity: .75; }
-.steps-form { display: flex; gap: 8px; margin: 8px 0 6px; }
-.steps-input { flex: 1 1 auto; min-width: 0; padding: 9px 12px; border: 2px solid var(--border, #e3d4dc); border-radius: 12px; font: 700 17px "Nunito", sans-serif; }
-.steps-input.is-wrong { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); }
-.steps-both { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 4px 0; font-size: 14px; }
-.steps-both-label { font-weight: 700; }
-.steps-op, .steps-number { padding: 6px 8px; border: 2px solid var(--border, #e3d4dc); border-radius: 10px; font: 700 15px "Nunito", sans-serif; }
-.steps-number { width: 64px; }
-.steps-undo { margin: 4px 0; padding: 4px 2px; border: 0; background: none; color: var(--brand); font: 700 13px "Nunito", sans-serif; text-decoration: underline; cursor: pointer; }
-.steps-message { min-height: 1.2em; margin: 6px 0 0; font-size: 14px; line-height: 1.5; }
-.steps-message.is-wrong { padding: 8px 12px; border-radius: 12px; background: var(--coral-soft, #ffe3ea); color: #7a2a40; }
-.steps-message.is-ok { color: var(--success-dark, #1f7a45); font-weight: 700; }
-.steps-message.is-nudged { animation: hint-pulse 1.1s ease-in-out 1; }
-
-/* ---- Maths in an answer field (mathinput.js) ---- */
-.math-keys { margin: 0 0 8px; }
-.math-key { min-width: 44px; padding: 6px 10px; font-size: 18px; }
-.math-preview { margin: 6px 0 0; font-size: 15px; color: var(--ink); }
-.math-preview[hidden] { display: none; }
-.math-preview-label { font-weight: 700; font-size: 13px; opacity: .8; }
-.math-preview-math { font: 800 20px "Nunito", sans-serif; }
-html:is(.is-keyboard, .is-short) .math-preview-label { display: none; }
-
-.subst-equals { padding: 0 .12em; }
-
-/* ---- Equations with pieces (figures-algebra.js) ---- */
-.eqm { display: flex; flex-direction: column; gap: 10px; padding: 8px 4px; }
-.eqm-caption { margin: 0; min-height: 2.6em; font: 700 15px/1.45 "Nunito", sans-serif; color: var(--ink); }
-.eqm-stage { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; min-height: 96px; padding: 10px; border: 2px dashed var(--border, #e3d4dc); border-radius: 16px; background: #fff; }
-.eqm-side { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 90px; }
-.eqm-xs, .eqm-ones { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; max-width: 240px; }
-.eqm-x { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 8px; background: #ff9db4; border: 2px solid #e0506d; font: 800 18px "Nunito", sans-serif; color: #7a2a40; }
-.eqm-one { display: inline-block; width: 18px; height: 18px; border-radius: 5px; background: #ffd54a; border: 2px solid #d9a520; }
-.eqm-equals, .eqm-eq { font: 800 28px "Nunito", sans-serif; color: var(--ink); }
-.eqm-eq { font-size: 22px; margin: 0 8px; }
-.eqm-groups { display: flex; flex-direction: column; gap: 8px; }
-.eqm-group { display: flex; align-items: center; }
-.eqm-ones-row { justify-content: flex-start; max-width: 330px; }
-.eqm-symbols { margin: 0; text-align: center; font: 800 24px "Nunito", sans-serif; color: var(--brand); }
-.eqm-controls { display: flex; align-items: center; justify-content: center; gap: 14px; }
-.eqm-again { padding: 4px; border: 0; background: none; color: var(--brand); font: 700 14px "Nunito", sans-serif; text-decoration: underline; cursor: pointer; }
-.eqm-x.is-leaving, .eqm-one.is-leaving { animation: eqm-leave .6s ease forwards; }
-@keyframes eqm-leave { 0% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-14px) scale(.4); } }
-@media (prefers-reduced-motion: reduce) { .eqm-x.is-leaving, .eqm-one.is-leaving { animation: none; opacity: .25; } }
-
-/* ---- A worked example, one step at a time (worked-steps.js) ---- */
-.wx { margin: 16px 0; padding: 16px 18px; border: 2px solid var(--sky-line, #d9e4f5); border-radius: 18px; background: var(--paper, #fff); }
-.wx-title { margin: 0 0 8px; font: 800 20px "Nunito", sans-serif; }
-.wx-list { margin: 16px 0 14px; padding: 0; list-style: none; }
-.wx-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; min-height: 52px; padding: 12px 6px; box-sizing: border-box; border-bottom: 1px dashed var(--border, #e3d4dc); }
-.wx-line:last-child { border-bottom: 0; }
-.wx-line[hidden] { display: none; }
-.wx-line.is-in { animation: wx-in .45s ease; }
-@keyframes wx-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.wx-say { flex: 0 0 230px; font: 700 14px/1.45 "Nunito", sans-serif; color: var(--pink-deep, #bb3a52); }
-.wx-math { font: 800 22px/1.5 "Nunito", sans-serif; color: var(--ink); }
-.wx-note { margin: 12px 0 4px; padding: 10px 14px; border-radius: 12px; background: var(--success-soft, #e4f6ea); color: var(--success-dark, #1f7a45); font-weight: 700; }
-.wx-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 16px; }
-.wx-all, .wx-again { padding: 4px; border: 0; background: none; color: var(--brand); font: 700 14px "Nunito", sans-serif; text-decoration: underline; cursor: pointer; }
-.wx-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-@media (max-width: 560px) { .wx-say { flex-basis: 100%; } }
-@media (prefers-reduced-motion: reduce) { .wx-line.is-in { animation: none; } }

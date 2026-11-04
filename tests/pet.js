@@ -19,10 +19,11 @@ const lessons = idx.lessons.map((f) => JSON.parse(fs.readFileSync(ROOT + "lesson
 // ----- the shop -----
 const ids = Art.ITEMS.map((i) => i.id);
 ok(new Set(ids).size === ids.length, "every item has its own id");
-const SLOTS = ["hat", "face", "neck", "bg"].concat(Art.ROOM_SLOTS.map((s) => s[0]));
+const SLOTS = ["hat", "face", "neck"].concat(Art.ROOM_SLOTS.map((s) => s[0]));
 ok(Art.ITEMS.every((i) => SLOTS.includes(i.slot) && i.price >= 10 && i.price <= 100 && i.name), "every item has a slot, a name and a sensible price");
 ok(Art.ITEMS.filter((i) => i.price <= 20).length >= 4, "there is something cheap to buy first");
-["hat", "face", "neck", "bg"].forEach((s) => ok(Art.ITEMS.filter((i) => i.slot === s).length >= 4, "enough things to choose from in " + s));
+["hat", "face", "neck", "wall"].forEach((s) => ok(Art.ITEMS.filter((i) => i.slot === s).length >= 4, "enough things to choose from in " + s));
+ok(!Art.ITEMS.some((i) => i.slot === "bg" || /^bg-/.test(i.id)), "there are no backgrounds in the shop: they are wallpapers");
 
 // every animal, colour and item can be drawn, and the markup is clean
 let drawn = 0;
@@ -31,9 +32,9 @@ Object.keys(Art.KINDS).forEach((kind) => {
   Art.KINDS[kind].colors.forEach((c) => {
     Art.ITEMS.forEach((it) => {
       const worn = {}, room = {};
-      if (Art.isRoomSlot(it.slot)) room[it.slot] = it.id; else if (it.slot !== "bg") worn[it.slot] = it.id;
+      if (Art.isRoomSlot(it.slot)) room[it.slot] = it.id; else worn[it.slot] = it.id;
       ["", "happy"].forEach((mood) => {
-        const s = Art.svg({ kind: kind, color: c.id, name: "Test <b>", worn: worn, room: room, scene: Art.isRoomSlot(it.slot) ? "room" : "bg", bg: it.slot === "bg" ? it.id : null }, { mood: mood });
+        const s = Art.svg({ kind: kind, color: c.id, name: "Test <b>", worn: worn, room: room, scene: Art.isRoomSlot(it.slot) ? "room" : "" }, { mood: mood });
         drawn += 1;
         ok(/^<svg[\s\S]*<\/svg>$/.test(s) && !/NaN|undefined|null/.test(s) && !/<b>/.test(s), kind + "/" + c.id + "/" + it.id + ": clean markup");
       });
@@ -64,8 +65,8 @@ ok(!w.worn.hat && w.owned[keps] === 15, "taking it off keeps it");
 ok(Pet.wearItem(w, "hat", keps).pet.worn.hat === keps, "and it can be put on again");
 ok(!Pet.wearItem(w, "hat", krona).pet.worn.hat, "something that is not owned cannot be put on");
 ok(!Pet.wearItem(r.pet, "neck", keps).pet.worn.neck, "an item only goes in its own place");
-const bgBuy = Pet.buyItem(pet, "bg-gras", 99);
-ok(bgBuy.pet.bg === "bg-gras" && Pet.wearItem(bgBuy.pet, "bg", null).pet.bg === null, "a background is bought, put on and taken off");
+const wallBuy = Pet.buyItem(pet, "rum-vagg-gras", 99);
+ok(wallBuy.pet.room.wall === "rum-vagg-gras" && wallBuy.pet.owned["rum-vagg-gras"] === 25 && !Pet.wearItem(wallBuy.pet, "wall", null).pet.room.wall, "a wallpaper is bought, put on and taken off");
 ok(pet.owned && Object.keys(pet.owned).length === 0, "the old record is not changed");
 
 // ----- earning coins -----
@@ -149,7 +150,7 @@ ok(gifted.total === 20 + 35, "coins from the teacher count: " + gifted.total);
 
 // every item can be afforded by someone who has worked for a while
 const stars3 = lessons.filter((l) => !l.isParentLesson).length;
-ok(stars3 * 20 > Art.ITEMS.reduce((n, i) => n + i.price, 0), "the whole shop is within reach of the course (20 coins a lesson: 10 to 14 for the lesson itself, and the rest from practice, comebacks and assignments)");
+ok(stars3 * 24 > Art.ITEMS.reduce((n, i) => n + i.price, 0), "the whole shop is within reach of the course (24 coins a lesson: 10 to 14 for the lesson itself, and the rest from practice, comebacks and assignments)");
 
 // ----- the room -----
 ok(Art.ROOM_SLOTS.length === 8 && Art.ROOM_SLOTS.every((s) => Art.ITEMS.filter((i) => i.slot === s[0]).length >= 2), "every place in the room has at least two things to choose from");
@@ -158,13 +159,9 @@ const emptyRoom = Art.svg({ kind: "cat", color: "gra", scene: "room" });
 ok(/pet-room-svg/.test(emptyRoom) && emptyRoom.includes("translate(25 38) scale"), "an empty room is drawn with the pet in the middle");
 ok(!/pet-room-svg/.test(Art.svg({ kind: "cat", color: "gra", scene: "room" }, { bare: true })), "the bare pet has no room (small faces)");
 let rp = Pet.makePet("penguin", "rosa", "Pingo");
-ok(!rp.scene, "a new pet has no room view yet");
+ok(rp.scene === "room" && !("bg" in rp), "a new pet lives in its room");
 let rb = Pet.buyItem(rp, "rum-matta-bla", 99);
-ok(!rb.error && rb.pet.room.rug === "rum-matta-bla" && rb.pet.scene === "room" && Pet.isOn(rb.pet, Art.item("rum-matta-bla")), "the first room thing is placed and switches the view to the room");
-const bgPet = Pet.buyItem(Pet.makePet("dog", "fawn", "x"), "bg-gras", 99).pet;
-ok(!bgPet.scene && Pet.buyItem(bgPet, "rum-kudde", 99).pet.scene === "room", "a background alone does not switch to the room");
-const keepScene = Object.assign({}, rb.pet, { scene: "bg" });
-ok(Pet.buyItem(keepScene, "rum-kudde", 99).pet.scene === "bg", "the choice of view is kept when more is bought");
+ok(!rb.error && rb.pet.room.rug === "rum-matta-bla" && rb.pet.scene === "room" && Pet.isOn(rb.pet, Art.item("rum-matta-bla")), "a room thing is placed in the room");
 ok(!Pet.wearItem(rb.pet, "rug", null).pet.room.rug && !Pet.wearItem(rb.pet, "bed", "rum-korg").pet.room.bed, "a room thing is taken away, and one that is not owned is not placed");
 ok(!Pet.wearItem(rb.pet, "bed", "rum-matta-bla").pet.room.bed, "a thing only goes in its own place in the room");
 
@@ -197,7 +194,7 @@ require(ROOT + "rewards.js");
 window.GaussicaRewards.init({ getUser: () => ({ id: 1, attempts: [], rewards: true }), getCourse: () => ({ lessons: lessons }), getProgress: () => ({ answers: {} }), isActive: () => true, mailbox: null });
 const badgeIds = window.GaussicaRewards.badgeList().badges.map((x) => x.id);
 const earnedItems = Art.ITEMS.filter((i) => i.badges);
-ok(earnedItems.length >= 12 && ["hat", "face", "neck", "bg"].every((s) => earnedItems.some((i) => i.slot === s)), "there are things that badges unlock, in every part of the shop (" + earnedItems.length + ")");
+ok(earnedItems.length >= 12 && ["hat", "face", "neck", "wall"].every((s) => earnedItems.some((i) => i.slot === s)), "there are things that badges unlock, in every part of the shop (" + earnedItems.length + ")");
 ok(earnedItems.every((i) => !i.set && i.badges.length >= 1 && i.badges.every((id) => badgeIds.includes(id))), "each is unlocked by badges that exist, and is not also a piece of a theme");
 ok(new Set(earnedItems.map((i) => i.id)).size === earnedItems.length && earnedItems.every((i) => i.id.startsWith("markt-") && /viewBox/.test(Art.thumb(i.id)) && !/NaN/.test(Art.thumb(i.id))), "with ids of their own and a thumbnail");
 ok(badgeIds.every((id) => earnedItems.some((i) => i.badges.includes(id))), "every badge opens something in the shop");
@@ -288,7 +285,7 @@ ok(Object.keys(LIFE).filter((id) => LIFE[id].sleep).every((id) => LIFE[id].thoug
 ok(Object.keys(LIFE).every((id) => Math.abs(LIFE[id].dx) <= 60 && Math.abs(LIFE[id].dy) <= 10 && Math.abs(LIFE[id].r) <= 8 && LIFE[id].sc >= 0.85 && LIFE[id].sc <= 1.05), "it moves a little and stays in the room");
 const ids2 = (p, h) => Pet.lifeChoices(p, h).map((c) => c.id).sort().join();
 ok(ids2({ kind: "dog" }, 12) === "blunda,hopp,titta", "without a room: hop, tilt the head, close the eyes");
-ok(ids2({ kind: "dog", scene: "bg", room: { bed: "rum-saeng" } }, 12) === "blunda,hopp,titta", "the room only counts when it is the view");
+ok(ids2({ kind: "dog", scene: "room", room: { bed: "rum-saeng" } }, 12) === "blunda,hopp,sova,titta", "a bed in the room: sleeping too");
 const roomy = { kind: "dog", scene: "room", room: { bed: "rum-saeng", toy: "rum-boll", shelf: "rum-hylla", plant: "rum-vaxt", window: "rum-fonster", rug: "rum-matta-rod" } };
 ok(ids2(roomy, 12) === "blunda,fonster,hopp,hylla,leka,mattan,sova,titta,vaxt", "with a room: sleep, rug, toy, shelf, plant and window as well");
 ok(ids2({ kind: "dog", scene: "room", room: { toy: "rum-boll" } }, 12) === "blunda,hopp,leka,titta", "only what is in the room");
@@ -349,12 +346,37 @@ ok(rea(null).how === "pet" && rea(null).hearts && rea(null).say.length >= 2, "pe
 ok(rea(Art.item("hatt-kock")).how === "pose" && !rea(Art.item("hatt-kock")).hearts, "a hat is shown off, without hearts");
 ok(rea(Art.item("glas-sol")).how === "pose" && rea(Art.item("hals-fluga")).how === "pose", "glasses and necklaces too");
 ok(rea(Art.item("hatt-kock")).say.join() !== rea(Art.item("hals-fluga")).say.join(), "but each sort says something of its own");
-ok(rea(Art.item("bg-gras")).how === "look" && rea(Art.item("rum-boll")).how === "look", "a new place is looked around in");
+ok(rea(Art.item("rum-vagg-gras")).how === "look" && rea(Art.item("rum-boll")).how === "look", "a new place is looked around in");
 ok(rea(Art.thing("applet"), false).how === "eat" && !rea(Art.thing("applet"), false).hearts, "a treat is eaten");
 ok(rea(Art.thing("applet"), true).how === "eat" && rea(Art.thing("applet"), true).hearts && /favorit/.test(rea(Art.thing("applet"), true).say[0]), "the favourite also gives hearts");
 ok(rea(Art.thing("boll"), false).how === "play" && rea(Art.thing("boll"), true).hearts, "a toy is played with");
-const hows = new Set([rea(null).how, rea(Art.item("hatt-kock")).how, rea(Art.thing("applet")).how, rea(Art.thing("boll")).how, rea(Art.item("bg-gras")).how]);
+const hows = new Set([rea(null).how, rea(Art.item("hatt-kock")).how, rea(Art.thing("applet")).how, rea(Art.thing("boll")).how, rea(Art.item("rum-vagg-gras")).how]);
 ok(hows.size === 5, "five different reactions");
+
+// ----- the backgrounds became wallpapers -----
+ok(Object.keys(Art.BG_TO_WALL).length === 11 && Object.values(Art.BG_TO_WALL).every((id) => Art.item(id) && Art.item(id).slot === "wall"), "every background of before has a wallpaper to become");
+ok(Art.ITEMS.filter((i) => i.slot === "wall").length >= 20, "there are many wallpapers now (" + Art.ITEMS.filter((i) => i.slot === "wall").length + ")");
+ok(["markt-gympa", "markt-tabell", "markt-regnbage"].every((id) => Art.item(id) && Art.item(id).slot === "wall" && Art.item(id).badges.length), "the wallpapers that badges unlock are the old unlocked backgrounds, with the same ids");
+const old = { v: 1, kind: "cat", color: "gra", name: "Misse", owned: { "hatt-keps": 15, "bg-gras": 25, "bg-natt": 35, "markt-gympa": 30 }, worn: { hat: "hatt-keps" }, bg: "bg-natt", at: "2024-01-01" };
+const spentBefore = Pet.spentOf(old);
+const moved = Art.migrate(old);
+ok(moved && !moved.bg && !("bg" in moved) && moved.scene === "room", "an old pet is moved: no background, shown in its room");
+ok(moved.owned["rum-vagg-gras"] === 25 && moved.owned["rum-vagg-stjarnor"] === 35 && moved.owned["markt-gympa"] === 30 && !Object.keys(moved.owned).some((id) => /^bg-/.test(id)), "it owns the wallpapers of its backgrounds, for what it paid");
+ok(Pet.spentOf(moved) === spentBefore, "and not a coin is changed: " + spentBefore + " spent before and after");
+ok(moved.room.wall === "rum-vagg-stjarnor" && moved.worn.hat === "hatt-keps", "the background it had on is on the wall, and the hat stays");
+ok(old.bg === "bg-natt" && old.owned["bg-gras"] === 25, "the old record is not changed");
+ok(Art.migrate(moved) === null && Art.migrate(Pet.makePet("dog", "fawn", "x")) === null, "nothing more is done to a record that is moved (or a new one)");
+const both = Art.migrate({ kind: "dog", color: "fawn", name: "x", owned: { "bg-hav": 40, "rum-vagg-hav": 30 }, bg: null, scene: "room", room: {} });
+ok(both.owned["rum-vagg-hav"] === 70 && Object.keys(both.owned).length === 1, "a background and a wallpaper that are the same one become one, and what was paid for both is kept");
+const keptWall = Art.migrate({ kind: "dog", color: "fawn", name: "x", owned: { "bg-skog": 35, "rum-vagg-rand": 20 }, bg: "bg-skog", scene: "room", room: { wall: "rum-vagg-rand" } });
+ok(keptWall.room.wall === "rum-vagg-rand" && keptWall.owned["rum-vagg-skog"] === 35, "a pet that showed its room keeps its wall: the background is owned as a wallpaper");
+const inBg = Art.migrate({ kind: "dog", color: "fawn", name: "x", owned: { "bg-skog": 35, "rum-vagg-rand": 20 }, bg: "bg-skog", scene: "bg", room: { wall: "rum-vagg-rand" } });
+ok(inBg.room.wall === "rum-vagg-skog", "a pet that showed its background shows it still, as the wall");
+const gone = Art.migrate({ kind: "dog", color: "fawn", name: "x", owned: { "bg-rymd": 50 }, bg: null, scene: "bg" });
+ok(!gone.room.wall && gone.owned["rum-vagg-rymd"] === 50, "a background that was bought but not on is owned, not put on");
+const earnedBg = Art.migrate({ kind: "dog", color: "fawn", name: "x", owned: { "markt-tabell": 30 }, bg: "markt-tabell" });
+ok(earnedBg.room.wall === "markt-tabell" && earnedBg.owned["markt-tabell"] === 30, "an unlocked background that is on is on the wall");
+[moved, both, keptWall, inBg, gone, earnedBg].forEach((p, i) => ok(!/NaN|undefined|null/.test(Art.svg(p)) && /pet-room-svg/.test(Art.svg(p)), "a moved pet (" + i + ") is drawn in its room"));
 ALL.forEach((kind) => ok(/class="pet-gaze"/.test(Art.svg({ kind: kind, color: Art.KINDS[kind].colors[0].id }, {})) && /class="pet-gaze"/.test(Art.svg({ kind: kind, color: Art.KINDS[kind].colors[0].id }, { mood: "happy" })), kind + ": the eyes can look around, also the happy ones"));
 
 // ----- the axolotl: a salamander with feathery gills, four legs and a blue option -----

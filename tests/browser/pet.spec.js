@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { signIn, openLesson } = require("./helpers");
+const { signIn, openLesson, watchErrors } = require("./helpers");
 
 test("the pet: petting gives hearts, and the bubble answers", async ({ page }) => {
   await signIn(page);
@@ -66,7 +66,7 @@ test("the shop is one place: no separate tab for themes, and the locked pieces s
   await signIn(page);
   await page.locator(".hp-shop").click();
   const tabs = page.locator("#pet-overlay .pet-tab");
-  await expect(tabs).toHaveText(["Hattar", "Ansikte", "Halsband", "Bakgrund", "Rum", "Mat och lek", "Mitt djur"]);
+  await expect(tabs).toHaveText(["Hattar", "Ansikte", "Halsband", "Rum", "Mat och lek", "Mitt djur"]);
 
   // hats: ordinary ones first, then a piece of a theme (locked by lessons), then the ones a badge opens (locked by badges)
   const names = await page.locator("#pet-overlay .pet-item .pet-item-name").allTextContents();
@@ -87,7 +87,7 @@ test("the shop is one place: no separate tab for themes, and the locked pieces s
   await expect(page.locator("#pet-overlay .pet-action .pet-short")).toContainText(/🔒.*lektion/);
 
   // every part of the shop has some of them, and an ordinary piece is not locked
-  for (const tab of ["Ansikte", "Halsband", "Bakgrund"]) {
+  for (const tab of ["Ansikte", "Halsband", "Rum"]) {
     await tabs.filter({ hasText: new RegExp("^" + tab + "$") }).click();
     expect(await page.locator("#pet-overlay .pet-item.is-locked").count()).toBeGreaterThan(1);
     expect(await page.locator("#pet-overlay .pet-item:not(.is-locked)").count()).toBeGreaterThan(2);
@@ -99,4 +99,40 @@ test("the shop is one place: no separate tab for themes, and the locked pieces s
   await expect(info).toContainText("Siffervännen");
   await expect(info).toContainText("Regnbågen");
   await expect(info).toContainText(/märkena/);
+});
+
+test("the backgrounds are wallpapers: no tab for them, and a pet that owned one has the wallpaper", async ({ page }) => {
+  const errors = watchErrors(page);
+  await signIn(page);
+  // the room has the wallpapers, with the old backgrounds among them and the ones a badge unlocks locked
+  await page.locator(".hp-shop").click();
+  await page.locator("#pet-overlay .pet-tab").filter({ hasText: /^Rum$/ }).click();
+  const walls = page.locator("#pet-overlay .pet-set", { has: page.locator("h4", { hasText: /^Vägg$/ }) });
+  await expect(walls.locator(".pet-item")).toHaveCount(22);
+  for (const name of ["Äng", "Regnbåge", "Klassrummet", "Stjärnvägg", "Havsvägg"]) await expect(walls.locator(".pet-item", { hasText: name }).first()).toBeVisible();
+  await expect(walls.locator(".pet-item", { hasText: "Träningshallen" })).toHaveClass(/is-locked/);
+  // a wallpaper that is tried on is shown behind the pet at once
+  await walls.locator(".pet-item", { hasText: "Skogen" }).click();
+  await expect(page.locator("#pet-overlay .pet-stage svg.pet-room-svg")).toBeVisible();
+  await page.locator("#pet-overlay .pet-close").click();
+
+  // an old record, with a background that was bought and put on, is moved when the page is opened: the same coins, and the wallpaper is on the wall
+  await page.evaluate(() => {
+    const db = JSON.parse(localStorage.getItem("gaussica.local.v1"));
+    const id = db.users.find((u) => u.username === "testlarare").id;
+    const pet = db.progress[id].pet;
+    pet.owned = { "hatt-keps": 15, "bg-gras": 25, "bg-natt": 35 };
+    pet.bg = "bg-natt";
+    delete pet.scene;
+    delete pet.room;
+    localStorage.setItem("gaussica.local.v1", JSON.stringify(db));
+  });
+  await page.reload();
+  await expect.poll(async () => page.evaluate(() => {
+    const db = JSON.parse(localStorage.getItem("gaussica.local.v1"));
+    const id = db.users.find((u) => u.username === "testlarare").id;
+    const pet = db.progress[id].pet;
+    return JSON.stringify({ owned: pet.owned, wall: pet.room && pet.room.wall, bg: pet.bg === undefined ? "none" : pet.bg, scene: pet.scene });
+  }), { timeout: 15000 }).toBe(JSON.stringify({ owned: { "hatt-keps": 15, "rum-vagg-gras": 25, "rum-vagg-stjarnor": 35 }, wall: "rum-vagg-stjarnor", bg: "none", scene: "room" }));
+  expect(errors).toEqual([]);
 });

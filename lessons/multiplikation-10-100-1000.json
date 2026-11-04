@@ -251,6 +251,110 @@
           "message": "Du har lagt ihop talen. Det är {d} påsar med {a} i varje, så du ska multiplicera."
         }
       ]
+    },
+    {
+      "id": "sedlar",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          3,
+          48
+        ]
+      },
+      "prompt": "{$namn} har {n} sedlar à 100 kr. Hur mycket pengar är det?",
+      "answer": [
+        "=n*100",
+        "{n*100} kr"
+      ],
+      "correct": "Rätt! {n} · 100 = {n*100} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "Det är antalet sedlar. Varje sedel är värd 100 kr, så multiplicera med 100."
+        },
+        {
+          "answers": [
+            "=n*10"
+          ],
+          "message": "Gånger 100 ger två nollor efter talet, inte en."
+        }
+      ]
+    },
+    {
+      "id": "skruvar",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          3,
+          89
+        ]
+      },
+      "prompt": "En fabrik packar {a} skruvar i varje låda. Hur många skruvar finns det i 1000 lådor?",
+      "answer": [
+        "=a*1000"
+      ],
+      "correct": "Rätt! {a} · 1000 = {a*1000}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*100"
+          ],
+          "message": "Gånger 1000 ger tre nollor efter talet, inte två."
+        }
+      ]
+    },
+    {
+      "id": "tiotal-gange-tiotal",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "x": [
+          2,
+          9
+        ],
+        "y": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Det finns {x*10} lådor med {y*10} kulor i varje. Hur många kulor finns det?",
+      "answer": [
+        "=x*y*100"
+      ],
+      "correct": "Rätt! {x} · {y} = {x*y}, och två tiotal ger två nollor till: {x*y*100}.",
+      "feedback": [
+        {
+          "answers": [
+            "=x*y"
+          ],
+          "message": "Du har räknat {x} · {y} men glömt nollorna. Tiotal gånger tiotal ger två nollor."
+        },
+        {
+          "answers": [
+            "=x*y*10"
+          ],
+          "message": "Du har bara tagit med en nolla. Varje tiotal ger en nolla, så det blir två."
+        }
+      ]
     }
   ],
   "exercise": {

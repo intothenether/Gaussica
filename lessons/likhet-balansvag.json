@@ -324,6 +324,187 @@
           "message": "Räkna båda sidorna: {a} + {b} = {a+b} och {c} + {d} = {c+d}. De är olika."
         }
       ]
+    },
+    {
+      "id": "vag-gram",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ],
+        "s": [
+          10,
+          25
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "s-a"
+        }
+      ],
+      "prompt": "På en balansvåg ligger x gram plus {a} gram på vänster sida och {s} gram på höger sida. Vågen står i balans. Vad är x?",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! x + {a} = {s}, så x = {s} − {a} = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s+a"
+          ],
+          "message": "Du har lagt ihop. Ta bort {a} från båda sidor för att få x ensam."
+        }
+      ]
+    },
+    {
+      "id": "hade-kr",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          5,
+          25
+        ],
+        "r": [
+          10,
+          40
+        ]
+      },
+      "derive": [
+        {
+          "name": "x",
+          "expr": "r+a"
+        }
+      ],
+      "prompt": "{$namn} har x kr. Efter att ha köpt en glass för {a} kr är det {r} kr kvar. Hur många kronor hade {$namn} från början?",
+      "answer": [
+        "=x",
+        "{x} kr",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! x − {a} = {r}, så x = {r} + {a} = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=r-a"
+          ],
+          "message": "Du har dragit ifrån igen. Från början var det mer pengar, så lägg till glassens pris."
+        }
+      ]
+    },
+    {
+      "id": "stammer-gange-ja",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ],
+        "c": [
+          1,
+          8
+        ]
+      },
+      "where": [
+        {
+          "expr": "a*b-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "a*b-c"
+        }
+      ],
+      "prompt": "Stämmer det? {a} · {b} = {c} + {d}. Skriv ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! Båda sidorna är {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Räkna ut båda sidor: {a} · {b} är {a*b} och {c} + {d} är {c+d}. De är lika."
+        }
+      ]
+    },
+    {
+      "id": "stammer-gange-nej",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ],
+        "c": [
+          1,
+          8
+        ],
+        "k": [
+          1,
+          3
+        ]
+      },
+      "where": [
+        {
+          "expr": "a*b-c",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "a*b-c+k"
+        }
+      ],
+      "prompt": "Stämmer det? {a} · {b} = {c} + {d}. Skriv ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Vänster sida är {a*b} men höger sida är {c+d}.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Räkna ut båda sidor: {a} · {b} är {a*b} och {c} + {d} är {c+d}. De är inte lika."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -180,6 +180,114 @@
           "message": "Gå {cx} steg åt höger och sedan {cy} steg upp. Vilken punkt ligger där?"
         }
       ]
+    },
+    {
+      "id": "flytta-vanster",
+      "for": [
+        "word-2"
+      ],
+      "keys": [
+        "(",
+        ",",
+        ")"
+      ],
+      "vars": {
+        "x": [
+          4,
+          8
+        ],
+        "y": [
+          1,
+          8
+        ],
+        "k": [
+          1,
+          3
+        ]
+      },
+      "derive": [
+        {
+          "name": "nx",
+          "expr": "x-k"
+        }
+      ],
+      "prompt": "Du står i punkten ({x}, {y}) och går {k} steg åt vänster. Vilka koordinater har du nu? Skriv som (x, y).",
+      "answer": [
+        "({nx},{y})",
+        "({nx}, {y})",
+        "{nx},{y}",
+        "{nx}, {y}",
+        "({nx};{y})",
+        "{nx};{y}"
+      ],
+      "correct": "Rätt! Åt vänster ändrar x: {x} − {k} = {nx}. Uppåt är oförändrat: ({nx}, {y}).",
+      "feedback": [
+        {
+          "answers": [
+            "({x},{y-k})",
+            "({x}, {y-k})",
+            "{x},{y-k}",
+            "{x}, {y-k}",
+            "({x};{y-k})",
+            "{x};{y-k}"
+          ],
+          "message": "Du gick nedåt i stället för åt vänster. Åt vänster ändras det första talet, x."
+        }
+      ]
+    },
+    {
+      "id": "flytta-ner",
+      "for": [
+        "word-2"
+      ],
+      "keys": [
+        "(",
+        ",",
+        ")"
+      ],
+      "vars": {
+        "x": [
+          1,
+          8
+        ],
+        "y": [
+          4,
+          8
+        ],
+        "k": [
+          1,
+          3
+        ]
+      },
+      "derive": [
+        {
+          "name": "ny",
+          "expr": "y-k"
+        }
+      ],
+      "prompt": "Du står i punkten ({x}, {y}) och går {k} steg nedåt. Vilka koordinater har du nu? Skriv som (x, y).",
+      "answer": [
+        "({x},{ny})",
+        "({x}, {ny})",
+        "{x},{ny}",
+        "{x}, {ny}",
+        "({x};{ny})",
+        "{x};{ny}"
+      ],
+      "correct": "Rätt! Nedåt ändrar y: {y} − {k} = {ny}. Åt sidan är det oförändrat: ({x}, {ny}).",
+      "feedback": [
+        {
+          "answers": [
+            "({x+k},{y})",
+            "({x+k}, {y})",
+            "{x+k},{y}",
+            "{x+k}, {y}",
+            "({x+k};{y})",
+            "{x+k};{y}"
+          ],
+          "message": "Du gick åt höger i stället för nedåt. Nedåt ändras det andra talet, y."
+        }
+      ]
     }
   ],
   "exercise": {

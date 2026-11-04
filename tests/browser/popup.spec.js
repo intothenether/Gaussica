@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { signIn, watchErrors } = require("./helpers");
+const { signIn, openLesson, watchErrors } = require("./helpers");
 
 // The overview of a lesson is a pop-up over the page: it opens from a node on the map or from "Mer om lektionen", and nothing is scrolled.
 test.beforeEach(async ({ page }) => { await signIn(page); });
@@ -68,6 +68,42 @@ test("pop-up: a lesson that builds on another opens that one in the same pop-up"
     await expect(popup).toBeVisible();
     await expect(popup.locator(".panel-title")).not.toHaveText(title);
   }
+});
+
+test("pop-up: a student who has got going is told which lessons this builds on are still untouched", async ({ page }) => {
+  const errors = watchErrors(page);
+  await openMap(page);
+  const popup = page.locator("#lesson-popup");
+  const open = async (id) => {
+    const node = page.locator('#lesson-graph button[data-lesson-id="' + id + '"]');
+    await node.scrollIntoViewIfNeeded();
+    await node.click();
+    await expect(popup).toBeVisible();
+    await expect(popup.locator(".panel-title")).toBeVisible();
+  };
+  // a new student: nothing is said, everything is new
+  await open("ekvation");
+  await expect(popup.locator(".prerequisite-link").first()).toBeVisible();
+  await expect(popup.locator(".prerequisite-note")).toHaveCount(0);
+  await page.locator("#lesson-popup-close").click();
+  await expect(popup).toBeHidden();
+  // after starting a lesson, the untouched ones are marked and named
+  await openLesson(page, "ekvation", "input[name=answer]");
+  await page.locator("#lesson-player input[name=answer]").fill("5");
+  await page.locator("#lesson-player input[name=answer]").press("Enter");
+  await expect(page.locator("#lesson-player .pl-foot")).toHaveClass(/is-wrong/, { timeout: 8000 });
+  await page.evaluate(() => { location.hash = "#start"; });
+  await expect(page.locator("#lesson-player .pl-foot")).toBeHidden();
+  await openMap(page);
+  await open("ekvation");
+  await expect(popup.locator(".prerequisite-note")).toContainText("bygger på");
+  await expect(popup.locator(".prerequisite-note")).toContainText("som du inte övat än");
+  await expect(popup.locator(".prerequisite-link.is-new").first()).toBeVisible();
+  // the note is about what the lesson builds on: a lesson with nothing untouched before it has none
+  await page.locator("#lesson-popup-close").click();
+  await open("addition");
+  await expect(popup.locator(".prerequisite-note")).toHaveCount(0);
+  expect(errors).toEqual([]);
 });
 
 test("pop-up: Mer om lektionen in the short path opens it, and Start closes it", async ({ page }) => {

@@ -297,6 +297,161 @@
           "message": "Du har räknat med tusental men glömt att det är tusen. Skriv talet med tre nollor efter."
         }
       ]
+    },
+    {
+      "id": "minsta-stad",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "p": [
+          10,
+          99
+        ],
+        "q": [
+          10,
+          99
+        ],
+        "r": [
+          10,
+          99
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(p-q)",
+          "min": 1
+        },
+        {
+          "expr": "abs(p-r)",
+          "min": 1
+        },
+        {
+          "expr": "abs(q-r)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "m",
+          "expr": "min(p,q,r)*1000"
+        },
+        {
+          "name": "M",
+          "expr": "max(p,q,r)*1000"
+        }
+      ],
+      "prompt": "Tre städer har {p} 000, {q} 000 och {r} 000 invånare. Hur många invånare har den minsta staden?",
+      "answer": [
+        "=m"
+      ],
+      "correct": "Rätt! Alla tre är tusental, så det minsta av {p}, {q} och {r} avgör: {m} invånare.",
+      "feedback": [
+        {
+          "answers": [
+            "=M"
+          ],
+          "message": "Det är den största staden. Du söker den minsta."
+        },
+        {
+          "answers": [
+            "=m/1000"
+          ],
+          "message": "Du har glömt att det är tusental. Skriv talet med tre nollor efter."
+        }
+      ]
+    },
+    {
+      "id": "siffror-till-tal",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          0,
+          9
+        ],
+        "c": [
+          0,
+          9
+        ],
+        "d": [
+          0,
+          9
+        ],
+        "e": [
+          0,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*10000+b*1000+c*100+d*10+e"
+        },
+        {
+          "name": "s",
+          "expr": "a+b+c+d+e"
+        }
+      ],
+      "prompt": "Ett tal har {a} tiotusental, {b} tusental, {c} hundratal, {d} tiotal och {e} ental. Vilket tal är det? Skriv det utan mellanrum.",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Siffrorna skrivs efter varandra, en för varje plats: {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s"
+          ],
+          "message": "Du har lagt ihop siffrorna. Skriv dem efter varandra i stället, en för varje plats."
+        }
+      ]
+    },
+    {
+      "id": "fler-i-ar",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "p": [
+          100,
+          800
+        ],
+        "q": [
+          10,
+          150
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "(p+q)*1000"
+        }
+      ],
+      "prompt": "Förra året besökte {p} 000 personer en nöjespark. I år kom {q} 000 fler. Hur många besökare var det i år?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {p} + {q} = {p+q}, och det är tusental, alltså {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=p+q"
+          ],
+          "message": "Du har räknat med tusental men glömt att det är tusen. Skriv talet med tre nollor efter."
+        },
+        {
+          "answers": [
+            "=q*1000"
+          ],
+          "message": "Det är bara de som kom utöver förra årets besökare. Lägg ihop dem med förra årets."
+        }
+      ]
     }
   ],
   "exercise": {

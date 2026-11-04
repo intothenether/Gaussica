@@ -86,6 +86,9 @@
     });
     lessonProgress = currentUser.lessonProgress;
     window.GaussicaUser = currentUser;
+    // the backgrounds of the pet shop are wallpapers now: a pet that owned one owns the wallpaper (pet-art.js, migrate), and the change is saved
+    const movedPet = window.GaussicaPetArt && window.GaussicaPetArt.migrate(lessonProgress.pet);
+    if (movedPet) { movedPet.updatedAt = Date.now(); lessonProgress.pet = movedPet; dirtyLessons.add("pet"); scheduleSave(800); }
     // "lärare" and "elev" are "vårdnadshavare" and "barn" for a family (words.js)
     if (window.GaussicaWords) window.GaussicaWords.setMode(currentUser.role === "caregiver" ? "caregiver" : currentUser.role === "student" && currentUser.guide === "caregiver" ? "family" : null);
     restoreOutbox();
@@ -1590,14 +1593,28 @@
     const prerequisites = makeElement("div", "prerequisite-box");
     prerequisites.appendChild(makeElement("span", "prerequisite-label", "BYGGER VIDARE PÅ"));
     if (lesson.prerequisites.length) {
+      // a student who has got going is told which of the lessons this builds on are still untouched (not locked: the map lets anyone start anywhere)
+      const student = isStudent();
+      const placed = student ? window.GaussicaPlacement.knownSet(currentUser) : new Set();
+      const going = student && (placed.size > 0 || Object.keys(lessonProgress).some(function (key) { return lessonProgress[key] && lessonProgress[key].started; }));
+      const untouched = [];
       lesson.prerequisites.forEach(function (id) {
         const prerequisite = course.lessons.find(function (item) { return item.id === id; });
         if (!prerequisite) return;
-        const button = makeElement("button", "prerequisite-tag prerequisite-link", prerequisite.title + " ↖");
+        const summary = summarizeLesson(prerequisite);
+        const state = placed.has(id) ? "complete" : summary.state;
+        const button = makeElement("button", "prerequisite-tag prerequisite-link" + (student ? " is-" + state : ""), (student && state === "complete" ? "✓ " : "") + prerequisite.title + " ↖");
         button.type = "button";
+        if (student) button.title = state === "complete" ? "Klar" : state === "new" ? "Inte övad än" : "Påbörjad";
         button.addEventListener("click", function () { openLesson(id); });
         prerequisites.appendChild(button);
+        if (state === "new" && summary.total > 0) untouched.push(prerequisite);
       });
+      if (going && untouched.length && summarizeLesson(lesson).state !== "complete") {
+        const names = untouched.map(function (item) { return item.title; });
+        const list = names.length > 1 ? names.slice(0, -1).join(", ") + " och " + names[names.length - 1] : names[0];
+        prerequisites.appendChild(makeElement("p", "prerequisite-note", "Den här lektionen bygger på " + list + ", som du inte övat än. Du kan börja där först eller prova den här ändå."));
+      }
     } else {
       prerequisites.appendChild(makeElement("span", "prerequisite-tag", "Börja här, inga förkunskaper behövs"));
     }

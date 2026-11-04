@@ -206,6 +206,103 @@
           "message": "Titta på hur talen växer. De dubblas varje gång, de ökar inte lika mycket."
         }
       ]
+    },
+    {
+      "id": "spara-vecka",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          10,
+          30,
+          5
+        ],
+        "d": [
+          5,
+          15,
+          5
+        ],
+        "n": [
+          5,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a+(n-1)*d"
+        }
+      ],
+      "prompt": "{$namn} sparar {a} kr första veckan och {d} kr mer varje vecka än veckan före: {a}, {a+d}, {a+2*d}, … Hur mycket sparar {$namn} i vecka {n}?",
+      "answer": [
+        "=r",
+        "{r} kr"
+      ],
+      "correct": "Rätt! Från vecka 1 till vecka {n} är det {n-1} steg på {d} kr. {a} + {n-1} · {d} = {r} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+n*d"
+          ],
+          "message": "Du har tagit för många steg. Från vecka 1 till vecka {n} är det {n-1} steg."
+        }
+      ]
+    },
+    {
+      "id": "hopp-i-foljden",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          2,
+          20
+        ],
+        "d": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "n2",
+          "expr": "a+d"
+        },
+        {
+          "name": "n3",
+          "expr": "a+2*d"
+        },
+        {
+          "name": "n4",
+          "expr": "a+3*d"
+        }
+      ],
+      "prompt": "Hur mycket ökar talen med varje steg i talföljden {a}, {n2}, {n3}, {n4}, …?",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! {n2} − {a} = {d}, så talen ökar med {d} varje gång.",
+      "feedback": [
+        {
+          "answers": [
+            "=n4"
+          ],
+          "message": "Det är det sista talet. Du söker hur mycket talen ändras mellan två tal i följden."
+        }
+      ]
     }
   ],
   "exercise": {

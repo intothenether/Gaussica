@@ -72,6 +72,64 @@
           "message": "Det är vinkeln på andra sidan av den raka linjen. Läs av vinkeln mellan de två strålarna."
         }
       ]
+    },
+    {
+      "id": "kvartsvarv",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "k": [
+          2,
+          7
+        ]
+      },
+      "prompt": "En robot vrider sig {k} kvarts varv åt samma håll. Hur många grader har den vridit sig sammanlagt?",
+      "answer": [
+        "=90*k",
+        "{90*k}°"
+      ],
+      "correct": "Rätt! Ett kvarts varv är 90°, så {k} · 90 = {90*k}°.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "Det är antalet kvarts varv. Varje kvarts varv är 90°."
+        }
+      ]
+    },
+    {
+      "id": "klockan-vinkel",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "h": [
+          1,
+          5
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "30*h"
+        }
+      ],
+      "prompt": "Klockan visar {h}:00. Hur stor är den mindre vinkeln mellan timvisaren och minutvisaren?",
+      "answer": [
+        "=v",
+        "{v}°"
+      ],
+      "correct": "Rätt! Mellan två timmar på klockan är det 30°, och {h} · 30 = {v}°.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "Det är klockslaget. Mellan två timmar på klockan är det 30°."
+        }
+      ]
     }
   ],
   "exercise": {

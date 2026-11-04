@@ -540,6 +540,98 @@
           "message": "{c} är ett större tal, men nämnaren visar hur många delar helheten delas i. Fler delar ger mindre delar."
         }
       ]
+    },
+    {
+      "id": "andel-choklad",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          6,
+          12
+        ],
+        "a": [
+          1,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "n-a",
+          "min": 1
+        }
+      ],
+      "prompt": "En chokladkaka har {n} lika stora rutor. {$namn} äter {a} av dem. Vilket bråk visar hur stor del {$namn} åt? Skriv med bråkstreck.",
+      "answer": [
+        "{a}/{n}"
+      ],
+      "correct": "Rätt! {a} av {n} lika stora delar är {a}/{n}.",
+      "feedback": [
+        {
+          "answers": [
+            "{n}/{a}"
+          ],
+          "message": "Du har bytt plats på täljaren och nämnaren. Täljaren är delarna som äts, nämnaren är alla delar."
+        }
+      ]
+    },
+    {
+      "id": "inte-sadd",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "n": [
+          8,
+          12
+        ],
+        "a": [
+          2,
+          7
+        ]
+      },
+      "where": [
+        {
+          "expr": "n-a",
+          "min": 1
+        },
+        {
+          "expr": "abs(n-2*a)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "n-a"
+        }
+      ],
+      "prompt": "Ett fält är indelat i {n} lika stora rutor. {a} rutor är sådda. Hur stor del av fältet är inte sådd? Skriv som bråk.",
+      "answer": [
+        "{r}/{n}"
+      ],
+      "correct": "Rätt! {n} − {a} = {r} rutor är inte sådda, så {r}/{n} av fältet.",
+      "feedback": [
+        {
+          "answers": [
+            "{a}/{n}"
+          ],
+          "message": "Det är delen som är sådd. Du söker den del som inte är sådd."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -257,6 +257,42 @@
           "message": "Det är antalet rutor. Varje ruta står för {s} elever, så multiplicera."
         }
       ]
+    },
+    {
+      "id": "rutor-av-elever",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "s": [
+          2,
+          5
+        ],
+        "r": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "k",
+          "expr": "s*r"
+        }
+      ],
+      "prompt": "I ett stapeldiagram står 1 ruta för {s} elever. {k} elever valde fotboll. Hur många rutor hög ska stapeln vara?",
+      "answer": [
+        "=r",
+        "{r} rutor"
+      ],
+      "correct": "Rätt! {k}/{s} = {r} rutor.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*s"
+          ],
+          "message": "Du har multiplicerat. Dela antalet elever med hur många elever en ruta står för."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -265,6 +265,104 @@
           "value": 0.04
         }
       ]
+    },
+    {
+      "id": "meter-till-cm",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          3
+        ],
+        "b": [
+          10,
+          99
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(b,10)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a*100+b"
+        }
+      ],
+      "prompt": "Ett snöre är {a},{b} m långt. Hur många centimeter är det?",
+      "answer": [
+        "=r",
+        "{r} cm"
+      ],
+      "correct": "Rätt! {a},{b} m är {a} m och {b} cm, och {a} · 100 + {b} = {r} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen. 1 m är 100 cm, så {a} m är {a*100} cm."
+        }
+      ]
+    },
+    {
+      "id": "snore-summa",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          1,
+          6
+        ],
+        "bt": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          6
+        ],
+        "dt": [
+          1,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "a+c+(bt+dt)/10"
+        }
+      ],
+      "prompt": "{$namn} har ett snöre som är {a},{bt} m och ett som är {c},{dt} m. Hur många meter snöre är det tillsammans?",
+      "answer": [
+        "=r",
+        "{r} m"
+      ],
+      "correct": "Rätt! {a},{bt} + {c},{dt} = {r} m.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+c+bt+dt"
+          ],
+          "message": "Du har lagt ihop tiondelarna som hela tal. Tio tiondelar är 1 hel."
+        }
+      ]
     }
   ],
   "components": [

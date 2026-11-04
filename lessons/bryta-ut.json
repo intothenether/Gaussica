@@ -53,7 +53,8 @@
         },
         {
           "line": "3(2x + 3)",
-          "say": "Skriv 3 utanför en parentes och det som blir kvar inuti."
+          "say": "Skriv 3 utanför en parentes och det som blir kvar inuti.",
+          "wrong": ["Skriv 3 utanför och ta bort resten.", "Multiplicera in 3 i en parentes."]
         }
       ],
       "note": "Kontrollera genom att multiplicera in: 3 · 2x + 3 · 3 = 6x + 9."

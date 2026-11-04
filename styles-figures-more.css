@@ -1,0 +1,113 @@
+/* ===== Figures that move, and the figures of figures-more.js (åk 3 and 4) ===== */
+/* Movement: a figure with the class fx waits hidden (is-waiting) until it is on the screen, then plays (is-playing). The state without these classes is the
+   finished picture, and the animations only say where the parts come from (backwards), so that reduced motion and a failing script show everything. */
+.fx.is-waiting .fx-pop, .fx.is-waiting .fx-slide, .fx.is-waiting .fx-fade { opacity: 0; }
+.fx.is-waiting .fx-rise { transform: scaleY(0); }
+.fx.is-waiting .fx-draw { stroke-dashoffset: var(--len, 600px); }
+.fx-pop, .fx-rise, .fx-sweep, .fx-spin, .fx-unspin { transform-box: fill-box; transform-origin: 50% 50%; }
+.fx-rise { transform-origin: 50% 100%; }
+.fx-sweep { transform-box: view-box; transform-origin: 100px 100px; }
+.fx-draw { stroke-dasharray: var(--len, 600px); }
+.fx.is-playing .fx-pop { animation: fx-pop .5s cubic-bezier(.3, 1.5, .5, 1) backwards; animation-delay: var(--d, 0s); }
+.fx.is-playing .fx-fade { animation: fx-fade .6s ease backwards; animation-delay: 1.2s; }
+.fx.is-playing .fx-slide { animation: fx-slide .9s cubic-bezier(.2, .8, .3, 1) backwards; }
+.fx.is-playing .fx-rise { animation: fx-rise var(--dur, 1.4s) cubic-bezier(.3, .7, .3, 1) backwards; }
+.fx.is-playing .fx-draw { animation: fx-draw var(--dur, 1.2s) ease-out backwards; animation-delay: var(--d, 0s); }
+.fx.is-playing .fx-sweep { animation: fx-sweep 1.8s cubic-bezier(.3, .6, .3, 1) backwards; animation-delay: var(--d, 0s); }
+.fx.is-playing .fx-spin { animation: fx-spin 3.6s cubic-bezier(.12, .6, .1, 1) backwards; }
+.fx.is-playing .fx-unspin { animation: fx-unspin 3.6s cubic-bezier(.12, .6, .1, 1) backwards; }
+@keyframes fx-pop { from { opacity: 0; transform: scale(.25); } }
+@keyframes fx-fade { from { opacity: 0; } }
+@keyframes fx-slide { from { opacity: 0; transform: translateX(-70px); } }
+@keyframes fx-rise { from { transform: scaleY(0); } }
+@keyframes fx-draw { from { stroke-dashoffset: var(--len, 600px); } }
+@keyframes fx-sweep { from { transform: rotate(0deg); } }
+@keyframes fx-spin { from { transform: rotate(0deg); } to { transform: rotate(var(--turn, 1080deg)); } }
+@keyframes fx-unspin { from { transform: rotate(0deg); } to { transform: rotate(var(--turn-neg, -1080deg)); } }
+@media (prefers-reduced-motion: reduce) {
+  .fx .fx-pop, .fx .fx-slide, .fx .fx-fade, .fx .fx-rise, .fx .fx-draw, .fx .fx-sweep, .fx .fx-spin, .fx .fx-unspin { animation: none !important; }
+  .fx-replay { display: none; }
+}
+.fx-replay { display: block; margin: 6px auto 0; padding: 5px 14px; border: 2px solid var(--sky-line, #bcd3ee); border-radius: 999px; background: var(--paper); color: var(--brand); font: 800 12.5px "Nunito", sans-serif; cursor: pointer; }
+.fx-replay:hover { background: var(--sky-soft, #eef5ff); }
+.fig-caption { margin: 6px 0 0; text-align: center; font-weight: 800; font-size: 15px; color: var(--ink); }
+
+/* the things that are counted */
+.fx-c0 { fill: #ef6f88; } .fx-c1 { fill: #4c9be8; } .fx-c2 { fill: #43b581; } .fx-c3 { fill: #ffb300; } .fx-c4 { fill: #9a7be0; } .fx-c5 { fill: #ff8a5b; }
+.fx-ball { stroke: rgba(0, 0, 0, .12); stroke-width: 1.5; }
+.fx-shine { fill: rgba(255, 255, 255, .75); }
+.fx-apple { fill: #e2574c; stroke: #b8392f; stroke-width: 1.5; }
+.fx-stem { fill: none; stroke: #6b4a2a; stroke-width: 2; stroke-linecap: round; }
+.fx-leaf { fill: #43b581; }
+.fx-star { fill: #ffc933; stroke: #d99a00; stroke-width: 1.5; stroke-linejoin: round; }
+.fx-cookie { fill: #d9a25e; stroke: #b07c3a; stroke-width: 1.5; }
+.fx-chip { fill: #6b4a2a; }
+.fx-fish { fill: #ff8a5b; stroke: #d9602d; stroke-width: 1.2; }
+.fx-eye { fill: #25304f; }
+.fx-petal { fill: #ff9ec0; stroke: #e0709a; stroke-width: 1; }
+.fx-heart { fill: #ffd54a; }
+.fx-pencil { fill: #f4c542; stroke: #c99a10; stroke-width: 1.5; }
+.fx-wood { fill: #ecd0a4; stroke: #c4a070; stroke-width: 1; }
+.fx-plate { fill: var(--paper); stroke: var(--sky-line, #bcd3ee); stroke-width: 2.5; }
+.fx-plate.is-rest { stroke: var(--accent); stroke-dasharray: 6 5; }
+.fx-bignum { font: 800 22px "Nunito", sans-serif; fill: var(--brand); }
+
+/* base ten blocks */
+.fx-block { stroke: rgba(37, 48, 79, .35); stroke-width: 1.5; }
+.fx-block.is-thousand { fill: #5b6fb5; } .fx-block.is-back { fill: #7a8dcc; }
+.fx-block.is-hundred { fill: #8fc0ee; } .fx-block.is-ten { fill: #5cc59a; } .fx-block.is-one { fill: #ffbf3f; }
+.fx-blockgrid { stroke: rgba(255, 255, 255, .7); stroke-width: 1; }
+
+/* money */
+.fx-note { stroke: rgba(37, 48, 79, .4); stroke-width: 1.5; }
+.fx-note.is-20 { fill: #cdb9f2; } .fx-note.is-50 { fill: #a6cff2; } .fx-note.is-100 { fill: #f7b9c0; } .fx-note.is-200 { fill: #a8dcb4; } .fx-note.is-500 { fill: #d3c8bd; }
+.fx-noteframe { fill: none; stroke: rgba(255, 255, 255, .8); stroke-width: 1.5; }
+.fx-notetext { font: 800 17px "Nunito", sans-serif; fill: var(--ink); }
+.fx-coin { fill: #d4dbe6; stroke: #8f9bb0; stroke-width: 2; } .fx-coin.is-gold { fill: #ebc258; stroke: #b88f20; }
+.fx-coinring { fill: none; stroke: rgba(255, 255, 255, .7); stroke-width: 1.5; }
+.fx-cointext { font: 800 15px "Nunito", sans-serif; fill: #3b475f; }
+
+/* fractions */
+.fx-slice { fill: var(--paper); stroke: var(--brand); stroke-width: 2.5; stroke-linejoin: round; }
+.fx-slice.is-on { fill: var(--accent); }
+.fx-sliceframe { fill: none; stroke: var(--brand); stroke-width: 3; }
+
+/* thermometer */
+.fx-tube { fill: var(--paper); stroke: var(--ink); stroke-width: 2.5; }
+.fx-mercury { fill: #e2574c; } .fx-mercury.is-cold { fill: #4c9be8; }
+.fx-zeroline { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 4 4; }
+
+/* ruler */
+.fx-ruler { fill: #f8ebb8; stroke: #c9a94a; stroke-width: 2; }
+.fx-eraser { fill: #f5a3b6; stroke: #cf6f88; stroke-width: 1.5; }
+.fx-rope { fill: none; stroke: #8a6a3a; stroke-width: 6; stroke-linecap: round; }
+
+/* calendar */
+.fx-day { fill: var(--accent); }
+.fx-daybg { fill: var(--sky); opacity: .55; }
+.fx-daymarked { fill: #fff; font-weight: 800; }
+.fx-weekend { fill: var(--coral-dark, #c0415d); }
+
+/* dice, spinner and bag */
+.fx-die { fill: #fff; stroke: var(--ink); stroke-width: 2.5; }
+.fx-pip { fill: var(--ink); }
+.fx-sector { stroke: #fff; stroke-width: 3; }
+.fx-sectortext { font: 800 20px "Nunito", sans-serif; fill: #fff; }
+.fx-pointer { fill: var(--ink); stroke: #fff; stroke-width: 2; stroke-linejoin: round; }
+.fx-bag { fill: #dcc08f; stroke: #a98652; stroke-width: 3; }
+.fx-bagtie { fill: none; stroke: #a98652; stroke-width: 4; stroke-linecap: round; }
+.fx-marble { stroke: rgba(0, 0, 0, .15); stroke-width: 1.5; }
+.fx-m-red { fill: #e2574c; } .fx-m-blue { fill: #4c9be8; } .fx-m-yellow { fill: #ffc933; } .fx-m-green { fill: #43b581; }
+
+.fig-areacell { fill: #9ccbf0; stroke: var(--brand); stroke-width: 1.2; }
+
+.tv-help-pattern { color: var(--brand); font-weight: 700; }
+.tv-help-list li .tv-btn { align-self: flex-start; margin-top: 4px; }
+
+/* the measuring jug and the block of cubes */
+.fx-glass { fill: rgba(190, 225, 250, .25); stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.fx-handle { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.fx-water { fill: #6db8ee; opacity: .85; transform-box: fill-box; transform-origin: 50% 100%; }
+.fx-cube-front { fill: #8fc0ee; stroke: #4a6aa0; stroke-width: 1.2; }
+.fx-cube-top { fill: #c5e0f7; stroke: #4a6aa0; stroke-width: 1.2; }
+.fx-cube-side { fill: #6f9fd2; stroke: #4a6aa0; stroke-width: 1.2; }

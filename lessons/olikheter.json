@@ -42,7 +42,8 @@
       "steps": [
         {
           "line": "3x + 2 − 2 < 14 − 2",
-          "say": "Ta bort 2 från båda sidor."
+          "say": "Ta bort 2 från båda sidor.",
+          "wrong": ["Lägg till 2 på båda sidor.", "Ta bort 2 från bara vänstra sidan."]
         },
         {
           "line": "3x < 12",
@@ -50,7 +51,8 @@
         },
         {
           "line": "x < 4",
-          "say": "Dela båda sidor med 3. Tre är positivt, så tecknet står kvar."
+          "say": "Dela båda sidor med 3. Tre är positivt, så tecknet står kvar.",
+          "wrong": ["Dela båda sidor med 3 och vänd tecknet.", "Multiplicera båda sidor med 3."]
         }
       ],
       "note": "Kontrollera med ett tal i lösningen, x = 0: 3 · 0 + 2 = 2, och 2 < 14 stämmer."
@@ -63,7 +65,8 @@
       "steps": [
         {
           "line": "x > −3",
-          "say": "Dela båda sidor med −2. Talet är negativt, så < blir >."
+          "say": "Dela båda sidor med −2. Talet är negativt, så < blir >.",
+          "wrong": ["Dela båda sidor med 2.", "Multiplicera båda sidor med −2."]
         }
       ],
       "note": "Kontrollera med x = 0: −2 · 0 = 0, och 0 < 6 stämmer. Och 0 > −3 stämmer också."

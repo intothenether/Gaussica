@@ -138,6 +138,7 @@ async function api() {
   run("figures for the lower years", "tests/figures-more.js");
   run("school documents", "tests/school-docs.js");
   run("fonts", "tests/fonts.js");
+  run("style sheets", "tests/stylesheets.js");
   run("themes", "tests/theme.js");
   run("notebook", "tests/notebook.js");
   run("journey", "tests/journey.js");
