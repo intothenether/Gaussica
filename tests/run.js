@@ -140,6 +140,7 @@ async function api() {
   run("fonts", "tests/fonts.js");
   run("style sheets", "tests/stylesheets.js");
   run("which specs a changed file asks for", "tests/test-changed.js");
+  run("the number line to play on", "tests/hopplek.js");
   run("themes", "tests/theme.js");
   run("notebook", "tests/notebook.js");
   run("journey", "tests/journey.js");

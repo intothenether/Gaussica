@@ -36,7 +36,8 @@
         "label": "+3"
       }
     ],
-    "animate": true
+    "animate": true,
+    "pet": true
   },
   "rule": "Gör tvärtom: + blir −, · blir ÷",
   "ruleLabel": "RÄKNA BAKLÄNGES",

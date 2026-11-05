@@ -13,35 +13,12 @@
   "explanationTitle": "Finns det en genväg när vi delar med 10, 100 och 1000?",
   "explanation": "Problemet: Att dela 45000 med 100 med kortdivision eller tabeller är en lång väg. Ändå delar vi ofta med just 10, 100 och 1000, till exempel när vi byter enhet. Finns det en genväg? Ja, för vårt talsystem bygger på tiotal. Det räcker att titta på nollorna. När du delar ett tal med 1 händer ingenting. Talet är kvar som det var: 36/1 = 36. När du delar med 10 blir varje siffra tio gånger mindre. Då flyttar alla siffror ett steg åt höger i platsvärdestabellen. Slutar talet på noll kan du i stället ta bort en nolla: 450/10 = 45. Att dela med 100 tar bort två nollor och att dela med 1000 tar bort tre nollor: 4500/100 = 45 och 4000/1000 = 4. Division är motsatsen till multiplikation, så 45 · 100 = 4500 och 4500/100 = 45.",
   "visual": {
-    "type": "tabell",
-    "title": "Dela 45000",
-    "headers": [
-      "Räkning",
-      "Svar",
-      "Vad händer?"
-    ],
-    "rows": [
-      [
-        "45000/1",
-        "45000",
-        "Inget ändras"
-      ],
-      [
-        "45000/10",
-        "4500",
-        "En nolla bort"
-      ],
-      [
-        "45000/100",
-        "450",
-        "Två nollor bort"
-      ],
-      [
-        "45000/1000",
-        "45",
-        "Tre nollor bort"
-      ]
-    ]
+    "type": "skift",
+    "title": "45000/100 = 450: siffrorna flyttar två platser åt höger och två nollor försvinner",
+    "value": 45000,
+    "places": 2,
+    "dir": "hoger",
+    "pet": true
   },
   "rule": "Dela med 10, 100 eller 1000: ta bort 1, 2 eller 3 nollor",
   "ruleLabel": "NOLLORNA",
@@ -395,6 +372,47 @@
           ],
           "message": "Du har lagt till en nolla. Vid division tar du bort nollor."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "skift",
+      "title": "7000/1000 = 7: tre nollor försvinner",
+      "value": 7000,
+      "places": 3,
+      "dir": "hoger",
+      "pet": true
+    },
+    {
+      "type": "tabell",
+      "title": "Dela 45000",
+      "headers": [
+        "Räkning",
+        "Svar",
+        "Vad händer?"
+      ],
+      "rows": [
+        [
+          "45000/1",
+          "45000",
+          "Inget ändras"
+        ],
+        [
+          "45000/10",
+          "4500",
+          "En nolla bort"
+        ],
+        [
+          "45000/100",
+          "450",
+          "Två nollor bort"
+        ],
+        [
+          "45000/1000",
+          "45",
+          "Tre nollor bort"
+        ]
       ]
     }
   ]

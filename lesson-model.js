@@ -60,6 +60,9 @@ window.GaussicaLesson = (function () {
   // Interactive "pyssla" tools (see pyssel.js). They can declare challenges (goals) that count as tasks.
   const TOOL_TYPES = { pyssel: true, ritrutnat: true, primtalssil: true, tarning: true, robot: true };
 
+  // Components that are a page of their own, without being tools with goals (they are not tasks)
+  const STANDALONE = { "hoppa-pa-linjen": true };
+
   function isTool(c) {
     return Boolean(c && TOOL_TYPES[c.type]);
   }
@@ -218,6 +221,7 @@ window.GaussicaLesson = (function () {
       const c = l.components[Number(key.slice(5))] || {};
       if (isTool(c)) return "Pyssla: " + (c.title || "");
       if (c.type === "begreppskort") return c.title || "Begreppskort";
+      if (c.type === "hoppa-pa-linjen") return c.title || "Hoppa på tallinjen";
       if (c.type === "santfalskt") return c.title || "Sant eller falskt";
       if (FORMATS[c.type]) return c.title || FORMATS[c.type].name;
       return c.title || c.label || (c.type === "text" || c.type === "heading" ? String(c.text || "").slice(0, 40) : "") || "Innehåll";
@@ -308,7 +312,8 @@ window.GaussicaLesson = (function () {
         });
       } else {
         // every interactive tool gets a page of its own
-        const tool = key.indexOf("comp:") === 0 && isTool((l.components || [])[Number(key.slice(5))]);
+        const comp = key.indexOf("comp:") === 0 ? (l.components || [])[Number(key.slice(5))] : null;
+        const tool = Boolean(comp) && (isTool(comp) || STANDALONE[comp.type] === true);
         if (!group || tool) { group = { type: "learn", keys: [], titles: [] }; out.push(group); }
         group.keys.push(key);
         group.titles.push(blockTitle(l, key));

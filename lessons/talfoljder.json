@@ -58,7 +58,8 @@
         "label": "+4"
       }
     ],
-    "animate": true
+    "animate": true,
+    "pet": true
   },
   "rule": "nästa tal = förra talet + skillnaden",
   "ruleLabel": "REGELN I EN TALFÖLJD",

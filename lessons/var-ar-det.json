@@ -12,38 +12,23 @@
   "explanationTitle": "Ge varje plats ett namn",
   "explanation": "Problemet: Hur beskriver du var något finns så att någon annan hittar det? Säger du bara där borta vet ingen vart du menar. Vi behöver ett sätt att ange en plats exakt. På en karta delar vi in marken i ett rutnät. Raderna får bokstäver och kolumnerna får siffror. Varje ruta får då ett namn, till exempel B3. Du läser först bokstaven, sedan siffran. När du ska flytta dig hjälper riktningsorden: åt höger, åt vänster, uppåt och nedåt. Att gå åt höger ändrar siffran. Att gå nedåt ändrar bokstaven.",
   "visual": {
-    "type": "tabell",
-    "title": "En karta i ett rutnät",
-    "headers": [
-      "",
-      "1",
-      "2",
-      "3",
-      "4"
+    "type": "karta",
+    "title": "Skolan ligger i ruta A2. Två steg åt höger är ruta A4.",
+    "rows": 3,
+    "cols": 4,
+    "cells": {
+      "A2": "skola",
+      "B1": "park",
+      "B4": "affär",
+      "C3": "hus"
+    },
+    "path": [
+      "A2",
+      "A3",
+      "A4"
     ],
-    "rows": [
-      [
-        "A",
-        "",
-        "skola",
-        "",
-        ""
-      ],
-      [
-        "B",
-        "park",
-        "",
-        "",
-        "affär"
-      ],
-      [
-        "C",
-        "",
-        "",
-        "hus",
-        ""
-      ]
-    ]
+    "animate": true,
+    "pet": true
   },
   "rule": "En ruta namnges med rad och kolumn, till exempel B3: först bokstaven, sedan siffran.",
   "ruleLabel": "RUTNÄTETS NAMN",

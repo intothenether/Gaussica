@@ -368,5 +368,81 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "arbetat-exempel",
+      "title": "Runda och justera: 49 + 36",
+      "intro": "49 är nästan 50, och 50 är lätt att räkna med. Då måste du komma ihåg att rätta till i slutet.",
+      "start": "49 + 36",
+      "steps": [
+        {
+          "line": "50 + 36 − 1",
+          "say": "Runda 49 uppåt till 50 och ta bort 1 i slutet.",
+          "wrong": [
+            "Runda 49 uppåt till 50 och lägg till 1 i slutet.",
+            "Runda 36 uppåt till 40."
+          ]
+        },
+        {
+          "line": "86 − 1",
+          "say": "Räkna ut 50 + 36."
+        },
+        {
+          "line": "85",
+          "say": "Räkna ut 86 − 1."
+        }
+      ],
+      "note": "Kontroll: 49 + 36 = 85, och 85 är 1 mindre än 86."
+    },
+    {
+      "type": "arbetat-exempel",
+      "title": "Dela upp: 37 + 48",
+      "intro": "Tiotal och ental är lättare att lägga ihop var för sig.",
+      "start": "37 + 48",
+      "steps": [
+        {
+          "line": "30 + 7 + 40 + 8",
+          "say": "Dela upp båda talen i tiotal och ental.",
+          "wrong": [
+            "Dela upp bara det första talet.",
+            "Lägg ihop tiotalen med entalen direkt."
+          ]
+        },
+        {
+          "line": "30 + 40 + 7 + 8",
+          "say": "Samla tiotalen för sig och entalen för sig."
+        },
+        {
+          "line": "70 + 15",
+          "say": "Lägg ihop tiotalen och entalen var för sig."
+        },
+        {
+          "line": "85",
+          "say": "Lägg ihop 70 + 15."
+        }
+      ]
+    },
+    {
+      "type": "arbetat-exempel",
+      "title": "Dubbla och halvera: 16 · 5",
+      "intro": "Att gångra med 10 är lätt. Att gångra med 5 är hälften så svårt.",
+      "start": "16 · 5",
+      "steps": [
+        {
+          "line": "8 · 10",
+          "say": "Halvera 16 och dubbla 5: produkten ändras inte.",
+          "wrong": [
+            "Halvera både 16 och 5.",
+            "Dubbla både 16 och 5."
+          ]
+        },
+        {
+          "line": "80",
+          "say": "Räkna ut 8 · 10."
+        }
+      ],
+      "note": "Kontroll: 16 · 5 = 80 och 8 · 10 = 80."
+    }
   ]
 }

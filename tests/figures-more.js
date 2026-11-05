@@ -41,7 +41,15 @@ const CASES = [
   ["snurra", { type: "snurra", sectors: [{ label: "1" }, { label: "2" }, { label: "3", n: 2 }], land: 2 }],
   ["pase", { type: "pase", items: [{ color: "rod", n: 3 }, { color: "bla", n: 1 }] }],
   ["matglas", { type: "matglas", capacity: 1, level: 0.6 }],
-  ["volym", { type: "volym", w: 4, h: 3, d: 2 }]
+  ["volym", { type: "volym", w: 4, h: 3, d: 2 }],
+  ["stege", { type: "stege", rungs: 11, marks: [{ at: "mitten", label: "Start" }, { at: 1, label: "Slut", tone: "coral" }], jumps: [{ from: 6, to: 10, label: "upp 4" }, { from: 10, to: 1, label: "ner 9" }] }],
+  ["stege", { type: "stege", rungs: 25 }],
+  ["stege", { type: "stege", rungs: 11, pet: true, animate: true, jumps: [{ from: 6, to: 10 }, { from: 10, to: 1 }] }],
+  ["karta", { type: "karta", rows: 3, cols: 4, cells: { A2: "skola", B1: "park" }, path: ["A2", "A3", "A4"], pet: true, animate: true }],
+  ["skift", { type: "skift", value: 34, places: 2 }],
+  ["skift", { type: "skift", value: 45000, places: 3, dir: "hoger", pet: true }],
+  ["styckpris", { type: "styckpris", n: 4, total: 48, item: "apple" }],
+  ["styckpris", { type: "styckpris", n: 3, total: 10, item: "kaka", unit: "kr" }]
 ];
 CASES.forEach(([type, cfg]) => {
   ok(Fig.supports(type) && Fig.badge(type) !== "FIGUR", type + " is a figure with a name");
@@ -58,6 +66,35 @@ ok(textsOf(Fig.render({ type: "grupper", groups: 3, per: 4 })).indexOf("3 · 4 =
 ok(textsOf(Fig.render({ type: "grupper", groups: 3, per: 4, mode: "dela", remainder: 2 })).some((t) => t === "14 : 3 = 4, rest 2"), "division is written 14 : 3 = 4, rest 2");
 ok(textsOf(Fig.render({ type: "grupper", groups: 3, per: 4, hide: true })).indexOf("3 · 4 = ?") >= 0, "the answer can be hidden");
 ok(count({ type: "tiobas", value: 347 }, "fx-pop") === 14, "347: 3 + 4 + 7 blocks");
+ok(count({ type: "stege", rungs: 11 }, "fx-rung") === 11 && count({ type: "stege", rungs: 11 }, "fx-rail") === 2, "a ladder with eleven rungs and two rails");
+ok(textsOf(Fig.render({ type: "stege", rungs: 9 })).join() === "1,2,3,4,5,6,7,8,9", "the rungs are numbered from the bottom");
+const sm = Fig.render({ type: "stege", rungs: 11, marks: [{ at: "mitten" }], jumps: [{ from: 6, to: 10, label: "upp 4" }] });
+const circles = all(sm).filter((n) => n.tag === "circle"), rungYs = withClass(sm, "fx-rung").map((n) => Number(n.attrs.y1));
+ok(circles.length === 1 && Math.abs(Number(circles[0].attrs.cy) - rungYs[5]) < 0.01, "\"mitten\" is the middle rung (6 of 11)");
+ok(withClass(sm, "fig-arrow").length === 1 && textsOf(sm).indexOf("upp 4") >= 0, "a jump is an arrow with its name");
+ok(textsOf(Fig.render({ type: "stege", rungs: 25 })).length === 0, "a very tall ladder is not numbered (too small to read)");
+ok(count({ type: "stege", rungs: 11, pet: true, jumps: [{ from: 6, to: 10 }] }, "fig-marker") === 1 && count({ type: "stege", rungs: 11 }, "fig-marker") === 0, "something climbs the ladder when it says pet (a marker when there is no pet), and nothing when it does not");
+
+// the map
+const map = Fig.render({ type: "karta", rows: 3, cols: 4, cells: { A2: "skola", B4: "affär" }, path: ["A2", "A3", "A4"] });
+ok(count({ type: "karta", rows: 3, cols: 4 }, "fx-kartacell") === 12, "a map of 3 rows and 4 columns has 12 squares");
+ok(textsOf(map).filter((t2) => /^[1-4]$/.test(t2)).length === 4 && ["A", "B", "C"].every((l) => textsOf(map).includes(l)) && textsOf(map).includes("skola"), "with letters for the rows, numbers for the columns and names on the squares");
+ok(withClass(map, "is-start").length === 1 && withClass(map, "is-goal").length === 1 && withClass(map, "fig-dash").length === 1, "the path has a start, a goal and a dashed line");
+ok(count({ type: "karta", rows: 2, cols: 3, path: ["A1", "B3"], pet: true }, "fig-marker") === 1, "something walks the path");
+
+// the digits that slide
+const times = Fig.render({ type: "skift", value: 34, places: 2 });
+ok(count({ type: "skift", value: 34, places: 2 }, "fx-shift") === 2 && count({ type: "skift", value: 34, places: 2 }, "fx-pop") === 2, "34 · 100: two digits that move and two zeros that come");
+ok(textsOf(times).includes("34 · 100 = 3400"), "the sum is written with a dot");
+const divided = { type: "skift", value: 45000, places: 2, dir: "hoger" };
+ok(count(divided, "fx-shift") === 3 && count(divided, "fx-leave") === 2 && textsOf(Fig.render(divided)).includes("45000/100 = 450"), "45000/100: three digits that move, two zeros that go, and 450");
+ok(count({ type: "skift", value: 7000, places: 3, dir: "hoger" }, "fx-shift") === 1 && textsOf(Fig.render({ type: "skift", value: 7000, places: 3, dir: "hoger" })).includes("7000/1000 = 7"), "7000/1000 = 7");
+ok(textsOf(Fig.render({ type: "skift", value: 5, places: 1, labels: false })).indexOf("ental") < 0, "the names of the places can be left out");
+
+// the price shared out
+const price = { type: "styckpris", n: 4, total: 48, item: "apple" };
+ok(count(price, "fx-pricetag") === 4 && textsOf(Fig.render(price)).filter((t2) => t2 === "12 kr").length === 4 && textsOf(Fig.render(price)).includes("48/4 = 12 kr för en"), "4 things for 48 kr: four tags with 12 kr");
+ok(textsOf(Fig.render({ type: "styckpris", n: 3, total: 10 })).includes("3,33 kr") || textsOf(Fig.render({ type: "styckpris", n: 3, total: 10 })).some((t2) => /^3,3/.test(t2)), "a price that does not divide is written with decimals");
 ok(textsOf(Fig.render({ type: "tiobas", value: 347, total: true })).indexOf("3 hundratal + 4 tiotal + 7 ental = 347") >= 0, "the blocks add up to the number");
 ok(count({ type: "pengar", items: [{ value: 20, n: 1 }, { value: 5, n: 2 }] }, "fx-pop") === 3, "one note and two coins");
 ok(textsOf(Fig.render({ type: "pengar", items: [{ value: 20, n: 1 }, { value: 10, n: 2 }], total: true })).indexOf("Tillsammans: 40 kr") >= 0, "the total of the money");

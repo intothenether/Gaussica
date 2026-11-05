@@ -2,7 +2,7 @@
 // growing patterns and number grids. Drawn as inline SVG and styled by the .fig-* rules in
 // styles.css. Used as `visual` configs, e.g. { "type": "tallinje", "min": 0, "max": 10 }.
 //
-//   tallinje    { min, max, step, labelEvery, points:[{value,label,tone}], jumps:[{from,to,label}], range:{from,to} }
+//   tallinje    { min, max, step, labelEvery, points:[{value,label,tone}], jumps:[{from,to,label}], range:{from,to}, pet:true }   pet: the student's own pet hops along the jumps (nothing if there is no pet)
 //   rektangel   { w, h, unit, grid, outline, sides:"wh"|"all", labels:{w,h} }          (kvadrat = same w and h)
 //   triangel    { base, height, apex, unit, showHeight, showRect, labels:{left,right,base,height} }
 //   figurer     { items:[{shape,label}] }          shapes: triangel kvadrat rektangel cirkel femhörning sexhörning åttahörning parallellogram romb
@@ -12,7 +12,7 @@
 //   staplar     { data:[{label,value,tone}], max, line:{value,label} }              bar chart with an optional reference line
 //   cirkel      { r, unit, show:["radie","diameter","kvadrat","omkrets"], labels:{r,d,o} }   a circle: radius and diameter, a square on the radius (r · r, the area is about 3,14 of them), the circumference rolled out (a little more than 3 diameters)
 //   vinkel      { deg, label }                                                       an angle between two rays
-//   graf        { xmin,xmax,ymin,ymax, lines:[{k,m,label}], curves:[{fn,label,tone,from,to}], points:[{x,y,label}] }  coordinate system with straight
+//   graf        { xmin,xmax,ymin,ymax, lines:[{k,m,label}], curves:[{fn,label,tone,from,to}], points:[{x,y,label}], walk:[[x,y],...], pet, animate }  coordinate system with straight
 //               lines and curves; fn is a formula in x, as "x^2 - 4*x + 3", "2^x" or "lg(x)" (see the expressions in pyssel.js)
 //   hundrarutor { filled, label }                                                    10 x 10 grid with the first n squares filled
 //   klocka      { h, m, digital }                                                    analog clock
@@ -132,6 +132,74 @@ window.GaussicaFigures = (function () {
     return div;
   }
 
+  // ----- the student's pet on a figure -----
+  // The pet (if the student has one and the pets are on) as the markup of a small svg, or "". Used by figures that say "pet": true.
+  function petMarkup() {
+    const P = typeof window !== "undefined" ? window.GaussicaPet : null, A = typeof window !== "undefined" ? window.GaussicaPetArt : null;
+    const pet = P && P.current ? P.current() : null;
+    return pet && A && A.svg ? A.svg(pet, { bare: true, label: "" }) : "";
+  }
+
+  // The pet as a group that stands on the point (0, 0) of its own coordinate system, 48 high.
+  function petGroup(parent, markup, size) {
+    const g = s("g", { "class": "fig-pet", "aria-hidden": "true" }, parent);
+    g.innerHTML = markup;
+    const inner = g.firstElementChild;
+    if (inner) { inner.setAttribute("x", -size / 2); inner.setAttribute("y", -size * 0.9); inner.setAttribute("width", size); inner.setAttribute("height", size); }
+    return g;
+  }
+
+  // A walker on a figure: the pet when the figure says "pet": true and there is one, otherwise a small round marker.
+  function walker(parent, c, size) {
+    const markup = c.pet ? petMarkup() : "";
+    if (markup) return petGroup(parent, markup, size);
+    const g = s("g", { "class": "fig-pet fig-marker", "aria-hidden": "true" }, parent);
+    s("circle", { cx: 0, cy: -size * 0.2, r: size * 0.18, "class": "fig-point is-q" }, g);
+    return g;
+  }
+
+  // The walker goes along a route: [{ x1, y1, x2, y2, h, ms }] in the coordinates of the svg, h the height of the hop and ms how long it takes
+  // (every ms when there is none), the first one after `lead` ms. Returns { play } or null; without motion, or without the Web Animations API, the
+  // walker just stands where the route ends.
+  function petWalk(g, route, every, lead) {
+    if (!route.length) return null;
+    const place = function (px, py) { g.style.transform = "translate(" + px + "px," + py + "px)"; };
+    const first = route[0], last = route[route.length - 1];
+    place(last.x2, last.y2);
+    if (!motionOk() || typeof g.animate !== "function") return { stay: true };
+    return {
+      play: function () {
+        let at = lead;
+        const spans = route.map(function (r) { const dur = r.ms || every, sp = { r: r, t0: at, t1: at + dur * 0.8 }; at += dur; return sp; });
+        const total = at + 400;
+        const frames = [{ offset: 0, transform: "translate(" + first.x1 + "px," + first.y1 + "px)" }];
+        spans.forEach(function (sp) {
+          const r = sp.r;
+          frames.push({ offset: sp.t0 / total, transform: "translate(" + r.x1 + "px," + r.y1 + "px)" });
+          for (let k = 1; k <= 4; k++) {
+            const u = k / 4;
+            frames.push({ offset: (sp.t0 + (sp.t1 - sp.t0) * u) / total, transform: "translate(" + (r.x1 + (r.x2 - r.x1) * u) + "px," + (r.y1 + (r.y2 - r.y1) * u - 4 * (r.h || 0) * u * (1 - u)) + "px)" });
+          }
+        });
+        frames.push({ offset: 1, transform: "translate(" + last.x2 + "px," + last.y2 + "px)" });
+        if (g._walk) g._walk.cancel();
+        g._walk = g.animate(frames, { duration: total, easing: "linear", fill: "forwards" });
+      }
+    };
+  }
+
+  // The walker stands at the start and walks the route when the figure `out` plays (and again when it is played again); with no movement it stands at the end.
+  function attachWalk(out, g, route, every, lead, animate) {
+    const walk = petWalk(g, route, every, lead);
+    if (!walk || !walk.play || !animate) return;
+    g.style.transform = "translate(" + route[0].x1 + "px," + route[0].y1 + "px)";
+    if (typeof MutationObserver === "function") {
+      new MutationObserver(function () { if (out.classList.contains("is-playing")) walk.play(); }).observe(out, { attributes: true, attributeFilter: ["class"] });
+    } else {
+      g.style.transform = "translate(" + route[route.length - 1].x2 + "px," + route[route.length - 1].y2 + "px)";
+    }
+  }
+
   // ----- number line -----
   function numberline(c) {
     const min = Number(c.min !== undefined ? c.min : 0);
@@ -150,7 +218,8 @@ window.GaussicaFigures = (function () {
       }
     }
     const W = 600, L = 34, R = 34;
-    const top = jumps.length ? 78 : 44;
+    const petMark = c.pet ? petMarkup() : "";
+    const top = (jumps.length ? 78 : 44) + (petMark ? 62 : 0);
     const y0 = top + 12;
     const H = y0 + 52;
     const svg = svgRoot(c, W, H);
@@ -166,7 +235,7 @@ window.GaussicaFigures = (function () {
       const v = min + i * step;
       const major = i % everyN === 0;
       s("line", { x1: x(v), y1: y0 - (major ? 9 : 5), x2: x(v), y2: y0 + (major ? 9 : 5), "class": "fig-tick" }, svg);
-      if (major) text(svg, x(v), y0 + 28, fmt(v), "fig-ticklabel");
+      if (major) text(svg, x(v), y0 + 28, fmt(v).replace("-", "−"), "fig-ticklabel");
     }
 
     jumps.forEach(function (j, i) {
@@ -191,7 +260,15 @@ window.GaussicaFigures = (function () {
       }
     });
     const figure = wrap([svg]);
-    return c.animate && jumps.length ? animated(figure) : figure;
+    const out = c.animate && jumps.length ? animated(figure) : figure;
+    if (petMark) {
+      // the pet stands at the start and hops along the arrows when the figure plays; it stands at the end when nothing moves
+      const g = petGroup(svg, petMark, 78);
+      const route = jumps.map(function (j) { return { x1: x(j.from), y1: y0 - 3, x2: x(j.to), y2: y0 - 3, h: Math.min(46, 14 + Math.abs(x(j.to) - x(j.from)) * 0.25) }; });
+      if (!route.length) { const v = x(points.length ? points[0].value : min); route.push({ x1: v, y1: y0 - 3, x2: v, y2: y0 - 3, h: 0 }); }
+      attachWalk(out, g, route, 550, 250, c.animate);
+    }
+    return out;
   }
 
   // ----- rectangle / square -----
@@ -594,7 +671,19 @@ window.GaussicaFigures = (function () {
       s("circle", { cx: x(p.x), cy: y(p.y), r: 6, "class": "fig-point" + (p.tone === "coral" ? " is-q" : "") }, svg);
       if (p.label) text(svg, x(p.x) + 10, y(p.y) - 8, p.label, "fig-dim", "start");
     });
-    return wrap([svg]);
+    // walk: [[1, 1], [4, 1], [4, 3]]: a dashed path from point to point, and the pet (or a marker) that walks it when the figure plays
+    const pts = (c.walk || []).map(function (p) { return Array.isArray(p) ? { x: Number(p[0]), y: Number(p[1]) } : { x: Number(p.x), y: Number(p.y) }; }).filter(function (p) { return isFinite(p.x) && isFinite(p.y); });
+    const figure = wrap([svg]);
+    if (pts.length < 2) return figure;
+    s("path", { d: "M" + pts.map(function (p) { return x(p.x) + " " + y(p.y); }).join(" L"), fill: "none", "class": "fig-dash" }, svg);
+    const out = c.animate ? animated(figure) : figure;
+    const pg = walker(svg, c, 50);
+    const route = pts.slice(1).map(function (p, i) {
+      const q = pts[i], len = Math.abs(x(p.x) - x(q.x)) + Math.abs(y(p.y) - y(q.y));
+      return { x1: x(q.x), y1: y(q.y) + 3, x2: x(p.x), y2: y(p.y) + 3, h: 10, ms: 380 + len * 3 };
+    });
+    attachWalk(out, pg, route, 500, 300, c.animate);
+    return out;
   }
 
   // ----- hundred grid -----
@@ -1397,7 +1486,7 @@ window.GaussicaFigures = (function () {
   }
 
   // what figures-more.js builds with
-  const kit = { s: s, text: text, svgRoot: svgRoot, wrap: wrap, fmt: fmt, animated: animated, delay: delay };
+  const kit = { s: s, text: text, svgRoot: svgRoot, wrap: wrap, fmt: fmt, animated: animated, delay: delay, petMarkup: petMarkup, petGroup: petGroup, walker: walker, attachWalk: attachWalk, motionOk: motionOk };
 
   return { supports: supports, badge: badge, render: render, register: register, kit: kit };
 }());

@@ -400,7 +400,56 @@
           "label": "−6"
         }
       ],
-      "animate": true
+      "animate": true,
+      "pet": true
+    }
+  ],
+  "components": [
+    {
+      "type": "hoppa-pa-linjen",
+      "title": "Hoppa och räkna",
+      "intro": "Plus och minus är riktningar på tallinjen. Plus går åt höger, minus går åt vänster, och ett minus framför ett minustal vänder riktningen. Hoppa dig fram till svaret på varje uppdrag.",
+      "min": -10,
+      "max": 10,
+      "start": 2,
+      "hops": [
+        1,
+        3,
+        5
+      ],
+      "thermometer": true,
+      "missions": [
+        {
+          "text": "Räkna ut 2 + (−5) genom att hoppa. Du startar på 2.",
+          "start": 2,
+          "target": -3,
+          "done": "Rätt! Att lägga till −5 är samma sak som att hoppa 5 steg åt vänster: 2 + (−5) = −3."
+        },
+        {
+          "text": "Räkna ut 4 − (−3). Du startar på 4.",
+          "start": 4,
+          "target": 7,
+          "done": "Rätt! Att dra ifrån ett minustal vänder riktningen: du hoppar åt höger. 4 − (−3) = 4 + 3 = 7."
+        },
+        {
+          "text": "Räkna ut −3 − 4. Du startar på −3.",
+          "start": -3,
+          "target": -7,
+          "done": "Rätt! Att dra ifrån 4 är 4 steg åt vänster från −3: −3 − 4 = −7."
+        },
+        {
+          "text": "Räkna ut −5 + 8. Du startar på −5.",
+          "start": -5,
+          "target": 3,
+          "done": "Rätt! 5 steg tar dig till noll och 3 steg till: −5 + 8 = 3."
+        },
+        {
+          "text": "Räkna ut −2 − (−6). Du startar på −2.",
+          "start": -2,
+          "target": 4,
+          "done": "Rätt! Minus ett minustal är plus: −2 − (−6) = −2 + 6 = 4."
+        }
+      ]
     }
   ]
 }

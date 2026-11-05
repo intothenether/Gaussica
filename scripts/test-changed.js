@@ -17,7 +17,8 @@ const ROOT = path.join(__dirname, "..");
 const FALLBACK = ["smoke", "a11y"];
 const RULES = [
   [/^(pet|pet-art|pet-teacher)\.js$|^tests\/(pet|peek)/, ["pet", "keyboard", "a11y"]],
-  [/^(figures|figures-more|visuals)\.js$|^styles-figures-more\.css$/, ["figures-lower", "curves", "a11y"]],
+  [/^(figures|figures-more|visuals)\.js$|^styles-figures-more\.css$/, ["figures-lower", "curves", "a11y", "pet-figures", "hopplek", "stege"]],
+  [/^hopplek\.js$/, ["hopplek", "pet-figures"]],
   [/^(algebra|figures-algebra|steps|substitution|mathinput|worked-steps|symbolic-math|slips)\.js$|^styles-algebra\.css$/, ["algebra", "powers", "mobile-keyboard"]],
   [/^(formats|practice|practice-editor|editor)\.js$|^interactive-lesson-editor/, ["practice-formats", "formats", "editor"]],
   [/^(spelling|wordbank|reading|terms|words)\.js$/, ["spelling", "terms"]],

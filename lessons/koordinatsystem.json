@@ -18,6 +18,23 @@
     "points": [{"x":3,"y":2,"label":"A (3, 2)"}],
     "title": "Punkt A: 3 steg åt höger och 2 steg upp"
   },
+  "visuals": [
+    {
+      "type": "graf",
+      "title": "Från (1, 1): 3 steg åt höger och sedan 2 steg upp ger (4, 3)",
+      "xmin": 0,
+      "xmax": 6,
+      "ymin": 0,
+      "ymax": 6,
+      "points": [
+        { "x": 1, "y": 1, "label": "start" },
+        { "x": 4, "y": 3, "label": "mål" }
+      ],
+      "walk": [[1, 1], [4, 1], [4, 3]],
+      "animate": true,
+      "pet": true
+    }
+  ],
   "rule": "Skriv först hur många steg åt höger, sedan hur många steg uppåt: (åt höger, uppåt)",
   "ruleLabel": "FÖRST ÅT SIDAN, SEDAN UPP",
   "example": "Punkten (4, 1) ligger 4 steg åt höger och 1 steg upp. Punkten (1, 4) ligger 1 steg åt höger och 4 steg upp. De är olika punkter.",

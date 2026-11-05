@@ -85,6 +85,11 @@ ok(textsOf(sq).includes("r · r") && !textsOf(sq).some((t) => /^d = /.test(t)), 
 ok(textsOf(Fig.render({ type: "cirkel", r: 3, show: ["diameter"], labels: { d: "d" } })).join() === "d", "the names can be letters, so that the numbers are not given away");
 ok(!/NaN|undefined/.test(JSON.stringify(all(Fig.render({ type: "cirkel" })).map((n) => n.attrs))), "a circle without a radius is still drawn cleanly");
 
+// ----- a walk in the coordinate system -----
+const walked = graph({ walk: [[1, 1], [4, 1], [4, 3]], xmin: 0, xmax: 6, ymin: 0, ymax: 6 });
+ok(all(walked).filter((n) => /fig-dash/.test(n.className)).length === 1 && all(walked).filter((n) => /fig-marker/.test(n.className)).length === 1, "a walk is a dashed path with something that walks it");
+ok(all(graph({ xmin: 0, xmax: 6, ymin: 0, ymax: 6 })).filter((n) => /fig-marker/.test(n.className)).length === 0, "and nothing walks in a graph without a walk");
+
 // ----- the axes have names -----
 const names = (fig) => all(fig).filter((n) => n.tag === "text" && /fig-axisname/.test(n.className)).map((n) => n.textContent);
 ok(JSON.stringify(names(graph({}))) === JSON.stringify(["x", "y"]), "the axes are called x and y unless the figure says otherwise");

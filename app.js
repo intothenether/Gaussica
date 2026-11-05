@@ -1248,6 +1248,10 @@
         parent.appendChild(window.GaussicaWorkedSteps.render(comp));
         return;
       }
+      if (comp.type === "hoppa-pa-linjen" && window.GaussicaHopplek) {   // a number line to play on, with the pet
+        parent.appendChild(window.GaussicaHopplek.render(comp));
+        return;
+      }
       if (window.GaussicaFigures && window.GaussicaFigures.supports(comp.type)) {   // a figure used as a block between the text
         parent.appendChild(renderVisualComponent(comp));
         return;

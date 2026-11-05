@@ -31,7 +31,8 @@
         "label": "+8"
       }
     ],
-    "animate": true
+    "animate": true,
+    "pet": true
   },
   "rule": "Addition: hoppa åt höger. Subtraktion: hoppa åt vänster.",
   "ruleLabel": "TALLINJENS REGEL",

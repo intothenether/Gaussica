@@ -1,0 +1,964 @@
+{
+  "id": "upp-och-ner",
+  "area": "tal",
+  "title": "Upp och ner: följ stegen och räkna baklänges",
+  "level": "Räkna med steg upp och ner · ungefär åk 4",
+  "grade": 4,
+  "duration": "10 min",
+  "prerequisites": [
+    "tallinjen",
+    "subtraktion"
+  ],
+  "summary": "När du vet var något slutade och vad som hände på vägen kan du räkna dig tillbaka till början. Det funkar på en stege, i en hiss, i en kö och i en bok.",
+  "explanationTitle": "Följ stegen, sedan baklänges",
+  "explanation": "Problemet: Bob står på den mittersta pinnen på en stege. Han klättrar upp 4 pinnar och sedan ner 9 pinnar, och då står han på den nedersta pinnen. Hur många pinnar har stegen? Vi vet inte var Bob började och vi vet inte hur lång stegen är. Vi vet bara vad han gjorde. Vi behöver ett sätt att följa hans steg. Numrera pinnarna nerifrån: den nedersta är pinne 1, nästa är pinne 2 och så vidare. Upp 4 och ner 9 blir tillsammans 5 pinnar ner, eftersom 9 − 4 = 5. Bob slutar på pinne 1, så han började 5 pinnar högre upp, på pinne 1 + 5 = 6. Det är den mittersta pinnen, så det finns 5 pinnar under och 5 pinnar över honom. Hela stegen har 5 + 1 + 5 = 11 pinnar. Gör så här: räkna först ut hur långt Bob kom sammanlagt, där upp är plus och ner är minus. Gå sedan baklänges från där han slutade. Den mittersta pinnen har lika många pinnar på båda sidor, och den räknas bara en gång. Samma knep funkar i en hiss, i en kö och i en bok.",
+  "visual": {
+    "type": "stege",
+    "title": "Bob börjar på pinne 6 (mitten), klättrar upp 4 och ner 9 och står på pinne 1. Stegen har 11 pinnar.",
+    "rungs": 11,
+    "marks": [
+      {
+        "at": "mitten",
+        "label": "Start: mitten"
+      },
+      {
+        "at": 1,
+        "label": "Slut: nedersta",
+        "tone": "coral"
+      }
+    ],
+    "jumps": [
+      {
+        "from": 6,
+        "to": 10,
+        "label": "upp 4"
+      },
+      {
+        "from": 10,
+        "to": 1,
+        "label": "ner 9"
+      }
+    ],
+    "pet": true,
+    "animate": true
+  },
+  "rule": "Slut = start + upp − ner, så start = slut − upp + ner. Mitten har lika många pinnar på varje sida och räknas en gång.",
+  "ruleLabel": "FÖLJ STEGEN",
+  "example": "Sara står på den mittersta pinnen. Hon klättrar ner 2 och upp 9 och står på den översta pinnen. Hon kom 9 − 2 = 7 pinnar upp, så det är 7 pinnar över mitten och 7 under: 7 + 1 + 7 = 15 pinnar.",
+  "practice": [
+    {
+      "id": "stege-nederst",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "m": [
+          5,
+          9
+        ],
+        "u": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-2*u+0)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*u+1)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "u+m-1"
+        },
+        {
+          "name": "k",
+          "expr": "m-1"
+        },
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        }
+      ],
+      "prompt": "{$namn} står på den mittersta pinnen på en stege. {$namn} klättrar upp {u} pinnar och sedan ner {d} pinnar. Då står {$namn} på den nedersta pinnen. Hur många pinnar har stegen?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Upp {u} och ner {d} är {k} pinnar ner. Slutet är nederst, så det är {k} pinnar under mitten och {k} över: {k} + 1 + {k} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur långt det är mellan mitten och slutet. Hur många pinnar har det på varje sida om mitten, och hur många är det sammanlagt?"
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är mittens nummer, räknat från kanten. Det finns lika många pinnar på andra sidan om mitten, så räkna med dem också."
+        },
+        {
+          "answers": [
+            "=2*m"
+          ],
+          "message": "Mittpunkten räknas bara en gång. Den är med i båda halvorna, så {2*m} är en för mycket."
+        },
+        {
+          "answers": [
+            "=u+d"
+          ],
+          "message": "Du har lagt ihop alla pinnar som flyttades. Upp och ner tar ut varandra: se hur långt det blir kvar."
+        }
+      ]
+    },
+    {
+      "id": "var-star-han",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "m": [
+          5,
+          8
+        ],
+        "u": [
+          2,
+          4
+        ],
+        "d": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "m+u-d",
+          "min": 1
+        },
+        {
+          "expr": "abs(u-d)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        },
+        {
+          "name": "p",
+          "expr": "m+u-d"
+        }
+      ],
+      "prompt": "En stege har {n} pinnar. {$namn} står på den mittersta pinnen. {$namn} klättrar upp {u} pinnar och sedan ner {d} pinnar. På vilken pinne står {$namn} nu? Räkna pinnarna nerifrån, så att den nedersta är pinne 1.",
+      "answer": [
+        "=p"
+      ],
+      "correct": "Rätt! Den mittersta pinnen är pinne {m}. Upp {u} ger pinne {m+u}, och ner {d} ger pinne {p}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är pinnen {$namn} började på. Följ stegen: först upp {u}, sedan ner {d}."
+        },
+        {
+          "answers": [
+            "=u-d"
+          ],
+          "message": "Det är hur mycket {$namn} flyttade sig. Börja på den mittersta pinnen och lägg till flytten."
+        },
+        {
+          "answers": [
+            "=m+u+d"
+          ],
+          "message": "Ner betyder att du går mot pinne 1, så pinnen får ett lägre nummer. Ta bort {d} i stället för att lägga till."
+        }
+      ]
+    },
+    {
+      "id": "stege-overst",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "m": [
+          5,
+          9
+        ],
+        "d": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-2*d+0)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*d+1)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "u",
+          "expr": "d+m-1"
+        },
+        {
+          "name": "k",
+          "expr": "m-1"
+        },
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        }
+      ],
+      "prompt": "{$namn} står på den mittersta pinnen på en stege. {$namn} klättrar ner {d} pinnar och sedan upp {u} pinnar. Då står {$namn} på den översta pinnen. Hur många pinnar har stegen?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Ner {d} och upp {u} är {k} pinnar upp. Slutet är överst, så det är {k} pinnar över mitten och {k} under: {k} + 1 + {k} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur långt det är mellan mitten och slutet. Hur många pinnar har det på varje sida om mitten, och hur många är det sammanlagt?"
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är mittens nummer, räknat från kanten. Det finns lika många pinnar på andra sidan om mitten, så räkna med dem också."
+        },
+        {
+          "answers": [
+            "=2*m"
+          ],
+          "message": "Mittpunkten räknas bara en gång. Den är med i båda halvorna, så {2*m} är en för mycket."
+        },
+        {
+          "answers": [
+            "=u+d"
+          ],
+          "message": "Du har lagt ihop alla pinnar som flyttades. Upp och ner tar ut varandra: se hur långt det blir kvar."
+        }
+      ]
+    },
+    {
+      "id": "stege-nast-overst",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "m": [
+          5,
+          9
+        ],
+        "d": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-2*d+1)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*d+2)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*d-1)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "u",
+          "expr": "d+m-2"
+        },
+        {
+          "name": "k",
+          "expr": "m-2"
+        },
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        }
+      ],
+      "prompt": "{$namn} står på den mittersta pinnen på en stege. {$namn} klättrar ner {d} pinnar och sedan upp {u} pinnar. Då står {$namn} på den näst översta pinnen. Hur många pinnar har stegen?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Ner {d} och upp {u} är {k} pinnar upp. Slutet är nummer 2 från toppen och mitten är {k} pinnar längre in, alltså nummer 2 + {k} = {m}. Det är {m-1} pinnar på varje sida om mitten: {m-1} + 1 + {m-1} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur långt det är mellan mitten och slutet. Hur många pinnar har det på varje sida om mitten, och hur många är det sammanlagt?"
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är mittens nummer, räknat från kanten. Det finns lika många pinnar på andra sidan om mitten, så räkna med dem också."
+        },
+        {
+          "answers": [
+            "=2*k+1"
+          ],
+          "message": "Då räknade du som om slutet var allra överst. Det är en pinne till innanför, så räkna med den."
+        },
+        {
+          "answers": [
+            "=2*m"
+          ],
+          "message": "Mittpunkten räknas bara en gång. Den är med i båda halvorna, så {2*m} är en för mycket."
+        },
+        {
+          "answers": [
+            "=u+d"
+          ],
+          "message": "Du har lagt ihop alla pinnar som flyttades. Upp och ner tar ut varandra: se hur långt det blir kvar."
+        }
+      ]
+    },
+    {
+      "id": "stege-nast-nederst",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "m": [
+          5,
+          9
+        ],
+        "u": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-2*u+1)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*u+2)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*u-1)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "u+m-2"
+        },
+        {
+          "name": "k",
+          "expr": "m-2"
+        },
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        }
+      ],
+      "prompt": "{$namn} står på den mittersta pinnen på en stege. {$namn} klättrar upp {u} pinnar och sedan ner {d} pinnar. Då står {$namn} på den näst nedersta pinnen. Hur många pinnar har stegen?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Upp {u} och ner {d} är {k} pinnar ner. Slutet är nummer 2 från botten och mitten är {k} pinnar längre in, alltså nummer 2 + {k} = {m}. Det är {m-1} pinnar på varje sida om mitten: {m-1} + 1 + {m-1} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur långt det är mellan mitten och slutet. Hur många pinnar har det på varje sida om mitten, och hur många är det sammanlagt?"
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är mittens nummer, räknat från kanten. Det finns lika många pinnar på andra sidan om mitten, så räkna med dem också."
+        },
+        {
+          "answers": [
+            "=2*k+1"
+          ],
+          "message": "Då räknade du som om slutet var allra nederst. Det är en pinne till innanför, så räkna med den."
+        },
+        {
+          "answers": [
+            "=2*m"
+          ],
+          "message": "Mittpunkten räknas bara en gång. Den är med i båda halvorna, så {2*m} är en för mycket."
+        },
+        {
+          "answers": [
+            "=u+d"
+          ],
+          "message": "Du har lagt ihop alla pinnar som flyttades. Upp och ner tar ut varandra: se hur långt det blir kvar."
+        }
+      ]
+    },
+    {
+      "id": "fran-vilken-pinne",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "u": [
+          2,
+          5
+        ],
+        "d": [
+          1,
+          6
+        ],
+        "e": [
+          3,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "e-u+d",
+          "min": 1
+        },
+        {
+          "expr": "abs(u-d)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "s",
+          "expr": "e-u+d"
+        }
+      ],
+      "prompt": "{$namn} klättrar upp {u} pinnar och sedan ner {d} pinnar. Då står {$namn} på pinne {e}, räknat nerifrån. Från vilken pinne började {$namn}?",
+      "answer": [
+        "=s"
+      ],
+      "correct": "Rätt! Upp {u} och ner {d} ger pinne {e}, så baklänges tar du bort {u} och lägger till {d}: {e} − {u} + {d} = {s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=e"
+          ],
+          "message": "{e} är pinnen {$namn} står på efteråt. Gå baklänges: gör tvärtom mot vad {$namn} gjorde."
+        },
+        {
+          "answers": [
+            "=e+u-d"
+          ],
+          "message": "Du har gått framåt i stället för baklänges. Baklänges gör du tvärtom: upp blir ner och ner blir upp."
+        }
+      ]
+    },
+    {
+      "id": "hiss-nederst",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "m": [
+          5,
+          9
+        ],
+        "u": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-2*u+0)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*u+1)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "u+m-1"
+        },
+        {
+          "name": "k",
+          "expr": "m-1"
+        },
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        }
+      ],
+      "prompt": "En hiss står på mittersta våningen i ett hus. Den åker upp {u} våningar och sedan ner {d} våningar. Då är den på nedersta våningen. Hur många våningar har huset?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Upp {u} och ner {d} är {k} våningar ner. Slutet är nederst, så det är {k} våningar under mitten och {k} över: {k} + 1 + {k} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur långt det är mellan mitten och slutet. Hur många våningar har det på varje sida om mitten, och hur många är det sammanlagt?"
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är mittens nummer, räknat från kanten. Det finns lika många våningar på andra sidan om mitten, så räkna med dem också."
+        },
+        {
+          "answers": [
+            "=2*m"
+          ],
+          "message": "Mittpunkten räknas bara en gång. Den är med i båda halvorna, så {2*m} är en för mycket."
+        },
+        {
+          "answers": [
+            "=u+d"
+          ],
+          "message": "Du har lagt ihop alla våningar som flyttades. Upp och ner tar ut varandra: se hur långt det blir kvar."
+        }
+      ]
+    },
+    {
+      "id": "hiss-nast-nederst",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "m": [
+          5,
+          9
+        ],
+        "u": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-2*u+1)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*u+2)",
+          "min": 1
+        },
+        {
+          "expr": "abs(m-2*u-1)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "u+m-2"
+        },
+        {
+          "name": "k",
+          "expr": "m-2"
+        },
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        }
+      ],
+      "prompt": "En hiss står på mittersta våningen i ett hus. Den åker upp {u} våningar och sedan ner {d} våningar. Då är den på näst nedersta våningen. Hur många våningar har huset?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Upp {u} och ner {d} är {k} våningar ner. Slutet är nummer 2 från botten och mitten är {k} våningar längre in, alltså nummer 2 + {k} = {m}. Det är {m-1} våningar på varje sida om mitten: {m-1} + 1 + {m-1} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur långt det är mellan mitten och slutet. Hur många våningar har det på varje sida om mitten, och hur många är det sammanlagt?"
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är mittens nummer, räknat från kanten. Det finns lika många våningar på andra sidan om mitten, så räkna med dem också."
+        },
+        {
+          "answers": [
+            "=2*k+1"
+          ],
+          "message": "Då räknade du som om slutet var allra nederst. Det är en våning till innanför, så räkna med den."
+        },
+        {
+          "answers": [
+            "=2*m"
+          ],
+          "message": "Mittpunkten räknas bara en gång. Den är med i båda halvorna, så {2*m} är en för mycket."
+        },
+        {
+          "answers": [
+            "=u+d"
+          ],
+          "message": "Du har lagt ihop alla våningar som flyttades. Upp och ner tar ut varandra: se hur långt det blir kvar."
+        }
+      ]
+    },
+    {
+      "id": "ko-forst",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "m": [
+          5,
+          9
+        ],
+        "u": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-2*u)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "d",
+          "expr": "u+m-1"
+        },
+        {
+          "name": "k",
+          "expr": "m-1"
+        },
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        }
+      ],
+      "prompt": "{$namn} står mitt i en kö, med lika många personer framför som bakom. {$namn} går {u} platser bakåt och sedan {d} platser framåt och står då först i kön. Hur många personer är det i kön?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Bakåt {u} och framåt {d} är {k} platser framåt. {$namn} står först, så det är {k} personer framför mitten och {k} bakom: {k} + 1 + {k} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur många personer som står framför mitten. Det står lika många bakom, och mitten är med också."
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är platsen {$namn} började på, räknat framifrån. Det står lika många bakom {$namn} som framför."
+        },
+        {
+          "answers": [
+            "=2*m"
+          ],
+          "message": "Personen i mitten räknas bara en gång. Den är med både framför och bakom."
+        }
+      ]
+    },
+    {
+      "id": "bok-sista",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "m": [
+          5,
+          9
+        ],
+        "d": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(m-2*d)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "u",
+          "expr": "d+m-1"
+        },
+        {
+          "name": "k",
+          "expr": "m-1"
+        },
+        {
+          "name": "n",
+          "expr": "2*m-1"
+        }
+      ],
+      "prompt": "{$namn} har öppnat en bok på den mittersta sidan. {$namn} bläddrar tillbaka {d} sidor och sedan fram {u} sidor och är då på sista sidan. Hur många sidor har boken?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Tillbaka {d} och fram {u} är {k} sidor framåt. {$namn} är på sista sidan, så det är {k} sidor efter mitten och {k} före: {k} + 1 + {k} = {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är hur många sidor det är efter mitten. Det är lika många före, och mittsidan är med också."
+        },
+        {
+          "answers": [
+            "=m"
+          ],
+          "message": "{m} är sidan {$namn} började på, räknat från början. Det finns lika många sidor efter den som före."
+        },
+        {
+          "answers": [
+            "=2*m"
+          ],
+          "message": "Mittsidan räknas bara en gång. Den är med både före och efter."
+        }
+      ]
+    }
+  ],
+  "exercise": {
+    "prompt": "Elsa står på den mittersta pinnen på en stege. Hon klättrar upp 3 pinnar och sedan ner 7 pinnar. Då står hon på den nedersta pinnen. Hur många pinnar har stegen?",
+    "answer": [
+      "9",
+      "9 pinnar"
+    ],
+    "correct": "Rätt! Upp 3 och ner 7 är 4 pinnar ner. Elsa står på den nedersta pinnen, så hon började 4 pinnar högre upp, på den mittersta. Det är 4 pinnar under och 4 över: 4 + 1 + 4 = 9 pinnar.",
+    "feedback": [
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "4 är hur långt det är mellan mitten och nedersta pinnen. Hur många pinnar finns det på varje sida om mitten, och hur många är det sammanlagt?"
+      },
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 är pinnen Elsa började på, räknat nerifrån. Det finns lika många pinnar över den som under den, så räkna med dem också."
+      },
+      {
+        "answers": [
+          "8"
+        ],
+        "message": "Du har tagit pinnarna under och över mitten men glömt själva mittpinnen. Den ska med, en gång."
+      },
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "Mittpinnen räknas bara en gång. Den är med både under och över, så 10 är en för mycket."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Omar står på den mittersta pinnen på en stege. Han klättrar ner 2 pinnar och sedan upp 9 pinnar. Då står han på den översta pinnen. Hur många pinnar har stegen?",
+      "answer": [
+        "15",
+        "15 pinnar"
+      ],
+      "correct": "Rätt! Ner 2 och upp 9 är 7 pinnar upp. Han står på den översta pinnen, så det är 7 pinnar över mitten och 7 under: 7 + 1 + 7 = 15 pinnar.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är hur många pinnar Omar kom upp sammanlagt, alltså pinnarna över mitten. Hur många pinnar har hela stegen?"
+        },
+        {
+          "answers": [
+            "14"
+          ],
+          "message": "Du har tagit pinnarna över och under mitten men glömt mittpinnen. Den ska med, en gång."
+        },
+        {
+          "answers": [
+            "11"
+          ],
+          "message": "Du har lagt ihop 2 och 9. Ner och upp tar ut varandra: se hur långt han kom sammanlagt."
+        }
+      ]
+    },
+    {
+      "prompt": "Mira står på den mittersta pinnen på en stege. Hon klättrar upp 3 pinnar och sedan ner 8 pinnar. Då står hon på den näst nedersta pinnen. Hur många pinnar har stegen?",
+      "answer": [
+        "13",
+        "13 pinnar"
+      ],
+      "correct": "Rätt! Upp 3 och ner 8 är 5 pinnar ner. Hon står på pinne 2, så hon började på pinne 2 + 5 = 7, den mittersta. Det är 6 pinnar under och 6 över: 6 + 1 + 6 = 13 pinnar.",
+      "feedback": [
+        {
+          "answers": [
+            "11"
+          ],
+          "message": "Då räknade du som om Mira stod på den allra nedersta pinnen. Hon står på den näst nedersta, så det finns en pinne till under mitten."
+        },
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är pinnen Mira började på, räknat nerifrån. Det finns lika många pinnar över den som under den."
+        },
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "Du har tagit pinnarna under och över mitten men glömt mittpinnen. Den ska med, en gång."
+        }
+      ]
+    },
+    {
+      "prompt": "En hiss står på mittersta våningen i ett hus. Den åker upp 5 våningar och sedan ner 12 våningar. Då är den på nedersta våningen. Hur många våningar har huset?",
+      "answer": [
+        "15",
+        "15 våningar"
+      ],
+      "correct": "Rätt! Upp 5 och ner 12 är 7 våningar ner. Hissen är på nedersta våningen, så den började 7 våningar högre upp. Det är 7 våningar under och 7 över: 7 + 1 + 7 = 15 våningar.",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 är hur långt det är mellan mitten och nedersta våningen. Hur många våningar finns det på varje sida om mitten, och hur många är det sammanlagt?"
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är våningen hissen började på, räknat nerifrån. Det finns lika många våningar över den som under den."
+        },
+        {
+          "answers": [
+            "17"
+          ],
+          "message": "Du har lagt ihop 5 och 12. Upp och ner tar ut varandra: se hur långt hissen kom sammanlagt."
+        }
+      ]
+    }
+  ]
+}

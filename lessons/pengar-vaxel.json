@@ -416,7 +416,8 @@
           "label": "+10"
         }
       ],
-      "animate": true
+      "animate": true,
+      "pet": true
     }
   ]
 }

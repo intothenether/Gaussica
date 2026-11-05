@@ -8,7 +8,7 @@
   "prerequisites": [
     "tallinjen"
   ],
-  "summary": "Negativa tal är tal som är mindre än noll. Du ser dem på en termometer när det är kallt.",
+  "summary": "Negativa tal är tal som är mindre än noll. Du ser dem på en termometer när det är kallt, och du kan hoppa till dem på en tallinje.",
   "explanationTitle": "Hur skriver vi tal som är mindre än noll?",
   "explanation": "Problemet: På tallinjen har vi hittills börjat på noll. Men en termometer kan visa att det är kallare än noll. Hur skriver vi fem grader under noll? Och hur jämför vi två sådana temperaturer? De tal vi kan hittills räcker inte. Lösningen är negativa tal. Negativa tal skrivs med ett minustecken framför, till exempel −3. Du ser dem på en termometer när det är kallare än noll grader: −5 grader är fem grader under noll. På tallinjen ligger de negativa talen till vänster om noll. Ju längre åt vänster ett tal ligger, desto mindre är det. Därför är −8 mindre än −2, fast 8 är större än 2. När temperaturen stiger går du åt höger på tallinjen, och när den sjunker går du åt vänster. Exempel: det är −3 grader och blir 5 grader varmare. Du går 5 steg åt höger från −3 och hamnar på 2.",
   "rule": "Åt höger blir talet större, åt vänster blir det mindre",
@@ -811,18 +811,6 @@
   ],
   "visuals": [
     {
-      "type": "termometer",
-      "title": "−3 grader, och sedan fem grader varmare: 2 grader",
-      "values": [
-        {
-          "value": -3
-        },
-        {
-          "value": 2
-        }
-      ]
-    },
-    {
       "type": "tallinje",
       "title": "−3 grader och 5 grader varmare blir 2 grader",
       "min": -10,
@@ -845,7 +833,66 @@
           "label": "+5"
         }
       ],
-      "animate": true
+      "animate": true,
+      "pet": true
+    },
+    {
+      "type": "tallinje",
+      "title": "2 grader och 6 grader kallare: först 2 steg ner till noll, sedan 4 steg till",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "labelEvery": 1,
+      "points": [
+        {
+          "value": 2
+        },
+        {
+          "value": -4
+        }
+      ],
+      "jumps": [
+        {
+          "from": 2,
+          "to": 0,
+          "label": "−2"
+        },
+        {
+          "from": 0,
+          "to": -4,
+          "label": "−4"
+        }
+      ],
+      "animate": true,
+      "pet": true
+    },
+    {
+      "type": "termometer",
+      "title": "−3 grader, och sedan fem grader varmare: 2 grader",
+      "values": [
+        {
+          "value": -3
+        },
+        {
+          "value": 2
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "hoppa-pa-linjen",
+      "title": "Hoppa på tallinjen",
+      "intro": "Tryck på knapparna för att hoppa åt vänster eller höger, eller tryck på tallinjen där du vill landa. Termometern visar samma tal som en temperatur. Klarar du uppdragen?",
+      "min": -10,
+      "max": 10,
+      "start": 0,
+      "hops": [
+        1,
+        3,
+        5
+      ],
+      "thermometer": true
     }
   ]
 }

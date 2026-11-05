@@ -13,35 +13,11 @@
   "explanationTitle": "Hur räknar vi 34 · 100 utan uppställning?",
   "explanation": "Problemet: Hur mycket är 34 · 100? Tabellerna går bara till 10 · 10, och uppställning med många nollor tar lång tid. Ändå multiplicerar vi ofta med just 10, 100 och 1000, till exempel när vi byter enhet eller räknar pengar. Finns det en genväg? Ja, för vårt talsystem bygger på tiotal. Att multiplicera med 10 gör varje siffra tio gånger mer värd. Siffrorna flyttar ett steg åt vänster i platsvärdestabellen, och en nolla fyller entalsplatsen: 34 · 10 = 340. Med 100 flyttar siffrorna två steg, alltså två nollor: 34 · 100 = 3400. Med 1000 blir det tre nollor: 34 · 1000 = 34000. Det är motsatsen till division: 3400/100 = 34. Du kan också räkna med tiotal: 30 · 20 är 3 · 2 = 6 med två nollor efter, alltså 600.",
   "visual": {
-    "type": "tabell",
-    "title": "Multiplicera 34",
-    "headers": [
-      "Räkning",
-      "Svar",
-      "Vad händer?"
-    ],
-    "rows": [
-      [
-        "34 · 1",
-        "34",
-        "Inget ändras"
-      ],
-      [
-        "34 · 10",
-        "340",
-        "En nolla på slutet"
-      ],
-      [
-        "34 · 100",
-        "3400",
-        "Två nollor"
-      ],
-      [
-        "34 · 1000",
-        "34000",
-        "Tre nollor"
-      ]
-    ]
+    "type": "skift",
+    "title": "34 · 10 = 340: siffrorna flyttar en plats åt vänster och en nolla kommer",
+    "value": 34,
+    "places": 1,
+    "pet": true
   },
   "rule": "Multiplicera med 10, 100 eller 1000: lägg på 1, 2 eller 3 nollor",
   "ruleLabel": "NOLLORNA",
@@ -458,6 +434,46 @@
           ],
           "message": "Du har lagt ihop talen. Här ska du multiplicera."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "skift",
+      "title": "34 · 100 = 3400: siffrorna flyttar två platser och två nollor kommer",
+      "value": 34,
+      "places": 2,
+      "pet": true
+    },
+    {
+      "type": "tabell",
+      "title": "Multiplicera 34",
+      "headers": [
+        "Räkning",
+        "Svar",
+        "Vad händer?"
+      ],
+      "rows": [
+        [
+          "34 · 1",
+          "34",
+          "Inget ändras"
+        ],
+        [
+          "34 · 10",
+          "340",
+          "En nolla på slutet"
+        ],
+        [
+          "34 · 100",
+          "3400",
+          "Två nollor"
+        ],
+        [
+          "34 · 1000",
+          "34000",
+          "Tre nollor"
+        ]
       ]
     }
   ]

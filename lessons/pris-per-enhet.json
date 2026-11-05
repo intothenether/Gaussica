@@ -13,28 +13,12 @@
   "explanationTitle": "Hitta priset för en",
   "explanation": "Problemet: Två butiker säljer samma äpplen. Den ena tar 60 kr för 3 kg och den andra 50 kr för 2 kg. Vilket är billigast? Vi kan inte jämföra direkt, eftersom mängderna är olika. Vi behöver priset för samma mängd, till exempel 1 kg. Du räknar ut det genom att dela priset lika på antalet kilo. 60 kr delat på 3 kg är 20 kr per kilo. 50 kr delat på 2 kg är 25 kr per kilo. Då ser du att den första butiken är billigast. När du känner priset för en kan du också räkna ut priset för många: multiplicera priset för en med antalet.",
   "visual": {
-    "type": "tabell",
-    "title": "Vilket är billigast per kilo?",
-    "headers": [
-      "Butik",
-      "Mängd",
-      "Pris",
-      "Pris för 1 kg"
-    ],
-    "rows": [
-      [
-        "A",
-        "3 kg",
-        "60 kr",
-        "20 kr"
-      ],
-      [
-        "B",
-        "2 kg",
-        "50 kr",
-        "25 kr"
-      ]
-    ]
+    "type": "styckpris",
+    "title": "4 kg äpplen kostar 48 kr. Delar du priset lika kostar 1 kg 12 kr.",
+    "n": 4,
+    "total": 48,
+    "item": "apple",
+    "unit": "kr"
   },
   "rule": "Pris för en = priset delat lika på antalet. Pris för många = pris för en gånger antalet.",
   "ruleLabel": "PRIS PER ENHET",
@@ -262,6 +246,32 @@
           ],
           "message": "180 får du om du multiplicerar med 6. 600 g är 3 gånger 200 g, inte 6 gånger."
         }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "type": "tabell",
+      "title": "Vilket är billigast per kilo?",
+      "headers": [
+        "Butik",
+        "Mängd",
+        "Pris",
+        "Pris för 1 kg"
+      ],
+      "rows": [
+        [
+          "A",
+          "3 kg",
+          "60 kr",
+          "20 kr"
+        ],
+        [
+          "B",
+          "2 kg",
+          "50 kr",
+          "25 kr"
+        ]
       ]
     }
   ]

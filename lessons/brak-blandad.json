@@ -32,7 +32,8 @@
         "label": "3/4"
       }
     ],
-    "animate": true
+    "animate": true,
+    "pet": true
   },
   "rule": "t/n: dela t med n. Hela och rest/n",
   "ruleLabel": "BLANDAD FORM",
