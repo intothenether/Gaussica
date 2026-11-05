@@ -122,6 +122,10 @@ async function api() {
   run("worker deletion", "tests/worker-delete.js");
   run("worker caregivers", "tests/worker-caregiver.js");
   run("worker several adults and classes", "tests/worker-multi.js");
+  run("access (free, trial, paid) and Paddle: the rules", "tests/billing-core.js");
+  run("e-mail, access and Paddle (worker)", "tests/worker-account.js");
+  run("e-mail, access and Paddle (Node server)", "tests/api-account.js");
+  run("the pages of the terms", "tests/legal.js");
   run("demo several adults and classes", "tests/local-multi.js");
   run("migrations", "tests/migrate.js");
   run("mistakes in numbers", "tests/misconceptions.js");

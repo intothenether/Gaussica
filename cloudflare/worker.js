@@ -12,7 +12,7 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const PBKDF2_ITERATIONS = 100000;   // the most Workers allow
 
 class ApiError extends Error {
-  constructor(status, message) { super(message); this.status = status; }
+  constructor(status, message, code) { super(message); this.status = status; this.code = code; }
 }
 
 const enc = new TextEncoder();
@@ -109,6 +109,70 @@ function senderLabel(u, className) {
   return u.display_name + " (" + (u.role === "teacher" ? (u.caregiver ? "vårdnadshavare" : "lärare") : "elev") + (className ? ", klass " + className : "") + ")";
 }
 
+// ----- who may use the site (the same code as server/billing-core.js: tests/billing-core.js checks it) -----
+// BEGIN billing-core
+const BILLING_GRACE_DAYS = 7;       // a payment that is late or a webhook that is missed does not lock a family out at once
+const BILLING_DAY_MS = 86400000;
+
+function billingMs(v) {
+  const t = typeof v === "number" ? v : Date.parse(v || "");
+  return Number.isFinite(t) ? t : null;
+}
+
+function billingIso(ms) { return ms === null || ms === undefined ? null : new Date(ms).toISOString(); }
+
+// { state: "active" | "expired", plan, reason, until, daysLeft, cancelAtPeriodEnd, billing }
+function accessOf(ent, opts) {
+  opts = opts || {};
+  const now = billingMs(opts.now) === null ? Date.now() : billingMs(opts.now);
+  const out = (state, plan, extra) => Object.assign({ state: state, plan: plan, reason: null, until: null, daysLeft: null, cancelAtPeriodEnd: false, billing: Boolean(opts.billing) }, extra || {});
+  const left = (until) => (until === null ? null : Math.max(0, Math.ceil((until - now) / BILLING_DAY_MS)));
+  if (!ent) return out("active", "free", { reason: "ingen" });
+  // while the site is not charging anyone, everybody is in
+  if (!opts.billing) return out("active", ent.plan || "free", { reason: ent.free_reason || "beta", until: billingIso(billingMs(ent.free_until)) });
+  if (ent.plan === "free") {
+    const until = billingMs(ent.free_until);
+    if (until !== null && until <= now) return out("expired", "free", { reason: ent.free_reason || null, until: billingIso(until), daysLeft: 0 });
+    return out("active", "free", { reason: ent.free_reason || "gratis", until: billingIso(until), daysLeft: left(until) });
+  }
+  if (ent.plan === "trial") {
+    const until = billingMs(ent.trial_ends_at);
+    if (until === null || until <= now) return out("expired", "trial", { until: billingIso(until), daysLeft: 0 });
+    return out("active", "trial", { until: billingIso(until), daysLeft: left(until) });
+  }
+  // paid
+  const end = billingMs(ent.period_end);
+  const cancel = Boolean(ent.cancel_at_period_end);
+  const status = String(ent.status || "");
+  if (status === "canceled") {
+    if (end !== null && end > now) return out("active", "paid", { until: billingIso(end), daysLeft: left(end), cancelAtPeriodEnd: true });
+    return out("expired", "paid", { until: billingIso(end), daysLeft: 0 });
+  }
+  if (status === "active" || status === "trialing" || status === "past_due") {
+    const lastDay = end === null ? null : end + BILLING_GRACE_DAYS * BILLING_DAY_MS;
+    if (lastDay !== null && lastDay <= now) return out("expired", "paid", { until: billingIso(end), daysLeft: 0 });
+    return out("active", "paid", { until: billingIso(end), daysLeft: left(end), cancelAtPeriodEnd: cancel });
+  }
+  return out("expired", "paid", { until: billingIso(end), daysLeft: 0 });
+}
+
+// What a Paddle webhook says about a subscription, as a change to the entitlement: { userId, customerId, subscriptionId, status, periodEnd,
+// cancelAtPeriodEnd } or null for events that are not about a subscription of one of our users. custom_data.user_id is set when the checkout is made.
+function paddleChange(event) {
+  const type = event && typeof event.event_type === "string" ? event.event_type : "";
+  const d = event && event.data;
+  if (!/^subscription\./.test(type) || !d || typeof d !== "object") return null;
+  const userId = Number(d.custom_data && d.custom_data.user_id);
+  if (!Number.isInteger(userId) || userId <= 0) return null;
+  const status = String(d.status || "");
+  const period = d.current_billing_period && d.current_billing_period.ends_at;
+  const cancel = Boolean(d.scheduled_change && d.scheduled_change.action === "cancel");
+  let periodEnd = billingIso(billingMs(period));
+  if (status === "canceled") periodEnd = billingIso(billingMs(d.canceled_at) === null ? billingMs(period) : billingMs(d.canceled_at));
+  return { userId: userId, customerId: d.customer_id ? String(d.customer_id) : null, subscriptionId: d.id ? String(d.id) : null, status: status, periodEnd: periodEnd, cancelAtPeriodEnd: cancel };
+}
+// END billing-core
+
 // ----- validation -----
 const FAMILY_MAX = 10;   // children in the family of a caregiver
 
@@ -165,6 +229,8 @@ function createApi(env, request) {
       guide: u.role === "student" ? (!classes.length ? "teacher" : families === classes.length ? "caregiver" : families ? "both" : "teacher") : undefined,
       classId: classes.length ? classes[0].id : (u.class_id || null), className: classes.length ? classes.map((c) => c.name).join(" · ") : (u.class_name || null),
       classes: u.role === "student" ? classes.map((c) => ({ id: c.id, name: c.name, family: Boolean(c.owner_caregiver) })) : undefined,
+      email: u.role === "teacher" ? (u.email || null) : undefined, emailVerified: u.role === "teacher" ? Boolean(u.email_verified_at) : undefined,
+      access: u.access,
       color: COLORS[u.id % COLORS.length],
       rewards: u.role === "student" && classes.length ? classes.some((c) => Boolean(c.rewards)) : (u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards))
     };
@@ -180,6 +246,7 @@ function createApi(env, request) {
   // the classes of a student are looked up only where the user is handed to the site (not on every request)
   async function withGuide(u) {
     if (u && u.role === "student") u.classes = await classesOfStudent(u.id);
+    if (u) u.access = await accessOfUser(u);
     return u;
   }
 
@@ -282,6 +349,303 @@ function createApi(env, request) {
     return data;
   }
 
+  // ----- e-mail, access and billing (the same rules as server/account.js: change both) -----
+  // Settings are variables or secrets of the worker, see cloudflare/README.md: RESEND_API_KEY, MAIL_FROM, SITE_URL, CAREGIVER_EMAIL_REQUIRED, BILLING_ENABLED,
+  // TRIAL_DAYS, PADDLE_ENV, PADDLE_API_KEY, PADDLE_WEBHOOK_SECRET, PADDLE_PRICES, ADMIN_TOKEN. None is needed to run the site: the features stay off.
+  const billingOn = () => env.BILLING_ENABLED === "1";
+  const emailRequired = () => env.CAREGIVER_EMAIL_REQUIRED === "1";
+  const trialDays = () => Math.max(1, Math.min(90, Math.round(Number(env.TRIAL_DAYS)) || 14));
+  const siteUrl = () => String(env.SITE_URL || "https://gaussica.se").replace(/\/+$/, "");
+  const termsVersion = () => env.TERMS_VERSION || "2026-11";
+  const paddleBase = () => env.PADDLE_API_BASE || (env.PADDLE_ENV === "production" ? "https://api.paddle.com" : "https://sandbox-api.paddle.com");
+  const cleanEmail = (v) => str(v, 120).trim().toLowerCase();
+  const validEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e) && e.length <= 120;
+  const VERIFY_MINUTES = 24 * 60;
+  const RESET_MINUTES = 60;
+
+  function plans() {
+    try {
+      const p = JSON.parse(env.PADDLE_PRICES || "{}");
+      return Object.keys(p).filter((id) => p[id] && typeof p[id].priceId === "string").map((id) => ({ id, priceId: p[id].priceId, label: String(p[id].label || id), text: String(p[id].text || "") }));
+    } catch (e) { return []; }
+  }
+  const paddleReady = () => Boolean(env.PADDLE_API_KEY && plans().length);
+
+  async function sendMail(to, subject, text) {
+    if (env.MAIL_DEV === "1") { if (Array.isArray(env.MAIL_OUTBOX)) env.MAIL_OUTBOX.push({ to, subject, text, at: nowIso() }); return true; }
+    if (!env.RESEND_API_KEY || !env.MAIL_FROM) return false;
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + env.RESEND_API_KEY },
+        body: JSON.stringify({ from: env.MAIL_FROM, to: [to], subject, text })
+      });
+      return res.ok;
+    } catch (e) { return false; }
+  }
+
+  const SIGNATURE = "\n\nHälsningar\nGaussica";
+  const verifyMail = (name, link) => ["Bekräfta din e-postadress till Gaussica", "Hej " + name + "!\n\nBekräfta din e-postadress genom att öppna länken:\n" + link + "\n\nLänken fungerar i 24 timmar. Det är med den här adressen du kan få ett nytt lösenord om du glömmer det." + SIGNATURE];
+  const resetMail = (name, link) => ["Nytt lösenord till Gaussica", "Hej " + name + "!\n\nDu (eller någon annan) bad om ett nytt lösenord. Öppna länken för att välja ett:\n" + link + "\n\nLänken fungerar i 1 timme och kan bara användas en gång. Bad du inte om det kan du strunta i det här mejlet: ditt lösenord ändras inte." + SIGNATURE];
+
+  async function newEmailToken(userId, purpose, email, minutes) {
+    const token = b64url(crypto.getRandomValues(new Uint8Array(32)));
+    await run("DELETE FROM email_tokens WHERE user_id = ? AND purpose = ?", userId, purpose);
+    await run("INSERT INTO email_tokens (token_hash, user_id, purpose, email, created_at, expires_at) VALUES (?, ?, ?, ?, ?, ?)",
+      await sha256Hex(token), userId, purpose, email, nowIso(), new Date(Date.now() + minutes * 60000).toISOString());
+    return token;
+  }
+
+  async function sendVerification(user) {
+    if (!user.email) return false;
+    const m = verifyMail(user.display_name, siteUrl() + "/#verifiera/" + (await newEmailToken(user.id, "verify", user.email, VERIFY_MINUTES)));
+    return sendMail(user.email, m[0], m[1]);
+  }
+
+  async function startEntitlement(userId) {
+    const now = nowIso();
+    if (billingOn()) await run("INSERT OR IGNORE INTO entitlements (user_id, plan, free_reason, free_until, trial_ends_at, updated_at) VALUES (?, 'trial', NULL, NULL, ?, ?)", userId, new Date(Date.now() + trialDays() * 86400000).toISOString(), now);
+    else await run("INSERT OR IGNORE INTO entitlements (user_id, plan, free_reason, free_until, trial_ends_at, updated_at) VALUES (?, 'free', 'beta', NULL, NULL, ?)", userId, now);
+  }
+
+  const betterAccess = (a, b) => (a.state !== b.state ? (a.state === "active" ? a : b) : (a.until === null && b.until !== null ? a : b.until === null && a.until !== null ? b : (String(a.until) >= String(b.until) ? a : b)));
+
+  // The access of a user (see server/account.js). A database that has not had migrations/008-account-billing.sql yet lets everybody in.
+  async function accessOfUser(u) {
+    const billing = billingOn();
+    const school = { state: "active", plan: "school", reason: null, until: null, daysLeft: null, cancelAtPeriodEnd: false, billing };
+    try {
+      if (u.role === "teacher" && !u.caregiver) return school;
+      const owners = await all(u.role === "student"
+        ? "SELECT DISTINCT c.teacher_id AS owner, g.caregiver AS caregiver FROM class_members m JOIN classes c ON c.id = m.class_id JOIN users g ON g.id = c.teacher_id WHERE m.user_id = ?"
+        : "SELECT DISTINCT c.teacher_id AS owner, g.caregiver AS caregiver FROM class_guides cg JOIN classes c ON c.id = cg.class_id JOIN users g ON g.id = c.teacher_id WHERE cg.user_id = ?", u.id);
+      if (!owners.length) return Object.assign({}, school, { plan: "free", reason: "ingen familj" });
+      const list = [];
+      for (const o of owners) list.push(o.caregiver ? accessOf(await one("SELECT * FROM entitlements WHERE user_id = ?", o.owner), { billing }) : school);
+      return list.reduce(betterAccess);
+    } catch (e) {
+      return Object.assign({}, school, { plan: "free", reason: "databasen är inte uppdaterad", billing: false });
+    }
+  }
+
+  async function requireAccess(u) {
+    if (u.role === "student" && (await accessOfUser(u)).state !== "active") throw new ApiError(402, "Familjens prenumeration har gått ut. Be din vårdnadshavare förnya den.", "subscription");
+  }
+
+  async function setEmail() {
+    const s = await requireUser();
+    if (s.user.role !== "teacher") throw new ApiError(403, "Bara vuxna har en e-postadress.");
+    const b = await readJson(request, 4000);
+    const email = cleanEmail(b.email);
+    if (!validEmail(email)) throw new ApiError(400, "E-postadressen ser inte rätt ut.");
+    const full = await one("SELECT * FROM users WHERE id = ?", s.user.id);
+    if (full.email && full.email !== email && !(await verifyPassword(str(b.password, 200), full.password_hash))) throw new ApiError(400, "Skriv ditt lösenord för att byta e-postadress.");
+    const other = await tryOne("SELECT id FROM users WHERE email = ?", email);
+    if (other && other.id !== s.user.id) throw new ApiError(409, "Den e-postadressen går inte att använda. Har du redan ett konto? Logga in med det.");
+    if (full.email === email && full.email_verified_at) return [200, { ok: true, verified: true, sent: false }];
+    const wait = await limit("verify:" + s.user.id, 5, 3600 * 1000);
+    if (wait) throw new ApiError(429, "För många mejl. Vänta " + Math.ceil(wait / 60) + " min.");
+    try { await run("UPDATE users SET email = ?, email_verified_at = NULL WHERE id = ?", email, s.user.id); }
+    catch (e) { throw new ApiError(503, "Databasen är inte uppdaterad för e-post. Kör migrations/008-account-billing.sql (se cloudflare/README.md)."); }
+    return [200, { ok: true, verified: false, sent: await sendVerification(Object.assign({}, full, { email })) }];
+  }
+
+  async function resendVerification() {
+    const s = await requireUser();
+    const full = await one("SELECT * FROM users WHERE id = ?", s.user.id);
+    if (!full.email) throw new ApiError(400, "Du har ingen e-postadress än.");
+    if (full.email_verified_at) return [200, { ok: true, verified: true, sent: false }];
+    const wait = await limit("verify:" + s.user.id, 5, 3600 * 1000);
+    if (wait) throw new ApiError(429, "För många mejl. Vänta " + Math.ceil(wait / 60) + " min.");
+    return [200, { ok: true, verified: false, sent: await sendVerification(full) }];
+  }
+
+  async function verifyEmailToken() {
+    const b = await readJson(request, 2000);
+    const row = await one("SELECT * FROM email_tokens WHERE token_hash = ?", await sha256Hex(str(b.token, 200)));
+    if (!row || row.purpose !== "verify" || row.used_at || row.expires_at < nowIso()) throw new ApiError(400, "Länken har gått ut eller är redan använd. Be om en ny i Konto.");
+    const res = await run("UPDATE users SET email_verified_at = ? WHERE id = ? AND email = ?", nowIso(), row.user_id, row.email);
+    if (!res.meta.changes) throw new ApiError(400, "Länken gäller en adress du inte har längre.");
+    await run("UPDATE email_tokens SET used_at = ? WHERE token_hash = ?", nowIso(), row.token_hash);
+    return [200, { ok: true, email: row.email }];
+  }
+
+  async function forgot() {
+    const b = await readJson(request, 2000);
+    const email = cleanEmail(b.email);
+    const wait = Math.max(await limit("forgotip:" + ip, 10, 3600 * 1000), validEmail(email) ? await limit("forgotmail:" + email, 3, 3600 * 1000) : 0);
+    if (wait) throw new ApiError(429, "För många försök. Vänta " + Math.ceil(wait / 60) + " min.");
+    if (validEmail(email)) {
+      const user = await tryOne("SELECT * FROM users WHERE email = ?", email);
+      // only an address that has been verified can get a new password, so that nobody can take over an account by putting its name on another address
+      if (user && user.email_verified_at) {
+        const m = resetMail(user.display_name, siteUrl() + "/#aterstall/" + (await newEmailToken(user.id, "reset", email, RESET_MINUTES)));
+        await sendMail(email, m[0], m[1]);
+      }
+    }
+    return [200, { ok: true }];   // the same answer whether the address exists or not
+  }
+
+  async function resetPassword() {
+    const b = await readJson(request, 4000);
+    const row = await one("SELECT * FROM email_tokens WHERE token_hash = ?", await sha256Hex(str(b.token, 200)));
+    if (!row || row.purpose !== "reset" || row.used_at || row.expires_at < nowIso()) throw new ApiError(400, "Länken har gått ut eller är redan använd. Be om en ny.");
+    const user = await one("SELECT * FROM users WHERE id = ?", row.user_id);
+    if (!user) throw new ApiError(400, "Länken har gått ut eller är redan använd. Be om en ny.");
+    checkPassword(b.password, user.username);
+    await run("UPDATE users SET password_hash = ? WHERE id = ?", await hashPassword(b.password), user.id);
+    await run("UPDATE email_tokens SET used_at = ? WHERE token_hash = ?", nowIso(), row.token_hash);
+    await run("DELETE FROM email_tokens WHERE user_id = ? AND purpose = 'reset'", user.id);
+    await run("DELETE FROM sessions WHERE user_id = ?", user.id);
+    return [200, { ok: true, username: user.username }];
+  }
+
+  async function billingStatus() {
+    const s = await requireUser();
+    const owner = s.user.role === "teacher" && s.user.caregiver;
+    const ent = owner ? await tryOne("SELECT * FROM entitlements WHERE user_id = ?", s.user.id) : null;
+    return [200, {
+      billing: billingOn(), checkout: billingOn() && paddleReady(), access: await accessOfUser(s.user),
+      plans: plans().map((p) => ({ id: p.id, label: p.label, text: p.text })), manage: Boolean(ent && ent.paddle_customer_id), owner: Boolean(owner && ent)
+    }];
+  }
+
+  async function paddle(method, path, body) {
+    const res = await fetch(paddleBase() + path, { method, headers: { "Content-Type": "application/json", Authorization: "Bearer " + env.PADDLE_API_KEY }, body: body ? JSON.stringify(body) : undefined });
+    let json = null; try { json = await res.json(); } catch (e) { /* no body */ }
+    if (!res.ok) throw new ApiError(502, "Betalningstjänsten svarade inte som den ska. Försök igen om en stund.");
+    return json && json.data;
+  }
+
+  async function checkout() {
+    const s = await requireGuide();
+    if (!s.user.caregiver) throw new ApiError(403, "Prenumerationen är för familjer.");
+    if (!billingOn() || !paddleReady()) throw new ApiError(503, "Betalning är inte påslagen än.");
+    const b = await readJson(request, 2000);
+    const plan = plans().find((p) => p.id === str(b.plan, 40));
+    if (!plan) throw new ApiError(400, "Välj en prenumeration.");
+    const data = await paddle("POST", "/transactions", { items: [{ price_id: plan.priceId, quantity: 1 }], collection_mode: "automatic", custom_data: { user_id: String(s.user.id) } });
+    const url = data && data.checkout && data.checkout.url;
+    if (!url) throw new ApiError(502, "Betalningstjänsten gav ingen betalsida. Försök igen om en stund.");
+    return [200, { url }];
+  }
+
+  async function portal() {
+    const s = await requireGuide();
+    const ent = await tryOne("SELECT * FROM entitlements WHERE user_id = ?", s.user.id);
+    if (!ent || !ent.paddle_customer_id) throw new ApiError(400, "Det finns ingen prenumeration att hantera.");
+    const data = await paddle("POST", "/customers/" + encodeURIComponent(ent.paddle_customer_id) + "/portal-sessions", ent.paddle_subscription_id ? { subscription_ids: [ent.paddle_subscription_id] } : {});
+    const url = data && data.urls && data.urls.general && data.urls.general.overview;
+    if (!url) throw new ApiError(502, "Betalningstjänsten gav ingen sida. Försök igen om en stund.");
+    return [200, { url }];
+  }
+
+  async function hmacHex(secret, text) {
+    const key = await crypto.subtle.importKey("raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+    return Array.from(new Uint8Array(await crypto.subtle.sign("HMAC", key, enc.encode(text))), (x) => x.toString(16).padStart(2, "0")).join("");
+  }
+
+  // "ts=1671552777;h1=<hex>" is the HMAC-SHA256 of "<ts>:<raw body>" with the secret of the notification
+  async function paddleSignatureOk(header, raw) {
+    if (!env.PADDLE_WEBHOOK_SECRET) return false;
+    const parts = {};
+    String(header || "").split(";").forEach((kv) => { const i = kv.indexOf("="); if (i > 0) parts[kv.slice(0, i).trim()] = kv.slice(i + 1).trim(); });
+    if (!parts.ts || !parts.h1) return false;
+    if (Math.abs(Date.now() / 1000 - Number(parts.ts)) > 300) return false;
+    return safeEqual(await hmacHex(env.PADDLE_WEBHOOK_SECRET, parts.ts + ":" + raw), parts.h1);
+  }
+
+  async function webhook() {
+    const raw = await request.text();
+    if (raw.length > 200000) throw new ApiError(413, "För stor förfrågan.");
+    if (!(await paddleSignatureOk(request.headers.get("Paddle-Signature"), raw))) throw new ApiError(400, "Ogiltig signatur.");
+    let event;
+    try { event = JSON.parse(raw); } catch (e) { throw new ApiError(400, "Ogiltig JSON."); }
+    if (event.event_id && !(await run("INSERT OR IGNORE INTO billing_events (id, type, received_at) VALUES (?, ?, ?)", String(event.event_id), String(event.event_type || ""), nowIso())).meta.changes) return [200, { ok: true, duplicate: true }];
+    const change = paddleChange(event);
+    if (change) {
+      const user = await one("SELECT * FROM users WHERE id = ?", change.userId);
+      if (user) {
+        await startEntitlement(user.id);
+        const cur = await one("SELECT * FROM entitlements WHERE user_id = ?", user.id);
+        // an account with free access for good keeps it (it only learns the ids), a trial or a lapsed one becomes paid
+        const keepFree = cur.plan === "free" && !cur.free_until;
+        await run("UPDATE entitlements SET plan = ?, free_reason = ?, free_until = ?, trial_ends_at = ?, status = ?, period_end = ?, cancel_at_period_end = ?, paddle_customer_id = ?, paddle_subscription_id = ?, updated_at = ? WHERE user_id = ?",
+          keepFree ? "free" : "paid", cur.free_reason, keepFree ? cur.free_until : null, cur.trial_ends_at, change.status, change.periodEnd, change.cancelAtPeriodEnd ? 1 : 0,
+          change.customerId || cur.paddle_customer_id, change.subscriptionId || cur.paddle_subscription_id, nowIso(), user.id);
+      }
+    }
+    return [200, { ok: true }];
+  }
+
+  async function grantFree(userId, reason, days) {
+    await startEntitlement(userId);
+    const until = days ? new Date(Date.now() + days * 86400000).toISOString() : null;
+    await run("UPDATE entitlements SET plan = 'free', free_reason = ?, free_until = ?, updated_at = ? WHERE user_id = ?", str(reason, 80) || "gratis", until, nowIso(), userId);
+  }
+
+  async function redeem() {
+    const s = await requireGuide();
+    if (!s.user.caregiver) throw new ApiError(403, "Koden är för familjer.");
+    const b = await readJson(request, 1000);
+    const wait = await limit("redeem:" + s.user.id, 5, 3600 * 1000);
+    if (wait) throw new ApiError(429, "För många försök. Vänta " + Math.ceil(wait / 60) + " min.");
+    const code = normalizeCode(b.code);
+    const row = code ? await tryOne("SELECT * FROM access_codes WHERE code = ?", code) : null;
+    if (!row || row.uses_left < 1) throw new ApiError(400, "Koden stämmer inte eller är redan använd.");
+    await startEntitlement(s.user.id);
+    const cur = await one("SELECT * FROM entitlements WHERE user_id = ?", s.user.id);
+    if (cur.plan === "paid" && accessOf(cur, { billing: billingOn() }).state === "active") throw new ApiError(409, "Du har redan en prenumeration.");
+    if (!(await run("UPDATE access_codes SET uses_left = uses_left - 1 WHERE code = ? AND uses_left > 0", code)).meta.changes) throw new ApiError(400, "Koden stämmer inte eller är redan använd.");
+    await grantFree(s.user.id, row.reason || "kod", row.days);
+    return [200, { ok: true, access: await accessOfUser(await one("SELECT * FROM users WHERE id = ?", s.user.id)) }];
+  }
+
+  function requireAdmin() {
+    const token = env.ADMIN_TOKEN;
+    if (!token || String(token).length < 16) throw new ApiError(503, "Admin är inte påslaget. Sätt ADMIN_TOKEN (minst 16 tecken).");
+    const m = /^Bearer\s+(.+)$/.exec(request.headers.get("Authorization") || "");
+    if (!m || !safeEqual(m[1], token)) throw new ApiError(401, "Fel admin-nyckel.");
+  }
+
+  async function adminAccess() {
+    requireAdmin();
+    const b = await readJson(request, 2000);
+    const user = await one("SELECT * FROM users WHERE username = ?", str(b.username, 40).trim());
+    if (!user || user.role !== "teacher") throw new ApiError(404, "Hittar ingen vuxen med det användarnamnet.");
+    const action = str(b.action, 20);
+    if (action === "grant") await grantFree(user.id, b.reason, Number(b.days) > 0 ? Math.round(Number(b.days)) : 0);
+    else if (action === "revoke") { await startEntitlement(user.id); await run("UPDATE entitlements SET plan = 'trial', free_reason = NULL, free_until = NULL, trial_ends_at = ?, updated_at = ? WHERE user_id = ?", nowIso(), nowIso(), user.id); }
+    else if (action !== "show") throw new ApiError(400, "action ska vara grant, revoke eller show.");
+    return [200, { ok: true, username: user.username, entitlement: (await tryOne("SELECT * FROM entitlements WHERE user_id = ?", user.id)) || null, access: await accessOfUser(user) }];
+  }
+
+  async function adminCodes() {
+    requireAdmin();
+    const b = await readJson(request, 2000);
+    const uses = Math.max(1, Math.min(1000, Math.round(Number(b.uses)) || 1));
+    const days = Number(b.days) > 0 ? Math.min(3650, Math.round(Number(b.days))) : null;
+    const code = randomCode(10);
+    await run("INSERT INTO access_codes (code, reason, days, uses_left, created_at) VALUES (?, ?, ?, ?, ?)", code, str(b.reason, 80) || "kod", days, uses, nowIso());
+    return [201, { code, uses, days }];
+  }
+
+  // [status, body] when the request was one of ours, otherwise null
+  async function accountRoute(method, p) {
+    if (method === "POST" && p === "/api/me/email") return setEmail();
+    if (method === "POST" && p === "/api/me/email/resend") return resendVerification();
+    if (method === "POST" && p === "/api/auth/verify-email") return verifyEmailToken();
+    if (method === "POST" && p === "/api/auth/forgot") return forgot();
+    if (method === "POST" && p === "/api/auth/reset") return resetPassword();
+    if (method === "GET" && p === "/api/billing") return billingStatus();
+    if (method === "POST" && p === "/api/billing/checkout") return checkout();
+    if (method === "POST" && p === "/api/billing/portal") return portal();
+    if (method === "POST" && p === "/api/billing/webhook") return webhook();
+    if (method === "POST" && p === "/api/billing/redeem") return redeem();
+    if (method === "POST" && p === "/api/admin/access") return adminAccess();
+    if (method === "POST" && p === "/api/admin/codes") return adminCodes();
+    return null;
+  }
+
   // ----- handlers -----
   async function register() {
     const wait = await limit("reg:" + ip, 20, 3600 * 1000);
@@ -294,6 +658,15 @@ function createApi(env, request) {
     if (!validUsername(username)) throw new ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
     if (!displayName) throw new ApiError(400, "Ange ditt namn.");
     checkPassword(b.password, username);
+    // an adult can give an e-mail address (to verify it and to reset a lost password); a caregiver has to when the site is set up for it, and accepts the terms
+    const email = cleanEmail(b.email);
+    if (email && !validEmail(email)) throw new ApiError(400, "E-postadressen ser inte rätt ut.");
+    if (kind === "caregiver" && emailRequired()) {
+      if (!email) throw new ApiError(400, "Ange din e-postadress. Den behövs om du glömmer lösenordet.");
+      if (b.acceptTerms !== true) throw new ApiError(400, "Du behöver godkänna villkoren och läsa integritetstexten.");
+    }
+    if (email && role === "student") throw new ApiError(400, "Barn har ingen e-postadress.");
+    if (email && (await tryOne("SELECT id FROM users WHERE email = ?", email))) throw new ApiError(409, "Den e-postadressen går inte att använda. Har du redan ett konto? Logga in med det.");
 
     let classId = null;
     let joinClass = null;   // a caregiver who joins the family of somebody else
@@ -332,6 +705,14 @@ function createApi(env, request) {
       if (joinClass) await run("INSERT OR IGNORE INTO class_guides (class_id, user_id) VALUES (?, ?)", joinClass.id, userId);
       else await makeClass("Familjen " + displayName.trim().split(/\s+/).pop(), userId);
     }
+    if (email) {
+      try { await run("UPDATE users SET email = ? WHERE id = ?", email, userId); }
+      catch (e) { throw new ApiError(503, "Databasen är inte uppdaterad för e-post. Kör migrations/008-account-billing.sql (se cloudflare/README.md)."); }
+    }
+    if (kind === "caregiver" && b.acceptTerms === true) await run("UPDATE users SET terms_accepted_at = ?, terms_version = ? WHERE id = ?", nowIso(), termsVersion(), userId).catch(() => null);
+    // a family that starts one has a trial (or free access while the site charges nobody); a second adult joins the access of the family
+    if (kind === "caregiver" && !joinClass) await startEntitlement(userId).catch(() => null);
+    if (email) await sendVerification({ id: userId, display_name: displayName, email }).catch(() => null);
     const token = await startSession(userId);
     return [201, { user: publicUser(await withGuide(await userById(userId))), token }];
   }
@@ -579,6 +960,7 @@ function createApi(env, request) {
 
   async function putProgress(lessonId) {
     const s = await requireUser();
+    await requireAccess(s.user);
     if (!ID_RE.test(lessonId)) throw new ApiError(400, "Ogiltigt lektions-id.");
     const b = await readJson(request, 800000);
     if (!b.data || typeof b.data !== "object" || Array.isArray(b.data)) throw new ApiError(400, "Saknar data.");
@@ -592,6 +974,7 @@ function createApi(env, request) {
 
   async function postAttempt() {
     const s = await requireUser();
+    await requireAccess(s.user);
     const b = await readJson(request, 150000);
     const lessonId = str(b.lessonId, 80), taskId = str(b.taskId, 80);
     if (!ID_RE.test(lessonId) || !ID_RE.test(taskId)) throw new ApiError(400, "Ogiltigt id.");
@@ -1021,6 +1404,8 @@ function createApi(env, request) {
     if ((m = /^\/api\/teacher\/feedback\/(\d+)$/.exec(p)) && method === "DELETE") return removeFeedback(m[1]);
     if ((m = /^\/api\/teacher\/students\/(\d+)\/password$/.exec(p)) && method === "POST") return resetStudentPassword(m[1]);
     if ((m = /^\/api\/teacher\/students\/(\d+)$/.exec(p)) && method === "DELETE") return deleteStudent(m[1]);
+    const handled = await accountRoute(method, p);
+    if (handled) return handled;
     throw new ApiError(404, "Hittades inte.");
   }
 
@@ -1046,7 +1431,7 @@ export default {
       const [status, body] = await createApi(env, request).handle(request.method, url.pathname);
       return reply(status, body, cors);
     } catch (err) {
-      if (err instanceof ApiError) return reply(err.status, { error: err.message }, cors);
+      if (err instanceof ApiError) return reply(err.status, err.code ? { error: err.message, code: err.code } : { error: err.message }, cors);
       console.error(err);
       return reply(500, { error: "Något gick fel på servern." }, cors);
     }

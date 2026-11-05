@@ -3,6 +3,7 @@
 // a same-origin Origin header and a JSON body.
 
 const sec = require("./security");
+const { createAccount } = require("./account");
 
 const COOKIE = "gs";
 const SESSION_DAYS = 30;
@@ -14,7 +15,7 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const FAMILY_MAX = 10;   // children in the family of a caregiver
 
 class ApiError extends Error {
-  constructor(status, message) { super(message); this.status = status; }
+  constructor(status, message, code) { super(message); this.status = status; this.code = code; }
 }
 
 function str(v, max) {
@@ -206,6 +207,20 @@ function createApi(db, options) {
     });
   }
 
+  function readRaw(req, limit) {
+    return new Promise(function (resolve, reject) {
+      let size = 0;
+      const chunks = [];
+      req.on("data", function (chunk) {
+        size += chunk.length;
+        if (size > limit) { reject(new ApiError(413, "För stor förfrågan.")); req.destroy(); return; }
+        chunks.push(chunk);
+      });
+      req.on("end", function () { resolve(Buffer.concat(chunks).toString("utf8")); });
+      req.on("error", reject);
+    });
+  }
+
   function send(res, status, body) {
     const json = JSON.stringify(body);
     res.writeHead(status, { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" });
@@ -224,6 +239,8 @@ function createApi(db, options) {
       guide: u.role === "student" ? (!classes.length ? "teacher" : families === classes.length ? "caregiver" : families ? "both" : "teacher") : undefined,
       classId: classes.length ? classes[0].id : (u.class_id || null), className: classes.length ? classes.map(function (c) { return c.name; }).join(" · ") : (u.class_name || null),
       classes: u.role === "student" ? classes.map(function (c) { return { id: c.id, name: c.name, family: Boolean(c.owner_caregiver) }; }) : undefined,
+      email: u.role === "teacher" ? (u.email || null) : undefined, emailVerified: u.role === "teacher" ? Boolean(u.email_verified_at) : undefined,
+      access: account.accessOfUser(u),
       color: COLORS[u.id % COLORS.length],
       rewards: u.role === "student" && classes.length ? classes.some(function (c) { return Boolean(c.rewards); }) : (u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards))
     };
@@ -317,6 +334,15 @@ function createApi(db, options) {
     if (!validUsername(username)) throw new ApiError(400, "Användarnamnet ska vara 3–30 tecken: bokstäver, siffror, punkt, understreck eller bindestreck.");
     if (!displayName) throw new ApiError(400, "Ange ditt namn.");
     checkPassword(b.password, username);
+    // an adult can give an e-mail address (to verify it and to reset a lost password); a caregiver has to when the site is set up for it, and accepts the terms
+    const email = account.cleanEmail(b.email);
+    if (email && !account.validEmail(email)) throw new ApiError(400, "E-postadressen ser inte rätt ut.");
+    if (kind === "caregiver" && account.emailRequired()) {
+      if (!email) throw new ApiError(400, "Ange din e-postadress. Den behövs om du glömmer lösenordet.");
+      if (b.acceptTerms !== true) throw new ApiError(400, "Du behöver godkänna villkoren och läsa integritetstexten.");
+    }
+    if (email && role === "student") throw new ApiError(400, "Barn har ingen e-postadress.");
+    if (email && account.emailTaken(email)) throw new ApiError(409, "Den e-postadressen går inte att använda. Har du redan ett konto? Logga in med det.");
 
     let classId = null;
     let joinClass = null;   // a caregiver who joins the family of somebody else
@@ -347,6 +373,11 @@ function createApi(db, options) {
     if (role === "student") addMember(classId, userId);
     // a caregiver starts with a family, so there is a code to give the children at once, or joins the family of the other adult
     if (kind === "caregiver") { if (joinClass) q.insertGuide.run(joinClass.id, userId); else makeClass(familyName(displayName), userId); }
+    if (email) account.setEmail(userId, email);
+    if (kind === "caregiver" && b.acceptTerms === true) account.setTerms(userId);
+    // a family that starts one has a trial (or free access while the site charges nobody); a second adult joins the access of the family
+    if (kind === "caregiver" && !joinClass) account.startEntitlement(userId);
+    if (email) account.sendVerification(Object.assign({}, q.userById.get(userId), { email: email })).catch(function () { /* the account is made whether the mail goes or not */ });
     startSession(res, userId);
     send(res, 201, { user: publicUser(q.userById.get(userId)) });
   }
@@ -597,6 +628,7 @@ function createApi(db, options) {
 
   async function putProgress(req, res, lessonId) {
     const s = requireUser(req);
+    if (s.user.role === "student") account.requireAccess(s.user);
     if (!ID_RE.test(lessonId)) throw new ApiError(400, "Ogiltigt lektions-id.");
     const b = await readJson(req, 800000);
     if (!b.data || typeof b.data !== "object" || Array.isArray(b.data)) throw new ApiError(400, "Saknar data.");
@@ -608,6 +640,7 @@ function createApi(db, options) {
 
   async function postAttempt(req, res) {
     const s = requireUser(req);
+    if (s.user.role === "student") account.requireAccess(s.user);
     const b = await readJson(req, 150000);
     const lessonId = str(b.lessonId, 80), taskId = str(b.taskId, 80);
     if (!ID_RE.test(lessonId) || !ID_RE.test(taskId)) throw new ApiError(400, "Ogiltigt id.");
@@ -907,6 +940,8 @@ function createApi(db, options) {
     send(res, 200, { ok: true });
   }
 
+  const account = createAccount({ db: db, ApiError: ApiError, send: send, readJson: readJson, readRaw: readRaw, requireUser: requireUser, requireGuide: requireGuide, str: str, nowIso: nowIso, ip: ip, checkPassword: checkPassword });
+
   // ----- router -----
   async function handle(req, res, url) {
     const method = req.method;
@@ -964,9 +999,10 @@ function createApi(db, options) {
       if ((m = /^\/api\/teacher\/feedback\/(\d+)$/.exec(p)) && method === "DELETE") return removeFeedback(req, res, m[1]);
       if ((m = /^\/api\/teacher\/students\/(\d+)\/password$/.exec(p)) && method === "POST") return await resetStudentPassword(req, res, m[1]);
       if ((m = /^\/api\/teacher\/students\/(\d+)$/.exec(p)) && method === "DELETE") return deleteStudent(req, res, m[1]);
+      if (await account.route(req, res, method, p)) return;
       throw new ApiError(404, "Hittades inte.");
     } catch (err) {
-      if (err instanceof ApiError) return send(res, err.status, { error: err.message });
+      if (err instanceof ApiError) return send(res, err.status, err.code ? { error: err.message, code: err.code } : { error: err.message });
       console.error(err);
       return send(res, 500, { error: "Något gick fel på servern." });
     }

@@ -12,3 +12,13 @@ database_id = "08f20410-dca9-4bb7-a980-2967bc39efd8"
 # Sites allowed to call the API (comma separated, no trailing slash).
 ALLOWED_ORIGINS = "https://gaussica.se,https://www.gaussica.se,https://intothenether.github.io,http://localhost:8000,http://127.0.0.1:8000"
 # The teacher code is a secret, set it with:  npx wrangler secret put TEACHER_CODE
+
+# E-post, prenumeration och betalning: allt är avstängt tills du sätter på det, se docs/prenumeration.md (startordning och hemligheter).
+# MAIL_FROM = "Gaussica <no-reply@din-domän>"          (en domän verifierad hos Resend; hemligheten RESEND_API_KEY sätts med wrangler secret put)
+# SITE_URL = "https://gaussica.se"                      (dit länkarna i mejlen går)
+# CAREGIVER_EMAIL_REQUIRED = "1"                        (en vårdnadshavare måste ange e-post och godkänna villkoren)
+# BILLING_ENABLED = "1"                                 (ta betalt: familjer utan gratis åtkomst, prov eller prenumeration släpps inte in)
+# TRIAL_DAYS = "14"
+# PADDLE_ENV = "production"                             (utelämnas för sandlådan)
+# PADDLE_PRICES = '{"manad":{"priceId":"pri_...","label":"Månad","text":"49 kr per månad"}}'
+# Hemligheter (wrangler secret put): RESEND_API_KEY, PADDLE_API_KEY, PADDLE_WEBHOOK_SECRET, ADMIN_TOKEN

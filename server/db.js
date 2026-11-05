@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 
-const SCHEMA_VERSION = 8;
+const SCHEMA_VERSION = 9;
 
 function open(dbPath) {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -178,6 +178,52 @@ function migrate(db) {
       UPDATE chat SET class_id = (SELECT class_id FROM users WHERE users.id = chat.student_id);
       UPDATE feedback SET class_id = (SELECT class_id FROM users WHERE users.id = feedback.student_id);
       CREATE UNIQUE INDEX classes_guide_code ON classes (guide_code);
+    `);
+  }
+  if (version < 9) {
+    // e-mail for adults, the terms they accepted, and who may use the site (free, trial, paid): cloudflare/migrations/008-account-billing.sql
+    db.exec(`
+      ALTER TABLE users ADD COLUMN email TEXT;
+      ALTER TABLE users ADD COLUMN email_verified_at TEXT;
+      ALTER TABLE users ADD COLUMN terms_accepted_at TEXT;
+      ALTER TABLE users ADD COLUMN terms_version TEXT;
+      CREATE UNIQUE INDEX users_email ON users (email) WHERE email IS NOT NULL;
+      CREATE TABLE email_tokens (
+        token_hash TEXT PRIMARY KEY,
+        user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        purpose    TEXT NOT NULL CHECK (purpose IN ('verify', 'reset')),
+        email      TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        expires_at TEXT NOT NULL,
+        used_at    TEXT
+      );
+      CREATE INDEX email_tokens_user ON email_tokens (user_id);
+      CREATE TABLE entitlements (
+        user_id                INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+        plan                   TEXT NOT NULL DEFAULT 'free' CHECK (plan IN ('free', 'trial', 'paid')),
+        free_reason            TEXT,
+        free_until             TEXT,
+        trial_ends_at          TEXT,
+        status                 TEXT,
+        period_end             TEXT,
+        cancel_at_period_end   INTEGER NOT NULL DEFAULT 0,
+        paddle_customer_id     TEXT,
+        paddle_subscription_id TEXT,
+        updated_at             TEXT NOT NULL
+      );
+      CREATE TABLE billing_events (
+        id          TEXT PRIMARY KEY,
+        type        TEXT NOT NULL,
+        received_at TEXT NOT NULL
+      );
+      CREATE TABLE access_codes (
+        code       TEXT PRIMARY KEY,
+        reason     TEXT,
+        days       INTEGER,
+        uses_left  INTEGER NOT NULL,
+        created_at TEXT NOT NULL
+      );
+      INSERT INTO entitlements (user_id, plan, free_reason, updated_at) SELECT id, 'free', 'founder', strftime('%Y-%m-%dT%H:%M:%fZ', 'now') FROM users WHERE role = 'teacher';
     `);
   }
   db.exec("PRAGMA user_version = " + SCHEMA_VERSION);

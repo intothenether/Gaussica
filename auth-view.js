@@ -100,6 +100,9 @@ window.GaussicaAPI = (function () {
     if (!res.ok) {
       const err = new Error((json && json.error) || "Något gick fel (" + res.status + ").");
       err.status = res.status;
+      if (json && json.code) err.code = json.code;
+      // the family has no access (a trial that ended, a subscription that lapsed): the page says so, once
+      if (res.status === 402 && json && json.code === "subscription" && window.GaussicaSubscription) window.GaussicaSubscription.expired();
       throw err;
     }
     if (remote && json && json.token) setToken(json.token);
@@ -277,12 +280,27 @@ window.GaussicaAuth = (function () {
         passField.classList.add("has-toggle");
         passField.appendChild(toggle);
         form.appendChild(passField);
-        let guideCode = null;
+        let guideCode = null, email = null, terms = null;
+        if (mode === "register" && role === "caregiver") {
+          email = input("email", "email", "email", { maxlength: "120" });
+          form.appendChild(field("auth-email", "E-post", email, "Du får ett mejl för att bekräfta adressen. Den behövs om du glömmer lösenordet. Barnen behöver ingen."));
+          terms = el("label", "auth-terms");
+          const box = document.createElement("input");
+          box.type = "checkbox";
+          box.required = true;
+          terms.appendChild(box);
+          const text = el("span");
+          const link = function (label, href) { const a = el("a", "", label); a.href = href; a.target = "_blank"; a.rel = "noopener"; return a; };
+          text.append("Jag är vårdnadshavare och har läst ", link("villkoren", "./villkor.html"), " och ", link("integritetstexten", "./integritet.html"), ".");
+          terms.appendChild(text);
+          terms.input = box;
+        }
         if (mode === "register" && role === "caregiver") {
           guideCode = input("text", "guideCode", "off", { maxlength: "40" });
           guideCode.required = false;
           form.appendChild(field("auth-guide", "Kod för vuxna (valfritt)", guideCode, "Har den andra vårdnadshavaren redan skapat familjen? Skriv koden för vuxna, så får du samma familj i stället för en egen."));
         }
+        if (terms) form.appendChild(terms);
         if (mode === "register" && role !== "caregiver") {
           code = input("text", "code", "off", { maxlength: "40" });
           form.appendChild(role === "student"
@@ -297,6 +315,12 @@ window.GaussicaAuth = (function () {
         const submit = el("button", "primary-button auth-submit", mode === "login" ? "Logga in" : "Skapa konto");
         submit.type = "submit";
         form.append(error, submit);
+        if (mode === "login") {
+          const forgotLink = el("button", "pv-link auth-forgot", "Glömt lösenord?");
+          forgotLink.type = "button";
+          forgotLink.addEventListener("click", function () { renderForgot(); });
+          form.appendChild(forgotLink);
+        }
 
         form.addEventListener("submit", async function (e) {
           e.preventDefault();
@@ -310,6 +334,7 @@ window.GaussicaAuth = (function () {
             } else {
               const payload = { role: role, displayName: name.value.trim(), username: user.value.trim(), password: pass.value };
               if (role === "student") payload.classCode = code.value; else if (role === "teacher") payload.teacherCode = code.value; else if (guideCode && guideCode.value.trim()) payload.guideCode = guideCode.value.trim();
+              if (email) { payload.email = email.value.trim(); payload.acceptTerms = Boolean(terms && terms.input.checked); }
               result = await API.post("/api/register", payload);
             }
             hideScreen();
@@ -326,13 +351,119 @@ window.GaussicaAuth = (function () {
         (mode === "register" ? name : user).focus();
       }
 
+      // a new password by e-mail: only an adult with a verified address; a child asks the adult
+      function renderForgot() {
+        body.replaceChildren();
+        const form = el("form", "auth-form");
+        const mail = input("email", "email", "email", { maxlength: "120" });
+        form.appendChild(field("auth-forgot-mail", "Din e-postadress", mail, "Vi skickar en länk om adressen hör till ett konto. Kolla i skräpposten också. Barn ber sin vårdnadshavare eller lärare om ett nytt lösenord."));
+        const note = el("p", "auth-note");
+        note.setAttribute("role", "status");
+        note.hidden = true;
+        const error = el("p", "auth-error");
+        error.setAttribute("role", "alert");
+        error.hidden = true;
+        const send = el("button", "primary-button auth-submit", "Skicka länk");
+        send.type = "submit";
+        const back = el("button", "pv-link auth-forgot", "Tillbaka till inloggningen");
+        back.type = "button";
+        back.addEventListener("click", function () { mode = "login"; render(); });
+        form.append(error, note, send, back);
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          error.hidden = true;
+          send.disabled = true;
+          try {
+            await API.post("/api/auth/forgot", { email: mail.value.trim() });
+            note.textContent = "Om adressen hör till ett konto har vi skickat en länk. Den fungerar i en timme.";
+            note.hidden = false;
+          } catch (err) {
+            error.textContent = err.message;
+            error.hidden = false;
+          }
+          send.disabled = false;
+        });
+        body.appendChild(form);
+        mail.focus();
+      }
+
       tabLogin.addEventListener("click", function () { mode = "login"; render(); });
       tabRegister.addEventListener("click", function () { mode = "register"; render(); });
       render();
     });
   }
 
+  // A card with a title, a text and one button, in the place of the sign-in screen; resolves when the button is pressed.
+  function showCard(title, text, buttonLabel, failed) {
+    return new Promise(function (resolve) {
+      const s = screen();
+      s.replaceChildren();
+      const card = el("div", "auth-card");
+      const p = el("p", failed ? "auth-error" : "auth-lead", text);
+      p.setAttribute("role", failed ? "alert" : "status");
+      const b = el("button", "primary-button auth-submit", buttonLabel);
+      b.type = "button";
+      b.addEventListener("click", function () { hideScreen(); resolve(); });
+      card.append(wordmark(), el("h1", "", title), p, b);
+      s.appendChild(card);
+      b.focus();
+    });
+  }
+
+  async function showVerified(token) {
+    try {
+      const r = await API.post("/api/auth/verify-email", { token: token });
+      await showCard("Adressen är bekräftad", "Tack! " + (r.email || "Din e-postadress") + " är bekräftad. Nu kan du få ett nytt lösenord av oss om du glömmer det.", "Fortsätt");
+    } catch (err) {
+      await showCard("Länken fungerar inte", err.message, "Fortsätt", true);
+    }
+  }
+
+  function showReset(token) {
+    return new Promise(function (resolve) {
+      const s = screen();
+      s.replaceChildren();
+      const card = el("div", "auth-card");
+      const form = el("form", "auth-form");
+      const pass = input("password", "password", "new-password", { maxlength: "200" });
+      form.appendChild(field("auth-reset-pass", "Nytt lösenord", pass, "Minst 8 tecken."));
+      const error = el("p", "auth-error");
+      error.setAttribute("role", "alert");
+      error.hidden = true;
+      const save = el("button", "primary-button auth-submit", "Spara nytt lösenord");
+      save.type = "submit";
+      form.append(error, save);
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        error.hidden = true;
+        save.disabled = true;
+        try {
+          await API.post("/api/auth/reset", { token: token, password: pass.value });
+          hideScreen();
+          await showCard("Lösenordet är bytt", "Logga in med det nya lösenordet.", "Logga in");
+          resolve();
+        } catch (err) {
+          error.textContent = err.message;
+          error.hidden = false;
+          save.disabled = false;
+        }
+      });
+      card.append(wordmark(), el("h1", "", "Välj nytt lösenord"), form);
+      s.appendChild(card);
+      pass.focus();
+    });
+  }
+
+  // #verifiera/<token> (the link to verify an address) and #aterstall/<token> (the link to choose a new password)
+  async function handleEmailLinks() {
+    const m = /^#(verifiera|aterstall)\/([A-Za-z0-9_-]{10,200})$/.exec(window.location.hash || "");
+    if (!m) return;
+    try { window.history.replaceState(null, "", window.location.pathname + window.location.search); } catch (e) { /* the token stays in the address, nothing worse */ }
+    if (m[1] === "verifiera") await showVerified(m[2]); else await showReset(m[2]);
+  }
+
   async function ensureLoggedIn() {
+    await handleEmailLinks();
     for (;;) {
       try {
         const me = await API.get("/api/me");

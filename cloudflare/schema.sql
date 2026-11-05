@@ -9,8 +9,13 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash TEXT NOT NULL,
   class_id      INTEGER REFERENCES classes(id) ON DELETE SET NULL,
   created_at    TEXT NOT NULL,
+  email              TEXT,                   -- of an adult: to verify it and to reset a lost password (lower case, unique)
+  email_verified_at  TEXT,
+  terms_accepted_at  TEXT,                   -- when an adult accepted the terms, and which version
+  terms_version      TEXT,
   caregiver     INTEGER NOT NULL DEFAULT 0   -- 1: a caregiver (vårdnadshavare), a teacher account whose class is a family
 );
+CREATE UNIQUE INDEX IF NOT EXISTS users_email ON users (email) WHERE email IS NOT NULL;
 CREATE TABLE IF NOT EXISTS classes (
   id         INTEGER PRIMARY KEY,
   name       TEXT NOT NULL,
@@ -124,4 +129,39 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   key          TEXT PRIMARY KEY,
   count        INTEGER NOT NULL,
   window_start INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS email_tokens (
+  token_hash TEXT PRIMARY KEY,
+  user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  purpose    TEXT NOT NULL CHECK (purpose IN ('verify', 'reset')),
+  email      TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  expires_at TEXT NOT NULL,
+  used_at    TEXT
+);
+CREATE INDEX IF NOT EXISTS email_tokens_user ON email_tokens (user_id);
+CREATE TABLE IF NOT EXISTS entitlements (
+  user_id                INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  plan                   TEXT NOT NULL DEFAULT 'free' CHECK (plan IN ('free', 'trial', 'paid')),
+  free_reason            TEXT,
+  free_until             TEXT,
+  trial_ends_at          TEXT,
+  status                 TEXT,
+  period_end             TEXT,
+  cancel_at_period_end   INTEGER NOT NULL DEFAULT 0,
+  paddle_customer_id     TEXT,
+  paddle_subscription_id TEXT,
+  updated_at             TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS billing_events (
+  id          TEXT PRIMARY KEY,
+  type        TEXT NOT NULL,
+  received_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS access_codes (
+  code       TEXT PRIMARY KEY,
+  reason     TEXT,
+  days       INTEGER,
+  uses_left  INTEGER NOT NULL,
+  created_at TEXT NOT NULL
 );

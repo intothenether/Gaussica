@@ -22,6 +22,8 @@ async function registerCaregiver(page) {
   await page.locator('input[name="displayName"]').fill("Maria Andersson");
   await page.locator('input[name="username"]').fill("maria.a");
   await page.locator('input[name="password"]').fill("hemligt-losen-1");
+  await page.locator('input[name="email"]').fill("maria.a@example.se");
+  await page.locator(".auth-terms input").check();
   await page.locator('button[type="submit"]:visible').click();
   await expect(page.locator("#admin-top-link")).toBeVisible();
 }
@@ -139,6 +141,8 @@ test("caregiver: the family page and the sign-up have no accessibility violation
   await page.locator('input[name="displayName"]').fill("Maria Andersson");
   await page.locator('input[name="username"]').fill("maria.a");
   await page.locator('input[name="password"]').fill("hemligt-losen-1");
+  await page.locator('input[name="email"]').fill("maria.a@example.se");
+  await page.locator(".auth-terms input").check();
   await page.locator('button[type="submit"]:visible').click();
   await page.locator("#admin-top-link").click();
   await expect(page.locator(".tv-family")).toBeVisible();

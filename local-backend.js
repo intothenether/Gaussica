@@ -152,6 +152,7 @@ window.GaussicaLocal = (function () {
       guide: u.role === "student" ? (!classes.length ? "teacher" : families === classes.length ? "caregiver" : families ? "both" : "teacher") : undefined,
       classId: classes.length ? classes[0].id : (u.classId || null), className: classes.length ? classes.map(function (c) { return c.name; }).join(" · ") : className(u),
       classes: u.role === "student" ? classes.map(function (c) { return { id: c.id, name: c.name, family: Boolean((classOwner(c.id) || {}).caregiver) }; }) : undefined,
+      email: u.role === "teacher" ? (u.email || null) : undefined, emailVerified: u.role === "teacher" ? false : undefined,
       color: COLORS[u.id % COLORS.length],
       rewards: u.role === "student" && classes.length ? classes.some(function (c) { return c.rewards !== false; }) : classRewards(u.classId)
     };
@@ -767,6 +768,10 @@ window.GaussicaLocal = (function () {
     if (method === "POST" && path === "/api/login") return login(body);
     if (method === "POST" && path === "/api/logout") { db.session = null; save(); return { ok: true }; }
     if (method === "POST" && path === "/api/me/password") return changePassword(body);
+    // the demo has no mail and no payments: an address is only kept, a link is never sent, and everybody is in
+    if (method === "POST" && path === "/api/me/email") { const u = requireUser(); u.email = str(body.email, 120).trim().toLowerCase(); save(); return { ok: true, verified: false, sent: false }; }
+    if (method === "POST" && path === "/api/auth/forgot") return { ok: true };
+    if (method === "GET" && path === "/api/billing") { requireUser(); return { billing: false, checkout: false, access: { state: "active", plan: "free", reason: "demo", until: null, daysLeft: null, cancelAtPeriodEnd: false, billing: false }, plans: [], manage: false, owner: false }; }
     if (method === "POST" && path === "/api/me/delete") return deleteMyAccount(body);
     if (method === "GET" && path === "/api/me/data") {
       const u = requireUser();

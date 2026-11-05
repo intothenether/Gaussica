@@ -1835,6 +1835,7 @@
     try {
       const user = await window.GaussicaAuth.ensureLoggedIn();
       await loadUserData(user);
+      if (window.GaussicaSubscription) window.GaussicaSubscription.start(currentUser, API);   // a bar for the adult, the screen for a family without access
       await loadCourse();
     } catch (error) {
       showError(error);

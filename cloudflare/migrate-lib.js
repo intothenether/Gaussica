@@ -18,7 +18,8 @@ const MIGRATIONS = [
   { file: "004-site-feedback.sql", about: "feedback om sidan", adds: hasTable("site_feedback") },
   { file: "005-prov.sql", about: "prov (config på uppdrag)", adds: hasColumn("assignments", "config") },
   { file: "006-caregiver.sql", about: "konton för vårdnadshavare", adds: hasColumn("users", "caregiver") },
-  { file: "007-multi.sql", about: "flera vuxna per klass och flera klasser per elev", adds: hasTable("class_members") }
+  { file: "007-multi.sql", about: "flera vuxna per klass och flera klasser per elev", adds: hasTable("class_members") },
+  { file: "008-account-billing.sql", about: "e-post för vuxna och vem som får använda sidan (gratis, prov, betald)", adds: hasTable("entitlements") }
 ];
 
 // `query(sql)` gives the rows (an array of objects) of a SELECT, as a promise or directly.

@@ -26,6 +26,7 @@ const RULES = [
   [/^(questions|lesson-player|lesson-model|richtext|canvas-pad)\.js$/, ["smoke", "a11y", "keyboard", "feedback", "drawpad"]],
   [/^(app|index)\.(js|html)$|^styles\.css$|^viewport\.js$/, ["smoke", "a11y", "popup", "phone"]],
   [/^(caregiver|parent-guide|parent-guides|teacher-view|mailbox|chat)\.js$/, ["caregiver", "multi"]],
+  [/^(subscription|auth-view|account|privacy|local-backend)\.js$|^styles-account\.css$|^(villkor|integritet|angerratt)\.html$/, ["account", "caregiver", "multi", "a11y"]],
   [/^(workshop|pyssel|worksheet)\.js$/, ["workshop", "pyssla"]],
   [/^(graph-view|path-view|journey|planner|coach)\.js$/, ["popup", "smoke"]]
 ];

@@ -665,6 +665,17 @@ Eleverna får lätt och frivillig motivation, utan ranking och utan jämförelse
 - Svarsformer (`form` på en fråga): `blandad`, `brak`, `forenklat`, `utanparentes` (ett rätt svar som fortfarande har parenteser godtas inte, för uppgifter där parenteser ska multipliceras ut) och `grundpotens` (a · 10^n med a från 1 upp till 10). Kvadratrötter kan skrivas som √2 eller sqrt(2).
 - Nya figurer för åk 4: `kroppar` (`items` med `shape`: kub, ratblock, cylinder, klot, kon, pyramid), `linjer` (`items` med `kind`: parallella, vinkelrata, skarande) och `strecktabell` (`rows` med `label` och `n`, `counts` visar antalet). Trapetsen kan visa sina parallella sidor med `"showHeight": false` och egna `labels`.
 
+## Prenumeration för vårdnadshavare
+
+Hemma-konton kan bli en prenumeration utan att något kostar att driva. Allt är avstängt tills du sätter på det, och alla konton som finns när migreringen körs har gratis åtkomst för alltid. Hela handboken, med startordning, Paddle, e-post på din egen domän och `scripts/admin.js`, står i [docs/prenumeration.md](docs/prenumeration.md). Kortfattat:
+
+- **E-post för vuxna** (`server/account.js`, `cloudflare/worker.js`): vårdnadshavaren anger en adress som bekräftas med en länk, och "Glömt lösenord?" skickar en länk till en bekräftad adress (en timme, bara en gång; ett och samma svar oavsett om adressen finns). Mejlen går via Resend. Barn har ingen e-post.
+- **Åtkomst** (`server/billing-core.js`, samma kod i workern, kontrolleras av `tests/billing-core.js`): gratis (orsak och ev. slutdatum), prov (14 dagar) eller betald. Barnen följer familjen, lärare betalar inte. Utan åtkomst får barn 402 när de försöker spara, och sidan visar en skärm för barnet och en för vårdnadshavaren (`subscription.js`). Ladda ner och radera går alltid.
+- **Betalning med Paddle** (merchant of record: de är säljare och tar hand om moms, kvitton och återbetalning; privatpersoner och enskilda näringsidkare kan sälja): betalsida, kundportal och en signerad webhook som sätter familjens åtkomst. Reglerna och hela flödet testas mot en låtsas-Paddle i `tests/account-scenario.js` (Node-servern och workern).
+- **Gratis åtkomst**: `node scripts/admin.js grant|revoke|show|code`, och koder som en vårdnadshavare löser in under Mitt konto.
+- **Villkor**: texterna i `docs/juridik/` blir `villkor.html`, `integritet.html` och `angerratt.html` med `node scripts/build-legal.js`. De är utkast med [platshållare] tills `"utkast"` sätts till `false`; `tests/legal.js` vägrar färdiga sidor med platshållare kvar. De behöver läsas av någon med juridisk kunskap innan du tar betalt.
+- **Databasen**: migreringen `cloudflare/migrations/008-account-billing.sql` (och version 9 i Node-servern) lägger till e-post, villkorsgodkännande, `entitlements`, `billing_events` och `access_codes`.
+
 ## Vårdnadshavare (hemma, utan skola)
 
 När Gaussica används hemma finns ingen lärare och ingen klass. Då skapar en vårdnadshavare ett konto med knappen "Jag är vårdnadshavare" (ingen lärarkod behövs) och får en **familj** med en kod. Barnen skapar konto med familjekoden, eller så lägger vårdnadshavaren till deras konton själv (namn, användarnamn och lösenord, för barn som inte klarar det ensamma). En familj har plats för tio barn och varje vårdnadshavare har en familj.

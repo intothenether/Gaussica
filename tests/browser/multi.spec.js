@@ -16,6 +16,10 @@ async function register(page, role, username, name, extra) {
   await page.locator('input[name="password"]').fill("hemligt-losen-1");
   if (extra && extra.code) await page.locator('input[name="code"]').fill(extra.code);
   if (extra && extra.guideCode) await page.locator('input[name="guideCode"]').fill(extra.guideCode);
+  if (/vårdnadshavare/.test(role)) {   // a caregiver gives an address and accepts the terms
+    await page.locator('input[name="email"]').fill(username + "@example.se");
+    await page.locator(".auth-terms input").check();
+  }
   await page.locator('button[type="submit"]:visible').click();
 }
 

@@ -253,7 +253,9 @@ window.GaussicaAccount = (function () {
       flushProgress(false).then(function () { window.GaussicaAuth.logout(); });
     });
 
-    studentModalCard.append(header, form, themeSection(), myClassesSection(u), myDataSection(u), logout);
+    const S = window.GaussicaSubscription;
+    const adult = S ? [S.emailSection(u, API), S.subscriptionSection(u, API)].filter(Boolean) : [];
+    studentModalCard.append.apply(studentModalCard, [header, form].concat(adult, [themeSection(), myClassesSection(u), myDataSection(u), logout]));
 
     if (studentModal && !studentModal.dataset.listenerAdded) {
       studentModal.dataset.listenerAdded = "true";

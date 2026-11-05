@@ -41,7 +41,7 @@ const MIME = {
 // Everything index.html loads, plus the lessons folder and README. Server code and data are never served.
 function publicFiles() {
   // sw.js and the icons are named in a script and in the manifest, not in the page itself
-  const files = new Set(["/index.html", "/README.md", "/sw.js", "/icon-192.png", "/icon-512.png"]);
+  const files = new Set(["/index.html", "/README.md", "/sw.js", "/icon-192.png", "/icon-512.png", "/villkor.html", "/integritet.html", "/angerratt.html"]);
   const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
   const re = /(?:src|href)="\.\/([^"#?]+)"/g;
   let m;

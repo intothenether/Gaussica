@@ -135,3 +135,7 @@ npx wrangler deploy
 ```
 
 Hinner du inte köra migreringen före `deploy` fungerar resten av sidan som vanligt. Chatten svarar då att den inte är påslagen.
+
+## E-post, prenumeration och betalning
+
+Migreringen `migrations/008-account-billing.sql` (e-post för vuxna, villkorsgodkännande, åtkomst och Paddle) körs en gång på en befintlig databas, innan den nya workern publiceras: `npx wrangler d1 execute gaussica --remote --file=migrations/008-account-billing.sql`. Alla konton som finns får då gratis åtkomst för alltid. Allt annat (Resend, Paddle, krav på e-post, att ta betalt) är avstängt tills du sätter variablerna och hemligheterna i [../docs/prenumeration.md](../docs/prenumeration.md).
