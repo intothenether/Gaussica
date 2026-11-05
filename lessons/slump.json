@@ -130,6 +130,55 @@
           "message": "Det vore om det blev krona varje gång. Chansen för krona är 1/2."
         }
       ]
+    },
+    {
+      "id": "tarning-storre",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "k": [
+          1,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(k-3)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "g",
+          "expr": "6-k"
+        }
+      ],
+      "prompt": "{$namn} kastar en vanlig tärning. Vad är chansen att få ett tal som är större än {k}? Svara som bråk.",
+      "answer": [
+        "{g}/6"
+      ],
+      "correct": "Rätt! Talen större än {k} är {g} av de 6 möjliga: {g}/6.",
+      "feedback": [
+        {
+          "answers": [
+            "{k}/6"
+          ],
+          "message": "Det är chansen att få {k} eller mindre. Du söker talen som är större än {k}."
+        }
+      ]
     }
   ],
   "exercise": {

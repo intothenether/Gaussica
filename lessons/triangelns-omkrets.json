@@ -68,6 +68,42 @@
       "feedback": [
         {"answers":["=p-a","=p-b"],"message":"Du har bara tagit bort en av de kända sidorna. Ta bort båda."}
       ]
+    },
+    {
+      "id": "likbent-omkrets",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          5,
+          12
+        ],
+        "b": [
+          3,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "En likbent triangel har två sidor som är {a} cm långa och en tredje sida som är {b} cm. Vad är omkretsen i cm?",
+      "answer": [
+        "=2*a+b",
+        "{2*a+b} cm"
+      ],
+      "correct": "Rätt! {a} + {a} + {b} = {2*a+b} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har bara tagit en av de två lika långa sidorna. Båda ska med."
+        }
+      ]
     }
   ],
   "exercise": {

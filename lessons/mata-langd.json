@@ -109,6 +109,67 @@
           "message": "Det blir längderna lagda ihop. Frågan gäller hur mycket längre Pär är."
         }
       ]
+    },
+    {
+      "id": "rep-kvar",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          5,
+          12
+        ],
+        "b": [
+          1,
+          4
+        ]
+      },
+      "prompt": "Ett rep är {a} m långt. Du klipper av {b} m. Hur många meter är kvar?",
+      "answer": [
+        "=a-b",
+        "{a-b} m"
+      ],
+      "correct": "Rätt! {a} − {b} = {a-b} m.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop. Det som är kvar är det som blir när biten tagits bort."
+        }
+      ]
+    },
+    {
+      "id": "meter-och-centimeter",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "m": [
+          1,
+          4
+        ],
+        "c": [
+          10,
+          90,
+          10
+        ]
+      },
+      "prompt": "En bänk är {m} m och {c} cm lång. Hur många centimeter är det?",
+      "answer": [
+        "=100*m+c",
+        "{100*m+c} cm"
+      ],
+      "correct": "Rätt! {m} m är {100*m} cm, och {100*m} + {c} = {100*m+c} cm.",
+      "feedback": [
+        {
+          "answers": [
+            "=m+c"
+          ],
+          "message": "Du har lagt ihop meter och centimeter. 1 m är 100 cm, så gör först om meterna."
+        }
+      ]
     }
   ],
   "exercise": {

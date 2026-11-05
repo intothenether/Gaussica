@@ -663,6 +663,134 @@
           "message": "Du har räknat hur många sedlar och mynt det är. Men de är värda olika mycket: en hundralapp är 100 kr och en tia 10 kr."
         }
       ]
+    },
+    {
+      "id": "siffror-till-tal",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          0,
+          9
+        ],
+        "c": [
+          0,
+          9
+        ],
+        "d": [
+          0,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "a*1000+b*100+c*10+d"
+        },
+        {
+          "name": "s",
+          "expr": "a+b+c+d"
+        }
+      ],
+      "prompt": "{$namn} skriver ett tal med {a} tusental, {b} hundratal, {c} tiotal och {d} ental. Vilket tal skriver {$namn}?",
+      "answer": [
+        "=n"
+      ],
+      "correct": "Rätt! Siffrorna skrivs efter varandra, en för varje plats: {n}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s"
+          ],
+          "message": "Du har lagt ihop siffrorna. Skriv dem efter varandra, en för varje plats."
+        }
+      ]
+    },
+    {
+      "id": "varde-av-siffra",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          1,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ],
+        "d": [
+          1,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(a-d)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-c)",
+          "min": 1
+        },
+        {
+          "expr": "abs(b-d)",
+          "min": 1
+        },
+        {
+          "expr": "abs(c-d)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "r",
+          "expr": "c*10"
+        }
+      ],
+      "prompt": "Vilket värde har siffran {c} i talet {a}{b}{c}{d}?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! {c} står på tiotalsplatsen, så den är värd {c} · 10 = {r}.",
+      "feedback": [
+        {
+          "answers": [
+            "=c"
+          ],
+          "message": "Det är siffran själv. Värdet beror på vilken plats siffran står på."
+        }
+      ]
     }
   ],
   "exercise": {

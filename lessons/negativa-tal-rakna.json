@@ -215,6 +215,41 @@
           "message": "Att dra ifrån ett minustal är som att lägga till. Minus och minus blir plus."
         }
       ]
+    },
+    {
+      "id": "kallare-varmare",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          -15,
+          -2
+        ],
+        "b": [
+          1,
+          12
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "b-a"
+        }
+      ],
+      "prompt": "Temperaturen i Kiruna är {a} grader och i Malmö {b} grader. Hur många grader varmare är det i Malmö?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Skillnaden är {b} − ({a}) = {r} grader: från {a} upp till 0 och sedan {b} till.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop talen med sina tecken. Skillnaden är avståndet mellan dem på tallinjen."
+        }
+      ]
     }
   ],
   "exercise": {

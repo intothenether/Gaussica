@@ -218,6 +218,44 @@
           "message": "Du har glömt kommatecknet. {x} har en decimal, så svaret ska också ha en decimal."
         }
       ]
+    },
+    {
+      "id": "tyg-kvar",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "x": [
+          4,
+          9.9,
+          0.1
+        ],
+        "y": [
+          0.5,
+          3.9,
+          0.1
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "round((x-y)*10)/10"
+        }
+      ],
+      "prompt": "Du har {x} m tyg och klipper bort {y} m. Hur många meter är kvar?",
+      "answer": [
+        "=r",
+        "{r} m"
+      ],
+      "correct": "Rätt! {x} − {y} = {r} m.",
+      "feedback": [
+        {
+          "answers": [
+            "=round((x+y)*10)/10"
+          ],
+          "message": "Du har lagt ihop. Det som är kvar är det som blir när biten tagits bort."
+        }
+      ]
     }
   ],
   "exercise": {

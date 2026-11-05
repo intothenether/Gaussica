@@ -169,6 +169,99 @@
           "message": "Hon sparar mer varje vecka, men börjar på {a} kr."
         }
       ]
+    },
+    {
+      "id": "parla-rod",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "q": [
+          2,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "3*q+1"
+        }
+      ],
+      "prompt": "En pärlkedja har mönstret röd, blå, gul, röd, blå, gul och så vidare. Vilken färg har pärla nummer {n}?",
+      "answer": [
+        "röd"
+      ],
+      "correct": "Rätt! Mönstret är tre pärlor långt, och {n} är en mer än {3*q}, så pärlan är först i mönstret: röd.",
+      "feedback": [
+        {
+          "answers": [
+            "blå"
+          ],
+          "message": "Räkna hur många hela mönster som får plats. Vad är det som blir över?"
+        }
+      ]
+    },
+    {
+      "id": "parla-bla",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "q": [
+          2,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "3*q+2"
+        }
+      ],
+      "prompt": "En pärlkedja har mönstret röd, blå, gul, röd, blå, gul och så vidare. Vilken färg har pärla nummer {n}?",
+      "answer": [
+        "blå"
+      ],
+      "correct": "Rätt! Mönstret är tre pärlor långt, och {n} är två mer än {3*q}, så pärlan är andra i mönstret: blå.",
+      "feedback": [
+        {
+          "answers": [
+            "röd"
+          ],
+          "message": "Räkna hur många hela mönster som får plats. Vad är det som blir över?"
+        }
+      ]
+    },
+    {
+      "id": "parla-gul",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "q": [
+          2,
+          8
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "3*q"
+        }
+      ],
+      "prompt": "En pärlkedja har mönstret röd, blå, gul, röd, blå, gul och så vidare. Vilken färg har pärla nummer {n}?",
+      "answer": [
+        "gul"
+      ],
+      "correct": "Rätt! Mönstret är tre pärlor långt, och {n} är precis {q} hela mönster, så pärlan är sist i mönstret: gul.",
+      "feedback": [
+        {
+          "answers": [
+            "röd"
+          ],
+          "message": "{n} går jämnt upp i hela mönster. Vilken pärla är sist i varje mönster?"
+        }
+      ]
     }
   ],
   "exercise": {

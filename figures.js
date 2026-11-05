@@ -10,6 +10,7 @@
 //   monster     { steps:[{label, rows, cols | cells:[[x,y]], accent:[[x,y]]}] }
 //   talrutnat   { from, to, columns, highlight:[numbers] | "primtal" | {multiplesOf:n} | {divisorsOf:n}, muted:[numbers] }
 //   staplar     { data:[{label,value,tone}], max, line:{value,label} }              bar chart with an optional reference line
+//   cirkel      { r, unit, show:["radie","diameter","kvadrat","omkrets"], labels:{r,d,o} }   a circle: radius and diameter, a square on the radius (r · r, the area is about 3,14 of them), the circumference rolled out (a little more than 3 diameters)
 //   vinkel      { deg, label }                                                       an angle between two rays
 //   graf        { xmin,xmax,ymin,ymax, lines:[{k,m,label}], curves:[{fn,label,tone,from,to}], points:[{x,y,label}] }  coordinate system with straight
 //               lines and curves; fn is a formula in x, as "x^2 - 4*x + 3", "2^x" or "lg(x)" (see the expressions in pyssel.js)
@@ -41,7 +42,7 @@ window.GaussicaFigures = (function () {
   const TYPES = {
     tallinje: "TALLINJE", numberline: "TALLINJE", rektangel: "FIGUR", kvadrat: "FIGUR", triangel: "FIGUR",
     figurer: "FIGURER", symmetri: "SYMMETRI", monster: "MÖNSTER", talrutnat: "TALRUTNÄT",
-    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", vag: "BALANSVÅG", pythagoras: "PYTHAGORAS", tradiagram: "TRÄDDIAGRAM", parallellogram: "FIGUR", trapets: "FIGUR", kroppar: "KROPPAR", linjer: "LINJER", strecktabell: "STRECKTABELL", langdivision: "LÅNGDIVISION", areamodell: "AREAMODELL", trigonometri: "TRIGONOMETRI"
+    staplar: "STAPLAR", vinkel: "VINKEL", graf: "GRAF", hundrarutor: "HUNDRARUTOR", klocka: "KLOCKA", uppstallning: "UPPSTÄLLNING", vag: "BALANSVÅG", pythagoras: "PYTHAGORAS", tradiagram: "TRÄDDIAGRAM", parallellogram: "FIGUR", trapets: "FIGUR", kroppar: "KROPPAR", linjer: "LINJER", strecktabell: "STRECKTABELL", langdivision: "LÅNGDIVISION", areamodell: "AREAMODELL", trigonometri: "TRIGONOMETRI", cirkel: "CIRKEL"
   };
 
   // Figures that are added by other files (figures-more.js): type -> { badge, render }
@@ -472,6 +473,43 @@ window.GaussicaFigures = (function () {
     s("circle", { cx: vx, cy: vy, r: 5, "class": "fig-point" }, svg);
     const mid = rad / 2;
     text(svg, vx + (r + 34) * Math.cos(mid), vy - (r + 34) * Math.sin(mid) + 5, (c.label !== undefined ? c.label : fmt(deg) + "°"), "fig-dim");
+    return wrap([svg]);
+  }
+
+  // ----- circle: radius, diameter, a square on the radius, and the circumference rolled out -----
+  function circle(c) {
+    const r = Number(c.r) > 0 ? Number(c.r) : 5;
+    const unit = c.unit ? " " + c.unit : "";
+    const show = Array.isArray(c.show) ? c.show : ["radie", "diameter"];
+    const has = function (k) { return show.indexOf(k) >= 0; };
+    const unroll = has("omkrets");
+    const W = 460, R = unroll ? 52 : 84;
+    const H = unroll ? 2 * R + 130 : 2 * R + 60;
+    const svg = svgRoot(c, W, H);
+    const cx = W / 2, cy = 24 + R;
+    s("circle", { cx: cx, cy: cy, r: R, "class": "fig-shape" }, svg);
+    if (has("kvadrat")) {
+      s("rect", { x: cx, y: cy - R, width: R, height: R, "class": "fig-areacell" }, svg);
+      text(svg, cx + R / 2, cy - R / 2 + 5, "r · r", "fig-dim");
+    }
+    if (has("diameter")) s("line", { x1: cx - R, y1: cy, x2: cx + R, y2: cy, "class": "fig-ray" }, svg);
+    if (has("radie")) s("line", { x1: cx, y1: cy, x2: cx + R, y2: cy, "class": "fig-graphline" }, svg);
+    if (has("radie") || has("diameter") || has("kvadrat")) s("circle", { cx: cx, cy: cy, r: 5, "class": "fig-point" }, svg);
+    const names = c.labels || {};
+    // in a big circle the names stand under the lines, in the small one (with the line rolled out below it) beside the circle
+    const rName = names.r !== undefined ? names.r : "r = " + fmt(r) + unit, dName = names.d !== undefined ? names.d : "d = " + fmt(2 * r) + unit;
+    if (has("radie")) { if (unroll) text(svg, cx + R + 10, cy + 5, rName, "fig-dim", "start"); else text(svg, cx + R / 2, cy + 26, rName, "fig-dim"); }
+    if (has("diameter")) { if (unroll) text(svg, cx - R - 10, cy + 5, dName, "fig-dim", "end"); else text(svg, cx - R / 2, cy + 26, dName, "fig-dim"); }
+    if (unroll) {
+      // the circumference as a straight line: three diameters, and a little more
+      const d = 2 * R, total = Math.PI * d, x0 = (W - total) / 2, y0 = cy + R + 34;
+      for (let i = 0; i < 3; i++) {
+        s("rect", { x: x0 + i * d, y: y0, width: d, height: 22, "class": "fig-shape" }, svg);
+        text(svg, x0 + i * d + d / 2, y0 + 16, "d", "fig-dim");
+      }
+      s("rect", { x: x0 + 3 * d, y: y0, width: total - 3 * d, height: 22, "class": "fig-areacell" }, svg);
+      text(svg, W / 2, y0 + 50, names.o !== undefined ? names.o : "omkretsen rullad rakt ut: lite mer än 3 · d", "fig-dim");
+    }
     return wrap([svg]);
   }
 
@@ -1338,6 +1376,7 @@ window.GaussicaFigures = (function () {
     if (type === "talrutnat") return numbergrid(config);
     if (type === "staplar") return bars(config);
     if (type === "vinkel") return angle(config);
+    if (type === "cirkel") return circle(config);
     if (type === "graf") return graph(config);
     if (type === "hundrarutor") return hundred(config);
     if (type === "klocka") return clock(config);

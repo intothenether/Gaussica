@@ -72,6 +72,74 @@
           "message": "Du lade ihop talen. Rutan ska fyllas så att summan blir {s}. Räkna baklänges: {s} − {a}."
         }
       ]
+    },
+    {
+      "id": "tva-dagar",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          110,
+          390
+        ],
+        "b": [
+          110,
+          390
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-b)",
+          "min": 1
+        }
+      ],
+      "prompt": "En klass samlar {a} burkar på måndagen och {b} burkar på tisdagen. Hur många burkar samlar de på de två dagarna?",
+      "answer": [
+        "=a+b"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b} burkar.",
+      "feedback": [
+        {
+          "answers": [
+            "=abs(a-b)"
+          ],
+          "message": "Du har dragit ifrån. När två dagars burkar ska läggas ihop är det addition."
+        }
+      ]
+    },
+    {
+      "id": "tre-faglar",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          20,
+          150
+        ],
+        "b": [
+          20,
+          150
+        ],
+        "c": [
+          20,
+          150
+        ]
+      },
+      "prompt": "På en gård finns {a} höns, {b} ankor och {c} gäss. Hur många fåglar finns det sammanlagt?",
+      "answer": [
+        "=a+b+c"
+      ],
+      "correct": "Rätt! {a} + {b} + {c} = {a+b+c} fåglar.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har glömt gässen. Lägg ihop alla tre sorterna."
+        }
+      ]
     }
   ],
   "exercise": {

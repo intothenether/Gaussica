@@ -71,6 +71,20 @@ const labelsOf = (fig) => all(fig).filter((n) => n.tag === "text" && /fig-tickla
 const wide = graph({ xmin: 0, xmax: 30, ymin: 0, ymax: 60 });
 ok(labelsOf(wide).every((t) => Number(t.textContent.replace("−", "-")) % 5 === 0), "the numbers on a wide axis are 5, 10, 15 and so on, not 3, 6, 9");
 
+// ----- the circle -----
+const textsOf = (fig) => all(fig).filter((n) => n.tag === "text").map((n) => n.textContent);
+const full = Fig.render({ type: "cirkel", r: 5, unit: "cm", show: ["radie", "diameter", "omkrets"] });
+ok(Fig.supports("cirkel") && textsOf(full).includes("r = 5 cm") && textsOf(full).includes("d = 10 cm"), "a circle shows its radius and its diameter, the diameter as twice the radius");
+ok(textsOf(full).filter((t) => t === "d").length === 3 && textsOf(full).some((t) => /lite mer än 3/.test(t)), "and rolled out, the circumference is three diameters and a little more");
+const rolled = all(full).filter((n) => n.tag === "rect");
+const widest = rolled.reduce((m, n) => Math.max(m, Number(n.attrs.x) + Number(n.attrs.width)), 0);
+ok(rolled.every((n) => Number(n.attrs.x) >= 0) && widest <= 460, "the rolled out line fits in the picture");
+ok(rolled.length === 4 && Math.abs(rolled.reduce((sum, n) => sum + Number(n.attrs.width), 0) - Math.PI * 104) < 0.01, "and is pi diameters long");
+const sq = Fig.render({ type: "cirkel", r: 4, show: ["radie", "kvadrat"] });
+ok(textsOf(sq).includes("r · r") && !textsOf(sq).some((t) => /^d = /.test(t)), "a square on the radius, without the diameter when it is not asked for");
+ok(textsOf(Fig.render({ type: "cirkel", r: 3, show: ["diameter"], labels: { d: "d" } })).join() === "d", "the names can be letters, so that the numbers are not given away");
+ok(!/NaN|undefined/.test(JSON.stringify(all(Fig.render({ type: "cirkel" })).map((n) => n.attrs))), "a circle without a radius is still drawn cleanly");
+
 // ----- the axes have names -----
 const names = (fig) => all(fig).filter((n) => n.tag === "text" && /fig-axisname/.test(n.className)).map((n) => n.textContent);
 ok(JSON.stringify(names(graph({}))) === JSON.stringify(["x", "y"]), "the axes are called x and y unless the figure says otherwise");

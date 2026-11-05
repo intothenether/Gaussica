@@ -173,6 +173,55 @@
           "message": "{y} är högersidan. Ångra delat med genom att multiplicera med {a}."
         }
       ]
+    },
+    {
+      "id": "kulor-plus",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          3,
+          12
+        ],
+        "x": [
+          8,
+          30
+        ]
+      },
+      "derive": [
+        {
+          "name": "s",
+          "expr": "x+a"
+        }
+      ],
+      "prompt": "{$namn} har x kulor. {$namn} får {a} kulor till och har då {s} kulor. Hur många kulor hade {$namn} från början?",
+      "answer": [
+        "=x",
+        "x={x}",
+        "x = {x}"
+      ],
+      "correct": "Rätt! x + {a} = {s}, så x = {s} − {a} = {x}.",
+      "feedback": [
+        {
+          "answers": [
+            "=s+a"
+          ],
+          "message": "Du har lagt ihop. Från början var det färre, eftersom några kom till."
+        }
+      ]
     }
   ],
   "exercise": {

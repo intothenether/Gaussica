@@ -81,6 +81,105 @@
           "message": "Minuterna går inte över 59. När du passerar 60 växlar du till nästa timme."
         }
       ]
+    },
+    {
+      "id": "kvart-senare",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "h": [
+          8,
+          17
+        ],
+        "m": [
+          0,
+          40,
+          5
+        ],
+        "d": [
+          5,
+          15,
+          5
+        ]
+      },
+      "where": [
+        {
+          "expr": "m+d",
+          "max": 55
+        }
+      ],
+      "derive": [
+        {
+          "name": "e",
+          "expr": "m+d"
+        }
+      ],
+      "prompt": "Klockan är {h|2}:{m|2}. Vad är klockan om {d} minuter? Svara HH:MM.",
+      "answer": [
+        "{h|2}:{e|2}",
+        "{h|2}.{e|2}",
+        "{h}:{e|2}"
+      ],
+      "correct": "Rätt! {m} + {d} = {e}, så klockan blir {h|2}:{e|2}.",
+      "feedback": [
+        {
+          "answers": [
+            "{h|2}:{m|2}",
+            "{h|2}.{m|2}",
+            "{h}:{m|2}"
+          ],
+          "message": "Det är klockan nu. Lägg till minuterna."
+        }
+      ]
+    },
+    {
+      "id": "skoldag",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          8,
+          9
+        ],
+        "b": [
+          14,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "b-a"
+        }
+      ],
+      "prompt": "Skolan börjar klockan {a|2}:00 och slutar klockan {b|2}:00. Hur många timmar är {$namn} i skolan?",
+      "answer": [
+        "=r",
+        "{r} timmar"
+      ],
+      "correct": "Rätt! {b} − {a} = {r} timmar.",
+      "feedback": [
+        {
+          "answers": [
+            "=b+a"
+          ],
+          "message": "Du har lagt ihop klockslagen. Hur länge det varar är skillnaden mellan dem."
+        }
+      ]
     }
   ],
   "exercise": {

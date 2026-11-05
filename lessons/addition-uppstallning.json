@@ -290,6 +290,35 @@
           "hint": "Vad minns du från tiotalen?"
         }
       ]
+    },
+    {
+      "id": "ataskadare",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          250,
+          899
+        ],
+        "b": [
+          250,
+          899
+        ]
+      },
+      "prompt": "En tävling hade {a} åskådare på lördagen och {b} på söndagen. Hur många åskådare var det sammanlagt?",
+      "answer": [
+        "=a+b"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b} åskådare.",
+      "feedback": [
+        {
+          "answers": [
+            "=abs(a-b)"
+          ],
+          "message": "Du har dragit ifrån. Sammanlagt är det addition."
+        }
+      ]
     }
   ],
   "exercise": {

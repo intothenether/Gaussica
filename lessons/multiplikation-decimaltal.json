@@ -294,6 +294,42 @@
           "message": "När du multiplicerar med ett tal som är mindre än 1 blir svaret mindre. 0,{b} är mindre än 1."
         }
       ]
+    },
+    {
+      "id": "glas-liter",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "b": [
+          2,
+          9
+        ],
+        "n": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "n*b/10"
+        }
+      ],
+      "prompt": "Ett glas rymmer 0,{b} liter. Du fyller {n} glas. Hur många liter är det?",
+      "answer": [
+        "=r",
+        "{r} liter"
+      ],
+      "correct": "Rätt! {n} · 0,{b} = {r} liter.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*b"
+          ],
+          "message": "Du har glömt kommat. Tiondelar gånger heltal ger tiondelar."
+        }
+      ]
     }
   ],
   "exercise": {

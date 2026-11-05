@@ -271,6 +271,64 @@
           "value": 0.8
         }
       ]
+    },
+    {
+      "id": "mest-anna",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          2,
+          5
+        ],
+        "b": [
+          6,
+          9
+        ]
+      },
+      "prompt": "Två likadana pizzor. Anna äter 1/{a} av sin pizza och Beatrice äter 1/{b} av sin. Vem äter mest?",
+      "answer": [
+        "Anna"
+      ],
+      "correct": "Rätt! Ju färre delar pizzan är delad i, desto större är varje del. 1/{a} är större än 1/{b}.",
+      "feedback": [
+        {
+          "answers": [
+            "Beatrice"
+          ],
+          "message": "Tänk på att en pizza delad i fler delar ger mindre delar. Vilken del är störst?"
+        }
+      ]
+    },
+    {
+      "id": "mest-beatrice",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          6,
+          9
+        ],
+        "b": [
+          2,
+          5
+        ]
+      },
+      "prompt": "Två likadana pizzor. Anna äter 1/{a} av sin pizza och Beatrice äter 1/{b} av sin. Vem äter mest?",
+      "answer": [
+        "Beatrice"
+      ],
+      "correct": "Rätt! Ju färre delar pizzan är delad i, desto större är varje del. 1/{b} är större än 1/{a}.",
+      "feedback": [
+        {
+          "answers": [
+            "Anna"
+          ],
+          "message": "Tänk på att en pizza delad i fler delar ger mindre delar. Vilken del är störst?"
+        }
+      ]
     }
   ],
   "components": [

@@ -144,6 +144,42 @@
           "message": "Räkna ut priset för 1 liter i båda butikerna: {3*p} delat på 3 och {2*(p+d)} delat på 2."
         }
       ]
+    },
+    {
+      "id": "enhetspris",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          4,
+          9
+        ],
+        "p": [
+          5,
+          15
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "n*p"
+        }
+      ],
+      "prompt": "{n} bullar kostar {t} kr. Vad kostar en bulle?",
+      "answer": [
+        "=p",
+        "{p} kr"
+      ],
+      "correct": "Rätt! {t}/{n} = {p} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "Det är vad alla bullar kostar. Dela priset med antalet för att få pris för en."
+        }
+      ]
     }
   ],
   "exercise": {

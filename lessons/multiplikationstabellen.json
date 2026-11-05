@@ -105,6 +105,61 @@
         },
         {"answers":["=a*100"],"message":"Nästan! En nolla räcker: {a} tior är {a} med en nolla efter."}
       ]
+    },
+    {
+      "id": "veckor-dagar",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ]
+      },
+      "prompt": "En vecka har 7 dagar. Hur många dagar är {a} veckor?",
+      "answer": [
+        "=7*a",
+        "{7*a} dagar"
+      ],
+      "correct": "Rätt! {a} · 7 = {7*a} dagar.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+7"
+          ],
+          "message": "Du har lagt ihop. {a} veckor är {a} gånger 7 dagar."
+        }
+      ]
+    },
+    {
+      "id": "lagens-spelare",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          6,
+          9
+        ]
+      },
+      "prompt": "{a} lag har {b} spelare vardera. Hur många spelare är det sammanlagt?",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! {a} · {b} = {a*b} spelare.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop. Varje lag har {b} spelare, så multiplicera."
+        }
+      ]
     }
   ],
   "exercise": {

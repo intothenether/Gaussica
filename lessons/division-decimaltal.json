@@ -209,6 +209,52 @@
           "message": "Du har glömt kommatecknet. Svaret är mindre än 1."
         }
       ]
+    },
+    {
+      "id": "saft-i-flaskor",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "d": [
+          2,
+          5
+        ],
+        "q": [
+          11,
+          49
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(q,10)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q/10"
+        },
+        {
+          "name": "r",
+          "expr": "q/10"
+        }
+      ],
+      "prompt": "{n} liter saft hälls lika i {d} flaskor. Hur många liter är det i varje flaska?",
+      "answer": [
+        "=r",
+        "{r} liter"
+      ],
+      "correct": "Rätt! {n}/{d} = {r} liter.",
+      "feedback": [
+        {
+          "answers": [
+            "=q"
+          ],
+          "message": "Du har missat kommatecknet. Svaret är mindre än {n} liter."
+        }
+      ]
     }
   ],
   "exercise": {

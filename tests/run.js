@@ -139,6 +139,7 @@ async function api() {
   run("school documents", "tests/school-docs.js");
   run("fonts", "tests/fonts.js");
   run("style sheets", "tests/stylesheets.js");
+  run("which specs a changed file asks for", "tests/test-changed.js");
   run("themes", "tests/theme.js");
   run("notebook", "tests/notebook.js");
   run("journey", "tests/journey.js");

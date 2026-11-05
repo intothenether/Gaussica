@@ -883,8 +883,6 @@ h1, h2, h3, p { margin-top: 0; }.section-heading h2 { font-family: "Nunito", "Se
 .scratchpad-icon {
   font-size: 16px;
 }
-  font-size: 13px;
-}
 .scratchpad-heading {
   font: 800 11px/1 "Nunito", sans-serif;
   color: var(--ink);
@@ -2385,6 +2383,7 @@ h1, h2, h3, p { margin-top: 0; }.section-heading h2 { font-family: "Nunito", "Se
   }
 }
 
+.lesson-list {
   display: flex;
   flex-direction: column;
   gap: 12px;

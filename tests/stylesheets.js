@@ -23,5 +23,18 @@ sheets.filter((f) => f !== "styles.css").forEach((f) => {
   ok(css.trim().length > 200, f + " is not empty");
 });
 
+// a stray "}" (a rule that lost its selector) makes the browser drop the rule after it
+sheets.forEach((f) => {
+  const css = read(f).replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, " "));
+  let depth = 0, line = 1;
+  const stray = [];
+  for (const c of css) {
+    if (c === "\n") line++;
+    else if (c === "{") depth++;
+    else if (c === "}") { if (depth === 0) stray.push(line); else depth--; }
+  }
+  ok(!stray.length && depth === 0, f + ": every { has its } and no } stands alone" + (stray.length ? " (stray at line " + stray.join(", ") + ")" : ""));
+});
+
 if (failures) { console.log(failures + " stylesheet check(s) failed"); process.exit(1); }
 console.log("All stylesheet checks passed");

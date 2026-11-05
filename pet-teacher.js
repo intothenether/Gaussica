@@ -33,8 +33,10 @@ window.GaussicaPetTeacher = (function () {
 
   // null when the student has no pet
   function info(student, ctx) {
-    const pet = student.lessonProgress && student.lessonProgress.pet;
-    if (!pet || !pet.kind) return null;
+    const stored = student.lessonProgress && student.lessonProgress.pet;
+    if (!stored || !stored.kind) return null;
+    // a student who has not opened the page since the backgrounds became wallpapers still has the old record: it is shown as it will be moved
+    const pet = (window.GaussicaPetArt && window.GaussicaPetArt.migrate(stored)) || stored;
     const P = window.GaussicaPet;
     const get = function (id) { return (student.lessonProgress || {})[id]; };
     const led = P.earned({

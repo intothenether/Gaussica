@@ -38,6 +38,12 @@ ok(i.gifts.length === 2 && i.gifts[0].amount === 25 && i.gifts[0].text === "Du g
 ok(T.info({ lessonProgress: {}, attempts: [], feedback: [] }, ctx) === null, "a student without a pet has no line");
 ok(T.REASONS.length >= 4, "there are ready-made reasons");
 
+// a student who has not opened the page since the backgrounds became wallpapers: the same coins, and the things counted as they will be
+const oldPet = Object.assign(Pet.makePet("cat", "gra", "Gamla"), { owned: { "hatt-keps": 15, "bg-natt": 35, "rum-vagg-stjarnor": 30 }, bg: "bg-natt" });
+delete oldPet.room; delete oldPet.scene;
+const oi = T.info({ lessonProgress: { pet: oldPet, addition: done }, attempts: [], feedback: [] }, ctx);
+ok(oi.spent === 80 && oi.items === 2 && oldPet.owned["bg-natt"] === 35, "an old record shows its coins unchanged, a background and a wallpaper that are the same count once, and the stored record is not changed");
+
 // the same total from the student's own side
 const own = Pet.earned({ lessons: lessons, student: student, getProgress: (id) => student.lessonProgress[id], lessonStars: (l) => window.GaussicaRewards.starsFor(l, student, lessons, (id) => student.lessonProgress[id]) });
 ok(own.total === i.total, "pet.js and the teacher view agree");

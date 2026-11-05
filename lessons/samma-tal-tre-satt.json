@@ -111,6 +111,33 @@
           "message": "Det blir tio gånger för stort. {p} % är {p} hundradelar."
         }
       ]
+    },
+    {
+      "id": "hundradelar-procent",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          1,
+          99
+        ]
+      },
+      "prompt": "Skriv {a}/100 som procent.",
+      "answer": [
+        "=a",
+        "{a} %",
+        "{a}%"
+      ],
+      "correct": "Rätt! Procent betyder hundradelar, så {a}/100 är {a} %.",
+      "feedback": [
+        {
+          "answers": [
+            "=a/10"
+          ],
+          "message": "Procent betyder hundradelar, inte tiondelar."
+        }
+      ]
     }
   ],
   "exercise": {

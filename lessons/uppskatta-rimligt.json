@@ -175,6 +175,94 @@
           "message": "{a+b} kr är det exakta priset. Runda varje pris till närmaste hundratal först."
         }
       ]
+    },
+    {
+      "id": "rimligt-ja",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          21,
+          79
+        ],
+        "b": [
+          21,
+          79
+        ]
+      },
+      "prompt": "{$namn} räknar {a} + {b} och får {a+b}. Är svaret rimligt? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! {a} + {b} är {a+b}, så svaret stämmer.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Gör ett överslag med närmaste tiotal. Det ska ge ungefär samma tal."
+        }
+      ]
+    },
+    {
+      "id": "rimligt-nej",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          21,
+          79
+        ],
+        "b": [
+          21,
+          79
+        ]
+      },
+      "derive": [
+        {
+          "name": "fel",
+          "expr": "a+b+100"
+        }
+      ],
+      "prompt": "{$namn} räknar {a} + {b} och får {fel}. Är svaret rimligt? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! {a} + {b} är ungefär {round(a/10)*10+round(b/10)*10}, så {fel} är alldeles för stort.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Gör ett överslag med närmaste tiotal. Det ska ge ungefär samma tal."
+        }
+      ]
     }
   ],
   "exercise": {

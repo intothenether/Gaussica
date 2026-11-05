@@ -64,6 +64,70 @@
       "answer": ["=b"],
       "correct": "Rätt! {a} − {r} = {b}.",
       "feedback": [{"answers":["=a+r"],"message":"Du lade ihop talen. Räkna baklänges: {a} − {r}."}]
+    },
+    {
+      "id": "lediga-platser",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          200,
+          500
+        ],
+        "b": [
+          100,
+          180
+        ]
+      },
+      "prompt": "En buss har {a} platser. {b} platser är upptagna. Hur många platser är lediga?",
+      "answer": [
+        "=a-b"
+      ],
+      "correct": "Rätt! {a} − {b} = {a-b} platser.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop. Platserna som är lediga är de som blir kvar när de upptagna tas bort."
+        }
+      ]
+    },
+    {
+      "id": "fler-elever",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          60,
+          90
+        ],
+        "d": [
+          8,
+          35
+        ]
+      },
+      "derive": [
+        {
+          "name": "b",
+          "expr": "a+d"
+        }
+      ],
+      "prompt": "En skola har {a} elever i årskurs 3 och {b} elever i årskurs 4. Hur många fler elever går i årskurs 4?",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! {b} − {a} = {d} fler elever.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop. Hur många fler är skillnaden: ta det större talet minus det mindre."
+        }
+      ]
     }
   ],
   "exercise": {

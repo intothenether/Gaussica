@@ -748,6 +748,72 @@
           "message": "Förläng {a}/{b} med {k} och jämför med {ak}/{bk}. Är de lika?"
         }
       ]
+    },
+    {
+      "id": "kaka-forkortat",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "p": [
+          1,
+          5
+        ],
+        "q": [
+          2,
+          8
+        ],
+        "k": [
+          2,
+          4
+        ]
+      },
+      "where": [
+        {
+          "expr": "q-p",
+          "min": 1
+        },
+        {
+          "expr": "sgd(p,q)",
+          "max": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "a",
+          "expr": "p*k"
+        },
+        {
+          "name": "b",
+          "expr": "q*k"
+        }
+      ],
+      "form": "forenklat",
+      "prompt": "{$namn} äter {a} bitar av en kaka som är skuren i {b} lika stora bitar. Hur stor del äter {$namn}? Skriv så enkelt som möjligt.",
+      "answer": [
+        "{p}/{q}"
+      ],
+      "correct": "Rätt! {a}/{b} kan förkortas med {k} till {p}/{q}.",
+      "feedback": [
+        {
+          "answers": [
+            "{q}/{p}"
+          ],
+          "message": "Du har bytt plats på täljaren och nämnaren. Täljaren är de bitar som äts."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -123,6 +123,49 @@
       ],
       "correct": "Nej. {d} · {k} = {d*k}, och {n} är {r} mer, så {d} går inte jämnt upp i {n}.",
       "feedback": []
+    },
+    {
+      "id": "tallrikar",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "n": [
+          12,
+          36
+        ]
+      },
+      "derive": [
+        {
+          "name": "r",
+          "expr": "divcount(n)"
+        }
+      ],
+      "prompt": "{$namn} har {n} kakor. På hur många olika sätt kan {$namn} lägga dem lika på tallrikar, om varje tallrik ska ha minst en kaka och inget ska bli över?",
+      "answer": [
+        "=r"
+      ],
+      "correct": "Rätt! Antalet sätt är antalet delare till {n}, och {n} har {r} delare.",
+      "feedback": [
+        {
+          "answers": [
+            "=n"
+          ],
+          "message": "Det är antalet kakor. Du söker hur många sätt det finns: hur många delare har talet?"
+        }
+      ]
     }
   ],
   "exercise": {

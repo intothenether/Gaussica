@@ -179,6 +179,86 @@
           "message": "{u} är entalssiffran i {p}. Räkna hur många steg som saknas upp till nästa tiotal."
         }
       ]
+    },
+    {
+      "id": "hundralapp-vaxel",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ],
+        "sak": [
+          "glass",
+          "bok",
+          "boll",
+          "tröja"
+        ]
+      },
+      "vars": {
+        "a": [
+          21,
+          89
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(a-50)",
+          "min": 1
+        }
+      ],
+      "prompt": "{$namn} köper en {$sak} för {a} kr och betalar med en hundralapp. Hur mycket får {$namn} tillbaka?",
+      "answer": [
+        "=100-a",
+        "{100-a} kr"
+      ],
+      "correct": "Rätt! 100 − {a} = {100-a} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a"
+          ],
+          "message": "Det är vad den kostade. Växeln är det som blir över av hundralappen."
+        }
+      ]
+    },
+    {
+      "id": "tjugor-och-tior",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "b": [
+          2,
+          7
+        ]
+      },
+      "prompt": "Du har {a} tjugor och {b} tior. Hur många kronor har du?",
+      "answer": [
+        "=20*a+10*b",
+        "{20*a+10*b} kr"
+      ],
+      "correct": "Rätt! {a} · 20 = {20*a} och {b} · 10 = {10*b}, tillsammans {20*a+10*b} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Det är antalet sedlar och mynt. Varje tjuga är värd 20 kr och varje tia 10 kr."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -177,6 +177,65 @@
           "message": "Det är summan. Mitten får du genom att dela summan med 2."
         }
       ]
+    },
+    {
+      "id": "hopp-vanster",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          12,
+          40
+        ],
+        "d": [
+          3,
+          11
+        ]
+      },
+      "prompt": "Du står på {a} på tallinjen och hoppar {d} steg åt vänster. Vilket tal landar du på?",
+      "answer": [
+        "=a-d"
+      ],
+      "correct": "Rätt! Åt vänster blir talet mindre: {a} − {d} = {a-d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+d"
+          ],
+          "message": "Åt vänster blir talen mindre, så du ska ta bort {d}."
+        }
+      ]
+    },
+    {
+      "id": "hopp-tiotal",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          10,
+          60,
+          10
+        ],
+        "k": [
+          2,
+          5
+        ]
+      },
+      "prompt": "Tallinjen har ett streck för var tionde tal. Du står på {a} och hoppar {k} streck åt höger. Vilket tal landar du på?",
+      "answer": [
+        "=a+10*k"
+      ],
+      "correct": "Rätt! {k} streck är {10*k}, och {a} + {10*k} = {a+10*k}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+k"
+          ],
+          "message": "Varje streck är 10 steg, inte 1. Hur många steg är {k} streck?"
+        }
+      ]
     }
   ],
   "exercise": {

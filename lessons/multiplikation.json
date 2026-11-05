@@ -74,6 +74,82 @@
           "message": "Du lade ihop talen. Priset är {b} kr för varje, och {$namn} köper {a} stycken."
         }
       ]
+    },
+    {
+      "id": "bio-rader",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "prompt": "En bio har {a} rader med {b} platser i varje rad. Hur många platser finns det?",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! {a} · {b} = {a*b} platser.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop. Det är {a} rader med {b} platser i varje, så multiplicera."
+        }
+      ]
+    },
+    {
+      "id": "paket-saker",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ],
+        "sak": [
+          "pennor",
+          "kort",
+          "klistermärken",
+          "pärlor"
+        ]
+      },
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          3,
+          9
+        ]
+      },
+      "prompt": "{$namn} köper {a} paket med {b} {$sak} i varje paket. Hur många {$sak} är det?",
+      "answer": [
+        "=a*b"
+      ],
+      "correct": "Rätt! {a} · {b} = {a*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop. Det är {a} paket med {b} i varje, så multiplicera."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -67,6 +67,77 @@
           "message": "{g} är antalet i varje hög. Du ska ta reda på hur många högar det blir."
         }
       ]
+    },
+    {
+      "id": "bord",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "g": [
+          3,
+          6
+        ],
+        "q": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "g*q"
+        }
+      ],
+      "prompt": "{t} elever ska sitta {g} vid varje bord. Hur många bord behövs?",
+      "answer": [
+        "=q"
+      ],
+      "correct": "Rätt! {t}/{g} = {q} bord.",
+      "feedback": [
+        {
+          "answers": [
+            "=g"
+          ],
+          "message": "Det är antalet vid varje bord. Du söker hur många bord det blir."
+        }
+      ]
+    },
+    {
+      "id": "kronor-delas",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "g": [
+          3,
+          9
+        ],
+        "q": [
+          3,
+          9
+        ]
+      },
+      "derive": [
+        {
+          "name": "t",
+          "expr": "g*q"
+        }
+      ],
+      "prompt": "{t} kr delas lika på {g} barn. Hur många kronor får varje barn?",
+      "answer": [
+        "=q",
+        "{q} kr"
+      ],
+      "correct": "Rätt! {t}/{g} = {q} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=t-g"
+          ],
+          "message": "Du har dragit ifrån. Att dela lika är division."
+        }
+      ]
     }
   ],
   "exercise": {

@@ -185,6 +185,118 @@
           "message": "Du har glömt att lägga till resten {r}."
         }
       ]
+    },
+    {
+      "id": "kronor-delas",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "d": [
+          12,
+          25
+        ],
+        "q": [
+          12,
+          40
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q"
+        }
+      ],
+      "prompt": "{n} kr delas lika på {d} elever. Hur många kronor får varje elev?",
+      "answer": [
+        "=q",
+        "{q} kr"
+      ],
+      "correct": "Rätt! {n}/{d} = {q} kr, och kontrollen {d} · {q} = {n} stämmer.",
+      "feedback": [
+        {
+          "answers": [
+            "=n-d"
+          ],
+          "message": "Du har dragit ifrån. Att dela lika är division."
+        }
+      ]
+    },
+    {
+      "id": "sackar",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "d": [
+          12,
+          35
+        ],
+        "q": [
+          12,
+          45
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q"
+        }
+      ],
+      "prompt": "En lastbil lastar {n} kg i säckar som rymmer {d} kg var. Hur många säckar behövs?",
+      "answer": [
+        "=q",
+        "{q} säckar"
+      ],
+      "correct": "Rätt! {n}/{d} = {q} säckar.",
+      "feedback": [
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "Det är vad en säck rymmer. Du söker hur många säckar det blir."
+        }
+      ]
+    },
+    {
+      "id": "bussar-med-rest",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "d": [
+          20,
+          45
+        ],
+        "q": [
+          3,
+          9
+        ],
+        "r": [
+          1,
+          11
+        ]
+      },
+      "derive": [
+        {
+          "name": "n",
+          "expr": "d*q+r"
+        }
+      ],
+      "prompt": "{n} elever ska åka buss. Varje buss rymmer {d} elever. Hur många bussar behövs?",
+      "answer": [
+        "=q+1",
+        "{q+1} bussar"
+      ],
+      "correct": "Rätt! {n}/{d} = {q} rest {r}. {q} bussar blir fulla, och de {r} som blir över behöver en buss till: {q+1} bussar.",
+      "feedback": [
+        {
+          "answers": [
+            "=q"
+          ],
+          "message": "De elever som blir över behöver också en buss. Hur många bussar behövs då?"
+        }
+      ]
     }
   ],
   "exercise": {

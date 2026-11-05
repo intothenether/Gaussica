@@ -117,6 +117,32 @@
       ]
     },
     {
+      "id": "ar-i-manader",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "n": [
+          2,
+          6
+        ]
+      },
+      "prompt": "Ett år har 12 månader. Hur många månader är {n} år?",
+      "answer": [
+        "=12*n",
+        "{12*n} månader"
+      ],
+      "correct": "Rätt! {n} · 12 = {12*n} månader.",
+      "feedback": [
+        {
+          "answers": [
+            "=n+12"
+          ],
+          "message": "Du har lagt ihop. {n} år är {n} gånger 12 månader."
+        }
+      ]
+    },
+    {
       "id": "luckor-tid",
       "for": [
         "lt-0"

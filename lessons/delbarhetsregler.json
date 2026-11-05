@@ -183,6 +183,92 @@
           "message": "{n} är alla talen. Bara vart femte går att dela med 5."
         }
       ]
+    },
+    {
+      "id": "nio-ja",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          0,
+          9
+        ],
+        "c": [
+          0,
+          9
+        ],
+        "d": [
+          0,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(a+b+c+d,9)",
+          "max": 0
+        }
+      ],
+      "prompt": "Går {a}{b}{c}{d} att dela med 9? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! Siffersumman är {a+b+c+d}, och den går att dela med 9. Då går hela talet också att dela med 9.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Lägg ihop siffrorna. Går siffersumman att dela med 9 går talet det också."
+        }
+      ]
+    },
+    {
+      "id": "nio-nej",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "a": [
+          1,
+          9
+        ],
+        "b": [
+          0,
+          9
+        ],
+        "c": [
+          0,
+          9
+        ],
+        "d": [
+          0,
+          9
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(a+b+c+d,9)",
+          "min": 1
+        }
+      ],
+      "prompt": "Går {a}{b}{c}{d} att dela med 9? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Siffersumman är {a+b+c+d}, och den går inte att dela med 9. Då går inte talet heller.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Lägg ihop siffrorna. Går siffersumman att dela med 9 går talet det också."
+        }
+      ]
     }
   ],
   "exercise": {

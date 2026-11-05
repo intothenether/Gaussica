@@ -205,6 +205,41 @@
           "hint": "Omkretsen är alla sidor tillsammans."
         }
       ]
+    },
+    {
+      "id": "matta-pris",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "l": [
+          3,
+          8
+        ],
+        "b": [
+          2,
+          6
+        ],
+        "p": [
+          100,
+          300,
+          50
+        ]
+      },
+      "prompt": "En rektangulär matta är {l} m lång och {b} m bred. En kvadratmeter matta kostar {p} kr. Vad kostar hela mattan?",
+      "answer": [
+        "=l*b*p",
+        "{l*b*p} kr"
+      ],
+      "correct": "Rätt! Arean är {l} · {b} = {l*b} m², och {l*b} · {p} = {l*b*p} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=l*b"
+          ],
+          "message": "Det är arean. Multiplicera den med priset per kvadratmeter."
+        }
+      ]
     }
   ],
   "components": [

@@ -43,6 +43,15 @@
       ]
     ]
   },
+  "visuals": [
+    {
+      "type": "cirkel",
+      "title": "Cirkeln rymmer ungefär 3,14 kvadrater med sidan r, så arean är 3,14 · r · r",
+      "r": 5,
+      "unit": "cm",
+      "show": ["radie", "kvadrat"]
+    }
+  ],
   "rule": "A = π · r^2, med π ≈ 3,14",
   "ruleLabel": "CIRKELNS AREA",
   "example": "Radien 4 cm: A ≈ 3,14 · 4^2 = 3,14 · 16 = 50,24 cm².",

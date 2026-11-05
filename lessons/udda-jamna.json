@@ -120,6 +120,76 @@
       ]
     },
     {
+      "id": "summa-jamn",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          11,
+          49
+        ],
+        "b": [
+          11,
+          49
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(a+b,2)",
+          "max": 0
+        }
+      ],
+      "prompt": "Vad blir {a} + {b}? Är svaret jämnt eller udda? Svara jämnt eller udda.",
+      "answer": [
+        "jämnt"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b}, och {a+b} är ett jämnt tal.",
+      "feedback": [
+        {
+          "answers": [
+            "udda"
+          ],
+          "message": "Räkna ut summan. Slutar den på 0, 2, 4, 6 eller 8 är den jämn."
+        }
+      ]
+    },
+    {
+      "id": "summa-udda",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "a": [
+          11,
+          49
+        ],
+        "b": [
+          11,
+          49
+        ]
+      },
+      "where": [
+        {
+          "expr": "mod(a+b,2)",
+          "min": 1
+        }
+      ],
+      "prompt": "Vad blir {a} + {b}? Är svaret jämnt eller udda? Svara jämnt eller udda.",
+      "answer": [
+        "udda"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b}, och {a+b} är ett udda tal.",
+      "feedback": [
+        {
+          "answers": [
+            "jämnt"
+          ],
+          "message": "Räkna ut summan. Slutar den på 1, 3, 5, 7 eller 9 är den udda."
+        }
+      ]
+    },
+    {
       "id": "udda-eller-jamna",
       "for": [
         "so-0"

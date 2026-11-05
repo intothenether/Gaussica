@@ -228,6 +228,89 @@
           "message": "Du har dragit ifrån. Kontrollen använder addition: lägg ihop {r} och {b}."
         }
       ]
+    },
+    {
+      "id": "saknas-for-cykel",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          400,
+          900
+        ],
+        "b": [
+          150,
+          300
+        ]
+      },
+      "prompt": "{$namn} sparar till en cykel som kostar {a} kr och har sparat {b} kr. Hur mycket pengar saknas?",
+      "answer": [
+        "=a-b",
+        "{a-b} kr"
+      ],
+      "correct": "Rätt! {a} − {b} = {a-b} kr saknas.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop. Det som saknas är det som är kvar när sparpengarna tagits bort från priset."
+        }
+      ]
+    },
+    {
+      "id": "sidor-kvar",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "a": [
+          220,
+          480
+        ],
+        "b": [
+          90,
+          210
+        ]
+      },
+      "prompt": "En bok har {a} sidor. {$namn} har läst {b} sidor. Hur många sidor är kvar?",
+      "answer": [
+        "=a-b"
+      ],
+      "correct": "Rätt! {a} − {b} = {a-b} sidor.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "Du har lagt ihop. Sidorna som är kvar är de som inte är lästa än."
+        }
+      ]
     }
   ],
   "exercise": {
