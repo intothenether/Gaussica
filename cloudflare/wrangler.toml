@@ -14,9 +14,9 @@ ALLOWED_ORIGINS = "https://gaussica.se,https://www.gaussica.se,https://intothene
 # The teacher code is a secret, set it with:  npx wrangler secret put TEACHER_CODE
 
 # E-post, prenumeration och betalning: allt är avstängt tills du sätter på det, se docs/prenumeration.md (startordning och hemligheter).
-# MAIL_FROM = "Gaussica <no-reply@din-domän>"          (en domän verifierad hos Resend; hemligheten RESEND_API_KEY sätts med wrangler secret put)
-# SITE_URL = "https://gaussica.se"                      (dit länkarna i mejlen går)
-# CAREGIVER_EMAIL_REQUIRED = "1"                        (en vårdnadshavare måste ange e-post och godkänna villkoren)
+MAIL_FROM = "Gaussica <no-reply@gaussica.se>"          (en domän verifierad hos Resend; hemligheten RESEND_API_KEY sätts med wrangler secret put)
+SITE_URL = "https://gaussica.se"                      (dit länkarna i mejlen går)
+CAREGIVER_EMAIL_REQUIRED = "1"                        (en vårdnadshavare måste ange e-post och godkänna villkoren)
 # BILLING_ENABLED = "1"                                 (ta betalt: familjer utan gratis åtkomst, prov eller prenumeration släpps inte in)
 # TRIAL_DAYS = "14"
 # PADDLE_ENV = "production"                             (utelämnas för sandlådan)

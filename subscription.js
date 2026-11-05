@@ -142,7 +142,10 @@ window.GaussicaSubscription = (function () {
       x.addEventListener("click", function () { el.remove(); try { window.localStorage.setItem("gaussica.bar." + key + "." + me.id, "1"); } catch (e) { /* storage blocked */ } });
       el.appendChild(x);
     }
-    document.body.insertBefore(el, document.body.firstChild);
+    // after the link past the menus, so that the first Tab still reaches that
+    const skip = document.querySelector(".skip-link");
+    if (skip && skip.parentNode === document.body) document.body.insertBefore(el, skip.nextSibling);
+    else document.body.insertBefore(el, document.body.firstChild);
   }
 
   function start(user, API) {
