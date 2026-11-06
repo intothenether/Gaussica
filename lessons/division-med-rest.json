@@ -1,6 +1,7 @@
 {
   "id": "division-med-rest",
   "area": "tal",
+  "parentId": "division-stora-tal",
   "title": "Division med rest",
   "level": "När det inte går jämnt ut · ungefär åk 4–5",
   "grade": 4,

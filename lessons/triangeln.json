@@ -11,14 +11,19 @@
   "isParentLesson": true,
   "subLessons": [
     {
+      "id": "trianglar-typer",
+      "title": "Olika sorters trianglar",
+      "sequence": 1
+    },
+    {
       "id": "triangelns-omkrets",
       "title": "Triangelns omkrets",
-      "sequence": 1
+      "sequence": 2
     },
     {
       "id": "triangelns-area",
       "title": "Triangelns area",
-      "sequence": 2
+      "sequence": 3
     }
   ],
   "summary": "En triangel har tre sidor. Omkretsen är summan av sidorna, och arean är hälften av bas gånger höjd.",

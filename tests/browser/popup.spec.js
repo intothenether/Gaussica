@@ -15,7 +15,7 @@ test("pop-up: a node on the map opens the overview as a pop-up, and the page sta
   await openMap(page);
   const popup = page.locator("#lesson-popup");
   await expect(popup).toBeHidden();
-  const node = page.locator("#lesson-graph button[data-lesson-id]").first();
+  const node = page.locator("#lesson-graph button[data-lesson-id=\"inte-lika-med\"]");   // a lesson on its own (the first node on the map is a chapter, which opens a list of its lessons)
   await node.scrollIntoViewIfNeeded();
   const before = await page.evaluate(() => window.scrollY);
   await node.click();
@@ -35,7 +35,7 @@ test("pop-up: a node on the map opens the overview as a pop-up, and the page sta
 test("pop-up: Esc, the cross and a click beside it close it, and the focus goes back to the node", async ({ page }) => {
   await openMap(page);
   const popup = page.locator("#lesson-popup");
-  const node = page.locator("#lesson-graph button[data-lesson-id]").first();
+  const node = page.locator("#lesson-graph button[data-lesson-id=\"inte-lika-med\"]");   // a lesson on its own (the first node on the map is a chapter, which opens a list of its lessons)
   await node.focus();
   await page.keyboard.press("Enter");
   await expect(popup).toBeVisible();

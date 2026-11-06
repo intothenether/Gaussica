@@ -1,0 +1,51 @@
+{
+  "id": "vinklar-fyrhorningar-kroppar",
+  "area": "geometri",
+  "title": "Vinklar, fyrhörningar och kroppar",
+  "level": "Samlat kapitel · ungefär åk 4",
+  "grade": 4,
+  "duration": "22 min",
+  "prerequisites": [
+    "geometriska-figurer"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "vinklar",
+      "title": "Vinklar mäter en vridning",
+      "sequence": 1
+    },
+    {
+      "id": "fyrhorningar-linjer",
+      "title": "Fyrhörningar och parallella linjer",
+      "sequence": 2
+    },
+    {
+      "id": "kroppar",
+      "title": "Kroppar",
+      "sequence": 3
+    }
+  ],
+  "summary": "En vinkel mäter en vridning, fyrhörningar har parallella sidor och räta vinklar, och kroppar är figurer som du kan hålla i handen.",
+  "explanationTitle": "Former i planet och i rummet",
+  "explanation": "Problemet: Hur kan du se att en bordsskiva är en rektangel, och vad skiljer en kub från en kvadrat? Du mäter vinklar, undersöker fyrhörningar och lär dig kropparnas namn.",
+  "rule": "En rät vinkel är 90 grader. Kroppar har sidoytor, kanter och hörn.",
+  "ruleLabel": "VINKLAR OCH FORMER",
+  "example": "En kub har 6 sidoytor, 12 kanter och 8 hörn.",
+  "exercise": {
+    "prompt": "Hur många grader är en rät vinkel?",
+    "answer": [
+      "90"
+    ],
+    "correct": "Rätt! En rät vinkel är 90 grader.",
+    "feedback": [
+      {
+        "answers": [
+          "180"
+        ],
+        "message": "180 grader är en rak linje, alltså två räta vinklar."
+      }
+    ]
+  },
+  "wordProblems": []
+}

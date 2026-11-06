@@ -1,0 +1,54 @@
+{
+  "id": "matt-enheter-och-tid",
+  "area": "matning",
+  "title": "Mått, enheter och tid",
+  "level": "Samlat kapitel · ungefär åk 4",
+  "grade": 4,
+  "duration": "23 min",
+  "prerequisites": [
+    "addition",
+    "subtraktion",
+    "begrepp-rakna",
+    "digital-klocka"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "enheter",
+      "title": "Räkna och växla enheter",
+      "sequence": 1
+    },
+    {
+      "id": "matning-liter-gram",
+      "title": "Liter, deciliter, gram och kilogram",
+      "sequence": 2
+    },
+    {
+      "id": "tidsintervall",
+      "title": "Hur lång tid? Räkna tidsintervall",
+      "sequence": 3
+    }
+  ],
+  "summary": "Du växlar mellan enheter, mäter vätska och vikt, och räknar hur lång tid något tar.",
+  "explanationTitle": "Att mäta rätt",
+  "explanation": "Problemet: Ett recept behöver 3 dl mjölk och 250 g mjöl, och bakningen tar 45 minuter. Hur hänger måtten ihop, och hur räknar du om dem när du bakar dubbelt så mycket?",
+  "rule": "Samma sak kan mätas med olika enheter. Du växlar genom att multiplicera eller dividera med 10, 100 eller 1000.",
+  "ruleLabel": "ENHETER",
+  "example": "1 m = 100 cm och 1 kg = 1000 g.",
+  "exercise": {
+    "prompt": "Hur många centimeter är 1 meter?",
+    "answer": [
+      "100"
+    ],
+    "correct": "Rätt! En meter är 100 centimeter.",
+    "feedback": [
+      {
+        "answers": [
+          "10"
+        ],
+        "message": "Tio centimeter är bara en hand bred. En meter är mycket längre."
+      }
+    ]
+  },
+  "wordProblems": []
+}

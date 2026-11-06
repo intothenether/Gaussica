@@ -1,6 +1,7 @@
 {
   "id": "multiplikation-decimaltal",
   "area": "tal",
+  "parentId": "rakna-med-decimaltal",
   "title": "Multiplikation med decimaltal",
   "level": "Gånger med komma · ungefär åk 5",
   "grade": 5,

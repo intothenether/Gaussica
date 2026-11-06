@@ -1,6 +1,7 @@
 {
   "id": "cirkeldiagram",
   "area": "data",
+  "parentId": "statistik-medelvarde-median",
   "title": "Cirkeldiagram",
   "level": "Läs och tolka delar av ett helt · ungefär åk 6",
   "grade": 6,

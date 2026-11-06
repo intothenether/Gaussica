@@ -1,0 +1,61 @@
+{
+  "id": "division-stora-tal",
+  "area": "tal",
+  "title": "Division med större tal",
+  "level": "Samlat kapitel · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "30 min",
+  "prerequisites": [
+    "division",
+    "platsvarde",
+    "multiplikationstabellen",
+    "multiplikation-tvasiffrigt",
+    "begrepp-rakna"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "division-med-10-100-1000",
+      "title": "Division med 1, 10, 100 och 1000",
+      "sequence": 1
+    },
+    {
+      "id": "division-med-rest",
+      "title": "Division med rest",
+      "sequence": 2
+    },
+    {
+      "id": "kortdivision",
+      "title": "Kortdivision",
+      "sequence": 3
+    },
+    {
+      "id": "langdivision",
+      "title": "Långdivision",
+      "sequence": 4
+    }
+  ],
+  "summary": "Du delar med 10, 100 och 1000, delar så att det blir en rest, och ställer upp divisionen, först kort och sedan lång.",
+  "explanationTitle": "Dela större tal",
+  "explanation": "Problemet: Du har 50 äpplen och lådor som rymmer 6 äpplen. Hur många lådor fylls, och hur många äpplen blir över? Här övar du division i flera steg, från att dela med 10 till att ställa upp en lång division.",
+  "rule": "Division delar lika. Ibland går det inte jämnt ut, och det som blir över är resten.",
+  "ruleLabel": "DIVISION",
+  "example": "50 delat på 6 är 8 med resten 2, för 6 · 8 = 48 och 48 + 2 = 50.",
+  "exercise": {
+    "prompt": "50 äpplen packas 10 i varje låda. Hur många lådor blir det?",
+    "answer": [
+      "5",
+      "fem"
+    ],
+    "correct": "Rätt! 5 lådor med 10 äpplen i varje blir 50 äpplen.",
+    "feedback": [
+      {
+        "answers": [
+          "40"
+        ],
+        "message": "Du tog bort 10. Fråga dig hur många tior som ryms i 50."
+      }
+    ]
+  },
+  "wordProblems": []
+}

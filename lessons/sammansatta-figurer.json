@@ -1,6 +1,7 @@
 {
   "id": "sammansatta-figurer",
   "area": "geometri",
+  "parentId": "mer-om-area",
   "title": "Area av sammansatta figurer",
   "level": "Dela upp eller dra bort · ungefär åk 7",
   "grade": 7,

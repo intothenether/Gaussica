@@ -265,6 +265,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Ett överslag visar om ett svar är rimligt.",
+        "answer": true,
+        "explain": "Du räknar med avrundade tal och ser om svaret ligger nära."
+      },
+      {
+        "text": "Ett överslag ger alltid det exakta svaret.",
+        "answer": false,
+        "explain": "Ett överslag är bara ungefär, men det visar om svaret kan stämma."
+      }
+    ],
+    "correct": "Rätt! Ett överslag är ungefärligt men visar om svaret är rimligt."
+  },
   "exercise": {
     "prompt": "Gör ett överslag: runda båda talen till närmaste tiotal och räkna. 48 + 39",
     "answer": [

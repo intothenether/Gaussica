@@ -1,6 +1,7 @@
 {
   "id": "relativ-frekvens",
   "area": "data",
+  "parentId": "slump-och-chans",
   "title": "Relativ frekvens: prova och räkna",
   "level": "Chans som andel av försök · ungefär åk 6",
   "grade": 6,

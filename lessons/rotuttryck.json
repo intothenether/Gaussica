@@ -2,6 +2,7 @@
   "id": "rotuttryck",
   "input": "math",
   "area": "tal",
+  "parentId": "rotter-och-talsorter",
   "title": "Kvadratrötter och rotuttryck",
   "level": "√ och att förenkla rötter · ungefär åk 9",
   "grade": 9,

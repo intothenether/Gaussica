@@ -15,13 +15,16 @@ window.GaussicaQuestions = (function () {
     isPractice = d.isPractice;
     savedEntry = d.savedEntry;
     storeCanvas = d.storeCanvas;
-    storeAnswerProgress = d.storeAnswerProgress;
+    // the check at the end of an explanation (renderCheck) is not an answer: nothing of it is kept
+    storeAnswerProgress = function (lessonId, taskId) { if (taskId === CHECK_ID) return undefined; return d.storeAnswerProgress.apply(null, arguments); };
     isStudent = d.isStudent;
     renderVisualsFor = d.renderVisualsFor;
     keepFocus = d.keepFocus;
     answerFormNote = d.answerFormNote;
     getCourse = d.getCourse;
   }
+
+  const CHECK_ID = "check";
 
   // ===== BEGREPP: term cards and the matching test =====
   // { type: "begreppskort", title, intro, cards: [{ term, definition, example }] }
@@ -480,7 +483,7 @@ window.GaussicaQuestions = (function () {
 
     // What the student has done so far with this question, for the signals around a wrong answer (feedback-signals.js)
     const signals = window.GaussicaSignals;
-    let wrongTries = 0, lastShownAt = 0, lastShownText = "", pausedUntil = 0;
+    let wrongTries = 0;
 
     // A question whose answer is a word has a word bank under the field (wordbank.js), and a word that is almost right in the spelling counts (spelling.js)
     const WB = window.GaussicaWordBank, SP = window.GaussicaSpelling;
@@ -523,24 +526,17 @@ window.GaussicaQuestions = (function () {
     // a right answer counts for the bank: one point when a word was tapped, two when it was typed
     const bankPoint = function (value) { if (bankWords.length) WB.add(tappedWord && value.trim().toLowerCase() === tappedWord.toLowerCase() ? 1 : 2); };
 
-    // A wrong answer with its hint on the screen: the field shakes, the phone buzzes, the hint can be read aloud. And if this one came faster than
-    // the last hint can have been read, "Kolla svaret" waits a moment (the answer was checked all the same, and a right one is never held back).
+    // A wrong answer with its hint on the screen: the field shakes, the phone buzzes, the hint can be read aloud. (The player also shows the hint in a
+    // box in the middle of the screen, which has to be closed before the next try, see tip-dialog.js.)
     function wrongSignals(spoken) {
-      const now = Date.now(), text = spoken || feedback.textContent;
-      const rapid = wrongTries > 0 && lastShownAt > 0 && now - lastShownAt < signals.readingMs(lastShownText);
+      const text = spoken || feedback.textContent;
       wrongTries += 1;
-      lastShownAt = now;
-      lastShownText = text;
       signals.wrong(answer);
       revealBank();
       signals.buzz();
       signals.readAloud(text);
       signals.clipped(feedback);
-      if (rapid) {
-        pausedUntil = now + signals.PAUSE_MS;
-        signals.pause(submit, feedback, signals.PAUSE_MS);
-      }
-      return { rapid: rapid, tries: wrongTries };
+      return { tries: wrongTries };
     }
 
     // The hint stays on the screen while the answer is changed: it is what the student needs to read to change it. The frame on the field goes.
@@ -560,8 +556,7 @@ window.GaussicaQuestions = (function () {
       if (animating) { animating.skip(); return; }
       const typed = answer.value.trim();
       const info = typed && SUB && exercise.substitute !== false && ASKS_FOR_X.test(exercise.prompt) ? SUB.available(exercise.prompt, typed) : null;
-      // a wrong answer that comes while the last hint is still being read is not taken, so nothing is played for it either
-      if (info && !(!info.equal && Date.now() < pausedUntil)) {
+      if (info) {
         substHost.replaceChildren();
         feedback.className = "feedback-message";
         feedback.textContent = "";
@@ -604,9 +599,6 @@ window.GaussicaQuestions = (function () {
         finish(true);
         return;
       }
-
-      // A new wrong answer while the last hint is still being read is not taken, only pointed at it. A right answer always is.
-      if (!isCorrect && Date.now() < pausedUntil) { signals.nudge(feedback); return; }
 
       // The right value written as a calculation ("36/6" for 6): where the point is to calculate, ask for the number.
       const MS = window.MATTE_SYMBOLIC;
@@ -759,5 +751,15 @@ window.GaussicaQuestions = (function () {
     parent.appendChild(section);
   }
 
-  return { init: init, renderConceptCards: renderConceptCards, workedExampleFor: workedExampleFor, isTrue: isTrue, renderMatching: renderMatching, renderTrueFalse: renderTrueFalse, renderFormat: renderFormat, renderProblem: renderProblem, shuffled: shuffled };
+  // The short question at the end of the explanation of a lesson (lesson.check: true or false statements, or one of the formats). It is drawn like a
+  // question, but nothing of it is kept and nothing is counted: the point is that the explanation has been read. opts.onResult(isCorrect) after each try.
+  function renderCheck(parent, lesson, check, opts) {
+    const problem = window.GaussicaLesson.personalize(check);
+    const label = "KOLLA ATT DU HÄNGER MED";
+    if (problem.format && window.GaussicaFormats) return renderFormat(parent, lesson, problem, CHECK_ID, label, opts);
+    if (Array.isArray(problem.statements)) return renderTrueFalse(parent, lesson, problem, CHECK_ID, label, opts);
+    return null;
+  }
+
+  return { init: init, renderCheck: renderCheck, renderConceptCards: renderConceptCards, workedExampleFor: workedExampleFor, isTrue: isTrue, renderMatching: renderMatching, renderTrueFalse: renderTrueFalse, renderFormat: renderFormat, renderProblem: renderProblem, shuffled: shuffled };
 }());

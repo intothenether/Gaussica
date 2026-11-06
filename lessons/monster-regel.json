@@ -2,6 +2,7 @@
   "id": "monster-regel",
   "input": "math",
   "area": "algebra",
+  "parentId": "formler-och-monster",
   "title": "Mönster: regeln för plats n",
   "level": "Hitta talet på vilken plats som helst · ungefär åk 6",
   "grade": 6,

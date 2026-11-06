@@ -1,6 +1,7 @@
 {
   "id": "tidsintervall",
   "area": "matning",
+  "parentId": "matt-enheter-och-tid",
   "title": "Hur lång tid? Räkna tidsintervall",
   "level": "Från en tid till en annan · ungefär åk 4",
   "grade": 4,

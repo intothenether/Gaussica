@@ -157,6 +157,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Stegen i en instruktion görs ett i taget, uppifrån och ned.",
+        "answer": true,
+        "explain": "Så får också en dator sina instruktioner."
+      },
+      {
+        "text": "Ordningen på stegen spelar ingen roll.",
+        "answer": false,
+        "explain": "Samma steg i en annan ordning kan ge ett annat svar."
+      }
+    ],
+    "correct": "Rätt! Ordningen spelar roll."
+  },
   "exercise": {
     "prompt": "Start på 6. Steg 1: lägg till 4. Steg 2: dubbla talet. Vilket tal får du?",
     "answer": [

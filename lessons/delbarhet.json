@@ -17,19 +17,24 @@
       "sequence": 1
     },
     {
+      "id": "delbarhetsregler",
+      "title": "Delbarhetsregler",
+      "sequence": 2
+    },
+    {
       "id": "gemensamma-delare",
       "title": "Gemensamma delare",
-      "sequence": 2
+      "sequence": 3
     },
     {
       "id": "storsta-gemensamma-delare",
       "title": "Största gemensamma delare",
-      "sequence": 3
+      "sequence": 4
     },
     {
       "id": "primtal",
       "title": "Primtal",
-      "sequence": 4
+      "sequence": 5
     }
   ],
   "summary": "Ett tal är delbart med ett annat om divisionen går jämnt ut. Med hjälp av delare kan vi hitta gemensamma delare, SGD och primtal.",

@@ -1,6 +1,7 @@
 {
   "id": "multiplikation-tvasiffrigt",
   "area": "tal",
+  "parentId": "multiplikation-stora-tal",
   "title": "Multiplikation med tvåsiffrigt tal",
   "level": "Uppställning med två rader · ungefär åk 4",
   "grade": 4,

@@ -1,6 +1,7 @@
 {
   "id": "trapetsens-area",
   "area": "geometri",
+  "parentId": "mer-om-area",
   "title": "Trapetsens area",
   "level": "Två parallella sidor · ungefär åk 7",
   "grade": 7,

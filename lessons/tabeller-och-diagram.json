@@ -1,0 +1,53 @@
+{
+  "id": "tabeller-och-diagram",
+  "area": "data",
+  "title": "Tabeller och diagram",
+  "level": "Samlat kapitel · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "22 min",
+  "prerequisites": [
+    "addition",
+    "subtraktion"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "diagram",
+      "title": "Läs och jämför diagram",
+      "sequence": 1
+    },
+    {
+      "id": "strecktabell-stapeldiagram",
+      "title": "Strecktabell och stapeldiagram",
+      "sequence": 2
+    },
+    {
+      "id": "linjediagram",
+      "title": "Linjediagram",
+      "sequence": 3
+    }
+  ],
+  "summary": "Du läser och jämför diagram, gör strecktabeller och stapeldiagram, och följer förändring över tid i linjediagram.",
+  "explanationTitle": "Visa det du har räknat",
+  "explanation": "Problemet: Klassen har röstat om favoritfrukten. Hur visar du resultatet så att alla ser direkt vilken som vann, och hur visar du hur temperaturen ändrades under veckan?",
+  "rule": "Läs rubriker och skala först. Sedan jämför du staplar eller punkter.",
+  "ruleLabel": "DIAGRAM",
+  "example": "Om en stapel är 7 och en annan är 4 är skillnaden 3.",
+  "exercise": {
+    "prompt": "En stapel är 7 hög och en annan är 4 hög. Hur många fler är den första?",
+    "answer": [
+      "3",
+      "tre"
+    ],
+    "correct": "Rätt! Skillnaden mellan 7 och 4 är 3.",
+    "feedback": [
+      {
+        "answers": [
+          "11"
+        ],
+        "message": "Du lade ihop staplarna. Fler betyder skillnaden: ta bort de 4 från de 7."
+      }
+    ]
+  },
+  "wordProblems": []
+}

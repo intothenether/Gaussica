@@ -86,6 +86,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Det är omöjligt att en tärning med siffrorna 1 till 6 visar 7.",
+        "answer": true,
+        "explain": "Omöjligt betyder att det aldrig kan hända."
+      },
+      {
+        "text": "Det är säkert att du drar en blå kula ur en påse med nio blå och en röd.",
+        "answer": false,
+        "explain": "Det är troligt, men inte säkert, för det finns en röd kula."
+      }
+    ],
+    "correct": "Rätt! Säkert händer alltid, omöjligt händer aldrig."
+  },
   "exercise": {
     "prompt": "En påse har bara röda kulor. Du drar en kula. Är det säkert, möjligt eller omöjligt att kulan är blå?",
     "answer": [

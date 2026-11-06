@@ -2,6 +2,7 @@
   "id": "ekvation-fran-text",
   "input": "math",
   "area": "algebra",
+  "parentId": "ekvationer-fler-typer",
   "title": "Från text till ekvation",
   "level": "Modellera och lös · ungefär åk 8",
   "grade": 8,

@@ -3,6 +3,7 @@
   "input": "math",
   "stepSolve": true,
   "area": "algebra",
+  "parentId": "kvadrering-och-andragrad",
   "title": "Andragradsekvationer",
   "level": "x² och pq-formeln · ungefär åk 9",
   "grade": 9,

@@ -1,0 +1,48 @@
+{
+  "id": "cirkelns-area-och-volym",
+  "area": "geometri",
+  "title": "Cirkelns area och volym",
+  "level": "Samlat kapitel · ungefär åk 8",
+  "grade": 8,
+  "duration": "17 min",
+  "prerequisites": [
+    "omkrets",
+    "potenser",
+    "volym"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "cirkelns-area",
+      "title": "Cirkelns area",
+      "sequence": 1
+    },
+    {
+      "id": "volym-prisma-cylinder",
+      "title": "Volym",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du räknar ut cirkelns area och volymen av prismor och cylindrar.",
+  "explanationTitle": "Från yta till rymd",
+  "explanation": "Problemet: Hur mycket vatten rymmer en cylinderformad tunna? Du börjar med cirkelns area, och bygger sedan på med höjden så att du får volymen.",
+  "rule": "Volymen är basytans area gånger höjden.",
+  "ruleLabel": "VOLYM",
+  "example": "En kub med sidan 2 cm har volymen 2 · 2 · 2 = 8 cm³.",
+  "exercise": {
+    "prompt": "En kub har sidan 2 cm. Hur stor är volymen i kubikcentimeter?",
+    "answer": [
+      "8"
+    ],
+    "correct": "Rätt! 2 · 2 · 2 = 8 kubikcentimeter.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "Du räknade 2 · 3. En kub har tre lika långa mått: bredd, djup och höjd."
+      }
+    ]
+  },
+  "wordProblems": []
+}

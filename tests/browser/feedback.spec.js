@@ -2,12 +2,11 @@ const { test, expect } = require("@playwright/test");
 const { signIn, openLesson } = require("./helpers");
 
 // The feedback after a wrong answer: a careful hint that does not give the answer, and the signals that make it hard to miss
-// (frame and shake, a buzz, a short wait when the next try comes before the hint can have been read).
+// (frame and shake, a buzz; and the tip in a box that has to be closed, see tip.spec.js).
 
 const LESSON = "addition-uppstallning";   // "Räkna ut 38 + 47 med uppställning." (right: 85)
 const field = (page) => page.locator("#lesson-player input[name=answer]");
 const hint = (page) => page.locator("#lesson-player .pl-foot-feedback .feedback-message");
-const submit = (page) => page.locator("#lesson-player .answer-button");
 
 async function toExercise(page) {
   await openLesson(page, LESSON, "input[name=answer]");
@@ -49,39 +48,6 @@ test("a wrong answer that is just too large is asked about, in other words each 
   }
   expect(new Set(said).size).toBe(2);
   said.forEach((t) => expect(t).not.toContain("85"));
-});
-
-test("two wrong answers in a row, the second before the hint was read: the next wrong one waits, a right one never does", async ({ page }) => {
-  await signIn(page);
-  await toExercise(page);
-  await answer(page, "1000");
-  await expect(hint(page)).toContainText(/för stort|större/);
-  await answer(page, "1001");   // at once: the hint has not been read
-  await expect(submit(page)).toHaveText("Läs tipset först…");
-  await expect(submit(page)).toHaveClass(/is-waiting/);
-  await expect(page.locator("#lesson-player .pl-foot")).toContainText("Läs tipset först");
-  const text = await hint(page).innerText();
-  await answer(page, "1002");   // a third wrong one while it waits: not taken
-  expect(await hint(page).innerText()).toBe(text);
-  // after three seconds it is as before
-  await expect(submit(page)).toHaveText("Kolla svaret", { timeout: 5000 });
-  await expect(submit(page)).not.toHaveClass(/is-waiting/);
-
-  // and a right answer is taken at once, also while it waits
-  await answer(page, "1003");
-  await expect(submit(page)).toHaveText("Läs tipset först…");
-  await answer(page, "85");
-  await expect(page.locator("#lesson-player .pl-foot")).toHaveClass(/is-correct/);
-});
-
-test("a slow second try is not held back", async ({ page }) => {
-  await signIn(page);
-  await toExercise(page);
-  await answer(page, "1000");
-  await expect(hint(page)).toContainText(/för stort|större/);
-  await page.waitForTimeout(3000);   // time to read it
-  await answer(page, "1001");
-  await expect(submit(page)).toHaveText("Kolla svaret");
 });
 
 test("the settings for a wrong answer are in Läsning, and the buzz can be turned off", async ({ page }) => {

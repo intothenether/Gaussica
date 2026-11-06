@@ -1,6 +1,7 @@
 {
   "id": "cirkelns-area",
   "area": "geometri",
+  "parentId": "cirkelns-area-och-volym",
   "title": "Cirkelns area",
   "level": "Hur stor yta täcker en cirkel? · ungefär åk 8–9",
   "grade": 8,

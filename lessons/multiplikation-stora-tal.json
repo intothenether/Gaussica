@@ -1,0 +1,53 @@
+{
+  "id": "multiplikation-stora-tal",
+  "area": "tal",
+  "title": "Multiplikation med större tal",
+  "level": "Samlat kapitel · ungefär åk 4",
+  "grade": 4,
+  "duration": "24 min",
+  "prerequisites": [
+    "multiplikationstabellen",
+    "platsvarde",
+    "addition-uppstallning"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "multiplikation-10-100-1000",
+      "title": "Multiplikation med 10, 100 och 1000",
+      "sequence": 1
+    },
+    {
+      "id": "multiplikation-uppstallning",
+      "title": "Multiplikation med uppställning",
+      "sequence": 2
+    },
+    {
+      "id": "multiplikation-tvasiffrigt",
+      "title": "Multiplikation med tvåsiffrigt tal",
+      "sequence": 3
+    }
+  ],
+  "summary": "Först multiplicerar du med 10, 100 och 1000, sedan ställer du upp multiplikationen och till sist multiplicerar du med tvåsiffriga tal.",
+  "explanationTitle": "Från tiotal till tvåsiffriga tal",
+  "explanation": "Problemet: En skola beställer 23 lådor med 12 pennor i varje låda. Hur många pennor är det? Med tiopotenser, uppställning och tvåsiffriga tal kan du räkna ut det utan att räkna pennorna en och en.",
+  "rule": "Att multiplicera med 10 flyttar siffrorna ett steg åt vänster. Med uppställning multiplicerar du en siffra i taget.",
+  "ruleLabel": "MULTIPLIKATION MED STORA TAL",
+  "example": "23 · 10 = 230, och 23 · 12 = 23 · 10 + 23 · 2 = 276.",
+  "exercise": {
+    "prompt": "Räkna ut 4 · 10.",
+    "answer": [
+      "40"
+    ],
+    "correct": "Rätt! Fyra tiotal är 40.",
+    "feedback": [
+      {
+        "answers": [
+          "14"
+        ],
+        "message": "Du lade ihop talen. Att multiplicera med 10 flyttar varje siffra ett steg åt vänster."
+      }
+    ]
+  },
+  "wordProblems": []
+}

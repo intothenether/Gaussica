@@ -1,6 +1,7 @@
 {
   "id": "addition-uppstallning",
   "area": "tal",
+  "parentId": "plus-och-minus",
   "title": "Addition med uppställning",
   "level": "Lägg ihop stora tal på papper · ungefär åk 3–4",
   "grade": 3,
@@ -321,6 +322,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I en uppställning börjar du med entalen.",
+        "answer": true,
+        "explain": "Du lägger ihop en plats i taget, från höger till vänster."
+      },
+      {
+        "text": "Talen skrivs så att tiotalen står under entalen.",
+        "answer": false,
+        "explain": "Entalen står under entalen och tiotalen under tiotalen."
+      }
+    ],
+    "correct": "Rätt! Du börjar med entalen och skriver platserna under varandra."
+  },
   "exercise": {
     "prompt": "Räkna ut 38 + 47 med uppställning.",
     "answer": [

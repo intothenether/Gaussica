@@ -2,6 +2,7 @@
   "id": "linjara-funktioner-km",
   "input": "math",
   "area": "algebra",
+  "parentId": "funktioner-och-linjer",
   "title": "Linjära funktioner: k och m",
   "level": "Lutning och startvärde · ungefär åk 8",
   "grade": 8,

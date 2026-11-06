@@ -172,6 +172,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "1 meter är 100 centimeter.",
+        "answer": true,
+        "explain": "Små saker mäter vi i centimeter och längre saker i meter."
+      },
+      {
+        "text": "När du mäter med linjal börjar du räkna vid 1.",
+        "answer": false,
+        "explain": "Du lägger 0 mot början och läser av där det slutar."
+      }
+    ],
+    "correct": "Rätt! Börja vid 0 när du mäter."
+  },
   "exercise": {
     "prompt": "Hur många centimeter är 3 meter?",
     "answer": [

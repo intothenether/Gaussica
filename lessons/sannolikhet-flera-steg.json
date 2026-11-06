@@ -1,0 +1,48 @@
+{
+  "id": "sannolikhet-flera-steg",
+  "area": "data",
+  "title": "Ordningar och sannolikhet",
+  "level": "Samlat kapitel · ungefär åk 9",
+  "grade": 9,
+  "duration": "19 min",
+  "prerequisites": [
+    "kombinatorik",
+    "traddiagram"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "fakultet-permutationer",
+      "title": "Ordningar",
+      "sequence": 1
+    },
+    {
+      "id": "utan-aterlaggning",
+      "title": "Sannolikhet utan återläggning",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du räknar hur många ordningar något kan stå i, och sannolikheten när du drar flera gånger utan att lägga tillbaka.",
+  "explanationTitle": "Räkna alla möjligheter",
+  "explanation": "Problemet: Du drar två kulor ur en påse utan att lägga tillbaka den första. På hur många sätt kan det bli, och hur stor är chansen för ett visst par?",
+  "rule": "Utan återläggning blir det färre möjligheter för varje drag.",
+  "ruleLabel": "UTAN ÅTERLÄGGNING",
+  "example": "3 personer i en kö kan stå på 3 · 2 · 1 = 6 sätt.",
+  "exercise": {
+    "prompt": "På hur många sätt kan 3 personer stå i kö?",
+    "answer": [
+      "6",
+      "sex"
+    ],
+    "correct": "Rätt! 3 · 2 · 1 = 6 sätt.",
+    "feedback": [
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Det finns fler. Räkna först hur många som kan stå först, sedan hur många som kan stå på andra platsen."
+      }
+    ]
+  },
+  "wordProblems": []
+}

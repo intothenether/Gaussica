@@ -1,6 +1,7 @@
 {
   "id": "stora-tal",
   "area": "tal",
+  "parentId": "stora-tal-decimaltal-avrundning",
   "title": "Stora tal",
   "level": "Tusental, miljoner och därefter · ungefär åk 4",
   "grade": 4,

@@ -2,6 +2,7 @@
   "id": "formler",
   "input": "math",
   "area": "algebra",
+  "parentId": "formler-och-monster",
   "title": "Formler: en regel med bokstäver",
   "level": "Sätt in och räkna · ungefär åk 6",
   "grade": 6,

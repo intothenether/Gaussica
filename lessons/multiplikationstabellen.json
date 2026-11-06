@@ -1,6 +1,7 @@
 {
   "id": "multiplikationstabellen",
   "area": "tal",
+  "parentId": "multiplikation-och-division",
   "title": "Multiplikationstabellen",
   "level": "Tabellerna 2–10 · ungefär åk 3–4",
   "grade": 3,
@@ -162,6 +163,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "3 · 7 och 7 · 3 ger samma svar.",
+        "answer": true,
+        "explain": "Du kan byta plats på talen, så du behöver bara lära dig hälften av tabellen."
+      },
+      {
+        "text": "Femmans tabell slutar alltid på 3 eller 8.",
+        "answer": false,
+        "explain": "Femmans tabell slutar alltid på 5 eller 0."
+      }
+    ],
+    "correct": "Rätt! Du kan byta plats på talen, och mönster hjälper dig."
+  },
   "exercise": {
     "prompt": "Vad är 7 · 8?",
     "answer": ["56"],

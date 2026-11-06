@@ -1,6 +1,7 @@
 {
   "id": "delbarhetsregler",
   "area": "tal",
+  "parentId": "delbarhet",
   "title": "Delbarhetsregler",
   "level": "Se om ett tal går att dela · ungefär åk 5",
   "grade": 5,

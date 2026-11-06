@@ -1,6 +1,7 @@
 {
   "id": "uttryck-med-x",
   "area": "algebra",
+  "parentId": "uttryck-och-likhet",
   "title": "Uttryck med x",
   "level": "Räkna med ett okänt tal · ungefär åk 4–5",
   "grade": 4,

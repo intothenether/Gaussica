@@ -1,6 +1,7 @@
 {
   "id": "kortdivision",
   "area": "tal",
+  "parentId": "division-stora-tal",
   "title": "Kortdivision",
   "level": "Dela stora tal på papper · ungefär åk 4–5",
   "grade": 4,

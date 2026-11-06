@@ -121,6 +121,22 @@
       "feedback": [{"answers":["nej","Nej"],"message":"Räkna ut {a} + {b} = {a+b}. Är det samma tal som {c}?"}]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "3 + 4 ≠ 8 stämmer, för sidorna är olika mycket.",
+        "answer": true,
+        "explain": "3 + 4 är 7 och 8 är något annat, så de är olika."
+      },
+      {
+        "text": "Tecknet ≠ visar vilken sida som är störst.",
+        "answer": false,
+        "explain": "≠ säger bara att sidorna är olika. < och > visar vilken som är störst."
+      }
+    ],
+    "correct": "Rätt! ≠ betyder bara att sidorna är olika mycket."
+  },
   "exercise": {
     "prompt": "Vilket tecken ska stå i rutan: 6 + 3 □ 10? Svara = eller ≠.",
     "keys": ["=","≠"],

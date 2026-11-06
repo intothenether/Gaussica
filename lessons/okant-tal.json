@@ -1,6 +1,7 @@
 {
   "id": "okant-tal",
   "area": "algebra",
+  "parentId": "uttryck-och-likhet",
   "title": "Obekant tal: vilket tal fattas?",
   "level": "Hitta x i enkla ekvationer · ungefär åk 5",
   "grade": 5,

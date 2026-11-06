@@ -380,6 +380,7 @@
       renderQuestion: function (parent, lesson, task, label, opts) {
         renderProblem(parent, lesson, task.problem, task.id, label, opts);
       },
+      renderCheck: function (parent, lesson, check, opts) { return window.GaussicaQuestions.renderCheck(parent, lesson, check, opts); },
       openChat: function (context) { window.GaussicaChat.open(context); },
       openFeedback: function (context) { window.GaussicaFeedback.open(context); },
       canChat: function () { return window.GaussicaChat.canChat(); },

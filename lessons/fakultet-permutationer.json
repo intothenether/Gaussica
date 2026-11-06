@@ -1,6 +1,7 @@
 {
   "id": "fakultet-permutationer",
   "area": "data",
+  "parentId": "sannolikhet-flera-steg",
   "title": "Ordningar: fakultet och permutationer",
   "level": "Räkna ordningar · ungefär åk 9",
   "grade": 9,

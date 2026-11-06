@@ -3,6 +3,7 @@
   "input": "math",
   "stepSolve": true,
   "area": "algebra",
+  "parentId": "ekvationer-och-termer",
   "title": "Låt båda sidor väga lika",
   "level": "Tänk med okända tal · ungefär åk 6–9",
   "grade": 7,

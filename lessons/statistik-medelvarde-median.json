@@ -1,0 +1,55 @@
+{
+  "id": "statistik-medelvarde-median",
+  "area": "data",
+  "title": "Medelvärde, median och diagram",
+  "level": "Samlat kapitel · ungefär åk 6",
+  "grade": 6,
+  "duration": "23 min",
+  "prerequisites": [
+    "addition",
+    "division",
+    "diagram",
+    "procent"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "medelvarde",
+      "title": "Medelvärde",
+      "sequence": 1
+    },
+    {
+      "id": "median-typvarde",
+      "title": "Median och typvärde",
+      "sequence": 2
+    },
+    {
+      "id": "cirkeldiagram",
+      "title": "Cirkeldiagram",
+      "sequence": 3
+    }
+  ],
+  "summary": "Medelvärde, median och typvärde beskriver en hel samling tal med ett enda tal, och cirkeldiagram visar delarna av en helhet.",
+  "explanationTitle": "Ett tal för hela gruppen",
+  "explanation": "Problemet: Fem elever fick 2, 3, 3, 4 och 8 rätt på ett prov. Vilket tal berättar bäst hur klassen klarade sig? Du lär dig tre sätt att välja ett sådant tal, och hur du visar fördelningen i ett cirkeldiagram.",
+  "rule": "Medelvärdet delar summan lika, medianen är mittentalet och typvärdet är det vanligaste.",
+  "ruleLabel": "STATISTIK",
+  "example": "Talen 2, 3, 3, 4 och 8 har medelvärdet 4, medianen 3 och typvärdet 3.",
+  "exercise": {
+    "prompt": "Vad är medelvärdet av 2 och 4?",
+    "answer": [
+      "3",
+      "tre"
+    ],
+    "correct": "Rätt! Mitt emellan 2 och 4 ligger 3.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "Du lade ihop talen. Medelvärdet delar summan lika på de två talen."
+      }
+    ]
+  },
+  "wordProblems": []
+}

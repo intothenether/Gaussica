@@ -1,6 +1,7 @@
 {
   "id": "tallinjen",
   "area": "tal",
+  "parentId": "tal-och-tallinjen",
   "title": "Tallinjen: tal på en rak linje",
   "level": "Se talen i ordning · ungefär åk 3–4",
   "grade": 3,
@@ -239,6 +240,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Addition är att hoppa åt höger på tallinjen.",
+        "answer": true,
+        "explain": "Åt höger blir talen större."
+      },
+      {
+        "text": "Avståndet mellan två streck på en tallinje är olika stort.",
+        "answer": false,
+        "explain": "Avståndet är alltid lika stort."
+      }
+    ],
+    "correct": "Rätt! Åt höger lägger du till och åt vänster tar du bort."
+  },
   "exercise": {
     "prompt": "Pricken med frågetecknet visar ett tal på tallinjen. Vilket tal är det?",
     "answer": [

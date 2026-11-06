@@ -3,6 +3,7 @@
   "input": "math",
   "stepSolve": true,
   "area": "algebra",
+  "parentId": "ekvationer-och-termer",
   "title": "Samla lika termer",
   "level": "Förenkla uttryck · ungefär åk 7",
   "grade": 7,

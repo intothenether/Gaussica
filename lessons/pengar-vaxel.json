@@ -261,6 +261,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Pris plus växel är lika med det du betalar.",
+        "answer": true,
+        "explain": "Därför kan du kontrollera växeln genom att lägga ihop den med priset."
+      },
+      {
+        "text": "En bok för 37 kronor som betalas med en 50-lapp ger 15 kronor i växel.",
+        "answer": false,
+        "explain": "Från 37 till 40 är det 3 och från 40 till 50 är det 10, så växeln är 13 kronor."
+      }
+    ],
+    "correct": "Rätt! Du kan räkna upp växeln eller dra ifrån, och kolla med addition."
+  },
   "exercise": {
     "prompt": "En bok kostar 37 kr. Du betalar med 50 kr. Hur mycket får du tillbaka?",
     "answer": [

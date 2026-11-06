@@ -22,6 +22,11 @@
       "id": "brak-jämfora",
       "title": "Jämföra bråk",
       "sequence": 3
+    },
+    {
+      "id": "brak-rakna",
+      "title": "Räkna med bråk",
+      "sequence": 4
     }
   ],
   "summary": "Täljaren berättar hur många delar vi har. Nämnaren berättar hur många lika stora delar helheten består av.",

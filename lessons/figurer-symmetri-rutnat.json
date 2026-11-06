@@ -1,0 +1,50 @@
+{
+  "id": "figurer-symmetri-rutnat",
+  "area": "geometri",
+  "title": "Figurer, symmetri och rutnät",
+  "level": "Samlat kapitel · ungefär åk 3",
+  "grade": 3,
+  "duration": "18 min",
+  "prerequisites": [],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "geometriska-figurer",
+      "title": "Geometriska figurer",
+      "sequence": 1
+    },
+    {
+      "id": "symmetri",
+      "title": "Symmetri",
+      "sequence": 2
+    },
+    {
+      "id": "var-ar-det",
+      "title": "Var är det? Rutnät och riktningar",
+      "sequence": 3
+    }
+  ],
+  "summary": "Figurer har sidor och hörn, en symmetrisk figur ser likadan ut på båda sidor om en linje, och i ett rutnät hittar du rätt ruta med riktningar.",
+  "explanationTitle": "Former och läge",
+  "explanation": "Problemet: Hur beskriver du en figur så att en kompis kan rita den utan att se den, och hur berättar du var den ska stå på pappret? Du lär dig namnen på figurerna, hur de speglas och hur du hittar i ett rutnät.",
+  "rule": "En figur har sidor och hörn. En symmetrisk figur ser likadan ut på båda sidor om en spegellinje.",
+  "ruleLabel": "FORMER",
+  "example": "En kvadrat har fyra sidor, fyra hörn och fyra symmetrilinjer.",
+  "exercise": {
+    "prompt": "Hur många hörn har en triangel?",
+    "answer": [
+      "3",
+      "tre"
+    ],
+    "correct": "Rätt! En triangel har tre hörn och tre sidor.",
+    "feedback": [
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "Fyra hörn har en fyrhörning. Räkna hörnen på en triangel igen."
+      }
+    ]
+  },
+  "wordProblems": []
+}

@@ -1,6 +1,7 @@
 {
   "id": "multiplikation",
   "area": "tal",
+  "parentId": "multiplikation-och-division",
   "title": "Multiplikation: lika stora grupper",
   "level": "Lika stora grupper · ungefär åk 3–6",
   "grade": 3,
@@ -152,6 +153,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "7 · 8 betyder sju grupper med åtta i varje.",
+        "answer": true,
+        "explain": "Det är samma sak som 8 + 8 + 8 + 8 + 8 + 8 + 8, fast kortare."
+      },
+      {
+        "text": "7 · 8 och 8 · 7 ger olika svar.",
+        "answer": false,
+        "explain": "Ordningen spelar ingen roll. Båda ger 56."
+      }
+    ],
+    "correct": "Rätt! Multiplikation är lika stora grupper, och ordningen spelar ingen roll."
+  },
   "exercise": {
     "prompt": "Hur många saker finns i 7 lika stora grupper med 8 saker i varje?",
     "answer": ["56"],

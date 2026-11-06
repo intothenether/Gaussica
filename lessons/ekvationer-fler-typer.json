@@ -1,0 +1,53 @@
+{
+  "id": "ekvationer-fler-typer",
+  "area": "algebra",
+  "title": "Fler sorters ekvationer",
+  "level": "Samlat kapitel · ungefär åk 8",
+  "grade": 8,
+  "duration": "28 min",
+  "prerequisites": [
+    "ekvation"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "ekvationer-bada-sidor",
+      "title": "Ekvationer med x på båda sidor",
+      "sequence": 1
+    },
+    {
+      "id": "ekvation-fran-text",
+      "title": "Från text till ekvation",
+      "sequence": 2
+    },
+    {
+      "id": "olikheter",
+      "title": "Olikheter",
+      "sequence": 3
+    }
+  ],
+  "summary": "Du löser ekvationer med x på båda sidor, skriver en ekvation utifrån en text, och löser olikheter.",
+  "explanationTitle": "Fler sätt att använda ekvationer",
+  "explanation": "Problemet: Anna är 3 år äldre än Bo, och tillsammans är de 25 år. Hur räknar du ut hur gamla de är? Du lär dig ställa upp en ekvation från en text och lösa den.",
+  "rule": "Samla x på ena sidan och talen på den andra, och räkna sedan ut x.",
+  "ruleLabel": "EKVATIONER",
+  "example": "5x = 3x + 8 ger 2x = 8 och därför x = 4.",
+  "exercise": {
+    "prompt": "Lös 2x = 14.",
+    "answer": [
+      "7",
+      "x=7",
+      "x = 7"
+    ],
+    "correct": "Rätt! 2 · 7 = 14.",
+    "feedback": [
+      {
+        "answers": [
+          "28"
+        ],
+        "message": "Du multiplicerade. Vilket tal gånger 2 blir 14?"
+      }
+    ]
+  },
+  "wordProblems": []
+}

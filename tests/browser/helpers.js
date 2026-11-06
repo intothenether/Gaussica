@@ -8,6 +8,9 @@ async function signIn(page, opts) {
   opts = Object.assign({ pet: "Kanin", petName: "Pixel" }, opts || {});
   // the notice about cookies is a banner over the page: it is already answered, as for a student who has seen it
   await page.addInitScript(() => { try { localStorage.setItem("gaussica.cookies-ok", "1"); } catch (e) { /* no storage */ } });
+  // the tip after a wrong answer is a box in the middle of the screen that stays until its button is pressed: the tests close it when it is in the
+  // way of what they do next, with the keyboard so that the mouse does not move (the ones about the box itself, tests/browser/tip.spec.js, keep it with keepTips)
+  if (!opts.keepTips) await page.addLocatorHandler(page.locator(".tip-overlay"), async (box) => { await box.locator(".tip-again").press("Enter"); });
   await page.goto("/index.html#start");
   await page.getByRole("tab", { name: "Skapa konto" }).click();
   await page.getByRole("button", { name: "Jag är lärare" }).click();

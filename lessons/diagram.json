@@ -1,6 +1,7 @@
 {
   "id": "diagram",
   "area": "data",
+  "parentId": "tabeller-och-diagram",
   "title": "Läs och jämför diagram",
   "level": "Samla och läs av data · ungefär åk 4–8",
   "grade": 4,

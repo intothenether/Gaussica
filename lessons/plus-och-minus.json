@@ -1,0 +1,56 @@
+{
+  "id": "plus-och-minus",
+  "area": "tal",
+  "title": "Plus och minus",
+  "level": "Samlat kapitel · ungefär åk 3",
+  "grade": 3,
+  "duration": "28 min",
+  "prerequisites": [
+    "platsvarde"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "addition",
+      "title": "Addition",
+      "sequence": 1
+    },
+    {
+      "id": "subtraktion",
+      "title": "Subtraktion",
+      "sequence": 2
+    },
+    {
+      "id": "addition-uppstallning",
+      "title": "Addition med uppställning",
+      "sequence": 3
+    },
+    {
+      "id": "subtraktion-uppstallning",
+      "title": "Subtraktion med uppställning",
+      "sequence": 4
+    }
+  ],
+  "summary": "Plus lägger ihop och minus tar bort. Här hör fyra lektioner ihop: att räkna i huvudet och att räkna större tal med uppställning.",
+  "explanationTitle": "Plus och minus hör ihop",
+  "explanation": "Problemet: Du har 45 kronor och köper något för 28 kronor. Hur mycket blir över, och hur mycket har du om du sedan får 17 kronor till? Plus och minus är varandras motsatser. Börja med addition och subtraktion, och ställ sedan upp talen när de blir stora.",
+  "rule": "Plus lägger ihop och minus tar bort. De är varandras motsatser.",
+  "ruleLabel": "PLUS OCH MINUS",
+  "example": "12 − 5 = 7, och därför är 7 + 5 = 12.",
+  "exercise": {
+    "prompt": "Räkna ut 12 − 5.",
+    "answer": [
+      "7"
+    ],
+    "correct": "Rätt! 12 − 5 = 7, och 7 + 5 blir 12 igen.",
+    "feedback": [
+      {
+        "answers": [
+          "17"
+        ],
+        "message": "Du lade ihop talen. Minus tar bort: gå 5 steg tillbaka från 12."
+      }
+    ]
+  },
+  "wordProblems": []
+}

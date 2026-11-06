@@ -3,6 +3,7 @@
   "input": "math",
   "stepSolve": true,
   "area": "algebra",
+  "parentId": "forenkla-uttryck",
   "title": "Bryt ut en gemensam faktor",
   "level": "Från summa till produkt · ungefär åk 8",
   "grade": 8,

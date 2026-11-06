@@ -3,6 +3,7 @@
   "input": "math",
   "stepSolve": true,
   "area": "algebra",
+  "parentId": "kvadrering-och-andragrad",
   "title": "Kvadreringsreglerna och konjugatregeln",
   "level": "Tre regler som kortar ner räkningen · ungefär åk 9",
   "grade": 9,

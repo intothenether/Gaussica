@@ -4995,3 +4995,29 @@ html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-bank { margin: 0 0 6px;
 .terms-chip.is-safe { border-color: #3fa66b; background: #e4f6ea; }
 .terms-chip.is-weak { border-style: dashed; }
 .terms-note { margin: 8px 0 0; font-size: 13px; color: var(--ink); opacity: .85; }
+
+/* ---- The tip after a wrong answer, in the middle of the screen (tip-dialog.js) ---- */
+.tip-overlay { position: fixed; inset: 0; z-index: 13200; display: grid; place-items: center; padding: 16px; background: rgba(31, 42, 68, .55); top: var(--vv-top, 0px); bottom: auto; height: var(--vv-h, 100%); }
+.tip-box { display: flex; flex-direction: column; gap: 14px; width: min(560px, 100%); max-height: 100%; padding: 22px 22px 20px; border: 3px solid var(--coral, #e0506d); border-radius: 24px; background: var(--cream, var(--paper)); box-shadow: 0 18px 50px rgba(31, 42, 68, .4); font-family: "Nunito", sans-serif; animation: tip-pop .22s ease-out; }
+.tip-head { display: flex; align-items: center; gap: 12px; }
+.tip-icon { font-size: 34px; line-height: 1; }
+.tip-title { margin: 0; font: 800 22px "Nunito", sans-serif; color: var(--ink, #1f2a44); }
+.tip-body { overflow-y: auto; padding: 14px 16px; border-radius: 16px; background: var(--coral-soft, #ffe3ea); color: #5c2033; font-size: 19px; line-height: 1.55; }
+.tip-body > * { margin: 0; }
+.tip-body > * + * { margin-top: 8px; }
+.tip-body .feedback-diagnosed-badge { display: inline-block; margin-bottom: 6px; font-weight: 800; }
+.tip-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+.tip-again { flex: 1 1 220px; min-height: 52px; font-size: 18px; }
+.tip-extra { flex: 0 1 auto; min-height: 52px; padding: 10px 16px; border: 2px solid #f6c453; border-radius: 14px; background: #fff3c9; color: #7a5200; font: 700 15px "Nunito", sans-serif; cursor: pointer; }
+.tip-extra:hover { background: #ffe9a0; }
+@keyframes tip-pop { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tip-box { animation: none; } }
+@media (max-width: 520px) { .tip-box { padding: 16px; } .tip-title { font-size: 19px; } .tip-body { font-size: 17px; } }
+
+/* ---- The explanation of a new lesson: the button waits while the page is read, and the short question at the end (lesson-player.js) ---- */
+.pl-btn.is-waiting { cursor: progress; background-image: linear-gradient(rgba(255, 255, 255, .32), rgba(255, 255, 255, .32)); background-repeat: no-repeat; background-position: left; background-size: 0 100%; animation: pl-wait var(--wait, 4s) linear forwards; }
+.pl-btn.is-waiting:hover { background-color: var(--brand); }
+.pl-btn.is-waiting[title="Svara på frågan först"] { animation: none; opacity: .7; }
+@keyframes pl-wait { to { background-size: 100% 100%; } }
+.pl-intro-check { width: min(720px, calc(100vw - 32px)); box-sizing: border-box; margin-top: 22px; padding-top: 18px; border-top: 2px dashed var(--pink-line, #f3c6d3); }
+.tip-lead { font-weight: 800; }

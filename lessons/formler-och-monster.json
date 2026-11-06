@@ -1,0 +1,49 @@
+{
+  "id": "formler-och-monster",
+  "area": "algebra",
+  "title": "Formler och mönsterregler",
+  "level": "Samlat kapitel · ungefär åk 6",
+  "grade": 6,
+  "duration": "16 min",
+  "prerequisites": [
+    "okant-tal",
+    "operatorsordning",
+    "talfoljder"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "formler",
+      "title": "Formler",
+      "sequence": 1
+    },
+    {
+      "id": "monster-regel",
+      "title": "Mönster",
+      "sequence": 2
+    }
+  ],
+  "summary": "En formel är en regel med bokstäver. Du skriver och använder formler, och hittar regeln för plats n i ett mönster.",
+  "explanationTitle": "En regel för alla fall",
+  "explanation": "Problemet: Hur kan du skriva en regel för hur många tändstickor ett mönster med n kvadrater behöver, så att du kan räkna ut vilket antal som helst? Med en formel räknar du ut det för alla n på en gång.",
+  "rule": "En formel är en regel med bokstäver som du kan sätta in tal i.",
+  "ruleLabel": "FORMLER",
+  "example": "Med regeln 2 · n blir plats 4 lika med 8.",
+  "exercise": {
+    "prompt": "Regeln är 2 · n. Vad blir det för n = 4?",
+    "answer": [
+      "8",
+      "åtta"
+    ],
+    "correct": "Rätt! 2 · 4 = 8.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "Du lade ihop 2 och 4. Mellan 2 och n står en multiplikation."
+      }
+    ]
+  },
+  "wordProblems": []
+}

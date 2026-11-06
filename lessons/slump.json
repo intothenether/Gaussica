@@ -1,6 +1,7 @@
 {
   "id": "slump",
   "area": "data",
+  "parentId": "slump-och-chans",
   "title": "Slump: chans och sannolikhet",
   "level": "Vad kan hända? · ungefär åk 3–7",
   "grade": 5,

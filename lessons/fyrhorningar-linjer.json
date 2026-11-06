@@ -1,6 +1,7 @@
 {
   "id": "fyrhorningar-linjer",
   "area": "geometri",
+  "parentId": "vinklar-fyrhorningar-kroppar",
   "title": "Fyrhörningar och parallella linjer",
   "level": "Kvadrat, rektangel, romb och trapets · ungefär åk 4",
   "grade": 4,

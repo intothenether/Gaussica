@@ -1,6 +1,7 @@
 {
   "id": "hastighet",
   "area": "matning",
+  "parentId": "skala-och-hastighet",
   "title": "Hastighet, sträcka och tid",
   "level": "Hur fort och hur långt · ungefär åk 6",
   "grade": 6,

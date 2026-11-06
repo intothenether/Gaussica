@@ -1,0 +1,48 @@
+{
+  "id": "exponentiella-samband",
+  "area": "algebra",
+  "title": "Exponentiella samband",
+  "level": "Samlat kapitel · ungefär åk 10",
+  "grade": 10,
+  "duration": "20 min",
+  "prerequisites": [
+    "upprepad-procent",
+    "funktioner",
+    "tiopotenser"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "exponentialfunktioner",
+      "title": "Exponentialfunktioner",
+      "sequence": 1
+    },
+    {
+      "id": "logaritmer",
+      "title": "Logaritmer",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du beskriver tillväxt som dubblas eller halveras med exponentialfunktioner, och använder logaritmer för att räkna baklänges.",
+  "explanationTitle": "Dubbelt och dubbelt igen",
+  "explanation": "Problemet: Ett bakteriesamhälle dubblas varje timme. Hur länge tar det innan det har blivit tusen gånger större, och hur räknar du baklänges för att få reda på det? Funktionerna och logaritmerna hör ihop som plus och minus.",
+  "rule": "I en exponentialfunktion multipliceras värdet med samma tal för varje steg. Logaritmen går åt andra hållet.",
+  "ruleLabel": "EXPONENTIELLA SAMBAND",
+  "example": "2 · 2 · 2 · 2 = 16, så 2 upphöjt till 4 är 16.",
+  "exercise": {
+    "prompt": "Räkna ut 2 · 2 · 2 · 2.",
+    "answer": [
+      "16"
+    ],
+    "correct": "Rätt! Fyra tvåor ger 16.",
+    "feedback": [
+      {
+        "answers": [
+          "8"
+        ],
+        "message": "Du multiplicerade tre tvåor. Det är fyra tvåor."
+      }
+    ]
+  },
+  "wordProblems": []
+}

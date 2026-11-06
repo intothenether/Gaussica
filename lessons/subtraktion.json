@@ -1,6 +1,7 @@
 {
   "id": "subtraktion",
   "area": "tal",
+  "parentId": "plus-och-minus",
   "title": "Subtraktion: jämför och ta bort",
   "level": "Räkna och växla · ungefär åk 3–5",
   "grade": 3,
@@ -130,6 +131,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Ett hundratal är lika mycket som tio tiotal.",
+        "answer": true,
+        "explain": "Därför kan du växla ett hundratal till tio tiotal när du behöver fler."
+      },
+      {
+        "text": "Växling tar bort något från talet.",
+        "answer": false,
+        "explain": "Växling byter bara namn på samma mängd. Den tar inte bort något."
+      }
+    ],
+    "correct": "Rätt! Växling ändrar inte hur mycket det är."
+  },
   "exercise": {
     "prompt": "Räkna ut 502 − 278.",
     "answer": ["224"],

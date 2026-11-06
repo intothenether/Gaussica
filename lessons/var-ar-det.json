@@ -1,6 +1,7 @@
 {
   "id": "var-ar-det",
   "area": "geometri",
+  "parentId": "figurer-symmetri-rutnat",
   "title": "Var är det? Rutnät och riktningar",
   "level": "Beskriv en plats exakt · ungefär åk 3",
   "grade": 3,
@@ -141,6 +142,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I rutan B3 läser du först bokstaven och sedan siffran.",
+        "answer": true,
+        "explain": "Raderna har bokstäver och kolumnerna har siffror."
+      },
+      {
+        "text": "Att gå åt höger ändrar bokstaven.",
+        "answer": false,
+        "explain": "Åt höger ändrar siffran. Nedåt ändrar bokstaven."
+      }
+    ],
+    "correct": "Rätt! Rutan namnges med bokstav och siffra."
+  },
   "exercise": {
     "prompt": "Vilken ruta finns affären i? Skriv bokstaven först, sedan siffran.",
     "answer": [

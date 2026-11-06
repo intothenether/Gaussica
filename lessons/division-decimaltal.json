@@ -1,6 +1,7 @@
 {
   "id": "division-decimaltal",
   "area": "tal",
+  "parentId": "rakna-med-decimaltal",
   "title": "Division med decimaltal",
   "level": "Dela när det blir decimaler · ungefär åk 5",
   "grade": 5,

@@ -1,6 +1,7 @@
 {
   "id": "negativa-tal-rakna",
   "area": "tal",
+  "parentId": "negativa-tal-kapitel",
   "title": "Räkna med negativa tal",
   "level": "Addera och subtrahera på tallinjen · ungefär åk 5–6",
   "grade": 5,

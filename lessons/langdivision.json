@@ -1,6 +1,7 @@
 {
   "id": "langdivision",
   "area": "tal",
+  "parentId": "division-stora-tal",
   "title": "Långdivision",
   "level": "Dela med tvåsiffrigt tal · ungefär åk 5",
   "grade": 5,

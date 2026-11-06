@@ -1,6 +1,7 @@
 {
   "id": "avrunda-decimaltal",
   "area": "tal",
+  "parentId": "rakna-med-decimaltal",
   "title": "Avrunda decimaltal",
   "level": "Närmaste heltal och tiondel · ungefär åk 5",
   "grade": 5,

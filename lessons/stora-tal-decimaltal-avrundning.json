@@ -1,0 +1,54 @@
+{
+  "id": "stora-tal-decimaltal-avrundning",
+  "area": "tal",
+  "title": "Stora tal och decimaltal",
+  "level": "Samlat kapitel · ungefär åk 4",
+  "grade": 4,
+  "duration": "22 min",
+  "prerequisites": [
+    "platsvarde",
+    "addition",
+    "tallinjen",
+    "begrepp-rakna"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "stora-tal",
+      "title": "Stora tal",
+      "sequence": 1
+    },
+    {
+      "id": "avrundning-overslag",
+      "title": "Avrundning och överslag",
+      "sequence": 2
+    },
+    {
+      "id": "decimaltal",
+      "title": "Decimaltal",
+      "sequence": 3
+    }
+  ],
+  "summary": "Du läser och skriver stora tal, avrundar och överslagsräknar, och lär dig talen mellan heltalen: decimaltal.",
+  "explanationTitle": "Tal som är stora och tal som är små",
+  "explanation": "Problemet: På matchen var det 12 487 personer, och löparen sprang 100 meter på 14,3 sekunder. Hur läser du de talen, och hur avrundar du dem så att de blir lätta att komma ihåg?",
+  "rule": "Titta på siffran till höger om den du avrundar till: 5 eller mer rundar uppåt, annars nedåt.",
+  "ruleLabel": "AVRUNDNING",
+  "example": "47 avrundat till närmaste tiotal blir 50, och 3,2 avrundat till närmaste heltal blir 3.",
+  "exercise": {
+    "prompt": "Avrunda 47 till närmaste tiotal.",
+    "answer": [
+      "50"
+    ],
+    "correct": "Rätt! 7 ental är mer än hälften av ett tiotal, så 47 avrundas uppåt till 50.",
+    "feedback": [
+      {
+        "answers": [
+          "40"
+        ],
+        "message": "Titta på entalssiffran. Är den 5 eller mer avrundar du uppåt."
+      }
+    ]
+  },
+  "wordProblems": []
+}

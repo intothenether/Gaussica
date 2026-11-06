@@ -1,6 +1,7 @@
 {
   "id": "enheter",
   "area": "matning",
+  "parentId": "matt-enheter-och-tid",
   "title": "Räkna och växla enheter",
   "level": "Mät och jämför · ungefär åk 3–6",
   "grade": 4,

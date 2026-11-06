@@ -1,6 +1,7 @@
 {
   "id": "strecktabell-stapeldiagram",
   "area": "data",
+  "parentId": "tabeller-och-diagram",
   "title": "Strecktabell och stapeldiagram",
   "level": "Samla in svar och rita dem · ungefär åk 4",
   "grade": 4,

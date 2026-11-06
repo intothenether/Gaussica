@@ -1,6 +1,7 @@
 {
   "id": "skala",
   "area": "matning",
+  "parentId": "skala-och-hastighet",
   "title": "Skala: förminska och förstora",
   "level": "Kartor och ritningar · ungefär åk 6–9",
   "grade": 6,

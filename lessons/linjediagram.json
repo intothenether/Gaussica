@@ -1,6 +1,7 @@
 {
   "id": "linjediagram",
   "area": "data",
+  "parentId": "tabeller-och-diagram",
   "title": "Linjediagram: förändring över tid",
   "level": "Se hur något förändras · ungefär åk 5",
   "grade": 5,

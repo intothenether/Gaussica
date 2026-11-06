@@ -1,0 +1,49 @@
+{
+  "id": "tal-och-tallinjen",
+  "area": "tal",
+  "title": "Tal och tallinjen",
+  "level": "Samlat kapitel · ungefär åk 3",
+  "grade": 3,
+  "duration": "17 min",
+  "prerequisites": [],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "platsvarde",
+      "title": "Se talens byggstenar",
+      "sequence": 1
+    },
+    {
+      "id": "tallinjen",
+      "title": "Tallinjen",
+      "sequence": 2
+    },
+    {
+      "id": "storre-mindre",
+      "title": "Större än och mindre än",
+      "sequence": 3
+    }
+  ],
+  "summary": "Siffrornas plats avgör vad de är värda, tallinjen visar var talen ligger och med större än och mindre än jämför du dem.",
+  "explanationTitle": "Var ligger talet?",
+  "explanation": "Problemet: Vilket tal är störst, 398 eller 413, och var ligger de på en tallinje? Med platsvärde ser du vad varje siffra är värd, tallinjen visar var talen ligger, och med större än och mindre än jämför du dem.",
+  "rule": "Siffrans plats avgör vad den är värd. På tallinjen ligger större tal längre åt höger.",
+  "ruleLabel": "TAL OCH TALLINJE",
+  "example": "413 är större än 398, för 4 hundratal är mer än 3 hundratal.",
+  "exercise": {
+    "prompt": "Vilket tal är störst: 398 eller 413? Skriv talet.",
+    "answer": [
+      "413"
+    ],
+    "correct": "Rätt! 413 har fyra hundratal och 398 har tre.",
+    "feedback": [
+      {
+        "answers": [
+          "398"
+        ],
+        "message": "Titta på hundratalen först. Det talet har färre hundratal."
+      }
+    ]
+  },
+  "wordProblems": []
+}

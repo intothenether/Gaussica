@@ -1,0 +1,48 @@
+{
+  "id": "mer-om-area",
+  "area": "geometri",
+  "title": "Trapets och sammansatta figurer",
+  "level": "Samlat kapitel · ungefär åk 7",
+  "grade": 7,
+  "duration": "18 min",
+  "prerequisites": [
+    "parallellogrammens-area",
+    "rektangelns-area",
+    "triangelns-area"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "trapetsens-area",
+      "title": "Trapetsens area",
+      "sequence": 1
+    },
+    {
+      "id": "sammansatta-figurer",
+      "title": "Area av sammansatta figurer",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du räknar ut arean av ett trapets och av figurer som består av flera enklare figurer.",
+  "explanationTitle": "Dela upp figuren",
+  "explanation": "Problemet: Hur stor är en tomt som består av en rektangel och en triangel? Du delar upp figuren i delar du kan räkna på, eller bygger ut den till en enklare figur.",
+  "rule": "Dela upp en sammansatt figur i enklare delar och lägg ihop arean av delarna.",
+  "ruleLabel": "AREA",
+  "example": "En rektangel på 18 cm² och en triangel på 6 cm² ger 24 cm² tillsammans.",
+  "exercise": {
+    "prompt": "En rektangel är 6 cm bred och 3 cm hög. Hur stor är arean i kvadratcentimeter?",
+    "answer": [
+      "18"
+    ],
+    "correct": "Rätt! 6 · 3 = 18 kvadratcentimeter.",
+    "feedback": [
+      {
+        "answers": [
+          "9"
+        ],
+        "message": "Du lade ihop 6 och 3. Arean är bredd gånger höjd."
+      }
+    ]
+  },
+  "wordProblems": []
+}

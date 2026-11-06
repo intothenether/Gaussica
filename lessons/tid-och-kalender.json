@@ -1,0 +1,54 @@
+{
+  "id": "tid-och-kalender",
+  "area": "matning",
+  "title": "Tid och kalender",
+  "level": "Samlat kapitel · ungefär åk 3",
+  "grade": 3,
+  "duration": "20 min",
+  "prerequisites": [
+    "addition",
+    "subtraktion",
+    "multiplikation"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "tid-klocka",
+      "title": "Tid och klockan",
+      "sequence": 1
+    },
+    {
+      "id": "digital-klocka",
+      "title": "Digital klocka",
+      "sequence": 2
+    },
+    {
+      "id": "kalendern",
+      "title": "Kalendern",
+      "sequence": 3
+    }
+  ],
+  "summary": "Klockan visar timmar och minuter, den digitala klockan skrivs med siffror, och kalendern ordnar dygn, veckor och månader.",
+  "explanationTitle": "Att hålla koll på tiden",
+  "explanation": "Problemet: Fotbollsträningen börjar klockan 16:30 på torsdag. Hur läser du av tiden, och hur många dagar är det kvar tills det är helg? Här lär du dig klockan, den digitala klockan och kalendern.",
+  "rule": "Det går 60 minuter på en timme, 24 timmar på ett dygn och 7 dagar på en vecka.",
+  "ruleLabel": "TIDEN",
+  "example": "Halv fem på eftermiddagen skrivs 16:30.",
+  "exercise": {
+    "prompt": "Hur många dagar är det på en vecka?",
+    "answer": [
+      "7",
+      "sju"
+    ],
+    "correct": "Rätt! En vecka har sju dagar.",
+    "feedback": [
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "Fem är skoldagarna. Räkna alla dagar, också lördag och söndag."
+      }
+    ]
+  },
+  "wordProblems": []
+}

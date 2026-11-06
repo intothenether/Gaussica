@@ -1,6 +1,7 @@
 {
   "id": "multiplikation-10-100-1000",
   "area": "tal",
+  "parentId": "multiplikation-stora-tal",
   "title": "Multiplikation med 10, 100 och 1000",
   "level": "Lägg på nollor · ungefär åk 4",
   "grade": 4,

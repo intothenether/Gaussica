@@ -2,6 +2,7 @@
   "id": "funktioner",
   "input": "math",
   "area": "algebra",
+  "parentId": "funktioner-och-linjer",
   "title": "Funktioner visar förändring",
   "level": "Beskriv samband · ungefär åk 8–gymnasiet",
   "grade": 8,

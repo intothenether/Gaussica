@@ -1,6 +1,7 @@
 {
   "id": "trianglar-typer",
   "area": "geometri",
+  "parentId": "triangeln",
   "title": "Olika sorters trianglar",
   "level": "Sidor och vinklar bestämmer namnet · ungefär åk 5",
   "grade": 5,

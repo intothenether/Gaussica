@@ -1,0 +1,50 @@
+{
+  "id": "ekvationer-och-termer",
+  "area": "algebra",
+  "title": "Ekvationer och uttryck",
+  "level": "Samlat kapitel · ungefär åk 7",
+  "grade": 7,
+  "duration": "15 min",
+  "prerequisites": [
+    "rakneordning",
+    "uttryck-med-x",
+    "formler"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "ekvation",
+      "title": "Låt båda sidor väga lika",
+      "sequence": 1
+    },
+    {
+      "id": "samla-termer",
+      "title": "Samla lika termer",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du löser ekvationer genom att göra lika mycket på båda sidor, och förenklar uttryck genom att samla lika termer.",
+  "explanationTitle": "Hitta x och förenkla",
+  "explanation": "Problemet: Hur hittar du talet x i 3x + 2 = 14, och hur kortar du ner x + x + 5 så att det blir lättare att läsa? Här övar du på båda sakerna.",
+  "rule": "Gör samma sak på båda sidor så att ekvationen hålls i balans. Samla lika termer för att förenkla.",
+  "ruleLabel": "EKVATIONER",
+  "example": "3x + 2 = 14 ger 3x = 12 och därför x = 4.",
+  "exercise": {
+    "prompt": "Lös ekvationen x + 7 = 10.",
+    "answer": [
+      "3",
+      "x=3",
+      "x = 3"
+    ],
+    "correct": "Rätt! 3 + 7 är 10.",
+    "feedback": [
+      {
+        "answers": [
+          "17"
+        ],
+        "message": "Du lade ihop talen. Vad ska läggas till 7 för att få 10?"
+      }
+    ]
+  },
+  "wordProblems": []
+}

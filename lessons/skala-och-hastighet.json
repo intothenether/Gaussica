@@ -1,0 +1,49 @@
+{
+  "id": "skala-och-hastighet",
+  "area": "matning",
+  "title": "Skala och hastighet",
+  "level": "Samlat kapitel · ungefär åk 6",
+  "grade": 6,
+  "duration": "15 min",
+  "prerequisites": [
+    "enheter",
+    "multiplikation",
+    "division",
+    "division-med-rest"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "skala",
+      "title": "Skala",
+      "sequence": 1
+    },
+    {
+      "id": "hastighet",
+      "title": "Hastighet, sträcka och tid",
+      "sequence": 2
+    }
+  ],
+  "summary": "I skala förminskar och förstorar du med samma tal överallt, och med hastighet hänger sträcka och tid ihop.",
+  "explanationTitle": "Samma tal överallt",
+  "explanation": "Problemet: På kartan är 1 cm lika med 5 km i verkligheten. Hur långt är det mellan två städer som ligger 4 cm från varandra, och hur lång tid tar resan i 80 km/h?",
+  "rule": "Hastighet är sträcka delat med tid. Skala säger hur många gånger större verkligheten är.",
+  "ruleLabel": "SKALA OCH HASTIGHET",
+  "example": "60 km på 2 timmar ger 30 km/h.",
+  "exercise": {
+    "prompt": "En bil kör 60 km på 1 timme. Hur långt kör den på 2 timmar i samma fart?",
+    "answer": [
+      "120"
+    ],
+    "correct": "Rätt! Två timmar ger 2 gånger så lång sträcka: 120 km.",
+    "feedback": [
+      {
+        "answers": [
+          "62"
+        ],
+        "message": "Du lade till tiden. Farten är 60 km varje timme, så räkna hur många timmar bilen kör."
+      }
+    ]
+  },
+  "wordProblems": []
+}

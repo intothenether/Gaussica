@@ -1,6 +1,7 @@
 {
   "id": "addition",
   "area": "tal",
+  "parentId": "plus-och-minus",
   "title": "Addition: lägg ihop tal",
   "level": "Räkna och växla · ungefär åk 3–5",
   "grade": 3,
@@ -142,6 +143,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Tio ental kan bytas mot ett tiotal.",
+        "answer": true,
+        "explain": "Det kallas att växla, och talets värde ändras inte."
+      },
+      {
+        "text": "När vi växlar ändras talets värde.",
+        "answer": false,
+        "explain": "Värdet ändras inte när vi växlar. Det är samma mängd med ett nytt namn."
+      }
+    ],
+    "correct": "Rätt! Växling byter namn på samma mängd."
+  },
   "exercise": {
     "prompt": "Räkna ut 358 + 176.",
     "answer": ["534"],

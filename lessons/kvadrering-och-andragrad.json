@@ -1,0 +1,49 @@
+{
+  "id": "kvadrering-och-andragrad",
+  "area": "algebra",
+  "title": "Kvadreringsregler och andragrad",
+  "level": "Samlat kapitel · ungefär åk 9",
+  "grade": 9,
+  "duration": "19 min",
+  "prerequisites": [
+    "parenteser-uttryck",
+    "rotuttryck",
+    "ekvation"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "kvadreringsreglerna",
+      "title": "Kvadreringsreglerna och konjugatregeln",
+      "sequence": 1
+    },
+    {
+      "id": "andragradsekvationer",
+      "title": "Andragradsekvationer",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du utvecklar kvadrater och konjugat, och använder dem för att lösa ekvationer med x².",
+  "explanationTitle": "När x står i kvadrat",
+  "explanation": "Problemet: Hur räknar du ut (x + 3)² utan att göra det vanliga felet, och hur löser du x² = 16? Reglerna sparar tid, och de hjälper dig lösa fler ekvationer.",
+  "rule": "(a + b)² = a² + 2ab + b²",
+  "ruleLabel": "KVADRERINGSREGEL",
+  "example": "(x + 3)² = x² + 6x + 9.",
+  "exercise": {
+    "prompt": "Lös x² = 25 och skriv det positiva x.",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! 5 · 5 = 25.",
+    "feedback": [
+      {
+        "answers": [
+          "12,5",
+          "12.5"
+        ],
+        "message": "Du delade 25 med 2. Vilket positivt tal gånger sig självt blir 25?"
+      }
+    ]
+  },
+  "wordProblems": []
+}

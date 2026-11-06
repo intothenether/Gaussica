@@ -58,6 +58,21 @@ lessons.forEach((l) => {
       }
     }
   });
+  // the short question at the end of the explanation (lesson.check, see lesson-player.js): true or false statements, or one of the formats
+  if (l.check !== undefined) {
+    const c = l.check;
+    if (!c || typeof c !== "object" || !String(c.prompt || "").trim() || !String(c.correct || "").trim()) bad(l.id, "check needs a prompt and a 'correct' message");
+    else if (Array.isArray(c.statements)) {
+      if (!c.statements.length) bad(l.id, "check has no statements");
+      c.statements.forEach((s, k) => {
+        if (!s || !String(s.text || "").trim()) bad(l.id, "check, statement " + (k + 1) + " has no text");
+        else if (typeof s.answer !== "boolean") bad(l.id, "check, statement " + (k + 1) + ": answer must be true or false");
+        else if (!String(s.explain || "").trim()) bad(l.id, "check, statement " + (k + 1) + " has no explanation (it is shown when the check is solved)");
+      });
+      if (c.statements.length > 1 && c.statements.every((s) => s && s.answer === c.statements[0].answer)) warn(l.id, "check: all statements have the same answer, so it is easy to guess");
+    } else if (!c.format) bad(l.id, "check is neither true or false statements nor one of the formats");
+    if (l.kind === "pyssel") bad(l.id, "a play lesson has no check");
+  }
   if (l.parentId) {
     const parent = byId.get(l.parentId);
     if (!parent) bad(l.id, "parent " + l.parentId + " not found");

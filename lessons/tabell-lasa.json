@@ -200,6 +200,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "När du läser en tabell läser du rubrikerna först.",
+        "answer": true,
+        "explain": "De visar vad varje kolumn betyder."
+      },
+      {
+        "text": "Rubrikerna i en tabell är svaren.",
+        "answer": false,
+        "explain": "Rubrikerna visar vad varje kolumn betyder. Svaren står i raderna."
+      }
+    ],
+    "correct": "Rätt! Läs rubrikerna först, sedan rätt rad."
+  },
   "exercise": {
     "prompt": "Hur många elever valde päron?",
     "answer": [

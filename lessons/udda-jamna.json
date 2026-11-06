@@ -1,6 +1,7 @@
 {
   "id": "udda-jamna",
   "area": "tal",
+  "parentId": "multiplikation-och-division",
   "title": "Udda och jämna tal",
   "level": "Går det att dela i par? · ungefär åk 3",
   "grade": 3,
@@ -377,6 +378,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Ett tal som slutar på 6 är jämnt.",
+        "answer": true,
+        "explain": "Du behöver bara titta på sista siffran."
+      },
+      {
+        "text": "Talet 1 573 är jämnt.",
+        "answer": false,
+        "explain": "Det slutar på 3, så det är udda."
+      }
+    ],
+    "correct": "Rätt! Sista siffran avgör om talet är jämnt eller udda."
+  },
   "exercise": {
     "prompt": "Är talet 58 jämnt eller udda? Skriv jämnt eller udda.",
     "answer": [

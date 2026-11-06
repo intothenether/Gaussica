@@ -1,6 +1,7 @@
 {
   "id": "symmetri",
   "area": "geometri",
+  "parentId": "figurer-symmetri-rutnat",
   "title": "Symmetri: spegla en figur",
   "level": "Spegelbilder · ungefär åk 3–5",
   "grade": 3,
@@ -71,6 +72,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En kvadrat har fyra symmetrilinjer.",
+        "answer": true,
+        "explain": "Du kan vika den på fyra sätt så att halvorna täcker varandra."
+      },
+      {
+        "text": "En rektangel har tre symmetrilinjer.",
+        "answer": false,
+        "explain": "En rektangel har två symmetrilinjer."
+      }
+    ],
+    "correct": "Rätt! En symmetrilinje delar figuren i två halvor som täcker varandra."
+  },
   "exercise": {
     "prompt": "Hur många symmetrilinjer har en kvadrat?",
     "answer": [

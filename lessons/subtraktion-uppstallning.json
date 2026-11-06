@@ -1,6 +1,7 @@
 {
   "id": "subtraktion-uppstallning",
   "area": "tal",
+  "parentId": "plus-och-minus",
   "title": "Subtraktion med uppställning",
   "level": "Dra ifrån på papper och låna · ungefär åk 3–4",
   "grade": 3,
@@ -313,6 +314,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Går det inte att dra ifrån lånar du ett tiotal från platsen till vänster.",
+        "answer": true,
+        "explain": "1 tiotal är 10 ental, så du får fler ental att dra ifrån."
+      },
+      {
+        "text": "Du kontrollerar en subtraktion med division.",
+        "answer": false,
+        "explain": "Du kontrollerar med addition: svaret plus det nedre talet ska bli det övre."
+      }
+    ],
+    "correct": "Rätt! Du lånar när det inte går, och kollar med addition."
+  },
   "exercise": {
     "prompt": "Räkna ut 52 − 27 med uppställning.",
     "answer": [

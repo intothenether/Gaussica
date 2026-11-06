@@ -1,6 +1,7 @@
 {
   "id": "avrundning-overslag",
   "area": "tal",
+  "parentId": "stora-tal-decimaltal-avrundning",
   "title": "Avrundning och överslag",
   "level": "Räkna ungefär · ungefär åk 4",
   "grade": 4,

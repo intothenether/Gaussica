@@ -1,6 +1,7 @@
 {
   "id": "division",
   "area": "tal",
+  "parentId": "multiplikation-och-division",
   "title": "Division: dela lika",
   "level": "Dela lika · ungefär åk 3–6",
   "grade": 3,
@@ -140,6 +141,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Eftersom 7 · 8 = 56 får varje grupp 8 när 56 delas lika i 7 grupper.",
+        "answer": true,
+        "explain": "Division går åt andra hållet än multiplikation."
+      },
+      {
+        "text": "Du kontrollerar en division genom att lägga ihop talen.",
+        "answer": false,
+        "explain": "Du kontrollerar genom att multiplicera svaret med talet du delade med."
+      }
+    ],
+    "correct": "Rätt! Division och multiplikation hör ihop."
+  },
   "exercise": {
     "prompt": "56 saker delas lika mellan 7 grupper. Hur många får varje grupp?",
     "answer": ["8"],

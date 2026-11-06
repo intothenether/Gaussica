@@ -122,7 +122,8 @@
   // read: the hint after a wrong answer is read aloud by itself (off: sound in a classroom is a surprise). buzz: a phone buzzes a little at a wrong answer.
   // spelling: an answer that is a word, almost right in the spelling, counts ("note": with the right spelling shown, "quiet": without, "strict": it does not, see spelling.js).
   // bank: the word bank under the field ("fade": it goes as the student gets on, "always", "off", see wordbank.js).
-  const DEFAULTS = { size: 0, font: "standard", spacing: false, rate: 1, read: false, buzz: true, spelling: "note", bank: "fade" };
+  // wait: the button after the explanation of a lesson that is new to the student waits a few seconds, so that there is time to read (see lesson-player.js).
+  const DEFAULTS = { size: 0, font: "standard", spacing: false, rate: 1, read: false, buzz: true, wait: true, spelling: "note", bank: "fade" };
 
   function settings() {
     try {
@@ -132,7 +133,7 @@
         return {
           size: [0, 1, 2].indexOf(s.size) >= 0 ? s.size : 0, font: s.font === "lexend" ? "lexend" : "standard",
           spacing: Boolean(s.spacing), rate: [0.8, 1, 1.25].indexOf(s.rate) >= 0 ? s.rate : 1,
-          read: s.read === true, buzz: s.buzz !== false,
+          read: s.read === true, buzz: s.buzz !== false, wait: s.wait !== false,
           spelling: ["note", "quiet", "strict"].indexOf(s.spelling) >= 0 ? s.spelling : "note", bank: ["fade", "always", "off"].indexOf(s.bank) >= 0 ? s.bank : "fade"
         };
       }
@@ -247,6 +248,8 @@
     };
     if (synth()) body.appendChild(toggle("Läs upp tipset av sig självt när svaret blir fel", function () { return s.read; }, function (v) { s.read = v; update("read", v); }));
     if (typeof navigator !== "undefined" && navigator.vibrate) body.appendChild(toggle("Vibrera lite när svaret blir fel", function () { return s.buzz; }, function (v) { s.buzz = v; update("buzz", v); }));
+
+    body.appendChild(toggle("Vänta en liten stund innan jag kan gå vidare i en ny lektion, så att jag hinner läsa", function () { return s.wait; }, function (v) { s.wait = v; update("wait", v); }));
 
     if (synth()) {
       body.appendChild(choice("Uppläsningens hastighet", [{ value: 0.8, label: "Långsam" }, { value: 1, label: "Vanlig" }, { value: 1.25, label: "Snabb" }],

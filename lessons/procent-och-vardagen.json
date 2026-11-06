@@ -1,0 +1,49 @@
+{
+  "id": "procent-och-vardagen",
+  "area": "tal",
+  "title": "Procent",
+  "level": "Samlat kapitel · ungefär åk 6",
+  "grade": 6,
+  "duration": "15 min",
+  "prerequisites": [
+    "brak",
+    "decimaltal"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "procent",
+      "title": "Procent är hundradelar",
+      "sequence": 1
+    },
+    {
+      "id": "procent-vardagen",
+      "title": "Procent i vardagen",
+      "sequence": 2
+    }
+  ],
+  "summary": "Procent är hundradelar. Du räknar ut en del av ett tal och använder procent på rabatter, påslag och andra saker i vardagen.",
+  "explanationTitle": "Hundra delar",
+  "explanation": "Problemet: En tröja kostar 400 kr och har 25 % rabatt. Vad kostar den nu? Du börjar med vad procent betyder och räknar sedan med det i butiken.",
+  "rule": "Procent är hundradelar. 50 % är hälften och 25 % är en fjärdedel.",
+  "ruleLabel": "PROCENT",
+  "example": "25 % av 400 kr är 100 kr, så tröjan kostar 300 kr.",
+  "exercise": {
+    "prompt": "Hur många procent är hälften?",
+    "answer": [
+      "50",
+      "50 %",
+      "50%"
+    ],
+    "correct": "Rätt! Hälften är 50 hundradelar, alltså 50 %.",
+    "feedback": [
+      {
+        "answers": [
+          "100"
+        ],
+        "message": "100 procent är hela. Hälften är en mindre del."
+      }
+    ]
+  },
+  "wordProblems": []
+}

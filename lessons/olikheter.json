@@ -2,6 +2,7 @@
   "id": "olikheter",
   "input": "math",
   "area": "algebra",
+  "parentId": "ekvationer-fler-typer",
   "title": "Olikheter",
   "level": "När svaret är många tal · ungefär åk 8",
   "grade": 8,

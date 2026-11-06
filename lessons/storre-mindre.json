@@ -1,6 +1,7 @@
 {
   "id": "storre-mindre",
   "area": "tal",
+  "parentId": "tal-och-tallinjen",
   "title": "Större än och mindre än",
   "level": "Jämför tal med > och < · ungefär åk 3",
   "grade": 3,
@@ -497,6 +498,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "8 > 3 läses ”åtta är större än tre”.",
+        "answer": true,
+        "explain": "Munnen öppnar sig mot det största talet, 8."
+      },
+      {
+        "text": "Tecknet < betyder större än.",
+        "answer": false,
+        "explain": "< betyder mindre än. Munnen öppnar sig mot det största talet."
+      }
+    ],
+    "correct": "Rätt! Munnen öppnar sig alltid mot det största talet."
+  },
   "exercise": {
     "prompt": "Vilket tecken ska stå mellan talen: 47 □ 39? Skriv >, < eller =.",
     "keys": [

@@ -1,6 +1,7 @@
 {
   "id": "vinklar",
   "area": "geometri",
+  "parentId": "vinklar-fyrhorningar-kroppar",
   "title": "Vinklar mäter en vridning",
   "level": "Mät och jämför former · ungefär åk 4–8",
   "grade": 4,

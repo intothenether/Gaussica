@@ -2,6 +2,7 @@
   "id": "logaritmer",
   "input": "math",
   "area": "tal",
+  "parentId": "exponentiella-samband",
   "title": "Logaritmer",
   "level": "Vilken exponent behövs? · gymnasiet",
   "grade": 10,

@@ -3,6 +3,7 @@
   "input": "math",
   "stepSolve": true,
   "area": "algebra",
+  "parentId": "forenkla-uttryck",
   "title": "Parenteser och förenkling",
   "level": "Multiplicera in och samla termer · ungefär åk 8",
   "grade": 8,

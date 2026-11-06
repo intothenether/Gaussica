@@ -1,6 +1,7 @@
 {
   "id": "digital-klocka",
   "area": "matning",
+  "parentId": "tid-och-kalender",
   "title": "Digital klocka",
   "level": "Läs och skriv digital tid · ungefär åk 3–4",
   "grade": 3,
@@ -126,6 +127,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "På en digital klocka står timmarna före kolonet.",
+        "answer": true,
+        "explain": "08:25 betyder 8 timmar och 25 minuter."
+      },
+      {
+        "text": "15:00 är klockan tio på kvällen.",
+        "answer": false,
+        "explain": "15:00 är klockan tre på eftermiddagen. Klockan tio på kvällen är 22:00."
+      }
+    ],
+    "correct": "Rätt! Efter klockan 12 lägger du till 12 timmar."
+  },
   "exercise": {
     "prompt": "Titta på den analoga klockan. Vad visar den digitala klockan? Svara HH:MM.",
     "answer": [

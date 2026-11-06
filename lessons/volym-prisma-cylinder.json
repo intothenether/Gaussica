@@ -1,6 +1,7 @@
 {
   "id": "volym-prisma-cylinder",
   "area": "geometri",
+  "parentId": "cirkelns-area-och-volym",
   "title": "Volym: prisma och cylinder",
   "level": "Bottenytan gånger höjden · ungefär åk 8",
   "grade": 8,

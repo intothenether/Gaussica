@@ -1,6 +1,7 @@
 {
   "id": "matning-liter-gram",
   "area": "matning",
+  "parentId": "matt-enheter-och-tid",
   "title": "Liter, deciliter, gram och kilogram",
   "level": "Hur mycket och hur tungt · ungefär åk 4",
   "grade": 4,

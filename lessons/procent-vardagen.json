@@ -1,6 +1,7 @@
 {
   "id": "procent-vardagen",
   "area": "tal",
+  "parentId": "procent-och-vardagen",
   "title": "Procent i vardagen",
   "level": "Rabatt, prishöjning och andel · ungefär åk 6–8",
   "grade": 6,

@@ -1,0 +1,54 @@
+{
+  "id": "negativa-tal-kapitel",
+  "area": "tal",
+  "title": "Negativa tal",
+  "level": "Samlat kapitel · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "25 min",
+  "prerequisites": [
+    "tallinjen",
+    "subtraktion",
+    "begrepp-rakna"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "negativa-tal",
+      "title": "Negativa tal",
+      "sequence": 1
+    },
+    {
+      "id": "upp-och-ner",
+      "title": "Upp och ner",
+      "sequence": 2
+    },
+    {
+      "id": "negativa-tal-rakna",
+      "title": "Räkna med negativa tal",
+      "sequence": 3
+    }
+  ],
+  "summary": "Tal under noll finns på tallinjen och på termometern. Du lär dig läsa dem, följa steg uppåt och nedåt, och räkna med dem.",
+  "explanationTitle": "Talen under noll",
+  "explanation": "Problemet: Det är 3 grader ute på morgonen och temperaturen sjunker med 5 grader. Vad visar termometern då? Med negativa tal kan du räkna även när du går förbi noll.",
+  "rule": "Tal under noll är negativa. På tallinjen ligger de till vänster om noll.",
+  "ruleLabel": "NEGATIVA TAL",
+  "example": "2 − 5 = −3, för från 2 går du 5 steg åt vänster.",
+  "exercise": {
+    "prompt": "Temperaturen är 2 grader och sjunker 5 grader. Vilken temperatur blir det? Skriv med minustecken.",
+    "answer": [
+      "-3",
+      "−3"
+    ],
+    "correct": "Rätt! Från 2 går du 2 steg ner till noll och 3 steg till, så det blir −3.",
+    "feedback": [
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Du fick rätt tal men utan minustecken. Temperaturen sjunker förbi noll."
+      }
+    ]
+  },
+  "wordProblems": []
+}

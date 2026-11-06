@@ -1,6 +1,7 @@
 {
   "id": "upp-och-ner",
   "area": "tal",
+  "parentId": "negativa-tal-kapitel",
   "title": "Upp och ner: följ stegen och räkna baklänges",
   "level": "Räkna med steg upp och ner · ungefär åk 4",
   "grade": 4,

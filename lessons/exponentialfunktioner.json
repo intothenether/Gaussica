@@ -2,6 +2,7 @@
   "id": "exponentialfunktioner",
   "input": "math",
   "area": "algebra",
+  "parentId": "exponentiella-samband",
   "title": "Exponentialfunktioner",
   "level": "Tillväxt som växer allt snabbare · gymnasiet",
   "grade": 10,

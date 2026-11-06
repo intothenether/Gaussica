@@ -1,6 +1,7 @@
 {
   "id": "brak-rakna",
   "area": "tal",
+  "parentId": "brak",
   "title": "Räkna med bråk",
   "level": "Addera, subtrahera och ta del av ett antal · ungefär åk 5–6",
   "grade": 5,

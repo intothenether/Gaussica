@@ -1,6 +1,7 @@
 {
   "id": "decimaltal",
   "area": "tal",
+  "parentId": "stora-tal-decimaltal-avrundning",
   "title": "Decimaltal: tal mellan heltalen",
   "level": "Tiondelar och hundradelar · ungefär åk 4–6",
   "grade": 4,

@@ -1,6 +1,7 @@
 {
   "id": "decimaltal-rakna",
   "area": "tal",
+  "parentId": "rakna-med-decimaltal",
   "title": "Räkna med decimaltal",
   "level": "Komma under komma · ungefär åk 5",
   "grade": 5,

@@ -1,0 +1,62 @@
+{
+  "id": "rakna-med-decimaltal",
+  "area": "tal",
+  "title": "Räkna med decimaltal",
+  "level": "Samlat kapitel · ungefär åk 5",
+  "grade": 5,
+  "duration": "31 min",
+  "prerequisites": [
+    "decimaltal",
+    "addition-uppstallning",
+    "multiplikation-uppstallning",
+    "kortdivision",
+    "avrundning-overslag"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "decimaltal-rakna",
+      "title": "Räkna med decimaltal",
+      "sequence": 1
+    },
+    {
+      "id": "multiplikation-decimaltal",
+      "title": "Multiplikation med decimaltal",
+      "sequence": 2
+    },
+    {
+      "id": "division-decimaltal",
+      "title": "Division med decimaltal",
+      "sequence": 3
+    },
+    {
+      "id": "avrunda-decimaltal",
+      "title": "Avrunda decimaltal",
+      "sequence": 4
+    }
+  ],
+  "summary": "Du adderar, subtraherar, multiplicerar och dividerar med decimaltal, och avrundar svaren.",
+  "explanationTitle": "Kronor och ören, meter och centimeter",
+  "explanation": "Problemet: Tre vänner delar notan på 94,50 kr. Hur räknar du med kronor och ören, och hur rundar du av svaret till hela kronor? Här räknar du med alla fyra räknesätten med decimaltal.",
+  "rule": "Ställ upp med decimalkomma under decimalkomma. Vid multiplikation räknar du som med heltal och sätter kommatecknet sist.",
+  "ruleLabel": "DECIMALTAL",
+  "example": "0,5 + 0,25 = 0,75.",
+  "exercise": {
+    "prompt": "Räkna ut 0,5 + 0,25.",
+    "answer": [
+      "0,75",
+      "0.75"
+    ],
+    "correct": "Rätt! 50 hundradelar plus 25 hundradelar är 75 hundradelar.",
+    "feedback": [
+      {
+        "answers": [
+          "0,30",
+          "0,3"
+        ],
+        "message": "Du lade ihop siffrorna som om de vore heltal. Skriv decimalkomma under decimalkomma när du ställer upp."
+      }
+    ]
+  },
+  "wordProblems": []
+}

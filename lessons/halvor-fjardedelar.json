@@ -117,6 +117,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Delarna måste vara lika stora för att de ska kallas halvor.",
+        "answer": true,
+        "explain": "Annars har namnet ingen betydelse."
+      },
+      {
+        "text": "Hälften av 8 äpplen är 8 äpplen.",
+        "answer": false,
+        "explain": "Hälften av 8 äpplen är 4 äpplen, för du delar lika i två grupper."
+      }
+    ],
+    "correct": "Rätt! Delarna måste vara lika stora."
+  },
   "exercise": {
     "prompt": "Vad är hälften av 10?",
     "answer": [

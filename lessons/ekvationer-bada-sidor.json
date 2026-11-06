@@ -3,6 +3,7 @@
   "input": "math",
   "stepSolve": true,
   "area": "algebra",
+  "parentId": "ekvationer-fler-typer",
   "title": "Ekvationer med x på båda sidor",
   "level": "Samla x på ena sidan · ungefär åk 8",
   "grade": 8,

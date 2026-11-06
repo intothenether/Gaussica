@@ -1,6 +1,7 @@
 {
   "id": "median-typvarde",
   "area": "data",
+  "parentId": "statistik-medelvarde-median",
   "title": "Median och typvärde",
   "level": "Vad är vanligt? · ungefär åk 6–7",
   "grade": 6,

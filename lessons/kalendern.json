@@ -1,6 +1,7 @@
 {
   "id": "kalendern",
   "area": "matning",
+  "parentId": "tid-och-kalender",
   "title": "Kalendern: dygn, veckor och månader",
   "level": "Räkna med tid i kalendern · ungefär åk 3",
   "grade": 3,
@@ -211,6 +212,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En vecka är 7 dygn.",
+        "answer": true,
+        "explain": "Och ett dygn är 24 timmar."
+      },
+      {
+        "text": "Ett dygn är 12 timmar.",
+        "answer": false,
+        "explain": "Ett dygn är 24 timmar."
+      }
+    ],
+    "correct": "Rätt! En vecka är 7 dygn och ett dygn är 24 timmar."
+  },
   "exercise": {
     "prompt": "Hur många dagar är det i 4 veckor?",
     "answer": [

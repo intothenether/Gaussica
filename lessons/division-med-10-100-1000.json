@@ -1,6 +1,7 @@
 {
   "id": "division-med-10-100-1000",
   "area": "tal",
+  "parentId": "division-stora-tal",
   "title": "Division med 1, 10, 100 och 1000",
   "level": "Flytta siffrorna åt höger · ungefär åk 4–5",
   "grade": 4,

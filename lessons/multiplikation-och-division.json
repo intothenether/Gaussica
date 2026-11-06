@@ -1,0 +1,57 @@
+{
+  "id": "multiplikation-och-division",
+  "area": "tal",
+  "title": "Multiplikation och division",
+  "level": "Samlat kapitel · ungefär åk 3",
+  "grade": 3,
+  "duration": "26 min",
+  "prerequisites": [
+    "addition"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "multiplikation",
+      "title": "Multiplikation",
+      "sequence": 1
+    },
+    {
+      "id": "multiplikationstabellen",
+      "title": "Multiplikationstabellen",
+      "sequence": 2
+    },
+    {
+      "id": "division",
+      "title": "Division",
+      "sequence": 3
+    },
+    {
+      "id": "udda-jamna",
+      "title": "Udda och jämna tal",
+      "sequence": 4
+    }
+  ],
+  "summary": "Multiplikation är lika stora grupper och division är att dela lika. Tabellerna gör dem snabba, och udda och jämna tal visar vad som går att dela i två.",
+  "explanationTitle": "Grupper och delning",
+  "explanation": "Problemet: Du har 24 kulor och vill ge lika många till 4 kompisar. Hur många får var och en, och hur kan du kolla svaret med multiplikation? Multiplikation och division är varandras motsatser, precis som plus och minus.",
+  "rule": "Multiplikation är lika stora grupper. Division är att dela lika, och den är motsatsen.",
+  "ruleLabel": "GRUPPER OCH DELNING",
+  "example": "4 · 6 = 24, så när 24 delas på 4 blir det 6 i varje grupp.",
+  "exercise": {
+    "prompt": "24 kulor delas lika på 4 kompisar. Hur många kulor får var och en?",
+    "answer": [
+      "6",
+      "sex"
+    ],
+    "correct": "Rätt! 4 grupper med 6 kulor i varje blir 24 kulor.",
+    "feedback": [
+      {
+        "answers": [
+          "20"
+        ],
+        "message": "Du tog bort 4 kulor. Dela lika betyder att 24 kulor delas i 4 lika stora högar."
+      }
+    ]
+  },
+  "wordProblems": []
+}

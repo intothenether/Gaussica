@@ -1,0 +1,56 @@
+{
+  "id": "uttryck-och-likhet",
+  "area": "algebra",
+  "title": "Uttryck, likhet och okända tal",
+  "level": "Samlat kapitel · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "23 min",
+  "prerequisites": [
+    "addition",
+    "subtraktion",
+    "multiplikation",
+    "inte-lika-med"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "uttryck-med-x",
+      "title": "Uttryck med x",
+      "sequence": 1
+    },
+    {
+      "id": "likhet-balansvag",
+      "title": "Likhet och balansvåg",
+      "sequence": 2
+    },
+    {
+      "id": "okant-tal",
+      "title": "Obekant tal",
+      "sequence": 3
+    }
+  ],
+  "summary": "En bokstav kan stå för ett tal du inte vet än. Med en balansvåg ser du vad likhet betyder och hur du hittar det okända talet.",
+  "explanationTitle": "Hitta det som fattas",
+  "explanation": "Problemet: På ena sidan av en våg ligger 3 klossar och en okänd vikt, på andra sidan 8 klossar. Hur tung är den okända vikten? Du lär dig skriva uttryck, hålla balansen och räkna ut vilket tal som fattas.",
+  "rule": "En likhet är som en våg i balans: det du gör på ena sidan gör du också på den andra.",
+  "ruleLabel": "LIKHET",
+  "example": "x + 3 = 8 ger x = 8 − 3 = 5.",
+  "exercise": {
+    "prompt": "x + 3 = 8. Vad är x?",
+    "answer": [
+      "5",
+      "x=5",
+      "x = 5"
+    ],
+    "correct": "Rätt! 5 + 3 är 8.",
+    "feedback": [
+      {
+        "answers": [
+          "11"
+        ],
+        "message": "Du lade ihop 3 och 8. Vilket tal ska x vara för att x + 3 ska bli 8?"
+      }
+    ]
+  },
+  "wordProblems": []
+}

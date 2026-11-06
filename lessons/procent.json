@@ -1,6 +1,7 @@
 {
   "id": "procent",
   "area": "tal",
+  "parentId": "procent-och-vardagen",
   "title": "Procent är hundradelar",
   "level": "Se bråk i vardagen · ungefär åk 5–8",
   "grade": 6,

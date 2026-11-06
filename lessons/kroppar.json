@@ -1,6 +1,7 @@
 {
   "id": "kroppar",
   "area": "geometri",
+  "parentId": "vinklar-fyrhorningar-kroppar",
   "title": "Kroppar",
   "level": "Kuber, cylindrar och klot · ungefär åk 4",
   "grade": 4,

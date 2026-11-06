@@ -75,6 +75,7 @@ window.GaussicaPlayer = (function () {
       visited: new Set(),
       tries: {}
     };
+    startIntro(state, steps, lessonId, wanted);
     deps.container.hidden = false;
     document.body.classList.add("player-open");
     if (!keyHandler) {
@@ -106,6 +107,7 @@ window.GaussicaPlayer = (function () {
   function close() {
     if (!deps) return;
     rulesOverlay = null;
+    if (window.GaussicaTip) window.GaussicaTip.close(true);
     if (window.GaussicaSpeech) window.GaussicaSpeech.stop();
     deps.container.hidden = true;
     deps.container.replaceChildren();
@@ -122,6 +124,7 @@ window.GaussicaPlayer = (function () {
 
   // ===== RENDER =====
   function go(index) {
+    leaveIntroPage();
     state.index = Math.max(0, Math.min(index, state.steps.length));
     render();
   }
@@ -130,6 +133,7 @@ window.GaussicaPlayer = (function () {
     const l = isSession() ? null : lesson();
     const c = deps.container;
     rulesOverlay = null;
+    if (window.GaussicaTip) window.GaussicaTip.close(true);
     if (window.GaussicaSpeech) window.GaussicaSpeech.stop();
     c.replaceChildren();
     const shell = el("div", "pl-shell");
@@ -160,6 +164,95 @@ window.GaussicaPlayer = (function () {
     if (answerInput && !foot.classList.contains("is-correct")) answerInput.focus({ preventScroll: true });
   }
 
+  // ===== The explanation of a lesson that is new to the student =====
+  // Many students go past the explanation at once. For the first visit to a lesson (from its first page, with nothing done in it before):
+  //  - the button to go on waits a few seconds, as long as the page takes to read (the setting "Vänta en liten stund" in Läsning turns it off),
+  //  - the last page of the explanation has a short question first, if the lesson has one (lesson.check, nothing of it is kept; two tries
+  //    open the button whatever the answers, so nobody is stuck),
+  //  - and a wrong answer after an explanation that was read in a moment points back to it (in the tip, see showTip).
+  // None of it is for a robot that is testing the page (navigator.webdriver) or for a student who has been in the lesson before.
+  const INTRO_WORDS_PER_SECOND = 4;
+  const INTRO_MAX_PAGE_MS = 15000;
+  const INTRO_SKIPPED_SHARE = 0.35;
+  const CHECK_TRIES = 2;
+
+  function pacing() {
+    try { return !(typeof navigator !== "undefined" && navigator.webdriver); } catch (e) { return true; }
+  }
+
+  function startIntro(st, steps, lessonId, wanted) {
+    const p = deps.getProgress(lessonId) || {};
+    const done = Object.keys(p.answers || {}).length > 0;
+    st.firstVisit = pacing() && wanted === null && st.index === 0 && !p.started && !done && steps.some(function (s) { return s.type === "learn"; });
+    st.locked = false;
+    st.learnMs = 0;
+    st.learnSince = 0;
+    st.learnNeeded = 0;
+    st.learnSeen = new Set();
+    st.passed = new Set();
+    st.rulesOpened = false;
+  }
+
+  function leaveIntroPage() {
+    if (state && state.learnSince) { state.learnMs += Date.now() - state.learnSince; state.learnSince = 0; }
+  }
+
+  // went past the explanation in much less time than it takes to read
+  function skippedIntro() {
+    if (!state || !state.firstVisit || isSession() || state.rulesOpened || !state.learnNeeded) return false;
+    const spent = state.learnMs + (state.learnSince ? Date.now() - state.learnSince : 0);
+    return spent < state.learnNeeded * INTRO_SKIPPED_SHARE;
+  }
+
+  function waitSetting() {
+    const r = window.GaussicaReading && window.GaussicaReading.settings ? window.GaussicaReading.settings() : {};
+    return r.wait !== false;
+  }
+
+  // A page of the explanation: what it needs to be read, the wait on the button, and the check on the last page
+  function introPage(card, body, next, l, toQuestions) {
+    state.locked = false;
+    if (isSession() || !state.firstVisit) return;
+    state.learnSince = Date.now();
+    const words = (body.textContent || "").trim().split(/\s+/).filter(Boolean).length;
+    if (!state.learnSeen.has(state.index)) {
+      state.learnSeen.add(state.index);
+      state.learnNeeded += Math.min(INTRO_MAX_PAGE_MS, words / INTRO_WORDS_PER_SECOND * 1000);
+    }
+    if (state.passed.has(state.index)) return;   // read before, then went back
+    const lessonState = state, at = state.index;
+    const release = function () {
+      if (state !== lessonState) return;
+      state.locked = false;
+      state.passed.add(at);
+      next.classList.remove("is-waiting");
+      next.removeAttribute("aria-disabled");
+      next.style.removeProperty("--wait");
+      next.title = "";
+    };
+    const hold = function () { state.locked = true; next.classList.add("is-waiting"); next.setAttribute("aria-disabled", "true"); };
+
+    if (toQuestions && l.check && deps.renderCheck) {
+      // the short question: right, or two tries, and the button is free
+      hold();
+      next.title = "Svara på frågan först";
+      const box = el("div", "pl-question pl-intro-check");
+      card.appendChild(box);
+      let tries = 0;
+      deps.renderCheck(box, l, l.check, { onResult: function (ok) {
+        tries += 1;
+        if (ok || tries >= CHECK_TRIES) release();
+      } });
+      return;
+    }
+    if (!waitSetting()) return;
+    const ms = window.GaussicaSignals ? window.GaussicaSignals.readingMs(body.textContent) : 4000;
+    hold();
+    next.title = "Läs först";
+    next.style.setProperty("--wait", ms + "ms");
+    setTimeout(function () { if (state === lessonState && state.index === at) release(); }, ms);
+  }
+
   function topBar(l) {
     const top = el("header", "pl-top");
     const close = button("✕", "pl-close", exit);
@@ -180,7 +273,7 @@ window.GaussicaPlayer = (function () {
       seg.className = cls;
       seg.setAttribute("aria-label", st.type === "learn" ? "Läs" : "Fråga " + st.number);
       if (i === state.index) seg.setAttribute("aria-current", "step");
-      seg.addEventListener("click", function () { go(i); });
+      seg.addEventListener("click", function () { if (!state.locked || i <= state.index) go(i); });   // not past an explanation that has not been read
       bar.appendChild(seg);
     });
     const title = el("span", "pl-title", isSession() ? state.session.title : l.title);
@@ -285,9 +378,10 @@ window.GaussicaPlayer = (function () {
     if (back) back.focus();
   }
 
-  function openRules() {
+  function openRules(opts) {
     const l = rulesLesson();
     if (!l) return;
+    if (state) state.rulesOpened = true;
     closeRules();
     rulesOverlay = el("div", "chat-overlay rules-overlay");
     const panel = el("div", "chat-panel rules-panel");
@@ -307,7 +401,7 @@ window.GaussicaPlayer = (function () {
     if (l.visual) deps.renderBlock(body, l, "visual");
     if (l.explanation) {
       const more = el("details", "rules-more");
-      more.open = !l.rule;   // a lesson without a rule card shows the explanation straight away
+      more.open = !l.rule || Boolean(opts && opts.explain);   // a lesson without a rule card shows the explanation straight away
       more.appendChild(el("summary", "", "Läs förklaringen igen"));
       const text = el("div", "pl-learn rules-explanation");
       deps.renderBlock(text, l, "explanation");
@@ -396,8 +490,10 @@ window.GaussicaPlayer = (function () {
       st.keys.forEach(function (key) { deps.renderBlock(body, l, key, st); });
       card.appendChild(body);
       const nextStep = state.steps[state.index + 1];
-      const next = button(nextStep && nextStep.type === "question" ? "Börja med frågorna →" : "Fortsätt →",
-        "pl-btn pl-btn-primary", function () { go(state.index + 1); });
+      const toQuestions = Boolean(nextStep && nextStep.type === "question");
+      const next = button(toQuestions ? "Börja med frågorna →" : "Fortsätt →",
+        "pl-btn pl-btn-primary", function () { if (!state.locked) go(state.index + 1); });
+      introPage(card, body, next, l, toQuestions);
       footer(foot, "neutral", "", [backButton(), next].filter(Boolean));
       return;
     }
@@ -425,15 +521,39 @@ window.GaussicaPlayer = (function () {
     };
     const showWrong = function (how) {
       const n = state.tries[st.key] = (state.tries[st.key] || 0) + 1;
-      // a second wrong answer faster than the hint can have been read: the pet asks for the hint to be read first (the field waits a moment, see feedback-signals.js)
-      const rapid = Boolean(how && how.rapid);
       // after two wrong answers: a worked example of a similar question, with other numbers
       if (n >= 2 && !state.hosts.help.firstChild && deps.workedExample) {
         const example = deps.workedExample(isSession() ? st.lessonId : state.lessonId, st.task.id, st.task.problem);
         if (example) state.hosts.help.appendChild(button("💡 Se ett löst exempel", "pl-btn pl-btn-ghost pl-example", function () { openExample(example); }));
       }
-      footer(foot, "wrong", rapid ? "Läs tipset först, och prova sedan igen" : "Inte riktigt – läs tipset och prova igen" + (n > 1 ? " (försök " + (n + 1) + ")" : ""),
-        [backButton(), skip].filter(Boolean), { kind: rapid ? "wrongRapid" : n >= 2 ? "wrongAgain" : "wrong", example: Boolean(state.hosts.help.firstChild) });
+      footer(foot, "wrong", "Inte riktigt – läs tipset och prova igen" + (n > 1 ? " (försök " + (n + 1) + ")" : ""),
+        [backButton(), skip].filter(Boolean), { kind: n >= 2 ? "wrongAgain" : "wrong", example: Boolean(state.hosts.help.firstChild) });
+      showTip();
+    };
+
+    // The tip in the middle of the screen, which stays until the student presses the button. Then the focus goes back to where the answer is written.
+    const showTip = function () {
+      const tip = window.GaussicaTip;
+      // the answer question keeps its hint in the bottom bar, the other kinds (sort, order, gaps, true or false, pairs) under the question
+      const find = ".feedback-message.feedback-hint";
+      const source = state.hosts.feedback.querySelector(find) || holder.querySelector(find);
+      if (!tip || !source || !source.firstChild) return;
+      const example = state.hosts.help.querySelector(".pl-example");
+      const extra = example ? [{ label: "💡 Se ett löst exempel", onClick: function () { example.click(); } }] : [];
+      // a student who went past the explanation of the lesson in a moment is pointed back to it
+      const skipped = skippedIntro();
+      if (skipped) extra.unshift({ label: "📖 Läs genomgången", onClick: function () { openRules({ explain: true }); } });
+      tip.show(deps.container, {
+        source: source,
+        lead: skipped ? "Du gick snabbt förbi genomgången. Den kan hjälpa dig här." : "",
+        extra: extra,
+        onClose: function (toExample) {
+          if (toExample) return;
+          const field = foot.querySelector("input[name=answer]");
+          if (field) field.focus({ preventScroll: true });
+          else { const check = holder.querySelector(".fm-check, .answer-button, .match-item, .tf-btn"); if (check) check.focus({ preventScroll: true }); }
+        }
+      });
     };
 
     deps.renderQuestion(holder, l, st.task, label, {

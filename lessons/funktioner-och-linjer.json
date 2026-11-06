@@ -1,0 +1,46 @@
+{
+  "id": "funktioner-och-linjer",
+  "area": "algebra",
+  "title": "Funktioner och räta linjer",
+  "level": "Samlat kapitel · ungefär åk 8",
+  "grade": 8,
+  "duration": "15 min",
+  "prerequisites": [
+    "ekvation"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "funktioner",
+      "title": "Funktioner visar förändring",
+      "sequence": 1
+    },
+    {
+      "id": "linjara-funktioner-km",
+      "title": "Linjära funktioner",
+      "sequence": 2
+    }
+  ],
+  "summary": "En funktion visar hur ett tal beror på ett annat. Du ritar och tolkar räta linjer med k och m.",
+  "explanationTitle": "När ett tal styr ett annat",
+  "explanation": "Problemet: En taxi tar 50 kr plus 20 kr per km. Hur skriver du priset som en regel, och hur ser det ut i ett diagram? Du lär dig funktioner och hur k och m styr en rät linje.",
+  "rule": "I y = k · x + m är m startvärdet och k är hur mycket y ändras när x ökar med 1.",
+  "ruleLabel": "RÄTA LINJER",
+  "example": "y = 2x + 1 ger y = 7 när x = 3.",
+  "exercise": {
+    "prompt": "Regeln är y = 2x + 1. Vad blir y när x = 3?",
+    "answer": [
+      "7"
+    ],
+    "correct": "Rätt! 2 · 3 + 1 = 7.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "Du glömde plus 1 i slutet. Räkna 2 · 3 först och lägg sedan till 1."
+      }
+    ]
+  },
+  "wordProblems": []
+}

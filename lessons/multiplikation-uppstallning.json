@@ -1,6 +1,7 @@
 {
   "id": "multiplikation-uppstallning",
   "area": "tal",
+  "parentId": "multiplikation-stora-tal",
   "title": "Multiplikation med uppställning",
   "level": "Räkna stora tal på papper · ungefär åk 4–5",
   "grade": 4,

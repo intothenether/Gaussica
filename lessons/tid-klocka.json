@@ -1,6 +1,7 @@
 {
   "id": "tid-klocka",
   "area": "matning",
+  "parentId": "tid-och-kalender",
   "title": "Tid och klockan",
   "level": "Läs klockan och räkna tid · ungefär åk 3–6",
   "grade": 3,
@@ -182,6 +183,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En timme är 60 minuter.",
+        "answer": true,
+        "explain": "Tiden räknas med timmar och minuter, inte i hundratal."
+      },
+      {
+        "text": "En timme är 100 minuter.",
+        "answer": false,
+        "explain": "En timme är 60 minuter."
+      }
+    ],
+    "correct": "Rätt! En timme är 60 minuter."
+  },
   "exercise": {
     "prompt": "Klockan är 14:35. Vad är klockan 40 minuter senare? Svara HH:MM.",
     "answer": ["15:15", "15.15"],

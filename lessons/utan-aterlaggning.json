@@ -1,6 +1,7 @@
 {
   "id": "utan-aterlaggning",
   "area": "data",
+  "parentId": "sannolikhet-flera-steg",
   "title": "Sannolikhet utan återläggning",
   "level": "Dra flera gånger ur samma påse · ungefär åk 9",
   "grade": 9,

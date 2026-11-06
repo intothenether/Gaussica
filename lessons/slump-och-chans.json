@@ -1,0 +1,50 @@
+{
+  "id": "slump-och-chans",
+  "area": "data",
+  "title": "Slump och chans",
+  "level": "Samlat kapitel · ungefär åk 5–6",
+  "grade": 5,
+  "duration": "15 min",
+  "prerequisites": [
+    "diagram",
+    "brak-del",
+    "begrepp-sannolikhet"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "slump",
+      "title": "Slump",
+      "sequence": 1
+    },
+    {
+      "id": "relativ-frekvens",
+      "title": "Relativ frekvens",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du beskriver chans med bråk, och ser hur det du får i försök närmar sig chansen när du prövar många gånger.",
+  "explanationTitle": "Slumpen går att räkna på",
+  "explanation": "Problemet: Hur stor är chansen att få en sexa när du kastar en tärning, och vad händer om du kastar 600 gånger? Du räknar ut chansen och provar den sedan med riktiga försök.",
+  "rule": "Chansen är antalet sätt det kan gå bra delat med alla sätt det kan gå.",
+  "ruleLabel": "CHANS",
+  "example": "Chansen att få en sexa på en tärning är 1/6.",
+  "exercise": {
+    "prompt": "En tärning har 6 sidor. Hur många sidor har en sexa?",
+    "answer": [
+      "1",
+      "en",
+      "ett"
+    ],
+    "correct": "Rätt! Det finns en sexa av 6 sidor, så chansen är 1 av 6.",
+    "feedback": [
+      {
+        "answers": [
+          "6"
+        ],
+        "message": "Det finns sex sidor, men bara en av dem är en sexa."
+      }
+    ]
+  },
+  "wordProblems": []
+}

@@ -1,0 +1,48 @@
+{
+  "id": "rotter-och-talsorter",
+  "area": "tal",
+  "title": "Kvadratrötter och olika tal",
+  "level": "Samlat kapitel · ungefär åk 9",
+  "grade": 9,
+  "duration": "18 min",
+  "prerequisites": [
+    "pythagoras",
+    "potenser"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "rotuttryck",
+      "title": "Kvadratrötter och rotuttryck",
+      "sequence": 1
+    },
+    {
+      "id": "rationella-irrationella",
+      "title": "Rationella och irrationella tal",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du räknar med kvadratrötter och lär dig skillnaden mellan tal som kan skrivas som bråk och tal som inte kan det.",
+  "explanationTitle": "Rötter och tal utan slut",
+  "explanation": "Problemet: Roten ur 9 går att skriva som ett heltal, men roten ur 2 går inte att skriva som ett bråk. Hur ser du skillnaden, och hur räknar du med båda?",
+  "rule": "Roten ur ett tal är det tal som multiplicerat med sig självt ger talet.",
+  "ruleLabel": "KVADRATRÖTTER",
+  "example": "Roten ur 9 är 3, för 3 · 3 = 9.",
+  "exercise": {
+    "prompt": "Vad är kvadratroten ur 9?",
+    "answer": [
+      "3",
+      "tre"
+    ],
+    "correct": "Rätt! 3 · 3 = 9.",
+    "feedback": [
+      {
+        "answers": [
+          "81"
+        ],
+        "message": "Du kvadrerade i stället. Roten går åt andra hållet: vilket tal gånger sig självt blir 9?"
+      }
+    ]
+  },
+  "wordProblems": []
+}

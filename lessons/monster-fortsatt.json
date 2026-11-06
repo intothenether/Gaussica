@@ -265,6 +265,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I mönstret 2, 4, 6, 8 ökar talen med 2 varje gång.",
+        "answer": true,
+        "explain": "Titta på ändringen från ett steg till nästa."
+      },
+      {
+        "text": "Nästa tal i mönstret 3, 6, 9, 12 är 14.",
+        "answer": false,
+        "explain": "Talen ökar med 3 varje gång, så nästa tal är 15."
+      }
+    ],
+    "correct": "Rätt! Hitta ändringen och använd den en gång till."
+  },
   "exercise": {
     "prompt": "Talen går 5, 10, 15, 20. Vilket tal kommer sen?",
     "answer": [

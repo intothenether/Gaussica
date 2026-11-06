@@ -1,6 +1,7 @@
 {
   "id": "platsvarde",
   "area": "tal",
+  "parentId": "tal-och-tallinjen",
   "title": "Se talens byggstenar",
   "level": "Bygg en grund · ungefär åk 3–5",
   "grade": 3,
@@ -793,6 +794,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I talet 3 482 är siffran 4 värd 400.",
+        "answer": true,
+        "explain": "4:an står på hundratalens plats, så den är värd fyra hundratal."
+      },
+      {
+        "text": "Siffran 3 är värd lika mycket i 3 och i 30.",
+        "answer": false,
+        "explain": "I 30 står 3:an på tiotalens plats och är värd 30. En siffra får sitt värde från platsen den står på."
+      }
+    ],
+    "correct": "Rätt! En siffras värde beror på vilken plats den står på."
+  },
   "exercise": {
     "prompt": "Vad är 6:ans värde i talet 2 643?",
     "answer": ["600", "600.0", "sexhundra"],

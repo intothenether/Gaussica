@@ -1,6 +1,7 @@
 {
   "id": "medelvarde",
   "area": "data",
+  "parentId": "statistik-medelvarde-median",
   "title": "Medelvärde: det jämna talet",
   "level": "Fördela lika · ungefär åk 4–9",
   "grade": 6,

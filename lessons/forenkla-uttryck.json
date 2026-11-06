@@ -1,0 +1,51 @@
+{
+  "id": "forenkla-uttryck",
+  "area": "algebra",
+  "title": "Parenteser och faktorer",
+  "level": "Samlat kapitel · ungefär åk 8",
+  "grade": 8,
+  "duration": "18 min",
+  "prerequisites": [
+    "ekvation",
+    "potenser"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "parenteser-uttryck",
+      "title": "Parenteser och förenkling",
+      "sequence": 1
+    },
+    {
+      "id": "bryta-ut",
+      "title": "Bryt ut en gemensam faktor",
+      "sequence": 2
+    }
+  ],
+  "summary": "Du tar bort parenteser och förenklar, och gör tvärtom: bryter ut en gemensam faktor.",
+  "explanationTitle": "Fram och tillbaka",
+  "explanation": "Problemet: Hur skriver du 3(x + 4) utan parentes, och hur gör du tvärtom med 6x + 9? Du lär dig gå åt båda hållen, och se när det ena är smartare än det andra.",
+  "rule": "Multiplicera varje term i parentesen. Att bryta ut är motsatsen.",
+  "ruleLabel": "PARENTESER",
+  "example": "2(x + 3) = 2x + 6, och 6x + 9 = 3(2x + 3).",
+  "exercise": {
+    "prompt": "Utveckla 2(x + 3).",
+    "answer": [
+      "2x+6",
+      "2x + 6",
+      "6+2x",
+      "6 + 2x"
+    ],
+    "correct": "Rätt! 2 · x = 2x och 2 · 3 = 6.",
+    "feedback": [
+      {
+        "answers": [
+          "2x+3",
+          "2x + 3"
+        ],
+        "message": "Du multiplicerade bara x. Allt inuti parentesen ska multipliceras med 2."
+      }
+    ]
+  },
+  "wordProblems": []
+}
