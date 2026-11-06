@@ -23,7 +23,7 @@ async function start(page, id, settings) {
 }
 
 test("the button after the explanation waits while it is read, and the bar cannot jump past it", async ({ page }) => {
-  await start(page, "stora-tal");
+  await start(page, "procent");
   await expect(eyebrow(page)).toHaveText("LÄR DIG");
   await expect(next(page)).toHaveAttribute("aria-disabled", "true");
   // a click on it does nothing, and neither does the last step in the bar
@@ -37,7 +37,7 @@ test("the button after the explanation waits while it is read, and the bar canno
 });
 
 test("Läsning has the setting for the wait, and with it off the button is free at once", async ({ page }) => {
-  await start(page, "stora-tal", { wait: false });
+  await start(page, "procent", { wait: false });
   await expect(eyebrow(page)).toHaveText("LÄR DIG");
   await expect(next(page)).not.toHaveAttribute("aria-disabled", "true");
   await page.evaluate(() => { location.hash = "#start"; });
@@ -90,7 +90,7 @@ test("two tries open the button whatever the answers are, so nobody is stuck", a
 });
 
 test("a wrong answer after a quick pass points back to the explanation, and not after it has been read", async ({ page }) => {
-  await start(page, "stora-tal", { wait: false });
+  await start(page, "procent", { wait: false });
   for (let i = 0; i < 10 && !(await page.locator("#lesson-player input[name=answer]").count()); i++) await next(page).click();
   const field = page.locator("#lesson-player input[name=answer]");
   await field.fill("1");
@@ -109,7 +109,7 @@ test("a wrong answer after a quick pass points back to the explanation, and not 
 });
 
 test("a lesson that has been started before is not slowed", async ({ page }) => {
-  await start(page, "stora-tal", { wait: false });
+  await start(page, "procent", { wait: false });
   for (let i = 0; i < 10 && !(await page.locator("#lesson-player input[name=answer]").count()); i++) await next(page).click();
   const field = page.locator("#lesson-player input[name=answer]");
   await field.fill("1");
@@ -117,8 +117,43 @@ test("a lesson that has been started before is not slowed", async ({ page }) => 
   await page.locator("#lesson-player .tip-again").click();
   // back to the lesson from its first page, with the wait on
   await page.addInitScript(() => { try { localStorage.setItem("gaussica-reading", JSON.stringify({ wait: true })); } catch (e) { /* no storage */ } });
-  await page.evaluate(() => { localStorage.setItem("gaussica-reading", JSON.stringify({ wait: true })); location.hash = "#start"; setTimeout(() => { location.hash = "#play/stora-tal"; }, 150); });
+  await page.evaluate(() => { localStorage.setItem("gaussica-reading", JSON.stringify({ wait: true })); location.hash = "#start"; setTimeout(() => { location.hash = "#play/procent"; }, 150); });
   await page.locator("#lesson-player .pl-seg").first().click();
   await expect(eyebrow(page)).toHaveText("LÄR DIG");
   await expect(next(page)).not.toHaveAttribute("aria-disabled", "true");
+});
+
+const stored = (page) => page.evaluate(() => Object.keys(localStorage).map((k) => localStorage.getItem(k)).join(" "));
+
+test("the first visit is kept with the progress: that it was quick, and how the check went", async ({ page }) => {
+  await start(page, "procent", { wait: false });
+  for (let i = 0; i < 10 && !(await page.locator("#lesson-player input[name=answer]").count()); i++) await next(page).click();
+  await expect.poll(async () => /"intro":\{[^}]*"quick":true/.test(await stored(page))).toBe(true);
+});
+
+test("the teacher sees who went past an explanation in a moment, and the lessons it happens in", async ({ page }) => {
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(String(e)));
+  await signIn(page, { pet: null, keepTips: true });
+  const text = await page.evaluate(() => {
+    const box = document.createElement("div");
+    document.body.appendChild(box);
+    const progress = (intro) => ({ "addition-uppstallning": { started: true, answers: { exercise: { answer: "85", completed: true, feedbackType: "correct" } }, intro: intro } });
+    const quick = { readMs: 900, neededMs: 15000, quick: true, check: "open", at: new Date().toISOString() };
+    const slow = { readMs: 20000, neededMs: 15000, quick: false, check: "first", at: new Date().toISOString() };
+    const students = [
+      { id: 1, name: "Elev Ett", username: "e1", classId: 1, classIds: [1], attempts: [], lessonProgress: progress(quick) },
+      { id: 2, name: "Elev Två", username: "e2", classId: 1, classIds: [1], attempts: [], lessonProgress: progress(quick) },
+      { id: 3, name: "Elev Tre", username: "e3", classId: 1, classIds: [1], attempts: [], lessonProgress: progress(slow) }
+    ];
+    const nothing = () => Promise.resolve({});
+    window.GaussicaTeacher.render(box, { caregiver: false, students, classes: [{ id: 1, name: "7A", code: "ABC" }], assignments: [], course: window.course, renderVisuals() {}, formatTimestamp: String,
+      rerender() {}, refresh() {}, actions: new Proxy({}, { get: () => nothing }), setNotice() {} });
+    return { list: box.querySelector(".tv-intros").innerText, detail: box.querySelector(".tv-detail").textContent };
+  });
+  expect(text.list).toContain("Genomgångar som eleverna går förbi");
+  expect(text.list).toContain("Addition med uppställning: 2 av 3 gick snabbt förbi, kontrollfrågan var rätt direkt för 1 av 3");
+  expect(text.detail).toContain("gick snabbt förbi genomgången");
+  expect(text.detail).toContain("inte rätt efter två försök");
+  expect(errors).toEqual([]);
 });

@@ -276,6 +276,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "49 + 36 kan räknas som 50 + 36 och sedan tar du bort 1.",
+        "answer": true,
+        "explain": "Du lade till 1 för mycket när du rundade upp 49 till 50."
+      },
+      {
+        "text": "14 · 6 går inte att dela upp.",
+        "answer": false,
+        "explain": "14 · 6 är 10 · 6 + 4 · 6 = 60 + 24 = 84."
+      }
+    ],
+    "correct": "Rätt! Du kan göra talen enklare genom att dela upp eller runda och justera."
+  },
   "exercise": {
     "prompt": "Räkna i huvudet: 37 + 48.",
     "answer": [

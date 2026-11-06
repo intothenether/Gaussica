@@ -149,6 +149,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "1 meter är 100 centimeter.",
+        "answer": true,
+        "explain": "Därför är 3 m och 45 cm tillsammans 345 cm."
+      },
+      {
+        "text": "3 m och 45 cm blir 48 om du lägger ihop talen.",
+        "answer": false,
+        "explain": "Enheterna är olika. Växla först: 300 cm + 45 cm = 345 cm."
+      }
+    ],
+    "correct": "Rätt! Växla till samma enhet innan du lägger ihop."
+  },
   "exercise": {
     "prompt": "Hur många centimeter är 3 m och 45 cm tillsammans?",
     "answer": ["345 cm", "345cm"],

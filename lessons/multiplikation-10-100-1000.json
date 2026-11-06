@@ -334,6 +334,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "46 · 100 = 4 600.",
+        "answer": true,
+        "explain": "Med 100 flyttar siffrorna två steg åt vänster och två nollor fyller platserna."
+      },
+      {
+        "text": "Att multiplicera med 10 flyttar siffrorna ett steg åt höger.",
+        "answer": false,
+        "explain": "De flyttar ett steg åt vänster, och en nolla fyller entalsplatsen."
+      }
+    ],
+    "correct": "Rätt! Med 10, 100 och 1000 lägger du på 1, 2 eller 3 nollor."
+  },
   "exercise": {
     "prompt": "Räkna ut 46 · 10.",
     "answer": [

@@ -133,6 +133,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En rät vinkel är 90°.",
+        "answer": true,
+        "explain": "En rak vinkel är 180° och ett helt varv är 360°."
+      },
+      {
+        "text": "En vinkel är större om dess sidor är ritade längre.",
+        "answer": false,
+        "explain": "Längden på sidorna ändrar inte själva öppningen."
+      }
+    ],
+    "correct": "Rätt! Vinkeln är öppningen, inte hur långa sidorna är."
+  },
   "exercise": {
     "prompt": "En vinkel är 35° större än en rät vinkel. Hur många grader är vinkeln?",
     "answer": ["125", "125°"],

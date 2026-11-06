@@ -816,6 +816,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "1/2 och 2/4 är lika mycket.",
+        "answer": true,
+        "explain": "Båda är samma mängd av pizzan."
+      },
+      {
+        "text": "Du får ett likvärdigt bråk genom att lägga till samma tal i täljaren och nämnaren.",
+        "answer": false,
+        "explain": "Du multiplicerar eller delar täljaren och nämnaren med samma tal."
+      }
+    ],
+    "correct": "Rätt! Multiplicera eller dela båda talen med samma tal."
+  },
   "exercise": {
     "prompt": "Vilket bråk är likvärdigt med 1/3? Välj från: 2/4, 2/6, 2/8, 3/9.",
     "answer": ["2/6", "3/9"],

@@ -15,25 +15,48 @@
   "explanation": "Problemet: Du vet vad täljare och nämnare betyder. Men var ligger 3/4 på tallinjen? Och hur mycket är 3/4 av 20 kronor? Bråk är inte bara en bit av en pizza. De är också tal med en egen plats, och de kan beskriva en del av ett antal. På tallinjen delar du sträckan mellan 0 och 1 i lika många delar som nämnaren säger. 3/4 ligger vid det tredje strecket när sträckan är delad i fyra delar. För att ta en del av ett antal dividerar du först med nämnaren och multiplicerar sedan med täljaren. 1/4 av 20 är 20/4 = 5. Då är 3/4 av 20 tre gånger 5, alltså 15. Tiondelar har ett eget skrivsätt. 3/10 skriver vi som decimaltal: 0,3.",
   "visual": {
     "type": "tallinje",
-    "title": "Bråk mellan 0 och 1",
+    "title": "Bråk mellan 0 och 1: hoppa en fjärdedel i taget",
     "min": 0,
     "max": 1,
     "step": 0.25,
-    "labelEvery": 1,
+    "labelEvery": 0.25,
+    "tickLabels": {
+      "0": "0",
+      "1": "1",
+      "0.25": "1/4",
+      "0.5": "2/4",
+      "0.75": "3/4"
+    },
     "points": [
       {
-        "value": 0.25,
-        "label": "1/4"
+        "value": 0.25
       },
       {
-        "value": 0.5,
-        "label": "2/4"
+        "value": 0.5
       },
       {
-        "value": 0.75,
-        "label": "3/4"
+        "value": 0.75
       }
-    ]
+    ],
+    "jumps": [
+      {
+        "from": 0,
+        "to": 0.25,
+        "label": "+1/4"
+      },
+      {
+        "from": 0.25,
+        "to": 0.5,
+        "label": "+1/4"
+      },
+      {
+        "from": 0.5,
+        "to": 0.75,
+        "label": "+1/4"
+      }
+    ],
+    "animate": true,
+    "pet": true
   },
   "rule": "En del av ett antal: dividera med nämnaren, multiplicera med täljaren",
   "ruleLabel": "DEL AV ANTAL",
@@ -298,6 +321,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "3/4 av 20 är 15.",
+        "answer": true,
+        "explain": "20 delat med 4 är 5, och 3 · 5 = 15."
+      },
+      {
+        "text": "För att ta en del av ett antal multiplicerar du först med nämnaren.",
+        "answer": false,
+        "explain": "Du delar först med nämnaren och multiplicerar sedan med täljaren."
+      }
+    ],
+    "correct": "Rätt! Dela med nämnaren, multiplicera med täljaren."
+  },
   "exercise": {
     "prompt": "Hur mycket är 1/4 av 20?",
     "answer": [

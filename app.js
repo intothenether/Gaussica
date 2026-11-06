@@ -381,6 +381,14 @@
         renderProblem(parent, lesson, task.problem, task.id, label, opts);
       },
       renderCheck: function (parent, lesson, check, opts) { return window.GaussicaQuestions.renderCheck(parent, lesson, check, opts); },
+      // the first visit to the explanation of a lesson (see lesson-player.js): kept once, with the rest of the progress of the lesson
+      recordIntro: function (lessonId, intro) {
+        const p = getLessonProgress(lessonId);
+        if (p.intro) return;
+        p.intro = intro;
+        dirtyLessons.add(lessonId);
+        scheduleSave(800);
+      },
       openChat: function (context) { window.GaussicaChat.open(context); },
       openFeedback: function (context) { window.GaussicaFeedback.open(context); },
       canChat: function () { return window.GaussicaChat.canChat(); },

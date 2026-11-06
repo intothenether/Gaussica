@@ -276,6 +276,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Arean av en rektangel som är 6 cm lång och 4 cm bred är 24 cm².",
+        "answer": true,
+        "explain": "4 rader med 6 rutor i varje."
+      },
+      {
+        "text": "Area mäts i cm.",
+        "answer": false,
+        "explain": "Area mäts i kvadratenheter, som cm²."
+      }
+    ],
+    "correct": "Rätt! Area = längd · bredd."
+  },
   "exercise": {
     "prompt": "Rektangeln är 9 cm lång och 4 cm bred. Vad är arean i cm²?",
     "answer": [

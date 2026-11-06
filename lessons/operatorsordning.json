@@ -170,6 +170,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2 + 3 · 4 är 14.",
+        "answer": true,
+        "explain": "Multiplikationen görs först: 3 · 4 = 12 och sedan 2 + 12."
+      },
+      {
+        "text": "Addition görs före multiplikation.",
+        "answer": false,
+        "explain": "Multiplikation och division görs före addition och subtraktion."
+      }
+    ],
+    "correct": "Rätt! Gånger och delat med görs före plus och minus."
+  },
   "exercise": {
     "prompt": "Räkna ut: 6 + 2 · 5. Vilken operation gör du först?",
     "answer": ["16"],

@@ -140,6 +140,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "1/2 är samma tal som 0,5 och 50 %.",
+        "answer": true,
+        "explain": "Hälften är 50 av 100."
+      },
+      {
+        "text": "25 % är samma sak som en halv.",
+        "answer": false,
+        "explain": "25 % är en fjärdedel. Hälften är 50 %."
+      }
+    ],
+    "correct": "Rätt! Procent betyder hundradelar."
+  },
   "exercise": {
     "prompt": "Hur många procent är 1/4?",
     "answer": [

@@ -223,6 +223,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Arean av en kvadrat med sidan 5 m är 25 m².",
+        "answer": true,
+        "explain": "5 · 5 = 25."
+      },
+      {
+        "text": "Arean mäts i meter.",
+        "answer": false,
+        "explain": "Area mäts i kvadratenheter som cm² och m²."
+      }
+    ],
+    "correct": "Rätt! Arean är sidan · sidan."
+  },
   "exercise": {
     "prompt": "Kvadraten har sidan 5 cm. Vad är arean i cm²?",
     "answer": [

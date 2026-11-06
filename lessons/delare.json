@@ -168,6 +168,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "1 och 12 är delare till 12.",
+        "answer": true,
+        "explain": "Ett tal är alltid delbart med 1 och med sig självt."
+      },
+      {
+        "text": "Talet 5 är en delare till 12.",
+        "answer": false,
+        "explain": "12 delat med 5 går inte jämnt upp."
+      }
+    ],
+    "correct": "Rätt! En delare går jämnt upp."
+  },
   "exercise": {
     "prompt": "Hur många delare har talet 12?",
     "answer": [

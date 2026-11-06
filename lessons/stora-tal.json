@@ -455,6 +455,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I talet 3 482 106 är siffran 4 värd 400 000.",
+        "answer": true,
+        "explain": "4:an står på hundratusentalsplatsen."
+      },
+      {
+        "text": "Stora tal delas i grupper om två siffror, från höger.",
+        "answer": false,
+        "explain": "Grupperna har tre siffror: 3 482 106."
+      }
+    ],
+    "correct": "Rätt! Stora tal delas i grupper om tre siffror från höger, och platsen avgör vad en siffra är värd."
+  },
   "exercise": {
     "prompt": "Skriv talet med siffror: 3 miljoner, 482 tusen och 106.",
     "answer": [

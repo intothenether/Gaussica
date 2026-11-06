@@ -253,6 +253,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "−4 + 7 = 3.",
+        "answer": true,
+        "explain": "Börja på −4 och gå 7 steg åt höger."
+      },
+      {
+        "text": "2 − 6 = 4.",
+        "answer": false,
+        "explain": "Börja på 2 och gå 6 steg åt vänster. Du hamnar på −4."
+      }
+    ],
+    "correct": "Rätt! Plus är åt höger och minus är åt vänster, även under noll."
+  },
   "exercise": {
     "prompt": "Räkna ut −4 + 7.",
     "answer": [

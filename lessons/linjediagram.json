@@ -160,6 +160,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I ett linjediagram ligger tiden på den vågräta axeln.",
+        "answer": true,
+        "explain": "Det du mäter ligger på den lodräta."
+      },
+      {
+        "text": "En vågrät linje betyder att värdet ökar.",
+        "answer": false,
+        "explain": "En vågrät linje betyder att värdet är oförändrat."
+      }
+    ],
+    "correct": "Rätt! Linjen visar förändringen."
+  },
   "exercise": {
     "prompt": "I diagrammet: vilken temperatur var det dag 3?",
     "answer": [

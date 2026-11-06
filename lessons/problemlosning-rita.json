@@ -250,6 +250,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Att prova fel är en del av metoden.",
+        "answer": true,
+        "explain": "Varje försök visar om du ska ta ett större eller mindre tal nästa gång."
+      },
+      {
+        "text": "Det sista steget är att välja räknesätt.",
+        "answer": false,
+        "explain": "Du väljer sätt i steg 2. Det sista steget är att kontrollera svaret."
+      }
+    ],
+    "correct": "Rätt! Förstå, välj, räkna och kontrollera."
+  },
   "exercise": {
     "prompt": "Det finns cyklar (2 hjul) och trehjulingar (3 hjul). Tillsammans är det 5 fordon och 12 hjul. Hur många cyklar finns det?",
     "answer": [

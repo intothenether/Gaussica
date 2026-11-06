@@ -278,6 +278,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "7000 delat med 100 är 70.",
+        "answer": true,
+        "explain": "Att dela med 100 tar bort två nollor."
+      },
+      {
+        "text": "Att dela ett tal med 1 gör talet mindre.",
+        "answer": false,
+        "explain": "Talet är kvar som det var: 36 delat med 1 är 36."
+      }
+    ],
+    "correct": "Rätt! Titta på nollorna: 1, 2 eller 3 nollor tas bort."
+  },
   "exercise": {
     "prompt": "Räkna ut 6000/10.",
     "answer": [

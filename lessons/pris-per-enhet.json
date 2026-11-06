@@ -166,6 +166,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "60 kr för 3 kg är 20 kr per kilo.",
+        "answer": true,
+        "explain": "Du delar priset lika på antalet kilo."
+      },
+      {
+        "text": "Pris för många får du genom att dela priset för en med antalet.",
+        "answer": false,
+        "explain": "Du multiplicerar priset för en med antalet."
+      }
+    ],
+    "correct": "Rätt! Pris för en: dela. Pris för många: multiplicera."
+  },
   "exercise": {
     "prompt": "4 kg äpplen kostar 48 kr. Vad kostar 1 kg?",
     "answer": [

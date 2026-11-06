@@ -37,6 +37,8 @@ const CHECKS = {
   "uppskatta-rimligt": [[T("Ett överslag visar om ett svar är rimligt.", true, "Du räknar med avrundade tal och ser om svaret ligger nära."), T("Ett överslag ger alltid det exakta svaret.", false, "Ett överslag är bara ungefär, men det visar om svaret kan stämma.")], "Rätt! Ett överslag är ungefärligt men visar om svaret är rimligt."]
 };
 
+Object.assign(CHECKS, require("./checks-grade-4-5.js")(T));   // åk 4 and åk 5
+
 let added = 0, skipped = 0;
 Object.keys(CHECKS).forEach((id) => {
   const file = path.join(DIR, id + ".json");

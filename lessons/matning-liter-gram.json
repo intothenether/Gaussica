@@ -340,6 +340,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "1 kilogram är 1000 gram.",
+        "answer": true,
+        "explain": "Och 1 hektogram är 100 gram."
+      },
+      {
+        "text": "3 liter är 3 deciliter.",
+        "answer": false,
+        "explain": "1 liter är 10 dl, så 3 liter är 30 dl."
+      }
+    ],
+    "correct": "Rätt! Från stor enhet till liten multiplicerar du."
+  },
   "exercise": {
     "prompt": "Hur många deciliter är 3 liter?",
     "answer": [

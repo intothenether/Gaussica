@@ -182,6 +182,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Chansen att få en femma på en tärning är 1/6.",
+        "answer": true,
+        "explain": "Det finns 6 lika troliga utfall och bara ett av dem är en femma."
+      },
+      {
+        "text": "Något omöjligt har sannolikheten 1.",
+        "answer": false,
+        "explain": "Omöjligt har sannolikheten 0 och säkert har sannolikheten 1."
+      }
+    ],
+    "correct": "Rätt! Sannolikhet = önskade utfall delat med möjliga utfall."
+  },
   "exercise": {
     "prompt": "Du kastar en vanlig tärning. Vad är chansen att få en fyra? Svara som bråk.",
     "answer": [

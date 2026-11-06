@@ -146,7 +146,7 @@ figur som `visual`, ritad av `figures.js`. Typerna är:
 
 | `type` | Visar | Viktiga fält |
 | --- | --- | --- |
-| `tallinje` | Tallinje med punkter, hopp och markerat intervall | `min`, `max`, `step`, `labelEvery`, `points`, `jumps`, `range`, `animate`, `pet` (elevens djur hoppar längs pilarna) |
+| `tallinje` | Tallinje med punkter, hopp och markerat intervall | `min`, `max`, `step`, `labelEvery`, `points`, `jumps`, `range`, `animate`, `pet` (elevens djur hoppar längs pilarna), `tickLabels` (`{ "0.25": "1/4" }`: skriver något annat än talet vid strecken, till exempel bråken mellan 0 och 1) |
 | `rektangel` / `kvadrat` | Rektangel med måttangivelser, valfritt rutnät | `w`, `h`, `unit`, `grid`, `outline`, `sides` (`"all"` märker alla sidor) |
 | `triangel` | Triangel med sidor, höjd och inritad rektangel | `base`, `height`, `apex`, `labels`, `showHeight`, `showRect` |
 | `figurer` | Galleri av former med namn | `items: [{ shape, label }]` |
@@ -156,11 +156,11 @@ figur som `visual`, ritad av `figures.js`. Typerna är:
 | `grupper` | Lika stora grupper av saker (multiplikation och division, med rest) | `groups`, `per`, `item` (kula, apple, stjarna, kaka, fisk, blomma, penna), `mode` (`gange` eller `dela`), `remainder`, `hide` |
 | `tiobas` | Platsvärde: tusenkuber, hundrarutor, tiostavar och ental | `value` (upp till 9999), `total` |
 | `pengar` | Svenska mynt och sedlar | `items: [{ value, n }]`, `total` |
-| `brak` | En helhet i lika delar, några färgade | `shape` (cirkel eller rektangel), `parts`, `shaded`, `compare: [{ parts, shaded }]` |
+| `brak` | En helhet i lika delar, några färgade. Med `pet` står elevens djur på de färgade delarna en i taget, så täljaren räknas (första bilden vid `compare`) | `shape` (cirkel eller rektangel), `parts`, `shaded`, `compare: [{ parts, shaded }]`, `pet` |
 | `termometer` | Termometer, även under noll | `value` eller `values: [{ value, label }]`, `min`, `max`, `step` |
 | `linjal` | Linjal med ett föremål, i centimeter | `length`, `from`, `object` (penna, suddgummi, sladd), `hide` |
 | `kalender` | En månad, veckan börjar på måndag | `year`, `month`, `days`, `range: { from, to }`, `note` |
-| `tidslinje` | Tiden mellan två klockslag | `from`, `to` ("09:20"), `label`, `hide` |
+| `tidslinje` | Tiden mellan två klockslag. Med `pet` hoppar elevens djur från första tiden till nästa hela timme, timme för timme och sist till den andra tiden, så som man räknar | `from`, `to` ("09:20"), `label`, `hide`, `pet` |
 | `tarning` | Tärningar | `values: [1 till 6]` |
 | `snurra` | Lyckohjul som snurrar och stannar | `sectors: [{ label, n }]`, `land` |
 | `pase` | Påse med kulor | `items: [{ color (rod, bla, gul, gron), n }]` |

@@ -333,6 +333,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "0,3 · 0,4 = 0,12.",
+        "answer": true,
+        "explain": "3 · 4 = 12 och två decimaler."
+      },
+      {
+        "text": "Svaret på 0,3 · 0,4 är större än 0,3.",
+        "answer": false,
+        "explain": "Du tar en del av en del, så svaret blir mindre."
+      }
+    ],
+    "correct": "Rätt! Räkna utan komma och räkna sedan decimalerna."
+  },
   "exercise": {
     "prompt": "Räkna ut 4 · 0,6.",
     "answer": [

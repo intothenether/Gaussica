@@ -163,6 +163,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Får varje ny figur 2 rutor till, och figur 3 har 7 rutor, så har figur 4 9 rutor.",
+        "answer": true,
+        "explain": "7 + 2 = 9."
+      },
+      {
+        "text": "Du måste rita alla figurerna för att veta hur många rutor figur 10 har.",
+        "answer": false,
+        "explain": "Du kan räkna med mönstret: startvärdet plus lika mycket för varje ny figur."
+      }
+    ],
+    "correct": "Rätt! Hitta mönstret och räkna med det."
+  },
   "exercise": {
     "prompt": "Hur många rutor har figur 4 i mönstret?",
     "answer": [

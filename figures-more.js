@@ -216,6 +216,7 @@
     const shape = c.shape === "rektangel" ? "rektangel" : "cirkel";
     const k = Math.min(list.length, 4);
     const W = 600, H = 190;
+    let petRoute = null;
     const svg = svgRoot(Object.assign({ alt: "Bråk: " + list.slice(0, k).map(function (p) { return int(p.shaded, 0, 24, 1) + " av " + int(p.parts, 1, 24, 4); }).join(" och ") }, c), W, H);
     list.slice(0, k).forEach(function (p, idx) {
       const parts = int(p.parts, 1, 24, 4), shaded = int(p.shaded, 0, parts, 1);
@@ -239,8 +240,26 @@
         s("rect", { x: bx, y: by, width: bw, height: bh, "class": "fx-sliceframe" }, svg);
       }
       fractionText(svg, cx, 168, shaded, parts);
+      if (c.pet && idx === 0 && shaded > 0) {
+        // the pet stands on the shaded pieces one after the other, so the numerator is counted: one hop for each
+        const route = [];
+        for (let i = 0; i < shaded; i++) {
+          let px, py;
+          if (shape === "cirkel") {
+            const am = -Math.PI / 2 + (i + 0.5) * 2 * Math.PI / parts;
+            px = cx + 0.55 * R * Math.cos(am); py = cy + 0.55 * R * Math.sin(am) + 10;
+          } else {
+            const bw = Math.min(190, W / k - 30), bh = 58;
+            px = cx - bw / 2 + (i + 0.5) * bw / parts; py = cy - bh / 2 + 16;
+          }
+          route.push({ x1: i ? route[i - 1].x2 : px, y1: i ? route[i - 1].y2 : py, x2: px, y2: py, h: 14, ms: 600 });
+        }
+        petRoute = route;
+      }
     });
-    return animated(wrap([svg]));
+    const out = animated(wrap([svg]));
+    if (petRoute) K.attachWalk(out, K.walker(svg, c, shape === "cirkel" ? 44 : 50), petRoute, 600, 900, c.animate !== false);
+    return out;
   }
 
   // ----- thermometer -----
@@ -491,21 +510,32 @@
     const h0 = Math.floor(a / 60), h1 = Math.ceil(b / 60);
     const W = 600, L = 40, R = 40, H = 150, y0 = 84;
     const x = function (min) { return L + (min - h0 * 60) / ((h1 - h0) * 60) * (W - L - R); };
-    const svg = svgRoot(Object.assign({ alt: "Från " + clockText(a) + " till " + clockText(b) + ": " + (b - a) + " minuter" }, c), W, H);
-    s("line", { x1: L - 10, y1: y0, x2: W - R + 10, y2: y0, "class": "fig-axis" }, svg);
+    const up = c.pet ? 52 : 0;   // room for the pet over the line, and the times and the length move up above it
+    const svg = svgRoot(Object.assign({ alt: "Från " + clockText(a) + " till " + clockText(b) + ": " + (b - a) + " minuter" }, c), W, H + up);
+    s("line", { x1: L - 10, y1: y0 + up, x2: W - R + 10, y2: y0 + up, "class": "fig-axis" }, svg);
     for (let h = h0; h <= h1; h++) {
-      s("line", { x1: x(h * 60), y1: y0 - 10, x2: x(h * 60), y2: y0 + 10, "class": "fig-tick" }, svg);
-      text(svg, x(h * 60), y0 + 30, clockText(h * 60), "fig-ticklabel", "middle");
-      if (h < h1) for (let q = 1; q < 4; q++) s("line", { x1: x(h * 60 + q * 15), y1: y0 - 5, x2: x(h * 60 + q * 15), y2: y0 + 5, "class": "fig-grid" }, svg);
+      s("line", { x1: x(h * 60), y1: y0 + up - 10, x2: x(h * 60), y2: y0 + up + 10, "class": "fig-tick" }, svg);
+      text(svg, x(h * 60), y0 + up + 30, clockText(h * 60), "fig-ticklabel", "middle");
+      if (h < h1) for (let q = 1; q < 4; q++) s("line", { x1: x(h * 60 + q * 15), y1: y0 + up - 5, x2: x(h * 60 + q * 15), y2: y0 + up + 5, "class": "fig-grid" }, svg);
     }
     const len = Math.round(x(b) - x(a));
-    s("rect", { x: x(a), y: y0 - 6, width: len, height: 12, rx: 6, "class": "fig-range fx-draw", style: "--len:" + len + "px;--dur:1.4s" }, svg);
+    s("rect", { x: x(a), y: y0 + up - 6, width: len, height: 12, rx: 6, "class": "fig-range fx-draw", style: "--len:" + len + "px;--dur:1.4s" }, svg);
     [a, b].forEach(function (m, i) {
-      s("circle", { cx: x(m), cy: y0, r: 8, "class": "fig-point" + (i ? " is-q" : "") }, svg);
-      text(svg, x(m), y0 - 22, clockText(m), "fig-dim", "middle");
+      s("circle", { cx: x(m), cy: y0 + up, r: 8, "class": "fig-point" + (i ? " is-q" : "") }, svg);
+      text(svg, x(m), c.pet ? y0 + up + 56 : y0 - 22, clockText(m), "fig-dim", "middle");
     });
-    text(svg, (x(a) + x(b)) / 2, y0 - 50, c.hide ? "? minuter" : (c.label || (b - a) + " minuter"), "fig-jumplabel fx-fade", "middle");
-    return animated(wrap([svg]));
+    text(svg, (x(a) + x(b)) / 2, y0 - 50 + (c.pet ? 4 : 0), c.hide ? "? minuter" : (c.label || (b - a) + " minuter"), "fig-jumplabel fx-fade", "middle");
+    const out = animated(wrap([svg]));
+    if (c.pet) {
+      // the pet hops from the first time to the next whole hour, then hour by hour, and last to the second time (the way it is counted)
+      const stops = [a];
+      for (let h = Math.floor(a / 60) + 1; h * 60 < b; h++) stops.push(h * 60);
+      stops.push(b);
+      const g = K.walker(svg, c, 56);
+      const route = stops.slice(1).map(function (m, i) { return { x1: x(stops[i]), y1: y0 + up - 7, x2: x(m), y2: y0 + up - 7, h: 16, ms: 700 }; });
+      K.attachWalk(out, g, route, 700, 700, true);
+    }
+    return out;
   }
 
   // ----- dice -----

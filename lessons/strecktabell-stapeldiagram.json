@@ -296,6 +296,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Det femte strecket dras snett över de fyra första.",
+        "answer": true,
+        "explain": "Då blir det en grupp om fem."
+      },
+      {
+        "text": "12 streck är en grupp om fem och 7 lösa.",
+        "answer": false,
+        "explain": "12 streck är två femmor och 2 lösa."
+      }
+    ],
+    "correct": "Rätt! Räkna i femtal och sedan de lösa strecken."
+  },
   "exercise": {
     "prompt": "Titta på strecktabellen. Hur många elever valde hund?",
     "answer": [

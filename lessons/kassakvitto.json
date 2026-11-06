@@ -239,6 +239,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En rad på ett kvitto är antal gånger styckpris.",
+        "answer": true,
+        "explain": "3 bullar à 12 kr är 3 · 12 = 36 kr."
+      },
+      {
+        "text": "Växeln är summan minus det du betalade.",
+        "answer": false,
+        "explain": "Växeln är det du betalade minus summan."
+      }
+    ],
+    "correct": "Rätt! Rad för rad, sedan summa och växel."
+  },
   "exercise": {
     "prompt": "Ett kvitto har 3 bullar à 12 kr och en juice för 18 kr. Vad är totalsumman?",
     "answer": [

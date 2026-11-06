@@ -9,7 +9,10 @@ const WALKERS = [
   ["talfoljder", ".fig-pet"],
   ["upp-och-ner", ".fig-pet"],
   ["var-ar-det", ".fig-pet"],
-  ["koordinatsystem", ".fig-pet"]
+  ["koordinatsystem", ".fig-pet"],
+  ["tid-klocka", ".fig-pet"],
+  ["tidsintervall", ".fig-pet"],
+  ["brak-tallinje", ".fig-pet"]
 ];
 
 for (const [id, selector] of WALKERS) {

@@ -696,6 +696,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Åt vänster på tallinjen blir talen mindre.",
+        "answer": true,
+        "explain": "Ju längre åt vänster, desto mindre."
+      },
+      {
+        "text": "−8 är större än −2.",
+        "answer": false,
+        "explain": "−8 ligger längre åt vänster, så det är mindre än −2."
+      }
+    ],
+    "correct": "Rätt! Åt höger blir talet större och åt vänster blir det mindre."
+  },
   "exercise": {
     "prompt": "Temperaturen är −3 grader. Sedan blir det 5 grader varmare. Vilken temperatur blir det?",
     "answer": [

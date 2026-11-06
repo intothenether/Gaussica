@@ -145,6 +145,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En likbent triangel har två lika långa sidor.",
+        "answer": true,
+        "explain": "En liksidig har tre lika långa."
+      },
+      {
+        "text": "En rätvinklig triangel har tre lika långa sidor.",
+        "answer": false,
+        "explain": "Rätvinklig betyder att en vinkel är 90°. Tre lika långa sidor är en liksidig triangel."
+      }
+    ],
+    "correct": "Rätt! Titta på sidorna och på vinklarna."
+  },
   "exercise": {
     "prompt": "En triangel har sidorna 5 cm, 5 cm och 8 cm. Är den liksidig, likbent eller rätvinklig? Svara med ett av orden.",
     "answer": [

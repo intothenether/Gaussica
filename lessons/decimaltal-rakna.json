@@ -259,6 +259,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "När du lägger ihop decimaltal ställer du upp kommatecknet under kommatecknet.",
+        "answer": true,
+        "explain": "Då möts tiondelar med tiondelar."
+      },
+      {
+        "text": "Du kan ställa upp 3,4 och 2,65 med siffrorna längst till höger under varandra.",
+        "answer": false,
+        "explain": "Komma ska stå under komma. Fyll gärna ut med nollor: 3,40 och 2,65."
+      }
+    ],
+    "correct": "Rätt! Komma under komma."
+  },
   "exercise": {
     "prompt": "Räkna ut 2,5 + 1,75.",
     "answer": [

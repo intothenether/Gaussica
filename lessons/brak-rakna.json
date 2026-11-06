@@ -344,6 +344,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2/7 + 3/7 = 5/7.",
+        "answer": true,
+        "explain": "Delarna är lika stora, så du lägger ihop täljarna."
+      },
+      {
+        "text": "När du lägger ihop bråk med samma nämnare ändras nämnaren.",
+        "answer": false,
+        "explain": "Nämnaren behålls. Du räknar bara täljarna."
+      }
+    ],
+    "correct": "Rätt! Samma nämnare: räkna täljarna och behåll nämnaren."
+  },
   "exercise": {
     "prompt": "Räkna ut 2/7 + 3/7.",
     "answer": [

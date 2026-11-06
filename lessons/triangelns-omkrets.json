@@ -106,6 +106,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Omkretsen av en triangel med sidorna 5 cm, 6 cm och 7 cm är 18 cm.",
+        "answer": true,
+        "explain": "5 + 6 + 7 = 18."
+      },
+      {
+        "text": "I en triangel är alla sidor alltid lika långa.",
+        "answer": false,
+        "explain": "Sidorna kan vara olika långa. Bara i en liksidig triangel är de lika."
+      }
+    ],
+    "correct": "Rätt! Omkretsen är summan av de tre sidorna."
+  },
   "exercise": {
     "prompt": "Triangeln har sidorna 8 cm, 6 cm och 5 cm. Vad är omkretsen i cm?",
     "answer": [

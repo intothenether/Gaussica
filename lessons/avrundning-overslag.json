@@ -405,6 +405,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "47 avrundas till 50 när du avrundar till närmaste tiotal.",
+        "answer": true,
+        "explain": "Siffran till höger är 7, och 5 till 9 betyder att du avrundar uppåt."
+      },
+      {
+        "text": "Är siffran till höger en 3 avrundar du uppåt.",
+        "answer": false,
+        "explain": "0 till 4 betyder nedåt och 5 till 9 betyder uppåt."
+      }
+    ],
+    "correct": "Rätt! Titta på siffran till höger om platsen du avrundar till."
+  },
   "exercise": {
     "prompt": "Avrunda 38 till närmaste tiotal.",
     "answer": [

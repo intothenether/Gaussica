@@ -201,6 +201,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Från 14:20 till 15:00 är det 40 minuter.",
+        "answer": true,
+        "explain": "Du räknar först till nästa hela timme."
+      },
+      {
+        "text": "En timme är 100 minuter.",
+        "answer": false,
+        "explain": "En timme är 60 minuter."
+      }
+    ],
+    "correct": "Rätt! Räkna i steg: till hel timme, hela timmar och minuterna som är kvar."
+  },
   "exercise": {
     "prompt": "En lektion börjar klockan 08:30 och slutar klockan 09:15. Hur många minuter varar den?",
     "answer": [
@@ -300,7 +316,8 @@
       "type": "tidslinje",
       "title": "Filmen varar från 14:20 till 16:05",
       "from": "14:20",
-      "to": "16:05"
+      "to": "16:05",
+      "pet": true
     },
     {
       "type": "tabell",

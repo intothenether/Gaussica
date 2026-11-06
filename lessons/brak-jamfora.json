@@ -355,6 +355,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "3/4 är större än 2/4.",
+        "answer": true,
+        "explain": "Nämnarna är lika, så du jämför täljarna: 3 är mer än 2."
+      },
+      {
+        "text": "När nämnarna är olika kan du jämföra täljarna direkt.",
+        "answer": false,
+        "explain": "Gör nämnarna lika stora först."
+      }
+    ],
+    "correct": "Rätt! Gör nämnarna lika stora, jämför sedan täljarna."
+  },
   "exercise": {
     "prompt": "Vilket bråk är större: 2/3 eller 3/5?",
     "answer": [

@@ -508,6 +508,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Likhetstecknet betyder att det är lika mycket på båda sidor.",
+        "answer": true,
+        "explain": "Därför står vågen i balans."
+      },
+      {
+        "text": "7 + 3 = 5 + 5 stämmer inte, för svaret ska stå efter likhetstecknet.",
+        "answer": false,
+        "explain": "Båda sidorna är 10, så det stämmer."
+      }
+    ],
+    "correct": "Rätt! Likhetstecknet betyder lika mycket, och du gör samma sak på båda sidor."
+  },
   "exercise": {
     "prompt": "Vilket tal ska stå i rutan så att vågen balanserar? 8 + 5 = 9 + □",
     "answer": [

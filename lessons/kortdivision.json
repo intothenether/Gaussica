@@ -309,6 +309,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I kortdivision delar du en siffra i taget, från vänster till höger.",
+        "answer": true,
+        "explain": "Det som blir över förs vidare till nästa siffra."
+      },
+      {
+        "text": "Det som blir över i ett steg försvinner.",
+        "answer": false,
+        "explain": "Det förs vidare som tio gånger så många till nästa plats."
+      }
+    ],
+    "correct": "Rätt! Du delar en plats i taget och för över resten."
+  },
   "exercise": {
     "prompt": "Räkna ut 84/4 med kortdivision.",
     "answer": [

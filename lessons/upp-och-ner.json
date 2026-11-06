@@ -842,6 +842,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Slut = start + upp − ner.",
+        "answer": true,
+        "explain": "Därför är start = slut − upp + ner."
+      },
+      {
+        "text": "Pinnen i mitten av en stege räknas två gånger.",
+        "answer": false,
+        "explain": "Mitten har lika många pinnar på varje sida och räknas en gång."
+      }
+    ],
+    "correct": "Rätt! Följ stegen och räkna baklänges."
+  },
   "exercise": {
     "prompt": "Elsa står på den mittersta pinnen på en stege. Hon klättrar upp 3 pinnar och sedan ner 7 pinnar. Då står hon på den nedersta pinnen. Hur många pinnar har stegen?",
     "answer": [

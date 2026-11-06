@@ -306,6 +306,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I talföljden 3, 7, 11, 15 ökar varje tal med 4.",
+        "answer": true,
+        "explain": "Regeln är ”lägg till 4”."
+      },
+      {
+        "text": "Efter 15 kommer 18.",
+        "answer": false,
+        "explain": "Regeln är att lägga till 4, så efter 15 kommer 19."
+      }
+    ],
+    "correct": "Rätt! Hitta regeln och fortsätt med den."
+  },
   "exercise": {
     "prompt": "Vilket tal kommer härnäst: 5, 9, 13, 17, …?",
     "answer": [

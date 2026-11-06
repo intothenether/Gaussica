@@ -181,6 +181,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Volym mäts i kubikenheter, till exempel cm³.",
+        "answer": true,
+        "explain": "En kubikcentimeter är en liten kub som är 1 cm på alla håll."
+      },
+      {
+        "text": "Volymen av ett rätblock är längd plus bredd plus höjd.",
+        "answer": false,
+        "explain": "Volymen är längd gånger bredd gånger höjd."
+      }
+    ],
+    "correct": "Rätt! Volym = längd · bredd · höjd."
+  },
   "exercise": {
     "prompt": "Ett block är 4 cm långt, 3 cm brett och 2 cm högt. Hur stor är volymen i cm³?",
     "answer": [

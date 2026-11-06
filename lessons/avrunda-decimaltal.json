@@ -145,6 +145,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2,68 avrundat till närmaste heltal är 3.",
+        "answer": true,
+        "explain": "Tiondelssiffran är 6, så du avrundar uppåt."
+      },
+      {
+        "text": "Till närmaste heltal tittar du på hundradelarna.",
+        "answer": false,
+        "explain": "Du tittar på tiondelarna, siffran precis efter kommatecknet."
+      }
+    ],
+    "correct": "Rätt! Titta på siffran efter den plats du avrundar till."
+  },
   "exercise": {
     "prompt": "Avrunda 7,6 till närmaste heltal.",
     "answer": [

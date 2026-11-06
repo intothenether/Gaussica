@@ -272,6 +272,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Ett tal går att dela med 5 om sista siffran är 0 eller 5.",
+        "answer": true,
+        "explain": "Det gäller för alla tal."
+      },
+      {
+        "text": "För att veta om ett tal går att dela med 3 tittar du bara på sista siffran.",
+        "answer": false,
+        "explain": "Du lägger ihop alla siffror. Går siffersumman att dela med 3 går talet det."
+      }
+    ],
+    "correct": "Rätt! Reglerna tittar på siffrorna."
+  },
   "exercise": {
     "prompt": "Vad är siffersumman för talet 156?",
     "answer": [

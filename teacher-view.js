@@ -107,7 +107,7 @@ window.GaussicaTeacher = (function () {
       });
 
       const practice = practiceOf(student, lesson.id);
-      if (taskRows.length || practice.length) lessons.push({ lesson: lesson, tasks: taskRows, practice: practice });
+      if (taskRows.length || practice.length) lessons.push({ lesson: lesson, tasks: taskRows, practice: practice, intro: (progress[lesson.id] && progress[lesson.id].intro) || null });
     });
 
     return {
@@ -123,9 +123,17 @@ window.GaussicaTeacher = (function () {
     const tasks = new Map();
     const mistakes = new Map();
     const spelling = new Map();   // an answer that was almost right in the spelling counted as right: the student knows the word (see spelling.js)
+    const intros = new Map();     // per lesson: how many went past the explanation in a moment, and how the short question went (see lesson-player.js)
 
     per.forEach(function (a) {
       a.lessons.forEach(function (lr) {
+        if (lr.intro) {
+          if (!intros.has(lr.lesson.id)) intros.set(lr.lesson.id, { lesson: lr.lesson, n: 0, quick: 0, checked: 0, first: 0 });
+          const row = intros.get(lr.lesson.id);
+          row.n += 1;
+          if (lr.intro.quick) row.quick += 1;
+          if (lr.intro.check) { row.checked += 1; if (lr.intro.check === "first") row.first += 1; }
+        }
         lr.tasks.forEach(function (tr) {
           const key = lr.lesson.id + "|" + tr.taskId;
           if (!tasks.has(key)) {
@@ -149,7 +157,7 @@ window.GaussicaTeacher = (function () {
         else if (att.misconception) mistakes.set(att.misconception, (mistakes.get(att.misconception) || 0) + 1);
       });
     });
-    return { per: per, tasks: Array.from(tasks.values()), mistakes: mistakes, spelling: spelling };
+    return { per: per, tasks: Array.from(tasks.values()), mistakes: mistakes, spelling: spelling, intros: Array.from(intros.values()) };
   }
 
   // ===== RENDER =====
@@ -215,6 +223,8 @@ window.GaussicaTeacher = (function () {
     root.appendChild(grid);
     const gaps = ctx.caregiver ? null : gapList(data);
     if (gaps) root.appendChild(gaps);
+    const skipped = ctx.caregiver ? null : introList(data);
+    if (skipped) root.appendChild(skipped);
     const detail = studentDetail(data, ctx);
     if (detail) root.appendChild(detail);
     container.appendChild(root);
@@ -1279,6 +1289,25 @@ window.GaussicaTeacher = (function () {
     return bar;
   }
 
+  // The explanations that students go past in a moment, and the short questions that are missed (only lessons with at least two students counted)
+  function introList(data) {
+    const rows = (data.intros || []).filter(function (r) { return r.n >= 2 && (r.quick > 0 || r.checked > r.first); })
+      .sort(function (a, b) { return (b.quick / b.n) - (a.quick / a.n) || b.n - a.n; }).slice(0, 8);
+    if (!rows.length) return null;
+    const section = el("section", "admin-card-section tv-section tv-intros");
+    section.append(el("h3", "", "Genomgångar som eleverna går förbi"),
+      el("p", "admin-card-description", "Första gången en elev öppnar en lektion mäts hur länge eleven läser genomgången, och hur den korta frågan efter den går."));
+    const ul = el("ul", "tv-intro-list");
+    rows.forEach(function (r) {
+      const parts = [];
+      if (r.quick) parts.push(r.quick + " av " + r.n + " gick snabbt förbi");
+      if (r.checked > r.first) parts.push("kontrollfrågan var rätt direkt för " + r.first + " av " + r.checked);
+      ul.appendChild(el("li", "", r.lesson.title + ": " + parts.join(", ")));
+    });
+    section.appendChild(ul);
+    return section;
+  }
+
   function hardestTasks(data) {
     const section = el("section", "admin-card-section tv-section");
     section.append(el("h3", "", "Svåraste uppgifterna"),
@@ -1516,7 +1545,15 @@ window.GaussicaTeacher = (function () {
         ? solved + " av " + lr.tasks.length + " klara · " + plural(tries, "försök", "försök")
         : "bara övningsfrågor"));
     if (hasFix) sum.appendChild(el("span", "tv-pill is-fix", "behöver rättas"));
+    if (lr.intro && lr.intro.quick) {
+      const pill = el("span", "tv-pill is-quick", "gick snabbt förbi genomgången");
+      pill.title = "Eleven var på genomgångens sidor mycket kortare tid än de tar att läsa, första gången.";
+      sum.appendChild(pill);
+    }
     det.appendChild(sum);
+    if (lr.intro && lr.intro.check) {
+      det.appendChild(el("p", "tv-muted tv-intro-note", "Kontrollfrågan efter genomgången: " + (lr.intro.check === "first" ? "rätt direkt." : lr.intro.check === "later" ? "rätt efter fler försök." : "inte rätt efter två försök (knappen öppnades ändå).")));
+    }
     lr.tasks.forEach(function (row) { det.appendChild(taskBlock(row, ctx, student, lr.lesson)); });
     if (lr.practice && lr.practice.length) det.appendChild(practiceBlock(lr.practice, ctx));
     return det;

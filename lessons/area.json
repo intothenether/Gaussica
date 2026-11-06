@@ -132,6 +132,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Area mäts i kvadratenheter, till exempel cm².",
+        "answer": true,
+        "explain": "Omkrets mäts i vanliga längdenheter."
+      },
+      {
+        "text": "Arean av en rektangel är längd plus bredd.",
+        "answer": false,
+        "explain": "Arean är längd gånger bredd."
+      }
+    ],
+    "correct": "Rätt! Area = längd · bredd, i kvadratenheter."
+  },
   "exercise": {
     "prompt": "En rektangel är 8 cm lång och 5 cm bred. Vad är arean i cm²?",
     "answer": ["40", "40 cm2", "40cm2", "40 cm²", "40cm²"],

@@ -303,6 +303,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En kub har 6 ytor, 12 kanter och 8 hörn.",
+        "answer": true,
+        "explain": "Det har också ett rätblock."
+      },
+      {
+        "text": "Ett klot har tolv kanter.",
+        "answer": false,
+        "explain": "Ett klot har bara en böjd yta, inga kanter och inga hörn."
+      }
+    ],
+    "correct": "Rätt! Kroppar beskrivs med ytor, kanter och hörn."
+  },
   "exercise": {
     "prompt": "Hur många hörn har en kub?",
     "answer": [

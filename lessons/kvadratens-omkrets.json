@@ -225,6 +225,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Omkretsen av en kvadrat med sidan 7 m är 28 m.",
+        "answer": true,
+        "explain": "4 · 7 = 28."
+      },
+      {
+        "text": "Omkretsen mäts i kvadratmeter.",
+        "answer": false,
+        "explain": "Omkretsen mäts i längdenheter som cm och m."
+      }
+    ],
+    "correct": "Rätt! Omkretsen är 4 · sidan."
+  },
   "exercise": {
     "prompt": "Kvadraten har sidan 6 cm. Vad är omkretsen i cm?",
     "answer": [

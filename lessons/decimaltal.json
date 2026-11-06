@@ -390,6 +390,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "3,5 ligger mitt emellan 3 och 4.",
+        "answer": true,
+        "explain": "Det är 3 hela och 5 tiondelar."
+      },
+      {
+        "text": "0,5 och 0,50 är olika stora.",
+        "answer": false,
+        "explain": "En nolla sist ändrar inte värdet."
+      }
+    ],
+    "correct": "Rätt! Decimaltal är tal mellan heltalen."
+  },
   "exercise": {
     "prompt": "Vilket är störst, 0,6 eller 0,45? Skriv det största talet.",
     "answer": [

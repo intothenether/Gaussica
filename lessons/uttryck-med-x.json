@@ -378,6 +378,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I x + 3 = 10 är x lika med 7.",
+        "answer": true,
+        "explain": "Du räknar baklänges: 10 − 3 = 7."
+      },
+      {
+        "text": "2x betyder 2 + x.",
+        "answer": false,
+        "explain": "2x betyder 2 · x, två gånger talet."
+      }
+    ],
+    "correct": "Rätt! x står för ett tal du vill ta reda på, och du kontrollerar genom att sätta in det."
+  },
   "exercise": {
     "prompt": "Vad är x om x + 8 = 15?",
     "answer": [

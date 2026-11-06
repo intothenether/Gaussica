@@ -325,6 +325,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En algoritm är en lista med steg som följs i rätt ordning.",
+        "answer": true,
+        "explain": "Ett recept är en algoritm."
+      },
+      {
+        "text": "Om du byter ordning på stegen får du alltid samma svar.",
+        "answer": false,
+        "explain": "Starta med 6, dubbla och dra ifrån 2 ger 10. Dra ifrån först och dubbla sedan ger 8."
+      }
+    ],
+    "correct": "Rätt! Ordningen på stegen spelar roll."
+  },
   "exercise": {
     "prompt": "Följ algoritmen. 1. Starta med 5. 2. Dubbla talet. 3. Lägg till 4. Vilket tal får du?",
     "answer": [

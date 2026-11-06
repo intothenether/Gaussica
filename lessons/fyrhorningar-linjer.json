@@ -258,6 +258,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Parallella linjer möts aldrig.",
+        "answer": true,
+        "explain": "De är alltid lika långt från varandra."
+      },
+      {
+        "text": "En rektangel har bara ett par parallella sidor.",
+        "answer": false,
+        "explain": "En rektangel har två par parallella sidor. Det är ett trapets som har ett par."
+      }
+    ],
+    "correct": "Rätt! Parallella sidor möts aldrig och vinkelräta möts i 90 grader."
+  },
   "exercise": {
     "prompt": "Hur många par parallella sidor har en rektangel?",
     "answer": [

@@ -15,6 +15,7 @@
       "type": "brak",
       "title": "3/4: helheten är delad i 4 lika delar (nämnaren), och 3 av dem är färgade (täljaren)",
       "shape": "cirkel",
+      "pet": true,
       "parts": 4,
       "shaded": 3
     }
@@ -634,6 +635,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I bråket 3/4 är 4 nämnaren.",
+        "answer": true,
+        "explain": "Nämnaren säger hur många lika stora delar helheten är delad i."
+      },
+      {
+        "text": "Täljaren säger hur många lika stora delar helheten är delad i.",
+        "answer": false,
+        "explain": "Det är nämnaren. Täljaren säger hur många delar vi tar."
+      }
+    ],
+    "correct": "Rätt! Täljaren är överst och nämnaren underst."
+  },
   "exercise": {
     "prompt": "Vilken del är skuggad? Skriv den som ett bråk.",
     "answer": ["2/4", "1/2", "0.5", "0,5"],

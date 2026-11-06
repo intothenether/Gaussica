@@ -235,7 +235,9 @@ window.GaussicaFigures = (function () {
       const v = min + i * step;
       const major = i % everyN === 0;
       s("line", { x1: x(v), y1: y0 - (major ? 9 : 5), x2: x(v), y2: y0 + (major ? 9 : 5), "class": "fig-tick" }, svg);
-      if (major) text(svg, x(v), y0 + 28, fmt(v).replace("-", "−"), "fig-ticklabel");
+      // tickLabels: { "0.25": "1/4" } writes other things than the numbers at the ticks (the fractions on the line between 0 and 1)
+      const given = c.tickLabels && c.tickLabels[String(Math.round(v * 1e6) / 1e6)];
+      if (major) text(svg, x(v), y0 + 28, given !== undefined ? String(given) : fmt(v).replace("-", "−"), "fig-ticklabel");
     }
 
     jumps.forEach(function (j, i) {

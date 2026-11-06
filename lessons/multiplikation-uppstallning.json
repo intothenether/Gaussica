@@ -254,6 +254,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Vid multiplikation med uppställning börjar du med entalen.",
+        "answer": true,
+        "explain": "Du räknar en siffra i taget, från höger till vänster."
+      },
+      {
+        "text": "Blir svaret tio eller mer glömmer du bort tiotalet.",
+        "answer": false,
+        "explain": "Du skriver entalssiffran och minns tiotalet till nästa plats."
+      }
+    ],
+    "correct": "Rätt! Ental först, och du minns tiotalen."
+  },
   "exercise": {
     "prompt": "Räkna ut 23 · 4 med uppställning.",
     "answer": [

@@ -225,6 +225,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I x + 7 = 15 är x lika med 8.",
+        "answer": true,
+        "explain": "Du ångrar plus med minus: 15 − 7 = 8."
+      },
+      {
+        "text": "Plus ångras av plus.",
+        "answer": false,
+        "explain": "Plus ångras av minus."
+      }
+    ],
+    "correct": "Rätt! Ångra räkneoperationen."
+  },
   "exercise": {
     "prompt": "x + 9 = 23. Vilket tal är x?",
     "answer": [

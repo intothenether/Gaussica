@@ -22,7 +22,8 @@
       "type": "tidslinje",
       "title": "Från 14:35 till 15:15 är det 40 minuter",
       "from": "14:35",
-      "to": "15:15"
+      "to": "15:15",
+      "pet": true
     }
   ],
   "rule": "60 minuter = 1 timme",

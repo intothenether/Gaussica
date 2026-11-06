@@ -229,6 +229,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I 23 · 14 delar du upp 14 i 4 och 10.",
+        "answer": true,
+        "explain": "Då är 23 · 14 = 23 · 4 + 23 · 10."
+      },
+      {
+        "text": "På andra raden skriver du ingen nolla när du multiplicerar med tiotalssiffran.",
+        "answer": false,
+        "explain": "Du skriver först en nolla på entalsplatsen, för det är tiotal."
+      }
+    ],
+    "correct": "Rätt! Först entalssiffran, sedan tiotalssiffran med en nolla, och sedan lägger du ihop raderna."
+  },
   "exercise": {
     "prompt": "Räkna ut 23 · 14 med uppställning.",
     "answer": [

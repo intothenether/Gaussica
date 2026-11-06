@@ -332,6 +332,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Resten är alltid mindre än talet du delar med.",
+        "answer": true,
+        "explain": "Annars kunde du ha delat ut en gång till."
+      },
+      {
+        "text": "17 delat med 5 är 4 rest 2.",
+        "answer": false,
+        "explain": "5 · 3 = 15 och 17 − 15 = 2, så det är 3 rest 2."
+      }
+    ],
+    "correct": "Rätt! Resten är alltid mindre än talet du delar med."
+  },
   "exercise": {
     "prompt": "Dela 17 lika på 5. Hur många hela får varje, och hur många blir över? Skriv svaret som till exempel 4 rest 1.",
     "answer": [

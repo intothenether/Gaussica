@@ -225,6 +225,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Omkretsen av en rektangel är 2 · (längd + bredd).",
+        "answer": true,
+        "explain": "Du går längd, bredd, längd och bredd."
+      },
+      {
+        "text": "Omkretsen av en rektangel är alltid 4 · längden.",
+        "answer": false,
+        "explain": "Sidorna är inte lika långa, så det stämmer bara för en kvadrat."
+      }
+    ],
+    "correct": "Rätt! Omkrets = 2 · (längd + bredd)."
+  },
   "exercise": {
     "prompt": "Rektangeln är 8 cm lång och 5 cm bred. Vad är omkretsen i cm?",
     "answer": [

@@ -181,6 +181,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Staplarna i ett stapeldiagram visar antalet.",
+        "answer": true,
+        "explain": "Höjden på stapeln är antalet röster."
+      },
+      {
+        "text": "Skillnaden mellan två staplar får du genom att lägga ihop dem.",
+        "answer": false,
+        "explain": "Du tar bort det mindre från det större: 12 − 5 = 7."
+      }
+    ],
+    "correct": "Rätt! Skillnaden mellan två värden får du med ”ta bort”."
+  },
   "exercise": {
     "prompt": "Titta på diagrammet eller tabellen ovan. Äpple har 12 röster och banan 5 röster. Hur många fler röstade på äpple än banan?",
     "visual": {

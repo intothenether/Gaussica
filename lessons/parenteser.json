@@ -164,6 +164,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "(2 + 3) · 4 är 20.",
+        "answer": true,
+        "explain": "Parentesen görs först: 5 · 4 = 20."
+      },
+      {
+        "text": "Parenteser räknas sist.",
+        "answer": false,
+        "explain": "Allt inuti parenteser räknas först."
+      }
+    ],
+    "correct": "Rätt! Parenteser räknas först."
+  },
   "exercise": {
     "prompt": "Räkna ut: (3 + 2) · 4.",
     "answer": ["20"],

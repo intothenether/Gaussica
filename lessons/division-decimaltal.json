@@ -258,6 +258,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2,4 · 3 = 7,2, så 7,2 delat med 3 är 2,4.",
+        "answer": true,
+        "explain": "Du kontrollerar en division med multiplikation."
+      },
+      {
+        "text": "Kommatecknet i svaret ska stå på ett annat ställe än i talet du delar.",
+        "answer": false,
+        "explain": "Det ska stå rakt över kommatecknet i talet du delar."
+      }
+    ],
+    "correct": "Rätt! Dela som vanligt och sätt kommatecknet rakt över."
+  },
   "exercise": {
     "prompt": "Räkna ut 6,9 delat med 3.",
     "answer": [

@@ -125,7 +125,10 @@ window.GaussicaPlayer = (function () {
   // ===== RENDER =====
   function go(index) {
     leaveIntroPage();
-    state.index = Math.max(0, Math.min(index, state.steps.length));
+    const target = Math.max(0, Math.min(index, state.steps.length));
+    const from = state.steps[state.index], to = state.steps[target];
+    if (state.firstVisit && !state.introRecorded && from && from.type === "learn" && !(to && to.type === "learn")) recordIntro();
+    state.index = target;
     render();
   }
 
@@ -204,6 +207,17 @@ window.GaussicaPlayer = (function () {
     return spent < state.learnNeeded * INTRO_SKIPPED_SHARE;
   }
 
+  // What the first visit to the explanation was like, kept with the progress of the lesson (the teacher sees it, see teacher-view.js): how long the
+  // student was on its pages, how long they take to read, if that was much less, and how the short question went. Only the first time.
+  function recordIntro() {
+    state.introRecorded = true;
+    if (!deps.recordIntro) return;
+    deps.recordIntro(state.lessonId, {
+      readMs: Math.round(state.learnMs), neededMs: Math.round(state.learnNeeded), quick: skippedIntro(),
+      check: state.checkResult || "", at: new Date().toISOString()
+    });
+  }
+
   function waitSetting() {
     const r = window.GaussicaReading && window.GaussicaReading.settings ? window.GaussicaReading.settings() : {};
     return r.wait !== false;
@@ -241,6 +255,7 @@ window.GaussicaPlayer = (function () {
       let tries = 0;
       deps.renderCheck(box, l, l.check, { onResult: function (ok) {
         tries += 1;
+        if (state === lessonState) state.checkResult = ok ? (tries === 1 ? "first" : "later") : (tries >= CHECK_TRIES ? "open" : state.checkResult);
         if (ok || tries >= CHECK_TRIES) release();
       } });
       return;

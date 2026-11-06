@@ -300,6 +300,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I långdivision skriver du ut varje delsteg.",
+        "answer": true,
+        "explain": "Gissa, multiplicera, ta bort, hämta ner nästa siffra."
+      },
+      {
+        "text": "Resten kan vara större än talet du delar med.",
+        "answer": false,
+        "explain": "Resten är alltid mindre än det du delar med."
+      }
+    ],
+    "correct": "Rätt! Skriv ut delstegen och hämta ner siffra för siffra."
+  },
   "exercise": {
     "prompt": "Räkna ut 252 delat med 12.",
     "answer": [
