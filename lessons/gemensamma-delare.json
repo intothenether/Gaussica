@@ -69,6 +69,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Delare till 8 och 12 som finns i båda listorna är 1, 2 och 4.",
+        "answer": true,
+        "explain": "Det är de gemensamma delarna."
+      },
+      {
+        "text": "3 är en gemensam delare till 8 och 12.",
+        "answer": false,
+        "explain": "3 delar 12 men inte 8."
+      }
+    ],
+    "correct": "Rätt! Gemensamma delare finns i båda listorna."
+  },
   "exercise": {
     "prompt": "Hur många gemensamma delare har 12 och 18?",
     "answer": [

@@ -94,3 +94,19 @@ test("negativa-tal-rakna: the playground has missions about adding and subtracti
   expect(await hl.getAttribute("data-value")).toBe("4");
   expect(errors).toEqual([]);
 });
+
+test("digital-klocka: the pet stands beside the clock and hops when the hands have turned", async ({ page }) => {
+  const errors = watchErrors(page);
+  await signIn(page);
+  await openLesson(page, "digital-klocka", ".fig-clockface");
+  await page.evaluate(() => document.querySelector("#lesson-player .fig-pet").scrollIntoView({ block: "center" }));
+  await expect(page.locator("#lesson-player .fig-clockface").first()).toBeVisible();
+  await page.waitForFunction(() => document.querySelector("#lesson-player .fig-pet")._walk, null, { timeout: 30000 });
+  // it stands to the right of the face of the clock
+  const where = await page.evaluate(() => {
+    const pet = document.querySelector("#lesson-player .fig-pet").getBoundingClientRect(), face = document.querySelector("#lesson-player .fig-clockface").getBoundingClientRect();
+    return pet.left >= face.right - 4;
+  });
+  expect(where).toBe(true);
+  expect(errors).toEqual([]);
+});

@@ -183,6 +183,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En L-formad figur kan delas upp i två rektanglar.",
+        "answer": true,
+        "explain": "Du lägger ihop areorna."
+      },
+      {
+        "text": "Du får aldrig dra bort en del när du räknar arean av en sammansatt figur.",
+        "answer": false,
+        "explain": "Du kan räkna en stor figur och dra bort det som saknas."
+      }
+    ],
+    "correct": "Rätt! Dela upp, eller räkna stort och dra bort."
+  },
   "exercise": {
     "prompt": "En figur består av en rektangel som är 7 cm · 4 cm och en rektangel som är 3 cm · 2 cm. Vilken area har figuren i cm²?",
     "answer": [

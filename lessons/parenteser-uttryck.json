@@ -241,6 +241,22 @@
       "form": "utanparentes"
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2(x + 3) = 2x + 6.",
+        "answer": true,
+        "explain": "Du multiplicerar varje term i parentesen."
+      },
+      {
+        "text": "2(x + 3) = 2x + 3.",
+        "answer": false,
+        "explain": "Båda termerna ska multipliceras med 2: 2x + 6."
+      }
+    ],
+    "correct": "Rätt! Multiplicera varje term med varje term."
+  },
   "exercise": {
     "prompt": "Förenkla 3(x + 4).",
     "keys": [

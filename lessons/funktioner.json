@@ -67,6 +67,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En funktion ger exakt ett y för varje x.",
+        "answer": true,
+        "explain": "Som en maskin: samma x ger alltid samma y."
+      },
+      {
+        "text": "I y = 2x + 1 är y = 6 när x = 3.",
+        "answer": false,
+        "explain": "2 · 3 + 1 = 7."
+      }
+    ],
+    "correct": "Rätt! Sätt in x och räkna ut y."
+  },
   "exercise": {
     "prompt": "I funktionen y = 2x + 1, vad blir y när x = 4?",
     "answer": ["9"],

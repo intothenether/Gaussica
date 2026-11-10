@@ -211,6 +211,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En ökning med 10 % per år ger förändringsfaktorn 1,1.",
+        "answer": true,
+        "explain": "y = 1000 · 1,1^x."
+      },
+      {
+        "text": "I y = C · a^x är C förändringsfaktorn.",
+        "answer": false,
+        "explain": "C är startvärdet och a är förändringsfaktorn."
+      }
+    ],
+    "correct": "Rätt! C är startvärdet och a är faktorn."
+  },
   "exercise": {
     "prompt": "En bakteriekultur har 3 bakterier och fördubblas varje timme. Hur många bakterier är det efter 4 timmar?",
     "answer": [

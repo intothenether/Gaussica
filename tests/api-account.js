@@ -7,6 +7,7 @@ const os = require("os");
 const path = require("path");
 const { spawn } = require("child_process");
 const scenario = require("./account-scenario");
+const digestScenario = require("./digest-scenario");
 
 const ROOT = path.join(__dirname, "..");
 const NODE_FLAGS = ["--disable-warning=ExperimentalWarning"];
@@ -39,7 +40,7 @@ const listen = (server) => new Promise((resolve) => server.listen(0, "127.0.0.1"
     cwd: ROOT, stdio: "ignore",
     env: Object.assign({}, process.env, {
       PORT: String(port), DATA_DIR: dir, TEACHER_CODE: teacherCode, HOST: "127.0.0.1",
-      MAIL_DEV: "1", CAREGIVER_EMAIL_REQUIRED: "1", BILLING_ENABLED: "1", TRIAL_DAYS: "14", SITE_URL: "https://test.example", ADMIN_TOKEN: adminToken,
+      MAIL_DEV: "1", DIGEST_ENABLED: "1", CAREGIVER_EMAIL_REQUIRED: "1", BILLING_ENABLED: "1", TRIAL_DAYS: "14", SITE_URL: "https://test.example", ADMIN_TOKEN: adminToken,
       PADDLE_API_KEY: "pdl_test_key", PADDLE_WEBHOOK_SECRET: secret, PADDLE_API_BASE: "http://127.0.0.1:" + paddlePort,
       PADDLE_PRICES: JSON.stringify({ manad: { priceId: "pri_manad", label: "Månad", text: "49 kr per månad" }, ar: { priceId: "pri_ar", label: "År", text: "490 kr per år" } })
     })
@@ -72,6 +73,7 @@ const listen = (server) => new Promise((resolve) => server.listen(0, "127.0.0.1"
       paddle: paddleLog, secret, adminToken, teacherCode
     };
     await scenario(h, ok);
+    await digestScenario(h, ok);
   } finally {
     server.kill();
     fake.close();

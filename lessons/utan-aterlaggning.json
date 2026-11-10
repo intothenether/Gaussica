@@ -166,6 +166,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Utan återläggning är det en kula mindre efter varje drag.",
+        "answer": true,
+        "explain": "Därför ändras sannolikheterna."
+      },
+      {
+        "text": "Två röda ur en påse med 3 röda och 2 blå har sannolikheten 3/5 · 3/5.",
+        "answer": false,
+        "explain": "Andra draget är 2/4, eftersom en röd kula är borta."
+      }
+    ],
+    "correct": "Rätt! 3/5 · 2/4 = 30 %."
+  },
   "exercise": {
     "prompt": "I en påse ligger 3 röda och 2 blå kulor. Du drar två kulor utan återläggning. Hur stor är sannolikheten, i procent, att båda är röda?",
     "answer": [

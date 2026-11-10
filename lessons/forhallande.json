@@ -246,6 +246,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "6 : 9 är samma förhållande som 2 : 3.",
+        "answer": true,
+        "explain": "Du delar båda delarna med 3."
+      },
+      {
+        "text": "Du får samma förhållande genom att lägga till samma tal i båda delarna.",
+        "answer": false,
+        "explain": "Du multiplicerar eller delar båda delarna med samma tal."
+      }
+    ],
+    "correct": "Rätt! Multiplicera eller dela båda delarna med samma tal."
+  },
   "exercise": {
     "prompt": "Förenkla förhållandet 6 : 9. Skriv det som a:b.",
     "answer": [

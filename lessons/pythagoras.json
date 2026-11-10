@@ -235,6 +235,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I en rätvinklig triangel är a^2 + b^2 = c^2, där c är hypotenusan.",
+        "answer": true,
+        "explain": "Hypotenusan är den längsta sidan."
+      },
+      {
+        "text": "Kateterna 6 och 8 ger hypotenusan 14.",
+        "answer": false,
+        "explain": "36 + 64 = 100, så hypotenusan är √100 = 10."
+      }
+    ],
+    "correct": "Rätt! Kvadrera, lägg ihop och dra roten."
+  },
   "exercise": {
     "prompt": "En rätvinklig triangel har kateterna 6 cm och 8 cm. Hur lång är hypotenusan?",
     "answer": [

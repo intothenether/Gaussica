@@ -74,3 +74,24 @@ test("Mitt konto has the address and the subscription of an adult", async ({ pag
   await expect(card).toContainText("Tjänsten är gratis just nu");
   expect(errors).toEqual([]);
 });
+
+test("the checkbox for the weekly summary is there for an adult when the site can send it, and asks the server", async ({ page }) => {
+  await page.addInitScript(() => { try { localStorage.setItem("gaussica.cookies-ok", "1"); } catch (e) { /* no storage */ } });
+  await page.goto("/index.html#start");
+  const result = await page.evaluate(async () => {
+    const calls = [];
+    const api = { post: (path, body) => { calls.push([path, body]); return Promise.resolve({ ok: true, enabled: body.enabled }); } };
+    const user = { role: "caregiver", email: "vera@example.se", emailVerified: true, digest: { available: true, enabled: false } };
+    const box = window.GaussicaSubscription.emailSection(user, api);
+    const check = box.querySelector(".sub-digest input");
+    check.checked = true;
+    check.dispatchEvent(new Event("change"));
+    await new Promise((r) => setTimeout(r, 50));
+    const off = window.GaussicaSubscription.emailSection({ role: "caregiver", email: "x@example.se", emailVerified: true, digest: { available: false, enabled: false } }, api);
+    return { calls, text: box.querySelector(".sub-digest").textContent, msg: box.querySelector(".sub-msg").textContent, hidden: !off.querySelector(".sub-digest") };
+  });
+  expect(result.calls).toEqual([["/api/me/digest", { enabled: true }]]);
+  expect(result.text).toContain("varje söndag");
+  expect(result.msg).toContain("Du får en sammanfattning på söndagar.");
+  expect(result.hidden).toBe(true);
+});

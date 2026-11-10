@@ -172,6 +172,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Längs en gren multiplicerar du sannolikheterna.",
+        "answer": true,
+        "explain": "1/2 · 1/2 = 1/4."
+      },
+      {
+        "text": "Sannolikheterna för olika grenar multipliceras alltid med varandra.",
+        "answer": false,
+        "explain": "Mellan grenar adderar du: det är plus."
+      }
+    ],
+    "correct": "Rätt! Längs en gren: gånger. Mellan grenar: plus."
+  },
   "exercise": {
     "prompt": "Du kastar ett mynt två gånger. Vad är chansen att få krona båda gångerna? Svara som ett bråk.",
     "answer": [

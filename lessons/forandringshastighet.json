@@ -184,6 +184,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En negativ förändringshastighet betyder att värdet minskar.",
+        "answer": true,
+        "explain": "−30 liter per minut är en minskning."
+      },
+      {
+        "text": "Förändringshastigheten är förändringen i x delat med förändringen i y.",
+        "answer": false,
+        "explain": "Det är förändringen i y delat med förändringen i x."
+      }
+    ],
+    "correct": "Rätt! Förändring i y delat med förändring i x."
+  },
   "exercise": {
     "prompt": "Temperaturen är 4 °C klockan 8 och 16 °C klockan 12. Hur många grader per timme ändras temperaturen?",
     "answer": [

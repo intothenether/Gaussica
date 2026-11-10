@@ -386,6 +386,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "11 är ett primtal.",
+        "answer": true,
+        "explain": "Det har bara delarna 1 och 11."
+      },
+      {
+        "text": "9 är ett primtal.",
+        "answer": false,
+        "explain": "9 har delaren 3, eftersom 3 · 3 = 9."
+      }
+    ],
+    "correct": "Rätt! Ett primtal har exakt två delare."
+  },
   "exercise": {
     "prompt": "Hur många primtal finns det mellan 1 och 10?",
     "answer": [

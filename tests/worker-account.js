@@ -7,6 +7,7 @@ const os = require("os");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 const scenario = require("./account-scenario");
+const digestScenario = require("./digest-scenario");
 
 const ROOT = path.join(__dirname, "..");
 let failures = 0;
@@ -60,7 +61,7 @@ function d1(db) {
   const adminToken = "admin-token-for-the-test-1234";
   const teacherCode = "TESTCODE12";
   const env = {
-    DB: d1(db), TEACHER_CODE: teacherCode, ALLOWED_ORIGINS: "https://test.example", MAIL_DEV: "1", MAIL_OUTBOX: mails, CAREGIVER_EMAIL_REQUIRED: "1", BILLING_ENABLED: "1", TRIAL_DAYS: "14",
+    DB: d1(db), TEACHER_CODE: teacherCode, ALLOWED_ORIGINS: "https://test.example", MAIL_DEV: "1", DIGEST_ENABLED: "1", MAIL_OUTBOX: mails, CAREGIVER_EMAIL_REQUIRED: "1", BILLING_ENABLED: "1", TRIAL_DAYS: "14",
     SITE_URL: "https://test.example", ADMIN_TOKEN: adminToken, PADDLE_API_KEY: "pdl_test_key", PADDLE_WEBHOOK_SECRET: secret, PADDLE_API_BASE: "http://127.0.0.1:" + fake.address().port,
     PADDLE_PRICES: JSON.stringify({ manad: { priceId: "pri_manad", label: "Månad", text: "49 kr per månad" }, ar: { priceId: "pri_ar", label: "År", text: "490 kr per år" } })
   };
@@ -89,6 +90,7 @@ function d1(db) {
   };
   try {
     await scenario(h, ok);
+    await digestScenario(h, ok);
   } finally {
     fake.close();
   }

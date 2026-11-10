@@ -147,6 +147,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Cosinussatsen är c² = a² + b² − 2 · a · b · cos C.",
+        "answer": true,
+        "explain": "Den liknar Pythagoras sats."
+      },
+      {
+        "text": "Cosinussatsen gäller bara för rätvinkliga trianglar.",
+        "answer": false,
+        "explain": "Den gäller för alla trianglar."
+      }
+    ],
+    "correct": "Rätt! Cosinussatsen gäller alla trianglar."
+  },
   "exercise": {
     "prompt": "I en triangel är två sidor 3 cm och 8 cm och vinkeln mellan dem 60°. Hur lång är den tredje sidan?",
     "answer": [

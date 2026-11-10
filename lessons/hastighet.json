@@ -156,6 +156,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Sträcka = hastighet · tid.",
+        "answer": true,
+        "explain": "15 km/h i 2 timmar ger 30 km."
+      },
+      {
+        "text": "Hastigheten får du genom att multiplicera sträckan med tiden.",
+        "answer": false,
+        "explain": "Du delar sträckan med tiden."
+      }
+    ],
+    "correct": "Rätt! Sträcka = hastighet · tid."
+  },
   "exercise": {
     "prompt": "En bil kör med hastigheten 70 km/h i 3 timmar. Hur lång sträcka kör den?",
     "answer": [

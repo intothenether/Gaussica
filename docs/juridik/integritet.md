@@ -8,7 +8,7 @@ Den här texten gäller när en vårdnadshavare skapar ett konto och barn använ
 
 ## 2. Vilka uppgifter vi har och varför
 
-**Om dig som vårdnadshavare:** namn, användarnamn, lösenord (sparas bara som en hash, aldrig i klartext), e-postadress och om den är bekräftad, när du godkände villkoren och vilken version, familjekod, hur länge du har åtkomst och status på din prenumeration (utan kortuppgifter). Vi behandlar dem för att du ska kunna logga in, få mejl om kontot (bekräftelse, nytt lösenord), betala och använda tjänsten. Grunden är avtalet mellan dig och oss.
+**Om dig som vårdnadshavare:** namn, användarnamn, lösenord (sparas bara som en hash, aldrig i klartext), e-postadress och om den är bekräftad, när du godkände villkoren och vilken version, familjekod, hur länge du har åtkomst och status på din prenumeration (utan kortuppgifter). Vi behandlar dem för att du ska kunna logga in, få mejl om kontot (bekräftelse, nytt lösenord), betala och använda tjänsten. Om du själv har bett om det skickar vi på söndagar en sammanfattning av barnens vecka (antal dagar, rätta svar och vilka lektioner) till din e-post. Du stänger av den under Mitt konto. Grunden är avtalet mellan dig och oss.
 
 **Om dina barn:** det namn eller smeknamn du eller barnet har valt, användarnamn, lösenord (hash), svar, framsteg (också hur länge barnet läste genomgången av en lektion första gången och hur den korta kontrollfrågan gick), ritningar och anteckningar, vilket djur och vilka saker barnet har valt, och meddelanden mellan barnet och vårdnadshavaren. Vi behandlar dem för att visa barnet hur det går, ge återkoppling och visa dig översikten. Grunden är avtalet med dig och ditt samtycke som vårdnadshavare för barn under 13 år.
 

@@ -158,6 +158,11 @@ CREATE TABLE IF NOT EXISTS billing_events (
   type        TEXT NOT NULL,
   received_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS digests (
+  user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  enabled INTEGER NOT NULL DEFAULT 0,
+  sent_at TEXT
+);
 CREATE TABLE IF NOT EXISTS access_codes (
   code       TEXT PRIMARY KEY,
   reason     TEXT,

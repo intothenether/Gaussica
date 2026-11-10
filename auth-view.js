@@ -231,6 +231,9 @@ window.GaussicaAuth = (function () {
       fb.type = "button";
       fb.addEventListener("click", function () { if (window.GaussicaFeedback) window.GaussicaFeedback.open(null); });
       card.appendChild(fb);
+      const parents = el("a", "pv-link auth-privacy auth-parents", "Läs mer för föräldrar");
+      parents.href = "./foraldrar.html";
+      card.appendChild(parents);
       s.appendChild(card);
 
       let mode = "login";

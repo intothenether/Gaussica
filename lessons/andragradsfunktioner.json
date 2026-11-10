@@ -198,6 +198,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Symmetrilinjen för y = x² − 4x + 3 är x = 2.",
+        "answer": true,
+        "explain": "x = −b delat med 2 · a."
+      },
+      {
+        "text": "Nollställena får du genom att sätta x = 0.",
+        "answer": false,
+        "explain": "Du löser y = 0."
+      }
+    ],
+    "correct": "Rätt! Symmetrilinjen och nollställena."
+  },
   "exercise": {
     "prompt": "Funktionen är y = x² − 6x + 5. Vilket x-värde har symmetrilinjen?",
     "answer": [

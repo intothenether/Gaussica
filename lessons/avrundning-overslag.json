@@ -405,6 +405,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du har 100 kr och vill köpa en tröja för 39 kr och en mössa för 52 kr. Räcker pengarna? Svara ja eller nej.",
+    "answer": [
+      "ja"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

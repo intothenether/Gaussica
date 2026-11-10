@@ -301,6 +301,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "sin v är motstående delat med hypotenusan.",
+        "answer": true,
+        "explain": "cos v är närliggande delat med hypotenusan."
+      },
+      {
+        "text": "tan v är närliggande delat med motstående.",
+        "answer": false,
+        "explain": "tan v är motstående delat med närliggande."
+      }
+    ],
+    "correct": "Rätt! Motstående, närliggande och hypotenusa."
+  },
   "exercise": {
     "prompt": "I en rätvinklig triangel är den motstående katetern 6 cm, den närliggande 8 cm och hypotenusan 10 cm. Vad är sin v?",
     "visual": {

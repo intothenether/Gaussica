@@ -20,14 +20,15 @@ const state = async (db) => (await lib.plan(query(db))).map((s) => (s.applied ? 
 
   // a new database, made from schema.sql, has had all of them
   const fresh = open(fs.readFileSync(path.join(ROOT, "cloudflare", "schema.sql"), "utf8"));
-  ok((await state(fresh)) === "+++++++", "a new database (schema.sql) has had all of them");
+  ok((await state(fresh)) === "++++++++", "a new database (schema.sql) has had all of them");
 
   // a database from before the tables for several adults and classes
   const before = open(fs.readFileSync(path.join(ROOT, "tests", "fixtures", "schema-before-multi.sql"), "utf8"));
-  ok((await state(before)) === "+++++--", "a database from before 007 is missing 007 and 008");
+  ok((await state(before)) === "+++++---", "a database from before 007 is missing 007, 008 and 009");
   before.exec(lib.sqlOf("007-multi.sql"));
   before.exec(lib.sqlOf("008-account-billing.sql"));
-  ok((await state(before)) === "+++++++", "and has had all of them when 007 and 008 have been run");
+  before.exec(lib.sqlOf("009-digest.sql"));
+  ok((await state(before)) === "++++++++", "and has had all of them when 007, 008 and 009 have been run");
 
   // the oldest: nothing of the later ones. They are run in order, one at a time, and the check follows each.
   const oldest = open(
@@ -35,13 +36,13 @@ const state = async (db) => (await lib.plan(query(db))).map((s) => (s.applied ? 
     "CREATE TABLE classes (id INTEGER PRIMARY KEY, name TEXT, code TEXT, teacher_id INTEGER, created_at TEXT);" +
     "CREATE TABLE assignments (id INTEGER PRIMARY KEY, class_id INTEGER, student_id INTEGER, teacher_id INTEGER, lesson_id TEXT, note TEXT, due_date TEXT, created_at TEXT, archived INTEGER DEFAULT 0);" +
     "CREATE TABLE feedback (id INTEGER PRIMARY KEY, student_id INTEGER, teacher_id INTEGER, text TEXT, created_at TEXT);");
-  ok((await state(oldest)) === "-------", "the oldest database is missing all of them");
+  ok((await state(oldest)) === "--------", "the oldest database is missing all of them");
   const seen = [];
   for (const step of (await lib.plan(query(oldest))).filter((s) => !s.applied)) {
     oldest.exec(lib.sqlOf(step.file));
     seen.push(await state(oldest));
   }
-  ok(seen.join(" ") === "+------ ++----- +++---- ++++--- +++++-- ++++++- +++++++", "each migration is recognised once it has been run, in order (" + seen.join(" ") + ")");
+  ok(seen.join(" ") === "+------- ++------ +++----- ++++---- +++++--- ++++++-- +++++++- ++++++++", "each migration is recognised once it has been run, in order (" + seen.join(" ") + ")");
 
   // wrangler is started so that the SQL arrives as one argument (a shell would cut it at the spaces)
   const sqlArg = "SELECT name FROM pragma_table_info('assignments') WHERE name = 'kind'";

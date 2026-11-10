@@ -169,6 +169,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Vinkelsumman i en sexhörning är 720°.",
+        "answer": true,
+        "explain": "(6 − 2) · 180 = 720."
+      },
+      {
+        "text": "Vinkelsumman i en månghörning med n hörn är n · 180°.",
+        "answer": false,
+        "explain": "Den är (n − 2) · 180°."
+      }
+    ],
+    "correct": "Rätt! (n − 2) · 180°."
+  },
   "exercise": {
     "prompt": "Vilken är vinkelsumman i en femhörning? Svara i grader.",
     "answer": [

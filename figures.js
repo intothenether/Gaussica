@@ -707,7 +707,9 @@ window.GaussicaFigures = (function () {
   function clock(c) {
     const h = Number(c.h) || 0, m = Number(c.m) || 0;
     const R = 86, cx = 100, cy = 100;
-    const svg = svgRoot(c, 200, c.digital === false ? 200 : 236);
+    // pet: the student's pet stands beside the clock and hops when the hands have turned to the time (nothing is drawn for a student without a pet)
+    const petOn = Boolean(c.pet && petMarkup());
+    const svg = svgRoot(c, petOn ? 270 : 200, c.digital === false ? 200 : 236);
     s("circle", { cx: cx, cy: cy, r: R, "class": "fig-clockface" }, svg);
     for (let i = 0; i < 60; i++) {
       const a = i * 6 * Math.PI / 180, long = i % 5 === 0;
@@ -730,8 +732,13 @@ window.GaussicaFigures = (function () {
     s("circle", { cx: cx, cy: cy, r: 5, "class": "fig-point" }, svg);
     if (c.digital !== false) text(svg, cx, 226, String(h) + ":" + (m < 10 ? "0" : "") + m, "fig-clockdigital");
     const wrapEl = wrap([svg]);
-    svg.style.maxWidth = "250px";
-    return c.animate ? animated(wrapEl) : wrapEl;
+    svg.style.maxWidth = petOn ? "320px" : "250px";
+    const out = c.animate ? animated(wrapEl) : wrapEl;
+    if (petOn) {
+      const g = petGroup(svg, petMarkup(), 62);
+      attachWalk(out, g, [{ x1: 236, y1: 170, x2: 236, y2: 170, h: 18, ms: 700 }], 700, 2100, c.animate);
+    }
+    return out;
   }
 
   // ----- uppställning: written column arithmetic, shown one step at a time -----

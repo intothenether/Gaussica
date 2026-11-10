@@ -158,6 +158,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Mönstret 5, 8, 11, 14 har plats 10 med värdet 5 + 3 · 9 = 32.",
+        "answer": true,
+        "explain": "s + d · (n − 1)."
+      },
+      {
+        "text": "På plats n står alltid s + d · n.",
+        "answer": false,
+        "explain": "Det är s + d · (n − 1), eftersom första platsen har s."
+      }
+    ],
+    "correct": "Rätt! Regeln är s + d · (n − 1)."
+  },
   "exercise": {
     "prompt": "Talen går 4, 7, 10, 13. Vilket tal står på plats 10?",
     "answer": [

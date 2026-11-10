@@ -41,6 +41,16 @@ Det här är handboken för att ta betalt av vårdnadshavare utan att tjänsten 
    - Prova med `BILLING_ENABLED = "1"` i en sandlåda: gratis prov, betala med testkort, avsluta, se att åtkomsten följer. Testkort och testsituationer finns i Paddles dokumentation.
 7. **Slå på det på riktigt.** Skapa skarpa produkter, priser, nyckel och webhook i Paddles livemiljö, byt hemligheterna och `PADDLE_ENV`, och sätt `BILLING_ENABLED = "1"`. Nya vårdnadshavare får då 14 dagars prov (`TRIAL_DAYS`) och sedan en prenumeration. Befintliga konton är gratis som förut tills du själv ändrar det.
 
+## Veckosammanfattning på mejl
+
+En vårdnadshavare med bekräftad e-post kan under **Mitt konto** be om en sammanfattning av barnens vecka (inget skickas om hen inte ber om det). Mejlet säger för varje barn hur många dagar det övade, ungefär hur länge, hur många svar som var rätt och vilka lektioner det arbetade med, och hur man stänger av det.
+
+1. Kör `migrations/009-digest.sql` mot databasen (på samma sätt som 008).
+2. Sätt `DIGEST_ENABLED = "1"` i `wrangler.toml` (Node-servern: miljövariabeln). Raden `crons = ["0 16 * * 0"]` under `[triggers]` finns redan och gör ingenting förrän inställningen är på.
+3. Det som skickas är sedan söndagar kl. 16 UTC. Ingen får mer än ett mejl per sex dagar. Du kan skicka direkt, för att prova, med `POST /api/admin/digest` och admin-nyckeln (`{ "force": true }` hoppar över dygnsspärren).
+
+Mejlen går genom Resend som övriga, så 100 mejl per dygn gäller även här. Kärnan som skriver texten är `server/digest-core.js` (kopian i `worker.js` kontrolleras av `tests/digest-core.js`), och `tests/digest-scenario.js` provar hela vägen mot både Node-servern och workern.
+
 ## Gratis åtkomst
 
 ```
@@ -58,6 +68,7 @@ Nyckeln är hemligheten `ADMIN_TOKEN` (minst 16 tecken, sätt den med `wrangler 
 | --- | --- |
 | `RESEND_API_KEY` (hemlighet), `MAIL_FROM`, `SITE_URL` | e-post och länkarna i den |
 | `CAREGIVER_EMAIL_REQUIRED=1` | en vårdnadshavare måste ange e-post och godkänna villkoren |
+| `DIGEST_ENABLED=1` | en vårdnadshavare kan be om en sammanfattning av barnens vecka på mejl (söndagar kl. 16 UTC). Kräver e-postinställningarna. Se nedan |
 | `BILLING_ENABLED=1`, `TRIAL_DAYS` (14) | ta betalt; prov för nya familjer |
 | `PADDLE_ENV`, `PADDLE_API_KEY` (hemlighet), `PADDLE_WEBHOOK_SECRET` (hemlighet), `PADDLE_PRICES` | Paddle |
 | `ADMIN_TOKEN` (hemlighet) | `scripts/admin.js` |

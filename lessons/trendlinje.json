@@ -167,6 +167,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Trendlinjen y = 2x − 8 förutsäger 42 för x = 25.",
+        "answer": true,
+        "explain": "2 · 25 − 8 = 42."
+      },
+      {
+        "text": "Trendlinjen går exakt genom alla punkter.",
+        "answer": false,
+        "explain": "Den beskriver sambandet ungefär."
+      }
+    ],
+    "correct": "Rätt! Sätt in x och räkna ut y."
+  },
   "exercise": {
     "prompt": "Trendlinjen för glassförsäljningen är y = 2x − 8, där x är temperaturen i °C. Hur många glassar förutsäger linjen vid 25 °C?",
     "answer": [

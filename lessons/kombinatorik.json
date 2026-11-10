@@ -183,6 +183,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "4 tröjor och 3 byxor ger 12 klädsel.",
+        "answer": true,
+        "explain": "4 · 3 = 12."
+      },
+      {
+        "text": "Fem personer i en kö kan ordnas på 25 sätt.",
+        "answer": false,
+        "explain": "5 · 4 · 3 · 2 · 1 = 120 sätt."
+      }
+    ],
+    "correct": "Rätt! Antalet möjligheter för varje val multipliceras."
+  },
   "exercise": {
     "prompt": "Du har 3 tröjor och 2 byxor. Hur många olika klädsel kan du göra?",
     "answer": [

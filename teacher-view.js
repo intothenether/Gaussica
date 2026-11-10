@@ -293,6 +293,26 @@ window.GaussicaTeacher = (function () {
     return out.sort(function (x, y) { return String(y.at || "").localeCompare(String(x.at || "")); });
   }
 
+  // The lessons that were finished in the last seven days: every question in them is right, and the last answer came this week.
+  function finishedThisWeek(a, now) {
+    const since = now - 7 * DAY;
+    return a.lessons.filter(function (lr) {
+      if (!lr.tasks.length || !lr.tasks.every(function (r) { return r.status === "done"; })) return false;
+      const last = lr.tasks.reduce(function (m, r) { const t = r.stats && r.stats.lastAt ? Date.parse(r.stats.lastAt) : 0; return Math.max(m, t || 0); }, 0);
+      return last >= since;
+    }).map(function (lr) { return lr.lesson.title; });
+  }
+
+  // The week in a few plain sentences for an adult who has not got time for the numbers.
+  function weekSummary(name, w, finished) {
+    const first = name.split(" ")[0];
+    if (!w.answers) return "Inget har gjorts de senaste sju dagarna. En kort stund tillsammans kan få igång det igen.";
+    const parts = [first + " övade " + (w.days === 1 ? "en dag" : w.days + " dagar") + " den här veckan" + (w.minutes ? ", i ungefär " + w.minutes + " minuter" : "") + "."];
+    parts.push(w.right + " av " + w.answers + " svar var rätt.");
+    if (finished.length) parts.push("Klart den här veckan: " + finished.slice(0, 3).join(", ") + (finished.length > 3 ? " med flera" : "") + ".");
+    return parts.join(" ");
+  }
+
   function weekCard(a, ctx) {
     const s = a.student;
     const w = weekOf(s, Date.now());
@@ -304,6 +324,7 @@ window.GaussicaTeacher = (function () {
     who.append(el("strong", "", s.name), el("small", "", "Senast aktiv: " + ago(a.totals.lastAt)));
     head.append(avatar, who);
     card.appendChild(head);
+    card.appendChild(el("p", "tv-week-summary", weekSummary(s.name, w, finishedThisWeek(a, Date.now()))));
 
     const stats = el("div", "tv-stats");
     [
@@ -1551,6 +1572,9 @@ window.GaussicaTeacher = (function () {
       sum.appendChild(pill);
     }
     det.appendChild(sum);
+    if (lr.intro && lr.intro.tried) {
+      det.appendChild(el("p", "tv-muted tv-intro-note", "Prova först, före genomgången: " + (lr.intro.tried === "right" ? "gissade rätt." : lr.intro.tried === "wrong" ? "gissade fel." : "hoppade över.")));
+    }
     if (lr.intro && lr.intro.check) {
       det.appendChild(el("p", "tv-muted tv-intro-note", "Kontrollfrågan efter genomgången: " + (lr.intro.check === "first" ? "rätt direkt." : lr.intro.check === "later" ? "rätt efter fler försök." : "inte rätt efter två försök (knappen öppnades ändå).")));
     }

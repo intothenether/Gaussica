@@ -152,6 +152,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Variationsbredden är största värdet minus minsta värdet.",
+        "answer": true,
+        "explain": "3, 5, 6, 8, 12 har variationsbredden 9."
+      },
+      {
+        "text": "Kvartilavståndet är Q1 minus Q3.",
+        "answer": false,
+        "explain": "Det är Q3 − Q1."
+      }
+    ],
+    "correct": "Rätt! Variationsbredd och kvartilavstånd mäter spridning."
+  },
   "exercise": {
     "prompt": "Provresultaten är 7, 9, 12, 15, 20. Vilken är variationsbredden?",
     "answer": [

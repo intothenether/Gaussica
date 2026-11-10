@@ -155,6 +155,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "6x + 9 = 3(2x + 3).",
+        "answer": true,
+        "explain": "3 är största gemensamma faktorn."
+      },
+      {
+        "text": "Att bryta ut är samma sak som att utveckla en parentes.",
+        "answer": false,
+        "explain": "Det är motsatsen: du skriver faktorn utanför parentesen."
+      }
+    ],
+    "correct": "Rätt! Bryt ut den största gemensamma faktorn."
+  },
   "exercise": {
     "prompt": "Bryt ut den största gemensamma faktorn: 6x + 9. Skriv svaret med parentes.",
     "keys": [

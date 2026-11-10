@@ -1,5 +1,5 @@
 "use strict";
-// Makes the three pages of the terms (villkor.html, integritet.html, angerratt.html) from the texts in docs/juridik/*.md and the details in
+// Makes the pages of the terms (villkor.html, integritet.html, angerratt.html) and the page for parents (foraldrar.html) from the texts in docs/juridik/*.md and the details in
 // docs/juridik/uppgifter.json. The pages are plain HTML files (no script), so that anybody, including the payment company that looks at the site before it
 // opens an account, can read them. Run it after changing a text or the details:   node scripts/build-legal.js
 // While "utkast" is true in uppgifter.json every page says that it is a draft; tests/legal.js refuses a page without a draft notice that still has a
@@ -10,7 +10,7 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const DIR = path.join(ROOT, "docs", "juridik");
-const PAGES = [["villkor", "Allmänna villkor"], ["integritet", "Integritetspolicy"], ["angerratt", "Ångerrätt och återbetalning"]];
+const PAGES = [["foraldrar", "Gaussica för föräldrar"], ["villkor", "Allmänna villkor"], ["integritet", "Integritetspolicy"], ["angerratt", "Ångerrätt och återbetalning"]];
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 

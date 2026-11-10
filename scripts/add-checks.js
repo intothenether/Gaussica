@@ -38,6 +38,7 @@ const CHECKS = {
 };
 
 Object.assign(CHECKS, require("./checks-grade-4-5.js")(T));   // åk 4 and åk 5
+Object.assign(CHECKS, require("./checks-grade-6-10.js")(T));  // åk 6 to åk 10
 
 let added = 0, skipped = 0;
 Object.keys(CHECKS).forEach((id) => {

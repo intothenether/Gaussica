@@ -238,6 +238,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2^5 = 2 · 2 · 2 · 2 · 2 = 32.",
+        "answer": true,
+        "explain": "Fem tvåor multipliceras med varandra."
+      },
+      {
+        "text": "2^5 är 2 · 5 = 10.",
+        "answer": false,
+        "explain": "Exponenten säger hur många gånger basen multipliceras med sig själv, inte med exponenten."
+      }
+    ],
+    "correct": "Rätt! a^n är n stycken a som multipliceras."
+  },
   "exercise": {
     "prompt": "Räkna ut 2^5.",
     "answer": [

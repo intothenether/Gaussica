@@ -167,6 +167,58 @@ window.GaussicaPlayer = (function () {
     if (answerInput && !foot.classList.contains("is-correct")) answerInput.focus({ preventScroll: true });
   }
 
+  // "Prova först": before the explanation of a lesson that has lesson.tryFirst ({ prompt, answer: [...] }) the student gets the problem of the lesson to try,
+  // with nothing counted. Whatever the answer is, the explanation follows, as the answer to what the student has just been thinking about. The guess
+  // is shown on the first page of the explanation, and kept in the record of the first visit for the teacher (tried: right, wrong or skip).
+  function tryFirstScreen(card, foot, l) {
+    const t = l.tryFirst;
+    card.appendChild(el("p", "eyebrow pl-eyebrow", "PROVA FÖRST"));
+    const heading = el("h3", "pl-try-prompt");
+    if (window.GaussicaText) window.GaussicaText.set(heading, t.prompt); else heading.textContent = t.prompt;
+    card.appendChild(heading);
+    card.appendChild(el("p", "match-help", "Du behöver inte kunna svaret. Gissa gärna, så ser du sedan hur man kan tänka."));
+    const form = el("form", "pl-try-form");
+    const input = document.createElement("input");
+    input.type = "text";
+    input.name = "guess";
+    input.autocomplete = "off";
+    input.setAttribute("autocapitalize", "none");
+    input.setAttribute("aria-label", "Din gissning");
+    input.placeholder = "Skriv din gissning här";
+    form.appendChild(input);
+    card.appendChild(form);
+    const said = el("p", "pl-try-said");
+    said.setAttribute("role", "status");
+    card.appendChild(said);
+    const go0 = function () { state.tryDone = true; render(); };
+    const finish = function (kind, answer) {
+      state.tryResult = kind;
+      state.tryAnswer = kind === "skip" ? "" : answer;
+      form.hidden = true;
+      said.textContent = kind === "skip" ? "Det är okej. Nu får du se hur man kan tänka."
+        : kind === "right" ? "Du svarade " + answer + ". Det stämmer! Nu får du se varför det fungerar."
+        : "Du svarade " + answer + ". Det går bra att prova! Nu får du se hur man kan tänka.";
+      const read = button("Läs genomgången →", "pl-btn pl-btn-primary", go0);
+      footer(foot, "neutral", "", [read]);
+      read.focus({ preventScroll: true });
+    };
+    const submit = function () {
+      const value = input.value.trim();
+      if (!value) { input.focus(); return; }
+      const MS = window.MATTE_SYMBOLIC;
+      const ok = (t.answer || []).some(function (a) {
+        const x = String(a).toLowerCase().replace(/\s+/g, ""), y = value.toLowerCase().replace(/\s+/g, "");
+        return x === y || Boolean(MS && MS.areEquivalent && MS.areEquivalent(value, String(a)));
+      });
+      finish(ok ? "right" : "wrong", value);
+    };
+    form.addEventListener("submit", function (e) { e.preventDefault(); submit(); });
+    const answerBtn = button("Svara", "pl-btn pl-btn-primary", submit);
+    const skipBtn = button("Jag vet inte än", "pl-btn pl-btn-ghost", function () { finish("skip", ""); });
+    footer(foot, "neutral", "", [skipBtn, answerBtn]);
+    input.focus({ preventScroll: true });
+  }
+
   // ===== The explanation of a lesson that is new to the student =====
   // Many students go past the explanation at once. For the first visit to a lesson (from its first page, with nothing done in it before):
   //  - the button to go on waits a few seconds, as long as the page takes to read (the setting "Vänta en liten stund" in Läsning turns it off),
@@ -194,6 +246,9 @@ window.GaussicaPlayer = (function () {
     st.learnSeen = new Set();
     st.passed = new Set();
     st.rulesOpened = false;
+    st.tryDone = false;
+    st.tryResult = "";
+    st.tryAnswer = "";
   }
 
   function leaveIntroPage() {
@@ -214,7 +269,7 @@ window.GaussicaPlayer = (function () {
     if (!deps.recordIntro) return;
     deps.recordIntro(state.lessonId, {
       readMs: Math.round(state.learnMs), neededMs: Math.round(state.learnNeeded), quick: skippedIntro(),
-      check: state.checkResult || "", at: new Date().toISOString()
+      check: state.checkResult || "", tried: state.tryResult || "", at: new Date().toISOString()
     });
   }
 
@@ -498,10 +553,15 @@ window.GaussicaPlayer = (function () {
   }
 
   function step(card, foot, l, st) {
+    if (st.type === "learn" && state.firstVisit && state.index === 0 && l.tryFirst && !state.tryDone && !isSession()) {
+      tryFirstScreen(card, foot, l);
+      return;
+    }
     if (st.type === "learn") {
       state.visited.add(state.index);
       card.appendChild(el("p", "eyebrow pl-eyebrow", l.kind === "pyssel" ? "PYSSLA" : l.kind === "begrepp" ? "BEGREPP" : "LÄR DIG"));
       const body = el("div", "pl-learn");
+      if (state.tryAnswer && state.index === 0) card.appendChild(el("p", "pl-guess", "Din gissning: " + state.tryAnswer));
       st.keys.forEach(function (key) { deps.renderBlock(body, l, key, st); });
       card.appendChild(body);
       const nextStep = state.steps[state.index + 1];
@@ -549,6 +609,9 @@ window.GaussicaPlayer = (function () {
     // The tip in the middle of the screen, which stays until the student presses the button. Then the focus goes back to where the answer is written.
     const showTip = function () {
       const tip = window.GaussicaTip;
+      // matching terms: a wrong pair only says that they do not fit, so the box waits for the second mistake (the line at the bottom is still there)
+      const problem = st.task && st.task.problem;
+      if (problem && Array.isArray(problem.pairs) && (state.tries[st.key] || 0) < 2) return;
       // the answer question keeps its hint in the bottom bar, the other kinds (sort, order, gaps, true or false, pairs) under the question
       const find = ".feedback-message.feedback-hint";
       const source = state.hosts.feedback.querySelector(find) || holder.querySelector(find);

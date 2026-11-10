@@ -83,6 +83,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Betygen 3, 5, 4 och 4 har medelvärdet 4.",
+        "answer": true,
+        "explain": "Summan är 16 och 16/4 = 4."
+      },
+      {
+        "text": "Medelvärdet får du genom att lägga ihop värdena och dela med talet 2.",
+        "answer": false,
+        "explain": "Du delar med antalet värden."
+      }
+    ],
+    "correct": "Rätt! Summan delat med antalet."
+  },
   "exercise": {
     "prompt": "Vad är medelvärdet av 5, 7 och 12?",
     "answer": [

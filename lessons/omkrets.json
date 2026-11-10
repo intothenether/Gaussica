@@ -60,6 +60,22 @@
       "feedback": [{"answers":["=d*d"],"message":"Omkretsen är π · diametern, inte diametern gånger diametern."}]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Omkretsen av en cirkel är π gånger diametern.",
+        "answer": true,
+        "explain": "O = π · d = 2 · π · r."
+      },
+      {
+        "text": "Omkretsen av en cirkel med diametern 10 cm är ungefär 314 cm.",
+        "answer": false,
+        "explain": "3,14 · 10 = 31,4 cm."
+      }
+    ],
+    "correct": "Rätt! O = π · d."
+  },
   "exercise": {
     "prompt": "En cirkel har diametern 10 cm. Ungefär hur lång är omkretsen? Använd π ≈ 3,14.",
     "answer": ["31.4", "31,4", "31.4 cm", "31,4 cm", "31.4cm", "31,4cm"],

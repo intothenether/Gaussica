@@ -14,6 +14,7 @@
   "explanation": "Problemet: Den analoga klockan visar hur tiden går. Men på mobilen och på skärmar står tiden som siffror, till exempel 08:25. Hur läser vi av den, och hur säger vi den? Vi behöver förstå de två siffergrupperna och kolonet. På en digital klocka står timmarna före kolonet och minuterna efter. 08:25 betyder 8 timmar och 25 minuter, alltså fem över halv nio. På en analog klocka visar den korta visaren timmen och den långa visaren minuterna. Varje siffra på klockan är fem minuter, så siffran 5 betyder 25 minuter. På den digitala klockan räknar man vidare efter klockan 12 på dagen: 13:00 är klockan ett på eftermiddagen, 15:00 är klockan tre och 22:00 är klockan tio på kvällen.",
   "visual": {
     "type": "klocka",
+    "pet": true,
     "h": 15,
     "m": 45,
     "title": "15:45 är samma tid som kvart i fyra på eftermiddagen",

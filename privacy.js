@@ -61,7 +61,7 @@ window.GaussicaPrivacy = (function () {
     // the full texts for the home (who is responsible, who gets the data, the terms, the right to withdraw) are pages of their own
     const more = el("p", "pv-more");
     more.appendChild(document.createTextNode("Hela texterna för hemmet: "));
-    [["Integritetspolicy", "./integritet.html"], ["Villkor", "./villkor.html"], ["Ångerrätt och återbetalning", "./angerratt.html"]].forEach(function (l, i) {
+    [["För föräldrar", "./foraldrar.html"], ["Integritetspolicy", "./integritet.html"], ["Villkor", "./villkor.html"], ["Ångerrätt och återbetalning", "./angerratt.html"]].forEach(function (l, i) {
       if (i) more.appendChild(document.createTextNode(" · "));
       const a = el("a", "", l[0]);
       a.href = l[1];

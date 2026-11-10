@@ -215,6 +215,22 @@
     }
   ],
   "layout": ["explanation","visual","rule","exercise","comp:0","word:0","word:1","word:2"],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2^5 · 2^3 = 2^8.",
+        "answer": true,
+        "explain": "Exponenterna adderas."
+      },
+      {
+        "text": "(3^2)^3 = 3^5.",
+        "answer": false,
+        "explain": "Exponenterna multipliceras: 3^6."
+      }
+    ],
+    "correct": "Rätt! Samma bas: addera, subtrahera eller multiplicera exponenterna."
+  },
   "exercise": {
     "prompt": "2^5 · 2^3 kan skrivas som en enda potens 2^x. Vilket tal är x?",
     "answer": [

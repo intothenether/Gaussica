@@ -618,6 +618,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "25 % är samma sak som 1/4 och 0,25.",
+        "answer": true,
+        "explain": "Procent betyder hundradelar: 25/100."
+      },
+      {
+        "text": "50 % är en fjärdedel.",
+        "answer": false,
+        "explain": "50 % är hälften. En fjärdedel är 25 %."
+      }
+    ],
+    "correct": "Rätt! Procent är hundradelar."
+  },
   "exercise": {
     "prompt": "Hur mycket är 25 % av 80?",
     "answer": ["20"],

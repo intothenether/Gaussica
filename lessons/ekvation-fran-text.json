@@ -153,6 +153,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Du kallar det du söker x och skriver ekvationen som texten beskriver.",
+        "answer": true,
+        "explain": "Sedan löser du den och kontrollerar i texten."
+      },
+      {
+        "text": "Du behöver inte kontrollera svaret mot texten.",
+        "answer": false,
+        "explain": "Du kontrollerar alltid i texten."
+      }
+    ],
+    "correct": "Rätt! Ställ upp, lös och kontrollera i texten."
+  },
   "exercise": {
     "prompt": "Ett tal multipliceras med 4 och sedan läggs 6 till. Resultatet är 30. Vilket är talet?",
     "answer": [

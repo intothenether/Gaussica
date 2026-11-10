@@ -229,6 +229,22 @@
       "feedback": []
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2/3 · 3/4 = 6/12, som kan förkortas till 1/2.",
+        "answer": true,
+        "explain": "Täljare gånger täljare och nämnare gånger nämnare."
+      },
+      {
+        "text": "När du multiplicerar bråk måste de ha samma nämnare först.",
+        "answer": false,
+        "explain": "Det behövs inte. Du multiplicerar täljare med täljare och nämnare med nämnare."
+      }
+    ],
+    "correct": "Rätt! Det behövs ingen gemensam nämnare vid multiplikation."
+  },
   "exercise": {
     "prompt": "Räkna ut 1/2 · 3/4.",
     "answer": [

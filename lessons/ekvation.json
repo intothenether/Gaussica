@@ -296,6 +296,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I en ekvation gör du samma sak på båda sidor.",
+        "answer": true,
+        "explain": "Annars är balansen bruten."
+      },
+      {
+        "text": "3x + 2 = 14 ger x = 12.",
+        "answer": false,
+        "explain": "Först 3x = 12 och sedan x = 4."
+      }
+    ],
+    "correct": "Rätt! Samma sak på båda sidor, och kolla svaret."
+  },
   "exercise": {
     "prompt": "Lös ekvationen: 3x + 2 = 14. Vad är x?",
     "answer": [

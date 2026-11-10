@@ -126,6 +126,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "4! = 24.",
+        "answer": true,
+        "explain": "4 · 3 · 2 · 1."
+      },
+      {
+        "text": "Tre prisplatser bland 5 deltagare kan delas ut på 15 sätt.",
+        "answer": false,
+        "explain": "5 · 4 · 3 = 60 sätt."
+      }
+    ],
+    "correct": "Rätt! n! är n · (n − 1) · … · 1."
+  },
   "exercise": {
     "prompt": "På hur många sätt kan 4 personer stå i en kö?",
     "answer": [

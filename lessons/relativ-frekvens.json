@@ -153,6 +153,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Relativ frekvens är antalet gånger det hände delat med antalet försök.",
+        "answer": true,
+        "explain": "20 av 50 ger 20/50 = 0,4."
+      },
+      {
+        "text": "Få försök ger en säkrare siffra än många.",
+        "answer": false,
+        "explain": "Fler försök ger en säkrare siffra."
+      }
+    ],
+    "correct": "Rätt! Fler försök ger en säkrare siffra."
+  },
   "exercise": {
     "prompt": "Ett mynt kastas 50 gånger och ger krona 30 gånger. Hur många procent av kasten blev krona?",
     "answer": [

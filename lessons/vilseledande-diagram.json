@@ -141,6 +141,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Du ska kontrollera var axeln börjar.",
+        "answer": true,
+        "explain": "Börjar den inte på noll kan staplarna se mer olika ut än de är."
+      },
+      {
+        "text": "Höjden på staplarna visar alltid hur stora skillnaderna är.",
+        "answer": false,
+        "explain": "Jämför siffrorna, inte bara hur höga staplarna ser ut."
+      }
+    ],
+    "correct": "Rätt! Kolla axelns start och skala."
+  },
   "exercise": {
     "prompt": "En axel börjar vid 50. Stapel A visar 52 och stapel B visar 60. Hur många gånger så hög ser stapel B ut jämfört med stapel A?",
     "answer": [

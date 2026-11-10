@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const { DatabaseSync } = require("node:sqlite");
 
-const SCHEMA_VERSION = 9;
+const SCHEMA_VERSION = 10;
 
 function open(dbPath) {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
@@ -224,6 +224,16 @@ function migrate(db) {
         created_at TEXT NOT NULL
       );
       INSERT INTO entitlements (user_id, plan, free_reason, updated_at) SELECT id, 'free', 'founder', strftime('%Y-%m-%dT%H:%M:%fZ', 'now') FROM users WHERE role = 'teacher';
+    `);
+  }
+  if (version < 10) {
+    // the weekly summary by e-mail that a caregiver can ask for: cloudflare/migrations/009-digest.sql
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS digests (
+        user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+        enabled INTEGER NOT NULL DEFAULT 0,
+        sent_at TEXT
+      );
     `);
   }
   db.exec("PRAGMA user_version = " + SCHEMA_VERSION);

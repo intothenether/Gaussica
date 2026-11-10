@@ -241,6 +241,7 @@ function createApi(db, options) {
       classes: u.role === "student" ? classes.map(function (c) { return { id: c.id, name: c.name, family: Boolean(c.owner_caregiver) }; }) : undefined,
       email: u.role === "teacher" ? (u.email || null) : undefined, emailVerified: u.role === "teacher" ? Boolean(u.email_verified_at) : undefined,
       access: account.accessOfUser(u),
+      digest: account.digestOf(u),
       color: COLORS[u.id % COLORS.length],
       rewards: u.role === "student" && classes.length ? classes.some(function (c) { return Boolean(c.rewards); }) : (u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards))
     };
@@ -1008,7 +1009,7 @@ function createApi(db, options) {
     }
   }
 
-  return { handle: handle, teacherCode: teacherCode };
+  return { handle: handle, teacherCode: teacherCode, runDigests: account.runDigests };
 }
 
 module.exports = { createApi };

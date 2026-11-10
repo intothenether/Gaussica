@@ -220,6 +220,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "√50 = 5√2.",
+        "answer": true,
+        "explain": "√50 = √25 · √2 = 5√2."
+      },
+      {
+        "text": "√5 · √5 = 25.",
+        "answer": false,
+        "explain": "√5 · √5 = 5."
+      }
+    ],
+    "correct": "Rätt! Roten ur ett tal gånger sig självt ger talet."
+  },
   "exercise": {
     "prompt": "Vad är √64?",
     "keys": [

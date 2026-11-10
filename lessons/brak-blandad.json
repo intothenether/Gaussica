@@ -237,6 +237,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "11/4 skrivs som 2 3/4 i blandad form.",
+        "answer": true,
+        "explain": "11 delat med 4 är 2 rest 3."
+      },
+      {
+        "text": "2 3/4 är samma sak som (2 + 3)/4.",
+        "answer": false,
+        "explain": "Du multiplicerar de hela med nämnaren: (2 · 4 + 3)/4 = 11/4."
+      }
+    ],
+    "correct": "Rätt! Hela och rest delat med nämnaren."
+  },
   "exercise": {
     "prompt": "Skriv 7/4 i blandad form.",
     "answer": [

@@ -129,6 +129,22 @@
       "hint": "Var talet han delade med positivt eller negativt?"
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "3x + 2 < 14 ger x < 4.",
+        "answer": true,
+        "explain": "Du löser den som en ekvation."
+      },
+      {
+        "text": "Tecknet vänds aldrig när du löser en olikhet.",
+        "answer": false,
+        "explain": "Du vänder tecknet när du multiplicerar eller delar med ett negativt tal."
+      }
+    ],
+    "correct": "Rätt! Vänd tecknet vid negativa tal."
+  },
   "exercise": {
     "prompt": "Lös olikheten 3x + 2 < 14. Skriv svaret som x < ... eller x > ...",
     "keys": [

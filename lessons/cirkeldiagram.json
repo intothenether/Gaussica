@@ -173,6 +173,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Halva cirkeln är 50 %.",
+        "answer": true,
+        "explain": "En fjärdedel är 25 % och en tiondel är 10 %."
+      },
+      {
+        "text": "Hela cirkeln är hälften av alla svar.",
+        "answer": false,
+        "explain": "Hela cirkeln är alla svar."
+      }
+    ],
+    "correct": "Rätt! Hela cirkeln är alla svar."
+  },
   "exercise": {
     "prompt": "I ett cirkeldiagram över 20 elever täcker en sektor en fjärdedel av cirkeln. Hur många elever är det?",
     "answer": [

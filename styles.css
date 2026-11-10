@@ -5024,3 +5024,8 @@ html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-bank { margin: 0 0 6px;
 .tv-pill.is-quick { background: #fff3c9; color: #7a5200; }
 .tv-intro-list { margin: 0; padding-left: 20px; line-height: 1.7; }
 .tv-intro-note { margin: 4px 0 8px; font-size: 13px; }
+.pl-try-prompt { font-size: 24px; line-height: 1.45; margin: 4px 0 14px; }
+.pl-try-form input { width: 100%; box-sizing: border-box; padding: 14px 16px; border: 2px solid var(--pink-line, #f3c6d3); border-radius: 12px; font: 600 20px "Nunito", sans-serif; }
+.pl-try-said { margin: 16px 0 0; font-size: 19px; line-height: 1.6; font-weight: 700; }
+.pl-guess { display: inline-block; margin: 0 0 12px; padding: 4px 12px; border-radius: 999px; background: #fff3c9; color: #7a5200; font-weight: 800; font-size: 14px; }
+.tv-week-summary { margin: 8px 0 12px; font-size: 16px; line-height: 1.55; font-weight: 700; }

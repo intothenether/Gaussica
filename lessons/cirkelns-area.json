@@ -171,6 +171,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Arean av en cirkel är π · r^2.",
+        "answer": true,
+        "explain": "Radien kvadreras: A = π · r^2."
+      },
+      {
+        "text": "En cirkel med radien 4 cm har arean 3,14 · 8 cm².",
+        "answer": false,
+        "explain": "Radien kvadreras: 3,14 · 4^2 = 3,14 · 16 = 50,24 cm²."
+      }
+    ],
+    "correct": "Rätt! Radien kvadreras och multipliceras med π."
+  },
   "exercise": {
     "prompt": "En cirkel har radien 5 cm. Hur stor är arean? Använd 3,14 som pi.",
     "answer": [

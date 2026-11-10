@@ -182,6 +182,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Arean av ett parallellogram är basen gånger höjden.",
+        "answer": true,
+        "explain": "Höjden är vinkelrät mot basen."
+      },
+      {
+        "text": "Den sneda sidan används för att räkna ut arean.",
+        "answer": false,
+        "explain": "Den används inte. Du behöver basen och höjden."
+      }
+    ],
+    "correct": "Rätt! A = b · h med vinkelrät höjd."
+  },
   "exercise": {
     "prompt": "En parallellogram har basen 8 cm och höjden 5 cm. Hur stor är arean i cm²?",
     "answer": [

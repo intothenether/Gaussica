@@ -170,6 +170,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Med K = 40 + 15 · k är K = 100 kr när k = 4.",
+        "answer": true,
+        "explain": "15 · 4 = 60 och 40 + 60 = 100."
+      },
+      {
+        "text": "Med K = 40 + 15 · k är K = 220 kr när k = 4.",
+        "answer": false,
+        "explain": "Du räknar gånger före plus: 40 + 60 = 100."
+      }
+    ],
+    "correct": "Rätt! Sätt in värdet och räkna, gånger före plus."
+  },
   "exercise": {
     "prompt": "Formeln är K = 20 + 5 · n. Vad blir K när n = 6?",
     "answer": [

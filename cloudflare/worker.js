@@ -110,6 +110,44 @@ function senderLabel(u, className) {
 }
 
 // ----- who may use the site (the same code as server/billing-core.js: tests/billing-core.js checks it) -----
+// BEGIN digest-core
+const DIGEST_DAY = 86400000;
+const DIGEST_CAP_SECONDS = 300;   // seconds counted for one answer at the most, so that a tab left open does not count as time spent
+
+function digestWeek(attempts, now) {
+  const since = now - 7 * DIGEST_DAY;
+  const days = new Set();
+  let answers = 0, right = 0, seconds = 0;
+  const lessons = [];
+  (attempts || []).slice().sort(function (a, b) { return String(b.at).localeCompare(String(a.at)); }).forEach(function (a) {
+    const t = Date.parse(a.at);
+    if (!(t >= since && t <= now + DIGEST_DAY)) return;
+    answers += 1;
+    if (a.completed) right += 1;
+    seconds += Math.min(DIGEST_CAP_SECONDS, Math.max(0, Number(a.seconds) || 0));
+    days.add(String(a.at).slice(0, 10));
+    if (a.lessonTitle && lessons.indexOf(a.lessonTitle) < 0) lessons.push(a.lessonTitle);
+  });
+  return { answers: answers, right: right, days: days.size, minutes: Math.round(seconds / 60), lessons: lessons };
+}
+
+function digestMail(o) {
+  const first = function (name) { return String(name || "").trim().split(/\s+/)[0] || "barnet"; };
+  const lines = (o.children || []).map(function (c) {
+    const w = digestWeek(c.attempts, o.now);
+    const who = first(c.name);
+    if (!w.answers) return who + ": inget har gjorts de senaste sju dagarna.";
+    return who + ": övade " + (w.days === 1 ? "en dag" : w.days + " dagar") + (w.minutes ? ", ungefär " + w.minutes + " minuter" : "") + ". " + w.right + " av " + w.answers + " svar var rätt."
+      + (w.lessons.length ? " Jobbade med: " + w.lessons.slice(0, 3).join(", ") + (w.lessons.length > 3 ? " med flera" : "") + "." : "");
+  });
+  return {
+    subject: "Veckan på Gaussica",
+    text: "Hej " + first(o.guardian) + "!\n\nSå här gick det på Gaussica de senaste sju dagarna.\n\n" + lines.join("\n") + "\n\nÖppna Gaussica för att se mer: " + o.siteUrl +
+      "\n\nDu får det här mejlet eftersom du har bett om en veckosammanfattning. Du stänger av den under Mitt konto." + "\n\nHälsningar\nGaussica"
+  };
+}
+// END digest-core
+
 // BEGIN billing-core
 const BILLING_GRACE_DAYS = 7;       // a payment that is late or a webhook that is missed does not lock a family out at once
 const BILLING_DAY_MS = 86400000;
@@ -231,6 +269,7 @@ function createApi(env, request) {
       classes: u.role === "student" ? classes.map((c) => ({ id: c.id, name: c.name, family: Boolean(c.owner_caregiver) })) : undefined,
       email: u.role === "teacher" ? (u.email || null) : undefined, emailVerified: u.role === "teacher" ? Boolean(u.email_verified_at) : undefined,
       access: u.access,
+      digest: u.digest,
       color: COLORS[u.id % COLORS.length],
       rewards: u.role === "student" && classes.length ? classes.some((c) => Boolean(c.rewards)) : (u.rewards === undefined || u.rewards === null ? true : Boolean(u.rewards))
     };
@@ -247,6 +286,7 @@ function createApi(env, request) {
   async function withGuide(u) {
     if (u && u.role === "student") u.classes = await classesOfStudent(u.id);
     if (u) u.access = await accessOfUser(u);
+    if (u) u.digest = await digestOf(u);
     return u;
   }
 
@@ -619,6 +659,57 @@ function createApi(env, request) {
     return [200, { ok: true, username: user.username, entitlement: (await tryOne("SELECT * FROM entitlements WHERE user_id = ?", user.id)) || null, access: await accessOfUser(user) }];
   }
 
+  // ----- the weekly summary by e-mail (digest-core.js): only for a caregiver who has asked for it and has a verified address -----
+  const digestAvailable = () => env.DIGEST_ENABLED === "1" && (env.MAIL_DEV === "1" || Boolean(env.RESEND_API_KEY && env.MAIL_FROM));
+
+  async function digestOf(u) {
+    if (!(u && u.role === "teacher" && u.caregiver)) return undefined;
+    const row = await tryOne("SELECT * FROM digests WHERE user_id = ?", u.id);
+    return { available: digestAvailable(), enabled: Boolean(row && row.enabled) };
+  }
+
+  async function setDigest() {
+    const s = await requireUser();
+    const u = await one("SELECT * FROM users WHERE id = ?", s.user.id);
+    if (!(u.role === "teacher" && u.caregiver)) throw new ApiError(403, "Bara vårdnadshavare kan få en veckosammanfattning.");
+    if (!digestAvailable()) throw new ApiError(400, "Veckosammanfattning är inte påslagen på den här sidan.");
+    const b = await readJson(request, 1000);
+    const enabled = b.enabled === true;
+    if (enabled && !(u.email && u.email_verified_at)) throw new ApiError(400, "Bekräfta din e-postadress först.");
+    await run("INSERT INTO digests (user_id, enabled) VALUES (?, ?) ON CONFLICT (user_id) DO UPDATE SET enabled = excluded.enabled", u.id, enabled ? 1 : 0);
+    return [200, { ok: true, enabled }];
+  }
+
+  async function runDigests(force) {
+    if (!digestAvailable()) return { sent: 0, off: true };
+    const now = Date.now();
+    const since = new Date(now - 7 * 86400000).toISOString();
+    let sent = 0;
+    const due = await all("SELECT u.id, u.display_name, u.email, d.sent_at FROM digests d JOIN users u ON u.id = d.user_id WHERE d.enabled = 1 AND u.email IS NOT NULL AND u.email_verified_at IS NOT NULL AND u.caregiver = 1");
+    for (const row of due) {
+      if (!force && row.sent_at && now - Date.parse(row.sent_at) < 6 * 86400000) continue;
+      const kids = await all("SELECT DISTINCT s.id, s.display_name FROM class_guides cg JOIN class_members m ON m.class_id = cg.class_id JOIN users s ON s.id = m.user_id WHERE cg.user_id = ? AND s.role = 'student' ORDER BY s.display_name", row.id);
+      const children = [];
+      for (const k of kids) {
+        const rows = await all("SELECT created_at, completed, data FROM attempts WHERE user_id = ? AND created_at >= ? ORDER BY created_at", k.id, since);
+        children.push({ name: k.display_name, attempts: rows.map((a) => {
+          let d = {}; try { d = JSON.parse(a.data); } catch (e) { /* no details */ }
+          return { at: a.created_at, completed: Boolean(a.completed), seconds: d.seconds, lessonTitle: d.lessonTitle };
+        }) });
+      }
+      if (!children.length) continue;
+      const mail = digestMail({ guardian: row.display_name, siteUrl: siteUrl(), children, now });
+      if (await sendMail(row.email, mail.subject, mail.text)) { await run("UPDATE digests SET sent_at = ? WHERE user_id = ?", nowIso(), row.id); sent += 1; }
+    }
+    return { sent };
+  }
+
+  async function adminDigest() {
+    requireAdmin();
+    const b = await readJson(request, 1000);
+    return [200, await runDigests(b.force === true)];
+  }
+
   async function adminCodes() {
     requireAdmin();
     const b = await readJson(request, 2000);
@@ -631,6 +722,8 @@ function createApi(env, request) {
 
   // [status, body] when the request was one of ours, otherwise null
   async function accountRoute(method, p) {
+    if (method === "POST" && p === "/api/me/digest") return setDigest();
+    if (method === "POST" && p === "/api/admin/digest") return adminDigest();
     if (method === "POST" && p === "/api/me/email") return setEmail();
     if (method === "POST" && p === "/api/me/email/resend") return resendVerification();
     if (method === "POST" && p === "/api/auth/verify-email") return verifyEmailToken();
@@ -1409,10 +1502,14 @@ function createApi(env, request) {
     throw new ApiError(404, "Hittades inte.");
   }
 
-  return { handle };
+  return { handle, runDigests };
 }
 
 export default {
+  // the weekly summary by e-mail (wrangler.toml: [triggers] crons, DIGEST_ENABLED); it does nothing until the setting is on
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(createApi(env, new Request("https://cron.invalid/")).runDigests(false).catch((e) => console.error("Veckosammanfattning:", e && e.message)));
+  },
   async fetch(request, env) {
     const cors = corsHeaders(request, env);
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });

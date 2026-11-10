@@ -254,6 +254,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "5x + 3 = 2x + 15 ger x = 4.",
+        "answer": true,
+        "explain": "3x + 3 = 15, sedan 3x = 12 och x = 4."
+      },
+      {
+        "text": "Du får lägga till ett tal bara på ena sidan om ekvationen är svår.",
+        "answer": false,
+        "explain": "Du gör alltid samma sak på båda sidor."
+      }
+    ],
+    "correct": "Rätt! Samla x på ena sidan och talen på den andra."
+  },
   "exercise": {
     "prompt": "Lös ekvationen 5x + 3 = 2x + 15.",
     "answer": [

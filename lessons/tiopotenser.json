@@ -233,6 +233,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "150 000 000 skrivs 1,5 · 10^8 i grundpotensform.",
+        "answer": true,
+        "explain": "Talet framför ska vara minst 1 och mindre än 10."
+      },
+      {
+        "text": "0,00042 skrivs 4,2 · 10^4.",
+        "answer": false,
+        "explain": "Små tal får negativ exponent: 4,2 · 10^−4."
+      }
+    ],
+    "correct": "Rätt! Stora tal har positiv exponent och små tal negativ."
+  },
   "exercise": {
     "prompt": "Skriv 4 500 000 i grundpotensform. Skriv · som * och upphöjt med ^, till exempel 3,5*10^4.",
     "form": "grundpotens",

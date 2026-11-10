@@ -235,6 +235,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Vinklarna i en triangel är tillsammans 180°.",
+        "answer": true,
+        "explain": "A + B + C = 180°."
+      },
+      {
+        "text": "Om två vinklar är 40° och 75° är den tredje 55°.",
+        "answer": false,
+        "explain": "180 − 40 − 75 = 65°."
+      }
+    ],
+    "correct": "Rätt! Vinkelsumman i en triangel är 180°."
+  },
   "exercise": {
     "prompt": "I en triangel är två vinklar 50° och 60°. Hur stor är den tredje vinkeln?",
     "answer": [

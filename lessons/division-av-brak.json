@@ -134,6 +134,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "1/2 delat med 1/6 är 3.",
+        "answer": true,
+        "explain": "1/2 · 6/1 = 6/2 = 3."
+      },
+      {
+        "text": "När du delar med ett bråk multiplicerar du med bråket självt.",
+        "answer": false,
+        "explain": "Du multiplicerar med det omvända bråket."
+      }
+    ],
+    "correct": "Rätt! Multiplicera med det omvända bråket."
+  },
   "exercise": {
     "prompt": "Hur mycket är 1/2 delat med 1/4? Svara som ett tal.",
     "answer": [

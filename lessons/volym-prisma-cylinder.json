@@ -148,6 +148,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Volymen är bottenytans area gånger höjden.",
+        "answer": true,
+        "explain": "För en cylinder är bottenytan en cirkel."
+      },
+      {
+        "text": "En cylinder har volymen π · r · h.",
+        "answer": false,
+        "explain": "Bottenytan är π · r · r, så V = π · r · r · h."
+      }
+    ],
+    "correct": "Rätt! Volym = bottenarea · höjd."
+  },
   "exercise": {
     "prompt": "Ett prisma har en bottenyta med arean 12 cm² och höjden 5 cm. Vilken volym har det i cm³?",
     "answer": [

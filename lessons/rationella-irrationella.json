@@ -279,6 +279,22 @@
     "word:1",
     "word:2"
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "√16 är ett rationellt tal.",
+        "answer": true,
+        "explain": "√16 = 4."
+      },
+      {
+        "text": "√20 är ett rationellt tal.",
+        "answer": false,
+        "explain": "Det ligger mellan 4 och 5 och går inte att skriva som ett bråk."
+      }
+    ],
+    "correct": "Rätt! √n är irrationell om n inte är ett kvadrattal."
+  },
   "exercise": {
     "prompt": "Mellan vilka två heltal ligger √20? Svara med det lägre talet.",
     "answer": [

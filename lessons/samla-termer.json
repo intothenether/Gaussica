@@ -141,6 +141,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "2x + 5 + 3x − 1 = 5x + 4.",
+        "answer": true,
+        "explain": "Du lägger ihop x-termerna och talen var för sig."
+      },
+      {
+        "text": "3x + 2 kan förkortas till 5x.",
+        "answer": false,
+        "explain": "3x och 2 är inte lika termer, så de går inte att lägga ihop."
+      }
+    ],
+    "correct": "Rätt! Bara lika termer läggs ihop."
+  },
   "exercise": {
     "prompt": "Förenkla 3x + 5x.",
     "keys": [

@@ -30,3 +30,5 @@
 
 .pv-more { margin: 14px 0 4px; font-size: 14px; }
 .pv-more a { color: var(--brand); font-weight: 700; }
+.sub-digest { display: flex; align-items: flex-start; gap: 8px; margin: 12px 0 0; font-size: 15px; line-height: 1.5; cursor: pointer; }
+.sub-digest input { margin-top: 4px; }

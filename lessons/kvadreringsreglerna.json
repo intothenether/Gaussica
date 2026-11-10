@@ -177,6 +177,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "(x + 3)² = x² + 6x + 9.",
+        "answer": true,
+        "explain": "(a + b)² = a² + 2ab + b²."
+      },
+      {
+        "text": "(x + 3)² = x² + 9.",
+        "answer": false,
+        "explain": "Du glömmer mittermen 2ab = 6x."
+      }
+    ],
+    "correct": "Rätt! Mittermen 2ab får inte glömmas."
+  },
   "exercise": {
     "prompt": "Utveckla (x + 4)². Skriv x² som x^2.",
     "keys": [

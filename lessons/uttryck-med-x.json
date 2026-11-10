@@ -378,6 +378,14 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Jag tänker på ett tal. Lägger jag till 3 blir det 10. Vilket tal tänker jag på?",
+    "answer": [
+      "7",
+      "x=7",
+      "x = 7"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

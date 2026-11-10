@@ -11,12 +11,15 @@
 //   TRIAL_DAYS                           days of free trial for a new family (14)
 //   PADDLE_ENV=production                sandbox by default; PADDLE_API_KEY, PADDLE_WEBHOOK_SECRET, PADDLE_PRICES (JSON, see below), PADDLE_API_BASE (tests)
 //   ADMIN_TOKEN                          a long secret that allows /api/admin/... (give free access, make codes), see scripts/admin.js
+//   DIGEST_ENABLED=1                     a caregiver can ask for a summary of the week by e-mail (needs the e-mail settings above); the server sends them on
+//                                        Sundays at 16 UTC, and POST /api/admin/digest sends them at once
 //   MAIL_DEV=1                           keep the e-mails in memory (GET /api/dev/outbox) instead of sending them (tests)
 // PADDLE_PRICES: {"manad": {"priceId": "pri_...", "label": "Månad", "text": "49 kr per månad"}, "ar": {...}}
 
 const crypto = require("node:crypto");
 const sec = require("./security");
 const core = require("./billing-core");
+const digest = require("./digest-core");
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const VERIFY_MINUTES = 24 * 60;
@@ -56,6 +59,12 @@ function createAccount(deps) {
     entOf: db.prepare("SELECT * FROM entitlements WHERE user_id = ?"),
     insertEnt: db.prepare("INSERT OR IGNORE INTO entitlements (user_id, plan, free_reason, free_until, trial_ends_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)"),
     setEnt: db.prepare("UPDATE entitlements SET plan = ?, free_reason = ?, free_until = ?, trial_ends_at = ?, status = ?, period_end = ?, cancel_at_period_end = ?, paddle_customer_id = ?, paddle_subscription_id = ?, updated_at = ? WHERE user_id = ?"),
+    digestOf: db.prepare("SELECT * FROM digests WHERE user_id = ?"),
+    setDigest: db.prepare("INSERT INTO digests (user_id, enabled) VALUES (?, ?) ON CONFLICT (user_id) DO UPDATE SET enabled = excluded.enabled"),
+    markDigest: db.prepare("UPDATE digests SET sent_at = ? WHERE user_id = ?"),
+    dueDigests: db.prepare("SELECT u.id, u.display_name, u.email, d.sent_at FROM digests d JOIN users u ON u.id = d.user_id WHERE d.enabled = 1 AND u.email IS NOT NULL AND u.email_verified_at IS NOT NULL AND u.caregiver = 1"),
+    childrenOfGuide: db.prepare("SELECT DISTINCT s.id, s.display_name FROM class_guides cg JOIN class_members m ON m.class_id = cg.class_id JOIN users s ON s.id = m.user_id WHERE cg.user_id = ? AND s.role = 'student' ORDER BY s.display_name"),
+    attemptsSince: db.prepare("SELECT created_at, completed, data FROM attempts WHERE user_id = ? AND created_at >= ? ORDER BY created_at"),
     ownersOfStudent: db.prepare("SELECT DISTINCT c.teacher_id AS owner, g.caregiver AS caregiver FROM class_members m JOIN classes c ON c.id = m.class_id JOIN users g ON g.id = c.teacher_id WHERE m.user_id = ?"),
     ownersOfGuide: db.prepare("SELECT DISTINCT c.teacher_id AS owner, g.caregiver AS caregiver FROM class_guides cg JOIN classes c ON c.id = cg.class_id JOIN users g ON g.id = c.teacher_id WHERE cg.user_id = ?"),
     eventSeen: db.prepare("INSERT OR IGNORE INTO billing_events (id, type, received_at) VALUES (?, ?, ?)"),
@@ -325,6 +334,53 @@ function createAccount(deps) {
     send(res, 200, { ok: true, username: user.username, entitlement: q.entOf.get(user.id) || null, access: accessOfUser(user) });
   }
 
+  // ----- the weekly summary by e-mail (digest-core.js): only for a caregiver who has asked for it and has a verified address -----
+  const digestAvailable = () => env().DIGEST_ENABLED === "1" && (env().MAIL_DEV === "1" || Boolean(env().RESEND_API_KEY && env().MAIL_FROM));
+
+  function digestOf(u) {
+    if (!(u && u.role === "teacher" && u.caregiver)) return undefined;
+    const row = q.digestOf.get(u.id);
+    return { available: digestAvailable(), enabled: Boolean(row && row.enabled) };
+  }
+
+  async function setDigest(req, res) {
+    const s = requireUser(req);
+    const u = s.user;
+    if (!(u.role === "teacher" && u.caregiver)) throw new ApiError(403, "Bara vårdnadshavare kan få en veckosammanfattning.");
+    if (!digestAvailable()) throw new ApiError(400, "Veckosammanfattning är inte påslagen på den här sidan.");
+    const b = await readJson(req, 1000);
+    const enabled = b.enabled === true;
+    if (enabled && !(u.email && u.email_verified_at)) throw new ApiError(400, "Bekräfta din e-postadress först.");
+    q.setDigest.run(u.id, enabled ? 1 : 0);
+    send(res, 200, { ok: true, enabled: enabled });
+  }
+
+  async function runDigests(force) {
+    if (!digestAvailable()) return { sent: 0, off: true };
+    const now = Date.now();
+    const since = new Date(now - 7 * 86400000).toISOString();
+    let sent = 0;
+    for (const row of q.dueDigests.all()) {
+      if (!force && row.sent_at && now - Date.parse(row.sent_at) < 6 * 86400000) continue;
+      const children = q.childrenOfGuide.all(row.id).map(function (k) {
+        return { name: k.display_name, attempts: q.attemptsSince.all(k.id, since).map(function (a) {
+          let d = {}; try { d = JSON.parse(a.data); } catch (e) { /* no details */ }
+          return { at: a.created_at, completed: Boolean(a.completed), seconds: d.seconds, lessonTitle: d.lessonTitle };
+        }) };
+      });
+      if (!children.length) continue;
+      const mail = digest.digestMail({ guardian: row.display_name, siteUrl: siteUrl(), children: children, now: now });
+      if (await sendMail(row.email, mail.subject, mail.text)) { q.markDigest.run(nowIso(), row.id); sent += 1; }
+    }
+    return { sent: sent };
+  }
+
+  async function adminDigest(req, res) {
+    requireAdmin(req);
+    const b = await readJson(req, 1000);
+    send(res, 200, await runDigests(b.force === true));
+  }
+
   async function adminCodes(req, res) {
     requireAdmin(req);
     const b = await readJson(req, 2000);
@@ -349,12 +405,14 @@ function createAccount(deps) {
     if (method === "POST" && p === "/api/billing/redeem") { await redeem(req, res); return true; }
     if (method === "POST" && p === "/api/admin/access") { await adminAccess(req, res); return true; }
     if (method === "POST" && p === "/api/admin/codes") { await adminCodes(req, res); return true; }
+    if (method === "POST" && p === "/api/me/digest") { await setDigest(req, res); return true; }
+    if (method === "POST" && p === "/api/admin/digest") { await adminDigest(req, res); return true; }
     if (method === "GET" && p === "/api/dev/outbox" && env().MAIL_DEV === "1") { send(res, 200, { mails: outbox }); return true; }
     return false;
   }
 
   return {
-    route: route, accessOfUser: accessOfUser, requireAccess: requireAccess, startEntitlement: startEntitlement, sendVerification: sendVerification,
+    route: route, digestOf: digestOf, runDigests: runDigests, accessOfUser: accessOfUser, requireAccess: requireAccess, startEntitlement: startEntitlement, sendVerification: sendVerification,
     emailRequired: emailRequired, termsVersion: termsVersion, validEmail: validEmail, cleanEmail: cleanEmail, setTerms: (id) => q.setTerms.run(nowIso(), termsVersion(), id),
     setEmail: (id, email) => q.setEmail.run(email, id), emailTaken: (email) => Boolean(q.userByEmail.get(email))
   };

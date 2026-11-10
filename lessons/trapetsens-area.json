@@ -249,6 +249,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Trapetsens area är hälften av (a + b) · h.",
+        "answer": true,
+        "explain": "a och b är de parallella sidorna."
+      },
+      {
+        "text": "Ett trapets med a = 4, b = 8 och h = 5 har arean 60 cm².",
+        "answer": false,
+        "explain": "(4 + 8) · 5 = 60, och hälften är 30 cm²."
+      }
+    ],
+    "correct": "Rätt! Glöm inte att ta hälften."
+  },
   "exercise": {
     "prompt": "En trapets har de parallella sidorna 4 cm och 8 cm, och höjden 5 cm. Hur stor är arean i cm²?",
     "answer": [

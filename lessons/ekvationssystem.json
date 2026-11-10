@@ -316,6 +316,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I x + y = 10 och x − y = 4 får du 2x = 14 när du lägger ihop ekvationerna.",
+        "answer": true,
+        "explain": "Då försvinner y, och x = 7."
+      },
+      {
+        "text": "När du har hittat x är du klar med systemet.",
+        "answer": false,
+        "explain": "Du sätter in x i en av ekvationerna och löser y."
+      }
+    ],
+    "correct": "Rätt! Få en okänd att försvinna, lös, sätt in och kontrollera."
+  },
   "exercise": {
     "prompt": "Lös ekvationssystemet: x + y = 10 och x − y = 4. Vad är x?",
     "answer": [

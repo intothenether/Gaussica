@@ -41,7 +41,7 @@ const MIME = {
 // Everything index.html loads, plus the lessons folder and README. Server code and data are never served.
 function publicFiles() {
   // sw.js and the icons are named in a script and in the manifest, not in the page itself
-  const files = new Set(["/index.html", "/README.md", "/sw.js", "/icon-192.png", "/icon-512.png", "/villkor.html", "/integritet.html", "/angerratt.html"]);
+  const files = new Set(["/index.html", "/README.md", "/sw.js", "/icon-192.png", "/icon-512.png", "/villkor.html", "/integritet.html", "/angerratt.html", "/foraldrar.html"]);
   const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
   const re = /(?:src|href)="\.\/([^"#?]+)"/g;
   let m;
@@ -128,6 +128,14 @@ server.listen(PORT, HOST, function () {
     console.log("Visa den igen med: node server.js --teacher-code");
   }
 });
+
+// The weekly summary (DIGEST_ENABLED=1, see server/account.js): looked at every half hour, sent on Sundays at 16 UTC. A summary is not sent twice within six days.
+if (process.env.DIGEST_ENABLED === "1") {
+  setInterval(function () {
+    const now = new Date();
+    if (now.getUTCDay() === 0 && now.getUTCHours() === 16) api.runDigests(false).catch(function (e) { console.error("Veckosammanfattning:", e && e.message); });
+  }, 30 * 60 * 1000).unref();
+}
 
 function shutdown() {
   server.close(function () { db.close(); process.exit(0); });

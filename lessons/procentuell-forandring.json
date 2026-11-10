@@ -262,6 +262,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En höjning med 25 % ger förändringsfaktorn 1,25.",
+        "answer": true,
+        "explain": "Faktorn är 1 plus ökningen."
+      },
+      {
+        "text": "En sänkning med 25 % ger förändringsfaktorn 0,25.",
+        "answer": false,
+        "explain": "Faktorn är 1 minus minskningen: 0,75."
+      }
+    ],
+    "correct": "Rätt! Nytt värde = gammalt värde · faktor."
+  },
   "exercise": {
     "prompt": "En tröja kostar 400 kr. Priset höjs med 15 %. Vad kostar tröjan efter höjningen?",
     "answer": [

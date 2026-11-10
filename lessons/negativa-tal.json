@@ -696,6 +696,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Det är 3 grader ute på morgonen och temperaturen sjunker med 5 grader. Vilken temperatur är det då? Skriv med minustecken om det behövs.",
+    "answer": [
+      "-2",
+      "−2"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

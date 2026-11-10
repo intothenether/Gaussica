@@ -58,6 +58,12 @@ lessons.forEach((l) => {
       }
     }
   });
+  // the problem to try before the explanation (lesson.tryFirst, see lesson-player.js)
+  if (l.tryFirst !== undefined) {
+    const t = l.tryFirst;
+    if (!t || typeof t !== "object" || !String(t.prompt || "").trim() || !Array.isArray(t.answer) || !t.answer.length) bad(l.id, "tryFirst needs a prompt and a list of accepted answers");
+    if (l.kind === "pyssel") bad(l.id, "a play lesson has no tryFirst");
+  }
   // the short question at the end of the explanation (lesson.check, see lesson-player.js): true or false statements, or one of the formats
   if (l.check !== undefined) {
     const c = l.check;

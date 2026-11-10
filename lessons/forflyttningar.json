@@ -180,6 +180,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Speglar du (2, 3) i y-axeln får du (−2, 3).",
+        "answer": true,
+        "explain": "x byter tecken."
+      },
+      {
+        "text": "Ett halvt varv kring origo ändrar bara x.",
+        "answer": false,
+        "explain": "Både x och y byter tecken."
+      }
+    ],
+    "correct": "Rätt! Spegling och vridning ändrar tecken."
+  },
   "exercise": {
     "prompt": "Punkten A = (2, 3) flyttas 4 steg åt höger och 1 steg ned. Vilken x-koordinat har den nya punkten?",
     "answer": [

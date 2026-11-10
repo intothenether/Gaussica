@@ -267,6 +267,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En rabatt på 20 % på 150 kr ger ett nytt pris på 120 kr.",
+        "answer": true,
+        "explain": "20 % av 150 är 30 kr, och 150 − 30 = 120."
+      },
+      {
+        "text": "En höjning med 10 % på 800 kr ger ett nytt pris på 810 kr.",
+        "answer": false,
+        "explain": "10 % av 800 är 80 kr, så det nya priset är 880 kr."
+      }
+    ],
+    "correct": "Rätt! Räkna ut procentbeloppet och dra ifrån eller lägg till."
+  },
   "exercise": {
     "prompt": "En tröja kostar 200 kr. Det är 25 % rabatt. Vad kostar tröjan nu?",
     "answer": [

@@ -15,7 +15,18 @@ const foot = (page) => page.locator("#lesson-player .pl-foot");
 const next = (page) => foot(page).getByRole("button", { name: /Fortsätt|Börja med/ });
 const eyebrow = (page) => page.locator("#lesson-player .pl-eyebrow");
 
-async function start(page, id, settings) {
+// Every ordinary lesson has a short question at the end of its explanation now, so the tests that are not about it open a lesson without it
+async function withoutCheck(page, id) {
+  await page.route(new RegExp("/lessons/" + id + "\.json"), async (route) => {
+    const response = await route.fetch();
+    const lesson = await response.json();
+    delete lesson.check;
+    await route.fulfill({ response, json: lesson });
+  });
+}
+
+async function start(page, id, settings, keepCheck) {
+  if (!keepCheck) await withoutCheck(page, id);
   if (settings) await page.addInitScript((s) => { try { localStorage.setItem("gaussica-reading", JSON.stringify(s)); } catch (e) { /* no storage */ } }, settings);
   await signIn(page, { keepTips: true });
   await page.evaluate((lesson) => { location.hash = "#start"; setTimeout(() => { location.hash = "#play/" + lesson; }, 150); }, id);
@@ -53,7 +64,7 @@ const LESSON = "addition-uppstallning";   // has a check
 const checkOf = () => JSON.parse(fs.readFileSync(path.join(__dirname, "..", "..", "lessons", LESSON + ".json"), "utf8")).check;
 
 async function toCheck(page) {
-  await start(page, LESSON, { wait: false });
+  await start(page, LESSON, { wait: false }, true);
   for (let i = 0; i < 10 && !(await page.locator("#lesson-player .pl-intro-check").count()); i++) await next(page).click();
   await expect(page.locator("#lesson-player .pl-intro-check")).toBeVisible();
 }
@@ -156,4 +167,34 @@ test("the teacher sees who went past an explanation in a moment, and the lessons
   expect(text.detail).toContain("gick snabbt förbi genomgången");
   expect(text.detail).toContain("inte rätt efter två försök");
   expect(errors).toEqual([]);
+});
+
+test("Prova först: the problem comes before the explanation, nothing is counted, and the guess is shown on the first page", async ({ page }) => {
+  await start(page, "uttryck-med-x", { wait: false });
+  await expect(eyebrow(page)).toHaveText("PROVA FÖRST");
+  await expect(page.locator("#lesson-player .pl-try-prompt")).toContainText("Jag tänker på ett tal");
+  await page.locator("#lesson-player .pl-try-form input").fill("5");
+  await foot(page).getByRole("button", { name: "Svara" }).click();
+  await expect(page.locator("#lesson-player .pl-try-said")).toContainText("Du svarade 5. Det går bra att prova");
+  await expect(page.locator("#lesson-player .pl-try-said")).not.toContainText("7");   // the answer is not given away
+  await foot(page).getByRole("button", { name: /Läs genomgången/ }).click();
+  await expect(eyebrow(page)).toHaveText("LÄR DIG");
+  await expect(page.locator("#lesson-player .pl-guess")).toHaveText("Din gissning: 5");
+  for (let i = 0; i < 10 && !(await page.locator("#lesson-player input[name=answer]").count()); i++) await next(page).click();
+  await expect.poll(async () => /"intro":\{[^}]*"tried":"wrong"/.test(await stored(page))).toBe(true);
+});
+
+test("Prova först: a right guess is told, and Jag vet inte än goes on to the explanation", async ({ page }) => {
+  await start(page, "uttryck-med-x", { wait: false });
+  await page.locator("#lesson-player .pl-try-form input").fill("7");
+  await page.locator("#lesson-player .pl-try-form input").press("Enter");
+  await expect(page.locator("#lesson-player .pl-try-said")).toContainText("Det stämmer");
+  await page.evaluate(() => { location.hash = "#start"; setTimeout(() => { location.hash = "#play/negativa-tal"; }, 150); });
+  await expect(foot(page)).toBeVisible();
+  await expect(eyebrow(page)).toHaveText("PROVA FÖRST");
+  await foot(page).getByRole("button", { name: "Jag vet inte än" }).click();
+  await expect(page.locator("#lesson-player .pl-try-said")).toContainText("Det är okej");
+  await foot(page).getByRole("button", { name: /Läs genomgången/ }).click();
+  await expect(eyebrow(page)).toHaveText("LÄR DIG");
+  await expect(page.locator("#lesson-player .pl-guess")).toHaveCount(0);
 });

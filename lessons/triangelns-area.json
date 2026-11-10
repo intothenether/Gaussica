@@ -72,6 +72,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Arean av en triangel är bas gånger höjd delat med 2.",
+        "answer": true,
+        "explain": "En triangel är hälften av en rektangel."
+      },
+      {
+        "text": "En triangel med basen 6 m och höjden 4 m har arean 24 m².",
+        "answer": false,
+        "explain": "(6 · 4)/2 = 12 m²."
+      }
+    ],
+    "correct": "Rätt! A = (bas · höjd)/2."
+  },
   "exercise": {
     "prompt": "Triangeln har basen 10 cm och höjden 6 cm. Vad är arean i cm²?",
     "answer": [

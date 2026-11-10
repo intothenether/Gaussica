@@ -289,6 +289,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Medianen är det mittersta värdet när talen står i storleksordning.",
+        "answer": true,
+        "explain": "I 3, 5, 5, 8, 9 är medianen 5."
+      },
+      {
+        "text": "Typvärdet är det största värdet.",
+        "answer": false,
+        "explain": "Typvärdet är det vanligaste värdet."
+      }
+    ],
+    "correct": "Rätt! Typvärde: vanligast. Median: mitten."
+  },
   "exercise": {
     "prompt": "Vad är medianen av 7, 3, 12, 5, 1?",
     "answer": [

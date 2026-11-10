@@ -246,6 +246,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om 2 kg kostar 30 kr kostar 5 kg 75 kr.",
+        "answer": true,
+        "explain": "1 kg kostar 15 kr och 5 · 15 = 75."
+      },
+      {
+        "text": "I ett proportionellt samband ändras k hela tiden.",
+        "answer": false,
+        "explain": "k = y/x är samma hela tiden."
+      }
+    ],
+    "correct": "Rätt! y = k · x med samma k."
+  },
   "exercise": {
     "prompt": "2 kg äpplen kostar 30 kr. Vad kostar 5 kg?",
     "answer": [

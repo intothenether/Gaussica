@@ -147,6 +147,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om skalfaktorn är 2,5 blir en sida på 6 cm 15 cm.",
+        "answer": true,
+        "explain": "6 · 2,5 = 15."
+      },
+      {
+        "text": "Om längderna växer med faktorn k växer areorna också med k.",
+        "answer": false,
+        "explain": "Areorna växer med k · k."
+      }
+    ],
+    "correct": "Rätt! Längder k, areor k · k."
+  },
   "exercise": {
     "prompt": "Två trianglar är likformiga. En sida på 4 cm i den lilla motsvarar 12 cm i den stora. Vilken längd i den stora motsvarar sidan 5 cm i den lilla?",
     "answer": [

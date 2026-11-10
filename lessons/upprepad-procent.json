@@ -139,6 +139,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "500 kr som höjs med 10 % två gånger i rad blir 605 kr.",
+        "answer": true,
+        "explain": "500 · 1,1 · 1,1 = 605."
+      },
+      {
+        "text": "Två höjningar med 10 % är samma som en höjning med 20 %.",
+        "answer": false,
+        "explain": "Den andra höjningen sker på det nya priset, så det blir mer: 21 %."
+      }
+    ],
+    "correct": "Rätt! Multiplicera faktorn lika många gånger som perioderna."
+  },
   "exercise": {
     "prompt": "Du sätter in 2000 kr med 10 % ränta per år. Hur mycket har du efter 2 år, om du inte gör några andra insättningar?",
     "answer": [

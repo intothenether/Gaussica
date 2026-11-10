@@ -30,6 +30,12 @@ ok(/under 13/.test(v) && /under 13/.test(p), "the consent of a guardian for chil
 ok(/Integritetsskyddsmyndigheten/.test(p) && /radera/i.test(p) && /personuppgiftsansvarig/.test(p), "the controller, the right to erasure and the authority are in the privacy policy");
 ok(/\.\/integritet\.html|href="integritet\.html"/.test(v) && /href="angerratt\.html"/.test(v), "the terms link to the privacy policy and the page about withdrawal");
 
+// the page for parents says what the service is, what it costs and how to stop, and links to the texts
+const f = made.pages["foraldrar.html"];
+ok(/Provperiod|provperiod/.test(f) && /ångerrätt/i.test(f) && /integritet\.html/.test(f) && /villkor\.html/.test(f) && /angerratt\.html/.test(f), "the page for parents tells about the trial and the right to withdraw, and links to the texts");
+ok(/Ingen reklam/.test(f) && /radera/i.test(f), "and says that there is no advertising and that everything can be deleted");
+ok(/foraldrar\.html/.test(read("auth-view.js")) && /foraldrar\.html/.test(read("server.js")) && /foraldrar\.html/.test(read("privacy.js")), "the sign-in, the Node server and the privacy text link to or serve the page for parents");
+
 // the same version as the server writes down when an adult accepts the terms
 const account = read("server/account.js"), worker = read("cloudflare/worker.js");
 ok(new RegExp('TERMS_VERSION \\|\\| "' + made.info.version + '"').test(account) && new RegExp('TERMS_VERSION \\|\\| "' + made.info.version + '"').test(worker), "the servers write down the version " + made.info.version + " when the terms are accepted");

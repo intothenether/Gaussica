@@ -261,6 +261,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du köper en bok för 37 kronor och betalar med en 50-lapp. Hur många kronor ska du få tillbaka?",
+    "answer": [
+      "13"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

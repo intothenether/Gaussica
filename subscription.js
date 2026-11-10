@@ -8,7 +8,8 @@
 //   GaussicaSubscription.describe(access)        the access as a sentence ("Provperiod: 9 dagar kvar")
 //
 // What the user gets from the server (see server/account.js): user.access = { state: "active" | "expired", plan: "free" | "trial" | "paid" | "school", reason, until,
-// daysLeft, cancelAtPeriodEnd, billing } and, for an adult, user.email and user.emailVerified. Nothing here is checked as a secret: the server decides.
+// daysLeft, cancelAtPeriodEnd, billing } and, for an adult, user.email and user.emailVerified, and for a caregiver user.digest = { available, enabled }
+// (the weekly summary by e-mail, see server/digest-core.js). Nothing here is checked as a secret: the server decides.
 
 window.GaussicaSubscription = (function () {
   "use strict";
@@ -225,6 +226,23 @@ window.GaussicaSubscription = (function () {
       box.appendChild(again);
     }
     box.appendChild(msg);
+    // the summary of the week by e-mail (when the site can send it): the adult asks for it, and it needs a verified address
+    if (u.digest && u.digest.available) {
+      const row = makeElement("label", "sub-digest");
+      const check = document.createElement("input");
+      check.type = "checkbox";
+      check.checked = Boolean(u.digest.enabled);
+      row.append(check, makeElement("span", "", " Skicka en sammanfattning av barnens vecka till min e-post, varje söndag"));
+      check.addEventListener("change", function () {
+        const want = check.checked;
+        api.post("/api/me/digest", { enabled: want }).then(function (r) {
+          u.digest.enabled = r.enabled;
+          msg.className = "sub-msg is-ok";
+          msg.textContent = r.enabled ? "Du får en sammanfattning på söndagar." : "Du får inte fler sammanfattningar.";
+        }).catch(function (err) { check.checked = !want; msg.className = "sub-msg is-error"; msg.textContent = err.message; });
+      });
+      box.appendChild(row);
+    }
     return box;
   }
 

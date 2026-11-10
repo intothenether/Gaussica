@@ -332,6 +332,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "17 kakor delas lika på 5 barn. Hur många kakor får varje barn?",
+    "answer": [
+      "3",
+      "tre"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

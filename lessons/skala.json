@@ -91,6 +91,22 @@
       "feedback": [{"answers":["=c+k"],"message":"Varje centimeter på kartan är {k} km. Multiplicera {c} med {k}."}]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I skala 1:100 000 är 1 cm på kartan 100 000 cm i verkligheten.",
+        "answer": true,
+        "explain": "Det är 1 km."
+      },
+      {
+        "text": "Ritningen får du genom att multiplicera verkligheten med skalan.",
+        "answer": false,
+        "explain": "Du delar verkligheten med skalan."
+      }
+    ],
+    "correct": "Rätt! Verklighet = ritning · skalan."
+  },
   "exercise": {
     "prompt": "På en ritning i skala 1:100 är en vägg 5 cm lång. Hur lång är väggen i verkligheten, i cm?",
     "answer": [

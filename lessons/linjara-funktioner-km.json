@@ -256,6 +256,22 @@
       ]
     }
   ],
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I y = 3x − 2 är k = 3 och m = −2.",
+        "answer": true,
+        "explain": "k är lutningen och m är där linjen skär y-axeln."
+      },
+      {
+        "text": "m säger hur mycket y ändras när x ökar med 1.",
+        "answer": false,
+        "explain": "Det är k. m är startvärdet."
+      }
+    ],
+    "correct": "Rätt! k är lutningen och m är startvärdet."
+  },
   "exercise": {
     "prompt": "Vad är m i funktionen y = 3x − 2?",
     "answer": [
