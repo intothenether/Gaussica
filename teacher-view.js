@@ -325,6 +325,10 @@ window.GaussicaTeacher = (function () {
     head.append(avatar, who);
     card.appendChild(head);
     card.appendChild(el("p", "tv-week-summary", weekSummary(s.name, w, finishedThisWeek(a, Date.now()))));
+    // a practice test for the national tests that was finished this week (provtraining.js)
+    (window.GaussicaProvTraining ? window.GaussicaProvTraining.finished(s, Date.now()) : []).slice(0, 2).forEach(function (r) {
+      card.appendChild(el("p", "tv-userline", "Provträning " + r.name.toLowerCase() + ": " + r.score + " av " + r.total + " rätt."));
+    });
 
     const stats = el("div", "tv-stats");
     [

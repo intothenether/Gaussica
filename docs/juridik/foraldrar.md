@@ -10,6 +10,7 @@ Gaussica är en webbplats där barn övar matematik från åk 3 till gymnasiet, 
 - Sedan kommer uppgifter. När ett svar blir fel får barnet ett tips som hjälper att komma vidare utan att ge bort svaret, och ett löst exempel om det behövs.
 - Barnet har ett eget djur som det tjänar mynt åt genom att lära sig, och som det kan köpa hattar och saker till rummet åt. Mynt ges för att lära sig, inte för att klicka. Det finns inga serier som man tappar, inga dagliga mål och ingen jämförelse med andra barn.
 - Figurerna rör sig och går att utforska: tallinjen, bråken, klockan, koordinatsystemet och mycket mer.
+- Vill du veta om det passar skolans mål? [Så täcker Gaussica kursplanen](kursplan.html) visar, del för del, vad som finns och vad som saknas.
 
 ## Vad du ser som förälder
 

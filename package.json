@@ -11,7 +11,8 @@
     "test:all": "npm test && playwright test",
     "test:changed": "node scripts/test-changed.js",
     "db:status": "node cloudflare/migrate.js",
-    "db:migrate": "node cloudflare/migrate.js --apply"
+    "db:migrate": "node cloudflare/migrate.js --apply",
+    "backup": "node --disable-warning=ExperimentalWarning cloudflare/backup.js"
   },
   "engines": {
     "node": ">=22.13"

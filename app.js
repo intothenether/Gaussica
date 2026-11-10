@@ -896,6 +896,11 @@
       }
     }
     renderJourneyAndNotebook();
+    const provCard = document.getElementById("provtr-card");
+    if (provCard) {
+      if (course && isStudent() && window.GaussicaProvTraining) window.GaussicaProvTraining.renderCard(provCard, currentUser && { lessonProgress: lessonProgress }, course.lessons, { open: function (setId, round) { window.location.hash = "#provtraning/" + setId + "/" + round; } });
+      else provCard.hidden = true;
+    }
     const trainCard = document.getElementById("train-card");
     if (trainCard) {
       if (course && isStudent()) window.GaussicaFluency.renderCard(trainCard, fluencyRecord(), { open: function () { window.location.hash = "#traning"; } });
@@ -983,7 +988,7 @@
   // The start page is kept calm: "Idag" has the rest of the path (the step of the day is in the hero above it), and the rest (the notebook, the road, the training and
   // the workshop) is gathered under "Mer att utforska", which is closed unless the student has opened it before.
   const MORE_KEY = "gaussica.more-open";
-  const MORE_NAMES = { "knep-card": "Mina knepiga", "journey-card": "Resan", "train-card": "Snabbträning", "workshop-card": "Verkstad" };
+  const MORE_NAMES = { "knep-card": "Mina knepiga", "journey-card": "Resan", "train-card": "Snabbträning", "provtr-card": "Provträning", "workshop-card": "Verkstad" };
 
   function updateStartPage() {
     const today = document.getElementById("today");
@@ -1167,10 +1172,21 @@
     });
   }
 
-  // A prov (generated test) from the teacher: route #prov/<assignment id>
+  // A prov (generated test) from the teacher: route #prov/<assignment id>. Provträning (provtraining.js) is the same test that the student starts without a teacher:
+  // route #provtraning/<set>/<round>.
   function openProv(id) {
     const assignment = ((currentUser && currentUser.assignments) || []).find(function (a) { return String(a.id) === String(id) && a.kind === "prov"; });
     if (!isStudent() || !assignment || !assignment.config) { window.location.hash = "#larstig"; return; }
+    runProv(assignment);
+  }
+
+  function openProvTraining(setId, round) {
+    const assignment = window.GaussicaProvTraining && window.GaussicaProvTraining.assignment(setId, Number(round));
+    if (!isStudent() || !assignment || Number(round) < 1) { window.location.hash = "#larstig"; return; }
+    runProv(assignment);
+  }
+
+  function runProv(assignment) {
     window.GaussicaProv.open({
       container: document.querySelector("#lesson-player"),
       lessons: function () { return course.lessons; },
@@ -1754,7 +1770,7 @@
     if (popupOpen && !(course && course.lessons.some(function (l) { return "#" + l.id === hash; }))) closePopup(true);
     const playId = hash.indexOf("#play/") === 0 ? hash.slice(6) : "";
     const practiceId = hash.indexOf("#practice/") === 0 ? decodeURIComponent(hash.slice(10)) : "";
-    if (hash !== "#nivatest" && hash.indexOf("#prov/") !== 0) window.GaussicaTest.closeActive();
+    if (hash !== "#nivatest" && hash.indexOf("#prov/") !== 0 && hash.indexOf("#provtraning/") !== 0) window.GaussicaTest.closeActive();
     if (hash !== "#traning") window.GaussicaFluency.closeActive();
     if (hash !== "#knepiga") window.GaussicaNotebook.closeActive();
     if (hash === "#knepiga" || hash === "#knepiga-trana") {
@@ -1768,6 +1784,14 @@
       if (studentView) studentView.hidden = false;
       window.GaussicaPlayer.close(true);
       openFluency();
+      return;
+    }
+    const trainMatch = /^#provtraning\/([a-z0-9]+)\/(\d+)$/.exec(hash);
+    if (trainMatch) {
+      if (adminPage) adminPage.hidden = true;
+      if (studentView) studentView.hidden = false;
+      window.GaussicaPlayer.close(true);
+      openProvTraining(trainMatch[1], trainMatch[2]);
       return;
     }
     const provMatch = /^#prov\/(\d+)$/.exec(hash);

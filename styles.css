@@ -4918,3 +4918,11 @@ html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-bank { margin: 0 0 6px;
 .tip-pet svg { width: 100%; height: 100%; display: block; }
 @keyframes tip-tilt { 0% { transform: rotate(0); } 55% { transform: rotate(-11deg); } 100% { transform: rotate(-7deg); } }
 @media (prefers-reduced-motion: reduce) { .tip-pet { animation: none; transform: rotate(-7deg); } }
+
+/* ---- Provträning (provtraining.js) ---- */
+.provtr-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.provtr-btn { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 150px; padding: 10px 14px; border: 2px solid var(--brand-dark); border-radius: 14px; background: #fff; color: var(--ink); font: 700 14px "Nunito", sans-serif; text-align: left; cursor: pointer; box-shadow: 0 3px 0 var(--brand-dark); }
+.provtr-btn strong { font-size: 17px; }
+.provtr-btn small { font-weight: 600; opacity: .8; }
+.provtr-btn small:empty { display: none; }
+.provtr-btn:hover { background: var(--sky-soft); }

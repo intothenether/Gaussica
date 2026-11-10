@@ -10,7 +10,7 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const DIR = path.join(ROOT, "docs", "juridik");
-const PAGES = [["foraldrar", "Gaussica för föräldrar"], ["villkor", "Allmänna villkor"], ["integritet", "Integritetspolicy"], ["angerratt", "Ångerrätt och återbetalning"]];
+const PAGES = [["foraldrar", "Gaussica för föräldrar"], ["kursplan", "Så täcker Gaussica kursplanen"], ["villkor", "Allmänna villkor"], ["integritet", "Integritetspolicy"], ["angerratt", "Ångerrätt och återbetalning"]];
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -43,24 +43,37 @@ function markdown(md) {
 const STYLE = "body{margin:0;background:#fff7fa;color:#23284a;font:17px/1.6 Nunito,system-ui,-apple-system,'Segoe UI',sans-serif}main{max-width:740px;margin:0 auto;padding:24px 18px 60px}" +
   "h1{font-size:30px;line-height:1.2;margin:.4em 0}h2{font-size:21px;margin:1.6em 0 .3em}p,li{margin:.5em 0}a{color:#3b4f93;font-weight:700}" +
   ".draft{margin:14px 0;padding:12px 16px;border:2px solid #d9831f;border-radius:12px;background:#fff3e2;font-weight:700}" +
+  ".note{padding:10px 14px;border-radius:10px;background:#eef1fb;font-size:15px}.count{font-size:15px;font-weight:600;color:#5c6288}.gap{color:#a8324d;font-weight:700}.lessons{font-size:15px;color:#4a5078}li{margin:.9em 0}" +
   ".back{margin:0}footer{margin-top:40px;padding-top:14px;border-top:1px solid #ecd2dc;font-size:14px;color:#5c6288}footer a{margin-right:14px}";
+
+// the whole page around a body
+function page(p, info, body) {
+  const draft = info.utkast
+    ? '<p class="draft" role="note">UTKAST: den här sidan är inte klar. Uppgifter i [hakparentes] ska fyllas i och texten granskas innan tjänsten tar betalt.</p>'
+    : "";
+  return '<!doctype html>\n<html lang="sv">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>' + esc(p[1]) + " | Gaussica</title>\n<style>" + STYLE + "</style>\n</head>\n<body>\n<main>\n" +
+    '<p class="back"><a href="./index.html">&larr; Till Gaussica</a></p>\n' + draft + "\n" + body + "\n" +
+    "<footer>Version " + esc(info.version) + " · uppdaterad " + esc(info.datum) + "<br>" + PAGES.map((q) => '<a href="./' + q[0] + '.html">' + esc(q[1]) + "</a>").join("") + "</footer>\n</main>\n</body>\n</html>\n";
+}
 
 function build() {
   const info = JSON.parse(fs.readFileSync(path.join(DIR, "uppgifter.json"), "utf8"));
   const out = {};
+  let kursplan = null;
   PAGES.forEach(function (p) {
-    const text = fs.readFileSync(path.join(DIR, (p[0] === "angerratt" ? "angerratt" : p[0]) + ".md"), "utf8").replace(/\{\{(\w+)\}\}/g, function (m, key) {
+    // the page about the syllabus is made from lgr22.js and the lesson files, not from a text (scripts/kursplan-page.js)
+    if (p[0] === "kursplan") {
+      kursplan = require("./kursplan-page").html();
+      out["kursplan.html"] = page(p, info, kursplan.body);
+      return;
+    }
+    const text = fs.readFileSync(path.join(DIR, p[0] + ".md"), "utf8").replace(/\{\{(\w+)\}\}/g, function (m, key) {
       if (!(key in info)) throw new Error("docs/juridik/" + p[0] + ".md: no detail called {{" + key + "}} in uppgifter.json");
       return String(info[key]);
     });
-    const draft = info.utkast
-      ? '<p class="draft" role="note">UTKAST: den här sidan är inte klar. Uppgifter i [hakparentes] ska fyllas i och texten granskas innan tjänsten tar betalt.</p>'
-      : "";
-    out[p[0] + ".html"] = '<!doctype html>\n<html lang="sv">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>' + esc(p[1]) + " | Gaussica</title>\n<style>" + STYLE + "</style>\n</head>\n<body>\n<main>\n" +
-      '<p class="back"><a href="./index.html">&larr; Till Gaussica</a></p>\n' + draft + "\n" + markdown(text) + "\n" +
-      "<footer>Version " + esc(info.version) + " · uppdaterad " + esc(info.datum) + "<br>" + PAGES.map((q) => '<a href="./' + q[0] + '.html">' + esc(q[1]) + "</a>").join("") + "</footer>\n</main>\n</body>\n</html>\n";
+    out[p[0] + ".html"] = page(p, info, markdown(text));
   });
-  return { pages: out, info: info };
+  return { pages: out, info: info, kursplan: kursplan };
 }
 
 if (require.main === module) {

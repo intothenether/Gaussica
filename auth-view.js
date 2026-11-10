@@ -205,7 +205,60 @@ window.GaussicaAuth = (function () {
     });
   }
 
+  // ----- the front page for somebody who has not been here before -----
+  // Only for a visitor who comes to the bare address (no # in it) and has not signed in on this browser before. Somebody who has is taken straight to the
+  // sign-in, and so is a link to a page of the site. "Prova utan konto" goes to the trial (demo.js), "Logga in eller skapa konto" on to the sign-in.
+  const RETURNING_KEY = "gaussica.returning";
+  function returning() { try { return window.localStorage.getItem(RETURNING_KEY) === "1"; } catch (e) { return true; } }
+  function markReturning() { try { window.localStorage.setItem(RETURNING_KEY, "1"); } catch (e) { /* storage blocked */ } }
+  const landingWanted = () => !returning() && !window.location.hash && !(window.GaussicaLocal && window.GaussicaLocal.demo && window.GaussicaLocal.demo.active);
+
+  function showLanding() {
+    return new Promise(function (resolve) {
+      const s = screen();
+      s.replaceChildren();
+      const page = el("div", "landing");
+      page.appendChild(wordmark());
+      page.appendChild(el("h1", "landing-title", "Matematik som hänger ihop"));
+      page.appendChild(el("p", "landing-lead", "För barn från åk 3 till gymnasiet. Barnet förstår varför det blir som det blir, i sin egen takt, och du som förälder följer med."));
+      const actions = el("div", "landing-actions");
+      const tryIt = el("a", "landing-btn is-main", "Prova utan konto");
+      tryIt.href = "./index.html#prova";
+      const login = el("button", "landing-btn", "Logga in eller skapa konto");
+      login.type = "button";
+      login.addEventListener("click", function () { markReturning(); resolve(); });
+      actions.append(tryIt, login);
+      page.appendChild(actions);
+      page.appendChild(el("p", "landing-note", "Att prova kräver inget konto och inget sparas utanför din webbläsare."));
+      const cards = el("div", "landing-cards");
+      [
+        ["Förstå, inte bara räkna", "Varje lektion börjar med ett problem och en genomgång, och ett tips efter ett fel svar hjälper barnet vidare utan att ge bort svaret."],
+        ["Ett eget djur, för att lära sig", "Barnet tjänar mynt åt sitt djur genom att lära sig. Det finns inga serier som tappas, inga dagliga mål och ingen jämförelse med andra."],
+        ["Du följer med", "Se barnets vecka, ge uppdrag och heja på. Vill du kan du få en sammanfattning på mejl varje söndag."]
+      ].forEach(function (c) {
+        const card = el("div", "landing-card");
+        card.append(el("h2", "", c[0]), el("p", "", c[1]));
+        cards.appendChild(card);
+      });
+      page.appendChild(cards);
+      const links = el("p", "landing-links");
+      [["För föräldrar", "./foraldrar.html"], ["Så täcker Gaussica kursplanen", "./kursplan.html"], ["Villkor", "./villkor.html"], ["Integritet", "./integritet.html"]].forEach(function (l) {
+        const a = el("a", "", l[0]);
+        a.href = l[1];
+        links.appendChild(a);
+      });
+      page.appendChild(links);
+      s.appendChild(page);
+      tryIt.focus({ preventScroll: true });
+    });
+  }
+
   function showAuthScreen() {
+    if (landingWanted()) return showLanding().then(showAuthCard);
+    return showAuthCard();
+  }
+
+  function showAuthCard() {
     return new Promise(function (resolve) {
       const s = screen();
       s.replaceChildren();
@@ -466,6 +519,7 @@ window.GaussicaAuth = (function () {
   async function handleEmailLinks() {
     const m = /^#(verifiera|aterstall)\/([A-Za-z0-9_-]{10,200})$/.exec(window.location.hash || "");
     if (!m) return;
+    markReturning();   // somebody who comes from a mail has an account: no front page afterwards
     try { window.history.replaceState(null, "", window.location.pathname + window.location.search); } catch (e) { /* the token stays in the address, nothing worse */ }
     if (m[1] === "verifiera") await showVerified(m[2]); else await showReset(m[2]);
   }
@@ -476,8 +530,10 @@ window.GaussicaAuth = (function () {
     for (;;) {
       try {
         const me = await API.get("/api/me");
-        if (me.user) return me.user;
-        return await showAuthScreen();
+        if (me.user) { markReturning(); return me.user; }
+        const user = await showAuthScreen();
+        markReturning();
+        return user;
       } catch (err) {
         await showServerError(err.message);
       }

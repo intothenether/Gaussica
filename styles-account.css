@@ -42,3 +42,18 @@
 .demo-bar { position: sticky; top: 0; z-index: 12000; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; padding: 8px 14px; background: #fff3c9; border-bottom: 2px solid #f6c453; color: #5c4200; font: 700 14px "Nunito", sans-serif; }
 .demo-bar-btn { padding: 6px 14px; border: 2px solid #d9a01f; border-radius: 999px; background: #fff; color: #5c4200; font: 800 13px "Nunito", sans-serif; cursor: pointer; }
 .demo-bar-btn.is-main { background: #3b4f93; border-color: #3b4f93; color: #fff; }
+
+/* ---- the front page for somebody who has not been here before (auth-view.js, showLanding) ---- */
+.landing { width: 100%; max-width: 860px; padding: 8px 4px 30px; font-family: "Nunito", sans-serif; }
+.landing-title { margin: 24px 0 8px; font: 800 clamp(30px, 6vw, 46px) "Nunito", sans-serif; letter-spacing: -.8px; line-height: 1.1; color: var(--ink); }
+.landing-lead { margin: 0 0 22px; max-width: 640px; font-size: clamp(17px, 2.6vw, 20px); line-height: 1.55; }
+.landing-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.landing-btn { display: inline-block; padding: 14px 24px; border: 2px solid var(--brand-dark); border-radius: 14px; background: #fff; color: var(--brand-dark); font: 800 17px "Nunito", sans-serif; text-decoration: none; cursor: pointer; box-shadow: 0 3px 0 var(--brand-dark); }
+.landing-btn.is-main { background: var(--brand); color: #fff; }
+.landing-note { margin: 12px 0 0; font-size: 14px; opacity: .8; }
+.landing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 34px 0 24px; }
+.landing-card { padding: 18px 18px 16px; border: 2px solid var(--border); border-radius: 18px; background: var(--paper); }
+.landing-card h2 { margin: 0 0 6px; font: 800 18px "Nunito", sans-serif; }
+.landing-card p { margin: 0; font-size: 15px; line-height: 1.55; }
+.landing-links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.landing-links a { color: var(--brand-dark); font-weight: 700; }

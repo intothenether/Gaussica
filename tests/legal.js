@@ -36,6 +36,13 @@ ok(/Provperiod|provperiod/.test(f) && /ångerrätt/i.test(f) && /integritet\.htm
 ok(/Ingen reklam/.test(f) && /radera/i.test(f), "and says that there is no advertising and that everything can be deleted");
 ok(/foraldrar\.html/.test(read("auth-view.js")) && /foraldrar\.html/.test(read("server.js")) && /foraldrar\.html/.test(read("privacy.js")), "the sign-in, the Node server and the privacy text link to or serve the page for parents");
 
+// the page about the syllabus: made from lgr22.js and the lessons, honest about the gaps, and found from the page for parents
+const k = made.pages["kursplan.html"];
+ok(made.kursplan && made.kursplan.total > 40 && made.kursplan.covered > 0 && made.kursplan.covered <= made.kursplan.total, "the page about the syllabus counts the parts of the central content that have a lesson: " + (made.kursplan && made.kursplan.covered) + " of " + (made.kursplan && made.kursplan.total));
+ok(/Lgr22/.test(k) && /Skolverket/.test(k) && /inte kursplanens ordalydelse/.test(k) && /gymnasiets matematik/.test(k), "it says that the list is our own summary, where to read the original, and what it does not cover");
+ok((made.kursplan.covered < made.kursplan.total) === /Inga lektioner än/.test(k), "a part without a lesson is shown as a gap");
+ok(/kursplan.html/.test(f) && /kursplan.html/.test(read("server.js")), "the page for parents links to it and the Node server hands it out");
+
 // the same version as the server writes down when an adult accepts the terms
 const account = read("server/account.js"), worker = read("cloudflare/worker.js");
 ok(new RegExp('TERMS_VERSION \\|\\| "' + made.info.version + '"').test(account) && new RegExp('TERMS_VERSION \\|\\| "' + made.info.version + '"').test(worker), "the servers write down the version " + made.info.version + " when the terms are accepted");

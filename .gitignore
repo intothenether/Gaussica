@@ -4,3 +4,4 @@ node_modules/
 lessons/bundle.json
 test-results/
 playwright-report/
+backups/
