@@ -164,6 +164,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur mycket är (2 + 3) · 4?",
+    "answer": [
+      "20"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

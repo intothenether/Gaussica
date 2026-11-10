@@ -254,6 +254,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur mycket är 34 · 6?",
+    "answer": [
+      "204"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

@@ -145,6 +145,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Vågen visar 2,68 kg. Avrunda till hela kilogram.",
+    "answer": [
+      "3"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

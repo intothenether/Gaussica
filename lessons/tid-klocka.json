@@ -184,6 +184,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Klockan visar 14:35. Hur många minuter är det till 15:15?",
+    "answer": [
+      "40"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

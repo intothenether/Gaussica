@@ -153,6 +153,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Ett abonnemang kostar 99 kr plus 2 kr för varje extra sms. Räkningen blev 135 kr. Hur många extra sms skickades?",
+    "answer": [
+      "18"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

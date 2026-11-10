@@ -276,6 +276,12 @@
     "word:1",
     "word:2"
   ],
+  "tryFirst": {
+    "prompt": "Hur många rutor på 1 cm² täcker en rektangel som är 6 cm lång och 4 cm bred?",
+    "answer": [
+      "24"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

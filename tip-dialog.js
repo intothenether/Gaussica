@@ -33,6 +33,22 @@
     if (!silently && done.onClose) done.onClose();
   }
 
+  // The student's pet looks at the tip with its head on one side; without a pet it is a light bulb.
+  function icon() {
+    try {
+      const P = window.GaussicaPet, A = window.GaussicaPetArt;
+      const pet = P && P.current ? P.current() : null;
+      const markup = pet && A && A.svg ? A.svg(pet, { bare: true, label: "" }) : "";
+      if (markup) {
+        const span = make("span", "tip-icon tip-pet");
+        span.setAttribute("aria-hidden", "true");
+        span.innerHTML = markup;
+        return span;
+      }
+    } catch (e) { /* no pet: the bulb */ }
+    return make("span", "tip-icon", "💡");
+  }
+
   function show(host, opts) {
     opts = opts || {};
     const source = opts.source;
@@ -45,7 +61,7 @@
     box.setAttribute("aria-modal", "true");
     box.setAttribute("aria-labelledby", "tip-title");
     const head = make("div", "tip-head");
-    head.appendChild(make("span", "tip-icon", "💡"));
+    head.appendChild(icon());
     const title = make("h2", "tip-title", "Inte riktigt, läs tipset");
     title.id = "tip-title";
     head.appendChild(title);

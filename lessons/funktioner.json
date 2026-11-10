@@ -67,6 +67,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "En taxi kostar 40 kr plus 20 kr per kilometer. Hur många kronor kostar 7 kilometer?",
+    "answer": [
+      "180"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

@@ -147,6 +147,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Två båtar lämnar en hamn. Den ena seglar 3 km, den andra 8 km, och vinkeln mellan riktningarna är 60°. Hur många km är det mellan båtarna?",
+    "answer": [
+      "7"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

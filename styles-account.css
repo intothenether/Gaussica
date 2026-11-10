@@ -32,3 +32,13 @@
 .pv-more a { color: var(--brand); font-weight: 700; }
 .sub-digest { display: flex; align-items: flex-start; gap: 8px; margin: 12px 0 0; font-size: 15px; line-height: 1.5; cursor: pointer; }
 .sub-digest input { margin-top: 4px; }
+
+/* ---- the trial for a parent (demo.js) ---- */
+.demo-bar { position: sticky; top: 0; z-index: 12000; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; padding: 8px 14px; background: #fff3c9; border-bottom: 2px solid #f6c453; color: #5c4200; font: 700 14px "Nunito", sans-serif; }
+.demo-bar-btn { padding: 6px 14px; border: 2px solid #d9a01f; border-radius: 999px; background: #fff; color: #5c4200; font: 800 13px "Nunito", sans-serif; cursor: pointer; }
+.demo-bar-btn.is-main { background: #3b4f93; border-color: #3b4f93; color: #fff; }
+
+/* ---- the trial for a parent (demo.js) ---- */
+.demo-bar { position: sticky; top: 0; z-index: 12000; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; padding: 8px 14px; background: #fff3c9; border-bottom: 2px solid #f6c453; color: #5c4200; font: 700 14px "Nunito", sans-serif; }
+.demo-bar-btn { padding: 6px 14px; border: 2px solid #d9a01f; border-radius: 999px; background: #fff; color: #5c4200; font: 800 13px "Nunito", sans-serif; cursor: pointer; }
+.demo-bar-btn.is-main { background: #3b4f93; border-color: #3b4f93; color: #fff; }

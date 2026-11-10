@@ -141,6 +141,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Vad är 3x + 2x?",
+    "answer": [
+      "5x"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

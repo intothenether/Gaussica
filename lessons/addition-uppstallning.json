@@ -322,6 +322,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur mycket är 478 + 356?",
+    "answer": [
+      "834"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

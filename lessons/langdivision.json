@@ -300,6 +300,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "378 kr delas lika på 14 elever. Hur många kronor får var och en?",
+    "answer": [
+      "27"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

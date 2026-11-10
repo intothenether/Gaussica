@@ -306,6 +306,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Talen är 3, 7, 11, 15. Vilket tal kommer sen?",
+    "answer": [
+      "19"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

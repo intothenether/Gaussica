@@ -253,6 +253,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur mycket är −4 + 7?",
+    "answer": [
+      "3"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

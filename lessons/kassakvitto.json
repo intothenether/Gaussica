@@ -239,6 +239,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "På ett kvitto står 3 bullar à 12 kr och en juice för 18 kr. Hur många kronor blir summan?",
+    "answer": [
+      "54"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

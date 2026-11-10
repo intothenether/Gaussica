@@ -139,6 +139,15 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du sätter in 1000 kr med 5 % ränta per år. Hur många kronor har du efter två år?",
+    "answer": [
+      "1102,5",
+      "1102.5",
+      "1102,50",
+      "1103"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

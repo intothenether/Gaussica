@@ -163,6 +163,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Vad är 7 · 8?",
+    "answer": [
+      "56"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

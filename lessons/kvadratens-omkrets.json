@@ -225,6 +225,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur många meter staket behövs runt en kvadratisk täppa med sidan 4 meter?",
+    "answer": [
+      "16"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

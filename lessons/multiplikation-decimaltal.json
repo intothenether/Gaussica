@@ -333,6 +333,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Ett kilo vindruvor kostar 30 kr. Vad kostar 0,4 kilo?",
+    "answer": [
+      "12"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

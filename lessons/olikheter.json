@@ -129,6 +129,13 @@
       "hint": "Var talet han delade med positivt eller negativt?"
     }
   ],
+  "tryFirst": {
+    "prompt": "Du har 50 kr och en glass kostar 12 kr. Hur många glassar kan du köpa som mest?",
+    "answer": [
+      "4",
+      "fyra"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

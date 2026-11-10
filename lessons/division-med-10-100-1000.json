@@ -278,6 +278,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Vad blir 45000 delat med 100?",
+    "answer": [
+      "450"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

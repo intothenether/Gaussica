@@ -141,6 +141,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "56 saker delas lika i 7 grupper. Hur många saker blir det i varje grupp?",
+    "answer": [
+      "8",
+      "åtta"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

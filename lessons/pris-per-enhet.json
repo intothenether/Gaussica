@@ -166,6 +166,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Butik 1 tar 60 kr för 3 kg äpplen och butik 2 tar 50 kr för 2 kg. Vilken butik är billigast? Svara 1 eller 2.",
+    "answer": [
+      "1"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

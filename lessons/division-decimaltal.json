@@ -258,6 +258,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Tre kompisar delar lika på 7,2 kg godis. Hur många kilo får var och en?",
+    "answer": [
+      "2,4",
+      "2.4"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

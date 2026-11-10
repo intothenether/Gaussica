@@ -166,6 +166,15 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "I en påse ligger 3 röda och 2 blå kulor. Du drar två kulor utan att lägga tillbaka. Hur många procent är chansen att båda är röda?",
+    "answer": [
+      "30",
+      "30 %",
+      "30%",
+      "3/10"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

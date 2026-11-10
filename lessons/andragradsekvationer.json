@@ -239,6 +239,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "En rektangel är 2 cm längre än den är bred, och arean är 48 cm². Hur många centimeter bred är den?",
+    "answer": [
+      "6",
+      "sex"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

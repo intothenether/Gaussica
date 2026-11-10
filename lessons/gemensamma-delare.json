@@ -69,6 +69,15 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "12 kakor och 18 kakor ska packas i lika stora paket så att inget blir över. Skriv en paketstorlek som fungerar för båda.",
+    "answer": [
+      "1",
+      "2",
+      "3",
+      "6"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

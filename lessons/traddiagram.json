@@ -172,6 +172,15 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du kastar ett mynt två gånger. Hur stor är chansen att få krona båda gångerna? Skriv som ett bråk.",
+    "answer": [
+      "1/4",
+      "0,25",
+      "25 %",
+      "25%"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

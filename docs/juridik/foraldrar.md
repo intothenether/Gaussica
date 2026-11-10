@@ -2,6 +2,8 @@
 
 Gaussica är en webbplats där barn övar matematik från åk 3 till gymnasiet, i sin egen takt. Barnet förstår varför det blir som det blir, inte bara hur man räknar. Du som förälder följer med, kan ge uppdrag och heja på.
 
+**[Prova Gaussica nu, utan konto](index.html#prova)**: du ser det som barnet ser, och veckan som en förälder ser den. Det du gör sparas bara i din webbläsare.
+
 ## Vad barnet gör
 
 - Varje lektion börjar med en genomgång som utgår från ett litet problem. Första gången barnet möter en lektion får det tid att läsa den, och en kort fråga kollar att det hänger med.

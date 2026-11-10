@@ -225,6 +225,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur många centimeter är det runt en rektangel som är 7 cm lång och 3 cm bred?",
+    "answer": [
+      "20"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

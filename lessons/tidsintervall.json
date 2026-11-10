@@ -201,6 +201,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Filmen börjar 14:20 och slutar 16:05. Hur många minuter varar den?",
+    "answer": [
+      "105"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

@@ -262,6 +262,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "En jacka kostar 800 kr. Priset sänks med 25 % och höjs sedan med 25 %. Kostar jackan 800 kr igen? Svara ja eller nej.",
+    "answer": [
+      "nej"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

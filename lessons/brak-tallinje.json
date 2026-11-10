@@ -321,6 +321,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur många kronor är 3/4 av 20 kronor?",
+    "answer": [
+      "15"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

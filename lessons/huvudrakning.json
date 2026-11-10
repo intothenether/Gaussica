@@ -276,6 +276,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du har inget papper. Vad är 37 + 48?",
+    "answer": [
+      "85"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

@@ -140,6 +140,14 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur många procent är hälften?",
+    "answer": [
+      "50",
+      "50 %",
+      "50%"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

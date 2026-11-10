@@ -23,6 +23,8 @@ window.GaussicaAPI = (function () {
   async function detect() {
     if (backend) return backend;
     const cfg = window.GAUSSICA_CONFIG || {};
+    // the trial for a parent (demo.js) is always on this browser, whatever config.js says
+    if (window.GaussicaLocal && window.GaussicaLocal.demo && window.GaussicaLocal.demo.active) { backend = "local"; return backend; }
     if (cfg.apiBase) {
       apiBase = String(cfg.apiBase).replace(/\/+$/, "");
       backend = "remote";
@@ -234,6 +236,9 @@ window.GaussicaAuth = (function () {
       const parents = el("a", "pv-link auth-privacy auth-parents", "Läs mer för föräldrar");
       parents.href = "./foraldrar.html";
       card.appendChild(parents);
+      const tryIt = el("a", "pv-link auth-privacy auth-parents", "Prova utan konto");
+      tryIt.href = "./index.html#prova";
+      card.appendChild(tryIt);
       s.appendChild(card);
 
       let mode = "login";
@@ -466,6 +471,7 @@ window.GaussicaAuth = (function () {
   }
 
   async function ensureLoggedIn() {
+    if (window.GaussicaLocal && window.GaussicaLocal.demo && window.GaussicaLocal.demo.active) await window.GaussicaLocal.demo.start();
     await handleEmailLinks();
     for (;;) {
       try {

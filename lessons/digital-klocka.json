@@ -128,6 +128,14 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Klockan är 3 på eftermiddagen. Hur skriver du den på en digital klocka som går till 24? Skriv till exempel 08:25.",
+    "answer": [
+      "15:00",
+      "15.00",
+      "1500"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

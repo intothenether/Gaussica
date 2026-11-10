@@ -210,6 +210,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "En kultur har 1 bakterie och fördubblas varje timme. Efter hur många timmar är det 1024 bakterier?",
+    "answer": [
+      "10",
+      "tio"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

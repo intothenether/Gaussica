@@ -344,6 +344,12 @@
     "word:1",
     "word:2"
   ],
+  "tryFirst": {
+    "prompt": "Hur mycket är 2/7 + 3/7? Skriv som ett bråk.",
+    "answer": [
+      "5/7"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

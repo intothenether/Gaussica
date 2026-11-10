@@ -635,6 +635,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Skriv tre fjärdedelar som ett bråk.",
+    "answer": [
+      "3/4"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

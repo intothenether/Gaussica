@@ -170,6 +170,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "En taxi tar 40 kr för att starta och 15 kr för varje kilometer. Vad kostar 7 km?",
+    "answer": [
+      "145"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

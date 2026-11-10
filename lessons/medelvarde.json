@@ -83,6 +83,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Tre vänner har 4, 6 och 8 kort. Vilket ett tal beskriver hur många de har i vanliga fall?",
+    "answer": [
+      "6",
+      "sex"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

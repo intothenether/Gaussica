@@ -168,6 +168,17 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "12 kakor ska delas lika på några barn utan att något blir över. Skriv ett antal barn som går.",
+    "answer": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "6",
+      "12"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

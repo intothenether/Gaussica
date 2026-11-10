@@ -259,6 +259,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du sprang 2,5 km på lördagen och 1,75 km på söndagen. Hur många kilometer blir det tillsammans?",
+    "answer": [
+      "4,25",
+      "4.25"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

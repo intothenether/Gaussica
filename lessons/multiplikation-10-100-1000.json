@@ -334,6 +334,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur mycket är 34 · 100?",
+    "answer": [
+      "3400",
+      "3 400"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

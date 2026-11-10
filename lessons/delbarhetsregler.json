@@ -272,6 +272,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "156 kulor ska delas lika på 3 kompisar utan att några blir över. Går det? Svara ja eller nej.",
+    "answer": [
+      "ja"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

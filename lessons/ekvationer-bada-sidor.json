@@ -254,6 +254,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Mira har 8 kr och sparar 5 kr i veckan. Omar har 20 kr och sparar 2 kr i veckan. Efter hur många veckor har de lika mycket?",
+    "answer": [
+      "4",
+      "fyra"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

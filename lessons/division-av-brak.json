@@ -134,6 +134,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du har 3/4 liter saft, och ett glas rymmer 1/4 liter. Hur många glas kan du fylla?",
+    "answer": [
+      "3",
+      "tre"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

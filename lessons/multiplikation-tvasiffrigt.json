@@ -229,6 +229,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur mycket är 23 · 14?",
+    "answer": [
+      "322"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

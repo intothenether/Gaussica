@@ -223,6 +223,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur många kvadratmeter gräsmatta behövs för en kvadrat med sidan 4 meter?",
+    "answer": [
+      "16"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

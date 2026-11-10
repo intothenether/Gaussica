@@ -184,6 +184,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Temperaturen är 4 °C klockan 8 och 16 °C klockan 12. Hur många grader varmare blev det per timme?",
+    "answer": [
+      "3",
+      "tre"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

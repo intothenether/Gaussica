@@ -183,6 +183,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du har 3 tröjor och 2 byxor. Hur många olika klädsel kan du göra?",
+    "answer": [
+      "6",
+      "sex"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

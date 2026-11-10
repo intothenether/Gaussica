@@ -314,6 +314,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur mycket är 52 − 27?",
+    "answer": [
+      "25"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

@@ -265,6 +265,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du räknar 48 + 39 och får 187. Stämmer det? Svara ja eller nej.",
+    "answer": [
+      "nej"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

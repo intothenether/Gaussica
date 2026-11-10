@@ -153,6 +153,7 @@ window.GaussicaSubscription = (function () {
     me = user;
     api = API;
     if (!user) return;
+    if (window.GaussicaLocal && window.GaussicaLocal.demo && window.GaussicaLocal.demo.active) return;   // the trial for a parent: nothing about an account
     const access = user.access;
     if (access && access.state === "expired") { showScreen(); return; }
     if (isFamilyOwner(user) && access && access.billing && (access.plan === "trial" || (access.plan === "paid" && access.cancelAtPeriodEnd) || (access.plan === "free" && access.until))) {

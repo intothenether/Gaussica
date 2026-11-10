@@ -149,6 +149,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Ett snöre är 3 meter och ett annat är 45 centimeter. Hur många centimeter är de tillsammans?",
+    "answer": [
+      "345"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

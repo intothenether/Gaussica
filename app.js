@@ -735,7 +735,14 @@
       sw.hidden = !teacher;
       sw.textContent = previewAsStudent ? (currentUser.role === "caregiver" ? "👨‍👩‍👧 Tillbaka till mina barn" : "🧑‍🏫 Tillbaka till lärarvyn") : "👀 Visa som elev";
     }
-    if (banner) banner.hidden = !previewAsStudent;
+    if (banner) {
+      banner.hidden = !previewAsStudent;
+      // a parent sees "barn" and their own account, not "elev" and "lärarkonto"
+      const family = Boolean(currentUser && currentUser.role === "caregiver");
+      const line = banner.querySelector("span"), back = banner.querySelector("button");
+      if (line) line.textContent = family ? "👀 Du ser sidan som ett barn. Dina svar sparas på ditt eget konto, inte hos barnen." : "👀 Du ser sidan som en elev. Dina svar sparas på ditt lärarkonto, inte hos eleverna.";
+      if (back) back.textContent = family ? "Tillbaka till mina barn" : "Tillbaka till lärarvyn";
+    }
     if (adminLink && teacher) adminLink.hidden = previewAsStudent;
   }
 
@@ -1844,7 +1851,8 @@
     try {
       const user = await window.GaussicaAuth.ensureLoggedIn();
       await loadUserData(user);
-      if (window.GaussicaSubscription) window.GaussicaSubscription.start(currentUser, API);   // a bar for the adult, the screen for a family without access
+      if (window.GaussicaSubscription) window.GaussicaSubscription.start(currentUser, API);
+      if (window.GaussicaDemo) window.GaussicaDemo.start();   // a bar for the adult, the screen for a family without access
       await loadCourse();
     } catch (error) {
       showError(error);

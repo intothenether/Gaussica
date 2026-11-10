@@ -246,6 +246,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "2 kg äpplen kostar 30 kr. Vad kostar 5 kg?",
+    "answer": [
+      "75"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

@@ -158,6 +158,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Ett mönster börjar 5, 8, 11, 14. Vilket tal står på plats 100?",
+    "answer": [
+      "302"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

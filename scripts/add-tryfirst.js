@@ -1,6 +1,6 @@
 "use strict";
 // Adds "Prova först" (lesson.tryFirst: the problem of the lesson to try before the explanation, nothing counted) to the lessons that have it: node scripts/add-tryfirst.js
-// A pilot: a handful of lessons whose explanation starts with a problem that a student can have a go at. A lesson that has one is left as it is.
+// Lessons whose explanation starts with a problem that a student can have a go at (the first five were the pilot, the rest are in tryfirst-more.js). A lesson that has one is left as it is.
 const fs = require("fs");
 const path = require("path");
 const DIR = path.join(__dirname, "..", "lessons");
@@ -12,6 +12,8 @@ const TRY = {
   "avrundning-overslag": { prompt: "Du har 100 kr och vill köpa en tröja för 39 kr och en mössa för 52 kr. Räcker pengarna? Svara ja eller nej.", answer: ["ja"] },
   "division-med-rest": { prompt: "17 kakor delas lika på 5 barn. Hur många kakor får varje barn?", answer: ["3", "tre"] }
 };
+
+Object.assign(TRY, require("./tryfirst-more.js"));
 
 let added = 0, skipped = 0;
 Object.keys(TRY).forEach((id) => {

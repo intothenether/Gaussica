@@ -65,6 +65,11 @@ const checkOf = () => JSON.parse(fs.readFileSync(path.join(__dirname, "..", ".."
 
 async function toCheck(page) {
   await start(page, LESSON, { wait: false }, true);
+  // the lesson has a problem to try first: skip it
+  if (await eyebrow(page).innerText() === "PROVA FÖRST") {
+    await foot(page).getByRole("button", { name: "Jag vet inte än" }).click();
+    await foot(page).getByRole("button", { name: /Läs genomgången/ }).click();
+  }
   for (let i = 0; i < 10 && !(await page.locator("#lesson-player .pl-intro-check").count()); i++) await next(page).click();
   await expect(page.locator("#lesson-player .pl-intro-check")).toBeVisible();
 }

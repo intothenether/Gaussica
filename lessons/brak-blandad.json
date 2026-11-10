@@ -237,6 +237,15 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Du har 7/4 pizzor, alltså sju fjärdedelar. Hur många hela pizzor är det?",
+    "answer": [
+      "1",
+      "en",
+      "ett",
+      "1 3/4"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

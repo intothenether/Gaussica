@@ -225,6 +225,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Eli får 7 kulor till och har då 15. Hur många kulor hade hon från början?",
+    "answer": [
+      "8",
+      "åtta"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

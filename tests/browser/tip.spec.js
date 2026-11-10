@@ -109,3 +109,11 @@ test.describe("on a phone", () => {
     await expect(box(page)).toHaveCount(0);
   });
 });
+
+test("the pet of the student looks at the tip with its head on one side", async ({ page }) => {
+  await toExercise(page);
+  await answer(page, "58");
+  await expect(box(page)).toBeVisible();
+  await expect(box(page).locator(".tip-pet svg")).toBeVisible();
+  await expect(box(page).locator(".tip-icon")).toHaveClass(/tip-pet/);
+});

@@ -153,6 +153,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Hur många kulor är det i 7 påsar med 8 kulor i varje?",
+    "answer": [
+      "56"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

@@ -169,6 +169,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Vinklarna i en triangel är 180° tillsammans. Hur många grader är vinkelsumman i en femhörning?",
+    "answer": [
+      "540"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

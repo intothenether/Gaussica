@@ -309,6 +309,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "156 kr delas lika på 6 personer. Hur många kronor får var och en?",
+    "answer": [
+      "26"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

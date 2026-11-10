@@ -794,6 +794,13 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Vad är siffran 8 värd i talet 482? Skriv talet.",
+    "answer": [
+      "80",
+      "åttio"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [

@@ -126,6 +126,12 @@
       ]
     }
   ],
+  "tryFirst": {
+    "prompt": "Fem kompisar ska ställa sig på rad för ett foto. På hur många olika sätt kan de stå?",
+    "answer": [
+      "120"
+    ]
+  },
   "check": {
     "prompt": "Sant eller falskt?",
     "statements": [
