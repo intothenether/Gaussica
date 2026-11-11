@@ -3,7 +3,7 @@
   "area": "tal",
   "parentId": "brak",
   "title": "Täljare och nämnare",
-  "level": "Grundläggande • ungefär åk 4–5",
+  "level": "Grundläggande · ungefär åk 4–5",
   "grade": 4,
   "duration": "4 min",
   "prerequisites": ["platsvarde"],
@@ -81,7 +81,7 @@
           "min": 1
         }
       ],
-      "prompt": "En cirkel är delad i {b} lika stora delar. {a} av delarna är färgade. Vilket bråk är färgat? Svara som bråk.",
+      "prompt": "En cirkel är delad i {b} lika stora delar. {a} av delarna är färgade. Vilket bråk är färgat? Skriv svaret som ett bråk.",
       "answer": [
         "{a}/{b}"
       ],
@@ -528,7 +528,7 @@
           12
         ]
       },
-      "prompt": "Vilken del är störst: 1/{b} eller 1/{c}? Skriv bråket.",
+      "prompt": "Vilken del är störst: 1/{b} eller 1/{c}? Skriv svaret som ett bråk.",
       "answer": [
         "1/{b}"
       ],
@@ -575,7 +575,7 @@
           "min": 1
         }
       ],
-      "prompt": "En chokladkaka har {n} lika stora rutor. {$namn} äter {a} av dem. Vilket bråk visar hur stor del {$namn} åt? Skriv med bråkstreck.",
+      "prompt": "En chokladkaka har {n} lika stora rutor. {$namn} äter {a} av dem. Vilket bråk visar hur stor del {$namn} åt? Skriv svaret som ett bråk.",
       "answer": [
         "{a}/{n}"
       ],
@@ -620,7 +620,7 @@
           "expr": "n-a"
         }
       ],
-      "prompt": "Ett fält är indelat i {n} lika stora rutor. {a} rutor är sådda. Hur stor del av fältet är inte sådd? Skriv som bråk.",
+      "prompt": "Ett fält är indelat i {n} lika stora rutor. {a} rutor är sådda. Hur stor del av fältet är inte sådd? Skriv svaret som ett bråk.",
       "answer": [
         "{r}/{n}"
       ],
@@ -676,7 +676,7 @@
       ]
     },
     {
-      "prompt": "Ett fat har 12 @mat. @djur äter 5 @mat. Vilket bråk visar hur stor del @djur har ätit? Skriv med bråkstreck.",
+      "prompt": "Ett fat har 12 @mat. @djur äter 5 @mat. Vilket bråk visar hur stor del @djur har ätit? Skriv svaret som ett bråk.",
       "answer": [
         "5/12"
       ],
@@ -697,7 +697,7 @@
       ]
     },
     {
-      "prompt": "Ett fält är indelat i 10 lika stora rutor. 3 rutor är sådda med majs. Hur stor del av fältet är sådd med majs? Skriv som bråk.",
+      "prompt": "Ett fält är indelat i 10 lika stora rutor. 3 rutor är sådda med majs. Hur stor del av fältet är sådd med majs? Skriv svaret som ett bråk.",
       "answer": [
         "3/10"
       ],

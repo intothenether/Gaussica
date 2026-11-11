@@ -51,7 +51,7 @@
           9
         ]
       },
-      "prompt": "Utveckla (x + {a})². Skriv x² som x^2.",
+      "prompt": "Utveckla (x + {a})². Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],
@@ -86,7 +86,7 @@
           9
         ]
       },
-      "prompt": "Utveckla (x − {a})². Skriv x² som x^2.",
+      "prompt": "Utveckla (x − {a})². Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],
@@ -121,7 +121,7 @@
           12
         ]
       },
-      "prompt": "Förenkla (x + {a})(x − {a}). Skriv x² som x^2.",
+      "prompt": "Förenkla (x + {a})(x − {a}). Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],
@@ -194,7 +194,7 @@
     "correct": "Rätt! Mittermen 2ab får inte glömmas."
   },
   "exercise": {
-    "prompt": "Utveckla (x + 4)². Skriv x² som x^2.",
+    "prompt": "Utveckla (x + 4)². Skriv x² med knappen eller som x^2.",
     "keys": [
       "^"
     ],
@@ -220,7 +220,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "Utveckla (x − 5)². Skriv x² som x^2.",
+      "prompt": "Utveckla (x − 5)². Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],
@@ -245,7 +245,7 @@
       "form": "utanparentes"
     },
     {
-      "prompt": "Förenkla (x + 6)(x − 6). Skriv x² som x^2.",
+      "prompt": "Förenkla (x + 6)(x − 6). Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],

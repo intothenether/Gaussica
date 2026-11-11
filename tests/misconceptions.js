@@ -50,9 +50,9 @@ const CASES = [
   ["Vad är 6:ans värde i talet 2 643?", "60", "600", "Räknade med fel plats"],
   ["Vad är 6:ans värde i talet 2 643?", "600", "600", null],
   // time
-  ["Klockan är 14:35. Vad är klockan 40 minuter senare? Svara HH:MM.", "14:75", "15:15", "Räknade som om en timme har 100 minuter"],
-  ["Klockan är 14:35. Vad är klockan 40 minuter senare? Svara HH:MM.", "15:75", "15:15", "Räknade som om en timme har 100 minuter"],
-  ["Klockan är 14:35. Vad är klockan 40 minuter senare? Svara HH:MM.", "15:15", "15:15", null],
+  ["Klockan är 14:35. Vad är klockan 40 minuter senare? Skriv tiden med siffror och kolon, som på en digital klocka.", "14:75", "15:15", "Räknade som om en timme har 100 minuter"],
+  ["Klockan är 14:35. Vad är klockan 40 minuter senare? Skriv tiden med siffror och kolon, som på en digital klocka.", "15:75", "15:15", "Räknade som om en timme har 100 minuter"],
+  ["Klockan är 14:35. Vad är klockan 40 minuter senare? Skriv tiden med siffror och kolon, som på en digital klocka.", "15:15", "15:15", null],
   // things that are not mistakes of this kind
   ["Mira har 5 äpplen och får 3 till. Hur många har hon?", "53", "8", null],
   ["Skriv 4 500 000 i grundpotensform.", "45", "4,5*10^6", null],

@@ -248,7 +248,7 @@
       "answer": [
         "=q"
       ],
-      "correct": "Rätt! {n}/{c} = {q} rest {r}, så {q} lag blir fulla och {r} elever blir över.",
+      "correct": "Rätt! {n}/{c} = {q} rest {r}, så {q} lag blir fulla, och {r} blir över.",
       "feedback": [
         {
           "answers": [

@@ -759,7 +759,7 @@
       "origo",
       "origon"
     ],
-    "correct": "Rätt! Origo: Punkten där axlarna möts. Dess koordinater är (0, 0).",
+    "correct": "Rätt! Origo: punkten där axlarna möts. Dess koordinater är (0, 0).",
     "feedback": [
       {
         "answers": [
@@ -768,7 +768,7 @@
           "xaxeln",
           "x axeln"
         ],
-        "message": "X-axeln betyder: Den vågräta tallinjen i ett koordinatsystem. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "X-axeln betyder den vågräta tallinjen i ett koordinatsystem. Men frågan gäller något annat. Läs begreppskorten igen."
       },
       {
         "answers": [
@@ -776,7 +776,7 @@
           "koordinaterna",
           "koordinat"
         ],
-        "message": "Koordinater betyder: De två talen som beskriver var en punkt ligger, skrivna (x, y). Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Koordinater betyder de två talen som beskriver var en punkt ligger, skrivna (x, y). Men frågan gäller något annat. Läs begreppskorten igen."
       }
     ]
   },
@@ -798,14 +798,14 @@
             "yaxeln",
             "y axeln"
           ],
-          "message": "Y-axeln betyder: Den lodräta tallinjen i ett koordinatsystem. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Y-axeln betyder den lodräta tallinjen i ett koordinatsystem. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "origo",
             "origon"
           ],
-          "message": "Origo betyder: Punkten där axlarna möts. Dess koordinater är (0, 0). Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Origo betyder punkten där axlarna möts. Dess koordinater är (0, 0). Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -816,14 +816,14 @@
         "koordinaterna",
         "koordinat"
       ],
-      "correct": "Rätt! Koordinater: De två talen som beskriver var en punkt ligger, skrivna (x, y).",
+      "correct": "Rätt! Koordinater: de två talen som beskriver var en punkt ligger, skrivna (x, y).",
       "feedback": [
         {
           "answers": [
             "origo",
             "origon"
           ],
-          "message": "Origo betyder: Punkten där axlarna möts. Dess koordinater är (0, 0). Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Origo betyder punkten där axlarna möts. Dess koordinater är (0, 0). Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
@@ -832,7 +832,7 @@
             "xaxeln",
             "x axeln"
           ],
-          "message": "X-axeln betyder: Den vågräta tallinjen i ett koordinatsystem. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "X-axeln betyder den vågräta tallinjen i ett koordinatsystem. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     }

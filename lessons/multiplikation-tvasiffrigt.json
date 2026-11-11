@@ -12,7 +12,7 @@
   ],
   "summary": "När det nedre talet har två siffror multiplicerar du med en siffra i taget och lägger ihop raderna.",
   "explanationTitle": "Hur räknar vi 23 · 14?",
-  "explanation": "Problemet: Med uppställning kan du multiplicera med en siffra, som 274 · 6. Men hur räknar du 23 · 14, där det nedre talet har två siffror? Tabellerna räcker inte och en enda rad går inte att skriva. Idén är att dela upp 14 i 4 och 10, för 23 · 14 = 23 · 4 + 23 · 10. Det betyder två rader i uppställningen. Steg 1: Multiplicera med entalssiffran 4 och skriv svaret på första raden. Steg 2: Multiplicera med tiotalssiffran 1. Det är tiotal, så skriv först en nolla på entalsplatsen, sedan resten av svaret på andra raden. Steg 3: Lägg ihop raderna. Tryck på Nästa steg i bilden och följ med när 23 · 14 räknas ut. Gör gärna ett överslag först: 20 · 10 = 200, så svaret ska vara lite större.",
+  "explanation": "Problemet: Med uppställning kan du multiplicera med en siffra, som 274 · 6. Men hur räknar du 23 · 14, där det nedre talet har två siffror? Tabellerna räcker inte och en enda rad går inte att skriva. Idén är att dela upp 14 i 4 och 10, för 23 · 14 = 23 · 4 + 23 · 10. Det betyder två rader i uppställningen. Stegen står i rutorna nedan, med 23 · 14 som exempel. Tryck sedan på Nästa steg i bilden och följ med när 23 · 14 räknas ut. Gör gärna ett överslag först: 20 · 10 = 200, så svaret ska vara lite större.",
   "visual": {
     "type": "uppstallning",
     "op": "*",
@@ -27,10 +27,42 @@
       "a": 47,
       "b": 36,
       "title": "Ett exempel till: 47 · 36"
+    },
+    {
+      "type": "steg",
+      "title": "Så multiplicerar du med ett tvåsiffrigt tal",
+      "example": "Vi räknar 23 · 14.",
+      "steps": [
+        {
+          "do": "Multiplicera med entalssiffran och skriv svaret på första raden.",
+          "show": [
+            "23 · 4 = 92",
+            "Skriv 92 på första raden."
+          ]
+        },
+        {
+          "do": "Multiplicera med tiotalssiffran. Det är tiotal, så skriv först en nolla på entalsplatsen och sedan resten av svaret på andra raden.",
+          "show": [
+            "23 · 1 = 23, men det är 23 tiotal, alltså 230.",
+            "Skriv 230 på andra raden."
+          ]
+        },
+        {
+          "do": "Lägg ihop raderna.",
+          "show": [
+            "   92",
+            "+ 230",
+            "-----",
+            "  322"
+          ],
+          "mono": true
+        }
+      ]
     }
   ],
   "layout": [
     "explanation",
+    "comp:1",
     "visual",
     "comp:0",
     "rule",

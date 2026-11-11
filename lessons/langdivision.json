@@ -13,7 +13,7 @@
   ],
   "summary": "När du delar med ett tvåsiffrigt tal skriver du ut varje delsteg: gissa, multiplicera, subtrahera och hämta ner nästa siffra.",
   "explanationTitle": "Hur delar vi 378 på 14?",
-  "explanation": "Problemet: Kortdivision fungerar när du delar med ett tal som du kan tabellen för. Men hur delar du 378 kr lika på 14 elever? Det som blir över i varje steg är svårt att hålla reda på i huvudet, och 14-tabellen kan du inte utantill. Då skriver vi ut varje delsteg. Det kallas långdivision. Steg 1: Titta på så många av de första siffrorna att det blir minst 14. Här är 3 för litet, så ta 37. Steg 2: Hur många gånger ryms 14 i 37? 2 gånger, för 14 · 2 = 28. Skriv 2 i svaret. Steg 3: Subtrahera: 37 − 28 = 9. Steg 4: Hämta ner nästa siffra, 8, så du får 98. Upprepa: 14 går 7 gånger i 98, för 14 · 7 = 98, och 98 − 98 = 0. Svaret är 27. Gissa med hjälp av avrundning: 14 är nästan 10, så 37 delat med 14 är nästan 3. Blir resten större än eller lika med 14 har du gissat för lite. Resten ska alltid vara mindre än det du delar med.",
+  "explanation": "Problemet: Kortdivision fungerar när du delar med ett tal som du kan tabellen för. Men hur delar du 378 kr lika på 14 elever? Det som blir över i varje steg är svårt att hålla reda på i huvudet, och 14-tabellen kan du inte utantill. Då skriver vi ut varje delsteg. Det kallas långdivision. Stegen står i rutorna nedan, med 378 delat med 14 som exempel. Gissa med hjälp av avrundning: 14 är nästan 10, så 37 delat med 14 är nästan 3. Blir resten större än eller lika med 14 har du gissat för lite. Resten ska alltid vara mindre än det du delar med.",
   "visual": {
     "type": "langdivision",
     "title": "378 delat med 14",
@@ -133,7 +133,7 @@
           "expr": "q*d+r"
         }
       ],
-      "prompt": "Räkna ut {n} delat med {d}. Skriv svaret med rest, till exempel 5 r 2.",
+      "prompt": "Räkna ut {n} delat med {d}. Skriv svaret med rest, till exempel 5 rest 2.",
       "answer": [
         "{q} r {r}",
         "{q} rest {r}"
@@ -410,5 +410,52 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så gör du långdivision",
+      "example": "Vi delar 378 kr lika på 14 elever.",
+      "steps": [
+        {
+          "do": "Börja längst till vänster i 378. Ta de första siffrorna tills du får ett tal som är minst lika stort som 14.",
+          "show": [
+            "3 är mindre än 14, så det räcker inte.",
+            "37 är större än 14. Ta 37."
+          ]
+        },
+        {
+          "do": "Hur många gånger ryms 14 i det talet? Skriv det i svaret.",
+          "show": [
+            "14 · 2 = 28. (14 · 3 = 42 är för mycket.)",
+            "Skriv 2 i svaret."
+          ]
+        },
+        {
+          "do": "Dra ifrån det du räknade ut från talet du tog. Det som blir kvar är resten.",
+          "show": [
+            "37 − 28 = 9"
+          ]
+        },
+        {
+          "do": "Hämta ner nästa siffra bredvid resten och börja om från steg 2. Upprepa tills alla siffror är använda.",
+          "show": [
+            "Hämta ner 8. Du får 98.",
+            "14 ryms 7 gånger i 98, för 14 · 7 = 98.",
+            "98 − 98 = 0. Svaret är 27."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "visual",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }

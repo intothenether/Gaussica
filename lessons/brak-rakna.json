@@ -205,7 +205,7 @@
           "expr": "a+c"
         }
       ],
-      "prompt": "En pizza är delad i {b} lika stora bitar. Omar äter {a} bitar och Mira äter {c} bitar. Hur stor del av pizzan har de ätit tillsammans? Svara som ett bråk.",
+      "prompt": "En pizza är delad i {b} lika stora bitar. Omar äter {a} bitar och Mira äter {c} bitar. Hur stor del av pizzan har de ätit tillsammans? Skriv svaret som ett bråk.",
       "answer": [
         "{s}/{b}"
       ],
@@ -254,7 +254,7 @@
           "expr": "a-c"
         }
       ],
-      "prompt": "Du har {a}/{b} liter saft. Du dricker {c}/{b} liter. Hur mycket saft är kvar? Svara som ett bråk.",
+      "prompt": "Du har {a}/{b} liter saft. Du dricker {c}/{b} liter. Hur mycket saft är kvar? Skriv svaret som ett bråk.",
       "answer": [
         "{s}/{b}"
       ],
@@ -345,7 +345,7 @@
     "word:2"
   ],
   "tryFirst": {
-    "prompt": "Hur mycket är 2/7 + 3/7? Skriv som ett bråk.",
+    "prompt": "Hur mycket är 2/7 + 3/7? Skriv svaret som ett bråk.",
     "answer": [
       "5/7"
     ]
@@ -396,7 +396,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "Omar äter 1/4 av en pizza och Mira äter 2/4. Hur stor del av pizzan har de ätit tillsammans? Svara som ett bråk.",
+      "prompt": "Omar äter 1/4 av en pizza och Mira äter 2/4. Hur stor del av pizzan har de ätit tillsammans? Skriv svaret som ett bråk.",
       "answer": [
         "3/4"
       ],
@@ -417,7 +417,7 @@
       ]
     },
     {
-      "prompt": "Elsa har 1/2 liter saft. Hon dricker 1/4 liter. Hur mycket saft är kvar? Svara som ett bråk.",
+      "prompt": "Elsa har 1/2 liter saft. Hon dricker 1/4 liter. Hur mycket saft är kvar? Skriv svaret som ett bråk.",
       "answer": [
         "1/4"
       ],

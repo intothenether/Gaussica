@@ -178,7 +178,7 @@
       ]
     },
     {
-      "prompt": "Tre barn delar en pizza i tre lika stora delar. Vilket bråk visar en del? Skriv med bråkstreck.",
+      "prompt": "Tre barn delar en pizza i tre lika stora delar. Vilket bråk visar en del? Skriv svaret som ett bråk.",
       "answer": [
         "1/3"
       ],

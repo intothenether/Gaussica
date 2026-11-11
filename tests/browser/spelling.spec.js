@@ -32,7 +32,7 @@ test("the word bank offers the right word among a few it is mixed up with, and a
   await words(page).filter({ hasText: /^(produkt|differens|kvot)$/ }).first().click();
   await expect(field(page)).toHaveValue(/produkt|differens|kvot/);
   await field(page).press("Enter");
-  await expect(hint(page)).toContainText("betyder:");
+  await expect(hint(page)).toContainText("betyder ");
   // the right word
   await words(page).filter({ hasText: /^summa$/ }).click();
   await expect(field(page)).toHaveValue("summa");

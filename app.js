@@ -1276,6 +1276,10 @@
         parent.appendChild(renderConceptCards(comp));
         return;
       }
+      if (comp.type === "steg" && window.GaussicaStepBoxes) {   // the steps of a method in boxes, with an example followed through
+        parent.appendChild(window.GaussicaStepBoxes.render(comp));
+        return;
+      }
       if (comp.type === "arbetat-exempel" && window.GaussicaWorkedSteps) {   // a worked example, one step at a time
         parent.appendChild(window.GaussicaWorkedSteps.render(comp));
         return;

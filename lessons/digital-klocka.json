@@ -40,7 +40,7 @@
           5
         ]
       },
-      "prompt": "Titta på den analoga klockan. Vad visar den digitala klockan? Svara HH:MM.",
+      "prompt": "Titta på den analoga klockan. Vad visar den digitala klockan? Skriv tiden med siffror och kolon, som på en digital klocka.",
       "visual": {
         "type": "klocka",
         "h": "=h",
@@ -86,7 +86,7 @@
           5
         ]
       },
-      "prompt": "Den analoga klockan visar {h}:{m|2} på eftermiddagen. Vad visar en digital 24-timmarsklocka? Svara HH:MM.",
+      "prompt": "Den analoga klockan visar {h}:{m|2} på eftermiddagen. Vad visar en digital 24-timmarsklocka? Skriv tiden med siffror och kolon, som på en digital klocka.",
       "answer": [
         "{h+12}:{m|2}",
         "{h+12}.{m|2}"
@@ -153,7 +153,7 @@
     "correct": "Rätt! Efter klockan 12 lägger du till 12 timmar."
   },
   "exercise": {
-    "prompt": "Titta på den analoga klockan. Vad visar den digitala klockan? Svara HH:MM.",
+    "prompt": "Titta på den analoga klockan. Vad visar den digitala klockan? Skriv tiden med siffror och kolon, som på en digital klocka.",
     "answer": [
       "08:25",
       "8:25",
@@ -212,7 +212,7 @@
       ]
     },
     {
-      "prompt": "Klockan på bilden visar kvart över tio på kvällen. Hur skriver du tiden på en digital 24-timmarsklocka? Svara HH:MM.",
+      "prompt": "Klockan på bilden visar kvart över tio på kvällen. Hur skriver du tiden på en digital 24-timmarsklocka? Skriv tiden med siffror och kolon, som på en digital klocka.",
       "answer": [
         "22:15",
         "22.15"

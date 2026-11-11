@@ -528,7 +528,7 @@
             "area",
             "arean"
           ],
-          "message": "Area betyder: Hur stor yta en figur täcker, mätt i kvadratenheter. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Area betyder hur stor yta en figur täcker, mätt i kvadratenheter. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -559,7 +559,7 @@
             "omkrets",
             "omkretsen"
           ],
-          "message": "Omkrets betyder: Längden runt en figurs ytterkant. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Omkrets betyder längden runt en figurs ytterkant. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -720,14 +720,14 @@
       "omkrets",
       "omkretsen"
     ],
-    "correct": "Rätt! Omkrets: Längden runt en figurs ytterkant.",
+    "correct": "Rätt! Omkrets: längden runt en figurs ytterkant.",
     "feedback": [
       {
         "answers": [
           "area",
           "arean"
         ],
-        "message": "Area betyder: Hur stor yta en figur täcker, mätt i kvadratenheter. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Area betyder hur stor yta en figur täcker, mätt i kvadratenheter. Men frågan gäller något annat. Läs begreppskorten igen."
       },
       {
         "answers": [
@@ -735,7 +735,7 @@
           "sidan",
           "sidor"
         ],
-        "message": "Sida betyder: En rak linje som begränsar en figur. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Sida betyder en rak linje som begränsar en figur. Men frågan gäller något annat. Läs begreppskorten igen."
       }
     ]
   },
@@ -747,7 +747,7 @@
         "hörnet",
         "hörnen"
       ],
-      "correct": "Rätt! Hörn: Platsen där två sidor i en figur möts.",
+      "correct": "Rätt! Hörn: platsen där två sidor i en figur möts.",
       "feedback": [
         {
           "answers": [
@@ -755,14 +755,14 @@
             "sidan",
             "sidor"
           ],
-          "message": "Sida betyder: En rak linje som begränsar en figur. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Sida betyder en rak linje som begränsar en figur. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "area",
             "arean"
           ],
-          "message": "Area betyder: Hur stor yta en figur täcker, mätt i kvadratenheter. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Area betyder hur stor yta en figur täcker, mätt i kvadratenheter. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -772,7 +772,7 @@
         "rät vinkel",
         "rät"
       ],
-      "correct": "Rätt! Rät vinkel: En vinkel som är exakt 90 grader, som hörnet på ett papper.",
+      "correct": "Rätt! Rät vinkel: en vinkel som är exakt 90 grader, som hörnet på ett papper.",
       "feedback": [
         {
           "answers": [
@@ -780,14 +780,14 @@
             "hörnet",
             "hörnen"
           ],
-          "message": "Hörn betyder: Platsen där två sidor i en figur möts. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Hörn betyder platsen där två sidor i en figur möts. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "symmetrilinje",
             "symmetrilinjen"
           ],
-          "message": "Symmetrilinje betyder: En linje som delar en figur i två delar som är varandras spegelbilder. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Symmetrilinje betyder en linje som delar en figur i två delar som är varandras spegelbilder. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     }

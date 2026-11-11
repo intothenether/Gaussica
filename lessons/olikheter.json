@@ -153,7 +153,7 @@
     "correct": "Rätt! Vänd tecknet vid negativa tal."
   },
   "exercise": {
-    "prompt": "Lös olikheten 3x + 2 < 14. Skriv svaret som x < ... eller x > ...",
+    "prompt": "Lös olikheten 3x + 2 < 14. Skriv svaret som en olikhet med x.",
     "keys": [
       "<",
       ">",
@@ -295,7 +295,7 @@
           "expr": "a*m+b"
         }
       ],
-      "prompt": "Lös olikheten {a}x + {b} < {c}. Skriv svaret som x < ... eller x > ...",
+      "prompt": "Lös olikheten {a}x + {b} < {c}. Skriv svaret som en olikhet med x.",
       "keys": [
         "<",
         ">",
@@ -357,7 +357,7 @@
           "min": 1
         }
       ],
-      "prompt": "Lös olikheten {a}x − {b} > {c}. Skriv svaret som x < ... eller x > ...",
+      "prompt": "Lös olikheten {a}x − {b} > {c}. Skriv svaret som en olikhet med x.",
       "keys": [
         "<",
         ">",
@@ -403,7 +403,7 @@
           "expr": "a*m"
         }
       ],
-      "prompt": "Lös olikheten {a}x ≤ {c}. Skriv svaret som x ≤ ... eller x ≥ ...",
+      "prompt": "Lös olikheten {a}x ≤ {c}. Skriv svaret som en olikhet med x.",
       "keys": [
         "<",
         ">",
@@ -449,7 +449,7 @@
           "expr": "a*m"
         }
       ],
-      "prompt": "Lös olikheten −{a}x < {c}. Skriv svaret som x < ... eller x > ...",
+      "prompt": "Lös olikheten −{a}x < {c}. Skriv svaret som en olikhet med x.",
       "keys": [
         "<",
         ">",

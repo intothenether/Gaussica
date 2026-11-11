@@ -13,7 +13,7 @@
   ],
   "summary": "När talen blir stora ställer du upp multiplikationen och räknar en plats i taget, med entalen först.",
   "explanationTitle": "Hur multiplicerar vi större tal?",
-  "explanation": "Problemet: Multiplikationstabellen räcker bara till 10 · 10. Men hur räknar du 34 · 6 eller 274 · 6? Att lägga ihop 34 sex gånger i huvudet är långsamt och lätt att göra fel på. Vi kan dela upp talet i ental, tiotal och hundratal och använda tabellerna på en del i taget. Det är precis vad uppställning gör. Uppställning är ett sätt att multiplicera stora tal på papper. Du räknar en siffra i taget, från höger till vänster. Steg 1: Skriv talen under varandra, med entalen under varandra. Steg 2: Multiplicera det lilla talet med entalssiffran. Skriv entalssiffran av svaret under strecket. Steg 3: Blev svaret tio eller mer? Då minns du tiotalen och skriver dem som en liten siffra ovanför nästa siffra. Steg 4: Multiplicera med nästa siffra och lägg till minnessiffran. Upprepa tills alla siffror är klara. Tryck på Nästa steg i bilden nedan och följ med när 34 · 6 räknas ut.",
+  "explanation": "Problemet: Multiplikationstabellen räcker bara till 10 · 10. Men hur räknar du 34 · 6 eller 274 · 6? Att lägga ihop 34 sex gånger i huvudet är långsamt och lätt att göra fel på. Vi kan dela upp talet i ental, tiotal och hundratal och använda tabellerna på en del i taget. Det är precis vad uppställning gör. Uppställning är ett sätt att multiplicera stora tal på papper. Du räknar en siffra i taget, från höger till vänster. Stegen står i rutorna nedan, med 34 · 6 som exempel. Tryck sedan på Nästa steg i bilden och följ med när 34 · 6 räknas ut.",
   "visual": {
     "type": "uppstallning",
     "op": "*",
@@ -375,10 +375,49 @@
       "a": 274,
       "b": 6,
       "title": "Ett exempel till: 274 · 6"
+    },
+    {
+      "type": "steg",
+      "title": "Så gör du uppställning med gånger",
+      "example": "Vi räknar 34 · 6.",
+      "steps": [
+        {
+          "do": "Skriv talen under varandra, med entalen under varandra.",
+          "show": [
+            "  34",
+            "·  6",
+            "-----"
+          ],
+          "mono": true
+        },
+        {
+          "do": "Multiplicera det lilla talet med entalssiffran. Skriv entalssiffran av svaret under strecket.",
+          "show": [
+            "6 · 4 = 24",
+            "Skriv 4."
+          ]
+        },
+        {
+          "do": "Blev svaret tio eller mer? Då minns du tiotalen och skriver dem som en liten siffra ovanför nästa siffra.",
+          "show": [
+            "24 är 2 tiotal och 4 ental.",
+            "Minns 2."
+          ]
+        },
+        {
+          "do": "Multiplicera med nästa siffra och lägg till minnessiffran. Upprepa tills alla siffror är klara.",
+          "show": [
+            "6 · 3 = 18",
+            "18 + 2 = 20",
+            "Skriv 20. Svaret är 204."
+          ]
+        }
+      ]
     }
   ],
   "layout": [
     "explanation",
+    "comp:1",
     "visual",
     "comp:0",
     "rule",

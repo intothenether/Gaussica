@@ -249,7 +249,7 @@
       ]
     },
     {
-      "prompt": "Bryt ut x ur x² + 5x. Skriv x² som x^2.",
+      "prompt": "Bryt ut x ur x² + 5x. Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],
@@ -397,7 +397,7 @@
           9
         ]
       },
-      "prompt": "Bryt ut x ur x² + {n}x. Skriv x² som x^2.",
+      "prompt": "Bryt ut x ur x² + {n}x. Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],

@@ -9,18 +9,18 @@
   "prerequisites": [
     "tid-klocka"
   ],
-  "summary": "Ställ in en klocka med reglage och se hur visarna rör sig, och hur man säger tiden på olika sätt.",
+  "summary": "Ställ in en klocka med visarna och se hur tiden ändras, och hur man säger tiden på olika sätt.",
   "explanationTitle": "Korta visaren visar timmen",
   "explanation": "Den korta blå visaren visar timmen och den långa rosa visaren visar minuterna. Pyssla med klockan och klara utmaningarna.",
   "components": [
     {
       "type": "pyssel",
       "title": "Ställ klockan",
-      "intro": "Flytta reglagen. Klockan visar också den digitala tiden.",
+      "intro": "Flytta visarna. Klockan visar också den digitala tiden.",
       "params": [
         {
           "name": "h",
-          "label": "Timme",
+          "label": "Timvisaren",
           "min": 1,
           "max": 12,
           "step": 1,
@@ -28,7 +28,7 @@
         },
         {
           "name": "m",
-          "label": "Minut",
+          "label": "Minutvisaren",
           "min": 0,
           "max": 55,
           "step": 5,
@@ -116,7 +116,8 @@
             }
           ]
         }
-      ]
+      ],
+      "controls": "visarna"
     }
   ],
   "layout": [

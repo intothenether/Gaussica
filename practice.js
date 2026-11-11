@@ -258,11 +258,12 @@ window.GaussicaPractice = (function () {
       const accepted = [p.term].concat(p.alt || []);
       const plain = function (s) { return String(s).toLowerCase().replace(/s+/g, ""); };
       const cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
+      const small = function (s) { return /^[A-ZÅÄÖ][A-ZÅÄÖ]/.test(s) ? s : s.charAt(0).toLowerCase() + s.slice(1); };
       // a term of the pool given for another explanation: what that term means (these words are also what the word bank offers instead)
       const feedback = [];
       pool.slice(1).forEach(function (q) {
         const answers = [q.term].concat(q.alt || []).filter(function (a) { return !accepted.some(function (x) { return plain(x) === plain(a); }); });
-        if (answers.length) feedback.push({ answers: answers, message: cap(q.term) + " betyder: " + String(q.definition).replace(/[.!?]+$/, "") + ". Det är inte det som frågas. Läs förklaringen en gång till." });
+        if (answers.length) feedback.push({ answers: answers, message: cap(q.term) + " betyder " + small(String(q.definition).replace(/[.!?]+$/, "")) + ". Men frågan gäller något annat. Läs förklaringen en gång till." });
       });
       // asked with the explanation or with an example where the word is missing: not always the same sentence for the same word
       const options = faces(p);

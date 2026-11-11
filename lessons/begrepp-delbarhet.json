@@ -956,7 +956,7 @@
       "primtalet",
       "ett primtal"
     ],
-    "correct": "Rätt! Primtal: Ett tal större än 1 som bara har 1 och sig självt som delare.",
+    "correct": "Rätt! Primtal: ett tal större än 1 som bara har 1 och sig självt som delare.",
     "feedback": [
       {
         "answers": [
@@ -964,7 +964,7 @@
           "multipeln",
           "multiplar"
         ],
-        "message": "Multipel betyder: Ett tal som finns i ett annat tals multiplikationstabell. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Multipel betyder ett tal som finns i ett annat tals multiplikationstabell. Men frågan gäller något annat. Läs begreppskorten igen."
       },
       {
         "answers": [
@@ -972,7 +972,7 @@
           "sammansatta tal",
           "sammansatt"
         ],
-        "message": "Sammansatt tal betyder: Ett tal större än 1 som har fler delare än 1 och sig självt. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Sammansatt tal betyder ett tal större än 1 som har fler delare än 1 och sig självt. Men frågan gäller något annat. Läs begreppskorten igen."
       }
     ]
   },
@@ -983,7 +983,7 @@
         "rest",
         "resten"
       ],
-      "correct": "Rätt! Rest: Det som blir över när en division inte går jämnt upp.",
+      "correct": "Rätt! Rest: det som blir över när en division inte går jämnt upp.",
       "feedback": [
         {
           "answers": [
@@ -991,7 +991,7 @@
             "delaren",
             "delarna"
           ],
-          "message": "Delare betyder: Ett tal som går jämnt upp i ett annat tal. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Delare betyder ett tal som går jämnt upp i ett annat tal. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
@@ -999,7 +999,7 @@
             "multipeln",
             "multiplar"
           ],
-          "message": "Multipel betyder: Ett tal som finns i ett annat tals multiplikationstabell. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Multipel betyder ett tal som finns i ett annat tals multiplikationstabell. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -1010,7 +1010,7 @@
         "multipeln",
         "multiplar"
       ],
-      "correct": "Rätt! Multipel: Ett tal som finns i ett annat tals multiplikationstabell.",
+      "correct": "Rätt! Multipel: ett tal som finns i ett annat tals multiplikationstabell.",
       "feedback": [
         {
           "answers": [
@@ -1018,14 +1018,14 @@
             "delaren",
             "delarna"
           ],
-          "message": "Delare betyder: Ett tal som går jämnt upp i ett annat tal. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Delare betyder ett tal som går jämnt upp i ett annat tal. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "rest",
             "resten"
           ],
-          "message": "Rest betyder: Det som blir över när en division inte går jämnt upp. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Rest betyder det som blir över när en division inte går jämnt upp. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     }

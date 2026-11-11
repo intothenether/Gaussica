@@ -40,7 +40,7 @@
         },
         {
           "term": "konstant",
-          "definition": "Ett tal som inte ändras, utan en variabel.",
+          "definition": "Ett tal som alltid har samma värde, till skillnad från en variabel.",
           "example": "I 3x + 2 är 2 en konstant."
         },
         {
@@ -88,7 +88,7 @@
       "pairs": [
         {
           "term": "konstant",
-          "definition": "Ett tal som inte ändras, utan en variabel."
+          "definition": "Ett tal som alltid har samma värde, till skillnad från en variabel."
         },
         {
           "term": "koefficient",
@@ -198,7 +198,7 @@
         },
         {
           "term": "konstant",
-          "definition": "Ett tal som inte ändras, utan en variabel.",
+          "definition": "Ett tal som alltid har samma värde, till skillnad från en variabel.",
           "examples": [
             "I 3x + 2 är 2 en konstant.",
             "En konstant är ett tal som inte ändras."
@@ -286,7 +286,7 @@
         },
         {
           "term": "konstant",
-          "definition": "Ett tal som inte ändras, utan en variabel.",
+          "definition": "Ett tal som alltid har samma värde, till skillnad från en variabel.",
           "alt": [
             "konstanten"
           ],
@@ -417,28 +417,28 @@
             "konstant",
             "konstanten"
           ],
-          "message": "Konstant betyder: Ett tal som inte ändras, utan en variabel. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Konstant betyder ett tal som alltid har samma värde, till skillnad från en variabel. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "variabel",
             "variabeln"
           ],
-          "message": "Variabel betyder: En bokstav som står för ett tal som kan variera eller är okänt. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Variabel betyder en bokstav som står för ett tal som kan variera eller är okänt. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "uttryck",
             "uttrycket"
           ],
-          "message": "Uttryck betyder: Tal, variabler och räknesätt tillsammans, utan likhetstecken. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Uttryck betyder tal, variabler och räknesätt tillsammans, utan likhetstecken. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "ekvation",
             "ekvationen"
           ],
-          "message": "Ekvation betyder: En likhet med en okänd som ska bestämmas. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Ekvation betyder en likhet med en okänd som ska bestämmas. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -469,28 +469,28 @@
             "koefficient",
             "koefficienten"
           ],
-          "message": "Koefficient betyder: Talet som multipliceras med en variabel. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Koefficient betyder talet som multipliceras med en variabel. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "variabel",
             "variabeln"
           ],
-          "message": "Variabel betyder: En bokstav som står för ett tal som kan variera eller är okänt. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Variabel betyder en bokstav som står för ett tal som kan variera eller är okänt. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "uttryck",
             "uttrycket"
           ],
-          "message": "Uttryck betyder: Tal, variabler och räknesätt tillsammans, utan likhetstecken. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Uttryck betyder tal, variabler och räknesätt tillsammans, utan likhetstecken. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "ekvation",
             "ekvationen"
           ],
-          "message": "Ekvation betyder: En likhet med en okänd som ska bestämmas. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Ekvation betyder en likhet med en okänd som ska bestämmas. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -521,28 +521,28 @@
             "konstant",
             "konstanten"
           ],
-          "message": "Konstant betyder: Ett tal som inte ändras, utan en variabel. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Konstant betyder ett tal som alltid har samma värde, till skillnad från en variabel. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "koefficient",
             "koefficienten"
           ],
-          "message": "Koefficient betyder: Talet som multipliceras med en variabel. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Koefficient betyder talet som multipliceras med en variabel. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "uttryck",
             "uttrycket"
           ],
-          "message": "Uttryck betyder: Tal, variabler och räknesätt tillsammans, utan likhetstecken. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Uttryck betyder tal, variabler och räknesätt tillsammans, utan likhetstecken. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "lösning",
             "lösningen"
           ],
-          "message": "Lösning betyder: Det värde på den okända som gör att ekvationen stämmer. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Lösning betyder det värde på den okända som gör att ekvationen stämmer. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -776,21 +776,21 @@
             "konstant",
             "konstanten"
           ],
-          "message": "Konstant betyder: Ett tal som inte ändras, utan en variabel. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Konstant betyder ett tal som alltid har samma värde, till skillnad från en variabel. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "variabel",
             "variabeln"
           ],
-          "message": "Variabel betyder: En bokstav som står för ett tal som kan variera eller är okänt. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Variabel betyder en bokstav som står för ett tal som kan variera eller är okänt. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "funktion",
             "funktionen"
           ],
-          "message": "Funktion betyder: En regel som ger exakt ett värde ut för varje värde in. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Funktion betyder en regel som ger exakt ett värde ut för varje värde in. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -876,21 +876,21 @@
       "koefficient",
       "koefficienten"
     ],
-    "correct": "Rätt! Koefficient: Talet som multipliceras med en variabel.",
+    "correct": "Rätt! Koefficient: talet som multipliceras med en variabel.",
     "feedback": [
       {
         "answers": [
           "konstant",
           "konstanten"
         ],
-        "message": "Konstant betyder: Ett tal som inte ändras, utan en variabel. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Konstant betyder ett tal som alltid har samma värde, till skillnad från en variabel. Men frågan gäller något annat. Läs begreppskorten igen."
       },
       {
         "answers": [
           "variabel",
           "variabeln"
         ],
-        "message": "Variabel betyder: En bokstav som står för ett tal som kan variera eller är okänt. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Variabel betyder en bokstav som står för ett tal som kan variera eller är okänt. Men frågan gäller något annat. Läs begreppskorten igen."
       }
     ]
   },
@@ -901,21 +901,21 @@
         "variabel",
         "variabeln"
       ],
-      "correct": "Rätt! Variabel: En bokstav som står för ett tal som kan variera eller är okänt.",
+      "correct": "Rätt! Variabel: en bokstav som står för ett tal som kan variera eller är okänt.",
       "feedback": [
         {
           "answers": [
             "koefficient",
             "koefficienten"
           ],
-          "message": "Koefficient betyder: Talet som multipliceras med en variabel. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Koefficient betyder talet som multipliceras med en variabel. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "lösning",
             "lösningen"
           ],
-          "message": "Lösning betyder: Det värde på den okända som gör att ekvationen stämmer. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Lösning betyder det värde på den okända som gör att ekvationen stämmer. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -925,21 +925,21 @@
         "lösning",
         "lösningen"
       ],
-      "correct": "Rätt! Lösning: Det värde på den okända som gör att ekvationen stämmer.",
+      "correct": "Rätt! Lösning: det värde på den okända som gör att ekvationen stämmer.",
       "feedback": [
         {
           "answers": [
             "uttryck",
             "uttrycket"
           ],
-          "message": "Uttryck betyder: Tal, variabler och räknesätt tillsammans, utan likhetstecken. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Uttryck betyder tal, variabler och räknesätt tillsammans, utan likhetstecken. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "funktion",
             "funktionen"
           ],
-          "message": "Funktion betyder: En regel som ger exakt ett värde ut för varje värde in. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Funktion betyder en regel som ger exakt ett värde ut för varje värde in. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     }

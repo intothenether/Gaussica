@@ -12,7 +12,7 @@
   ],
   "summary": "Med kortdivision delar du ett stort tal med ett litet, en plats i taget. Det som blir över förs vidare.",
   "explanationTitle": "Hur delar vi stora tal utan att pröva oss fram?",
-  "explanation": "Problemet: Med tabellerna går det bra att räkna 42 delat med 6. Men hur delar du 156 lika på 6, utan att pröva dig fram? Vi kan dela upp talet i hundratal, tiotal och ental och dela dem ett i taget. Det som blir över förs vidare. Det kallas kortdivision. Kortdivision är ett sätt att dela stora tal på papper. Du delar en siffra i taget, från vänster till höger. Steg 1: Skriv talet som ska delas under en linje och talet du delar med till vänster. Steg 2: Titta på första siffran. Går den att dela med talet? Skriv då hur många gånger det går, ovanför siffran. Går det inte, skriv resten som en liten siffra framför nästa siffra, så att de blir ett tal. Steg 3: Blir något över, skriv det som en liten siffra framför nästa siffra. Då blir de två siffrorna ett nytt tal. Till exempel blir 1 framför 2 talet 12. Steg 4: Dela det nya talet och upprepa tills alla siffror är använda. Tryck på Nästa steg i bilden nedan och följ med när 72 delas med 3.",
+  "explanation": "Problemet: Med tabellerna går det bra att räkna 42 delat med 6. Men hur delar du 156 lika på 6, utan att pröva dig fram? Vi kan dela upp talet i hundratal, tiotal och ental och dela dem ett i taget. Det som blir över förs vidare. Det kallas kortdivision. Kortdivision är ett sätt att dela stora tal på papper. Du delar en siffra i taget, från vänster till höger. Stegen står i rutorna nedan, med 156 delat med 6 som exempel. Tryck sedan på Nästa steg i bilden och följ med när 72 delas med 3.",
   "visual": {
     "type": "uppstallning",
     "op": "/",
@@ -435,10 +435,47 @@
       "a": 156,
       "b": 6,
       "title": "Ett exempel till: 156 delat med 6"
+    },
+    {
+      "type": "steg",
+      "title": "Så gör du kortdivision",
+      "example": "Vi delar 156 lika på 6.",
+      "steps": [
+        {
+          "do": "Skriv talet som ska delas under en linje och talet du delar med till vänster.",
+          "show": [
+            "6 | 156"
+          ],
+          "mono": true
+        },
+        {
+          "do": "Titta på första siffran. Går den att dela med talet? Då skriver du hur många gånger det går ovanför siffran. Går det inte, tar du de två första siffrorna.",
+          "show": [
+            "Första siffran är 1. 1 delat med 6 går inte.",
+            "Ta två siffror: 15 delat med 6 är 2.",
+            "Skriv 2 ovanför 5."
+          ]
+        },
+        {
+          "do": "Blir något över, skriv det som en liten siffra framför nästa siffra. Då blir de två siffrorna ett nytt tal.",
+          "show": [
+            "15 − 12 = 3 blir över.",
+            "3 framför 6 blir 36."
+          ]
+        },
+        {
+          "do": "Dela det nya talet och upprepa tills alla siffror är använda.",
+          "show": [
+            "36 delat med 6 är 6.",
+            "Skriv 6 ovanför 6. Svaret är 26."
+          ]
+        }
+      ]
     }
   ],
   "layout": [
     "explanation",
+    "comp:1",
     "visual",
     "comp:0",
     "rule",

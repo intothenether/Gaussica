@@ -58,6 +58,19 @@ lessons.forEach((l) => {
       }
     }
   });
+  // the steps of a method in boxes (the component "steg", see step-boxes.js): at least two steps, each with what to do and what it looks like in the example,
+  // and no "Steg 1:" left in the explanation as well
+  (l.components || []).forEach((c, i) => {
+    if (!c || c.type !== "steg") return;
+    if (!String(c.title || "").trim() || !String(c.example || "").trim()) bad(l.id, "steg block " + i + " needs a title and an example");
+    if (!Array.isArray(c.steps) || c.steps.length < 2) bad(l.id, "steg block " + i + " needs at least two steps");
+    (c.steps || []).forEach((s, k) => {
+      if (!s || !String(s.do || "").trim()) bad(l.id, "steg block " + i + ", step " + (k + 1) + " has nothing to do");
+      const lines = Array.isArray(s && s.show) ? s.show : (s && s.show ? [s.show] : []);
+      if (!lines.length || lines.some((x) => !String(x).trim())) bad(l.id, "steg block " + i + ", step " + (k + 1) + " has nothing that shows it in the example");
+    });
+    if (/Steg d:/.test(String(l.explanation || ""))) bad(l.id, "the explanation still has Steg 1: and the like, but the steps are in boxes");
+  });
   // the problem to try before the explanation (lesson.tryFirst, see lesson-player.js)
   if (l.tryFirst !== undefined) {
     const t = l.tryFirst;

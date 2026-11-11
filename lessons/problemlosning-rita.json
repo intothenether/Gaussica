@@ -11,7 +11,7 @@
   ],
   "summary": "När du inte vet hur du ska börja hjälper det att rita, göra en tabell eller prova dig fram.",
   "explanationTitle": "Fyra steg och några knep",
-  "explanation": "Problemet: Vissa uppgifter säger inte vilket räknesätt du ska använda. Då är det lätt att fastna. Vad gör du när du inte vet hur du ska börja? Du kan följa fyra steg. Först förstår du uppgiften: vad vet du, och vad ska du ta reda på? Sedan väljer du ett sätt, till exempel att rita en bild, göra en tabell eller prova dig fram. Därefter räknar du. Till sist kontrollerar du om svaret passar uppgiften. Att prova fel är en del av metoden: varje försök visar om du ska ta ett större eller mindre tal nästa gång.",
+  "explanation": "Problemet: Vissa uppgifter säger inte vilket räknesätt du ska använda. Då är det lätt att fastna. Vad gör du när du inte vet hur du ska börja? Du kan följa fyra steg. De står i rutorna nedan, med ett exempel. Att prova fel är en del av metoden: varje försök visar om du ska ta ett större eller mindre tal nästa gång.",
   "visual": {
     "type": "tabell",
     "title": "Pröva dig fram",
@@ -380,5 +380,51 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "De fyra stegen",
+      "example": "Cyklar har 2 hjul och trehjulingar har 3 hjul. 5 fordon har 12 hjul. Hur många cyklar och trehjulingar är det?",
+      "steps": [
+        {
+          "do": "Förstå uppgiften: vad vet du, och vad ska du ta reda på?",
+          "show": [
+            "Vi vet: 5 fordon och 12 hjul.",
+            "Vi söker: hur många cyklar och hur många trehjulingar."
+          ]
+        },
+        {
+          "do": "Välj ett sätt: rita en bild, göra en tabell eller prova dig fram.",
+          "show": [
+            "Vi gör en tabell och provar oss fram."
+          ]
+        },
+        {
+          "do": "Räkna.",
+          "show": [
+            "1 cykel och 4 trehjulingar: 2 + 12 = 14 hjul. För många.",
+            "2 cyklar och 3 trehjulingar: 4 + 9 = 13 hjul. För många.",
+            "3 cyklar och 2 trehjulingar: 6 + 6 = 12 hjul."
+          ]
+        },
+        {
+          "do": "Kontrollera om svaret passar uppgiften.",
+          "show": [
+            "3 + 2 = 5 fordon och 12 hjul. Det stämmer."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "visual",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }

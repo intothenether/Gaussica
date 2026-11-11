@@ -10,7 +10,7 @@
   "summary": "Multiplikation och division görs före addition och subtraktion. Det är en global överenskommelse som gör matematik entydigt.",
   "explanationTitle": "Varför ordningen spelar roll",
   "explanation": "Utan överenskommelse: 2 + 3 · 4 skulle kunna räknas som (2 + 3) · 4 = 20 eller som 2 + (3 · 4) = 14. För att alla ska få samma svar är ordningen fastställd: multiplikation/division görs FÖRE addition/subtraktion. Sedan räknar vi från vänster till höger.",
-  "rule": "1. Multiplikation & Division (från vänster till höger)\n2. Addition & Subtraktion (från vänster till höger)",
+  "rule": "1. Multiplikation och division (från vänster till höger)\n2. Addition och subtraktion (från vänster till höger)",
   "ruleLabel": "MULTIPLIKATION FÖRE ADDITION",
   "example": "3 + 4 · 2 − 1 = 3 + 8 − 1 = 10. Först 4 · 2 = 8, sedan 3 + 8 − 1 från vänster till höger.",
   "practice": [

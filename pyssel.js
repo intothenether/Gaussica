@@ -314,7 +314,7 @@ window.GaussicaPyssel = (function () {
     const goalUi = goals.length ? goalList(goals, ctx) : null;
     if (goalUi) {
       root.appendChild(el("h5", "py-goals-title", "Utmaningar"));
-      root.appendChild(el("p", "py-goals-help", "Ställ in reglagen och tryck på Kolla när du tror att du har hittat rätt."));
+      root.appendChild(el("p", "py-goals-help", "Ställ in " + (comp.controls || "reglagen") + " och tryck på Kolla när du tror att du har hittat rätt."));
       root.appendChild(goalUi.element);
       if (!params.length) {   // without sliders there is nothing to set: the button goes with the list
         root.appendChild(button("Kolla", "py-btn py-check-btn", checkGoals));

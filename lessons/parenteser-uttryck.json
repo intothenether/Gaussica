@@ -135,7 +135,7 @@
           6
         ]
       },
-      "prompt": "Förenkla (x + {a})(x + {b}). Skriv x² som x^2.",
+      "prompt": "Förenkla (x + {a})(x + {b}). Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],
@@ -284,7 +284,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "Förenkla (x + 2)(x + 5). Skriv x² som x^2.",
+      "prompt": "Förenkla (x + 2)(x + 5). Skriv x² med knappen eller som x^2.",
       "keys": [
         "^"
       ],

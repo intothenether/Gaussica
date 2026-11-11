@@ -771,21 +771,21 @@
       "typvärde",
       "typvärdet"
     ],
-    "correct": "Rätt! Typvärde: Det värde som förekommer flest gånger.",
+    "correct": "Rätt! Typvärde: det värde som förekommer flest gånger.",
     "feedback": [
       {
         "answers": [
           "median",
           "medianen"
         ],
-        "message": "Median betyder: Mittenvärdet när alla värden står i storleksordning. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Median betyder mittenvärdet när alla värden står i storleksordning. Men frågan gäller något annat. Läs begreppskorten igen."
       },
       {
         "answers": [
           "frekvens",
           "frekvensen"
         ],
-        "message": "Frekvens betyder: Hur många gånger ett värde förekommer. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Frekvens betyder hur många gånger ett värde förekommer. Men frågan gäller något annat. Läs begreppskorten igen."
       }
     ]
   },
@@ -796,21 +796,21 @@
         "variationsbredd",
         "variationsbredden"
       ],
-      "correct": "Rätt! Variationsbredd: Skillnaden mellan det största och det minsta värdet.",
+      "correct": "Rätt! Variationsbredd: skillnaden mellan det största och det minsta värdet.",
       "feedback": [
         {
           "answers": [
             "medelvärde",
             "medelvärdet"
           ],
-          "message": "Medelvärde betyder: Summan av alla värden delad med antalet värden. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Medelvärde betyder summan av alla värden delad med antalet värden. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "median",
             "medianen"
           ],
-          "message": "Median betyder: Mittenvärdet när alla värden står i storleksordning. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Median betyder mittenvärdet när alla värden står i storleksordning. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -820,21 +820,21 @@
         "frekvens",
         "frekvensen"
       ],
-      "correct": "Rätt! Frekvens: Hur många gånger ett värde förekommer.",
+      "correct": "Rätt! Frekvens: hur många gånger ett värde förekommer.",
       "feedback": [
         {
           "answers": [
             "typvärde",
             "typvärdet"
           ],
-          "message": "Typvärde betyder: Det värde som förekommer flest gånger. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Typvärde betyder det värde som förekommer flest gånger. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "utfall",
             "utfallet"
           ],
-          "message": "Utfall betyder: Ett möjligt resultat av ett slumpförsök. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Utfall betyder ett möjligt resultat av ett slumpförsök. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     }

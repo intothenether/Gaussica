@@ -63,7 +63,7 @@
       "derive": [{"name":"g","expr":"sgd(a,b)"},{"name":"c","expr":"divcount(g)-1"}],
       "prompt": "{a} och {b} har några gemensamma delare. Hur många av dem är större än 1?",
       "answer": ["=c"],
-      "correct": "Rätt! Utan 1 blir det {c} stycken.",
+      "correct": "Rätt! Det är {c} delare som är större än 1.",
       "feedback": [
         {"answers":["=c+1"],"message":"Du räknade med 1. Frågan gäller bara de delare som är större än 1."}
       ]

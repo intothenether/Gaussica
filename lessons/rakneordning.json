@@ -22,7 +22,7 @@
   "summary": "När en uträkning har flera räknesätt (+ − · ÷) måste vi räkna i rätt ordning. Annars skulle samma uträkning kunna ge olika svar!",
   "explanationTitle": "En överenskommelse om räkneordning",
   "explanation": "Matematiker världen över är överens: multiplikation och division görs före addition och subtraktion. Utan denna regel skulle 2 + 3 · 4 kunna betyda både 14 (om vi gör 3 · 4 = 12 först, sedan 2 + 12) och 20 (om vi gör 2 + 3 = 5 först, sedan 5 · 4). Vi behöver EN säker ordning.",
-  "rule": "1. Parenteser\n2. Multiplikation & Division (från vänster till höger)\n3. Addition & Subtraktion (från vänster till höger)",
+  "rule": "1. Parenteser\n2. Multiplikation och division (från vänster till höger)\n3. Addition och subtraktion (från vänster till höger)",
   "ruleLabel": "RÄKNEORDNINGEN",
   "example": "2 + 3 · 4 − 1 = 2 + 12 − 1 = 13. Vi gör multiplikationen först (3 · 4), sedan addition och subtraktion från vänster till höger.",
   "exercise": {

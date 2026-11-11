@@ -12,7 +12,7 @@
   ],
   "summary": "Med uppställning lägger du ihop stora tal en plats i taget, med entalen först.",
   "explanationTitle": "Hur lägger vi ihop stora tal?",
-  "explanation": "Problemet: Med tallinjen och huvudräkning går det bra att räkna 38 + 47. Men hur gör du med 478 + 356? Det blir många steg, och det är lätt att tappa bort sig. Vi behöver en metod som fungerar för tal av vilken storlek som helst. Lösningen heter uppställning. Uppställning är ett sätt att räkna stora tal på papper. Du lägger ihop en plats i taget, från höger till vänster. Steg 1: Skriv talen under varandra så att entalen står under entalen, tiotalen under tiotalen och hundratalen under hundratalen. Steg 2: Lägg ihop entalen. Blir det tio eller mer skriver du entalssiffran under strecket och minns tiotalet. Minnessiffran skriver du som en liten siffra ovanför nästa plats. Steg 3: Lägg ihop tiotalen och minnessiffran. Upprepa tills alla platser är klara. Steg 4: Kolla att svaret är rimligt med ett överslag. Tryck på Nästa steg i bilden nedan och följ med när 478 + 356 räknas ut.",
+  "explanation": "Problemet: Med tallinjen och huvudräkning går det bra att räkna 38 + 47. Men hur gör du med 478 + 356? Det blir många steg, och det är lätt att tappa bort sig. Vi behöver en metod som fungerar för tal av vilken storlek som helst. Lösningen heter uppställning. Uppställning är ett sätt att räkna stora tal på papper. Du lägger ihop en plats i taget, från höger till vänster. Stegen står i rutorna nedan, med 478 + 356 som exempel. Tryck sedan på Nästa steg i bilden och följ med när 478 + 356 räknas ut.",
   "visual": {
     "type": "uppstallning",
     "op": "+",
@@ -42,10 +42,49 @@
       "fix": "Skriv 4 och minns 1. Då blir svaret 445.",
       "hint": "Fanns det något att minnas från entalen som inte kom med?",
       "correct": "Rätt! Det är steget där minnessiffran glömdes bort."
+    },
+    {
+      "type": "steg",
+      "title": "Så gör du uppställning",
+      "example": "Vi räknar 478 + 356.",
+      "steps": [
+        {
+          "do": "Skriv talen under varandra. Entalen ska stå under entalen, tiotalen under tiotalen och hundratalen under hundratalen.",
+          "show": [
+            "  478",
+            "+ 356",
+            "-----"
+          ],
+          "mono": true
+        },
+        {
+          "do": "Lägg ihop entalen. Blir det tio eller mer skriver du entalssiffran under strecket och minns tiotalet som en liten siffra ovanför nästa plats.",
+          "show": [
+            "8 + 6 = 14",
+            "Skriv 4 och minns 1."
+          ]
+        },
+        {
+          "do": "Lägg ihop tiotalen och minnessiffran. Gör likadant med hundratalen, tills alla platser är klara.",
+          "show": [
+            "7 + 5 + 1 = 13: skriv 3 och minns 1.",
+            "4 + 3 + 1 = 8: skriv 8.",
+            "Svaret är 834."
+          ]
+        },
+        {
+          "do": "Kolla att svaret är rimligt med ett överslag.",
+          "show": [
+            "Överslag: 500 + 400 = 900.",
+            "Svaret 834 ligger nära 900, så det stämmer."
+          ]
+        }
+      ]
     }
   ],
   "layout": [
     "explanation",
+    "comp:2",
     "visual",
     "comp:0",
     "rule",

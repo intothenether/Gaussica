@@ -45,7 +45,7 @@
           "expr": "sgd(6-n,6)"
         }
       ],
-      "prompt": "Du kastar en vanlig tärning. Vad är chansen att få ett tal större än {n}? Svara som bråk.",
+      "prompt": "Du kastar en vanlig tärning. Vad är chansen att få ett tal större än {n}? Skriv svaret som ett bråk.",
       "answer": [
         "{g}/6",
         "{g/k}/{6/k}"
@@ -85,7 +85,7 @@
           "expr": "sgd(r,r+b)"
         }
       ],
-      "prompt": "I en påse ligger {r} röda och {b} blå kulor. Du drar en kula utan att titta. Vad är chansen att få en röd? Svara som bråk.",
+      "prompt": "I en påse ligger {r} röda och {b} blå kulor. Du drar en kula utan att titta. Vad är chansen att få en röd? Skriv svaret som ett bråk.",
       "answer": [
         "{r}/{t}",
         "{r/k}/{t/k}"
@@ -167,7 +167,7 @@
           "expr": "6-k"
         }
       ],
-      "prompt": "{$namn} kastar en vanlig tärning. Vad är chansen att få ett tal som är större än {k}? Svara som bråk.",
+      "prompt": "{$namn} kastar en vanlig tärning. Vad är chansen att få ett tal som är större än {k}? Skriv svaret som ett bråk.",
       "answer": [
         "{g}/6"
       ],
@@ -199,7 +199,7 @@
     "correct": "Rätt! Sannolikhet = önskade utfall delat med möjliga utfall."
   },
   "exercise": {
-    "prompt": "Du kastar en vanlig tärning. Vad är chansen att få en fyra? Svara som bråk.",
+    "prompt": "Du kastar en vanlig tärning. Vad är chansen att få en fyra? Skriv svaret som ett bråk.",
     "answer": [
       "1/6"
     ],
@@ -222,7 +222,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "I en påse ligger 3 röda, 2 gröna och 5 gula kulor. Du drar en kula utan att titta. Vad är chansen att den är gul? Svara som bråk.",
+      "prompt": "I en påse ligger 3 röda, 2 gröna och 5 gula kulor. Du drar en kula utan att titta. Vad är chansen att den är gul? Skriv svaret som ett bråk.",
       "answer": [
         "1/2",
         "5/10",
@@ -248,7 +248,7 @@
       ]
     },
     {
-      "prompt": "Ett lyckohjul har 8 lika stora fält numrerade 1 till 8. Vad är chansen att få ett tal som är större än 5? Svara som bråk.",
+      "prompt": "Ett lyckohjul har 8 lika stora fält numrerade 1 till 8. Vad är chansen att få ett tal som är större än 5? Skriv svaret som ett bråk.",
       "answer": [
         "3/8"
       ],

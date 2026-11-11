@@ -134,7 +134,7 @@ ok(WB.options({ prompt: "Är 6x + 3 ett uttryck eller en ekvation?", answer: ["u
 ok(WB.options({ prompt: "Vad?", answer: ["summa"], bank: ["produkt", "differens"], feedback: [] }, rakna).length === 3, "a list of words on the question is used");
 const fraga = PR.generate(rakna, "fraga", 77).problem;
 ok(WB.options(fraga, rakna).length >= 4 && WB.options(fraga, rakna).includes(fraga.answer[0]), "the questions with an explanation get one too: " + WB.options(fraga, rakna).join(", "));
-ok(fraga.feedback.length >= 5 && fraga.feedback.every((r) => /betyder: .*Det är inte det som frågas/.test(r.message)), "and a hint about what the other term means");
+ok(fraga.feedback.length >= 5 && fraga.feedback.every((r) => /betyder [^:].*Men frågan gäller något annat/.test(r.message)), "and a hint about what the other term means");
 
 // it goes as the student gets on, and a setting can hold it
 ok(WB.when() === "show" && WB.points() === 0, "at first it is shown");

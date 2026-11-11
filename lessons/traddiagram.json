@@ -60,7 +60,7 @@
           "expr": "pow(2,n)"
         }
       ],
-      "prompt": "{$namn} kastar ett mynt {n} gånger. Vad är chansen att få krona alla gånger? Svara som ett bråk.",
+      "prompt": "{$namn} kastar ett mynt {n} gånger. Vad är chansen att få krona alla gånger? Skriv svaret som ett bråk.",
       "answer": [
         "1/{v}"
       ],
@@ -85,7 +85,7 @@
           6
         ]
       },
-      "prompt": "Du kastar ett mynt och en vanlig tärning. Vad är chansen att få krona och siffran {t}? Svara som ett bråk.",
+      "prompt": "Du kastar ett mynt och en vanlig tärning. Vad är chansen att få krona och siffran {t}? Skriv svaret som ett bråk.",
       "answer": [
         "1/12"
       ],
@@ -114,7 +114,7 @@
           4
         ]
       },
-      "prompt": "I en påse ligger {r} röda och {b} blå kulor. Du drar en kula, tittar och lägger tillbaka den. Sedan drar du en kula till. Vad är chansen att båda blir röda? Svara som ett bråk.",
+      "prompt": "I en påse ligger {r} röda och {b} blå kulor. Du drar en kula, tittar och lägger tillbaka den. Sedan drar du en kula till. Vad är chansen att båda blir röda? Skriv svaret som ett bråk.",
       "answer": [
         "{r*r}/{(r+b)*(r+b)}"
       ],
@@ -157,7 +157,7 @@
           "expr": "pow(2,n)"
         }
       ],
-      "prompt": "{$namn} kastar ett mynt {n} gånger. Vad är chansen att få minst en krona? Svara som ett bråk.",
+      "prompt": "{$namn} kastar ett mynt {n} gånger. Vad är chansen att få minst en krona? Skriv svaret som ett bråk.",
       "answer": [
         "{v-1}/{v}"
       ],
@@ -173,7 +173,7 @@
     }
   ],
   "tryFirst": {
-    "prompt": "Du kastar ett mynt två gånger. Hur stor är chansen att få krona båda gångerna? Skriv som ett bråk.",
+    "prompt": "Du kastar ett mynt två gånger. Hur stor är chansen att få krona båda gångerna? Skriv svaret som ett bråk.",
     "answer": [
       "1/4",
       "0,25",
@@ -198,7 +198,7 @@
     "correct": "Rätt! Längs en gren: gånger. Mellan grenar: plus."
   },
   "exercise": {
-    "prompt": "Du kastar ett mynt två gånger. Vad är chansen att få krona båda gångerna? Svara som ett bråk.",
+    "prompt": "Du kastar ett mynt två gånger. Vad är chansen att få krona båda gångerna? Skriv svaret som ett bråk.",
     "answer": [
       "1/4"
     ],
@@ -214,7 +214,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "Du kastar ett mynt och en vanlig tärning. Vad är chansen att få krona och en sexa? Svara som ett bråk.",
+      "prompt": "Du kastar ett mynt och en vanlig tärning. Vad är chansen att få krona och en sexa? Skriv svaret som ett bråk.",
       "answer": [
         "1/12"
       ],
@@ -235,7 +235,7 @@
       ]
     },
     {
-      "prompt": "I en påse ligger 2 röda och 1 blå kula. Du drar en kula, lägger tillbaka den och drar en till. Vad är chansen att båda blir röda? Svara som ett bråk.",
+      "prompt": "I en påse ligger 2 röda och 1 blå kula. Du drar en kula, lägger tillbaka den och drar en till. Vad är chansen att båda blir röda? Skriv svaret som ett bråk.",
       "answer": [
         "4/9"
       ],
@@ -256,7 +256,7 @@
       ]
     },
     {
-      "prompt": "Du kastar ett mynt två gånger. Vad är chansen att få minst en krona? Svara som ett bråk.",
+      "prompt": "Du kastar ett mynt två gånger. Vad är chansen att få minst en krona? Skriv svaret som ett bråk.",
       "answer": [
         "3/4"
       ],

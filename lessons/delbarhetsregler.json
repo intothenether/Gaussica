@@ -48,7 +48,7 @@
       ]
     ]
   },
-  "rule": "2: sista siffran är jämn. 5: sista siffran är 0 eller 5. 10: sista siffran är 0. 3 och 9: siffersumman går att dela med 3 respektive 9.",
+  "rule": "2: sista siffran är jämn. 5: sista siffran är 0 eller 5. 10: sista siffran är 0. 3: siffersumman går att dela med 3. 9: siffersumman går att dela med 9.",
   "ruleLabel": "DELBARHETSREGLER",
   "example": "Går 4725 att dela med 9? Siffersumman är 4 + 7 + 2 + 5 = 18, och 18 går att dela med 9. Ja.",
   "practice": [

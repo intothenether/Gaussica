@@ -399,7 +399,7 @@
           "expr": "a+b+c+d+e"
         }
       ],
-      "prompt": "Ett tal har {a} tiotusental, {b} tusental, {c} hundratal, {d} tiotal och {e} ental. Vilket tal är det? Skriv det utan mellanrum.",
+      "prompt": "Ett tal har {a} tiotusental, {b} tusental, {c} hundratal, {d} tiotal och {e} ental. Vilket tal är det?",
       "answer": [
         "=n"
       ],

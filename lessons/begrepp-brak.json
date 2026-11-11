@@ -423,13 +423,13 @@
             "nämnare",
             "nämnaren"
           ],
-          "message": "Nämnare betyder: Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Nämnare betyder talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "bråk"
           ],
-          "message": "Bråk betyder: Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Bråk betyder ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -437,7 +437,7 @@
             "förkortning",
             "att förkorta"
           ],
-          "message": "Förkorta betyder: Dela täljare och nämnare med samma tal så att bråket blir enklare. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Förkorta betyder dela täljare och nämnare med samma tal så att bråket blir enklare. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -445,7 +445,7 @@
             "förlängning",
             "att förlänga"
           ],
-          "message": "Förlänga betyder: Multiplicera täljare och nämnare med samma tal. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Förlänga betyder multiplicera täljare och nämnare med samma tal. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -482,13 +482,13 @@
             "täljare",
             "täljaren"
           ],
-          "message": "Täljare betyder: Talet över bråkstrecket. Det visar hur många delar man har. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Täljare betyder talet över bråkstrecket. Det visar hur många delar man har. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "bråk"
           ],
-          "message": "Bråk betyder: Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Bråk betyder ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -496,7 +496,7 @@
             "förkortning",
             "att förkorta"
           ],
-          "message": "Förkorta betyder: Dela täljare och nämnare med samma tal så att bråket blir enklare. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Förkorta betyder dela täljare och nämnare med samma tal så att bråket blir enklare. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -504,7 +504,7 @@
             "förlängning",
             "att förlänga"
           ],
-          "message": "Förlänga betyder: Multiplicera täljare och nämnare med samma tal. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Förlänga betyder multiplicera täljare och nämnare med samma tal. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -984,20 +984,20 @@
       "nämnare",
       "nämnaren"
     ],
-    "correct": "Rätt! Nämnare: Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i.",
+    "correct": "Rätt! Nämnare: talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i.",
     "feedback": [
       {
         "answers": [
           "täljare",
           "täljaren"
         ],
-        "message": "Täljare betyder: Talet över bråkstrecket. Det visar hur många delar man har. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Täljare betyder talet över bråkstrecket. Det visar hur många delar man har. Men frågan gäller något annat. Läs begreppskorten igen."
       },
       {
         "answers": [
           "bråk"
         ],
-        "message": "Bråk betyder: Ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Bråk betyder ett tal som beskriver en del av en helhet, skrivet med ett bråkstreck. Men frågan gäller något annat. Läs begreppskorten igen."
       }
     ]
   },
@@ -1009,7 +1009,7 @@
         "förkortning",
         "att förkorta"
       ],
-      "correct": "Rätt! Förkorta: Dela täljare och nämnare med samma tal så att bråket blir enklare.",
+      "correct": "Rätt! Förkorta: dela täljare och nämnare med samma tal så att bråket blir enklare.",
       "feedback": [
         {
           "answers": [
@@ -1017,14 +1017,14 @@
             "förlängning",
             "att förlänga"
           ],
-          "message": "Förlänga betyder: Multiplicera täljare och nämnare med samma tal. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Förlänga betyder multiplicera täljare och nämnare med samma tal. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "procent",
             "procenten"
           ],
-          "message": "Procent betyder: Hundradelar. 1 % betyder 1/100. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Procent betyder hundradelar. 1 % betyder 1/100. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -1034,21 +1034,21 @@
         "täljare",
         "täljaren"
       ],
-      "correct": "Rätt! Täljare: Talet över bråkstrecket. Det visar hur många delar man har.",
+      "correct": "Rätt! Täljare: talet över bråkstrecket. Det visar hur många delar man har.",
       "feedback": [
         {
           "answers": [
             "nämnare",
             "nämnaren"
           ],
-          "message": "Nämnare betyder: Talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Nämnare betyder talet under bråkstrecket. Det visar hur många lika stora delar helheten är delad i. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "decimaltal",
             "decimaltalet"
           ],
-          "message": "Decimaltal betyder: Ett tal med decimaltecken (komma) som visar delar av en hel. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Decimaltal betyder ett tal med decimaltecken (komma) som visar delar av en hel. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     }

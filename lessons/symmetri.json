@@ -61,7 +61,7 @@
       "for": ["word-0"],
       "vars": {"a":[1,9]},
       "derive": [{"name":"r","expr":"a"}],
-      "prompt": "Du speglar en figur i en symmetrilinje. Ett hörn är {a} cm från linjen. Hur långt från linjen är motsvarande hörn i spegelbilden?",
+      "prompt": "Du speglar en figur i en symmetrilinje. Ett hörn är {a} cm från linjen. Hur långt från linjen är samma hörn i spegelbilden?",
       "answer": ["=a","{a} cm"],
       "correct": "Rätt! Spegelbilden ligger lika långt från linjen på andra sidan: {a} cm.",
       "feedback": [

@@ -75,7 +75,7 @@ test.describe("iPhone, held sideways", () => {
     const box = await next.boundingBox();
     expect(box.y + box.height).toBeLessThanOrEqual(390);
     await next.click();
-    await next.click().catch(() => {});
+    await next.click({ timeout: 1500 }).catch(() => {});   // a second page of the explanation, if the lesson has one
     await openLesson(page, "subtraktion-uppstallning", ".pl-foot input[name=answer]");
     const foot = page.locator("#lesson-player .pl-foot");
     await expect(foot.getByRole("button", { name: "Kolla svaret" })).toBeVisible();

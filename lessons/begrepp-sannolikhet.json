@@ -414,7 +414,7 @@
             "omöjlig",
             "omöjligt"
           ],
-          "message": "Omöjlig betyder: Något som aldrig kan hända. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Omöjlig betyder något som aldrig kan hända. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -441,7 +441,7 @@
             "säker",
             "säkert"
           ],
-          "message": "Säker betyder: Något som alltid händer. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Säker betyder något som alltid händer. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -535,21 +535,21 @@
             "säker",
             "säkert"
           ],
-          "message": "Säker betyder: Något som alltid händer. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Säker betyder något som alltid händer. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "omöjlig",
             "omöjligt"
           ],
-          "message": "Omöjlig betyder: Något som aldrig kan hända. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Omöjlig betyder något som aldrig kan hända. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "troligt",
             "trolig"
           ],
-          "message": "Troligt betyder: Något som har stor chans att hända. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Troligt betyder något som har stor chans att hända. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -677,21 +677,21 @@
       "slump",
       "slumpen"
     ],
-    "correct": "Rätt! Slump: När du inte kan veta i förväg vad som kommer att hända.",
+    "correct": "Rätt! Slump: när du inte kan veta i förväg vad som kommer att hända.",
     "feedback": [
       {
         "answers": [
           "chans",
           "chansen"
         ],
-        "message": "Chans betyder: Hur lätt eller svårt det är att något händer. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Chans betyder hur lätt eller svårt det är att något händer. Men frågan gäller något annat. Läs begreppskorten igen."
       },
       {
         "answers": [
           "utfall",
           "utfallet"
         ],
-        "message": "Utfall betyder: Ett av de sätt som ett försök kan sluta på. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Utfall betyder ett av de sätt som ett försök kan sluta på. Men frågan gäller något annat. Läs begreppskorten igen."
       }
     ]
   },
@@ -702,21 +702,21 @@
         "försök",
         "försöket"
       ],
-      "correct": "Rätt! Försök: En gång du gör något där slumpen bestämmer.",
+      "correct": "Rätt! Försök: en gång du gör något där slumpen bestämmer.",
       "feedback": [
         {
           "answers": [
             "utfall",
             "utfallet"
           ],
-          "message": "Utfall betyder: Ett av de sätt som ett försök kan sluta på. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Utfall betyder ett av de sätt som ett försök kan sluta på. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "slump",
             "slumpen"
           ],
-          "message": "Slump betyder: När du inte kan veta i förväg vad som kommer att hända. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Slump betyder när du inte kan veta i förväg vad som kommer att hända. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -727,21 +727,21 @@
         "utfallet",
         "ett utfall"
       ],
-      "correct": "Rätt! Utfall: Ett av de sätt som ett försök kan sluta på.",
+      "correct": "Rätt! Utfall: ett av de sätt som ett försök kan sluta på.",
       "feedback": [
         {
           "answers": [
             "försök",
             "försöket"
           ],
-          "message": "Försök betyder: En gång du gör något där slumpen bestämmer. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Försök betyder en gång du gör något där slumpen bestämmer. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "chans",
             "chansen"
           ],
-          "message": "Chans betyder: Hur lätt eller svårt det är att något händer. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Chans betyder hur lätt eller svårt det är att något händer. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -751,21 +751,21 @@
         "omöjlig",
         "omöjligt"
       ],
-      "correct": "Rätt! Omöjlig: Något som aldrig kan hända.",
+      "correct": "Rätt! Omöjlig: något som aldrig kan hända.",
       "feedback": [
         {
           "answers": [
             "säker",
             "säkert"
           ],
-          "message": "Säker betyder: Något som alltid händer. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Säker betyder något som alltid händer. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "troligt",
             "trolig"
           ],
-          "message": "Troligt betyder: Något som har stor chans att hända. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Troligt betyder något som har stor chans att hända. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     }

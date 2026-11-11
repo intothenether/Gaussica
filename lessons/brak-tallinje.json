@@ -306,7 +306,7 @@
           "expr": "max(a,b)"
         }
       ],
-      "prompt": "Vilket bråk är störst: 1/{a} eller 1/{b}? Skriv bråket.",
+      "prompt": "Vilket bråk är störst: 1/{a} eller 1/{b}? Skriv svaret som ett bråk.",
       "answer": [
         "1/{m}"
       ],

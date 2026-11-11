@@ -474,21 +474,21 @@
             "differens",
             "differensen"
           ],
-          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Differens betyder svaret på en subtraktion. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "produkt",
             "produkten"
           ],
-          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Produkt betyder svaret på en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "kvot",
             "kvoten"
           ],
-          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Kvot betyder svaret på en division. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -496,7 +496,7 @@
             "termer",
             "termen"
           ],
-          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Term betyder ett av talen som läggs ihop i en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -504,7 +504,7 @@
             "faktorer",
             "faktorn"
           ],
-          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Faktor betyder ett av talen som multipliceras i en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -542,7 +542,7 @@
             "summa",
             "summan"
           ],
-          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Summa betyder svaret på en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -550,28 +550,28 @@
             "faktorer",
             "faktorn"
           ],
-          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Faktor betyder ett av talen som multipliceras i en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "produkt",
             "produkten"
           ],
-          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Produkt betyder svaret på en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "differens",
             "differensen"
           ],
-          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Differens betyder svaret på en subtraktion. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "kvot",
             "kvoten"
           ],
-          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Kvot betyder svaret på en division. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -608,21 +608,21 @@
             "summa",
             "summan"
           ],
-          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Summa betyder svaret på en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "produkt",
             "produkten"
           ],
-          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Produkt betyder svaret på en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "kvot",
             "kvoten"
           ],
-          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Kvot betyder svaret på en division. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -630,7 +630,7 @@
             "termer",
             "termen"
           ],
-          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Term betyder ett av talen som läggs ihop i en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -638,7 +638,7 @@
             "faktorer",
             "faktorn"
           ],
-          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Faktor betyder ett av talen som multipliceras i en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -675,21 +675,21 @@
             "summa",
             "summan"
           ],
-          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Summa betyder svaret på en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "differens",
             "differensen"
           ],
-          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Differens betyder svaret på en subtraktion. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "kvot",
             "kvoten"
           ],
-          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Kvot betyder svaret på en division. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -697,7 +697,7 @@
             "termer",
             "termen"
           ],
-          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Term betyder ett av talen som läggs ihop i en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -705,7 +705,7 @@
             "faktorer",
             "faktorn"
           ],
-          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Faktor betyder ett av talen som multipliceras i en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -744,35 +744,35 @@
             "termer",
             "termen"
           ],
-          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Term betyder ett av talen som läggs ihop i en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "produkt",
             "produkten"
           ],
-          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Produkt betyder svaret på en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "summa",
             "summan"
           ],
-          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Summa betyder svaret på en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "differens",
             "differensen"
           ],
-          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Differens betyder svaret på en subtraktion. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "kvot",
             "kvoten"
           ],
-          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Kvot betyder svaret på en division. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -815,21 +815,21 @@
             "summa",
             "summan"
           ],
-          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Summa betyder svaret på en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "differens",
             "differensen"
           ],
-          "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Differens betyder svaret på en subtraktion. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
             "produkt",
             "produkten"
           ],
-          "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Produkt betyder svaret på en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -837,7 +837,7 @@
             "termer",
             "termen"
           ],
-          "message": "Term betyder: Ett av talen som läggs ihop i en addition. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Term betyder ett av talen som läggs ihop i en addition. Men frågan gäller något annat. Läs frågan en gång till."
         },
         {
           "answers": [
@@ -845,7 +845,7 @@
             "faktorer",
             "faktorn"
           ],
-          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs frågan en gång till."
+          "message": "Faktor betyder ett av talen som multipliceras i en multiplikation. Men frågan gäller något annat. Läs frågan en gång till."
         }
       ],
       "terms": [
@@ -1360,21 +1360,21 @@
       "summa",
       "summan"
     ],
-    "correct": "Rätt! Summa: Svaret på en addition.",
+    "correct": "Rätt! Summa: svaret på en addition.",
     "feedback": [
       {
         "answers": [
           "produkt",
           "produkten"
         ],
-        "message": "Produkt betyder: Svaret på en multiplikation. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Produkt betyder svaret på en multiplikation. Men frågan gäller något annat. Läs begreppskorten igen."
       },
       {
         "answers": [
           "differens",
           "differensen"
         ],
-        "message": "Differens betyder: Svaret på en subtraktion. Det är inte det som frågas. Läs begreppskorten igen."
+        "message": "Differens betyder svaret på en subtraktion. Men frågan gäller något annat. Läs begreppskorten igen."
       }
     ]
   },
@@ -1386,7 +1386,7 @@
         "termer",
         "termen"
       ],
-      "correct": "Rätt! Term: Ett av talen som läggs ihop i en addition.",
+      "correct": "Rätt! Term: ett av talen som läggs ihop i en addition.",
       "feedback": [
         {
           "answers": [
@@ -1394,14 +1394,14 @@
             "faktorer",
             "faktorn"
           ],
-          "message": "Faktor betyder: Ett av talen som multipliceras i en multiplikation. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Faktor betyder ett av talen som multipliceras i en multiplikation. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "summa",
             "summan"
           ],
-          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Summa betyder svaret på en addition. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     },
@@ -1411,21 +1411,21 @@
         "produkt",
         "produkten"
       ],
-      "correct": "Rätt! Produkt: Svaret på en multiplikation.",
+      "correct": "Rätt! Produkt: svaret på en multiplikation.",
       "feedback": [
         {
           "answers": [
             "summa",
             "summan"
           ],
-          "message": "Summa betyder: Svaret på en addition. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Summa betyder svaret på en addition. Men frågan gäller något annat. Läs begreppskorten igen."
         },
         {
           "answers": [
             "kvot",
             "kvoten"
           ],
-          "message": "Kvot betyder: Svaret på en division. Det är inte det som frågas. Läs begreppskorten igen."
+          "message": "Kvot betyder svaret på en division. Men frågan gäller något annat. Läs begreppskorten igen."
         }
       ]
     }

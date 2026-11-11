@@ -156,7 +156,7 @@
           "expr": "k*k*m"
         }
       ],
-      "prompt": "Förenkla √{n} så långt det går. Skriv till exempel 3√2 eller 3*sqrt(2).",
+      "prompt": "Förenkla √{n} så långt det går. Skriv till exempel 7√2 (använd knappen √).",
       "keys": [
         "√"
       ],
@@ -284,7 +284,7 @@
       ]
     },
     {
-      "prompt": "Förenkla √18 så långt det går. Skriv till exempel 3√2 eller 3*sqrt(2).",
+      "prompt": "Förenkla √18 så långt det går. Skriv till exempel 7√2 (använd knappen √).",
       "keys": [
         "√"
       ],

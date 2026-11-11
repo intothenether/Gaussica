@@ -611,7 +611,7 @@
           "answers": [
             "4"
           ],
-          "message": "5 och 9 ska inte vara med, för de är inte större än 5 respektive mindre än 9."
+          "message": "5 och 9 ska inte vara med: 5 är inte större än 5, och 9 är inte mindre än 9."
         },
         {
           "answers": [

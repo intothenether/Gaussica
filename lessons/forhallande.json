@@ -82,7 +82,7 @@
           "expr": "b*k"
         }
       ],
-      "prompt": "Förenkla förhållandet {x} : {y}. Skriv det som a:b.",
+      "prompt": "Förenkla förhållandet {x} : {y}. Skriv det som två tal med kolon emellan.",
       "answer": [
         "{a}:{b}",
         "{a} : {b}"
@@ -229,7 +229,7 @@
           "expr": "sgd(a,b)"
         }
       ],
-      "prompt": "I en klass är det {a} flickor och {b} pojkar. Skriv förhållandet mellan flickor och pojkar i enklaste form som a:b.",
+      "prompt": "I en klass är det {a} flickor och {b} pojkar. Skriv förhållandet mellan flickor och pojkar i enklaste form, som två tal med kolon emellan.",
       "answer": [
         "{a/g}:{b/g}",
         "{a/g} : {b/g}"
@@ -263,7 +263,7 @@
     "correct": "Rätt! Multiplicera eller dela båda delarna med samma tal."
   },
   "exercise": {
-    "prompt": "Förenkla förhållandet 6 : 9. Skriv det som a:b.",
+    "prompt": "Förenkla förhållandet 6 : 9. Skriv det som två tal med kolon emellan.",
     "answer": [
       "2:3",
       "2 : 3"
@@ -332,7 +332,7 @@
       ]
     },
     {
-      "prompt": "I en klass finns 12 flickor och 18 pojkar. Skriv förhållandet mellan flickor och pojkar i enklaste form som a:b.",
+      "prompt": "I en klass finns 12 flickor och 18 pojkar. Skriv förhållandet mellan flickor och pojkar i enklaste form, som två tal med kolon emellan.",
       "answer": [
         "2:3",
         "2 : 3"

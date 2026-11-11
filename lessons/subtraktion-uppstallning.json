@@ -12,7 +12,7 @@
   ],
   "summary": "Med uppställning drar du ifrån en plats i taget. Går det inte lånar du 1 från platsen till vänster.",
   "explanationTitle": "Vad gör vi när det inte går att dra ifrån?",
-  "explanation": "Problemet: Med uppställning kan du lägga ihop stora tal. Men i 52 − 27 går det inte att dra 7 ental från 2 ental. Vad gör vi då? Vi behöver fler ental att räkna med, utan att talets värde ändras. Lösningen är att låna ett tiotal. Vid subtraktion med uppställning drar du ifrån en plats i taget, från höger till vänster. Det större talet står överst. Steg 1: Skriv talen under varandra, ental under ental och tiotal under tiotal. Steg 2: Dra ifrån entalen. Går det inte, eftersom det nedre talet är större? Då lånar du 1 tiotal från platsen till vänster. 1 tiotal är 10 ental, så vid entalen skriver du +10 och vid tiotalet skriver du −1. Steg 3: Dra ifrån nästa plats. Kom ihåg att den har blivit 1 mindre om du lånade. Steg 4: Kontrollera med addition: svaret plus det nedre talet ska bli det övre talet. Tryck på Nästa steg i bilden nedan och följ med när 74 − 38 räknas ut. Det andra exemplet, 503 − 278, är extra klurigt eftersom det står en nolla i mitten.",
+  "explanation": "Problemet: Med uppställning kan du lägga ihop stora tal. Men i 52 − 27 går det inte att dra 7 ental från 2 ental. Vad gör vi då? Vi behöver fler ental att räkna med, utan att talets värde ändras. Lösningen är att låna ett tiotal. Vid subtraktion med uppställning drar du ifrån en plats i taget, från höger till vänster. Det större talet står överst. Stegen står i rutorna nedan, med 74 − 38 som exempel. Tryck sedan på Nästa steg i bilden och följ med när 74 − 38 räknas ut. Det andra exemplet, 503 − 278, är extra klurigt eftersom det står en nolla i mitten.",
   "visual": {
     "type": "uppstallning",
     "op": "-",
@@ -27,10 +27,48 @@
       "a": 503,
       "b": 278,
       "title": "Ett klurigare exempel: 503 − 278"
+    },
+    {
+      "type": "steg",
+      "title": "Så gör du uppställning med minus",
+      "example": "Vi räknar 74 − 38.",
+      "steps": [
+        {
+          "do": "Skriv talen under varandra, ental under ental och tiotal under tiotal. Det större talet står överst.",
+          "show": [
+            "  74",
+            "- 38",
+            "-----"
+          ],
+          "mono": true
+        },
+        {
+          "do": "Dra ifrån entalen. Går det inte, eftersom det nedre talet är större, lånar du 1 tiotal från platsen till vänster. 1 tiotal är 10 ental.",
+          "show": [
+            "4 − 8 går inte.",
+            "Låna 1 tiotal: 14 − 8 = 6. Skriv 6.",
+            "Tiotalet 7 blir 6, för du lånade 1."
+          ]
+        },
+        {
+          "do": "Dra ifrån nästa plats. Kom ihåg att den har blivit 1 mindre om du lånade.",
+          "show": [
+            "6 − 3 = 3. Skriv 3.",
+            "Svaret är 36."
+          ]
+        },
+        {
+          "do": "Kontrollera med addition: svaret plus det nedre talet ska bli det övre talet.",
+          "show": [
+            "36 + 38 = 74. Det stämmer."
+          ]
+        }
+      ]
     }
   ],
   "layout": [
     "explanation",
+    "comp:1",
     "visual",
     "comp:0",
     "rule",

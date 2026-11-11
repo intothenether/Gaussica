@@ -221,7 +221,7 @@
           "expr": "sgd(a,d)"
         }
       ],
-      "prompt": "Räkna ut {a}/{b} · {b}/{d} och skriv svaret i enklaste form. Skriv bråket.",
+      "prompt": "Räkna ut {a}/{b} · {b}/{d} och skriv svaret i enklaste form. Skriv svaret som ett bråk.",
       "answer": [
         "{a/g}/{d/g}"
       ],
@@ -269,7 +269,7 @@
   },
   "wordProblems": [
     {
-      "prompt": "Mira har 3/4 av en chokladkaka kvar och äter hälften av det. Hur stor del av hela kakan äter hon? Svara som ett bråk.",
+      "prompt": "Mira har 3/4 av en chokladkaka kvar och äter hälften av det. Hur stor del av hela kakan äter hon? Skriv svaret som ett bråk.",
       "answer": [
         "3/8"
       ],
@@ -311,7 +311,7 @@
       ]
     },
     {
-      "prompt": "Räkna ut 2/3 · 3/4 och skriv svaret i enklaste form. Skriv bråket.",
+      "prompt": "Räkna ut 2/3 · 3/4 och skriv svaret i enklaste form. Skriv svaret som ett bråk.",
       "answer": [
         "1/2"
       ],

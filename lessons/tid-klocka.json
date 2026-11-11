@@ -40,7 +40,7 @@
         {"name":"mm","expr":"mod(tot,60)"},
         {"name":"om","expr":"m+d"}
       ],
-      "prompt": "Klockan är {h|2}:{m|2}. Vad är klockan {d} minuter senare? Svara HH:MM.",
+      "prompt": "Klockan är {h|2}:{m|2}. Vad är klockan {d} minuter senare? Skriv tiden med siffror och kolon, som på en digital klocka.",
       "answer": ["{hh|2}:{mm|2}","{hh|2}.{mm|2}","{hh}:{mm|2}"],
       "correct": "Rätt! {h|2}:{m|2} plus {d} minuter blir {hh|2}:{mm|2}.",
       "feedback": [
@@ -74,7 +74,7 @@
         {"name":"hh","expr":"floor(tot/60)"},
         {"name":"mm","expr":"mod(tot,60)"}
       ],
-      "prompt": "En film börjar {h|2}:{m|2} och är {d} minuter lång. När slutar filmen? Svara HH:MM.",
+      "prompt": "En film börjar {h|2}:{m|2} och är {d} minuter lång. När slutar filmen? Skriv tiden med siffror och kolon, som på en digital klocka.",
       "answer": ["{hh|2}:{mm|2}","{hh|2}.{mm|2}","{hh}:{mm|2}"],
       "correct": "Rätt! {h|2}:{m|2} plus {d} minuter blir {hh|2}:{mm|2}.",
       "feedback": [
@@ -117,7 +117,7 @@
           "expr": "m+d"
         }
       ],
-      "prompt": "Klockan är {h|2}:{m|2}. Vad är klockan om {d} minuter? Svara HH:MM.",
+      "prompt": "Klockan är {h|2}:{m|2}. Vad är klockan om {d} minuter? Skriv tiden med siffror och kolon, som på en digital klocka.",
       "answer": [
         "{h|2}:{e|2}",
         "{h|2}.{e|2}",
@@ -207,7 +207,7 @@
     "correct": "Rätt! En timme är 60 minuter."
   },
   "exercise": {
-    "prompt": "Klockan är 14:35. Vad är klockan 40 minuter senare? Svara HH:MM.",
+    "prompt": "Klockan är 14:35. Vad är klockan 40 minuter senare? Skriv tiden med siffror och kolon, som på en digital klocka.",
     "answer": ["15:15", "15.15"],
     "correct": "Rätt! 25 minuter tar dig till 15:00 och 15 minuter till blir 15:15.",
     "feedback": [
@@ -235,7 +235,7 @@
       ]
     },
     {
-      "prompt": "Bussen går 14:25 och resan tar 35 minuter. När kommer bussen fram? Svara HH:MM.",
+      "prompt": "Bussen går 14:25 och resan tar 35 minuter. När kommer bussen fram? Skriv tiden med siffror och kolon, som på en digital klocka.",
       "answer": [
         "15:00",
         "15.00"

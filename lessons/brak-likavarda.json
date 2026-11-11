@@ -3,7 +3,7 @@
   "area": "tal",
   "parentId": "brak",
   "title": "Likvärdiga bråk",
-  "level": "Grundläggande • ungefär åk 5–6",
+  "level": "Grundläggande · ungefär åk 5–6",
   "grade": 5,
   "duration": "5 min",
   "prerequisites": ["brak-del"],
@@ -191,7 +191,7 @@
           "expr": "b*k"
         }
       ],
-      "prompt": "Förkorta {p}/{q} så mycket du kan. Svara som bråk.",
+      "prompt": "Förkorta {p}/{q} så mycket du kan. Skriv svaret som ett bråk.",
       "answer": [
         "{a}/{b}"
       ],
