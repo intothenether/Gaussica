@@ -1,0 +1,1015 @@
+{
+  "id": "tom-behallare",
+  "area": "tal",
+  "title": "Hur mycket väger den tomma hinken?",
+  "level": "Vikter och hälften · ungefär åk 4",
+  "grade": 4,
+  "duration": "10 min",
+  "prerequisites": [
+    "subtraktion",
+    "division"
+  ],
+  "summary": "Du vet vad en full hink väger och vad den väger med hälften kvar. Då kan du räkna ut vad hinken väger tom. Samma knep funkar med en påse sand och en flaska vatten.",
+  "explanationTitle": "Vad skiljer de två vägningarna åt?",
+  "explanation": "Problemet: En hink full med blåbär väger 300 g. Samma hink med hälften av blåbären väger 250 g. Hur mycket väger den tomma hinken? Vi vet inte vad hinken väger och vi vet inte vad blåbären väger. Vi har bara två vägningar. Tänk på vad som är olika mellan dem. Det är samma hink i båda, och hinken väger lika mycket hela tiden. Det enda som ändrats är att hälften av blåbären har tagits bort. Därför visar skillnaden i vikt precis hur mycket hälften av blåbären väger: 300 − 250 = 50 g. Hälften av blåbären väger alltså 50 g, och alla blåbär väger dubbelt så mycket: 2 · 50 = 100 g. När alla blåbär tas bort från den fulla hinken är bara hinken kvar: 300 − 100 = 200 g. Du kan kontrollera: hinken 200 g plus hälften av blåbären 50 g blir 250 g, precis som vågen visade. Samma knep funkar för varje sak som har ett innehåll, till exempel en påse med sand eller en flaska med vatten. Hitta det som skiljer vägningarna åt, och använd det för att räkna ut hela innehållet.",
+  "visual": {
+    "type": "tabell",
+    "title": "Två vägningar av samma hink",
+    "headers": [
+      "Vad vägdes",
+      "Vikt"
+    ],
+    "rows": [
+      [
+        "Hinken full med blåbär",
+        "300 g"
+      ],
+      [
+        "Hinken med hälften av blåbären",
+        "250 g"
+      ],
+      [
+        "Det som skiljer: hälften av blåbären",
+        "50 g"
+      ],
+      [
+        "Alla blåbär",
+        "100 g"
+      ],
+      [
+        "Den tomma hinken",
+        "200 g"
+      ]
+    ]
+  },
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så räknar du ut vad den tomma hinken väger",
+      "example": "En hink full med blåbär väger 300 g. Med hälften av blåbären väger den 250 g.",
+      "steps": [
+        {
+          "do": "Skriv upp de två vikterna.",
+          "show": [
+            "Full hink: 300 g",
+            "Hink med hälften: 250 g"
+          ]
+        },
+        {
+          "do": "Räkna ut hur mycket de skiljer. Det är vikten av det som togs bort, alltså hälften av innehållet.",
+          "show": [
+            "300 − 250 = 50 g",
+            "Hälften av blåbären väger 50 g."
+          ]
+        },
+        {
+          "do": "Räkna ut vad allt innehåll väger. Det är dubbelt så mycket som hälften.",
+          "show": [
+            "2 · 50 = 100 g",
+            "Alla blåbär väger 100 g."
+          ]
+        },
+        {
+          "do": "Ta bort allt innehåll från den fulla vikten. Det som är kvar är den tomma hinken.",
+          "show": [
+            "300 − 100 = 200 g",
+            "Den tomma hinken väger 200 g."
+          ]
+        },
+        {
+          "do": "Kontrollera. Lägg ihop den tomma hinken och hälften av innehållet. Det ska bli vikten av den halvfulla hinken.",
+          "show": [
+            "200 + 50 = 250 g",
+            "Det stämmer."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ],
+  "rule": "Skillnaden mellan full och halvfull är vikten av hälften av innehållet. Allt innehåll väger dubbelt så mycket. Ta bort det från den fulla vikten, så är det bara hinken kvar.",
+  "ruleLabel": "DET SOM SKILJER",
+  "example": "En påse med sand väger 600 g. Med hälften av sanden väger den 400 g. Hälften av sanden väger 600 − 400 = 200 g, så all sand väger 2 · 200 = 400 g. Den tomma påsen väger 600 − 400 = 200 g.",
+  "practice": [
+    {
+      "id": "hink-tom",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "En hink full med blåbär väger {F} g. Samma hink med hälften av blåbären väger {H} g. Hur mycket väger den tomma hinken?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av blåbären, så alla blåbär väger 2 · {h} = {2*h} g. Hinken väger {F} − {2*h} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av blåbären. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "=2*h"
+          ],
+          "message": "{2*h} g är vikten av alla blåbär. Det som blir kvar när alla blåbär är borta från den fulla vikten är hinken."
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/2"
+          ],
+          "message": "Du har halverat hela vikten. Men hinken väger lika mycket hela tiden, det är bara blåbären som blir hälften."
+        }
+      ]
+    },
+    {
+      "id": "pase-tom",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "En påse med sand väger {F} g. När hälften av sanden har hällts ut väger påsen {H} g. Hur mycket väger den tomma påsen?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av sanden, så all sand väger 2 · {h} = {2*h} g. Påsen väger {F} − {2*h} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av sanden. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "=2*h"
+          ],
+          "message": "{2*h} g är vikten av all sand. Det som blir kvar när all sand är borta från den fulla vikten är påsen."
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/2"
+          ],
+          "message": "Du har halverat hela vikten. Men påsen väger lika mycket hela tiden, det är bara sanden som blir hälften."
+        }
+      ]
+    },
+    {
+      "id": "lingon-alla",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "En hink full med lingon väger {F} g. Samma hink med hälften av lingonen väger {H} g. Hur mycket väger alla lingon?",
+      "answer": [
+        "=2*h",
+        "{2*h} g",
+        "{2*h}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av lingonen, så alla lingon väger 2 · {h} = {2*h} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av lingonen. Frågan gäller allt, och det är dubbelt så mycket."
+        },
+        {
+          "answers": [
+            "=e"
+          ],
+          "message": "{e} g väger hinken när den är tom. Frågan gäller alla lingon. Hur mycket mer väger den fulla än den tomma?"
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten av hinken med hälften kvar i. Där ingår hinken själv också."
+        }
+      ]
+    },
+    {
+      "id": "flaska-tom",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "En flaska full med vatten väger {F} g. Samma flaska med hälften av vattnet väger {H} g. Hur mycket väger den tomma flaskan?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av vattnet, så allt vatten väger 2 · {h} = {2*h} g. Flaskan väger {F} − {2*h} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av vattnet. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "=2*h"
+          ],
+          "message": "{2*h} g är vikten av allt vatten. Det som blir kvar när allt vatten är borta från den fulla vikten är flaskan."
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/2"
+          ],
+          "message": "Du har halverat hela vikten. Men flaskan väger lika mycket hela tiden, det är bara vattnet som blir hälften."
+        }
+      ]
+    },
+    {
+      "id": "flaska-vatten",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "{$namn} har en flaska full med vatten. Den väger {F} g. När {$namn} har druckit hälften av vattnet väger flaskan {H} g. Hur mycket väger allt vatten i flaskan?",
+      "answer": [
+        "=2*h",
+        "{2*h} g",
+        "{2*h}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av vattnet, så allt vatten väger 2 · {h} = {2*h} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av vattnet. Frågan gäller allt, och det är dubbelt så mycket."
+        },
+        {
+          "answers": [
+            "=e"
+          ],
+          "message": "{e} g väger flaskan när den är tom. Frågan gäller allt vatten. Hur mycket mer väger den fulla än den tomma?"
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten av flaskan med hälften kvar i. Där ingår flaskan själv också."
+        }
+      ]
+    },
+    {
+      "id": "pase-sand-2",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "{$namn} fyller en påse med sand. Påsen väger {F} g. När hälften av sanden har hällts ut väger påsen {H} g. Hur mycket väger påsen utan sand?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av sanden, så all sand väger 2 · {h} = {2*h} g. Påsen väger {F} − {2*h} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av sanden. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "=2*h"
+          ],
+          "message": "{2*h} g är vikten av all sand. Det som blir kvar när all sand är borta från den fulla vikten är påsen."
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/2"
+          ],
+          "message": "Du har halverat hela vikten. Men påsen väger lika mycket hela tiden, det är bara sanden som blir hälften."
+        }
+      ]
+    },
+    {
+      "id": "korg-applen",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "{$namn} har en korg full med äpplen. Korgen väger {F} g. När {$namn} har tagit ut hälften av äpplena väger korgen {H} g. Hur mycket väger korgen utan äpplen?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av äpplena, så alla äpplen väger 2 · {h} = {2*h} g. Korgen väger {F} − {2*h} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av äpplena. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "=2*h"
+          ],
+          "message": "{2*h} g är vikten av alla äpplen. Det som blir kvar när alla äpplen är borta från den fulla vikten är korgen."
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/2"
+          ],
+          "message": "Du har halverat hela vikten. Men korgen väger lika mycket hela tiden, det är bara äpplena som blir hälften."
+        }
+      ]
+    },
+    {
+      "id": "burk-knappar",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "En burk full med knappar väger {F} g. När hälften av knapparna har tagits ur väger burken {H} g. Hur mycket väger burken när den är tom?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av knapparna, så alla knappar väger 2 · {h} = {2*h} g. Burken väger {F} − {2*h} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av knapparna. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "=2*h"
+          ],
+          "message": "{2*h} g är vikten av alla knappar. Det som blir kvar när alla knappar är borta från den fulla vikten är burken."
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/2"
+          ],
+          "message": "Du har halverat hela vikten. Men burken väger lika mycket hela tiden, det är bara knapparna som blir hälften."
+        }
+      ]
+    },
+    {
+      "id": "burk-knappar-alla",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "En burk full med knappar väger {F} g. När hälften av knapparna har tagits ur väger burken {H} g. Hur mycket väger alla knappar i burken?",
+      "answer": [
+        "=2*h",
+        "{2*h} g",
+        "{2*h}g"
+      ],
+      "correct": "Rätt! {F} − {H} = {h} g är vikten av hälften av knapparna, så alla knappar väger 2 · {h} = {2*h} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av bara hälften av knapparna. Frågan gäller allt, och det är dubbelt så mycket."
+        },
+        {
+          "answers": [
+            "=e"
+          ],
+          "message": "{e} g väger burken när den är tom. Frågan gäller alla knappar. Hur mycket mer väger den fulla än den tomma?"
+        },
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten av burken med hälften kvar i. Där ingår burken själv också."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En hink full med blåbär väger 300 g. Samma hink med hälften av blåbären väger 250 g. Hur mycket väger den tomma hinken?",
+    "answer": [
+      "200",
+      "200 g",
+      "200g"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Skillnaden i vikt mellan den fulla och den halvfulla hinken är vikten av hälften av blåbären.",
+        "answer": true,
+        "explain": "Hinken är densamma i båda vägningarna. Det som skiljer är de blåbär som togs bort."
+      },
+      {
+        "text": "Den tomma hinken väger hälften av den fulla hinken.",
+        "answer": false,
+        "explain": "Bara blåbären blir hälften. Hinken väger lika mycket hela tiden."
+      }
+    ],
+    "correct": "Rätt! Hinken väger lika mycket hela tiden, det är bara innehållet som ändras."
+  },
+  "exercise": {
+    "prompt": "En hink full med lingon väger 500 g. Samma hink med hälften av lingonen väger 330 g. Hur mycket väger den tomma hinken?",
+    "answer": [
+      "160",
+      "160 g",
+      "160g"
+    ],
+    "correct": "Rätt! 500 − 330 = 170 g är vikten av hälften av lingonen, så alla lingon väger 2 · 170 = 340 g. Hinken väger 500 − 340 = 160 g.",
+    "feedback": [
+      {
+        "answers": [
+          "170",
+          "170 g"
+        ],
+        "message": "170 g är vikten av bara hälften av lingonen. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+      },
+      {
+        "answers": [
+          "340",
+          "340 g"
+        ],
+        "message": "340 g är vikten av alla lingon. Det som blir kvar när alla lingon är borta från den fulla vikten är hinken."
+      },
+      {
+        "answers": [
+          "330",
+          "330 g"
+        ],
+        "message": "330 g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+      },
+      {
+        "answers": [
+          "250",
+          "250 g"
+        ],
+        "message": "Du har halverat hela vikten. Men hinken väger lika mycket hela tiden, det är bara lingonen som blir hälften."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En flaska full med vatten väger 700 g. Samma flaska med hälften av vattnet väger 450 g. Hur mycket väger den tomma flaskan?",
+      "answer": [
+        "200",
+        "200 g",
+        "200g"
+      ],
+      "correct": "Rätt! 700 − 450 = 250 g är vikten av hälften av vattnet, så allt vatten väger 2 · 250 = 500 g. Flaskan väger 700 − 500 = 200 g.",
+      "feedback": [
+        {
+          "answers": [
+            "250",
+            "250 g"
+          ],
+          "message": "250 g är vikten av bara hälften av vattnet. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "500",
+            "500 g"
+          ],
+          "message": "500 g är vikten av allt vatten. Det som blir kvar när allt vatten är borta från den fulla vikten är flaskan."
+        },
+        {
+          "answers": [
+            "450",
+            "450 g"
+          ],
+          "message": "450 g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "350",
+            "350 g"
+          ],
+          "message": "Du har halverat hela vikten. Men flaskan väger lika mycket hela tiden, det är bara vattnet som blir hälften."
+        }
+      ]
+    },
+    {
+      "prompt": "En påse med sand väger 800 g. När hälften av sanden har hällts ut väger påsen 450 g. Hur mycket väger den tomma påsen?",
+      "answer": [
+        "100",
+        "100 g",
+        "100g"
+      ],
+      "correct": "Rätt! 800 − 450 = 350 g är vikten av hälften av sanden, så all sand väger 2 · 350 = 700 g. Påsen väger 800 − 700 = 100 g.",
+      "feedback": [
+        {
+          "answers": [
+            "350",
+            "350 g"
+          ],
+          "message": "350 g är vikten av bara hälften av sanden. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "700",
+            "700 g"
+          ],
+          "message": "700 g är vikten av all sand. Det som blir kvar när all sand är borta från den fulla vikten är påsen."
+        },
+        {
+          "answers": [
+            "450",
+            "450 g"
+          ],
+          "message": "450 g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "400",
+            "400 g"
+          ],
+          "message": "Du har halverat hela vikten. Men påsen väger lika mycket hela tiden, det är bara sanden som blir hälften."
+        }
+      ]
+    },
+    {
+      "prompt": "En burk full med knappar väger 600 g. När hälften av knapparna har tagits ur väger burken 360 g. Hur mycket väger burken när den är tom?",
+      "answer": [
+        "120",
+        "120 g",
+        "120g"
+      ],
+      "correct": "Rätt! 600 − 360 = 240 g är vikten av hälften av knapparna, så alla knappar väger 2 · 240 = 480 g. Burken väger 600 − 480 = 120 g.",
+      "feedback": [
+        {
+          "answers": [
+            "240",
+            "240 g"
+          ],
+          "message": "240 g är vikten av bara hälften av knapparna. Hur mycket väger allt, och vad blir kvar när det tas bort från den fulla vikten?"
+        },
+        {
+          "answers": [
+            "480",
+            "480 g"
+          ],
+          "message": "480 g är vikten av alla knappar. Det som blir kvar när alla knappar är borta från den fulla vikten är burken."
+        },
+        {
+          "answers": [
+            "360",
+            "360 g"
+          ],
+          "message": "360 g är vikten när hälften fortfarande ligger kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "300",
+            "300 g"
+          ],
+          "message": "Du har halverat hela vikten. Men burken väger lika mycket hela tiden, det är bara knapparna som blir hälften."
+        }
+      ]
+    }
+  ]
+}
