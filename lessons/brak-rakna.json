@@ -14,7 +14,7 @@
   ],
   "summary": "Bråk med samma nämnare kan du lägga ihop och dra ifrån direkt. Du kan också räkna ut en del av ett antal.",
   "explanationTitle": "Hur räknar vi när talen är bråk?",
-  "explanation": "Problemet: Vi kan jämföra bråk och skriva samma värde på olika sätt. Men vad är 2/7 + 3/7? Och hur mycket är 3/4 av 12? Vi har hittills bara jämfört bråk, inte räknat med dem. Bra nyhet: delar av samma storlek går att räkna precis som vanliga saker. Har bråken samma nämnare är delarna lika stora, så du räknar bara täljarna: 2/7 + 3/7 = 5/7. Nämnaren ändras inte. På samma sätt är 5/7 − 2/7 = 3/7. Har bråken olika nämnare måste du först göra delarna lika stora. För att räkna ut 1/2 + 1/4 förlänger du 1/2 till 2/4. Sedan är 2/4 + 1/4 = 3/4. Du kan också räkna ut en del av ett antal. 3/4 av 12: dela först 12 i 4 lika delar (12/4 = 3) och ta sedan 3 sådana delar (3 · 3 = 9).",
+  "explanation": "Problemet: Vi kan jämföra bråk och skriva samma värde på olika sätt. Men vad är 2/7 + 3/7? Och hur mycket är 3/4 av 12? Vi har hittills bara jämfört bråk, inte räknat med dem. Bra nyhet: delar av samma storlek går att räkna precis som vanliga saker. Har bråken samma nämnare är delarna lika stora, så du räknar bara täljarna: 2/7 + 3/7 = 5/7. Nämnaren ändras inte. På samma sätt är 5/7 − 2/7 = 3/7. Har bråken olika nämnare måste du först göra delarna lika stora. Stegen står i rutorna nedan, med 1/2 + 1/4 som exempel. Du kan också räkna ut en del av ett antal. 3/4 av 12: dela först 12 i 4 lika delar (12/4 = 3) och ta sedan 3 sådana delar (3 · 3 = 9).",
   "rule": "Samma nämnare: räkna täljarna och behåll nämnaren",
   "ruleLabel": "BRÅK MED SAMMA NÄMNARE",
   "example": "4/9 + 2/9 = 6/9. 5/8 − 3/8 = 2/8. Olika nämnare: 1/2 + 1/4 = 2/4 + 1/4 = 3/4.",
@@ -332,10 +332,38 @@
       "explain": "Nämnarna läggs inte ihop. Förläng först 1/2 till 2/4, så att båda delarna är fjärdedelar, och lägg sedan ihop täljarna.",
       "fix": "1/4 + 2/4 = 3/4",
       "hint": "Är fjärdedelar och halvor lika stora delar?"
+    },
+    {
+      "type": "steg",
+      "title": "Så lägger du ihop bråk",
+      "example": "Vi räknar 1/2 + 1/4.",
+      "steps": [
+        {
+          "do": "Titta på nämnarna. Är de lika kan du gå direkt till steg 3.",
+          "show": [
+            "1/2 har nämnaren 2 och 1/4 har nämnaren 4.",
+            "De är olika."
+          ]
+        },
+        {
+          "do": "Gör nämnarna lika. Förläng ett av bråken: multiplicera täljaren och nämnaren med samma tal.",
+          "show": [
+            "1/2 = 2/4, för 1 · 2 = 2 och 2 · 2 = 4."
+          ]
+        },
+        {
+          "do": "Räkna täljarna och behåll nämnaren.",
+          "show": [
+            "2/4 + 1/4 = 3/4",
+            "Svaret är 3/4."
+          ]
+        }
+      ]
     }
   ],
   "layout": [
     "explanation",
+    "comp:1",
     "visual",
     "rule",
     "exercise",

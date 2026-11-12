@@ -1,10 +1,50 @@
 "use strict";
 // Shared steps for the browser tests.
+const fs = require("fs");
+const path = require("path");
 const { expect } = require("@playwright/test");
+
+// The signed-in state that almost every test starts from (a teacher account, shown as a student, with the pet Kanin called Pixel, or with no pet) is made once,
+// through the real sign-up, by global-setup.js and kept in .seed.json. A test then starts from that state at once instead of clicking through the sign-up and the
+// choice of a pet, which was the biggest part of the time of the whole suite. A test that wants something else (another pet, or { ui: true }) clicks through it.
+const SEED_FILE = path.join(__dirname, ".seed.json");
+const SEED_KEY = "gaussica.local.v1";
+function readSeed() { try { return JSON.parse(fs.readFileSync(SEED_FILE, "utf8")); } catch (e) { return null; } }
 
 // Opens the site as a student with a pet: a teacher account is made in the demo mode (it lives only in this browser) and the site is
 // shown as a student sees it. The code is the demo code of local-backend.js.
 async function signIn(page, opts) {
+  opts = Object.assign({ pet: "Kanin", petName: "Pixel" }, opts || {});
+  const kind = opts.ui || process.env.PW_SIGNIN_UI === "1" ? null : opts.pet === null ? "nopet" : (opts.pet === "Kanin" && opts.petName === "Pixel" ? "pet" : null);
+  const seed = kind && readSeed();
+  if (seed && seed[kind]) return signInFromSeed(page, opts, seed[kind]);
+  return signInViaUi(page, opts);
+}
+
+// the state of a signed-in teacher is put in the browser before the page starts (only into a browser that has nothing yet, so a reload keeps what the test did)
+async function signInFromSeed(page, opts, state) {
+  await page.addInitScript(() => { try { localStorage.setItem("gaussica.cookies-ok", "1"); } catch (e) { /* no storage */ } });
+  if (!opts.keepTips) await page.addLocatorHandler(page.locator(".tip-overlay"), async (box) => { await box.locator(".tip-again").press("Enter"); });
+  await page.addInitScript((s) => {
+    try {
+      if (localStorage.getItem(s.key)) return;
+      Object.keys(s.local).forEach((k) => localStorage.setItem(k, s.local[k]));
+      Object.keys(s.session).forEach((k) => sessionStorage.setItem(k, s.session[k]));
+    } catch (e) { /* no storage */ }
+  }, { key: SEED_KEY, local: state.local, session: state.session });
+  await page.goto("/index.html#start");
+  await expect(page.locator(".hp-stage, .hp-choose").first()).toBeVisible({ timeout: 25000 });   // the first load fetches 170 lesson files: slow when several tests start at once
+  // the page is ready when the lessons are loaded and the top bar is shown: only then are the buttons bound (clicking through the sign-up took so long that this was always so)
+  await page.waitForFunction(() => Boolean(window.course && window.course.lessons && window.course.lessons.length) && Boolean((document.querySelector("#reading-link") || {}).offsetParent));
+  // and it has stopped drawing: a part of the page that is drawn a moment late would take the focus of a test that has just set it (at most three seconds)
+  await page.evaluate(() => new Promise((resolve) => {
+    let quiet = setTimeout(resolve, 400);
+    const cap = setTimeout(resolve, 3000);
+    new MutationObserver(() => { clearTimeout(quiet); quiet = setTimeout(() => { clearTimeout(cap); resolve(); }, 400); }).observe(document.body, { subtree: true, childList: true });
+  }));
+}
+
+async function signInViaUi(page, opts) {
   opts = Object.assign({ pet: "Kanin", petName: "Pixel" }, opts || {});
   // the notice about cookies is a banner over the page: it is already answered, as for a student who has seen it
   await page.addInitScript(() => { try { localStorage.setItem("gaussica.cookies-ok", "1"); } catch (e) { /* no storage */ } });
@@ -60,4 +100,4 @@ function watchErrors(page) {
   return errors;
 }
 
-module.exports = { signIn, openLesson, openWorkshop, watchErrors };
+module.exports = { signIn, signInViaUi, readSeed, SEED_FILE, openLesson, openWorkshop, watchErrors };

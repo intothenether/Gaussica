@@ -5,3 +5,4 @@ lessons/bundle.json
 test-results/
 playwright-report/
 backups/
+tests/browser/.seed.json

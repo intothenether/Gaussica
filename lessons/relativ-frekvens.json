@@ -11,7 +11,7 @@
   ],
   "summary": "När du inte kan räkna ut en chans kan du prova många gånger. Andelen gånger något hände kallas relativ frekvens.",
   "explanationTitle": "Prova många gånger",
-  "explanation": "Problemet: Hur stor är chansen att en tryckknapp landar med spetsen upp? Det finns ingen regel som du kan räkna ut. Då provar vi: kasta många gånger och räkna. Av 50 kast landade knappen upp 20 gånger. Andelen är 20 av 50, alltså 20/50 = 0,4 = 40 %. Det kallas relativ frekvens: antalet gånger något hände delat med antalet försök. Ju fler försök du gör, desto närmare brukar den komma den riktiga chansen. För en tärning vet vi att chansen för en sexa är 1/6, men i 12 kast kan du få fler eller färre sexor än 2. Först efter hundratals kast är andelen nästan 1/6.",
+  "explanation": "Problemet: Hur stor är chansen att en tryckknapp landar med spetsen upp? Det finns ingen regel som du kan räkna ut. Då provar vi: kasta många gånger och räkna. Det kallas relativ frekvens: antalet gånger något hände delat med antalet försök. Stegen står i rutorna nedan, med knappen som exempel. Ju fler försök du gör, desto närmare brukar den komma den riktiga chansen. För en tärning vet vi att chansen för en sexa är 1/6, men i 12 kast kan du få fler eller färre sexor än 2. Först efter hundratals kast är andelen nästan 1/6.",
   "visual": {
     "type": "tabell",
     "title": "En tärning kastas många gånger",
@@ -260,5 +260,48 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så räknar du relativ frekvens",
+      "example": "Du kastar en tryckknapp 50 gånger, och den landar med spetsen upp 20 gånger.",
+      "steps": [
+        {
+          "do": "Räkna hur många försök du har gjort.",
+          "show": [
+            "50 kast."
+          ]
+        },
+        {
+          "do": "Räkna hur många gånger det du undersöker hände.",
+          "show": [
+            "Spetsen upp: 20 gånger."
+          ]
+        },
+        {
+          "do": "Dela antalet gånger med antalet försök.",
+          "show": [
+            "20 delat med 50 = 20/50 = 0,4"
+          ]
+        },
+        {
+          "do": "Skriv det i procent om du vill.",
+          "show": [
+            "0,4 = 40 %"
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "visual",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }

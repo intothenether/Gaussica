@@ -25,6 +25,12 @@ r = T.specsFor(["README.md", "tests/pet.js", "scripts/test-changed.js"], specs, 
 ok(r.specs.join() === "pet" || r.specs.length <= 3, "documents and test files do not ask for much");
 r = T.specsFor(["some-new-page.js"], specs, none);
 ok(!r.known && r.specs.join() === T.FALLBACK.slice().sort().join(), "a script that nothing knows gets the short set");
+r = T.specsFor(["step-boxes.js"], specs, none);
+ok(r.specs.includes("stepboxes"), "the step boxes run their spec");
+r = T.specsFor(["tests/browser/helpers.js"], specs, none);
+ok(r.known && r.specs.includes("smoke") && r.specs.includes("keyboard"), "a change in the shared test steps runs a few specs that use them");
+r = T.specsFor(["demo.js", "provtraining.js"], specs, none);
+ok(r.specs.includes("demo") && r.specs.includes("provtraining"), "the trial and Provträning run their specs");
 r = T.specsFor(["tests/browser/popup.spec.js"], specs, none);
 ok(r.specs.join() === "popup", "a changed spec runs itself");
 

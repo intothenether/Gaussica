@@ -25,10 +25,13 @@ const RULES = [
   [/^(feedback|feedback-signals|misconceptions)\.js$/, ["feedback", "misconceptions"]],
   [/^reading\.js$/, ["intro", "feedback", "spelling"]],
   [/^(questions|lesson-player|lesson-model|richtext|canvas-pad|tip-dialog)\.js$/, ["smoke", "a11y", "keyboard", "feedback", "drawpad", "tip", "intro"]],
-  [/^(app|index)\.(js|html)$|^styles\.css$|^viewport\.js$/, ["smoke", "a11y", "popup", "phone"]],
-  [/^(caregiver|parent-guide|parent-guides|teacher-view|mailbox|chat)\.js$/, ["caregiver", "multi"]],
-  [/^(subscription|auth-view|account|privacy|local-backend)\.js$|^styles-account\.css$|^(villkor|integritet|angerratt)\.html$/, ["account", "caregiver", "multi", "a11y"]],
-  [/^(workshop|pyssel|worksheet)\.js$/, ["workshop", "pyssla"]],
+  [/^(app|index)\.(js|html)$|^styles\.css$|^viewport\.js$/, ["smoke", "a11y", "popup", "phone", "demo", "landing"]],
+  [/^(caregiver|parent-guide|parent-guides|teacher-view|mailbox|chat)\.js$/, ["caregiver", "multi", "week"]],
+  [/^(subscription|auth-view|account|privacy|local-backend)\.js$|^styles-account\.css$|^(villkor|integritet|angerratt)\.html$/, ["account", "caregiver", "multi", "a11y", "landing", "demo"]],
+  [/^(workshop|pyssel|worksheet)\.js$/, ["workshop", "pyssla", "stepboxes"]],
+  [/^step-boxes\.js$/, ["stepboxes", "a11y"]],
+  [/^(demo|provtraining)\.js$/, ["demo", "provtraining", "smoke"]],
+  [/^tests\/browser\/(helpers|global-setup)\.js$|^playwright\.config\.js$/, ["smoke", "keyboard", "tip", "intro"]],
   [/^(graph-view|path-view|journey|planner|coach)\.js$/, ["popup", "smoke"]]
 ];
 

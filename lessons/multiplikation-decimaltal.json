@@ -12,7 +12,7 @@
   ],
   "summary": "Multiplicera decimaltal som vanliga tal. Sedan sätter du kommatecknet så att svaret har lika många decimaler som talen tillsammans.",
   "explanationTitle": "Vad kostar 0,4 kilo?",
-  "explanation": "Problemet: Ett kilo vindruvor kostar 30 kr, och du köper 0,4 kilo. Tabellerna går bara till hela tal, och uppställningen verkar svår med kommatecken i vägen. Hur multiplicerar du med decimaltal? Gör det i två steg. Först multiplicerar du som om kommatecknen inte fanns: 3 · 4 = 12. Sedan räknar du decimalerna. 0,4 har en decimal, och 3 har inga, så svaret ska ha en decimal: 1,2. Har båda talen en decimal blir det två decimaler: 0,3 · 0,4. Först 3 · 4 = 12, sedan två decimaler: 0,12. Svaret blir mindre än något av talen, för du tar en del av en del. Det är ett bra sätt att kolla svaret. Att multiplicera med ett tal under 1 gör svaret mindre, och att multiplicera med ett tal över 1 gör det större.",
+  "explanation": "Problemet: Ett kilo vindruvor kostar 30 kr, och du köper 0,4 kilo. Tabellerna går bara till hela tal, och uppställningen verkar svår med kommatecken i vägen. Hur multiplicerar du med decimaltal? Stegen står i rutorna nedan, med 3 · 0,4 som exempel. Har båda talen en decimal blir det två decimaler: 0,3 · 0,4. Först 3 · 4 = 12, sedan två decimaler: 0,12. Svaret blir mindre än något av talen, för du tar en del av en del. Det är ett bra sätt att kolla svaret. Att multiplicera med ett tal under 1 gör svaret mindre, och att multiplicera med ett tal över 1 gör det större.",
   "visual": {
     "type": "tabell",
     "title": "Räkna decimalerna",
@@ -448,5 +448,50 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så multiplicerar du med decimaltal",
+      "example": "Vi räknar 3 · 0,4 (3 kg till 0,4 kg).",
+      "steps": [
+        {
+          "do": "Räkna som om kommatecknen inte fanns.",
+          "show": [
+            "3 · 4 = 12"
+          ]
+        },
+        {
+          "do": "Räkna hur många decimaler talen har tillsammans.",
+          "show": [
+            "3 har inga decimaler och 0,4 har en.",
+            "Tillsammans: 1 decimal."
+          ]
+        },
+        {
+          "do": "Sätt kommatecknet så att svaret har lika många decimaler.",
+          "show": [
+            "12 med 1 decimal blir 1,2.",
+            "Svaret är 1,2."
+          ]
+        },
+        {
+          "do": "Kolla svaret: multiplicerar du med ett tal under 1 ska svaret bli mindre.",
+          "show": [
+            "1,2 är mindre än 3. Det stämmer."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "visual",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }

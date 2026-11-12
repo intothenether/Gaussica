@@ -11,7 +11,7 @@
   ],
   "summary": "Antalet sätt att ordna n olika saker i en rad är n!, fakulteten. Ordnar du bara några av dem stannar multiplikationen tidigare.",
   "explanationTitle": "På hur många sätt kan de stå?",
-  "explanation": "Problemet: Fem kompisar ska ställa sig på rad för ett foto. På hur många olika sätt kan de stå? Den som står först kan väljas på 5 sätt. Sedan finns 4 kvar till andra platsen, sedan 3, 2 och 1. Enligt multiplikationsprincipen är det 5 · 4 · 3 · 2 · 1 = 120 sätt. Den sortens multiplikation, där du räknar ned till 1, kallas fakultet och skrivs 5!. Alltså är 5! = 120. Antalet sätt att ordna n olika saker i en rad är n!. Ska du bara ordna några av dem, till exempel dela ut guld, silver och brons bland fem deltagare, börjar du på samma sätt men stannar efter tre faktorer: 5 · 4 · 3 = 60. Sådana ordnade urval kallas permutationer.",
+  "explanation": "Problemet: Fem kompisar ska ställa sig på rad för ett foto. På hur många olika sätt kan de stå? Hur du räknar ut det står i rutorna nedan, steg för steg. Den sortens multiplikation, där du räknar ned till 1 (5 · 4 · 3 · 2 · 1 = 120), kallas fakultet och skrivs 5!. Antalet sätt att ordna n olika saker i en rad är n!. Ordnar du bara några av dem, till exempel guld, silver och brons bland fem deltagare, kallas det en permutation.",
   "visual": {
     "type": "tabell",
     "title": "Fakultet växer snabbt",
@@ -227,5 +227,49 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så räknar du på hur många sätt något kan ordnas",
+      "example": "Fem kompisar ställer sig på rad.",
+      "steps": [
+        {
+          "do": "Välj den som står först. Räkna hur många som kan stå där.",
+          "show": [
+            "Första platsen: 5 sätt."
+          ]
+        },
+        {
+          "do": "Välj den som står näst. En har redan en plats, så det finns en färre. Fortsätt så till sista platsen.",
+          "show": [
+            "Andra platsen: 4 sätt. Sedan 3, 2 och 1."
+          ]
+        },
+        {
+          "do": "Multiplicera alla antalen med varandra.",
+          "show": [
+            "5 · 4 · 3 · 2 · 1 = 120",
+            "Det är 5! = 120 sätt."
+          ]
+        },
+        {
+          "do": "Ska du bara ordna några av dem? Stanna då efter så många platser.",
+          "show": [
+            "Guld, silver och brons bland fem: 5 · 4 · 3 = 60 sätt."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "visual",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }

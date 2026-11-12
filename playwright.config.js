@@ -7,6 +7,7 @@ const PORT = 8126;
 
 module.exports = defineConfig({
   testDir: "tests/browser",
+  globalSetup: require.resolve("./tests/browser/global-setup.js"),   // makes the signed-in state that the tests start from (tests/browser/helpers.js)
   timeout: 60000,
   expect: { timeout: 8000 },
   fullyParallel: true,

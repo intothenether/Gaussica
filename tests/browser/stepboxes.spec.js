@@ -36,3 +36,14 @@ test("the clock pyssla says visarna, not reglage", async ({ page }) => {
   await expect(lesson).toContainText("Minutvisaren");
   await expect(lesson).not.toContainText(/reglag/i);
 });
+
+// the second round of lessons that tell a method in boxes
+for (const [id, steps] of [["operatorsordning", 2], ["brak-rakna", 3], ["procentuell-forandring", 3], ["multiplikation-decimaltal", 4], ["volym", 3], ["kassakvitto", 4], ["relativ-frekvens", 4], ["fakultet-permutationer", 4], ["parenteser-uttryck", 3]]) {
+  test("the method of " + id + " is in " + steps + " boxes, each with the example", async ({ page }) => {
+    await signIn(page);
+    await openLesson(page, id, ".sb");
+    await expect(page.locator("#lesson-player .sb-step")).toHaveCount(steps);
+    await expect(page.locator("#lesson-player .sb-example")).toBeVisible();
+    for (let i = 0; i < steps; i++) await expect(page.locator("#lesson-player .sb-step").nth(i).locator(".sb-show")).toBeVisible();
+  });
+}

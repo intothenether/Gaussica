@@ -14,7 +14,7 @@
   ],
   "summary": "Multiplicera varje term i parentesen. Sedan samlar du lika termer, så att uttrycket blir kortare.",
   "explanationTitle": "Hur räknar vi bort en parentes?",
-  "explanation": "Problemet: En rektangel har bredden 2 och längden x + 3. Arean är 2 · (x + 3). Men vi vill ha ett uttryck utan parentes som vi kan räkna vidare med. Hur multiplicerar vi 2 med en hel parentes? Du multiplicerar med varje term i parentesen: 2(x + 3) = 2 · x + 2 · 3 = 2x + 6. Minus fungerar likadant: 4(x − 3) = 4x − 12. Med två parenteser multiplicerar du varje term i den första med varje term i den andra: (x + 3)(x + 2) = x · x + x · 2 + 3 · x + 3 · 2 = x² + 2x + 3x + 6. Det är lätt att se i en rektangel med fyra delar. Sedan samlar du lika termer: 2x och 3x är båda x-termer och blir tillsammans 5x. Svaret är x² + 5x + 6. Du kan bara slå ihop termer som har samma bokstavsdel: x² och x är olika termer. Skriv x² som x^2 när du svarar.",
+  "explanation": "Problemet: En rektangel har bredden 2 och längden x + 3. Arean är 2 · (x + 3). Men vi vill ha ett uttryck utan parentes som vi kan räkna vidare med. Hur multiplicerar vi 2 med en hel parentes? Du multiplicerar med varje term i parentesen: 2(x + 3) = 2 · x + 2 · 3 = 2x + 6. Minus fungerar likadant: 4(x − 3) = 4x − 12. Med två parenteser följer du stegen i rutorna nedan, med (x + 3)(x + 2) som exempel. Det är lätt att se i en rektangel med fyra delar. Du kan bara slå ihop termer som har samma bokstavsdel: x² och x är olika termer. Skriv x² med knappen eller som x^2 när du svarar.",
   "visual": {
     "type": "areamodell",
     "title": "(x + 3)(x + 2) = x² + 3x + 2x + 6 = x² + 5x + 6",
@@ -369,7 +369,10 @@
         {
           "line": "3 · x + 3 · 4",
           "say": "Multiplicera 3 med varje term i parentesen.",
-          "wrong": ["Multiplicera 3 med bara den första termen.", "Lägg till 3 till varje term i parentesen."]
+          "wrong": [
+            "Multiplicera 3 med bara den första termen.",
+            "Lägg till 3 till varje term i parentesen."
+          ]
         },
         {
           "line": "3x + 12",
@@ -416,7 +419,10 @@
         {
           "line": "x · x + x · 5 + 2 · x + 2 · 5",
           "say": "Multiplicera varje term med varje term. Det är de fyra rutorna.",
-          "wrong": ["Multiplicera bara de första termerna med varandra och de sista med varandra.", "Lägg ihop alla termerna."]
+          "wrong": [
+            "Multiplicera bara de första termerna med varandra och de sista med varandra.",
+            "Lägg ihop alla termerna."
+          ]
         },
         {
           "line": "x^2 + 5x + 2x + 10",
@@ -425,10 +431,51 @@
         {
           "line": "x^2 + 7x + 10",
           "say": "Lägg ihop de lika termerna 5x och 2x.",
-          "wrong": ["Lägg ihop x² och 5x.", "Multiplicera 5x med 2x."]
+          "wrong": [
+            "Lägg ihop x² och 5x.",
+            "Multiplicera 5x med 2x."
+          ]
         }
       ],
       "note": "Kontrollera med x = 1: (1 + 2)(1 + 5) = 18 och 1 + 7 + 10 = 18."
+    },
+    {
+      "type": "steg",
+      "title": "Så multiplicerar du två parenteser",
+      "example": "Vi räknar (x + 3)(x + 2).",
+      "steps": [
+        {
+          "do": "Multiplicera varje term i den första parentesen med varje term i den andra.",
+          "show": [
+            "x · x + x · 2 + 3 · x + 3 · 2"
+          ]
+        },
+        {
+          "do": "Räkna ut varje del.",
+          "show": [
+            "x² + 2x + 3x + 6"
+          ]
+        },
+        {
+          "do": "Samla lika termer. Bara termer med samma bokstavsdel kan slås ihop.",
+          "show": [
+            "2x och 3x är båda x-termer: 2x + 3x = 5x.",
+            "Svaret är x² + 5x + 6."
+          ]
+        }
+      ]
     }
+  ],
+  "layout": [
+    "explanation",
+    "comp:2",
+    "visual",
+    "comp:0",
+    "comp:1",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }

@@ -10,7 +10,7 @@
   ],
   "summary": "Med en förändringsfaktor räknar du en höjning eller sänkning i ett enda steg. Procent av olika belopp kan inte läggas ihop.",
   "explanationTitle": "Vad blir priset efter höjningen?",
-  "explanation": "Problemet: En jacka kostar 800 kr. Först sänks priset med 25 %, och sedan höjs det med 25 %. Kostar jackan 800 kr igen? Och hur räknar du snabbt ut priset efter en höjning med 7 %, utan att först räkna 7 % och sedan lägga till? Det behövs ett sätt att räkna i ett enda steg. Vi använder en förändringsfaktor. Höjer du priset med 25 % har du kvar 100 % och får 25 % till: 125 %, alltså faktorn 1,25. Nytt värde är gammalt värde gånger faktorn: 800 · 1,25 = 1000. Sänker du med 25 % har du 75 % kvar, alltså faktorn 0,75. Faktorn är 1 plus ökningen i procent, eller 1 minus minskningen. Efter 25 % sänkning blir priset 800 · 0,75 = 600 kr. Höjer du sedan med 25 % räknar du av 600, inte av 800: 600 · 1,25 = 750 kr. Jackan är alltså billigare än förut. Procenten räknas av olika belopp, så de tar inte ut varandra. Ska du räkna ut hur många procent något har ändrats delar du ändringen med det gamla värdet: från 600 till 800 ökar priset med 200, och 200 delat med 600 är ungefär 33 %.",
+  "explanation": "Problemet: En jacka kostar 800 kr. Först sänks priset med 25 %, och sedan höjs det med 25 %. Kostar jackan 800 kr igen? Och hur räknar du snabbt ut priset efter en höjning med 7 %, utan att först räkna 7 % och sedan lägga till? Det behövs ett sätt att räkna i ett enda steg. Vi använder en förändringsfaktor. Hur du räknar med den står i rutorna nedan. Höjer du priset med 25 % har du kvar 100 % och får 25 % till: 125 %, alltså faktorn 1,25. Nytt värde är gammalt värde gånger faktorn: 800 · 1,25 = 1000. Sänker du med 25 % har du 75 % kvar, alltså faktorn 0,75. Faktorn är 1 plus ökningen i procent, eller 1 minus minskningen. Efter 25 % sänkning blir priset 800 · 0,75 = 600 kr. Höjer du sedan med 25 % räknar du av 600, inte av 800: 600 · 1,25 = 750 kr. Jackan är alltså billigare än förut. Procenten räknas av olika belopp, så de tar inte ut varandra. Ska du räkna ut hur många procent något har ändrats delar du ändringen med det gamla värdet: från 600 till 800 ökar priset med 200, och 200 delat med 600 är ungefär 33 %.",
   "visual": {
     "type": "tabell",
     "title": "Förändringsfaktorer",
@@ -379,5 +379,45 @@
         }
       ]
     }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så räknar du med förändringsfaktor",
+      "example": "En jacka kostar 800 kr och priset höjs med 25 %.",
+      "steps": [
+        {
+          "do": "Räkna ut förändringsfaktorn: 1 plus ökningen. Vid en sänkning är den 1 minus minskningen.",
+          "show": [
+            "25 % är 0,25.",
+            "Faktorn är 1 + 0,25 = 1,25."
+          ]
+        },
+        {
+          "do": "Multiplicera det gamla värdet med faktorn.",
+          "show": [
+            "800 · 1,25 = 1000",
+            "Det nya priset är 1000 kr."
+          ]
+        },
+        {
+          "do": "Kolla att svaret är rimligt.",
+          "show": [
+            "25 % av 800 är 200.",
+            "800 + 200 = 1000. Det stämmer."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "visual",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
   ]
 }
