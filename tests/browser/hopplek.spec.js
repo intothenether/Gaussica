@@ -16,7 +16,9 @@ test("negativa-tal: the pet stands in the figure of the number line and hops alo
   const pet = page.locator("#lesson-player .fig-pet").first();
   await expect(pet).toHaveCount(1);
   await expect(pet.locator("svg").first()).toBeVisible();
-  // it moves: while the figure is played the pet is at more than one place (watched in the page, so that a slow machine does not miss it)
+  // it moves: while the figure is played the pet is at more than one place (watched in the page, so that a slow machine does not miss it). The figure
+  // plays once, when it first comes into view, which on a slow machine can be before the test looks: so it is played again, and watched from there
+  await page.evaluate(() => { const b = document.querySelector("#lesson-player .fig-pet").closest(".fx").querySelector(".fx-replay"); if (b) b.click(); });
   const travelled = await page.evaluate(() => new Promise((resolve) => {
     const g = document.querySelector("#lesson-player .fig-pet");
     let lo = Infinity, hi = -Infinity;

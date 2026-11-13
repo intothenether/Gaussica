@@ -1,0 +1,1470 @@
+{
+  "id": "tom-behallare-delar",
+  "area": "tal",
+  "parentId": "problemlosning-kapitel",
+  "title": "Den tomma burken när en tredjedel eller en fjärdedel är borta",
+  "level": "Vikter och delar av en helhet · ungefär åk 5",
+  "grade": 5,
+  "duration": "12 min",
+  "prerequisites": [
+    "tom-behallare",
+    "brak-del",
+    "okant-tal"
+  ],
+  "summary": "Samma knep som när hälften är borta, men nu är det en tredjedel, en fjärdedel eller tre fjärdedelar. Du räknar ut vad en del väger, sedan vad allt väger, och sist vad burken väger tom.",
+  "explanationTitle": "När det är en annan del än hälften",
+  "explanation": "Problemet: En burk full med kulor väger 900 g. När en tredjedel av kulorna har tagits ur väger burken 760 g. Hur mycket väger den tomma burken? Det är samma tanke som när hälften var borta, men nu är det en tredjedel. Burken väger lika mycket hela tiden, så skillnaden i vikt är precis vikten av den del som togs bort: 900 − 760 = 140 g. Alltså väger en tredjedel av kulorna 140 g. Alla kulor är tre tredjedelar, så de väger 3 · 140 = 420 g. Burken är det som blir kvar när alla kulor är borta: 900 − 420 = 480 g. Du kan också skriva det med en bokstav. Kalla vikten av den tomma burken x. Alla kulor väger 3 · 140 g, så x + 3 · 140 = 900. Det är x + 420 = 900, och då är x = 900 − 420 = 480. Kontrollera med det som är kvar i den lättare burken: burken 480 g plus två tredjedelar av kulorna, 2 · 140 = 280 g, blir 760 g. Det stämmer. Metoden är alltid densamma: ta reda på vilken del som togs bort, räkna ut vad alla delar väger och ta bort det från den fulla vikten. Det går lika bra när det är en fjärdedel, en femtedel eller tre fjärdedelar som är borta.",
+  "visuals": [
+    {
+      "type": "delmodell",
+      "title": "Samma burk två gånger. En tredjedel av kulorna är borta andra gången.",
+      "rows": [
+        {
+          "label": "Full burk",
+          "total": "900 g",
+          "parts": [
+            {
+              "n": 480,
+              "label": "burk ?",
+              "q": true
+            },
+            {
+              "n": 140,
+              "label": "1/3",
+              "tone": 1
+            },
+            {
+              "n": 140,
+              "label": "1/3",
+              "tone": 1
+            },
+            {
+              "n": 140,
+              "label": "1/3",
+              "tone": 1
+            }
+          ]
+        },
+        {
+          "label": "En tredjedel borta",
+          "total": "760 g",
+          "parts": [
+            {
+              "n": 480,
+              "label": "burk ?",
+              "q": true
+            },
+            {
+              "n": 140,
+              "label": "1/3",
+              "tone": 1
+            },
+            {
+              "n": 140,
+              "label": "1/3",
+              "tone": 1
+            },
+            {
+              "n": 140,
+              "label": "1/3",
+              "ghost": true
+            }
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "row": 1,
+          "from": 3,
+          "to": 3,
+          "label": "900 − 760 = 140 g"
+        }
+      ],
+      "animate": true
+    },
+    {
+      "type": "delmodell",
+      "title": "Då vet vi vad varje del väger: en tredjedel 140 g, alla kulor 420 g och burken 480 g.",
+      "rows": [
+        {
+          "label": "Full burk",
+          "total": "900 g",
+          "parts": [
+            {
+              "n": 480,
+              "label": "burk 480 g"
+            },
+            {
+              "n": 140,
+              "label": "140 g",
+              "tone": 1
+            },
+            {
+              "n": 140,
+              "label": "140 g",
+              "tone": 1
+            },
+            {
+              "n": 140,
+              "label": "140 g",
+              "tone": 1
+            }
+          ]
+        },
+        {
+          "label": "En tredjedel borta",
+          "total": "760 g",
+          "parts": [
+            {
+              "n": 480,
+              "label": "burk 480 g"
+            },
+            {
+              "n": 140,
+              "label": "140 g",
+              "tone": 1
+            },
+            {
+              "n": 140,
+              "label": "140 g",
+              "tone": 1
+            },
+            {
+              "n": 140,
+              "label": "140 g",
+              "ghost": true
+            }
+          ]
+        }
+      ],
+      "animate": true
+    }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så räknar du ut vad den tomma burken väger",
+      "example": "En burk full med kulor väger 900 g. När en tredjedel av kulorna har tagits ur väger den 760 g.",
+      "steps": [
+        {
+          "do": "Skriv upp de två vikterna och vilken del som togs bort.",
+          "show": [
+            "Full burk: 900 g",
+            "Efteråt: 760 g",
+            "Borta: en tredjedel av kulorna"
+          ]
+        },
+        {
+          "do": "Räkna ut skillnaden. Den är vikten av den del som togs bort.",
+          "show": [
+            "900 − 760 = 140 g",
+            "En tredjedel av kulorna väger 140 g."
+          ]
+        },
+        {
+          "do": "Räkna ut vad alla delar väger. Hur många såna delar är hela innehållet?",
+          "show": [
+            "Alla kulor är tre tredjedelar.",
+            "3 · 140 = 420 g"
+          ]
+        },
+        {
+          "do": "Ta bort allt innehåll från den fulla vikten. Det som är kvar är den tomma burken.",
+          "show": [
+            "900 − 420 = 480 g",
+            "Den tomma burken väger 480 g."
+          ]
+        },
+        {
+          "do": "Kontrollera med det som är kvar i den lättare burken.",
+          "show": [
+            "480 + 2 · 140 = 760 g",
+            "Det stämmer."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2",
+    "word:3"
+  ],
+  "rule": "Skillnaden mellan de två vikterna är vikten av den del som togs bort. Allt innehåll är så många såna delar som delen heter: tre när en tredjedel är borta, fyra när det är en fjärdedel. Ta bort innehållet från den fulla vikten.",
+  "ruleLabel": "DELEN SOM TOGS BORT",
+  "example": "En låda full med klossar väger 700 g. När en fjärdedel av klossarna är borta väger den 600 g. En fjärdedel väger 700 − 600 = 100 g, alla fyra fjärdedelar väger 4 · 100 = 400 g, så lådan väger 700 − 400 = 300 g.",
+  "practice": [
+    {
+      "id": "tredjedel-kulor",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-3*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(3*t-2*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-6*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+3*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+2*t"
+        }
+      ],
+      "prompt": "En burk full med kulor väger {F} g. När en tredjedel av kulorna har tagits ur väger burken {G} g. Hur mycket väger den tomma burken?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en tredjedel av kulorna, så alla tre tredjedelar väger 3 · {t} = {3*t} g. Burken väger {F} − {3*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en tredjedel av kulorna. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=3*t"
+          ],
+          "message": "{3*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är burken."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av kulorna kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/3"
+          ],
+          "message": "Du har delat hela vikten med 3. Men burken väger lika mycket hela tiden, det är bara kulorna som delas i delar."
+        }
+      ]
+    },
+    {
+      "id": "fjardedel-klossar",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-4*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(4*t-3*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-12*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+4*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+3*t"
+        }
+      ],
+      "prompt": "En låda full med klossar väger {F} g. När en fjärdedel av klossarna har tagits ur väger lådan {G} g. Hur mycket väger den tomma lådan?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en fjärdedel av klossarna, så alla fyra fjärdedelar väger 4 · {t} = {4*t} g. Lådan väger {F} − {4*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en fjärdedel av klossarna. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=4*t"
+          ],
+          "message": "{4*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är lådan."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av klossarna kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/4"
+          ],
+          "message": "Du har delat hela vikten med 4. Men lådan väger lika mycket hela tiden, det är bara klossarna som delas i delar."
+        }
+      ]
+    },
+    {
+      "id": "femtedel-kulor-alla",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-5*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(5*t-4*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-20*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+5*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+4*t"
+        }
+      ],
+      "prompt": "En burk full med kulor väger {F} g. När en femtedel av kulorna har tagits ur väger burken {G} g. Hur mycket väger alla kulorna?",
+      "answer": [
+        "=5*t",
+        "{5*t} g",
+        "{5*t}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en femtedel av kulorna, så alla fem femtedelar väger 5 · {t} = {5*t} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en femtedel. Frågan gäller allt, och det är fler delar än så."
+        },
+        {
+          "answers": [
+            "=e"
+          ],
+          "message": "{e} g väger burken när den är tom. Frågan gäller allt som är i."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del kvar i, och burken själv är med i den."
+        }
+      ]
+    },
+    {
+      "id": "tredjedel-honung",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-3*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(3*t-2*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-6*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+3*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+2*t"
+        }
+      ],
+      "prompt": "{$namn} har en burk full med honung. Burken väger {F} g. När en tredjedel av honungen har ätits upp väger burken {G} g. Hur mycket väger den tomma burken?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en tredjedel av honungen, så alla tre tredjedelar väger 3 · {t} = {3*t} g. Burken väger {F} − {3*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en tredjedel av honungen. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=3*t"
+          ],
+          "message": "{3*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är burken."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av honungen kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/3"
+          ],
+          "message": "Du har delat hela vikten med 3. Men burken väger lika mycket hela tiden, det är bara honungen som delas i delar."
+        }
+      ]
+    },
+    {
+      "id": "fjardedel-saft",
+      "for": [
+        "word-0"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-4*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(4*t-3*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-12*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+4*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+3*t"
+        }
+      ],
+      "prompt": "En flaska full med saft väger {F} g. När en fjärdedel av saften har hällts ut väger flaskan {G} g. Hur mycket väger den tomma flaskan?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en fjärdedel av saften, så alla fyra fjärdedelar väger 4 · {t} = {4*t} g. Flaskan väger {F} − {4*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en fjärdedel av saften. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=4*t"
+          ],
+          "message": "{4*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är flaskan."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av saften kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/4"
+          ],
+          "message": "Du har delat hela vikten med 4. Men flaskan väger lika mycket hela tiden, det är bara saften som delas i delar."
+        }
+      ]
+    },
+    {
+      "id": "fjardedel-ris",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-4*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(4*t-3*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-12*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+4*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+3*t"
+        }
+      ],
+      "prompt": "{$namn} har en påse full med ris. Påsen väger {F} g. När en fjärdedel av riset har lagats väger påsen {G} g. Hur mycket väger den tomma påsen?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en fjärdedel av riset, så alla fyra fjärdedelar väger 4 · {t} = {4*t} g. Påsen väger {F} − {4*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en fjärdedel av riset. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=4*t"
+          ],
+          "message": "{4*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är påsen."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av riset kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/4"
+          ],
+          "message": "Du har delat hela vikten med 4. Men påsen väger lika mycket hela tiden, det är bara riset som delas i delar."
+        }
+      ]
+    },
+    {
+      "id": "femtedel-sand",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-5*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(5*t-4*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-20*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+5*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+4*t"
+        }
+      ],
+      "prompt": "En hink full med sand väger {F} g. När en femtedel av sanden har hällts ut väger hinken {G} g. Hur mycket väger den tomma hinken?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en femtedel av sanden, så alla fem femtedelar väger 5 · {t} = {5*t} g. Hinken väger {F} − {5*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en femtedel av sanden. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=5*t"
+          ],
+          "message": "{5*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är hinken."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av sanden kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/5"
+          ],
+          "message": "Du har delat hela vikten med 5. Men hinken väger lika mycket hela tiden, det är bara sanden som delas i delar."
+        }
+      ]
+    },
+    {
+      "id": "femtedel-saft",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-5*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(5*t-4*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-20*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+5*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+4*t"
+        }
+      ],
+      "prompt": "En flaska full med saft väger {F} g. När en femtedel av saften har hällts ut väger flaskan {G} g. Hur mycket väger den tomma flaskan?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en femtedel av saften, så alla fem femtedelar väger 5 · {t} = {5*t} g. Flaskan väger {F} − {5*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en femtedel av saften. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=5*t"
+          ],
+          "message": "{5*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är flaskan."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av saften kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/5"
+          ],
+          "message": "Du har delat hela vikten med 5. Men flaskan väger lika mycket hela tiden, det är bara saften som delas i delar."
+        }
+      ]
+    },
+    {
+      "id": "tredjedel-lim",
+      "for": [
+        "word-2"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-1*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-3*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(3*t-2*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-6*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+3*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+2*t"
+        }
+      ],
+      "prompt": "En tub full med lim väger {F} g. När en tredjedel av limmet är slut väger tuben {G} g. Hur mycket väger limmet i den fulla tuben?",
+      "answer": [
+        "=3*t",
+        "{3*t} g",
+        "{3*t}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {t} g är vikten av en tredjedel av limmet, så alla tre tredjedelar väger 3 · {t} = {3*t} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en tredjedel. Frågan gäller allt, och det är fler delar än så."
+        },
+        {
+          "answers": [
+            "=e"
+          ],
+          "message": "{e} g väger tuben när den är tom. Frågan gäller allt som är i."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del kvar i, och tuben själv är med i den."
+        }
+      ]
+    },
+    {
+      "id": "tre-fjardedelar-sand",
+      "for": [
+        "word-3"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-3*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-4*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(4*t-3*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-12*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+4*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+1*t"
+        }
+      ],
+      "prompt": "{$namn} har en påse full med sand. Påsen väger {F} g. När tre fjärdedelar av sanden har hällts ut väger påsen {G} g. Hur mycket väger den tomma påsen?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {3*t} g är vikten av tre fjärdedelar, så en fjärdedel väger {3*t} : 3 = {t} g och alla fyra väger 4 · {t} = {4*t} g. Påsen väger {F} − {4*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=3*t"
+          ],
+          "message": "{3*t} g är vikten av tre fjärdedelar av sanden. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=4*t"
+          ],
+          "message": "{4*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är påsen."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av sanden kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/4"
+          ],
+          "message": "Du har delat hela vikten med 4. Men påsen väger lika mycket hela tiden, det är bara sanden som delas i delar."
+        },
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en fjärdedel. Du ska räkna ut vad alla fyra väger."
+        }
+      ]
+    },
+    {
+      "id": "tre-fjardedelar-vatten",
+      "for": [
+        "word-3"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "t": [
+          40,
+          120,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-3*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-4*t)",
+          "min": 1
+        },
+        {
+          "expr": "abs(4*t-3*e)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-12*t)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+4*t"
+        },
+        {
+          "name": "G",
+          "expr": "e+1*t"
+        }
+      ],
+      "prompt": "En flaska full med vatten väger {F} g. När tre fjärdedelar av vattnet har hällts ut väger flaskan {G} g. Hur mycket väger den tomma flaskan?",
+      "answer": [
+        "=e",
+        "{e} g",
+        "{e}g"
+      ],
+      "correct": "Rätt! {F} − {G} = {3*t} g är vikten av tre fjärdedelar, så en fjärdedel väger {3*t} : 3 = {t} g och alla fyra väger 4 · {t} = {4*t} g. Flaskan väger {F} − {4*t} = {e} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=3*t"
+          ],
+          "message": "{3*t} g är vikten av tre fjärdedelar av vattnet. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "=4*t"
+          ],
+          "message": "{4*t} g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är flaskan."
+        },
+        {
+          "answers": [
+            "=G"
+          ],
+          "message": "{G} g är vikten med en del av vattnet kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "=F/4"
+          ],
+          "message": "Du har delat hela vikten med 4. Men flaskan väger lika mycket hela tiden, det är bara vattnet som delas i delar."
+        },
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} g är vikten av en fjärdedel. Du ska räkna ut vad alla fyra väger."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En burk full med kulor väger 900 g. När en tredjedel av kulorna har tagits ur väger burken 760 g. Hur mycket väger den tomma burken?",
+    "answer": [
+      "480",
+      "480 g",
+      "480g"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "När en fjärdedel av innehållet tas bort är skillnaden i vikt vikten av en fjärdedel.",
+        "answer": true,
+        "explain": "Burken väger lika mycket i båda vägningarna. Det som skiljer är den del som togs bort."
+      },
+      {
+        "text": "När en tredjedel av innehållet tas bort väger hela innehållet dubbelt så mycket som skillnaden i vikt.",
+        "answer": false,
+        "explain": "Hela innehållet är tre tredjedelar, så det väger tre gånger så mycket som skillnaden."
+      }
+    ],
+    "correct": "Rätt! Skillnaden är en del, och hela innehållet är lika många såna delar som delen heter."
+  },
+  "exercise": {
+    "prompt": "En påse full med ris väger 750 g. När en femtedel av riset har tagits ut väger påsen 620 g. Hur mycket väger den tomma påsen?",
+    "answer": [
+      "100",
+      "100 g",
+      "100g"
+    ],
+    "correct": "Rätt! 750 − 620 = 130 g är vikten av en femtedel av riset, så alla fem femtedelar väger 5 · 130 = 650 g. Påsen väger 750 − 650 = 100 g.",
+    "feedback": [
+      {
+        "answers": [
+          "130",
+          "130 g"
+        ],
+        "message": "130 g är vikten av en femtedel av riset. Hur många såna delar är allt, och vad väger de?"
+      },
+      {
+        "answers": [
+          "650",
+          "650 g"
+        ],
+        "message": "650 g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är påsen."
+      },
+      {
+        "answers": [
+          "620",
+          "620 g"
+        ],
+        "message": "620 g är vikten med en del av riset kvar i. Tänk efter vad som är kvar att ta bort."
+      },
+      {
+        "answers": [
+          "150",
+          "150 g"
+        ],
+        "message": "Du har delat hela vikten med 5. Men påsen väger lika mycket hela tiden, det är bara riset som delas i delar."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En burk full med honung väger 650 g. När en tredjedel av honungen har ätits upp väger burken 500 g. Hur mycket väger den tomma burken?",
+      "answer": [
+        "200",
+        "200 g",
+        "200g"
+      ],
+      "correct": "Rätt! 650 − 500 = 150 g är vikten av en tredjedel av honungen, så alla tre tredjedelar väger 3 · 150 = 450 g. Burken väger 650 − 450 = 200 g.",
+      "feedback": [
+        {
+          "answers": [
+            "150",
+            "150 g"
+          ],
+          "message": "150 g är vikten av en tredjedel av honungen. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "450",
+            "450 g"
+          ],
+          "message": "450 g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är burken."
+        },
+        {
+          "answers": [
+            "500",
+            "500 g"
+          ],
+          "message": "500 g är vikten med en del av honungen kvar i. Tänk efter vad som är kvar att ta bort."
+        }
+      ]
+    },
+    {
+      "prompt": "En låda full med klossar väger 700 g. När en fjärdedel av klossarna har tagits ur väger lådan 600 g. Hur mycket väger den tomma lådan?",
+      "answer": [
+        "300",
+        "300 g",
+        "300g"
+      ],
+      "correct": "Rätt! 700 − 600 = 100 g är vikten av en fjärdedel av klossarna, så alla fyra fjärdedelar väger 4 · 100 = 400 g. Lådan väger 700 − 400 = 300 g.",
+      "feedback": [
+        {
+          "answers": [
+            "100",
+            "100 g"
+          ],
+          "message": "100 g är vikten av en fjärdedel av klossarna. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "400",
+            "400 g"
+          ],
+          "message": "400 g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är lådan."
+        },
+        {
+          "answers": [
+            "600",
+            "600 g"
+          ],
+          "message": "600 g är vikten med en del av klossarna kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "175",
+            "175 g"
+          ],
+          "message": "Du har delat hela vikten med 4. Men lådan väger lika mycket hela tiden, det är bara klossarna som delas i delar."
+        }
+      ]
+    },
+    {
+      "prompt": "En flaska full med saft väger 700 g. När en femtedel av saften har hällts ut väger flaskan 610 g. Hur mycket väger den tomma flaskan?",
+      "answer": [
+        "250",
+        "250 g",
+        "250g"
+      ],
+      "correct": "Rätt! 700 − 610 = 90 g är vikten av en femtedel av saften, så alla fem femtedelar väger 5 · 90 = 450 g. Flaskan väger 700 − 450 = 250 g.",
+      "feedback": [
+        {
+          "answers": [
+            "90",
+            "90 g"
+          ],
+          "message": "90 g är vikten av en femtedel av saften. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "450",
+            "450 g"
+          ],
+          "message": "450 g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är flaskan."
+        },
+        {
+          "answers": [
+            "610",
+            "610 g"
+          ],
+          "message": "610 g är vikten med en del av saften kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "140",
+            "140 g"
+          ],
+          "message": "Du har delat hela vikten med 5. Men flaskan väger lika mycket hela tiden, det är bara saften som delas i delar."
+        }
+      ]
+    },
+    {
+      "prompt": "En påse full med sand väger 700 g. När tre fjärdedelar av sanden har hällts ut väger påsen 250 g. Hur mycket väger den tomma påsen?",
+      "answer": [
+        "100",
+        "100 g",
+        "100g"
+      ],
+      "correct": "Rätt! 700 − 250 = 450 g är vikten av tre fjärdedelar, så en fjärdedel väger 450 : 3 = 150 g och alla fyra väger 4 · 150 = 600 g. Påsen väger 700 − 600 = 100 g.",
+      "feedback": [
+        {
+          "answers": [
+            "450",
+            "450 g"
+          ],
+          "message": "450 g är vikten av tre fjärdedelar av sanden. Hur många såna delar är allt, och vad väger de?"
+        },
+        {
+          "answers": [
+            "600",
+            "600 g"
+          ],
+          "message": "600 g är vikten av allt som var i. Det som är kvar när allt är borta från den fulla vikten är påsen."
+        },
+        {
+          "answers": [
+            "250",
+            "250 g"
+          ],
+          "message": "250 g är vikten med en del av sanden kvar i. Tänk efter vad som är kvar att ta bort."
+        },
+        {
+          "answers": [
+            "175",
+            "175 g"
+          ],
+          "message": "Du har delat hela vikten med 4. Men påsen väger lika mycket hela tiden, det är bara sanden som delas i delar."
+        },
+        {
+          "answers": [
+            "150",
+            "150 g"
+          ],
+          "message": "150 g är vikten av en enda fjärdedel. Du ska räkna ut vad alla fyra väger."
+        }
+      ]
+    }
+  ]
+}

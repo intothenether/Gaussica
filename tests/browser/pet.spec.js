@@ -66,7 +66,7 @@ test("the shop is one place: no separate tab for themes, and the locked pieces s
   await signIn(page);
   await page.locator(".hp-shop").click();
   const tabs = page.locator("#pet-overlay .pet-tab");
-  await expect(tabs).toHaveText(["Hattar", "Ansikte", "Halsband", "Rum", "Mat och lek", "Mitt djur"]);
+  await expect(tabs).toHaveText(["Hattar", "Ansikte", "Halsband", "Rum", "Mat och lek", "Tricks", "Hjälp djuret", "Mitt djur"]);
 
   // hats: ordinary ones first, then a piece of a theme (locked by lessons), then the ones a badge opens (locked by badges)
   const names = await page.locator("#pet-overlay .pet-item .pet-item-name").allTextContents();

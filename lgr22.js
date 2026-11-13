@@ -132,7 +132,7 @@ window.GaussicaLgr22 = (function () {
     "pyssla-funktioner": ["sf79-funk"],
     // the lessons for years 3 to 5 that were added to fill the gaps
     "monster-fortsatt": ["a13-monster"], "mata-langd": ["g13-mat"], "var-ar-det": ["g13-lage"], "tabell-lasa": ["s13-tabell"],
-    "halvor-fjardedelar": ["t13-brak"], "udda-jamna": ["t13-tal"], "sakert-mojligt": ["s13-slump"], "problemlosning-rita": ["p13", "p46"], "upp-och-ner": ["p13", "p46"], "tom-behallare": ["p46", "g46-mat"],
+    "halvor-fjardedelar": ["t13-brak"], "udda-jamna": ["t13-tal"], "sakert-mojligt": ["s13-slump"], "problemlosning-rita": ["p13", "p46"], "upp-och-ner": ["p13", "p46"], "tom-behallare": ["p46", "g46-mat"], "tom-behallare-delar": ["p46", "t46-brak", "a46-obek"],
     // the lessons that were added to fill the remaining gaps
     "stegvisa-instruktioner": ["a13-algo"], "kalendern": ["g13-tid"], "tidsintervall": ["g46-mat"], "okant-tal": ["a46-obek"],
     "formler": ["a46-obek", "a79-uttr"], "monster-regel": ["a46-monster"], "hastighet": ["sf46-prop", "g46-mat"],

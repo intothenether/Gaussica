@@ -980,6 +980,87 @@ window.GaussicaPetArt = (function () {
   ];
   ROOM_ITEMS.forEach(function (it) { ITEMS.push(it); });
 
+  // ===== the Swedish year: things that are in the shop only at some time of the year =====
+  // A season has a name for headings (name) and one for the middle of a sentence (inline: "jul" but "Lucia"), and a window of dates (month, day; a window can go past New Year). Things with `season` are shown and can be bought only while the
+  // window is open; what was bought is kept for good and can be worn at any time. They are cheap, so that the first coins can buy one.
+  const SEASONS = [
+    { id: "semla", name: "Semmeltider", inline: "semmeltider", from: [2, 1], to: [3, 12] },
+    { id: "pask", name: "Påsk", inline: "påsk", from: [3, 15], to: [4, 25] },
+    { id: "midsommar", name: "Midsommar", inline: "midsommar", from: [6, 1], to: [6, 30] },
+    { id: "kraftskiva", name: "Kräftskiva", inline: "kräftskiva", from: [8, 1], to: [9, 14] },
+    { id: "halloween", name: "Halloween", inline: "Halloween", from: [10, 18], to: [11, 3] },
+    { id: "jul", name: "Jul", inline: "jul", from: [11, 28], to: [1, 6] },
+    { id: "lucia", name: "Lucia", inline: "Lucia", from: [12, 1], to: [12, 14] }
+  ];
+  const MONTHS = ["januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"];
+  function dateOf(date) { return date instanceof Date ? date : new Date(date === undefined ? Date.now() : date); }
+  function inWindow(s, month, day) {
+    const a = s.from[0] * 100 + s.from[1], b = s.to[0] * 100 + s.to[1], d = month * 100 + day;
+    return a <= b ? d >= a && d <= b : d >= a || d <= b;
+  }
+  // the ids of the seasons that are open on a date (a Date or a time in ms; now by default)
+  function activeSeasons(date) {
+    const d = dateOf(date);
+    return SEASONS.filter(function (s) { return inWindow(s, d.getMonth() + 1, d.getDate()); }).map(function (s) { return s.id; });
+  }
+  function season(id) { return SEASONS.find(function (s) { return s.id === id; }) || null; }
+  // when it closes, for the shop: "14 december"
+  function seasonEnds(id) { const s = season(id); return s ? s.to[1] + " " + MONTHS[s.to[0] - 1] : ""; }
+  // is the thing (an item, a treat) for sale at this date? Things without a season always are.
+  function inSeason(thing, date) { return !thing || !thing.season || activeSeasons(date).indexOf(thing.season) >= 0; }
+
+  function flower(x, y, fill) { return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="6.5" fill="' + fill + '" stroke="rgba(0,0,0,.18)" stroke-width="1"/><circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="2.4" fill="#f2b800"/>'; }
+  function crayfish(x, y, k) {
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + k + ')"><ellipse cx="0" cy="0" rx="9" ry="5" fill="#c92f2a"/><circle cx="-11" cy="-5" r="4" fill="#c92f2a"/><circle cx="11" cy="-5" r="4" fill="#c92f2a"/>' +
+      '<path d="M9,1 q8,2 10,9 M-9,1 q-8,2 -10,9" stroke="#c92f2a" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="-3" cy="-2" r="1.4" fill="#fff"/><circle cx="3" cy="-2" r="1.4" fill="#fff"/></g>';
+  }
+  function seasonal(id, slot, name, price, view, seasonId, art) {
+    const it = { id: id, slot: slot, name: name, price: price, view: view, season: seasonId, art: art };
+    if (ROOM_SLOT_IDS.indexOf(slot) >= 0) it.room = true;
+    return it;
+  }
+
+  const SEASONAL = [
+    seasonal("hatt-renhorn", "hat", "Renhorn", 20, "44 6 112 56", "jul", function () {
+      return '<path d="M62,56 Q100,42 138,56" stroke="#8a5a2b" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M70,52 Q60,30 66,16 M66,28 Q56,24 52,16 M130,52 Q140,30 134,16 M134,28 Q144,24 148,16" stroke="#8a5a2b" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+        '<circle cx="66" cy="14" r="4" fill="#e0443f"/><circle cx="134" cy="14" r="4" fill="#e0443f"/>'; }),
+    seasonal("glas-tomteskagg", "face", "Tomteskägg", 20, "54 92 92 68", "jul", function () {
+      return '<path d="M62,98 Q66,150 100,156 Q134,150 138,98 Q120,112 100,106 Q80,112 62,98 Z" fill="#fff" stroke="#dcdde6" stroke-width="2"/><path d="M84,104 Q100,98 116,104 Q108,114 100,108 Q92,114 84,104 Z" fill="#f4f4f6" stroke="#dcdde6" stroke-width="2"/>'; }),
+    seasonal("rum-julgran", "plant", "Julgran", 25, "142 118 44 66", "jul", function () {
+      return '<rect x="160" y="170" width="8" height="10" fill="#8a5a2b"/><polygon points="164,128 148,152 180,152" fill="#2f8f64"/><polygon points="164,140 146,166 182,166" fill="#3aa376"/><polygon points="164,152 144,176 184,176" fill="#43b581"/>' +
+        star(164, 126, 6, "#ffd54a", "#e0a020") + '<circle cx="158" cy="148" r="3" fill="#e0443f"/><circle cx="170" cy="160" r="3" fill="#4c9be8"/><circle cx="156" cy="168" r="3" fill="#ffd54a"/><circle cx="172" cy="146" r="2.5" fill="#fff"/>'; }),
+    seasonal("hatt-lucia", "hat", "Luciakrona", 25, "56 4 88 62", "lucia", function () {
+      let s = '<path d="M60,58 Q100,38 140,58" stroke="#2f8f64" stroke-width="10" fill="none" stroke-linecap="round"/>';
+      [[72, 54], [86, 48], [114, 48], [128, 54]].forEach(function (p) { s += '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="9" ry="4" fill="#3aa376" transform="rotate(' + (p[0] < 100 ? -20 : 20) + ' ' + p[0] + ' ' + p[1] + ')"/>'; });
+      [[80, 46], [100, 42], [120, 46]].forEach(function (p) {
+        s += '<rect x="' + (p[0] - 4) + '" y="' + (p[1] - 20) + '" width="8" height="20" rx="2" fill="#fffaf0" stroke="#e6dcc8"/><ellipse cx="' + p[0] + '" cy="' + (p[1] - 26) + '" rx="4" ry="6.5" fill="#ffb300"/><ellipse cx="' + p[0] + '" cy="' + (p[1] - 25) + '" rx="2" ry="3.5" fill="#fff3a0"/>';
+      });
+      return s + '<circle cx="92" cy="50" r="2.6" fill="#e0443f"/><circle cx="108" cy="50" r="2.6" fill="#e0443f"/>'; }),
+    seasonal("hatt-pumpa", "hat", "Pumpahatt", 20, "56 4 88 64", "halloween", function () {
+      return '<ellipse cx="100" cy="40" rx="36" ry="24" fill="#f08a2b"/><path d="M84,18 Q76,40 84,62 M100,16 V64 M116,18 Q124,40 116,62" stroke="#c96a14" stroke-width="3" fill="none" opacity=".7"/><rect x="95" y="8" width="10" height="14" rx="3" fill="#4a7a3a"/>' +
+        '<path d="M102,12 Q116,6 120,16" stroke="#58b05b" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M82,36 l8,-9 l8,9z M102,36 l8,-9 l8,9z" fill="#3b2a12"/><path d="M82,48 Q100,60 118,48 L112,45 L106,51 L100,45 L94,51 L88,45 Z" fill="#3b2a12"/>'; }),
+    seasonal("rum-pumpa", "plant", "Snidad pumpa", 20, "144 148 40 38", "halloween", function () {
+      return '<ellipse cx="164" cy="170" rx="17" ry="13" fill="#f08a2b"/><path d="M156,158 Q151,170 156,182 M164,157 V183 M172,158 Q177,170 172,182" stroke="#c96a14" stroke-width="2" fill="none" opacity=".7"/><rect x="161" y="153" width="6" height="8" rx="2" fill="#4a7a3a"/>' +
+        '<path d="M155,169 l5,-6 l5,6z M164,169 l5,-6 l5,6z" fill="#ffd54a"/><path d="M155,176 Q164,183 173,176 L170,173 L166,177 L164,173 L162,177 L158,173 Z" fill="#ffd54a"/>'; }),
+    seasonal("hatt-pask", "hat", "Kycklinghatt", 20, "56 8 88 58", "pask", function () {
+      return '<path d="M64,58 L72,48 L80,58 L88,48 L96,58 L104,48 L112,58 L120,48 L128,58 L136,48 L136,62 H64 Z" fill="#fff" stroke="#e6dcc8" stroke-width="2"/><circle cx="100" cy="36" r="22" fill="#ffd54a"/>' +
+        '<path d="M118,36 L130,40 L118,44 Z" fill="#f08a2b"/><circle cx="108" cy="30" r="3" fill="#2a2630"/><path d="M80,40 Q86,52 98,48" stroke="#f2b800" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M94,15 Q92,6 99,8" stroke="#f2b800" stroke-width="3" fill="none" stroke-linecap="round"/>'; }),
+    seasonal("rum-paskris", "plant", "Påskris", 20, "142 120 44 68", "pask", function () {
+      let s = '<path d="M164,176 Q160,150 150,130 M164,176 Q166,146 164,126 M164,176 Q170,150 180,132 M164,176 Q172,158 184,152" stroke="#8a5a2b" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+      [[150, 130, "#ff8fb0"], [164, 124, "#ffd54a"], [180, 130, "#7fb9f2"], [184, 150, "#ff8fb0"], [157, 142, "#43b581"]].forEach(function (f) { s += '<ellipse cx="' + f[0] + '" cy="' + f[1] + '" rx="3.6" ry="7" fill="' + f[2] + '" transform="rotate(' + (f[0] - 164) + ' ' + f[0] + ' ' + f[1] + ')"/>'; });
+      return s + '<path d="M152,170 H176 L173,184 H155 Z" fill="#7fb9f2"/><rect x="150" y="167" width="28" height="5" rx="2" fill="#4c9be8"/>'; }),
+    seasonal("hatt-angsbukett", "hat", "Ängsbukett", 20, "56 6 88 58", "midsommar", function () {
+      return '<path d="M66,56 Q100,44 134,56" stroke="#43b581" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M82,52 L74,26 M100,48 L100,16 M118,52 L126,26" stroke="#3aa376" stroke-width="3" fill="none" stroke-linecap="round"/>' + flower(74, 24, "#fff") + flower(100, 14, "#4c9be8") + flower(126, 24, "#e0443f"); }),
+    seasonal("rum-midsommarstang", "plant", "Midsommarstång", 25, "140 96 48 88", "midsommar", function () {
+      return '<rect x="162" y="106" width="4" height="76" fill="#8a5a2b"/><ellipse cx="164" cy="132" rx="13" ry="5" fill="none" stroke="#43b581" stroke-width="4"/><circle cx="164" cy="102" r="7" fill="#ffd54a"/><path d="M164,108 Q148,112 144,134 M164,108 Q180,112 184,134" stroke="#3aa376" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+        '<circle cx="144" cy="138" r="4" fill="#ff8fb0"/><circle cx="184" cy="138" r="4" fill="#ffd54a"/><circle cx="164" cy="137" r="3" fill="#4c9be8"/>'; }),
+    seasonal("hatt-kraft", "hat", "Kräfthatt", 20, "56 -6 88 68", "kraftskiva", function () {
+      return '<path d="M72,58 L100,12 L128,58 Z" fill="#e0443f"/><path d="M80,44 H120 M88,30 H112" stroke="#fff" stroke-width="3"/>' + crayfish(100, 8, 1); }),
+    seasonal("hals-haklapp", "neck", "Kräfthaklapp", 20, "54 108 92 76", "kraftskiva", function () {
+      return '<path d="M66,120 Q100,138 134,120 L140,162 Q100,178 60,162 Z" fill="#fffaf0" stroke="#e6dcc8" stroke-width="2"/>' + crayfish(100, 150, 1.3); })
+  ];
+  SEASONAL.forEach(function (it) { ITEMS.push(it); });
+
   function isRoomSlot(slot) { return ROOM_SLOT_IDS.indexOf(slot) >= 0; }
 
   // ===== the backgrounds became wallpapers =====
@@ -1070,6 +1151,24 @@ window.GaussicaPetArt = (function () {
     { id: "snobollen", type: "toy", name: "Snöboll", price: 2, motion: "bounce", a: "en snöboll", pl: "snöbollar", art: function () {
       return '<circle cx="30" cy="30" r="21" fill="#eef5fc" stroke="#8fb6da" stroke-width="2.6"/><path d="M13,36 Q20,52 40,47 Q52,42 51,28 Q46,46 30,47 Q18,46 13,36 Z" fill="#cfe2f4"/><path d="M19,20 Q25,13 34,15" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="24" cy="30" r="1.8" fill="#9fc0e0"/><circle cx="37" cy="26" r="1.5" fill="#9fc0e0"/>'; } }
   ];
+
+  // treats of the Swedish year (for sale only in their season, see SEASONS)
+  [
+    { id: "lussekatt", season: "lucia", type: "food", name: "Lussekatt", price: 3, a: "en lussekatt", pl: "lussekatter", count: "lussekatter", art: function () {
+      return '<path d="M44,15 C28,6 12,18 22,28 C29,36 44,33 40,46 C37,54 21,54 13,46" stroke="#f0a928" stroke-width="11" fill="none" stroke-linecap="round"/><path d="M44,15 C28,6 12,18 22,28 C29,36 44,33 40,46 C37,54 21,54 13,46" stroke="#f8cf6a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/><circle cx="48" cy="21" r="2.6" fill="#5a2b1a"/><circle cx="12" cy="40" r="2.6" fill="#5a2b1a"/>'; } },
+    { id: "pepparkaka", season: "jul", type: "food", name: "Pepparkaka", price: 3, a: "en pepparkaka", pl: "pepparkakor", count: "pepparkakor", art: function () {
+      return '<circle cx="30" cy="14" r="9" fill="#b9733a"/><path d="M22,22 Q30,26 38,22 L52,26 Q56,34 50,36 L40,34 L44,52 Q40,56 34,52 L30,42 L26,52 Q20,56 16,52 L20,34 L10,36 Q4,34 8,26 Z" fill="#b9733a"/><circle cx="26" cy="12" r="1.6" fill="#fff"/><circle cx="34" cy="12" r="1.6" fill="#fff"/><path d="M26,17 Q30,20 34,17" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="30" cy="30" r="2" fill="#fff"/><circle cx="30" cy="38" r="2" fill="#fff"/>'; } },
+    { id: "paskagg", season: "pask", type: "food", name: "Påskägg", price: 3, a: "ett påskägg", pl: "påskägg", count: "påskägg", art: function () {
+      return '<ellipse cx="30" cy="32" rx="19" ry="24" fill="#8a5a2b"/><path d="M12,26 L19,20 L26,26 L33,20 L40,26 L47,20 M11,38 L18,32 L25,38 L32,32 L39,38 L46,32" stroke="#ff8fb0" stroke-width="3" fill="none" stroke-linejoin="round"/><path d="M14,46 Q30,52 46,46" stroke="#7fb9f2" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="18" rx="3" ry="6" fill="#fff" opacity=".4" transform="rotate(20 22 18)"/>'; } },
+    { id: "semla", season: "semla", type: "food", name: "Semla", price: 3, a: "en semla", pl: "semlor", count: "semlor", art: function () {
+      return '<ellipse cx="30" cy="42" rx="24" ry="10" fill="#d9a05b"/><path d="M12,34 Q30,28 48,34 Q40,42 30,42 Q20,42 12,34 Z" fill="#fff"/><path d="M6,32 Q8,10 30,10 Q52,10 54,32 Q30,26 6,32 Z" fill="#e8b878"/><path d="M14,18 Q30,6 46,18" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".9"/>'; } },
+    { id: "jordgubbar", season: "midsommar", type: "food", name: "Jordgubbar", price: 3, a: "några jordgubbar", pl: "jordgubbar", count: "jordgubbar", art: function () {
+      const b = function (x, y) {
+        return '<path d="M' + x + ',' + (y + 18) + ' Q' + (x - 17) + ',' + (y + 2) + ' ' + (x - 10) + ',' + (y - 8) + ' Q' + x + ',' + (y - 14) + ' ' + (x + 10) + ',' + (y - 8) + ' Q' + (x + 17) + ',' + (y + 2) + ' ' + x + ',' + (y + 18) + ' Z" fill="#e0344a"/>' +
+          '<path d="M' + (x - 8) + ',' + (y - 9) + ' L' + x + ',' + (y - 4) + ' L' + (x + 8) + ',' + (y - 9) + ' L' + x + ',' + (y - 14) + ' Z" fill="#3f9a4a"/>' +
+          '<circle cx="' + (x - 5) + '" cy="' + (y + 3) + '" r="1.2" fill="#ffe27a"/><circle cx="' + (x + 5) + '" cy="' + (y + 1) + '" r="1.2" fill="#ffe27a"/><circle cx="' + x + '" cy="' + (y + 9) + '" r="1.2" fill="#ffe27a"/>'; };
+      return b(20, 34) + b(40, 28); } }
+  ].forEach(function (f) { FOODS.push(f); });
 
   // what the animal likes to eat, in the plural for counting ("morötter"); used by the problems about the pet
   function countable(kind) {
@@ -1232,7 +1331,7 @@ window.GaussicaPetArt = (function () {
     return s.replace(/<g class="pet-sparks">[\s\S]*?<\/g>/, "").replace('viewBox="0 0 200 200"', 'viewBox="' + crop + '"');
   }
 
-  return { KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, pointer: pointer, ARM: ARM, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, migrate: migrate, BG_TO_WALL: BG_TO_WALL, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
+  return { SEASONS: SEASONS, activeSeasons: activeSeasons, season: season, seasonEnds: seasonEnds, inSeason: inSeason, KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, pointer: pointer, ARM: ARM, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, migrate: migrate, BG_TO_WALL: BG_TO_WALL, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
 }());
 
 if (typeof module !== "undefined") module.exports = window.GaussicaPetArt;

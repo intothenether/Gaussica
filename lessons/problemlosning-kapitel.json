@@ -1,0 +1,53 @@
+{
+  "id": "problemlosning-kapitel",
+  "area": "tal",
+  "title": "Problemlösning: rita och räkna ut det som saknas",
+  "level": "Samlat kapitel · ungefär åk 4–5",
+  "grade": 4,
+  "duration": "32 min",
+  "prerequisites": [
+    "multiplikationstabellen",
+    "addition"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "problemlosning-rita",
+      "title": "Rita och prova",
+      "sequence": 1
+    },
+    {
+      "id": "tom-behallare",
+      "title": "Den tomma hinken",
+      "sequence": 2
+    },
+    {
+      "id": "tom-behallare-delar",
+      "title": "Den tomma burken när en del är borta",
+      "sequence": 3
+    }
+  ],
+  "summary": "När en uppgift inte säger vilket räknesätt du ska använda hjälper det att rita. Du ritar staplar för det du vet, ser vad som skiljer och räknar ut det som saknas.",
+  "explanationTitle": "Rita först, räkna sedan",
+  "explanation": "Problemet: En hink full med blåbär väger 300 g. Samma hink med hälften av blåbären väger 250 g. Hur mycket väger den tomma hinken? Det står inte vilket räknesätt du ska använda. Du lär dig att rita, prova dig fram och använda staplar som visar vad som skiljer två vägningar åt.",
+  "rule": "Rita det du vet och se vad som skiljer. Det som skiljer är ofta nyckeln.",
+  "ruleLabel": "RITA FÖRST",
+  "example": "Hinken väger 300 g full och 250 g med hälften av blåbären. Skillnaden 300 − 250 = 50 g är hälften av blåbären.",
+  "exercise": {
+    "prompt": "En hink väger 300 g full med blåbär och 250 g med hälften av blåbären. Hur mycket väger hälften av blåbären?",
+    "answer": [
+      "50",
+      "50 g"
+    ],
+    "correct": "Rätt! Hinken väger lika mycket båda gångerna, så skillnaden 300 − 250 = 50 g är hälften av blåbären.",
+    "feedback": [
+      {
+        "answers": [
+          "200"
+        ],
+        "message": "200 g är vikten av hinken. Frågan gäller blåbären: vad är det som skiljer de två vägningarna åt?"
+      }
+    ]
+  },
+  "wordProblems": []
+}

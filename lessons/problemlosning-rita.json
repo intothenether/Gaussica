@@ -1,6 +1,7 @@
 {
   "id": "problemlosning-rita",
   "area": "tal",
+  "parentId": "problemlosning-kapitel",
   "title": "Problemlösning: rita och prova",
   "level": "Hitta ett sätt att lösa det · ungefär åk 4",
   "grade": 4,

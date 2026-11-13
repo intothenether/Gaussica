@@ -46,6 +46,7 @@ window.GaussicaPet = (function () {
   const COMEBACK = 2;              // "Tillbaka igen": a kind of question that went wrong on an earlier day, solved at the first try now
   const COMEBACK_PER_DAY = 3;      // at most three of those a day
   const QUEST = 10;                // each finished assignment ("uppdrag") from the teacher, once
+  const HELP_PER_DAY = 3;          // "Hjälp djuret": a heart for each of the first three rounds of the day
   const PETS_PER_DAY = 3;          // petting: a heart for the friendship, three times a day (more petting still gives hearts to look at)
   const PLACEMENT = 5;             // the placement test, once
   const GIFTS = { mynt5: 5, mynt10: 10, mynt25: 25 };   // coins from the teacher (a sticker on a message)
@@ -224,7 +225,7 @@ window.GaussicaPet = (function () {
   function usedToday(pet, now) {
     const u = (pet && pet.use) || {};
     const same = u.day === dayKey(now === undefined ? Date.now() : now);
-    return { food: same ? Math.max(0, Number(u.food) || 0) : 0, play: same ? Math.max(0, Number(u.play) || 0) : 0, petted: same ? Math.max(0, Number(u.petted) || 0) : 0 };
+    return { food: same ? Math.max(0, Number(u.food) || 0) : 0, play: same ? Math.max(0, Number(u.play) || 0) : 0, petted: same ? Math.max(0, Number(u.petted) || 0) : 0, helped: same ? Math.max(0, Number(u.helped) || 0) : 0 };
   }
 
   // Petting the pet: the first three times a day each give one heart to the friendship, the rest are only nice. Returns
@@ -240,6 +241,25 @@ window.GaussicaPet = (function () {
     u.food = used.food;
     u.play = used.play;
     u.petted = used.petted + 1;
+    u.helped = used.helped;
+    u.love += 1;
+    const after = levelOf(next);
+    return { pet: next, gained: 1, levelUp: after.index > before.index ? after.name : null };
+  }
+
+  // Helping the pet with a problem ("Hjälp djuret"): the first three rounds a day each give a heart to the friendship. Returns { pet, gained (0 or 1), levelUp }.
+  function helpPet(pet, now) {
+    const when = now === undefined ? Date.now() : now;
+    const used = usedToday(pet, when);
+    if (used.helped >= HELP_PER_DAY) return { pet: pet, gained: 0, levelUp: null };
+    const before = levelOf(pet);
+    const next = copy(pet);
+    const u = next.use = Object.assign({ fed: 0, played: 0, love: 0, spent: 0 }, next.use || {});
+    u.day = dayKey(when);
+    u.food = used.food;
+    u.play = used.play;
+    u.petted = used.petted;
+    u.helped = used.helped + 1;
     u.love += 1;
     const after = levelOf(next);
     return { pet: next, gained: 1, levelUp: after.index > before.index ? after.name : null };
@@ -274,6 +294,7 @@ window.GaussicaPet = (function () {
     if (!t) return { error: "Den saken finns inte." };
     const when = now === undefined ? Date.now() : now;
     const used = usedToday(pet, when);
+    if (t.season && !Art().inSeason(t, when)) return { error: t.name + " finns bara under " + Art().season(t.season).inline + "." };
     if (t.type === "food" && used.food >= FOOD_PER_DAY) return { error: pet.name + " är mätt för idag. Imorgon finns det mer att äta!" };
     if (t.type === "toy" && used.play >= PLAY_PER_DAY) return { error: pet.name + " är trött efter all lek. Ni kan leka mer imorgon!" };
     if (balance < t.price) return { error: "Du behöver " + (t.price - balance) + " mynt till." };
@@ -284,6 +305,7 @@ window.GaussicaPet = (function () {
     u.food = used.food;
     u.play = used.play;
     u.petted = used.petted;
+    u.helped = used.helped;
     if (t.type === "food") { u.food += 1; u.fed += 1; } else { u.play += 1; u.played += 1; }
     const likes = (Art().KINDS[pet.kind] || {}).likes || {};
     const favorite = likes[t.type] === id;
@@ -317,8 +339,10 @@ window.GaussicaPet = (function () {
   //   a piece of a theme (it.set): { kind: "area", need, have, area, areaName, set }, until enough lessons of the area are finished
   //   a piece with badges (it.badges): { kind: "badge", missing: [badge] }, until all of the badges are earned
   // Without counts a theme is never locked, and without badges (the list of rewards.js) nothing is locked by badges.
-  function lockOf(it, counts, badges) {
+  //   a piece of the year (it.season): { kind: "season", season }, while its window of dates is closed; only when `now` is given, and a piece that is owned is never locked
+  function lockOf(it, counts, badges, now) {
     if (!it) return null;
+    if (it.season && now !== undefined && !Art().inSeason(it, now)) return { kind: "season", season: Art().season(it.season) };
     if (it.set && counts) {
       const set = Art().SETS.find(function (s) { return s.id === it.set; });
       const have = set ? counts[set.area] || 0 : 0;
@@ -334,6 +358,7 @@ window.GaussicaPet = (function () {
 
   // What the lock says: a sentence, and a few words for the button of the piece.
   function lockText(lock) {
+    if (lock.kind === "season") return "Den finns bara under " + lock.season.inline + " (till " + Art().seasonEnds(lock.season.id) + ").";
     if (lock.kind === "badge") {
       const names = lock.missing.map(function (b) { return "”" + b.name + "”"; }).join(" och ");
       const how = lock.missing.map(function (b) { return b.text + (b.progress ? " (" + b.progress + ")" : ""); }).filter(Boolean).join(" ");
@@ -342,14 +367,15 @@ window.GaussicaPet = (function () {
     return "Klara " + lock.need + " lektioner i " + lock.areaName + " (du har klarat " + lock.have + ").";
   }
 
-  function lockShort(lock) { return lock.kind === "badge" ? "🔒 Märke" : "🔒 " + lock.need + " lektioner"; }
+  function lockShort(lock) { return lock.kind === "season" ? "🔒 " + lock.season.name : lock.kind === "badge" ? "🔒 Märke" : "🔒 " + lock.need + " lektioner"; }
 
-  // Buy an item (and put it on). Returns { pet, error }. counts = areaCounts(...) for the themed sets, badges = the badges for the pieces they unlock.
-  function buyItem(pet, itemId, balance, counts, badges) {
+  // Buy an item (and put it on). Returns { pet, error }. counts = areaCounts(...) for the themed sets, badges = the badges for the pieces they unlock,
+  // now = the time, for the pieces of the year (without it they can be bought at any time).
+  function buyItem(pet, itemId, balance, counts, badges, now) {
     const it = Art().item(itemId);
     if (!it) return { error: "Den saken finns inte." };
     if (pet.owned && pet.owned[itemId] !== undefined) return { error: "Du har redan den." };
-    const lock = lockOf(it, counts, badges);
+    const lock = lockOf(it, counts, badges, now);
     if (lock) return { error: "Den är låst. " + lockText(lock) };
     if (balance < it.price) return { error: "Du behöver " + (it.price - balance) + " mynt till." };
     const next = copy(pet);
@@ -509,6 +535,17 @@ window.GaussicaPet = (function () {
       const s = svgOf();
       // not while a lesson is open, while the tab is hidden, or while the pet is being petted
       if (!pet || !s || document.hidden || host.dataset.cheering || document.body.classList.contains("player-open")) { later(4000); return; }
+      // now and then a trick that the pet has learned (not in the dialog where things are only tried on)
+      if (!getPet && Tricks() && Math.random() < 0.2) {
+        let known = [];
+        try { known = trickStatus().filter(function (x) { return x.unlocked; }); } catch (e) { known = []; }
+        if (known.length) {
+          const s = known[Math.floor(Math.random() * known.length)];
+          last = "trick";
+          Tricks().perform(host, s.trick, { rusty: !s.shiny, onSay: onSay }).then(function (did) { later(did ? 9000 + Math.random() * 6000 : 4000); });
+          return;
+        }
+      }
       const id = pickLife(pet, new Date().getHours(), Math.random, last);
       last = id;
       const a = LIFE[id];
@@ -759,11 +796,11 @@ window.GaussicaPet = (function () {
     });
   }
 
-  const TABS = [["hat", "Hattar"], ["face", "Ansikte"], ["neck", "Halsband"], ["room", "Rum"], ["care", "Mat och lek"], ["me", "Mitt djur"]];
+  const TABS = [["hat", "Hattar"], ["face", "Ansikte"], ["neck", "Halsband"], ["room", "Rum"], ["care", "Mat och lek"], ["tricks", "Tricks"], ["help", "Hjälp djuret"], ["me", "Mitt djur"]];
 
   // The room: the pet, the shop and the settings of the pet.
-  function room() {
-    const state = { tab: "hat", selected: null, message: "" };
+  function room(tab) {
+    const state = { tab: TABS.some(function (x) { return x[0] === tab; }) ? tab : "hat", selected: null, message: "" };
     overlay("Mitt djur", function (panel) {
       let stage = null;
       const draw = function () {
@@ -820,6 +857,8 @@ window.GaussicaPet = (function () {
         right.appendChild(tabs);
 
         if (state.tab === "me") right.appendChild(settings(pet, function () { draw(); }));
+        else if (state.tab === "tricks") right.appendChild(tricksTab(pet, function (trick, rusty) { doTrick(stage, trick, rusty, panel); }, draw));
+        else if (state.tab === "help") right.appendChild(helpTab(pet, state));
         else if (state.tab === "care") right.appendChild(care(pet, bal, state, draw, function (fx, reaction) { cheer(stage, copy(petOf()), fx, reaction); }));
         else right.appendChild(shop(pet, bal, state, draw, function (reaction) { cheer(stage, copy(petOf()), null, reaction); }));
 
@@ -858,6 +897,56 @@ window.GaussicaPet = (function () {
     });
   }
 
+  // ===== what the pet knows about the student: for what it remembers (pet-memory.js), its tricks (pet-tricks.js) and the problems it asks for help with (pet-help.js) =====
+  function Memory() { return window.GaussicaPetMemory; }
+  function Tricks() { return window.GaussicaPetTricks; }
+  function Help() { return window.GaussicaPetHelp; }
+
+  // the finished lessons with the time of the last answer in them, the questions that were solved after a mistake, the last time in each area, and the last time at all
+  function history() {
+    const lessons = deps.getCourse().lessons;
+    const byId = {};
+    lessons.forEach(function (l) { byId[l.id] = l; });
+    const subs = (user().attempts || []).filter(L().isSubmission);
+    const lastAt = {}, activity = {}, tasks = {};
+    let latest = 0;
+    subs.forEach(function (a) {
+      const at = Date.parse(a.timestamp) || 0;
+      if (!at || !byId[a.lessonId]) return;
+      if (at > (lastAt[a.lessonId] || 0)) lastAt[a.lessonId] = at;
+      const area = byId[a.lessonId].area;
+      if (at > (activity[area] || 0)) activity[area] = at;
+      if (at > latest) latest = at;
+      if (String(a.taskId || "").indexOf("practice-") === 0) return;
+      const k = a.lessonId + "|" + a.taskId;
+      const x = tasks[k] || (tasks[k] = { lesson: a.lessonId, wrong: 0, solved: 0 });
+      if (a.completed) { if (!x.solved) x.solved = at; } else if (!x.solved) x.wrong += 1;
+    });
+    const fixed = [];
+    Object.keys(tasks).forEach(function (k) { const x = tasks[k]; if (x.solved && x.wrong >= 1) fixed.push({ title: byId[x.lesson].title, at: x.solved }); });
+    const done = [];
+    lessons.forEach(function (l) {
+      if (l.isParentLesson) return;
+      const sum = L().summarize(l, deps.getProgress, lessons);
+      if (sum.total > 0 && sum.state === "complete") done.push({ id: l.id, title: l.title, area: l.area, at: lastAt[l.id] || 0, lesson: l });
+    });
+    return { done: done, fixed: fixed, activity: activity, latest: latest };
+  }
+
+  function areaNames() {
+    const names = {};
+    Art().SETS.forEach(function (s) { names[s.area] = s.areaName; });
+    return names;
+  }
+
+  // the tricks with their state, for the student: { trick, unlocked, have, shiny }
+  function trickStatus() {
+    const h = history();
+    const counts = {};
+    h.done.forEach(function (d) { counts[d.area] = (counts[d.area] || 0) + 1; });
+    return Tricks().status(counts, h.activity, Date.now());
+  }
+
   // What the shop needs to know to lock things: the finished lessons of each area, and the badges.
   function unlocks() {
     let badges = null;
@@ -865,10 +954,73 @@ window.GaussicaPet = (function () {
     return { counts: areaCounts({ lessons: deps.getCourse().lessons, getProgress: deps.getProgress }), badges: badges };
   }
 
+  // The pet does a trick in the picture of the room (the stage); rusty when the area has not been practised for two weeks.
+  function doTrick(stage, trick, rusty, panel) {
+    if (!stage) return;
+    Tricks().perform(stage, trick, { rusty: rusty, onSay: function (text) { const m = panel && panel.querySelector(".pet-msg"); if (m) m.textContent = text || ""; } });
+  }
+
+  // "Tricks": what the pet has learned in each area, and what it takes to learn the rest
+  function tricksTab(pet, perform, redraw) {
+    const wrap = el("div", "pet-shop pet-tricks");
+    const status = trickStatus();
+    wrap.appendChild(el("p", "pet-hint", pet.name + " lär sig tricks när du klarar lektioner. Ett trick glömmer " + pet.name + " aldrig, men det blir lite rostigt om du inte har gjort något i området på två veckor. Då kan en Repetera eller Öva mer hjälpa."));
+    const names = areaNames();
+    Art().SETS.forEach(function (set) {
+      const section = el("section", "pet-set");
+      section.appendChild(el("h4", "pet-set-title", names[set.area]));
+      const list = el("div", "pet-trick-list");
+      status.filter(function (s) { return s.trick.area === set.area; }).forEach(function (s) {
+        const card = el("div", "pet-trick" + (s.unlocked ? "" : " is-locked") + (s.unlocked && !s.shiny ? " is-rusty" : ""));
+        card.appendChild(el("strong", "pet-trick-name", (s.unlocked ? "" : "🔒 ") + s.trick.name));
+        if (s.unlocked) {
+          card.appendChild(el("span", "pet-trick-sub", s.shiny ? "Blank och fin" : "Lite rostigt. Gör något i " + names[set.area] + " så blir det blankt igen."));
+          card.appendChild(button("Visa", "pet-btn", function () { perform(s.trick, !s.shiny); }));
+        } else {
+          card.appendChild(el("span", "pet-trick-sub", "Klara " + s.trick.need + " lektioner i " + names[set.area] + " (du har klarat " + s.have + ")."));
+        }
+        list.appendChild(card);
+      });
+      section.appendChild(list);
+      wrap.appendChild(section);
+    });
+    // the student has now seen what there is: the news is not news any more
+    markTricksSeen(pet);
+    return wrap;
+  }
+
+  // the ids of the tricks that the student has been told about (the pet record keeps them)
+  function seenTricks(pet) { return (pet && pet.tricks && Array.isArray(pet.tricks.seen)) ? pet.tricks.seen : []; }
+  function newTricks(pet) {
+    const counts = {};
+    history().done.forEach(function (d) { counts[d.area] = (counts[d.area] || 0) + 1; });
+    return Tricks().fresh(counts, seenTricks(pet));
+  }
+  function markTricksSeen(pet) {
+    const fresh = newTricks(pet);
+    if (!fresh.length) return;
+    const next = copy(pet);
+    next.tricks = { seen: seenTricks(pet).concat(fresh.map(function (x) { return x.id; })) };
+    deps.save(next);
+  }
+
+  // "Hjälp djuret": the pet asks for help with a problem from a finished lesson (pet-help.js)
+  function helpTab(pet, state) {
+    const wrap = el("div", "pet-shop pet-helptab");
+    const mount = el("div", "pet-help-mount");
+    wrap.appendChild(mount);
+    Help().render(mount, {
+      pet: pet, lessons: history().done.map(function (d) { return d.lesson; }), Practice: window.GaussicaPractice,
+      face: function (mood) { return Art().face(pet, mood); },
+      reward: function () { const r = helpPet(petOf(), Date.now()); if (r.gained) { deps.save(r.pet); check(); } return r; }
+    });
+    return wrap;
+  }
+
   function itemButton(pet, it, state, redraw, un) {
     const owned = pet.owned && pet.owned[it.id] !== undefined;
     const on = isOn(pet, it);
-    const lock = owned ? null : lockOf(it, un.counts, un.badges);
+    const lock = owned ? null : lockOf(it, un.counts, un.badges, Date.now());
     const b = button("", "pet-item" + (state.selected === it.id ? " is-selected" : "") + (owned ? " is-owned" : "") + (lock ? " is-locked" : ""), function () {
       state.selected = state.selected === it.id ? null : it.id;
       state.message = "";
@@ -879,7 +1031,7 @@ window.GaussicaPet = (function () {
     thumb.innerHTML = Art().thumb(it.id);
     // what kind of piece it is: of a theme, or unlocked by a badge
     const set = it.set ? Art().SETS.find(function (s) { return s.id === it.set; }) : null;
-    const tag = set ? set.name : it.badges ? "🏅 Märke" : "";
+    const tag = set ? set.name : it.badges ? "🏅 Märke" : it.season ? "🎉 " + Art().season(it.season).name : "";
     b.append(thumb, el("span", "pet-item-name", it.name), tag ? el("span", "pet-item-tag", tag) : document.createTextNode(""),
       el("span", "pet-item-price", on ? "På" : owned ? "✓ Ägs" : lock ? lockShort(lock) : it.price + " mynt"));
     return b;
@@ -887,6 +1039,7 @@ window.GaussicaPet = (function () {
 
   // The order in the shop: what is free to buy first, then the pieces of the themes (by theme), then the ones that badges unlock. The order within each is kept.
   function shopRank(it) {
+    if (it.season) return -1;   // the things of the season first
     if (it.badges) return 1000;
     if (it.set) return 100 + Art().SETS.findIndex(function (s) { return s.id === it.set; }) * 10 + (it.need || 0) / 10;
     return 0;
@@ -918,13 +1071,30 @@ window.GaussicaPet = (function () {
     return d;
   }
 
+  // is the item in the shop now? A piece of the year only in its season, or for good once it is owned.
+  function forSale(pet, it) { return !it.season || (pet.owned && pet.owned[it.id] !== undefined) || Art().inSeason(it, Date.now()); }
+
+  // "Just nu": the seasons that are open, when there is something new from them on this page
+  function seasonBanner(pet, items) {
+    const names = [], ends = [];
+    items.forEach(function (i) {
+      if (!i.season || (pet.owned && pet.owned[i.id] !== undefined) || !Art().inSeason(i, Date.now())) return;
+      const s = Art().season(i.season);
+      if (names.indexOf(s.inline) < 0) { names.push(s.inline); ends.push(Art().seasonEnds(s.id)); }
+    });
+    if (!names.length) return null;
+    return el("p", "pet-season", "🎉 Just nu: " + names.join(" och ") + ". De här sakerna finns bara en kort tid (till " + ends.join(" och ") + "), men det du köper är ditt för alltid.");
+  }
+
   function shop(pet, bal, state, redraw, hop) {
     const un = unlocks();
     const wrap = el("div", "pet-shop");
     if (state.tab === "room") {
       wrap.appendChild(el("p", "pet-hint", "Köp tapeter, möbler och saker till " + pet.name + "s rum. Det du har på plats syns i rummet."));
+      const roomBanner = seasonBanner(pet, Art().ITEMS.filter(function (i) { return Art().isRoomSlot(i.slot); }));
+      if (roomBanner) wrap.appendChild(roomBanner);
       Art().ROOM_SLOTS.forEach(function (slot) {
-        const items = Art().ITEMS.filter(function (i) { return i.slot === slot[0]; });
+        const items = Art().ITEMS.filter(function (i) { return i.slot === slot[0] && forSale(pet, i); });
         const section = el("section", "pet-set");
         section.appendChild(el("h4", "pet-set-title", slot[1]));
         const grid = el("div", "pet-grid");
@@ -935,8 +1105,10 @@ window.GaussicaPet = (function () {
       wrap.appendChild(unlockInfo(pet, un));   // some wallpapers are opened by badges
     } else {
       // all of it in one place: the things that are free to buy, the pieces of the themes and the things that badges unlock
+      const tabBanner = seasonBanner(pet, Art().ITEMS.filter(function (i) { return i.slot === state.tab; }));
+      if (tabBanner) wrap.appendChild(tabBanner);
       const grid = el("div", "pet-grid");
-      Art().ITEMS.map(function (i, n) { return { i: i, n: n }; }).filter(function (x) { return x.i.slot === state.tab; })
+      Art().ITEMS.map(function (i, n) { return { i: i, n: n }; }).filter(function (x) { return x.i.slot === state.tab && forSale(pet, x.i); })
         .sort(function (a, b) { return shopRank(a.i) - shopRank(b.i) || a.n - b.n; })
         .forEach(function (x) { grid.appendChild(itemButton(pet, x.i, state, redraw, un)); });
       wrap.appendChild(grid);
@@ -950,7 +1122,7 @@ window.GaussicaPet = (function () {
     } else {
       const owned = pet.owned && pet.owned[it.id] !== undefined;
       const on = isOn(pet, it);
-      const lock = owned ? null : lockOf(it, un.counts, un.badges);
+      const lock = owned ? null : lockOf(it, un.counts, un.badges, Date.now());
       bar.appendChild(el("strong", "", it.name));
       // reaction: how the pet takes it (taking something off gets none)
       const save = function (next, message, reaction) {
@@ -969,7 +1141,7 @@ window.GaussicaPet = (function () {
         bar.appendChild(el("span", "pet-short", "🔒 " + lockText(lock)));
       } else if (bal >= it.price) {
         bar.appendChild(button("Köp för " + it.price + " mynt", "primary-button pet-btn", function () {
-          const r = buyItem(pet, it.id, bal, un.counts, un.badges);
+          const r = buyItem(pet, it.id, bal, un.counts, un.badges, Date.now());
           if (r.error) { state.message = r.error; redraw(); return; }
           save(r, it.name + " är köpt och på! 🎉", reactionFor(it));
         }));
@@ -1031,7 +1203,7 @@ window.GaussicaPet = (function () {
       const section = el("section", "pet-set");
       section.appendChild(el("h4", "pet-set-title", g[0]));
       const grid = el("div", "pet-grid");
-      g[1].forEach(function (t) { grid.appendChild(careButton(pet, t, state, redraw)); });
+      g[1].filter(function (t) { return Art().inSeason(t, Date.now()); }).forEach(function (t) { grid.appendChild(careButton(pet, t, state, redraw)); });
       section.appendChild(grid);
       wrap.appendChild(section);
     });
@@ -1107,22 +1279,53 @@ window.GaussicaPet = (function () {
     return box;
   }
 
-  function open() {
+  // tab: which tab of the room to open ("tricks", "help"), for the buttons that lead straight there
+  function open(tab) {
+    const which = typeof tab === "string" ? tab : undefined;
     if (!enabled()) return;
-    if (!petOf()) { chooser(function () { room(); }); return; }
-    room();
+    if (!petOf()) { chooser(function () { room(which); }); return; }
+    room(which);
   }
 
   // ----- the start page -----
   const LINES = ["Vi räknar tillsammans!", "Ett fel är bara ett steg på vägen.", "Jag tror på dig!", "Ska vi lära oss något nytt?", "Du blir bättre för varje tal.", "Det är okej att ta det i din egen takt."];
 
-  function speech(pet, fresh, bal) {
-    if (fresh > 0) return "Du fick " + fresh + (fresh === 1 ? " nytt mynt" : " nya mynt") + "!";
+  // Something the pet remembers about the student (pet-memory.js): what was finished yesterday, a question that was not given up on, a day of the year, a new trick.
+  // The same line during a visit and another one the next time (sessionSeed). Returns { id, text } or null.
+  const sessionSeed = Math.floor(Math.random() * 100000);
+  function memorySay(pet, bal) {
+    if (!Memory() || !Tricks()) return null;
+    const now = Date.now();
+    const h = history();
+    const counts = {};
+    h.done.forEach(function (d) { counts[d.area] = (counts[d.area] || 0) + 1; });
+    const names = areaNames();
+    // the seasons that are open, when there is something new from them to buy
+    const seasonal = [];
+    Art().ITEMS.forEach(function (i) {
+      if (!i.season || (pet.owned && pet.owned[i.id] !== undefined) || !Art().inSeason(i, now)) return;
+      const s = Art().season(i.season);
+      if (!seasonal.some(function (x) { return x.id === s.id; })) seasonal.push({ id: s.id, thing: "saker för " + s.inline, ends: Art().seasonEnds(s.id) });
+    });
     // the cheapest thing that can be bought now (not the locked ones)
     let un = { counts: null, badges: null };
     try { un = unlocks(); } catch (e) { /* no course yet: nothing is locked */ }
-    const cheapest = Art().ITEMS.filter(function (i) { return !(pet.owned && pet.owned[i.id] !== undefined) && !lockOf(i, un.counts, un.badges); }).sort(function (a, b) { return a.price - b.price; })[0];
-    if (cheapest && bal >= cheapest.price) return "Du har nog med mynt för något nytt i butiken!";
+    const cheapest = Art().ITEMS.filter(function (i) { return !(pet.owned && pet.owned[i.id] !== undefined) && !lockOf(i, un.counts, un.badges, now); }).sort(function (x, y) { return x.price - y.price; })[0];
+    const fresh = newTricks(pet)[0];
+    const rusty = Tricks().status(counts, h.activity, now).filter(function (s) { return s.unlocked && !s.shiny && (h.activity[s.trick.area] || 0) > 0; })[0];
+    return Memory().say({
+      now: now, seed: sessionSeed, done: h.done, fixed: h.fixed, areas: names, counts: counts,
+      gapDays: h.latest ? (now - h.latest) / 86400000 : null, friendship: levelOf(pet).index, seasonal: seasonal,
+      shopReady: Boolean(cheapest && bal >= cheapest.price),
+      trick: fresh ? { name: fresh.name } : null, dusty: rusty ? { trick: rusty.trick.name, area: names[rusty.trick.area] } : null
+    });
+  }
+
+  function speech(pet, fresh, bal) {
+    if (fresh > 0) return "Du fick " + fresh + (fresh === 1 ? " nytt mynt" : " nya mynt") + "!";
+    let said = null;
+    try { said = memorySay(pet, bal); } catch (e) { said = null; }   // never in the way of the page
+    if (said) return said.text;
     const day = Math.floor(Date.now() / 86400000);
     return LINES[(day + String(pet.name).length) % LINES.length];
   }
@@ -1229,7 +1432,11 @@ window.GaussicaPet = (function () {
       clearTimeout(patTimer);
       patTimer = setTimeout(function () { patSaid = null; bubble.textContent = said; }, 3500);
     });
-    container.append(bubble, stage, row, button("Mitt djur och butiken", "pet-btn hp-shop", open));
+    const lead = [bubble, stage, row, button("Mitt djur och butiken", "pet-btn hp-shop", open)];
+    try {
+      if (Help() && Help().available(history().done.map(function (d) { return d.lesson; }), window.GaussicaPractice) >= 2) lead.push(button("Hjälp " + pet.name, "pet-btn hp-help", function () { open("help"); }));
+    } catch (e) { /* the help is a bonus */ }
+    container.append.apply(container, lead);
     startLife(stage, function (text) { if (!patSaid) bubble.textContent = text || said; });
     followGaze(stage);
     if (fresh > 0) {
@@ -1248,13 +1455,16 @@ window.GaussicaPet = (function () {
     if (fresh <= 0) return null;
     writeSeen(ledger().total);
     updateChip();
+    let news = [];
+    try { news = Tricks() ? newTricks(petOf()) : []; if (news.length) markTricksSeen(petOf()); } catch (e) { news = []; }
     const box = el("div", "pet-ribbon");
     const host = el("div", "pet-ribbon-art");
     host.innerHTML = Art().svg(pet, { mood: "happy", bare: true });
     const copy = el("div", "pet-ribbon-copy");
     copy.appendChild(el("strong", "", pet.name + ": Bra jobbat!"));
     copy.appendChild(el("span", "", "Du fick " + fresh + (fresh === 1 ? " nytt mynt" : " nya mynt") + "." + (quests ? " Uppdraget från din lärare är klart, det ger " + quests * QUEST + " av dem." : "")));
-    box.append(host, copy, button("Till " + pet.name, "pet-btn", open));
+    if (news.length) copy.appendChild(el("span", "pet-ribbon-trick", "🎉 Nytt trick: " + news.map(function (x) { return x.name; }).join(" och ") + "!"));
+    box.append(host, copy, button(news.length ? "Se tricket" : "Till " + pet.name, "pet-btn", function () { open(news.length ? "tricks" : undefined); }));
     return box;
   }
 
@@ -1355,7 +1565,7 @@ window.GaussicaPet = (function () {
 
   return {
     init: init, current: function () { return deps && enabled() ? petOf() : null; }, render: render, check: check, ribbon: ribbon, face: face, say: say, open: open, enabled: enabled, balance: balance,
-    peek: peek, PETS_PER_DAY: PETS_PER_DAY, petPet: petPet, reactionFor: reactionFor, LIFE: LIFE, lifeChoices: lifeChoices, pickLife: pickLife, earned: earned, claimQuests: claimQuests, comebackCoins: comebackCoins, useThing: useThing, levelOf: levelOf, usedToday: usedToday, careMessage: careMessage, areaCounts: areaCounts, lockOf: lockOf, lockText: lockText, isOn: isOn, balanceOf: balanceOf, spentOf: spentOf, makePet: makePet, buyItem: buyItem, wearItem: wearItem, cleanName: cleanName,
+    peek: peek, PETS_PER_DAY: PETS_PER_DAY, HELP_PER_DAY: HELP_PER_DAY, petPet: petPet, helpPet: helpPet, reactionFor: reactionFor, LIFE: LIFE, lifeChoices: lifeChoices, pickLife: pickLife, earned: earned, claimQuests: claimQuests, comebackCoins: comebackCoins, useThing: useThing, levelOf: levelOf, usedToday: usedToday, careMessage: careMessage, areaCounts: areaCounts, lockOf: lockOf, lockText: lockText, isOn: isOn, balanceOf: balanceOf, spentOf: spentOf, makePet: makePet, buyItem: buyItem, wearItem: wearItem, cleanName: cleanName,
     KEY: KEY, GIFTS: GIFTS, LIMITS: { FOOD_PER_DAY: FOOD_PER_DAY, PLAY_PER_DAY: PLAY_PER_DAY, LEVELS: LEVELS, WELCOME: WELCOME, COMEBACK: COMEBACK, COMEBACK_PER_DAY: COMEBACK_PER_DAY, QUEST: QUEST, LESSON: LESSON, FIXED_PER_LESSON: FIXED_PER_LESSON, PRACTICE_PER_DAY: PRACTICE_PER_DAY, PLACEMENT: PLACEMENT }
   };
 }());

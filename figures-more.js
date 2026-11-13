@@ -16,7 +16,9 @@
 //   pase        { items:[{color, n}], label }               a bag of marbles (rod, bla, gul, gron)
 //   matglas     { capacity, level, unit, label, hide }       a measuring jug in litres (capacity) with decilitre marks, filled to `level` litres
 //   stege       { rungs, marks:[{at, label, tone}], jumps:[{from, to, label}], numbered, pet, animate }   a ladder with the rungs numbered from the bottom; at is a rung or "mitten", a jump is an arrow up or down
-//   volym       { w, h, d, unit, label }                     a block built of unit cubes, layer by layer (volume = w · h · d)
+//   delmodell   { rows:[{label, total, parts:[{n, label, tone:0-3, ghost, q}]}], marks:[{row, from, to, label}], animate }   bars on one scale, cut in parts (what a
+//               bucket and its berries weigh); ghost is a part that was taken away (dashed), q one that is not known, a mark a bracket under some parts
+//   volym       { w, h, d, unit, label }                   a block built of unit cubes, layer by layer (volume = w · h · d)
 
 (function () {
   "use strict";
@@ -301,6 +303,64 @@
     if (!route.length) { const at = c.marks && c.marks.length ? rung(c.marks[0].at) : 1; route.push({ x1: cx0, y1: y(at) + 4, x2: cx0, y2: y(at) + 4, h: 0 }); }
     K.attachWalk(out, g, route, 600, 300, c.animate);
     return out;
+  }
+
+  // ----- a bar model: every row is a bar cut into parts, each as wide as what it weighs (or costs) -----
+  // Rows are compared on one scale, so that "the same bucket with half the berries" is the same bucket and fewer berries. A part can be a ghost (what
+  // was taken away, dashed) or unknown (q). A mark puts a bracket under some parts of a row with a name, for what is the difference between two rows.
+  function delmodell(c) {
+    const rows = (Array.isArray(c.rows) ? c.rows : []).slice(0, 5).map(function (r) {
+      return {
+        label: String(r.label || ""), total: r.total === undefined ? "" : String(r.total),
+        parts: (Array.isArray(r.parts) ? r.parts : []).slice(0, 8).map(function (p) {
+          return { n: Math.max(0, num(p.n, 0)), label: p.label === undefined ? "" : String(p.label), tone: int(p.tone, 0, 3, 0), ghost: Boolean(p.ghost), q: Boolean(p.q) };
+        })
+      };
+    }).filter(function (r) { return r.parts.length && r.parts.some(function (p) { return p.n > 0; }); });
+    if (!rows.length) return null;
+    const marks = (Array.isArray(c.marks) ? c.marks : []).filter(function (m) { return m && rows[int(m.row, 0, 9, 0)]; });
+    const sum = function (r) { return r.parts.reduce(function (t, p) { return t + p.n; }, 0); };
+    const top = Math.max.apply(null, rows.map(sum));
+    const longest = rows.reduce(function (n, r) { return Math.max(n, r.label.length); }, 0);
+    const labelW = longest ? Math.min(150, 20 + longest * 7.4) : 6, barMax = 340, rowH = 46;
+    const W = labelW + barMax + 96;
+    let y = 14;
+    const spots = rows.map(function (r, i) {
+      const has = marks.some(function (m) { return int(m.row, 0, 9, 0) === i; });
+      const at = y;
+      y += rowH + (has ? 42 : 16);
+      return at;
+    });
+    const H = y;
+    const alt = c.alt || ("Stapelmodell. " + rows.map(function (r) {
+      return (r.label ? r.label + ": " : "") + r.parts.map(function (p) { return (p.label || "del") + (p.ghost ? " (bortplockad)" : ""); }).join(", ") + (r.total ? ", " + r.total : "");
+    }).join(". "));
+    const svg = svgRoot(Object.assign({}, c, { alt: alt }), W, H);
+    let k = 0;
+    rows.forEach(function (r, i) {
+      const ry = spots[i];
+      if (r.label) text(svg, labelW - 10, ry + rowH / 2 + 5, r.label, "fig-dim fx-rowlabel", "end");
+      let x = labelW;
+      r.parts.forEach(function (p) {
+        const w = p.n / top * barMax;
+        if (w <= 0) return;
+        const g = s("g", { "class": "fx-pop", style: delay(k++, 0.14) }, svg);
+        s("rect", { x: x + 1, y: ry, width: Math.max(1, w - 2), height: rowH, rx: 7, "class": "fx-seg fx-seg-" + p.tone + (p.ghost ? " is-ghost" : "") + (p.q ? " is-q" : "") }, g);
+        if (p.label && w >= 7 + p.label.length * 6.4) text(g, x + w / 2, ry + rowH / 2 + 5, p.label, "fig-text fx-segtext" + (p.ghost ? " is-ghost" : ""));
+        x += w;
+      });
+      if (r.total) text(svg, x + 10, ry + rowH / 2 + 5, r.total, "fig-dim fx-segtotal", "start");
+    });
+    marks.forEach(function (m) {
+      const i = int(m.row, 0, 9, 0), r = rows[i], from = int(m.from, 0, r.parts.length - 1, 0), to = int(m.to, from, r.parts.length - 1, from);
+      let x1 = labelW, x2 = labelW;
+      r.parts.forEach(function (p, j) { const w = p.n / top * barMax; if (j < from) x1 += w; if (j <= to) x2 += w; });
+      const by = spots[i] + rowH + 6;
+      s("path", { d: "M" + (x1 + 3) + " " + by + " v8 H" + (x2 - 3) + " v-8", "class": "fx-bracket" }, svg);
+      if (m.label) text(svg, (x1 + x2) / 2, by + 30, String(m.label), "fig-dim fx-bracketlabel");
+    });
+    const figure = wrap([svg]);
+    return c.animate ? animated(figure) : figure;
   }
 
   // ----- a map in a grid: rows are letters, columns are numbers; the pet walks a path of squares -----
@@ -662,6 +722,7 @@
   F.register("matglas", "MÅTTGLAS", matglas);
   F.register("volym", "VOLYM", volym);
   F.register("stege", "STEGE", stege);
+  F.register("delmodell", "MODELL", delmodell);
   F.register("karta", "KARTA", karta);
   F.register("skift", "PLATSVÄRDE", skift);
   F.register("styckpris", "PRIS", styckpris);

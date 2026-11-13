@@ -49,7 +49,8 @@ const CASES = [
   ["skift", { type: "skift", value: 34, places: 2 }],
   ["skift", { type: "skift", value: 45000, places: 3, dir: "hoger", pet: true }],
   ["styckpris", { type: "styckpris", n: 4, total: 48, item: "apple" }],
-  ["styckpris", { type: "styckpris", n: 3, total: 10, item: "kaka", unit: "kr" }]
+  ["styckpris", { type: "styckpris", n: 3, total: 10, item: "kaka", unit: "kr" }],
+  ["delmodell", { type: "delmodell", rows: [{ label: "Full hink", total: "300 g", parts: [{ n: 200, label: "hink" }, { n: 50, label: "½ bär", tone: 1 }, { n: 50, label: "½ bär", tone: 1 }] }, { label: "Hälften", total: "250 g", parts: [{ n: 200, label: "hink" }, { n: 50, label: "½ bär", tone: 1 }, { n: 50, ghost: true }] }], marks: [{ row: 1, from: 2, to: 2, label: "50 g" }], animate: true }]
 ];
 CASES.forEach(([type, cfg]) => {
   ok(Fig.supports(type) && Fig.badge(type) !== "FIGUR", type + " is a figure with a name");
@@ -114,6 +115,14 @@ ok(textsOf(Fig.render({ type: "tidslinje", from: "09:20", to: "10:10" })).indexO
 ok(count({ type: "tarning", values: [2, 5] }, "fx-pip") === 7, "dice with 2 and 5 dots");
 const spin = withClass(Fig.render({ type: "snurra", sectors: [{ label: "A" }, { label: "B" }, { label: "C" }, { label: "D" }], land: 0 }), "fx-spin")[0];
 ok(spin && /--turn:1[01]\d\d/.test(spin.attrs.style), "the spinner turns three times and a little");
+// the bar model
+const bars = { type: "delmodell", rows: [{ label: "Full", total: "300 g", parts: [{ n: 200, label: "hink" }, { n: 100, label: "bär", tone: 1 }] }, { label: "Halv", parts: [{ n: 200, label: "hink" }, { n: 50, label: "bär", tone: 1 }, { n: 50, ghost: true, q: true }] }], marks: [{ row: 1, from: 2, to: 2, label: "50 g" }] };
+const barRects = withClass(Fig.render(bars), "fx-seg");
+ok(barRects.length === 5 && count(bars, "is-ghost") === 1 && count(bars, "is-q") === 1 && count(bars, "fx-bracket") === 1, "a bar model: five parts, a ghost that is also unknown, and a bracket");
+const widths = barRects.map((n) => Number(n.attrs.width));
+ok(Math.abs(widths[0] - widths[2]) < 0.01 && Math.abs((widths[1] + 2) - 2 * (widths[3] + 2)) < 0.01 && widths[0] > widths[1], "the parts are as wide as their numbers, on one scale for all rows");
+ok(textsOf(Fig.render(bars)).includes("300 g") && textsOf(Fig.render(bars)).includes("50 g") && textsOf(Fig.render(bars)).includes("Halv"), "a bar model says its total, its bracket and its row names");
+ok(Fig.render({ type: "delmodell", rows: [] }) === null && Fig.render({ type: "delmodell", rows: [{ parts: [{ n: 0 }] }] }) === null, "a bar model with nothing to show is not drawn");
 ok(count({ type: "pase", items: [{ color: "rod", n: 3 }, { color: "bla", n: 2 }] }, "fx-pop") === 5, "five marbles in the bag");
 
 ok(textsOf(Fig.render({ type: "matglas", capacity: 1, level: 0.6 })).indexOf("6 dl") >= 0 && textsOf(Fig.render({ type: "matglas", capacity: 3, level: 3 })).indexOf("30 dl") >= 0, "the jug says the decilitres: 6 dl, and 3 litres are 30 dl");

@@ -1,6 +1,7 @@
 {
   "id": "tom-behallare",
   "area": "tal",
+  "parentId": "problemlosning-kapitel",
   "title": "Hur mycket väger den tomma hinken?",
   "level": "Vikter och hälften · ungefär åk 4",
   "grade": 4,
@@ -11,37 +12,113 @@
   ],
   "summary": "Du vet vad en full hink väger och vad den väger med hälften kvar. Då kan du räkna ut vad hinken väger tom. Samma knep funkar med en påse sand och en flaska vatten.",
   "explanationTitle": "Vad skiljer de två vägningarna åt?",
-  "explanation": "Problemet: En hink full med blåbär väger 300 g. Samma hink med hälften av blåbären väger 250 g. Hur mycket väger den tomma hinken? Vi vet inte vad hinken väger och vi vet inte vad blåbären väger. Vi har bara två vägningar. Tänk på vad som är olika mellan dem. Det är samma hink i båda, och hinken väger lika mycket hela tiden. Det enda som ändrats är att hälften av blåbären har tagits bort. Därför visar skillnaden i vikt precis hur mycket hälften av blåbären väger: 300 − 250 = 50 g. Hälften av blåbären väger alltså 50 g, och alla blåbär väger dubbelt så mycket: 2 · 50 = 100 g. När alla blåbär tas bort från den fulla hinken är bara hinken kvar: 300 − 100 = 200 g. Du kan kontrollera: hinken 200 g plus hälften av blåbären 50 g blir 250 g, precis som vågen visade. Samma knep funkar för varje sak som har ett innehåll, till exempel en påse med sand eller en flaska med vatten. Hitta det som skiljer vägningarna åt, och använd det för att räkna ut hela innehållet.",
-  "visual": {
-    "type": "tabell",
-    "title": "Två vägningar av samma hink",
-    "headers": [
-      "Vad vägdes",
-      "Vikt"
-    ],
-    "rows": [
-      [
-        "Hinken full med blåbär",
-        "300 g"
+  "explanation": "Problemet: En hink full med blåbär väger 300 g. Samma hink med hälften av blåbären väger 250 g. Hur mycket väger den tomma hinken? Vi vet inte vad hinken väger och vi vet inte vad blåbären väger. Vi har bara två vägningar. Bilden visar dem som staplar: samma hink i båda, men hälften av blåbären är borta i den undre. Tänk på vad som är olika mellan dem. Det är samma hink i båda, och hinken väger lika mycket hela tiden. Det enda som ändrats är att hälften av blåbären har tagits bort. Därför visar skillnaden i vikt precis hur mycket hälften av blåbären väger: 300 − 250 = 50 g. Hälften av blåbären väger alltså 50 g, och alla blåbär väger dubbelt så mycket: 2 · 50 = 100 g. När alla blåbär tas bort från den fulla hinken är bara hinken kvar: 300 − 100 = 200 g. Du kan kontrollera: hinken 200 g plus hälften av blåbären 50 g blir 250 g, precis som vågen visade. Samma knep funkar för varje sak som har ett innehåll, till exempel en påse med sand eller en flaska med vatten. Hitta det som skiljer vägningarna åt, och använd det för att räkna ut hela innehållet.",
+  "visuals": [
+    {
+      "type": "delmodell",
+      "title": "Samma hink två gånger. Hinken är lika tung båda gångerna, hälften av blåbären är borta andra gången.",
+      "rows": [
+        {
+          "label": "Full hink",
+          "total": "300 g",
+          "parts": [
+            {
+              "n": 200,
+              "label": "hink ?",
+              "q": true
+            },
+            {
+              "n": 50,
+              "label": "½ bär",
+              "tone": 1
+            },
+            {
+              "n": 50,
+              "label": "½ bär",
+              "tone": 1
+            }
+          ]
+        },
+        {
+          "label": "Hälften kvar",
+          "total": "250 g",
+          "parts": [
+            {
+              "n": 200,
+              "label": "hink ?",
+              "q": true
+            },
+            {
+              "n": 50,
+              "label": "½ bär",
+              "tone": 1
+            },
+            {
+              "n": 50,
+              "label": "½ bär",
+              "ghost": true
+            }
+          ]
+        }
       ],
-      [
-        "Hinken med hälften av blåbären",
-        "250 g"
+      "marks": [
+        {
+          "row": 1,
+          "from": 2,
+          "to": 2,
+          "label": "300 − 250 = 50 g"
+        }
       ],
-      [
-        "Det som skiljer: hälften av blåbären",
-        "50 g"
+      "animate": true
+    },
+    {
+      "type": "delmodell",
+      "title": "Då vet vi vad varje del väger: hälften av blåbären 50 g, alla blåbär 100 g och hinken 200 g.",
+      "rows": [
+        {
+          "label": "Full hink",
+          "total": "300 g",
+          "parts": [
+            {
+              "n": 200,
+              "label": "hink 200 g"
+            },
+            {
+              "n": 50,
+              "label": "50 g",
+              "tone": 1
+            },
+            {
+              "n": 50,
+              "label": "50 g",
+              "tone": 1
+            }
+          ]
+        },
+        {
+          "label": "Hälften kvar",
+          "total": "250 g",
+          "parts": [
+            {
+              "n": 200,
+              "label": "hink 200 g"
+            },
+            {
+              "n": 50,
+              "label": "50 g",
+              "tone": 1
+            },
+            {
+              "n": 50,
+              "label": "50 g",
+              "ghost": true
+            }
+          ]
+        }
       ],
-      [
-        "Alla blåbär",
-        "100 g"
-      ],
-      [
-        "Den tomma hinken",
-        "200 g"
-      ]
-    ]
-  },
+      "animate": true
+    }
+  ],
   "components": [
     {
       "type": "steg",
@@ -94,7 +171,8 @@
     "exercise",
     "word:0",
     "word:1",
-    "word:2"
+    "word:2",
+    "word:3"
   ],
   "rule": "Skillnaden mellan full och halvfull är vikten av hälften av innehållet. Allt innehåll väger dubbelt så mycket. Ta bort det från den fulla vikten, så är det bara hinken kvar.",
   "ruleLabel": "DET SOM SKILJER",
@@ -753,6 +831,232 @@
       ]
     },
     {
+      "id": "hink-full",
+      "for": [
+        "exercise"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "En tom hink väger {e} g. Med hälften av blåbären väger den {H} g. Hur mycket väger hinken full med blåbär?",
+      "answer": [
+        "=F",
+        "{F} g",
+        "{F}g"
+      ],
+      "correct": "Rätt! {H} − {e} = {h} g är vikten av hälften av blåbären, så alla väger 2 · {h} = {2*h} g. Hinken full väger {e} + {2*h} = {F} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten med bara hälften av blåbären i. Det finns ännu en hälft att lägga till."
+        },
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av hälften av blåbären. Hur mycket väger alla, och vad blir det tillsammans med hinken?"
+        },
+        {
+          "answers": [
+            "=2*H"
+          ],
+          "message": "Då har du dubblerat allt, även hinken. Den ska bara räknas en gång: det är bara blåbären som blir dubbelt så mycket."
+        }
+      ]
+    },
+    {
+      "id": "pase-full",
+      "for": [
+        "word-1"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "h": [
+          60,
+          250,
+          10
+        ]
+      },
+      "where": [
+        {
+          "expr": "abs(e-h)",
+          "min": 1
+        },
+        {
+          "expr": "abs(e-2*h)",
+          "min": 1
+        }
+      ],
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+2*h"
+        },
+        {
+          "name": "H",
+          "expr": "e+h"
+        }
+      ],
+      "prompt": "En tom påse väger {e} g. Med hälften av sanden väger den {H} g. Hur mycket väger påsen full med sand?",
+      "answer": [
+        "=F",
+        "{F} g",
+        "{F}g"
+      ],
+      "correct": "Rätt! {H} − {e} = {h} g är vikten av hälften av sanden, så alla väger 2 · {h} = {2*h} g. Påsen full väger {e} + {2*h} = {F} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=H"
+          ],
+          "message": "{H} g är vikten med bara hälften av sanden i. Det finns ännu en hälft att lägga till."
+        },
+        {
+          "answers": [
+            "=h"
+          ],
+          "message": "{h} g är vikten av hälften av sanden. Hur mycket väger alla, och vad blir det tillsammans med påsen?"
+        },
+        {
+          "answers": [
+            "=2*H"
+          ],
+          "message": "Då har du dubblerat allt, även påsen. Den ska bara räknas en gång: det är bara sanden som blir dubbelt så mycket."
+        }
+      ]
+    },
+    {
+      "id": "burk-antal",
+      "for": [
+        "word-3"
+      ],
+      "pick": {
+        "namn": [
+          "Mira",
+          "Omar",
+          "Elsa",
+          "Kasper",
+          "Nora",
+          "Hugo",
+          "Leila",
+          "Sam"
+        ]
+      },
+      "vars": {
+        "e": [
+          100,
+          400,
+          10
+        ],
+        "n": [
+          10,
+          60,
+          10
+        ],
+        "k": [
+          4,
+          10,
+          2
+        ]
+      },
+      "derive": [
+        {
+          "name": "F",
+          "expr": "e+n*k"
+        },
+        {
+          "name": "H",
+          "expr": "e+n*k/2"
+        }
+      ],
+      "prompt": "En burk full med knappar väger {F} g. När hälften av knapparna har tagits ur väger burken {H} g. Varje knapp väger {k} g. Hur många knappar var det i burken från början?",
+      "answer": [
+        "=n",
+        "{n} st",
+        "{n} knappar"
+      ],
+      "correct": "Rätt! {F} − {H} = {n*k/2} g är hälften av knapparna, så alla väger {n*k} g. {n*k} : {k} = {n} knappar.",
+      "feedback": [
+        {
+          "answers": [
+            "=n/2"
+          ],
+          "message": "{n/2} är hur många knappar som togs ur. Frågan gäller alla knappar från början."
+        },
+        {
+          "answers": [
+            "=n*k"
+          ],
+          "message": "{n*k} g är vikten av alla knappar, inte hur många de är. Varje knapp väger {k} g."
+        },
+        {
+          "answers": [
+            "=n*k/2"
+          ],
+          "message": "{n*k/2} g är vikten av hälften av knapparna. Hur många knappar är det i alla, när en knapp väger {k} g?"
+        }
+      ]
+    },
+    {
       "id": "burk-knappar-alla",
       "for": [
         "word-2"
@@ -1008,6 +1312,37 @@
             "300 g"
           ],
           "message": "Du har halverat hela vikten. Men burken väger lika mycket hela tiden, det är bara knapparna som blir hälften."
+        }
+      ]
+    },
+    {
+      "prompt": "En hink full med blåbär väger 300 g. Samma hink med hälften av blåbären väger 250 g. Varje blåbär väger 2 g. Hur många blåbär var det i hinken från början?",
+      "answer": [
+        "50",
+        "50 blåbär",
+        "50 st"
+      ],
+      "correct": "Rätt! Hälften av blåbären väger 300 − 250 = 50 g, så alla väger 100 g. Varje blåbär väger 2 g, så det var 100 : 2 = 50 blåbär.",
+      "feedback": [
+        {
+          "answers": [
+            "25"
+          ],
+          "message": "25 är hur många blåbär som togs bort. Frågan gäller alla blåbär från början."
+        },
+        {
+          "answers": [
+            "100",
+            "100 g"
+          ],
+          "message": "100 g är vikten av alla blåbär, inte hur många de är. Varje blåbär väger 2 g."
+        },
+        {
+          "answers": [
+            "200",
+            "200 g"
+          ],
+          "message": "200 g är vikten av hinken. Det är blåbären du ska räkna: hur många går det på deras vikt när ett väger 2 g?"
         }
       ]
     }
