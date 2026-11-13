@@ -16,7 +16,8 @@ const { spawnSync } = require("child_process");
 const ROOT = path.join(__dirname, "..");
 const FALLBACK = ["smoke", "a11y"];
 const RULES = [
-  [/^(pet|pet-art|pet-teacher|pet-memory|pet-tricks|pet-help)\.js$|^tests\/(pet|peek)/, ["pet", "pet-extras", "keyboard", "a11y"]],
+  [/^(pet|pet-art|pet-teacher|pet-memory|pet-tricks|pet-help)\.js$/, ["pet", "pet-extras", "keyboard", "a11y"]],
+  [/^tests\/(pet|peek)/, ["pet", "pet-extras"]],
   [/^(figures|figures-more|visuals)\.js$|^styles-figures-more\.css$/, ["figures-lower", "curves", "a11y", "pet-figures", "hopplek", "stege"]],
   [/^hopplek\.js$/, ["hopplek", "pet-figures"]],
   [/^(algebra|figures-algebra|steps|substitution|mathinput|worked-steps|symbolic-math|slips)\.js$|^styles-algebra\.css$/, ["algebra", "powers", "mobile-keyboard"]],
