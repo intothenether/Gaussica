@@ -879,24 +879,65 @@ window.GaussicaTeacher = (function () {
     kindSel.value = ui.assignKind;
     const picks = el("div", "tv-picks");
     const lessonSels = [];
+    // The lessons of a picker: all of them in the order of the school years, or the hits of what is typed in the search box over it (the best first). What is chosen stays in
+    // the list even when it is not a hit, so that typing never takes the choice away.
+    const areaName = function (l) { const a = (ctx.course.areas || []).find(function (x) { return x.id === l.area; }); return a ? a.name : ""; };
+    const searchText = function (l) { return areaName(l) + " " + (l.kind === "pyssel" ? "pyssla" : l.kind === "begrepp" ? "begrepp" : "lektion"); };
     const fillOptions = function (sel) {
       const keep = sel.value;
+      const query = sel._search ? sel._search.value.trim() : "";
       sel.replaceChildren();
       const placeholder = el("option", "", "Välj lektion…"); placeholder.value = ""; sel.appendChild(placeholder);
-      lessonChoices(ctx).filter(function (x) { return kindSel.value !== "practice" || window.GaussicaPractice.has(x.l); }).forEach(function (x) {
+      let choices = lessonChoices(ctx).filter(function (x) { return kindSel.value !== "practice" || window.GaussicaPractice.has(x.l); });
+      if (query) {
+        const byId = new Map(choices.map(function (x) { return [x.l.id, x]; }));
+        choices = window.GaussicaSearch.find(choices.map(function (x) { return x.l; }), query, { extra: searchText }).map(function (r) { return byId.get(r.lesson.id); });
+      }
+      const hits = choices.length;
+      if (keep && !choices.some(function (x) { return x.l.id === keep; })) {
+        const chosen = lessonChoices(ctx).filter(function (x) { return x.l.id === keep; })[0];
+        if (chosen) choices = [chosen].concat(choices);
+      }
+      choices.forEach(function (x) {
         const o = el("option", "", window.GaussicaLesson.gradeLabel(x.grade) + " · " + x.l.title + (x.l.kind === "pyssel" ? " (pyssla)" : ""));
         o.value = x.l.id; sel.appendChild(o);
       });
       sel.value = keep;
+      // while there is a query the list is open (a few rows), so that the hits can be seen and chosen at once
+      sel.size = query && hits ? Math.min(8, choices.length + 1) : 1;
+      if (sel._count) sel._count.textContent = query ? (hits === 0 ? "Ingen lektion hittades." : hits === 1 ? "1 lektion hittades." : hits + " lektioner hittades.") : "";
     };
     const addPick = function (value) {
       const wrap = el("div", "tv-pick");
+      const n = lessonSels.length + 1;
+      const search = el("input", "tv-pick-search");
+      search.type = "search";
+      search.placeholder = "Sök lektion…";
+      search.autocomplete = "off";
+      search.setAttribute("aria-label", "Sök lektion " + n);
       const sel = el("select");
-      sel.setAttribute("aria-label", "Lektion " + (lessonSels.length + 1));
+      sel.setAttribute("aria-label", "Lektion " + n);
+      const count = el("span", "tv-pick-count");
+      count.setAttribute("role", "status");
+      count.setAttribute("aria-live", "polite");
+      sel._search = search;
+      sel._count = count;
       lessonSels.push(sel);
       fillOptions(sel);
       if (value) sel.value = value;
-      wrap.appendChild(sel);
+      search.addEventListener("input", function () { fillOptions(sel); });
+      search.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          // the best hit is chosen, and the form is not sent
+          e.preventDefault();
+          const first = sel.querySelectorAll("option")[1];
+          if (first && search.value.trim()) { sel.value = first.value; sel.size = 1; }
+        } else if (e.key === "ArrowDown" && sel.size > 1) { e.preventDefault(); sel.focus(); if (sel.selectedIndex < 1) sel.selectedIndex = 1; }
+      });
+      sel.addEventListener("change", function () { sel.size = 1; });
+      const box = el("div", "tv-pick-box");
+      box.append(search, sel, count);
+      wrap.appendChild(box);
       if (lessonSels.length > 1) {
         const del = button("✕", "tv-btn tv-small", function () {
           lessonSels.splice(lessonSels.indexOf(sel), 1);

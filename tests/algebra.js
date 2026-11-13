@@ -61,6 +61,26 @@ let s = sub("Lös ekvationen: 3x + 2 = 14. Vad är x?", "x = 5");
 ok(s && s.parts.before === "3x + 2 = 14" && s.parts.after === "3 · 5 + 2 = 14" && s.left === 17 && s.right === 14 && s.equal === false, "the equation with 5 for x: 17 = 14");
 s = sub("Lös ekvationen: 3x + 2 = 14.", "4");
 ok(s.equal && s.left === 14 && s.right === 14 && s.parts.after === "3 · 4 + 2 = 14", "and with the right answer 14 = 14");
+// the words of a question are not maths: "x om x + 8 = 21" was shown as xomx + 8 = 21, and "räknat ut 410 − 186 = 224" as ut410 − 186 = 224
+s = sub("Vad är x om x + 8 = 21?", "13");
+ok(s && s.parts.before === "x + 8 = 21" && s.parts.after === "13 + 8 = 21", "the check of \"Vad är x om x + 8 = 21?\" shows x + 8 = 21, not xomx + 8 = 21");
+ok(sub("Mira har räknat ut 410 − 186 = 224. Hur kan hon kontrollera svaret? Räkna ut 224 + 186.", "410") === null, "\"räknat ut 410 − 186 = 224\" is a sum, not an equation with the letters u and t");
+{
+  // every question of the course, and some generated ones: the equation that is shown has no word in it
+  let bad = 0, shown = 0;
+  fs.readdirSync(ROOT + "lessons").filter((f) => f.endsWith(".json") && f !== "index.json").forEach((f) => {
+    const l = JSON.parse(fs.readFileSync(ROOT + "lessons/" + f, "utf8"));
+    const prompts = [l.exercise].concat(l.wordProblems || []).filter(Boolean).map((q) => q.prompt);
+    PR.templates(l).forEach((tp) => { for (let i = 0; i < 3; i++) { const g = PR.generate(l, tp.id, 700 + i * 11); if (g) prompts.push(g.problem.prompt); } });
+    prompts.forEach((p) => {
+      const r = A.substitution(p, "1");
+      if (!r) return;
+      shown += 1;
+      if (/[A-Za-z]{2,}/.test(r.parts.before.replace(/sqrt|sin|cos|tan/g, ""))) { bad += 1; if (bad < 5) console.log("   " + l.id + ": " + JSON.stringify(p) + " -> " + r.parts.before); }
+    });
+  });
+  ok(bad === 0 && shown > 40, "no question of the course shows a word as part of the equation (" + bad + " of " + shown + ")");
+}
 s = sub("Lös ekvationen 2x − 3 = x + 5.", "−8");
 ok(s && s.parts.after === "2 · (−8) − 3 = −8 + 5" && s.left === -19 && s.right === -3, "a negative answer is in brackets: " + (s && s.parts.after));
 s = sub("Lös ekvationen x/4 = 3.", "12");

@@ -230,7 +230,7 @@
           "wrong": 3,
           "explain": "x/3 betyder x delat med 3. För att få x ska du multiplicera med 3: x = 4 · 3 = 12.",
           "fix": "x = 4 · 3 = 12",
-          "hint": "Hur ångrar du en division med 3?"
+          "hint": "Hur tar du bort en division med 3?"
         }
       ]
     }

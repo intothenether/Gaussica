@@ -132,5 +132,23 @@ ok(Pet.helpPet(p, D(2026, 11, 14).getTime()).gained === 1, "and three more the n
 const both = Pet.petPet(p, D(2026, 11, 13).getTime());
 ok(both.gained === 1 && Pet.usedToday(both.pet, D(2026, 11, 13).getTime()).helped === 3, "petting still works on the same day, and the helped hearts are kept");
 
+// ----- headphones sit on the head -----
+const phones = Art.item("hals-horlurar");
+ok(phones && phones.slot === "face", "the headphones are worn on the head, in the place of the face, not as a necklace");
+ok(Object.keys(Art.KINDS).every((k) => Art.HEAD[k] && Art.HEAD[k].rx >= 40 && Art.HEAD[k].ry >= 30 && Math.abs(Art.headOf(k).cy - Art.HEAD[k].cy) <= 6), "every animal has a measured head, and the shift of the face is taken off it");
+const cups = (k) => (Art.svg({ kind: k, color: Art.KINDS[k].colors[0].id, name: "x", worn: { face: "hals-horlurar" } }, { bare: true }).match(/<ellipse cx="([0-9.]+)" cy="([0-9.]+)" rx="9.5" ry="15"/g) || []).map((s) => /cx="([0-9.]+)" cy="([0-9.]+)"/.exec(s).slice(1).map(Number));
+Object.keys(Art.KINDS).forEach((k) => {
+  const c = cups(k), h = Art.headOf(k);
+  ok(c.length === 2 && c[0][0] === h.cx - h.rx - 1 && c[1][0] === h.cx + h.rx + 1 && c[0][1] === h.cy + 4, k + ": a cup over each ear, on the head (" + JSON.stringify(c) + ")");
+});
+ok(cups("axolotl")[1][0] > cups("cat")[1][0], "the wide head of the axolotl gets its cups further out than the cat");
+// a pet that wore them round its neck now wears them on its head, and keeps what it paid
+const old = Object.assign(Pet.makePet("fox", Art.KINDS.fox.colors[0].id, "Rut"), { owned: { "hals-horlurar": 30 }, worn: { neck: "hals-horlurar" } });
+const moved = Art.migrate(old);
+ok(moved && !moved.worn.neck && moved.worn.face === "hals-horlurar" && moved.owned["hals-horlurar"] === 30, "old headphones move from the neck to the head");
+const busy = Art.migrate(Object.assign({}, old, { worn: { neck: "hals-horlurar", face: "glas-sol" } }));
+ok(busy && !busy.worn.neck && busy.worn.face === "glas-sol" && busy.owned["hals-horlurar"] === 30, "with glasses on already they are only taken off, and still owned");
+ok(Art.migrate(moved) === null, "and nothing more is moved the second time");
+
 console.log(failures ? failures + " FAILED" : "All pet extras checks passed");
 process.exit(failures ? 1 : 0);

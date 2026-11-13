@@ -10,14 +10,14 @@
     "likhet-balansvag"
   ],
   "summary": "Ett tal som du inte vet kan du kalla x. Med en ekvation och räknesättens motsatser hittar du det.",
-  "explanationTitle": "Ångra räkneoperationen",
-  "explanation": "Problemet: Eli har några kulor. Hon får 7 kulor till och har då 15. Hur många hade hon från början? Vi vet inte talet, men vi vet hur det hänger ihop med de andra. Ett tal vi inte vet kan vi skriva med en bokstav, till exempel x. Då blir det x + 7 = 15. Det kallas en ekvation. Att lösa den är att hitta det tal som gör att båda sidorna blir lika stora. Det gör du genom att ångra räkneoperationen: plus ångras av minus, minus av plus, gånger av delat med och delat med av gånger. x + 7 = 15 betyder x = 15 − 7 = 8. Kontrollera alltid genom att sätta in svaret: 8 + 7 = 15 stämmer.",
+  "explanationTitle": "Ta bort räkneoperationen",
+  "explanation": "Problemet: Eli har några kulor. Hon får 7 kulor till och har då 15. Hur många hade hon från början? Vi vet inte talet, men vi vet hur det hänger ihop med de andra. Ett tal vi inte vet kan vi skriva med en bokstav, till exempel x. Då blir det x + 7 = 15. Det kallas en ekvation. Att lösa den är att hitta det tal som gör att båda sidorna blir lika stora. Det gör du genom att ta bort räkneoperationen som står vid x, med dess motsats: plus tas bort med minus, minus tas bort med plus, gånger tas bort med delat med och delat med tas bort med gånger. x + 7 = 15 betyder x = 15 − 7 = 8. Kontrollera alltid genom att sätta in svaret: 8 + 7 = 15 stämmer.",
   "visual": {
     "type": "tabell",
-    "title": "Ångra räkneoperationen",
+    "title": "Ta bort räkneoperationen",
     "headers": [
       "Ekvation",
-      "Ångra med",
+      "Ta bort med",
       "Svar"
     ],
     "rows": [
@@ -43,7 +43,7 @@
       ]
     ]
   },
-  "rule": "Ångra räkneoperationen: plus med minus, minus med plus, gånger med delat med, delat med med gånger.",
+  "rule": "Ta bort räkneoperationen med dess motsats: plus med minus, minus med plus, gånger med delat med, delat med med gånger.",
   "ruleLabel": "OBEKANT TAL",
   "example": "x + 7 = 15 ger x = 15 − 7 = 8. Kontroll: 8 + 7 = 15.",
   "practice": [
@@ -72,7 +72,7 @@
           "answers": [
             "=x+a"
           ],
-          "message": "{x+a} är högersidan. Ångra plus med minus: dra bort {a}."
+          "message": "{x+a} är högersidan. Ta bort plus med minus: dra bort {a}."
         }
       ]
     },
@@ -101,13 +101,13 @@
           "answers": [
             "=x-2*a"
           ],
-          "message": "Du har dragit bort {a} en gång till. Ångra minus med plus: lägg till {a}."
+          "message": "Du har dragit bort {a} en gång till. Ta bort minus med plus: lägg till {a}."
         },
         {
           "answers": [
             "=x-a"
           ],
-          "message": "{x-a} är högersidan. Ångra minus med plus: lägg till {a}."
+          "message": "{x-a} är högersidan. Ta bort minus med plus: lägg till {a}."
         }
       ]
     },
@@ -136,7 +136,7 @@
           "answers": [
             "=a*x"
           ],
-          "message": "{a*x} är högersidan. Ångra gånger med delat med: dela med {a}."
+          "message": "{a*x} är högersidan. Ta bort gånger med delat med: dela med {a}."
         }
       ]
     },
@@ -165,13 +165,13 @@
           "answers": [
             "=y+a"
           ],
-          "message": "Du har lagt ihop. Ångra delat med genom att multiplicera: {y} · {a}."
+          "message": "Du har lagt ihop. Ta bort delat med genom att multiplicera: {y} · {a}."
         },
         {
           "answers": [
             "=y"
           ],
-          "message": "{y} är högersidan. Ångra delat med genom att multiplicera med {a}."
+          "message": "{y} är högersidan. Ta bort delat med genom att multiplicera med {a}."
         }
       ]
     },
@@ -238,15 +238,15 @@
       {
         "text": "I x + 7 = 15 är x lika med 8.",
         "answer": true,
-        "explain": "Du ångrar plus med minus: 15 − 7 = 8."
+        "explain": "Du tar bort plus med minus: 15 − 7 = 8."
       },
       {
-        "text": "Plus ångras av plus.",
+        "text": "Plus tas bort med plus.",
         "answer": false,
-        "explain": "Plus ångras av minus."
+        "explain": "Plus tas bort med minus."
       }
     ],
-    "correct": "Rätt! Ångra räkneoperationen."
+    "correct": "Rätt! Ta bort räkneoperationen med dess motsats."
   },
   "exercise": {
     "prompt": "x + 9 = 23. Vilket tal är x?",
@@ -259,7 +259,7 @@
         "answers": [
           "32"
         ],
-        "message": "32 får du om du lägger ihop 9 och 23. Ångra plus med minus: 23 − 9."
+        "message": "32 får du om du lägger ihop 9 och 23. Ta bort plus med minus: 23 − 9."
       },
       {
         "answers": [
@@ -282,7 +282,7 @@
           "answers": [
             "27"
           ],
-          "message": "27 får du om du lägger ihop 6 och 21. Hon fick 6 kulor till, så ångra det: dra bort 6."
+          "message": "27 får du om du lägger ihop 6 och 21. Hon fick 6 kulor till, så ta bort det: dra bort 6."
         },
         {
           "answers": [
@@ -304,7 +304,7 @@
           "answers": [
             "3"
           ],
-          "message": "3 får du om du delar 12 med 4. Ångra delat med genom att multiplicera: 12 · 4."
+          "message": "3 får du om du delar 12 med 4. Ta bort delat med genom att multiplicera: 12 · 4."
         },
         {
           "answers": [
@@ -326,7 +326,7 @@
           "answers": [
             "72"
           ],
-          "message": "72 får du om du multiplicerar. Ångra gånger med delat med: 24 delat med 3."
+          "message": "72 får du om du multiplicerar. Ta bort gånger med delat med: 24 delat med 3."
         },
         {
           "answers": [

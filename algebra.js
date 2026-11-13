@@ -370,6 +370,11 @@
         const tail = words.slice(i).join(" ").replace(/[.?!]+$/, "");
         if (!tail || !MATHCHARS.test(tail) || /[A-Za-z]{3,}/.test(tail.replace(/sqrt|sin|cos|tan/g, ""))) continue;
         if (!/[=+\-−*·×/^()]/.test(tail)) continue;   // something to calculate with
+        // a word of the sentence that is not maths: "x om x + 8 = 21" (om) and "räknat ut 410 − 186" (ut) would be read as the letters o and m, or u and t, multiplied
+        // with what is next to them. A word of two letters or more that has something else right beside it (not an operator) belongs to the sentence: the maths starts after it.
+        const tokens = tail.split(/\s+/);
+        const isWord = (w) => /^[A-Za-z]{2,}$/.test(w) && !/^(sqrt|sin|cos|tan)$/.test(w);
+        if (tokens.some((w, k) => isWord(w) && ((tokens[k + 1] && /[A-Za-z0-9]/.test(tokens[k + 1])) || (tokens[k - 1] && /[A-Za-z0-9]/.test(tokens[k - 1]))))) continue;
         const ast = parseSafe(tail);
         if (!ast) continue;
         const vars = variablesOf(ast);

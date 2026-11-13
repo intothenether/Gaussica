@@ -157,6 +157,7 @@ async function api() {
   run("class heatmap", "tests/heatmap.js");
   run("pet", "tests/pet.js");
   run("pet extras", "tests/pet-extras.js");
+  run("lesson search", "tests/lesson-search.js");
   run("pet teacher", "tests/pet-teacher.js");
   run("fluency", "tests/fluency.js");
   run("spaced repetition", "tests/spaced.js");

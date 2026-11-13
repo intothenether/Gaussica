@@ -46,13 +46,13 @@
           "answers": [
             "=a*x"
           ],
-          "message": "{a*x} är resultatet efter att du ångrat plus. Dela också med {a}."
+          "message": "{a*x} är resultatet efter att du tagit bort plus. Dela också med {a}."
         },
         {
           "answers": [
             "=a*x+b"
           ],
-          "message": "{a*x+b} är resultatet. Ångra plus med minus och sedan gånger med delat med."
+          "message": "{a*x+b} är resultatet. Ta bort plus med minus och sedan gånger med delat med."
         }
       ]
     },
@@ -155,13 +155,13 @@
         "answers": [
           "24"
         ],
-        "message": "24 är 30 − 6, efter att du ångrat plus. Du har ännu inte delat med 4."
+        "message": "24 är 30 − 6, efter att du tagit bort plus. Du har ännu inte delat med 4."
       },
       {
         "answers": [
           "36"
         ],
-        "message": "36 får du om du lägger ihop 30 och 6. Ångra plus med minus."
+        "message": "36 får du om du lägger ihop 30 och 6. Ta bort plus med minus."
       }
     ]
   },

@@ -40,6 +40,7 @@
     <script src="./feedback.js" defer></script>
     <script src="./rewards.js" defer></script>
     <script src="./pet-art.js" defer></script>
+    <script src="./lesson-search.js" defer></script>
     <script src="./pet-memory.js" defer></script>
     <script src="./pet-tricks.js" defer></script>
     <script src="./pet-help.js" defer></script>
@@ -159,6 +160,15 @@
         </div>
         <div class="full-map" id="full-map">
           <div class="area-filters" id="area-filters" role="group" aria-label="Filtrera efter matematikområde"></div>
+          <div class="map-search" role="search">
+            <label class="map-search-label" for="map-search-input">Sök lektion</label>
+            <div class="map-search-row">
+              <input type="search" id="map-search-input" class="map-search-input" placeholder="Till exempel bråk, klockan eller tomma hinken" autocomplete="off" autocapitalize="none" spellcheck="false" aria-controls="map-search-results" aria-describedby="map-search-count">
+              <button type="button" class="secondary-button map-search-clear" id="map-search-clear" hidden>Rensa</button>
+            </div>
+            <p class="map-search-count" id="map-search-count" role="status" aria-live="polite"></p>
+            <ul class="map-search-results" id="map-search-results" hidden></ul>
+          </div>
           <div class="graph-heading">
             <div>
               <h3>Lärandegraf</h3>

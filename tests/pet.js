@@ -384,12 +384,13 @@ const blue = Art.KINDS.axolotl.colors.find((c) => c.id === "bla");
 ok(blue && blue.name === "Blå" && /^#[0-9a-f]{6}$/i.test(blue.body) && parseInt(blue.body.slice(5, 7), 16) > 200 && parseInt(blue.body.slice(1, 3), 16) < 170, "the axolotl has a cyan blue colour: " + (blue && blue.body));
 const axo = Art.svg({ kind: "axolotl", color: "bla" }, {});
 ok(axo.includes(blue.body) && axo.includes(blue.dark) && !/NaN/.test(axo), "and it is drawn in it");
-ok((axo.match(/stroke-width="3" stroke-linecap="round"\/>/g) || []).length >= 24, "six gills with fine filaments along both sides of each");
+ok((axo.match(/stroke-width="2.3" stroke-linecap="round" fill="none"\/>/g) || []).length === 120, "six wavy gills with ten fine filaments along both sides of each");
 ok(Art.pointer("axolotl", "bla").includes('data-arm="foot"') && Art.ARM.axolotl === "foot", "it points with a foot with four toes, not a hand");
 // nothing of the picture is outside the wide crop of the map (8 to 192), also the gills
 const xs = [];
-axo.replace(/(?:cx|x)="(-?\d+(?:\.\d+)?)"/g, (m, v) => xs.push(Number(v)));
-(axo.match(/[ML] ?(-?\d+(?:\.\d+)?),/g) || []).forEach((m) => xs.push(Number(m.replace(/[ML ,]/g, ""))));
+axo.replace(/\b(?:cx|x)="(-?\d+(?:\.\d+)?)"/g, (m, v) => xs.push(Number(v)));
+// every point of every path: the ends of the filaments too, not only where they start
+(axo.match(/ d="[^"]*"/g) || []).forEach((d) => (d.match(/-?\d+(?:\.\d+)?,-?\d+(?:\.\d+)?/g) || []).forEach((p) => xs.push(Number(p.split(",")[0]))));
 ok(Math.min.apply(null, xs) >= 8 && Math.max.apply(null, xs) <= 192, "the gills and the tail are inside the crop of the map (" + Math.min.apply(null, xs) + " to " + Math.max.apply(null, xs) + ")");
 
 console.log(failures ? failures + " FAILED" : "All pet checks passed (" + drawn + " drawings)");

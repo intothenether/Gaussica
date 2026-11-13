@@ -4975,3 +4975,25 @@ html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-bank { margin: 0 0 6px;
 .pet-help-note { margin: 0; min-height: 1.2em; font-size: 14px; font-weight: 700; color: var(--muted); }
 .pet-help-why, .pet-help-how { margin: 0; padding: 10px 14px; border-radius: 12px; background: #f4f7fd; font-size: 15px; line-height: 1.45; }
 .pet-help-heart { margin: 0; font-weight: 800; color: #9a5a00; }
+
+/* search in the map (app.js) and in the lesson pickers of the assignments (teacher-view.js) */
+.map-search { margin: 0 0 18px; }
+.map-search-label { display: block; margin: 0 0 6px; font: 800 14px "Nunito", sans-serif; color: var(--ink); }
+.map-search-row { display: flex; gap: 8px; align-items: center; max-width: 560px; }
+.map-search-input { flex: 1; min-width: 0; min-height: 46px; padding: 8px 14px; border: 3px solid var(--border-mid); border-radius: 14px; background: #fff; font: 700 16px "Nunito", sans-serif; color: var(--ink); }
+.map-search-input:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+.map-search-clear { min-height: 46px; padding: 0 14px; }
+.map-search-count { margin: 6px 0 0; min-height: 1.3em; font-size: 14px; font-weight: 700; color: var(--muted); }
+.map-search-results { display: grid; gap: 6px; max-width: 560px; margin: 4px 0 0; padding: 0; list-style: none; }
+.map-search-hit { display: grid; gap: 1px; width: 100%; padding: 8px 14px; border: 2px solid var(--border); border-radius: 12px; background: #fff; text-align: left; font-family: "Nunito", sans-serif; color: var(--ink); cursor: pointer; }
+.map-search-hit:hover, .map-search-hit:focus-visible { border-color: var(--brand); background: var(--brand-soft, #eef2fc); }
+.map-search-hit-title { font-weight: 800; font-size: 15px; }
+.map-search-hit-meta { font-size: 13px; font-weight: 600; color: var(--muted); }
+.map-search-more { padding: 2px 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.graph-node.is-dim, .graph-node-label.is-dim { opacity: .22; }
+.graph-node.is-hit { box-shadow: 0 0 0 5px var(--brand-light, #9fb4e6); }
+.tv-pick-box { flex: 1; display: grid; gap: 4px; min-width: 0; }
+.tv-pick-search { width: 100%; padding: 8px 11px; border: 2px solid var(--border); border-radius: 10px; background: #fff; font: 600 14px "Nunito", sans-serif; color: var(--ink); }
+.tv-pick-box select { width: 100%; }
+.tv-pick-count { min-height: 1.1em; font-size: 12px; font-weight: 700; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .graph-node.is-dim, .graph-node-label.is-dim { transition: none; } }

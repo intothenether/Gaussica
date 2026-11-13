@@ -163,13 +163,26 @@ window.GaussicaPetArt = (function () {
     fox: { hat: 3, face: 1, neck: 0 },
     hamster: { hat: 5, face: 3, neck: -2 },
     dragon: { hat: 0, face: -2, neck: 0 },
-    axolotl: { hat: 3, face: 1, neck: 0 },
+    axolotl: { hat: 2, face: 5, neck: 4 },
     pig: { hat: 4, face: 2, neck: -2 },
     cow: { hat: 3, face: 2, neck: 0 },
     cockatiel: { hat: 6, face: 4, neck: -4 },
     cat: { hat: 0, face: 1, neck: 0 },
     penguin: { hat: 12, face: 1, neck: -3 }
   };
+
+  // The head of each animal: { cx, cy, rx, ry } (the centre, and half the width and the height of the part that is the head), measured in the drawing. Items that sit on the
+  // head and not at a fixed place on it (headphones) are drawn from this: art(head). The y is already corrected for the shift of the face, because it is drawn inside it.
+  const HEAD = {
+    dog: { cx: 100, cy: 88, rx: 47, ry: 43 }, tax: { cx: 100, cy: 90, rx: 47, ry: 43 }, cat: { cx: 100, cy: 86, rx: 44, ry: 44 }, penguin: { cx: 100, cy: 94, rx: 44, ry: 33 },
+    rabbit: { cx: 100, cy: 88, rx: 42, ry: 42 }, hedgehog: { cx: 100, cy: 90, rx: 44, ry: 42 }, fox: { cx: 100, cy: 86, rx: 45, ry: 40 }, hamster: { cx: 100, cy: 90, rx: 50, ry: 42 },
+    dragon: { cx: 100, cy: 86, rx: 45, ry: 41 }, axolotl: { cx: 100, cy: 88, rx: 58, ry: 43 }, pig: { cx: 100, cy: 86, rx: 45, ry: 41 }, cow: { cx: 100, cy: 86, rx: 42, ry: 40 },
+    cockatiel: { cx: 100, cy: 88, rx: 41, ry: 40 }
+  };
+  function headOf(kind) {
+    const h = HEAD[kind] || HEAD.dog;
+    return { cx: h.cx, cy: h.cy - ((SHIFT[kind] || SHIFT.dog).face || 0), rx: h.rx, ry: h.ry };
+  }
 
   function colorOf(kind, id) {
     const list = KINDS[kind].colors;
@@ -181,7 +194,7 @@ window.GaussicaPetArt = (function () {
     return kind === "penguin" ? [[86, 82], [114, 82]] : kind === "cat" ? [[84, 83], [116, 83]] : kind === "tax" ? [[81.2, 87.4], [118.8, 87.4]] :
       kind === "rabbit" ? [[85, 85], [115, 85]] : kind === "hedgehog" ? [[84, 88], [116, 88]] : kind === "fox" ? [[83, 85], [117, 85]] :
       kind === "hamster" ? [[80, 88], [120, 88]] : kind === "dragon" ? [[84, 82], [116, 82]] :
-      kind === "axolotl" ? [[78, 86], [122, 86]] : kind === "pig" ? [[82, 80], [118, 80]] : kind === "cow" ? [[82, 82], [118, 82]] : kind === "cockatiel" ? [[84, 80], [116, 80]] : [[82, 84], [118, 84]];
+      kind === "axolotl" ? [[77, 88], [123, 88]] : kind === "pig" ? [[82, 80], [118, 80]] : kind === "cow" ? [[82, 82], [118, 82]] : kind === "cockatiel" ? [[84, 80], [116, 80]] : [[82, 84], [118, 84]];
   }
 
   // Closed eyes, drawn with the open ones and shown only while the pet sleeps (.is-sleeping, see styles.css).
@@ -217,9 +230,9 @@ window.GaussicaPetArt = (function () {
       }).join("") + '</g>';
     }
     if (kind === "axolotl") {
-      // small round beads with a shine, like the real animal's eyes
+      // big dark eyes with two shines
       return '<g class="pet-eyes">' + pos.map(function (p) {
-        return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="5.2" fill="' + INK + '"/><circle cx="' + (p[0] + 1.9) + '" cy="' + (p[1] - 2) + '" r="1.9" fill="#fff"/><circle cx="' + (p[0] - 1.6) + '" cy="' + (p[1] + 1.8) + '" r="0.9" fill="#fff" opacity=".8"/>';
+        return '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="7.4" ry="9" fill="' + INK + '"/><circle cx="' + (p[0] + 3) + '" cy="' + (p[1] - 4) + '" r="3" fill="#fff"/><circle cx="' + (p[0] - 3) + '" cy="' + (p[1] + 4) + '" r="1.4" fill="#fff" opacity=".8"/>';
       }).join("") + '</g>';
     }
     const ry = kind === "cat" ? 7.5 : kind === "tax" ? 7 : 6.5;
@@ -370,64 +383,52 @@ window.GaussicaPetArt = (function () {
       '<path d="M88,111 Q100,120 112,111" stroke="' + INK + '" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
   }
 
-  // an axolotl: a salamander, not a person. A wide flat head with a long smile and tiny bright eyes, three feathery gills on each side that sweep out and up,
-  // a low body that rests on four short legs with little toes (no hands held up), and a long flat tail with a fin.
+  // an axolotl: a salamander, round and cuddly. A wide round head with big shiny eyes, blushing cheeks and a small smile, three long gills on each side that sweep
+  // out and up like feathers (a wavy stalk with many fine curved filaments along both sides of it, longest in the middle), a small round body that sits up on four
+  // short legs, and a flat tail with a fin.
   function axolotl(c, mood) {
     const num = function (n) { return Math.round(n * 10) / 10; };
-    // one gill: a curved stalk with a row of fine filaments along both sides of it, shorter towards the tip. `side` is -1 for the left, 1 for the right.
-    const gill = function (p0, ctrl, p2, side, scale) {
+    // one gill: an S-shaped stalk (a cubic from P0 to P3) with ten filaments on each side, leaning forward and bending a little further at the end. side: -1 left, 1 right.
+    const gill = function (side, P0, C1, C2, P3) {
       const X = function (x) { return side < 0 ? x : 200 - x; };
-      const at = function (t) {
-        const u = 1 - t;
-        return [u * u * p0[0] + 2 * u * t * ctrl[0] + t * t * p2[0], u * u * p0[1] + 2 * u * t * ctrl[1] + t * t * p2[1]];
-      };
-      const tangent = function (t) {
-        const dx = 2 * (1 - t) * (ctrl[0] - p0[0]) + 2 * t * (p2[0] - ctrl[0]), dy = 2 * (1 - t) * (ctrl[1] - p0[1]) + 2 * t * (p2[1] - ctrl[1]);
+      const at = function (u) { const v = 1 - u; return [v * v * v * P0[0] + 3 * v * v * u * C1[0] + 3 * v * u * u * C2[0] + u * u * u * P3[0], v * v * v * P0[1] + 3 * v * v * u * C1[1] + 3 * v * u * u * C2[1] + u * u * u * P3[1]]; };
+      const tangent = function (u) {
+        const v = 1 - u;
+        const dx = 3 * v * v * (C1[0] - P0[0]) + 6 * v * u * (C2[0] - C1[0]) + 3 * u * u * (P3[0] - C2[0]), dy = 3 * v * v * (C1[1] - P0[1]) + 6 * v * u * (C2[1] - C1[1]) + 3 * u * u * (P3[1] - C2[1]);
         const l = Math.sqrt(dx * dx + dy * dy) || 1;
         return [dx / l, dy / l];
       };
-      let out = '';
-      const lengths = [11, 11.5, 10, 7.5];
-      [0.3, 0.48, 0.66, 0.84].forEach(function (t, i) {
-        const p = at(t), d = tangent(t), n = [-d[1], d[0]];
+      const along = [0.1, 0.19, 0.28, 0.37, 0.46, 0.55, 0.64, 0.73, 0.82, 0.9], lengths = [8, 12, 15, 17, 18, 17, 15, 12, 9, 6];
+      let out = "";
+      along.forEach(function (u, i) {
+        const p = at(u), d = tangent(u), n = [-d[1], d[0]];
         [-1, 1].forEach(function (s) {
-          // the filaments lean forward, towards the tip, about 55 degrees from the stalk
-          const dir = [d[0] * 0.57 + n[0] * 0.82 * s, d[1] * 0.57 + n[1] * 0.82 * s];
-          const len = lengths[i] * (scale || 1);
-          out += '<path d="M' + num(X(p[0])) + ',' + num(p[1]) + ' L' + num(X(p[0] + dir[0] * len)) + ',' + num(p[1] + dir[1] * len) + '" stroke="' + c.dark + '" stroke-width="3" stroke-linecap="round"/>';
+          const dir = [d[0] * 0.55 + n[0] * 0.83 * s, d[1] * 0.55 + n[1] * 0.83 * s];
+          const len = lengths[i];
+          const ctl = [p[0] + dir[0] * len * 0.55, p[1] + dir[1] * len * 0.55];
+          const tip = [p[0] + dir[0] * len + d[0] * 3.2, p[1] + dir[1] * len + d[1] * 3.2];
+          out += '<path d="M' + num(X(p[0])) + ',' + num(p[1]) + ' Q' + num(X(ctl[0])) + ',' + num(ctl[1]) + ' ' + num(X(tip[0])) + ',' + num(tip[1]) + '" stroke="' + c.dark + '" stroke-width="2.3" stroke-linecap="round" fill="none"/>';
         });
       });
-      const tip = at(1);
-      return '<path d="M' + X(p0[0]) + ',' + p0[1] + ' Q' + X(ctrl[0]) + ',' + ctrl[1] + ' ' + X(p2[0]) + ',' + p2[1] + '" stroke="' + c.dark + '" stroke-width="5" stroke-linecap="round" fill="none"/>' + out +
-        '<circle cx="' + num(X(tip[0])) + '" cy="' + num(tip[1]) + '" r="3.4" fill="' + c.dark + '"/>';
+      const end = at(1);
+      return '<path d="M' + X(P0[0]) + ',' + P0[1] + ' C' + X(C1[0]) + ',' + C1[1] + ' ' + X(C2[0]) + ',' + C2[1] + ' ' + X(P3[0]) + ',' + P3[1] + '" stroke="' + c.dark + '" stroke-width="4.6" stroke-linecap="round" fill="none"/>' + out +
+        '<circle cx="' + num(X(end[0])) + '" cy="' + num(end[1]) + '" r="2.6" fill="' + c.dark + '"/>';
     };
-    // a short leg and a foot with small round toes, on one side (the other side is the same, turned over)
-    const leg = function (side) {
-      const X = function (x) { return side < 0 ? x : 200 - x; };
-      return '<path d="M' + X(62) + ',144 Q' + X(48) + ',152 ' + X(44) + ',166" stroke="' + c.body + '" stroke-width="15" stroke-linecap="round" fill="none"/>' +
-        '<ellipse cx="' + X(44) + '" cy="170" rx="11" ry="6.5" fill="' + c.body + '"/>' +
-        '<circle cx="' + X(35) + '" cy="172" r="3.6" fill="' + c.body + '"/><circle cx="' + X(41) + '" cy="176" r="3.6" fill="' + c.body + '"/><circle cx="' + X(48) + '" cy="176.5" r="3.6" fill="' + c.body + '"/><circle cx="' + X(54) + '" cy="173" r="3.6" fill="' + c.body + '"/>' +
-        '<path d="M' + X(38) + ',172 v3 M' + X(44) + ',174 v3 M' + X(50) + ',174 v3" stroke="' + c.dark + '" stroke-width="1.4" stroke-linecap="round" opacity=".35"/>';
+    const gills = function (side) {
+      return gill(side, [49, 70], [26, 76], [43, 46], [18, 32]) + gill(side, [44, 89], [30, 100], [28, 73], [17, 84]) + gill(side, [49, 106], [26, 102], [43, 128], [18, 134]);
     };
-    const foot = function (side) {
-      const X = function (x) { return side < 0 ? x : 200 - x; };
-      return '<ellipse cx="' + X(76) + '" cy="181" rx="16" ry="7" fill="' + c.body + '"/>' +
-        '<circle cx="' + X(63) + '" cy="183" r="3.3" fill="' + c.body + '"/><circle cx="' + X(69) + '" cy="187" r="3.3" fill="' + c.body + '"/><circle cx="' + X(76) + '" cy="188" r="3.3" fill="' + c.body + '"/>';
-    };
-    return '<g class="pet-tail"><path d="M128,160 Q156,152 176,142 Q190,136 189,148 Q186,166 150,176 Q138,177 128,172 Z" fill="' + c.body + '"/>' +
-      '<path d="M134,160 Q158,154 178,143" stroke="' + c.dark + '" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".35"/>' +
-      '<path d="M150,168 Q170,164 184,152" stroke="' + c.light + '" stroke-width="3" stroke-linecap="round" fill="none" opacity=".45"/></g>' +
-      foot(-1) + foot(1) +
-      '<ellipse cx="100" cy="150" rx="49" ry="29" fill="' + c.body + '"/><ellipse cx="100" cy="158" rx="30" ry="17" fill="' + c.light + '"/>' +
-      leg(-1) + leg(1) +
-      gill([60, 74], [40, 60], [26, 44], -1, 1) + gill([57, 89], [36, 84], [20, 84], -1, 1) + gill([60, 103], [40, 112], [26, 124], -1, 1) +
-      gill([60, 74], [40, 60], [26, 44], 1, 1) + gill([57, 89], [36, 84], [20, 84], 1, 1) + gill([60, 103], [40, 112], [26, 124], 1, 1) +
-      '<ellipse cx="100" cy="90" rx="54" ry="35" fill="' + c.body + '"/>' +
-      '<circle cx="81" cy="67" r="1.9" fill="' + c.dark + '" opacity=".18"/><circle cx="93" cy="62" r="1.9" fill="' + c.dark + '" opacity=".18"/><circle cx="107" cy="62" r="1.9" fill="' + c.dark + '" opacity=".18"/><circle cx="119" cy="67" r="1.9" fill="' + c.dark + '" opacity=".18"/><circle cx="100" cy="68" r="1.7" fill="' + c.dark + '" opacity=".14"/>' +
+    return '<g class="pet-tail"><path d="M128,166 Q158,168 170,148 Q178,162 166,178 Q148,184 128,176 Z" fill="' + c.body + '"/>' +
+      '<path d="M140,170 Q160,168 168,152" stroke="' + c.dark + '" stroke-width="2" stroke-linecap="round" fill="none" opacity=".3"/></g>' +
+      '<ellipse cx="78" cy="182" rx="15" ry="7" fill="' + c.body + '"/><ellipse cx="122" cy="182" rx="15" ry="7" fill="' + c.body + '"/>' +
+      '<ellipse cx="100" cy="152" rx="37" ry="33" fill="' + c.body + '"/><ellipse cx="100" cy="158" rx="23" ry="23" fill="' + c.light + '"/>' +
+      '<ellipse cx="66" cy="152" rx="9" ry="15" fill="' + c.body + '" transform="rotate(14 66 152)"/><ellipse cx="134" cy="152" rx="9" ry="15" fill="' + c.body + '" transform="rotate(-14 134 152)"/>' +
+      '<circle cx="62" cy="166" r="3.4" fill="' + c.body + '"/><circle cx="68" cy="168" r="3.4" fill="' + c.body + '"/><circle cx="138" cy="166" r="3.4" fill="' + c.body + '"/><circle cx="132" cy="168" r="3.4" fill="' + c.body + '"/>' +
+      gills(-1) + gills(1) +
+      '<ellipse cx="100" cy="88" rx="58" ry="43" fill="' + c.body + '"/>' +
+      '<circle cx="55" cy="104" r="9" fill="#ff8fa5" opacity=".45"/><circle cx="145" cy="104" r="9" fill="#ff8fa5" opacity=".45"/>' +
       eyes("axolotl", mood, c) +
-      '<circle cx="96" cy="95" r="1.5" fill="' + INK + '" opacity=".5"/><circle cx="104" cy="95" r="1.5" fill="' + INK + '" opacity=".5"/>' +
-      '<path d="M71,103 Q100,118 129,103" stroke="' + INK + '" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
-      '<path d="M71,103 q-3.5,-1 -4.5,-4.5 M129,103 q3.5,-1 4.5,-4.5" stroke="' + INK + '" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+      '<path d="M88,106 Q94,113.5 100,106 Q106,113.5 112,106" stroke="' + INK + '" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="96" cy="98" r="1.2" fill="' + INK + '" opacity=".4"/><circle cx="104" cy="98" r="1.2" fill="' + INK + '" opacity=".4"/>';
   }
 
   // a pig: a round pink head with a big snout, floppy ears, a round body, a curly tail and little hooves
@@ -634,8 +635,10 @@ window.GaussicaPetArt = (function () {
       let s = "";
       for (let i = 0; i <= 8; i++) { const p = curvePoint([64, 120], [100, 164], [136, 120], i / 8); s += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="5" fill="' + (i % 2 ? "#ffc6d6" : "#fff") + '" stroke="#cfd6e6" stroke-width="1.6"/>'; }
       return s; } },
-    { id: "hals-horlurar", slot: "neck", name: "Hörlurar", price: 30, view: "46 108 108 66", art: function () {
-      return '<path d="M62,134 Q100,176 138,134" fill="none" stroke="#3a3f58" stroke-width="6" stroke-linecap="round"/><ellipse cx="60" cy="136" rx="9" ry="13" fill="#e0506d" stroke="#3a3f58" stroke-width="3"/><ellipse cx="140" cy="136" rx="9" ry="13" fill="#e0506d" stroke="#3a3f58" stroke-width="3"/>'; } },
+    { id: "hals-horlurar", slot: "face", name: "Hörlurar", price: 30, view: "32 24 136 92", art: function (head) {
+      const h = head || HEAD.dog, L = h.cx - h.rx - 1, R = h.cx + h.rx + 1, y = h.cy + 4, top = h.cy - h.ry - 24;
+      const cup = function (x) { return '<ellipse cx="' + x + '" cy="' + y + '" rx="9.5" ry="15" fill="#e0506d" stroke="#3a3f58" stroke-width="3"/><ellipse cx="' + x + '" cy="' + y + '" rx="4" ry="8" fill="#f58ba0"/>'; };
+      return '<path d="M' + L + ',' + y + ' C' + (L - 6) + ',' + top + ' ' + (R + 6) + ',' + top + ' ' + R + ',' + y + '" fill="none" stroke="#3a3f58" stroke-width="7" stroke-linecap="round"/>' + cup(L) + cup(R); } },
     { id: "hals-kappa", slot: "neck", name: "Hjältekappa", price: 40, view: "50 108 100 76", art: function () {
       return '<path d="M64,120 Q100,138 136,120 L146,178 Q100,166 54,178 Z" fill="#e0443f"/><path d="M64,120 Q100,138 136,120" fill="none" stroke="#b83c56" stroke-width="3"/><circle cx="100" cy="132" r="5" fill="#f2c94c" stroke="#d9a520" stroke-width="2"/>'; } },
   ];
@@ -1079,8 +1082,14 @@ window.GaussicaPetArt = (function () {
     if (!pet || typeof pet !== "object" || !pet.kind) return null;
     const owned = pet.owned || {};
     const old = Object.keys(owned).filter(function (id) { return BG_TO_WALL[id]; });
-    if (!old.length && !("bg" in pet) && pet.scene === "room") return null;
+    const phones = pet.worn && pet.worn.neck === "hals-horlurar";
+    if (!old.length && !("bg" in pet) && pet.scene === "room" && !phones) return null;
     const next = JSON.parse(JSON.stringify(pet));
+    if (phones) {
+      // the headphones moved from the neck to the face: on the head if that place is free, otherwise just taken off (they are still owned)
+      delete next.worn.neck;
+      if (!next.worn.face) next.worn.face = "hals-horlurar";
+    }
     next.owned = next.owned || {};
     old.forEach(function (id) {
       const to = BG_TO_WALL[id];
@@ -1198,7 +1207,7 @@ window.GaussicaPetArt = (function () {
     const shift = SHIFT[kind];
     const part = function (slot) {
       const it = worn[slot] && item(worn[slot]);
-      return it && it.slot === slot ? '<g transform="translate(0 ' + shift[slot] + ')">' + it.art() + '</g>' : "";
+      return it && it.slot === slot ? '<g transform="translate(0 ' + shift[slot] + ')">' + it.art(headOf(kind)) + '</g>' : "";
     };
     const body = bodyOf(kind, c, mood);
     const inner = body + part("neck") + part("face") + part("hat");
@@ -1242,7 +1251,7 @@ window.GaussicaPetArt = (function () {
     const shift = SHIFT[kind];
     const part = function (slot) {
       const it = worn[slot] && item(worn[slot]);
-      return it && it.slot === slot ? '<g transform="translate(0 ' + shift[slot] + ')">' + it.art() + '</g>' : "";
+      return it && it.slot === slot ? '<g transform="translate(0 ' + shift[slot] + ')">' + it.art(headOf(kind)) + '</g>' : "";
     };
     const bg = options.bare ? "" : FREE_BG;   // only for a pet that has no room yet (the chooser): the room is where a pet lives
     const body = bodyOf(kind, c, mood);
@@ -1331,7 +1340,7 @@ window.GaussicaPetArt = (function () {
     return s.replace(/<g class="pet-sparks">[\s\S]*?<\/g>/, "").replace('viewBox="0 0 200 200"', 'viewBox="' + crop + '"');
   }
 
-  return { SEASONS: SEASONS, activeSeasons: activeSeasons, season: season, seasonEnds: seasonEnds, inSeason: inSeason, KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, pointer: pointer, ARM: ARM, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, migrate: migrate, BG_TO_WALL: BG_TO_WALL, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
+  return { HEAD: HEAD, headOf: headOf, SEASONS: SEASONS, activeSeasons: activeSeasons, season: season, seasonEnds: seasonEnds, inSeason: inSeason, KINDS: KINDS, FOODS: FOODS, TOYS: TOYS, pointer: pointer, ARM: ARM, countable: countable, thing: thing, snack: snack, ITEMS: ITEMS, SETS: SETS, ROOM_SLOTS: ROOM_SLOTS, isRoomSlot: isRoomSlot, migrate: migrate, BG_TO_WALL: BG_TO_WALL, item: item, colorOf: colorOf, svg: svg, thumb: thumb, face: face };
 }());
 
 if (typeof module !== "undefined") module.exports = window.GaussicaPetArt;

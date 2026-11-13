@@ -342,6 +342,14 @@ window.GaussicaGraph = (function () {
     });
 
     // nodes
+    // A search (opts.highlight, a Set of lesson ids): what is not a hit is dimmed, and a chapter is a hit when one of its parts is.
+    const lit = new Set();
+    if (opts.highlight) {
+      opts.highlight.forEach(function (id) { lit.add(id); });
+      model.cells.forEach(function (cell) { if (cell.kind === "unit" && cell.steps.some(function (st) { return opts.highlight.has(st.id); })) lit.add(cell.lesson.id); });
+    }
+    const dimmed = function (lesson) { return Boolean(opts.highlight) && !lit.has(lesson.id); };
+
     const drawNode = function (lesson, pos, kind, stepIndex, ownerLesson) {
       const s = summaryOf(lesson);
       const area = opts.areas.get(lesson.area) || lesson.area;
@@ -349,7 +357,8 @@ window.GaussicaGraph = (function () {
       // a lesson the placement test found known, that the student has not opened yet
       const placed = s.state === "new" && Boolean(opts.placed && opts.placed.has(lesson.id));
       const button = el("button", "graph-node gn-" + kind + " state-" + s.state + (placed ? " is-placed" : "") +
-        (isActive ? " is-active" : "") + (kind === "unit" && model.stepOwner.get(opts.activeId) === lesson.id ? " is-ancestor" : ""));
+        (isActive ? " is-active" : "") + (kind === "unit" && model.stepOwner.get(opts.activeId) === lesson.id ? " is-ancestor" : "") +
+        (dimmed(lesson) ? " is-dim" : (opts.highlight ? " is-hit" : "")));
       button.type = "button";
       button.dataset.lessonId = lesson.id;
       button.dataset.area = lesson.area;
@@ -386,7 +395,7 @@ window.GaussicaGraph = (function () {
       graph.appendChild(button);
 
       const labelW = kind === "step" ? pos.cellW - 4 : Math.min(pos.cellW, 176);
-      const text = el("div", "graph-node-label gnl-" + kind + (isActive ? " is-active" : ""));
+      const text = el("div", "graph-node-label gnl-" + kind + (isActive ? " is-active" : "") + (dimmed(lesson) ? " is-dim" : ""));
       text.style.left = (pos.cx - labelW / 2) + "px";
       text.style.top = (pos.nodeTop + pos.nodeSize + M.labelGap) + "px";
       text.style.width = labelW + "px";
