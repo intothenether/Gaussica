@@ -17,6 +17,23 @@ eq("0,5", "0.5", true, "decimal comma");
 eq("-5", "−5", true, "minus sign variants");
 eq("24 cm", "24", true, "units are ignored");
 eq("24", "25", false);
+// temperatures in degrees (negativa tal): the ways a student writes a temperature
+eq("-3 grader", "-3", true);
+eq("−3 grader", "−3", true);
+eq("-3grader", "-3", true, "no space before grader");
+eq("−3°C", "-3", true, "degrees Celsius");
+eq("-3 °C", "−3", true);
+eq("-3 grader celsius", "-3", true);
+eq("1 grad", "1", true, "singular grad");
+eq("3 minusgrader", "-3", true);
+eq("3 grader kallt", "-3", true);
+eq("minus 3", "-3", true);
+eq("−3,5 grader", "-3.5", true);
+eq("3 grader", "-3", false, "the sign still matters");
+eq("3°C", "-3", false);
+eq("3grader", "-3", false);
+eq("3 minusgrader", "3", false);
+is("-3°C is not a calculation", M.isCalculation("-3°C"), false);
 // fractions
 eq("6/8", "3/4", true, "equivalent fractions");
 eq("3/4", "4/3", false);

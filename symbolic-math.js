@@ -31,10 +31,25 @@
       .replace(/\s+/g, " ");
   }
 
+  // Temperaturer skrivs på många sätt: "−3°C", "-3 °C", "-3grader", "1 grad", "-3 grader celsius",
+  // "3 minusgrader", "3 grader kallt" och "minus 3" betyder alla ett tal i grader. Gör om dem till talet.
+  function normalizeTemperature(s) {
+    const NUM = "(\\d+(?:\\.\\d+)?)";
+    return s
+      .replace(/°\s*c\b/gi, "°")
+      .replace(/\b(grader|grad)\s+(?:celsius|c)\b/gi, "$1")
+      .replace(/^\s*minus\s+(?=\d)/i, "-")
+      .replace(new RegExp("^\\s*" + NUM + "\\s*minusgrad(?:er)?\\s*$", "i"), "-$1")
+      .replace(new RegExp("^\\s*" + NUM + "\\s*plusgrad(?:er)?\\s*$", "i"), "$1")
+      .replace(new RegExp("^\\s*" + NUM + "\\s*(?:grader|grad|°)\\s+kallt\\s*$", "i"), "-$1")
+      .replace(new RegExp("^\\s*" + NUM + "\\s*(?:grader|grad|°)\\s+varmt\\s*$", "i"), "$1")
+      .replace(/^(\s*[-+]?\d+(?:\.\d+)?)\s*(?:grader|grad|°)\s*$/i, "$1");
+  }
+
   // Tar bort vanliga enheter (t.ex. "cm", "kr", "röster", "böcker", "elever") för ren matematisk jämförelse
   function stripUnits(str) {
     // Ett tal direkt följt av en enhet utan mellanslag ("24cm", "36m", "25cm2") räknas som talet.
-    const cleaned = cleanMathString(str)
+    const cleaned = normalizeTemperature(cleanMathString(str))
       .replace(/^(\s*-?\d+(?:\.\d+)?)\s*(?:(?:mm|cm|dm|km|m)(?:²|2|\^2)?|kr|kg|dl|st)\s*$/i, "$1");
     return cleaned
       // kvadratenheter först (cm², m2 …), därefter vanliga enheter och ord
