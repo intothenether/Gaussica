@@ -33,6 +33,8 @@ eq("3 grader", "-3", false, "the sign still matters");
 eq("3°C", "-3", false);
 eq("3grader", "-3", false);
 eq("3 minusgrader", "3", false);
+eq("8 grader varmare", "8", false, "a change in temperature is not a temperature");
+eq("8 grader kallare", "8", false);
 is("-3°C is not a calculation", M.isCalculation("-3°C"), false);
 // fractions
 eq("6/8", "3/4", true, "equivalent fractions");

@@ -40,9 +40,18 @@ const CHECKS = {
 Object.assign(CHECKS, require("./checks-grade-4-5.js")(T));   // åk 4 and åk 5
 Object.assign(CHECKS, require("./checks-grade-6-10.js")(T));  // åk 6 to åk 10
 
+// The keys are lesson ids. A lesson file is usually named after its id, but not always (brak-jamfora.json holds the lesson "brak-jämfora"),
+// so the files are found by the id inside them.
+const FILE_OF = {};
+fs.readdirSync(DIR).forEach((f) => {
+  if (!f.endsWith(".json") || f === "index.json") return;
+  try { const id = JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8")).id; if (id) FILE_OF[id] = path.join(DIR, f); } catch (e) { /* not a lesson */ }
+});
+
 let added = 0, skipped = 0;
 Object.keys(CHECKS).forEach((id) => {
-  const file = path.join(DIR, id + ".json");
+  const file = FILE_OF[id];
+  if (!file) throw new Error("no lesson with the id " + id);
   let t = fs.readFileSync(file, "utf8");
   if (/"check"\s*:/.test(t)) { skipped++; return; }
   const eol = /\r\n/.test(t) ? "\r\n" : "\n";

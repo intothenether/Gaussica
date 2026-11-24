@@ -1,6 +1,6 @@
 "use strict";
 // The weekly summary by e-mail (server/digest-core.js): what it says, and that the copy in the worker is the same code. And that wrangler.toml is valid and
-// leaves e-mail, billing and the summary off until they are switched on.
+// leaves billing and the summary off until they are switched on.
 const fs = require("fs");
 const path = require("path");
 const { digestWeek, digestMail } = require("../server/digest-core.js");
@@ -36,7 +36,10 @@ const toml = fs.readFileSync(path.join(__dirname, "..", "cloudflare", "wrangler.
 const bad = toml.map((l, i) => [l, i + 1]).filter(([l]) => l.trim() && !/^\s*#/.test(l) && !/^\[\[?[\w.]+\]\]?$/.test(l.trim()) && !/^[A-Za-z_]\w*\s*=\s*(".*"|'.*'|\[.*\]|\d+|true|false)\s*(#.*)?$/.test(l.trim()));
 ok(bad.length === 0, "wrangler.toml has only comments, tables and key = value" + (bad.length ? ": line " + bad[0][1] + " " + bad[0][0] : ""));
 const keys = toml.filter((l) => /^[A-Za-z_]\w*\s*=/.test(l)).map((l) => l.split("=")[0].trim());
-ok(!["BILLING_ENABLED", "CAREGIVER_EMAIL_REQUIRED", "DIGEST_ENABLED", "MAIL_FROM", "PADDLE_API_KEY"].some((k) => keys.includes(k)), "e-mail, billing and the summary are off in wrangler.toml until the line is switched on");
+// E-mail (MAIL_FROM, SITE_URL) and the caregiver's address (CAREGIVER_EMAIL_REQUIRED) were switched on at go-live (commit b12eadf). Billing and
+// the summary stay off until their lines are switched on, and the secrets are never written in the file (they are set with wrangler secret put).
+ok(!["BILLING_ENABLED", "DIGEST_ENABLED"].some((k) => keys.includes(k)), "billing and the summary are off in wrangler.toml until the line is switched on");
+ok(!["RESEND_API_KEY", "PADDLE_API_KEY", "PADDLE_WEBHOOK_SECRET", "ADMIN_TOKEN", "TEACHER_CODE"].some((k) => keys.includes(k)), "no secret is written in wrangler.toml");
 
 if (failures) { console.log(failures + " check(s) failed"); process.exit(1); }
 console.log("All checks on the weekly summary passed");

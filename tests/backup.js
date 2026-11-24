@@ -23,17 +23,20 @@ try {
   const db = new DatabaseSync(source);
   db.exec("CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT); INSERT INTO users (username) VALUES ('maria'), ('lo');");
   db.close();
-  // the script is run as the owner runs it, with the file of the Node server (a temporary one)
+  // the script is run as the owner runs it, with the file of the Node server (a temporary one). The copy goes to a temporary folder too (--dir): with the
+  // real backups/ the test replaced and then deleted a copy the owner made the same day, and two test runs at the same time (two terminals, or two
+  // sessions) wrote and read the same file there, which made SQLite fail with "attempt to write a readonly database".
   const root = path.join(__dirname, "..");
-  const r = spawnSync(process.execPath, ["--disable-warning=ExperimentalWarning", path.join(root, "cloudflare", "backup.js"), "--node-db", source, "--keep", "3"], { cwd: root, encoding: "utf8" });
-  const made = path.join(root, "backups", fileName(Date.now(), "db"));
-  ok(r.status === 0 && fs.existsSync(made), "the script makes a copy of an SQLite file: " + (r.stderr || r.stdout).trim().split("\n")[0]);
-  const copy = new DatabaseSync(made, { readOnly: true });
-  const rows = copy.prepare("SELECT username FROM users ORDER BY id").all().map((x) => x.username);
-  copy.close();
-  ok(rows.join() === "maria,lo", "and the copy has what the database had");
-  fs.rmSync(made, { force: true });
-  try { fs.rmdirSync(path.join(root, "backups")); } catch (e) { /* has other copies of the owner: left */ }
+  const out = path.join(dir, "copies");
+  const r = spawnSync(process.execPath, ["--disable-warning=ExperimentalWarning", path.join(root, "cloudflare", "backup.js"), "--node-db", source, "--keep", "3", "--dir", out], { cwd: root, encoding: "utf8" });
+  const made = fs.existsSync(out) ? fs.readdirSync(out).filter((f) => /^gaussica-\d{4}-\d{2}-\d{2}\.db$/.test(f)).map((f) => path.join(out, f)) : [];
+  ok(r.status === 0 && made.length === 1, "the script makes a copy of an SQLite file: " + (r.stderr || r.stdout).trim().split("\n")[0]);
+  if (made.length === 1) {
+    const copy = new DatabaseSync(made[0], { readOnly: true });
+    let rows = [];
+    try { rows = copy.prepare("SELECT username FROM users ORDER BY id").all().map((x) => x.username); } finally { copy.close(); }
+    ok(rows.join() === "maria,lo", "and the copy has what the database had");
+  }
 } finally {
   fs.rmSync(dir, { recursive: true, force: true });
 }

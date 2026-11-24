@@ -5,6 +5,7 @@
 //   npm run backup -- --keep 12             keep the 12 newest copies and delete older ones (the default is 8)
 //   npm run backup -- --node-db data/gaussica.db   the SQLite file of the Node server instead (a safe copy made by SQLite itself, also while the server runs)
 //   npm run backup -- --db namn             the database has another name than in wrangler.toml
+//   npm run backup -- --dir D:\kopior         put the copies in another folder than backups/ (tests/backup.js uses a temporary one)
 //
 // The copy holds personal data (names, user names, answers): keep it somewhere that only you can reach, never in the repository (backups/ is in .gitignore),
 // and delete old copies. How to restore one is in docs/drift.md. Cloudflare keeps D1 for seven days as well (wrangler d1 time-travel), but that is not a copy of your own.
@@ -26,7 +27,7 @@ function looksRight(text) { return /CREATE TABLE/i.test(text) && /\busers\b/.tes
 function main() {
   const args = process.argv.slice(2);
   const get = (flag) => { const i = args.indexOf(flag); return i >= 0 ? args[i + 1] : undefined; };
-  const dir = path.join(__dirname, "..", "backups");
+  const dir = get("--dir") ? path.resolve(get("--dir")) : path.join(__dirname, "..", "backups");
   const keep = Number(get("--keep")) || 8;
   fs.mkdirSync(dir, { recursive: true });
   const now = Date.now();
