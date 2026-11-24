@@ -1,0 +1,221 @@
+{
+  "id": "pengar-racker",
+  "area": "matning",
+  "title": "Räcker pengarna?",
+  "level": "Handla för det du har · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "pengar-vaxel"
+  ],
+  "summary": "När du ska köpa flera saker lägger du ihop priserna och jämför med det du har. Då ser du om pengarna räcker, hur mycket som blir kvar och hur mycket som fattas.",
+  "explanationTitle": "Lägg ihop och jämför",
+  "explanation": "Problemet: Du har 60 kronor och vill köpa en bok för 35 kr och en penna för 18 kr. Räcker pengarna, och hur mycket har du kvar? Först lägger du ihop priserna: 35 + 18 = 53 kr. Sedan jämför du med det du har. 53 är mindre än 60, så pengarna räcker. Kvar blir 60 − 53 = 7 kr. Om priserna tillsammans är mer än det du har, räcker inte pengarna. Då kan du räkna ut hur mycket mer du behöver.",
+  "visuals": [
+    {
+      "type": "pengar",
+      "title": "Du har 60 kr",
+      "items": [
+        {
+          "value": 50,
+          "n": 1
+        },
+        {
+          "value": 10,
+          "n": 1
+        }
+      ],
+      "total": true
+    }
+  ],
+  "rule": "Lägg ihop priserna och jämför med det du har. Det som blir över är kvar, och det som fattas behöver du mer.",
+  "ruleLabel": "RÄCKER PENGARNA?",
+  "example": "Boken och pennan kostar 35 + 18 = 53 kr. Du har 60 kr, så pengarna räcker och 60 − 53 = 7 kr blir kvar.",
+  "practice": [
+    {
+      "id": "tva-saker",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "m": [
+          60,
+          100,
+          10
+        ],
+        "a": [
+          10,
+          20
+        ],
+        "b": [
+          5,
+          15
+        ]
+      },
+      "prompt": "Du har {m} kr. En glass kostar {a} kr och en dricka kostar {b} kr. Hur många kronor har du kvar om du köper båda?",
+      "answer": [
+        "=m-a-b",
+        "{m-a-b} kr"
+      ],
+      "correct": "Rätt! {a} + {b} = {a+b} kr, och {m} − {a+b} = {m-a-b} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b"
+          ],
+          "message": "{a+b} kr är vad båda kostar. Dra bort det från {m} kr."
+        },
+        {
+          "answers": [
+            "=m-a"
+          ],
+          "message": "{m-a} kr har du kvar efter bara glassen. Dra bort drickan också."
+        }
+      ]
+    },
+    {
+      "id": "fattas",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "h": [
+          20,
+          50,
+          5
+        ],
+        "p": [
+          55,
+          90,
+          5
+        ]
+      },
+      "prompt": "Maja har {h} kr. Hon vill köpa en bok för {p} kr. Hur många kronor till behöver hon?",
+      "answer": [
+        "=p-h",
+        "{p-h} kr"
+      ],
+      "correct": "Rätt! Från {h} kr upp till {p} kr fattas {p-h} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=p+h"
+          ],
+          "message": "Du lade ihop. Hur mycket fattas från {h} kr upp till {p} kr?"
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Du har 60 kr och köper en bok för 35 kr och en penna för 18 kr. Hur många kronor har du kvar?",
+    "answer": [
+      "7"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om sakerna kostar 53 kr tillsammans och du har 60 kr räcker pengarna.",
+        "answer": true,
+        "explain": "53 är mindre än 60, så det blir 7 kr över."
+      },
+      {
+        "text": "Om sakerna kostar 72 kr tillsammans och du har 60 kr har du 12 kr kvar.",
+        "answer": false,
+        "explain": "72 är mer än 60, så pengarna räcker inte. Du behöver 12 kr till."
+      }
+    ],
+    "correct": "Rätt! Lägg ihop priserna och jämför med det du har."
+  },
+  "exercise": {
+    "prompt": "Du har 50 kr. En glass kostar 22 kr och en dricka kostar 15 kr. Hur många kronor har du kvar om du köper båda?",
+    "answer": [
+      "13",
+      "13 kr"
+    ],
+    "correct": "Rätt! 22 + 15 = 37 kr, och 50 − 37 = 13 kr.",
+    "feedback": [
+      {
+        "answers": [
+          "37"
+        ],
+        "message": "37 kr är vad båda kostar. Dra bort det från 50 kr."
+      },
+      {
+        "answers": [
+          "28"
+        ],
+        "message": "28 kr har du kvar efter bara glassen. Dra bort drickan också."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Maja har 40 kr. Hon vill köpa en bok för 55 kr. Hur många kronor till behöver hon?",
+      "answer": [
+        "15",
+        "15 kr"
+      ],
+      "correct": "Rätt! Från 40 kr upp till 55 kr fattas 15 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "95"
+          ],
+          "message": "Du lade ihop. Hur mycket fattas från 40 kr upp till 55 kr?"
+        },
+        {
+          "answers": [
+            "55"
+          ],
+          "message": "55 kr är vad boken kostar. Maja har redan 40 kr."
+        }
+      ]
+    },
+    {
+      "prompt": "Du köper 3 bullar som kostar 12 kr var. Du har 40 kr. Hur många kronor har du kvar?",
+      "answer": [
+        "4",
+        "4 kr"
+      ],
+      "correct": "Rätt! 12 + 12 + 12 = 36 kr, och 40 − 36 = 4 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "28"
+          ],
+          "message": "Du drog bara bort en bulle. Tre bullar kostar 12 + 12 + 12 = 36 kr."
+        },
+        {
+          "answers": [
+            "36"
+          ],
+          "message": "36 kr är vad bullarna kostar. Frågan är hur mycket du har kvar."
+        }
+      ]
+    },
+    {
+      "prompt": "Leo har två 20-lappar och en tia. Han köper ett spel för 35 kr. Hur många kronor har han kvar?",
+      "answer": [
+        "15",
+        "15 kr"
+      ],
+      "correct": "Rätt! 20 + 20 + 10 = 50 kr, och 50 − 35 = 15 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "Räkna alla pengarna: två 20-lappar är 40 kr, och med tian blir det 50 kr."
+        },
+        {
+          "answers": [
+            "85"
+          ],
+          "message": "Du lade ihop. Spelet kostar pengar, så dra bort 35 kr."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "id": "likformighet-skugga",
+  "input": "math",
+  "area": "geometri",
+  "title": "Mät det du inte når: likformiga trianglar",
+  "level": "Skuggor och kartor · ungefär åk 9",
+  "grade": 9,
+  "duration": "9 min",
+  "prerequisites": [
+    "likformighet"
+  ],
+  "summary": "Med likformiga trianglar kan du räkna ut höjden på något du inte når, som ett träd eller en flaggstång. Kartor fungerar på samma sätt: längder växer med skalan, och areor med skalan gånger sig själv.",
+  "explanationTitle": "Skuggan avslöjar höjden",
+  "explanation": "Problemet: Hur hög är flaggstången på skolgården? Du kan inte klättra upp och mäta, men du kan mäta skuggor. En pinne som är 1 meter hög ger en skugga på 1,5 meter. Samtidigt är flaggstångens skugga 12 meter. Solen lyser in med samma vinkel på båda, så pinnen och flaggstången bildar likformiga trianglar med sina skuggor. En karta och verkligheten är också likformiga: på en karta med skalan 1:1000 är varje längd 1000 gånger så lång i verkligheten, men varje area 1000 · 1000 gånger så stor. Stegen står i rutorna nedan, med flaggstången som exempel.",
+  "visual": {
+    "type": "tabell",
+    "title": "Pinnen och flaggstången",
+    "headers": [
+      "",
+      "Höjd",
+      "Skugga"
+    ],
+    "rows": [
+      [
+        "Pinne",
+        "1 m",
+        "1,5 m"
+      ],
+      [
+        "Flaggstång",
+        "?",
+        "12 m"
+      ]
+    ]
+  },
+  "rule": "Para ihop motsvarande sidor, räkna skalfaktorn från två sidor du känner och multiplicera den sida du söker med skalfaktorn.",
+  "ruleLabel": "MÄT MED LIKFORMIGHET",
+  "example": "En pinne på 2 m ger skuggan 3 m. Ett träd ger skuggan 15 m. Skalfaktorn är 15 / 3 = 5, så trädet är 2 · 5 = 10 m högt.",
+  "practice": [
+    {
+      "id": "trad",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "h": [
+          2,
+          3
+        ],
+        "s": [
+          4,
+          6
+        ],
+        "k": [
+          3,
+          8
+        ]
+      },
+      "prompt": "En pinne som är {h} m hög ger en skugga på {s} m. Ett träd ger samtidigt en skugga på {s*k} m. Hur högt är trädet i meter?",
+      "answer": [
+        "=h*k",
+        "{h*k} m"
+      ],
+      "correct": "Rätt! Skalfaktorn är {s*k} / {s} = {k}, så trädet är {h} · {k} = {h*k} m högt.",
+      "feedback": [
+        {
+          "answers": [
+            "=k"
+          ],
+          "message": "{k} är skalfaktorn. Multiplicera pinnens höjd {h} m med den."
+        },
+        {
+          "answers": [
+            "=h+s*k-s"
+          ],
+          "message": "Du lade till skillnaden mellan skuggorna. Likformiga figurer hänger ihop med multiplikation: räkna skalfaktorn {s*k} / {s}."
+        }
+      ]
+    },
+    {
+      "id": "karta",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "c": [
+          2,
+          15
+        ]
+      },
+      "prompt": "På en karta med skalan 1:1000 är en sträcka {c} cm. Hur många meter är den i verkligheten?",
+      "answer": [
+        "=10*c",
+        "{10*c} m"
+      ],
+      "correct": "Rätt! {c} · 1000 = {1000*c} cm, och {1000*c} cm är {10*c} m.",
+      "feedback": [
+        {
+          "answers": [
+            "=1000*c"
+          ],
+          "message": "{1000*c} är längden i centimeter. Gör om till meter: 100 cm är 1 m."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En pinne som är 1 m hög ger en skugga på 1,5 m. Flaggstångens skugga är 12 m. Hur hög är flaggstången i meter?",
+    "answer": [
+      "8"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Pinnen och flaggstången bildar likformiga trianglar med sina skuggor, eftersom solen lyser in med samma vinkel.",
+        "answer": true,
+        "explain": "Därför har de samma form, och alla sidor växer med samma skalfaktor."
+      },
+      {
+        "text": "På en karta med skalan 1:1000 är en area 1000 gånger så stor i verkligheten.",
+        "answer": false,
+        "explain": "Längderna är 1000 gånger så långa, så areorna är 1000 · 1000 = 1 000 000 gånger så stora."
+      }
+    ],
+    "correct": "Rätt! Längder växer med skalfaktorn, areor med skalfaktorn gånger sig själv."
+  },
+  "exercise": {
+    "prompt": "En pinne som är 2 m hög ger en skugga på 3 m. Ett träd ger samtidigt en skugga på 15 m. Hur högt är trädet i meter?",
+    "answer": [
+      "10",
+      "10 m"
+    ],
+    "correct": "Rätt! Skalfaktorn är 15 / 3 = 5, så trädet är 2 · 5 = 10 m högt.",
+    "feedback": [
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 är skalfaktorn. Multiplicera pinnens höjd 2 m med den."
+      },
+      {
+        "answers": [
+          "14"
+        ],
+        "message": "Du lade till skillnaden mellan skuggorna, 15 − 3 = 12. Likformiga figurer hänger ihop med multiplikation: räkna skalfaktorn 15 / 3."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En person som är 1,8 m lång har en skugga på 2,4 m. Samtidigt har ett hus en skugga på 16 m. Hur högt är huset i meter?",
+      "answer": [
+        "12",
+        "12 m"
+      ],
+      "correct": "Rätt! Höjden är 1,8 / 2,4 = 0,75 av skuggan, så huset är 0,75 · 16 = 12 m högt.",
+      "feedback": [
+        {
+          "answers": [
+            "15,4"
+          ],
+          "message": "Du lade till skillnaden mellan skuggorna. Likformiga figurer hänger ihop med multiplikation: höjden är samma del av skuggan för båda."
+        },
+        {
+          "answers": [
+            "28,8"
+          ],
+          "message": "Du multiplicerade husets skugga med personens längd. Räkna först skalfaktorn 16 / 2,4, eller hur stor del av skuggan höjden är."
+        }
+      ]
+    },
+    {
+      "prompt": "På en karta med skalan 1:1000 är en skolgård 6 cm lång. Hur många meter lång är den i verkligheten?",
+      "answer": [
+        "60",
+        "60 m"
+      ],
+      "correct": "Rätt! 6 · 1000 = 6000 cm, och 6000 cm är 60 m.",
+      "feedback": [
+        {
+          "answers": [
+            "6000"
+          ],
+          "message": "6000 är längden i centimeter. Gör om till meter: 100 cm är 1 m."
+        },
+        {
+          "answers": [
+            "600"
+          ],
+          "message": "Kontrollera omvandlingen: 6000 cm delat med 100 är 60 m."
+        }
+      ]
+    },
+    {
+      "prompt": "En fotbollsplan ritas på en karta med skalan 1:1000 och får arean 70 cm² på kartan. Hur många m² är den i verkligheten?",
+      "answer": [
+        "7000",
+        "7000 m²",
+        "7000 m2"
+      ],
+      "correct": "Rätt! Areor växer med 1000 · 1000 = 1 000 000. 70 · 1 000 000 = 70 000 000 cm², och 1 m² är 10 000 cm², så det blir 7000 m².",
+      "feedback": [
+        {
+          "answers": [
+            "7"
+          ],
+          "message": "7 m² får du om du bara multiplicerar arean med 1000. Areor växer med 1000 · 1000."
+        },
+        {
+          "answers": [
+            "70000000"
+          ],
+          "message": "70 000 000 är arean i cm². Gör om till m²: 1 m² är 10 000 cm²."
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så mäter du med likformiga trianglar",
+      "example": "En pinne som är 1 m ger skuggan 1,5 m. Flaggstångens skugga är 12 m.",
+      "steps": [
+        {
+          "do": "Para ihop motsvarande sidor i de två trianglarna.",
+          "show": [
+            "Pinnens höjd 1 m hör ihop med flaggstångens höjd.",
+            "Pinnens skugga 1,5 m hör ihop med flaggstångens skugga 12 m."
+          ]
+        },
+        {
+          "do": "Räkna skalfaktorn från två sidor du känner.",
+          "show": [
+            "k = 12 / 1,5 = 8"
+          ]
+        },
+        {
+          "do": "Multiplicera den sida du söker med skalfaktorn.",
+          "show": [
+            "1 · 8 = 8 m"
+          ]
+        },
+        {
+          "do": "Kontrollera och svara med en hel mening.",
+          "show": [
+            "Skuggan är 8 gånger så lång, och höjden är 8 gånger så stor.",
+            "Flaggstången är 8 m hög."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "visual",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ]
+}

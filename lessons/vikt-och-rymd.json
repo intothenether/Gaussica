@@ -1,0 +1,205 @@
+{
+  "id": "vikt-och-rymd",
+  "area": "matning",
+  "title": "Väga och hälla: kilogram, gram och liter",
+  "level": "Jämför vikt och rymd · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "mata-langd"
+  ],
+  "summary": "Vikt mäts i gram och kilogram, och det som ryms i en flaska mäts i deciliter och liter. För att jämföra gör du om till samma enhet först.",
+  "explanationTitle": "Samma enhet innan du jämför",
+  "explanation": "Problemet: Vilken är tyngst, en påse mjöl som väger 2 kg eller en ost som väger 800 g? Talet 800 är större än 2, men det betyder inte att osten är tyngst. Vi måste jämföra i samma enhet. Hur tungt något är mäter vi i gram, förkortat g, och kilogram, förkortat kg. 1 kg är 1000 g. Hur mycket som ryms i en flaska eller ett glas mäter vi i deciliter, förkortat dl, och liter, förkortat l. 1 liter är 10 dl. Gör om till samma enhet först, och jämför sedan.",
+  "visual": {
+    "type": "tabell",
+    "title": "Enheter för vikt och rymd",
+    "headers": [
+      "Vi mäter",
+      "Liten enhet",
+      "Stor enhet"
+    ],
+    "rows": [
+      [
+        "Hur tungt",
+        "gram (g)",
+        "1 kg = 1000 g"
+      ],
+      [
+        "Hur mycket som ryms",
+        "deciliter (dl)",
+        "1 l = 10 dl"
+      ]
+    ]
+  },
+  "rule": "1 kg är 1000 g och 1 l är 10 dl. Gör om till samma enhet innan du jämför.",
+  "ruleLabel": "VIKT OCH RYMD",
+  "example": "Mjölet väger 2 kg, alltså 2000 g. Osten väger 800 g. 2000 g är mer än 800 g, så mjölet är tyngst.",
+  "practice": [
+    {
+      "id": "dl-av-l",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "l": [
+          2,
+          9
+        ]
+      },
+      "prompt": "En kanna rymmer {l} liter. Hur många deciliter är det?",
+      "answer": [
+        "=10*l",
+        "{10*l} dl"
+      ],
+      "correct": "Rätt! 1 liter är 10 dl, så {l} liter är {10*l} dl.",
+      "feedback": [
+        {
+          "answers": [
+            "=100*l"
+          ],
+          "message": "1 liter är 10 dl, inte 100 dl."
+        }
+      ]
+    },
+    {
+      "id": "tyngre",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "g": [
+          100,
+          900,
+          50
+        ]
+      },
+      "prompt": "Ett paket väger {g} g och en påse väger 1 kg. Hur många gram tyngre är påsen?",
+      "answer": [
+        "=1000-g",
+        "{1000-g} g"
+      ],
+      "correct": "Rätt! 1 kg är 1000 g, och 1000 − {g} = {1000-g} g.",
+      "feedback": [
+        {
+          "answers": [
+            "=1000+g"
+          ],
+          "message": "Du lade ihop. Frågan är hur mycket tyngre påsen är, alltså skillnaden."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En påse mjöl väger 2 kg. Hur många gram är det?",
+    "answer": [
+      "2000"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "1 liter är 10 deciliter.",
+        "answer": true,
+        "explain": "Därför ryms 10 glas på 1 dl i en literflaska."
+      },
+      {
+        "text": "800 g är tyngre än 2 kg eftersom 800 är större än 2.",
+        "answer": false,
+        "explain": "2 kg är 2000 g, och det är mer än 800 g."
+      }
+    ],
+    "correct": "Rätt! Gör om till samma enhet innan du jämför."
+  },
+  "exercise": {
+    "prompt": "En kanna rymmer 2 liter. Hur många deciliter är det?",
+    "answer": [
+      "20",
+      "20 dl"
+    ],
+    "correct": "Rätt! 1 liter är 10 dl, så 2 liter är 20 dl.",
+    "feedback": [
+      {
+        "answers": [
+          "200"
+        ],
+        "message": "1 liter är 10 dl, inte 100 dl."
+      },
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "2 är antalet liter. Frågan är hur många deciliter det är."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett äpple väger 150 g och en melon väger 1 kg. Hur många gram tyngre är melonen?",
+      "answer": [
+        "850",
+        "850 g"
+      ],
+      "correct": "Rätt! 1 kg är 1000 g, och 1000 − 150 = 850 g.",
+      "feedback": [
+        {
+          "answers": [
+            "149"
+          ],
+          "message": "Gör om 1 kg till 1000 g först. Sedan drar du bort 150 g."
+        },
+        {
+          "answers": [
+            "1150"
+          ],
+          "message": "Du lade ihop. Frågan är hur mycket tyngre melonen är, alltså skillnaden."
+        }
+      ]
+    },
+    {
+      "prompt": "En kanna innehåller 1 liter saft. Du häller upp 3 glas med 2 dl i varje. Hur många deciliter är kvar i kannan?",
+      "answer": [
+        "4",
+        "4 dl"
+      ],
+      "correct": "Rätt! 1 liter är 10 dl. 3 glas med 2 dl är 6 dl, och 10 − 6 = 4 dl.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 dl är det du hällde upp. Frågan är hur mycket som är kvar av 10 dl."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 dl är kvar efter ett glas. Du hällde upp tre glas."
+        }
+      ]
+    },
+    {
+      "prompt": "En väska väger 3 kg och en annan väska väger 2500 g. Hur många gram väger de tillsammans?",
+      "answer": [
+        "5500",
+        "5500 g"
+      ],
+      "correct": "Rätt! 3 kg är 3000 g, och 3000 + 2500 = 5500 g.",
+      "feedback": [
+        {
+          "answers": [
+            "2503"
+          ],
+          "message": "Gör om 3 kg till 3000 g innan du lägger ihop."
+        },
+        {
+          "answers": [
+            "5,5"
+          ],
+          "message": "5,5 är antalet kilogram. Frågan gäller gram."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "id": "monster-beskriv",
+  "area": "algebra",
+  "title": "Mönster: säg regeln med ord",
+  "level": "Beskriv hur ett mönster växer · ungefär åk 3",
+  "grade": 3,
+  "duration": "7 min",
+  "prerequisites": [
+    "monster-fortsatt"
+  ],
+  "summary": "När du kan säga regeln för ett mönster med ord kan du räkna ut vilket steg som helst, utan att rita alla steg före.",
+  "explanationTitle": "Säg regeln och pröva den",
+  "explanation": "Problemet: Elsa bygger figurer av tändstickor. Figur 1 är en kvadrat med 4 stickor. Figur 2 är två kvadrater i rad med 7 stickor. Figur 3 är tre kvadrater i rad med 10 stickor. Hur många stickor behöver hon till figur 5? Du kan rita alla figurerna, men det går fortare om du säger regeln med ord: för varje ny kvadrat behövs 3 stickor till, eftersom den nya kvadraten delar en sticka med den förra. Pröva regeln på figurerna du redan har. Stämmer den för alla, kan du använda den för att räkna vidare.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tändstickor i Elsas figurer",
+    "headers": [
+      "Figur",
+      "Stickor"
+    ],
+    "rows": [
+      [
+        "1",
+        "4"
+      ],
+      [
+        "2",
+        "7"
+      ],
+      [
+        "3",
+        "10"
+      ],
+      [
+        "4",
+        "?"
+      ],
+      [
+        "5",
+        "?"
+      ]
+    ]
+  },
+  "rule": "Säg regeln med ord, pröva att den stämmer för alla steg, och använd den för att räkna vidare.",
+  "ruleLabel": "SÄG REGELN",
+  "example": "4, 7, 10: regeln är 3 mer varje gång. Figur 4 har 10 + 3 = 13 stickor och figur 5 har 13 + 3 = 16 stickor.",
+  "practice": [
+    {
+      "id": "fattas",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          20
+        ],
+        "d": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Ett tal fattas i mönstret {a}, {a+d}, ?, {a+3*d}, {a+4*d}. Vilket tal är det?",
+      "answer": [
+        "=a+2*d"
+      ],
+      "correct": "Rätt! Talen ökar med {d} varje gång, och {a+d} + {d} = {a+2*d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+3*d"
+          ],
+          "message": "{a+3*d} står redan efter frågetecknet. Vilket tal kommer mellan {a+d} och {a+3*d}?"
+        }
+      ]
+    },
+    {
+      "id": "stickor",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "n": [
+          4,
+          8
+        ]
+      },
+      "prompt": "Figur 1 har 4 stickor, figur 2 har 7 och figur 3 har 10. Hur många stickor har figur {n}?",
+      "answer": [
+        "=3*n+1",
+        "{3*n+1} stickor"
+      ],
+      "correct": "Rätt! Det blir 3 stickor mer för varje figur. Figur {n} har {3*n+1} stickor.",
+      "feedback": [
+        {
+          "answers": [
+            "=4*n"
+          ],
+          "message": "Du räknade 4 stickor för varje kvadrat. En ny kvadrat delar en sticka med den förra, så den behöver bara 3 nya."
+        }
+      ]
+    },
+    {
+      "id": "pengar-kvar",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "m": [
+          50,
+          100,
+          10
+        ],
+        "p": [
+          3,
+          9
+        ],
+        "w": [
+          3,
+          5
+        ]
+      },
+      "prompt": "Olle har {m} kr. Varje vecka köper han en serietidning för {p} kr. Hur många kronor har han kvar efter {w} veckor?",
+      "answer": [
+        "=m-p*w",
+        "{m-p*w} kr"
+      ],
+      "correct": "Rätt! Det blir {p} kr mindre varje vecka. Efter {w} veckor har han {m-p*w} kr kvar.",
+      "feedback": [
+        {
+          "answers": [
+            "=p*w"
+          ],
+          "message": "{p*w} kr är vad tidningarna kostar tillsammans. Frågan är hur mycket han har kvar av sina {m} kr."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Figur 1 har 4 stickor, figur 2 har 7 och figur 3 har 10. Hur många stickor har figur 5?",
+    "answer": [
+      "16"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Regeln för 4, 7, 10, 13 är att det blir 3 mer varje gång.",
+        "answer": true,
+        "explain": "7 − 4, 10 − 7 och 13 − 10 är alla 3."
+      },
+      {
+        "text": "Det räcker att regeln stämmer för de två första talen.",
+        "answer": false,
+        "explain": "Pröva regeln på alla tal du har. I 2, 4, 8 blir det 2 mer först, men sedan 4 mer."
+      }
+    ],
+    "correct": "Rätt! Säg regeln och pröva den på alla steg."
+  },
+  "exercise": {
+    "prompt": "Ett tal fattas i mönstret 5, 9, ?, 17, 21. Vilket tal är det?",
+    "answer": [
+      "13"
+    ],
+    "correct": "Rätt! Talen ökar med 4 varje gång, och 9 + 4 = 13.",
+    "feedback": [
+      {
+        "answers": [
+          "11"
+        ],
+        "message": "Titta på hur mycket talen ökar: från 5 till 9 är det 4, inte 2."
+      },
+      {
+        "answers": [
+          "14"
+        ],
+        "message": "Talet före frågetecknet är 9. Lägg till 4 på 9."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Figur 1 har 4 stickor, figur 2 har 7 och figur 3 har 10. Hur många stickor har figur 5?",
+      "answer": [
+        "16",
+        "16 stickor"
+      ],
+      "correct": "Rätt! Det blir 3 stickor mer varje gång: 13 stickor i figur 4 och 16 i figur 5.",
+      "feedback": [
+        {
+          "answers": [
+            "13"
+          ],
+          "message": "13 stickor är figur 4. Lägg till 3 en gång till för figur 5."
+        },
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "Du räknade 4 stickor för varje kvadrat. En ny kvadrat delar en sticka med den förra, så den behöver bara 3 nya."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett pärlband går röd, röd, blå, röd, röd, blå och så vidare. Hur många blå pärlor finns bland de 12 första pärlorna?",
+      "answer": [
+        "4",
+        "4 blå",
+        "4 pärlor"
+      ],
+      "correct": "Rätt! Mönstret är tre pärlor långt med en blå i varje. 12 pärlor är 4 sådana delar, så det finns 4 blå.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Varannan pärla är inte blå. Mönstret är röd, röd, blå, alltså tre pärlor långt."
+        },
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är de röda pärlorna. Frågan gäller de blå."
+        }
+      ]
+    },
+    {
+      "prompt": "Olle har 50 kr. Varje vecka köper han en serietidning för 8 kr. Hur många kronor har han kvar efter 4 veckor?",
+      "answer": [
+        "18",
+        "18 kr"
+      ],
+      "correct": "Rätt! 50, 42, 34, 26, 18: det blir 8 kr mindre varje vecka.",
+      "feedback": [
+        {
+          "answers": [
+            "32"
+          ],
+          "message": "32 kr är vad de fyra tidningarna kostar tillsammans. Frågan är hur mycket han har kvar."
+        },
+        {
+          "answers": [
+            "42"
+          ],
+          "message": "42 kr har han kvar efter en vecka. Fortsätt i fyra veckor."
+        }
+      ]
+    }
+  ]
+}
