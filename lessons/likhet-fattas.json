@@ -1,0 +1,178 @@
+{
+  "id": "likhet-fattas",
+  "area": "algebra",
+  "title": "Vad fattas för att det ska bli lika?",
+  "level": "Lika mycket på båda sidor · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "inte-lika-med"
+  ],
+  "summary": "Likhetstecknet betyder att det är lika mycket på båda sidor. Det betyder inte att svaret kommer sedan. I 5 + 4 = □ + 6 ska rutan vara 3.",
+  "explanationTitle": "Båda sidor väger lika",
+  "explanation": "Problemet: Vilket tal ska stå i rutan: 5 + 4 = □ + 6? Många skriver 9, eftersom 5 + 4 = 9. Men då står det 9 + 6 till höger, och det är 15. Likhetstecknet betyder inte att svaret kommer sedan. Det betyder att det är lika mycket på båda sidor, som på en våg som väger jämnt. Räkna ut den sida du kan: 5 + 4 = 9. Sedan frågar du: vilket tal plus 6 blir 9? Det är 3. Kontrollera: 5 + 4 = 9 och 3 + 6 = 9. Båda sidor är lika mycket.",
+  "visual": {
+    "type": "vag",
+    "title": "5 + 4 = 3 + 6: båda sidor är 9",
+    "left": [
+      {
+        "n": 5
+      },
+      {
+        "n": 4
+      }
+    ],
+    "right": [
+      {
+        "n": 3,
+        "tone": "x"
+      },
+      {
+        "n": 6
+      }
+    ],
+    "leftLabel": "5 + 4",
+    "rightLabel": "□ + 6"
+  },
+  "rule": "Likhetstecknet betyder lika mycket på båda sidor. Räkna ut den sida du kan och hitta det tal som gör den andra sidan lika stor.",
+  "ruleLabel": "LIKA PÅ BÅDA SIDOR",
+  "example": "8 + 2 = □ + 7. Vänster sida är 10. Vilket tal plus 7 blir 10? Det är 3.",
+  "practice": [
+    {
+      "id": "fattas",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ],
+        "b": [
+          2,
+          9
+        ],
+        "c": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Vilket tal ska stå i rutan? {a+c} + {b} = □ + {b+c}",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! Vänster sida är {a+b+c}. {a} + {b+c} = {a+b+c}, så båda sidor är lika mycket.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+b+c"
+          ],
+          "message": "{a+b+c} är vänster sida. Men då blir höger sida {a+b+c} + {b+c}. Vilket tal plus {b+c} blir {a+b+c}?"
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Vilket tal ska stå i rutan? 5 + 4 = □ + 6",
+    "answer": [
+      "3"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I 5 + 4 = 3 + 6 är det lika mycket på båda sidor.",
+        "answer": true,
+        "explain": "Båda sidor är 9."
+      },
+      {
+        "text": "Likhetstecknet betyder att svaret kommer efter.",
+        "answer": false,
+        "explain": "Det betyder att det är lika mycket på båda sidor, som på en våg som väger jämnt."
+      }
+    ],
+    "correct": "Rätt! Likhetstecknet betyder lika mycket på båda sidor."
+  },
+  "exercise": {
+    "prompt": "Vilket tal ska stå i rutan? 7 + 5 = □ + 8",
+    "answer": [
+      "4"
+    ],
+    "correct": "Rätt! Vänster sida är 12, och 4 + 8 = 12.",
+    "feedback": [
+      {
+        "answers": [
+          "12"
+        ],
+        "message": "12 är vänster sida. Men då blir höger sida 12 + 8 = 20. Vilket tal plus 8 blir 12?"
+      },
+      {
+        "answers": [
+          "20"
+        ],
+        "message": "Du lade ihop alla talen. Båda sidor ska vara lika mycket: vilket tal plus 8 blir 12?"
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ali har 6 kulor i ena handen och 4 i den andra. Sara har 3 kulor i ena handen. Hur många kulor ska hon ha i andra handen för att de ska ha lika många?",
+      "answer": [
+        "7",
+        "7 kulor"
+      ],
+      "correct": "Rätt! Ali har 6 + 4 = 10 kulor, och 3 + 7 = 10.",
+      "feedback": [
+        {
+          "answers": [
+            "10"
+          ],
+          "message": "10 är hur många Ali har. Sara har redan 3, så hur många till behöver hon?"
+        },
+        {
+          "answers": [
+            "13"
+          ],
+          "message": "Du lade ihop alla kulorna. Sara ska ha lika många som Ali, alltså 10."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket tal ska stå i rutan? 9 + □ = 6 + 8",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! Höger sida är 14, och 9 + 5 = 14.",
+      "feedback": [
+        {
+          "answers": [
+            "14"
+          ],
+          "message": "14 är höger sida. Men då blir vänster sida 9 + 14 = 23. Vilket tal plus 9 blir 14?"
+        },
+        {
+          "answers": [
+            "23"
+          ],
+          "message": "Du lade ihop alla talen. Båda sidor ska vara lika mycket."
+        }
+      ]
+    },
+    {
+      "prompt": "Stämmer det? 4 + 6 = 10 + 2. Skriv ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! Vänster sida är 10, men höger sida är 12. Det är inte lika mycket.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Räkna ut båda sidorna. 4 + 6 är 10, men vad är 10 + 2?"
+        }
+      ]
+    }
+  ]
+}

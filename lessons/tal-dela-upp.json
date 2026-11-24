@@ -1,0 +1,198 @@
+{
+  "id": "tal-dela-upp",
+  "area": "tal",
+  "title": "Dela upp tal på olika sätt",
+  "level": "Hundratal, tiotal och ental · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "platsvarde"
+  ],
+  "summary": "Ett tal kan delas upp på flera sätt. 346 är 3 hundratal, 4 tiotal och 6 ental, men det är också 34 tiotal och 6 ental.",
+  "explanationTitle": "Samma tal, olika delar",
+  "explanation": "Problemet: En affär har 346 pennor. De säljs i askar med 10 pennor i varje. Hur många hela askar kan affären fylla? Du vet att 346 är 3 hundratal, 4 tiotal och 6 ental. Men varje hundratal är 10 tiotal. 3 hundratal är alltså 30 tiotal, och med de 4 tiotalen blir det 34 tiotal. Affären kan fylla 34 askar, och 6 pennor blir över. Talet är detsamma, men du har delat upp det på ett annat sätt. Det hjälper när du räknar med pengar, askar eller tiotal.",
+  "visual": {
+    "type": "tiobas",
+    "title": "346: 3 hundratal, 4 tiotal och 6 ental",
+    "value": 346,
+    "total": true
+  },
+  "rule": "Ett hundratal är 10 tiotal och ett tiotal är 10 ental. Du kan byta mellan dem utan att talet ändras.",
+  "ruleLabel": "DELA UPP TAL",
+  "example": "346 = 300 + 40 + 6. 300 är 30 tiotal, så 346 är 34 tiotal och 6 ental.",
+  "practice": [
+    {
+      "id": "tiotal-i-talet",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "h": [
+          1,
+          9
+        ],
+        "t": [
+          1,
+          9
+        ],
+        "e": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Hur många hela tiotal finns det i talet {100*h+10*t+e}?",
+      "answer": [
+        "=10*h+t",
+        "{10*h+t} tiotal"
+      ],
+      "correct": "Rätt! {h} hundratal är {10*h} tiotal, och med {t} tiotal till blir det {10*h+t} tiotal.",
+      "feedback": [
+        {
+          "answers": [
+            "=t"
+          ],
+          "message": "{t} är siffran på tiotalens plats. Men varje hundratal är också 10 tiotal."
+        }
+      ]
+    },
+    {
+      "id": "bygg-talet",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "h": [
+          1,
+          9
+        ],
+        "e": [
+          1,
+          9
+        ]
+      },
+      "prompt": "Ett tal har {h} hundratal, 0 tiotal och {e} ental. Vilket tal är det?",
+      "answer": [
+        "=100*h+e"
+      ],
+      "correct": "Rätt! {100*h} + 0 + {e} = {100*h+e}. Nollan visar att det inte finns några tiotal.",
+      "feedback": [
+        {
+          "answers": [
+            "=10*h+e"
+          ],
+          "message": "Du glömde nollan. Talet har tre siffror: hundratal, tiotal och ental."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En affär har 346 pennor och lägger 10 pennor i varje ask. Hur många hela askar kan den fylla?",
+    "answer": [
+      "34"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "346 är 34 tiotal och 6 ental.",
+        "answer": true,
+        "explain": "3 hundratal är 30 tiotal, och 30 + 4 = 34."
+      },
+      {
+        "text": "Det finns bara 4 tiotal i talet 346.",
+        "answer": false,
+        "explain": "4 är siffran på tiotalens plats, men hundratalen är också tiotal: 34 tiotal."
+      }
+    ],
+    "correct": "Rätt! Ett hundratal är 10 tiotal."
+  },
+  "exercise": {
+    "prompt": "Hur många hela tiotal finns det i talet 528?",
+    "answer": [
+      "52",
+      "52 tiotal"
+    ],
+    "correct": "Rätt! 5 hundratal är 50 tiotal, och med 2 tiotal till blir det 52 tiotal.",
+    "feedback": [
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "2 är siffran på tiotalens plats. Men varje hundratal är också 10 tiotal."
+      },
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 är antalet hundratal. Frågan gäller hur många tiotal det blir."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Du har 247 kr. Hur många tior kan du växla det till, om resten är kronor?",
+      "answer": [
+        "24",
+        "24 tior"
+      ],
+      "correct": "Rätt! 2 hundralappar är 20 tior, och med 4 tior till blir det 24 tior. 7 kr blir kvar.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 är siffran på tiotalens plats. Varje hundralapp kan också växlas till 10 tior."
+        },
+        {
+          "answers": [
+            "247"
+          ],
+          "message": "247 är antalet kronor. En tia är 10 kr."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett tal har 6 hundratal, 0 tiotal och 3 ental. Vilket tal är det?",
+      "answer": [
+        "603"
+      ],
+      "correct": "Rätt! 600 + 0 + 3 = 603. Nollan visar att det inte finns några tiotal.",
+      "feedback": [
+        {
+          "answers": [
+            "63"
+          ],
+          "message": "Du glömde nollan. Talet har tre siffror: hundratal, tiotal och ental."
+        },
+        {
+          "answers": [
+            "630"
+          ],
+          "message": "Siffrorna står på fel plats. 3 ental står sist, och 0 tiotal står i mitten."
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket tal är 2 hundratal, 15 tiotal och 4 ental?",
+      "answer": [
+        "354"
+      ],
+      "correct": "Rätt! 15 tiotal är 1 hundratal och 5 tiotal. Så det blir 3 hundratal, 5 tiotal och 4 ental: 354.",
+      "feedback": [
+        {
+          "answers": [
+            "2154"
+          ],
+          "message": "15 tiotal får inte plats på en siffra. Byt 10 tiotal mot 1 hundratal."
+        },
+        {
+          "answers": [
+            "254"
+          ],
+          "message": "15 tiotal är 150, inte 50. Byt 10 tiotal mot 1 hundratal."
+        }
+      ]
+    }
+  ]
+}

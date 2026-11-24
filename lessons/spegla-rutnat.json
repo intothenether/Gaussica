@@ -1,0 +1,167 @@
+{
+  "id": "spegla-rutnat",
+  "area": "geometri",
+  "title": "Spegla i rutnätet",
+  "level": "Lika långt från spegellinjen · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "symmetri"
+  ],
+  "summary": "När du speglar en figur hamnar spegelbilden lika långt från spegellinjen, fast på andra sidan. I ett rutnät räknar du rutorna.",
+  "explanationTitle": "Räkna rutorna till linjen",
+  "explanation": "Problemet: På ett rutnät finns en lodrät spegellinje. En röd ruta ligger 3 rutor till vänster om linjen. Var hamnar spegelbilden? Tänk dig att du viker papperet längs spegellinjen. Den röda rutan hamnar då på andra sidan, lika långt från linjen. Räkna rutorna från den röda rutan till linjen: 3 rutor. Räkna sedan 3 rutor från linjen åt andra hållet. Där hamnar spegelbilden. En ruta som ligger precis vid linjen hamnar precis vid linjen på andra sidan. En figur och dess spegelbild är lika stora och har samma form, men de är vända åt olika håll.",
+  "visual": {
+    "type": "tabell",
+    "title": "Spegellinjen går mellan kolumn 4 och 5",
+    "headers": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "|",
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "rows": [
+      [
+        "",
+        "röd",
+        "",
+        "",
+        "|",
+        "",
+        "",
+        "spegelbild",
+        ""
+      ]
+    ]
+  },
+  "rule": "Spegelbilden hamnar lika långt från spegellinjen, men på andra sidan.",
+  "ruleLabel": "SPEGLA",
+  "example": "En ruta 2 rutor till vänster om linjen hamnar 2 rutor till höger om linjen.",
+  "practice": [
+    {
+      "id": "avstand",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          1,
+          6
+        ]
+      },
+      "prompt": "En ruta ligger {n} rutor till vänster om en lodrät spegellinje. Hur många rutor till höger om linjen hamnar spegelbilden?",
+      "answer": [
+        "=n",
+        "{n} rutor"
+      ],
+      "correct": "Rätt! Spegelbilden hamnar lika långt från linjen, {n} rutor, fast på andra sidan.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*n"
+          ],
+          "message": "{2*n} rutor är avståndet mellan rutan och spegelbilden. Frågan gäller avståndet från linjen."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En ruta ligger 3 rutor till vänster om en lodrät spegellinje. Hur många rutor till höger om linjen hamnar spegelbilden?",
+    "answer": [
+      "3"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En spegelbild är lika stor som figuren.",
+        "answer": true,
+        "explain": "Den har samma form och storlek men är vänd åt andra hållet."
+      },
+      {
+        "text": "En ruta 3 rutor från linjen hamnar 6 rutor från linjen på andra sidan.",
+        "answer": false,
+        "explain": "Den hamnar lika långt från linjen, alltså 3 rutor."
+      }
+    ],
+    "correct": "Rätt! Lika långt från linjen, på andra sidan."
+  },
+  "exercise": {
+    "prompt": "En ruta ligger 4 rutor till vänster om en lodrät spegellinje. Hur många rutor till höger om linjen hamnar spegelbilden?",
+    "answer": [
+      "4",
+      "4 rutor"
+    ],
+    "correct": "Rätt! Spegelbilden hamnar lika långt från linjen, 4 rutor, fast på andra sidan.",
+    "feedback": [
+      {
+        "answers": [
+          "8"
+        ],
+        "message": "8 rutor är avståndet mellan rutan och spegelbilden. Frågan gäller avståndet från linjen."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En figur är 3 rutor bred och ligger precis till vänster om spegellinjen. Hur många rutor bred är spegelbilden?",
+      "answer": [
+        "3",
+        "3 rutor"
+      ],
+      "correct": "Rätt! En spegelbild är lika stor som figuren. Bara riktningen är ändrad.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 rutor är figuren och spegelbilden tillsammans. Frågan gäller bara spegelbilden."
+        }
+      ]
+    },
+    {
+      "prompt": "En ruta ligger 2 rutor till vänster om spegellinjen och dess spegelbild 2 rutor till höger. Hur många rutor är det mellan dem, om du räknar rutorna från den ena till den andra?",
+      "answer": [
+        "4",
+        "4 rutor"
+      ],
+      "correct": "Rätt! 2 rutor fram till linjen och 2 rutor till efter linjen: 2 + 2 = 4.",
+      "feedback": [
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "2 rutor är bara fram till linjen. Räkna också rutorna på andra sidan."
+        }
+      ]
+    },
+    {
+      "prompt": "Ordet MAMMA skrivs med versaler. Bokstaven M är symmetrisk med en lodrät linje. Hur många av bokstäverna i MAMMA är symmetriska på det sättet?",
+      "answer": [
+        "5",
+        "5 bokstäver"
+      ],
+      "correct": "Rätt! Både M och A är symmetriska med en lodrät linje, så alla 5 bokstäverna är det.",
+      "feedback": [
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är antalet M. A är också symmetrisk med en lodrät linje genom mitten."
+        },
+        {
+          "answers": [
+            "2"
+          ],
+          "message": "2 är antalet A. M är också symmetrisk med en lodrät linje genom mitten."
+        }
+      ]
+    }
+  ]
+}

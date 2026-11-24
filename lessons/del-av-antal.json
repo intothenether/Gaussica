@@ -1,0 +1,201 @@
+{
+  "id": "del-av-antal",
+  "area": "tal",
+  "title": "En del av ett antal: en tredjedel av 12",
+  "level": "Dela ett antal i lika stora delar · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "halvor-fjardedelar"
+  ],
+  "summary": "En tredjedel av 12 betyder att du delar 12 i 3 lika stora högar och tar en av dem. Två tredjedelar är två sådana högar.",
+  "explanationTitle": "Dela i lika stora högar",
+  "explanation": "Problemet: Du har 12 kulor och ska ge en tredjedel till din kompis. Hur många kulor är det? En tredjedel betyder att helheten delas i 3 lika stora delar. Lägg kulorna i 3 högar, en kula i taget, tills alla är slut. Då ligger det 4 kulor i varje hög. En tredjedel av 12 är alltså 4. Ska du ge bort två tredjedelar tar du två högar: 4 + 4 = 8 kulor. Nämnaren, talet under strecket, säger hur många högar du delar i. Täljaren, talet över strecket, säger hur många högar du tar.",
+  "visual": {
+    "type": "tabell",
+    "title": "12 kulor i 3 lika stora högar",
+    "headers": [
+      "Hög 1",
+      "Hög 2",
+      "Hög 3"
+    ],
+    "rows": [
+      [
+        "4 kulor",
+        "4 kulor",
+        "4 kulor"
+      ]
+    ]
+  },
+  "rule": "Dela antalet i så många lika stora delar som nämnaren säger. Ta så många delar som täljaren säger.",
+  "ruleLabel": "DEL AV ETT ANTAL",
+  "example": "En fjärdedel av 20: 20 delat i 4 högar ger 5 i varje. Tre fjärdedelar av 20 är 5 + 5 + 5 = 15.",
+  "practice": [
+    {
+      "id": "en-del",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          2,
+          5
+        ],
+        "d": [
+          3,
+          9
+        ]
+      },
+      "prompt": "Du delar {n*d} kulor i {n} lika stora högar. Hur många kulor blir det i varje hög?",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! {n*d} delat i {n} lika stora högar ger {d} i varje hög.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*d-n"
+          ],
+          "message": "Du tog bort {n}. Dela i stället {n*d} i {n} lika stora högar."
+        }
+      ]
+    },
+    {
+      "id": "flera-delar",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "d": [
+          2,
+          6
+        ]
+      },
+      "prompt": "En klass har {4*d} elever. Tre fjärdedelar av eleverna går hem till lunch. Hur många elever är det?",
+      "answer": [
+        "=3*d",
+        "{3*d} elever"
+      ],
+      "correct": "Rätt! En fjärdedel av {4*d} är {d}. Tre fjärdedelar är {d} + {d} + {d} = {3*d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=d"
+          ],
+          "message": "{d} elever är en fjärdedel. Frågan gäller tre fjärdedelar."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Du har 12 kulor och ger en tredjedel till din kompis. Hur många kulor får kompisen?",
+    "answer": [
+      "4"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En tredjedel av 12 är 4.",
+        "answer": true,
+        "explain": "12 kulor i 3 lika stora högar ger 4 i varje hög."
+      },
+      {
+        "text": "En tredjedel av 12 är 9, eftersom du tar bort 3.",
+        "answer": false,
+        "explain": "En tredjedel betyder att du delar i 3 lika stora delar, inte att du tar bort 3."
+      }
+    ],
+    "correct": "Rätt! Dela i lika stora högar och ta så många som täljaren säger."
+  },
+  "exercise": {
+    "prompt": "Vad är en fjärdedel av 20?",
+    "answer": [
+      "5"
+    ],
+    "correct": "Rätt! 20 delat i 4 lika stora högar ger 5 i varje hög.",
+    "feedback": [
+      {
+        "answers": [
+          "16"
+        ],
+        "message": "Du tog bort 4. En fjärdedel betyder att du delar 20 i 4 lika stora högar."
+      },
+      {
+        "answers": [
+          "80"
+        ],
+        "message": "Du multiplicerade. En del blir mindre än helheten, så dela 20 i 4 högar."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Mormor bakar 15 bullar. En tredjedel av dem har russin. Hur många bullar har russin?",
+      "answer": [
+        "5",
+        "5 bullar"
+      ],
+      "correct": "Rätt! 15 delat i 3 lika stora högar ger 5 i varje hög.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "Du tog bort 3. En tredjedel betyder att du delar 15 i 3 lika stora högar."
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är antalet högar. Hur många bullar blir det i varje hög?"
+        }
+      ]
+    },
+    {
+      "prompt": "En klass har 24 elever. Tre fjärdedelar av eleverna går hem till lunch. Hur många elever är det?",
+      "answer": [
+        "18",
+        "18 elever"
+      ],
+      "correct": "Rätt! En fjärdedel av 24 är 6. Tre fjärdedelar är 6 + 6 + 6 = 18.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 elever är en fjärdedel. Frågan gäller tre fjärdedelar."
+        },
+        {
+          "answers": [
+            "21"
+          ],
+          "message": "Du tog bort 3. Dela först 24 i 4 lika stora högar."
+        }
+      ]
+    },
+    {
+      "prompt": "Lisa har 10 kr och använder hälften till godis. Hur många kronor har hon kvar?",
+      "answer": [
+        "5",
+        "5 kr"
+      ],
+      "correct": "Rätt! Hälften av 10 är 5. Hon använder 5 kr och har 5 kr kvar.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "Du tog bort 2. Hälften betyder att 10 kr delas i 2 lika stora delar."
+        },
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "Hälften är mindre än det du har från början. Dela 10 i 2 lika stora delar."
+        }
+      ]
+    }
+  ]
+}

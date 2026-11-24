@@ -1,0 +1,143 @@
+{
+  "id": "gissa-figuren",
+  "area": "geometri",
+  "title": "Gissa figuren: sidor, hörn och lika långa sidor",
+  "level": "Känn igen figurer på deras egenskaper · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "geometriska-figurer"
+  ],
+  "summary": "Du kan känna igen en figur på hur många sidor och hörn den har och på om sidorna är lika långa. En kvadrat och en rektangel har båda 4 hörn, men bara kvadraten har fyra lika långa sidor.",
+  "explanationTitle": "Vem är jag?",
+  "explanation": "Problemet: En gåta säger: Jag har 4 hörn och 4 sidor, men mina sidor är inte alla lika långa. Vem är jag? För att lösa gåtan jämför du figurernas egenskaper. En triangel har 3 sidor och 3 hörn. En kvadrat och en rektangel har båda 4 sidor och 4 hörn. I en kvadrat är alla fyra sidor lika långa, men i en rektangel är två sidor långa och två korta. En cirkel har inga hörn alls. Svaret på gåtan är alltså rektangel. Titta på en egenskap i taget och stryk de figurer som inte passar.",
+  "visual": {
+    "type": "figurer",
+    "title": "Figurer och deras egenskaper",
+    "items": [
+      {
+        "shape": "triangel",
+        "label": "Triangel · 3 sidor, 3 hörn"
+      },
+      {
+        "shape": "kvadrat",
+        "label": "Kvadrat · 4 lika långa sidor"
+      },
+      {
+        "shape": "rektangel",
+        "label": "Rektangel · 2 långa och 2 korta sidor"
+      },
+      {
+        "shape": "cirkel",
+        "label": "Cirkel · inga hörn"
+      }
+    ]
+  },
+  "rule": "Titta på en egenskap i taget: hur många sidor, hur många hörn och om sidorna är lika långa. Stryk de figurer som inte passar.",
+  "ruleLabel": "VEM ÄR JAG?",
+  "example": "Jag har 3 hörn. Då kan jag bara vara en triangel, eftersom kvadrat och rektangel har 4 hörn och en cirkel har inga.",
+  "tryFirst": {
+    "prompt": "Jag har 4 hörn och 4 sidor, men mina sidor är inte alla lika långa. Är jag en kvadrat eller en rektangel?",
+    "answer": [
+      "rektangel"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En kvadrat har fyra lika långa sidor.",
+        "answer": true,
+        "explain": "Därför är en kvadrat en särskild sorts rektangel."
+      },
+      {
+        "text": "En cirkel har ett hörn.",
+        "answer": false,
+        "explain": "En cirkel är rund hela vägen och har inga hörn."
+      }
+    ],
+    "correct": "Rätt! Titta på sidor, hörn och om sidorna är lika långa."
+  },
+  "exercise": {
+    "prompt": "Jag har 4 hörn och alla mina 4 sidor är lika långa. Vem är jag?",
+    "answer": [
+      "kvadrat",
+      "en kvadrat"
+    ],
+    "correct": "Rätt! En kvadrat har fyra lika långa sidor och fyra hörn.",
+    "feedback": [
+      {
+        "answers": [
+          "rektangel",
+          "en rektangel"
+        ],
+        "message": "En rektangel har 4 hörn, men alla sidor är inte lika långa. Vilken figur har fyra lika långa sidor?"
+      },
+      {
+        "answers": [
+          "triangel",
+          "en triangel"
+        ],
+        "message": "En triangel har 3 hörn. Den här figuren har 4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Jag har inga hörn och inga raka sidor. Vem är jag?",
+      "answer": [
+        "cirkel",
+        "en cirkel"
+      ],
+      "correct": "Rätt! En cirkel är rund och har inga hörn.",
+      "feedback": [
+        {
+          "answers": [
+            "kvadrat",
+            "en kvadrat"
+          ],
+          "message": "En kvadrat har 4 hörn. Vilken figur är rund?"
+        }
+      ]
+    },
+    {
+      "prompt": "Lova ritar en triangel, en kvadrat och en rektangel. Hur många hörn har figurerna tillsammans?",
+      "answer": [
+        "11",
+        "11 hörn"
+      ],
+      "correct": "Rätt! 3 + 4 + 4 = 11 hörn.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "En triangel har bara 3 hörn. 3 + 4 + 4 = ?"
+        },
+        {
+          "answers": [
+            "3"
+          ],
+          "message": "3 är antalet figurer. Räkna hörnen på varje figur och lägg ihop."
+        }
+      ]
+    },
+    {
+      "prompt": "Jag har 3 sidor och 3 hörn. Vem är jag?",
+      "answer": [
+        "triangel",
+        "en triangel"
+      ],
+      "correct": "Rätt! En triangel har tre sidor och tre hörn.",
+      "feedback": [
+        {
+          "answers": [
+            "kvadrat",
+            "en kvadrat"
+          ],
+          "message": "En kvadrat har 4 sidor. Vilken figur har bara 3?"
+        }
+      ]
+    }
+  ]
+}

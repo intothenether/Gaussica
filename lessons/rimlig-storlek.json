@@ -1,0 +1,164 @@
+{
+  "id": "rimlig-storlek",
+  "area": "tal",
+  "title": "Rimligt eller orimligt? Tänk på storleken",
+  "level": "Uppskatta längd, vikt och antal · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "uppskatta-rimligt"
+  ],
+  "summary": "Innan du räknar, och efter, kan du fråga dig om svaret är rimligt. Jämför med något du känner till, som hur lång en dörr är eller hur tung en mjölkförpackning är.",
+  "explanationTitle": "Jämför med något du känner",
+  "explanation": "Problemet: Theo räknar ut hur lång en penna är och får svaret 15 meter. Kan det stämma? En dörr är ungefär 2 meter hög, så en penna på 15 meter skulle vara mycket längre än en dörr. Svaret är orimligt. Pennan är nog 15 centimeter. När du ska bedöma om ett svar är rimligt jämför du med något du känner till: en dörr är ungefär 2 m, en mjölkförpackning väger ungefär 1 kg, och en klass har ungefär 25 elever. Är svaret mycket större eller mycket mindre än det du jämför med, ska du räkna en gång till.",
+  "visual": {
+    "type": "tabell",
+    "title": "Saker att jämföra med",
+    "headers": [
+      "Sak",
+      "Ungefär"
+    ],
+    "rows": [
+      [
+        "Dörr, höjd",
+        "2 m"
+      ],
+      [
+        "Penna, längd",
+        "15 cm"
+      ],
+      [
+        "Mjölkförpackning",
+        "1 kg"
+      ],
+      [
+        "Klass",
+        "25 elever"
+      ]
+    ]
+  },
+  "rule": "Jämför svaret med något du känner till. Är det mycket för stort eller för litet, räkna en gång till.",
+  "ruleLabel": "RIMLIGT SVAR",
+  "example": "En penna på 15 m är längre än sju dörrar på höjden, så det är orimligt. 15 cm är rimligt.",
+  "practice": [
+    {
+      "id": "overslag-minus",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "a": [
+          6,
+          9
+        ],
+        "b": [
+          1,
+          4
+        ]
+      },
+      "prompt": "Gör ett överslag: runda båda talen till närmaste tiotal och räkna. {10*a+2} − {10*b+1}",
+      "answer": [
+        "=10*a-10*b"
+      ],
+      "correct": "Rätt! {10*a+2} blir {10*a} och {10*b+1} blir {10*b}. {10*a} − {10*b} = {10*a-10*b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=10*a+10*b"
+          ],
+          "message": "Det är minus. Dra bort {10*b} från {10*a}."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Theo säger att hans penna är 15 meter lång. Är det rimligt? Svara ja eller nej.",
+    "answer": [
+      "nej"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En vuxen människa väger ungefär 70 kg.",
+        "answer": true,
+        "explain": "Det är ungefär lika mycket som 70 mjölkförpackningar."
+      },
+      {
+        "text": "En vanlig dörr är ungefär 20 m hög.",
+        "answer": false,
+        "explain": "En dörr är ungefär 2 m hög. 20 m är som ett hus med sju våningar."
+      }
+    ],
+    "correct": "Rätt! Jämför med något du känner till."
+  },
+  "exercise": {
+    "prompt": "Vilket är rimligast för hur mycket ett äpple väger? A: 150 g. B: 150 kg. Skriv A eller B.",
+    "answer": [
+      "A"
+    ],
+    "correct": "Rätt! 150 kg är mer än två vuxna människor. 150 g är rimligt för ett äpple.",
+    "feedback": [
+      {
+        "answers": [
+          "B"
+        ],
+        "message": "150 kg är mer än två vuxna människor väger tillsammans. Kan ett äpple väga så mycket?"
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Elsa räknar ut att det går 250 elever i hennes klass. Är det rimligt? Svara ja eller nej.",
+      "answer": [
+        "nej"
+      ],
+      "correct": "Rätt! En klass har ungefär 25 elever. 250 elever är som en hel skola.",
+      "feedback": [
+        {
+          "answers": [
+            "ja"
+          ],
+          "message": "Jämför med din egen klass. Hur många elever brukar det vara i en klass?"
+        }
+      ]
+    },
+    {
+      "prompt": "Vilket är rimligast för hur hög en giraff är? A: 5 cm. B: 5 m. Skriv A eller B.",
+      "answer": [
+        "B"
+      ],
+      "correct": "Rätt! 5 m är ungefär som två och en halv dörr på höjden. 5 cm är kortare än en penna.",
+      "feedback": [
+        {
+          "answers": [
+            "A"
+          ],
+          "message": "5 cm är kortare än en penna. En giraff är mycket högre än en dörr."
+        }
+      ]
+    },
+    {
+      "prompt": "Gör ett överslag: runda båda talen till närmaste tiotal och räkna. 82 − 31",
+      "answer": [
+        "50"
+      ],
+      "correct": "Rätt! 82 blir 80 och 31 blir 30. 80 − 30 = 50.",
+      "feedback": [
+        {
+          "answers": [
+            "51"
+          ],
+          "message": "51 är det exakta svaret. Ett överslag räknar med de rundade talen 80 och 30."
+        },
+        {
+          "answers": [
+            "110"
+          ],
+          "message": "Det är minus. Dra bort 30 från 80."
+        }
+      ]
+    }
+  ]
+}
