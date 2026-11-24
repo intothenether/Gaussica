@@ -1,0 +1,220 @@
+{
+  "id": "prova-modellen",
+  "input": "math",
+  "area": "algebra",
+  "parentId": "matematisk-modellering",
+  "title": "Pröva och förbättra modellen",
+  "level": "Jämför modellen med verkligheten · ungefär åk 9",
+  "grade": 9,
+  "duration": "10 min",
+  "prerequisites": [
+    "valj-modell",
+    "ekvation-fran-text"
+  ],
+  "summary": "En modell är bara bra om den stämmer med verkligheten. Du jämför modellens svar med det som verkligen hände, tar reda på varför de skiljer sig och gör en bättre modell.",
+  "explanationTitle": "När modellen inte stämmer",
+  "explanation": "Problemet: Elin tror att el kostar 1,50 kr per kWh, så hennes modell för elräkningen är 1,5 · x kronor, där x är antal kWh. I januari använde hon 400 kWh. Modellen säger 600 kr, men räkningen blev 750 kr. Vad är fel? Modellen missar något. Skillnaden mellan modellen och verkligheten visar vad som saknas, och när du har lagt till det prövar du den nya modellen på andra värden. En modell fungerar också bara inom vissa gränser: en modell för hur en växt växer de första veckorna kan ge orimliga svar för ett helt år. Stegen står i rutorna nedan.",
+  "rule": "Jämför modellens svar med verkligheten. Ta reda på varför de skiljer sig, ändra modellen och pröva den nya modellen på nya värden.",
+  "ruleLabel": "PRÖVA MODELLEN",
+  "example": "Modellen 1,5 · x ger 600 kr för 400 kWh, men räkningen var 750 kr. Skillnaden 150 kr är en fast avgift varje månad, så den nya modellen är 150 + 1,5 · x.",
+  "practice": [
+    {
+      "id": "taxi-km",
+      "for": [
+        "word-2"
+      ],
+      "vars": {
+        "m": [
+          30,
+          60,
+          10
+        ],
+        "k": [
+          10,
+          20
+        ],
+        "n": [
+          5,
+          15
+        ]
+      },
+      "prompt": "En modell för en taxiresa är {m} + 8 · x kr, där x är antal km. En resa på {n} km kostade {m+k*n} kr. Om startavgiften {m} kr stämmer, vad kostar taxin egentligen per km?",
+      "answer": [
+        "=k",
+        "{k} kr"
+      ],
+      "correct": "Rätt! {m+k*n} − {m} = {k*n} kr för {n} km, och {k*n} / {n} = {k} kr per km. Den nya modellen är {m} + {k} · x.",
+      "feedback": [
+        {
+          "answers": [
+            "=(m+k*n)/n"
+          ],
+          "message": "Du delade hela priset med {n}. Dra bort startavgiften {m} kr först."
+        },
+        {
+          "answers": [
+            "=m+8*n"
+          ],
+          "message": "{m+8*n} kr är vad den gamla modellen säger. Frågan gäller vad taxin egentligen kostar per km."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Elins modell säger att el kostar 1,50 kr per kWh. Hon använde 400 kWh men räkningen blev 750 kr. Hur många kronor skiljer det mellan räkningen och modellen?",
+    "answer": [
+      "150"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En modell kan fungera bra för vissa värden men ge orimliga svar för andra.",
+        "answer": true,
+        "explain": "Därför prövar du modellen och tänker på inom vilka gränser den gäller."
+      },
+      {
+        "text": "Om modellen inte stämmer med det du mätt är det mätningen som är fel.",
+        "answer": false,
+        "explain": "Oftast är det modellen som missar något. Skillnaden visar vad."
+      }
+    ],
+    "correct": "Rätt! Jämför, förklara skillnaden, förbättra modellen och pröva igen."
+  },
+  "exercise": {
+    "prompt": "En modell säger att du dricker 0,5 liter vatten per timme när du vandrar, så en flaska på 1,5 liter ska räcka i 3 timmar. En varm dag tog flaskan slut efter 2 timmar. Hur många liter per timme drack du den dagen?",
+    "answer": [
+      "0,75",
+      "0,75 liter"
+    ],
+    "correct": "Rätt! 1,5 / 2 = 0,75 liter per timme. På varma dagar behöver modellen ett större tal.",
+    "feedback": [
+      {
+        "answers": [
+          "0,5"
+        ],
+        "message": "0,5 liter per timme är den gamla modellen. Flaskan räckte bara i 2 timmar."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Du multiplicerade 1,5 med 2. Dela flaskans 1,5 liter på de 2 timmarna."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Elins nya modell för elräkningen är 150 + 1,5 · x kr, där x är antal kWh. Vad blir räkningen enligt modellen en månad då hon använder 500 kWh?",
+      "answer": [
+        "900",
+        "900 kr"
+      ],
+      "correct": "Rätt! 150 + 1,5 · 500 = 150 + 750 = 900 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "750"
+          ],
+          "message": "750 kr är bara elen, 1,5 · 500. Den fasta avgiften 150 kr ska också med."
+        },
+        {
+          "answers": [
+            "650"
+          ],
+          "message": "Du lade ihop 150 och 500. Varje kWh kostar 1,5 kr, så multiplicera först."
+        }
+      ]
+    },
+    {
+      "prompt": "En solros var 20 cm hög och växte 15 cm per vecka under fyra veckor, så modellen 20 + 15 · x passade, där x är antal veckor. Hur hög blir solrosen efter 30 veckor enligt modellen, i cm?",
+      "answer": [
+        "470",
+        "470 cm"
+      ],
+      "correct": "Rätt! 20 + 15 · 30 = 470 cm. Men en solros blir sällan högre än ungefär 3 meter, så modellen fungerar bara under de första veckorna.",
+      "feedback": [
+        {
+          "answers": [
+            "450"
+          ],
+          "message": "450 cm är bara tillväxten, 15 · 30. Solrosen var 20 cm från början."
+        },
+        {
+          "answers": [
+            "80"
+          ],
+          "message": "80 cm är efter fyra veckor. Frågan gäller 30 veckor."
+        }
+      ]
+    },
+    {
+      "prompt": "En modell för en taxiresa är 50 + 12 · x kr, där x är antal km. En resa på 10 km kostade 200 kr. Om startavgiften 50 kr stämmer, vad kostar taxin egentligen per km?",
+      "answer": [
+        "15",
+        "15 kr"
+      ],
+      "correct": "Rätt! 200 − 50 = 150 kr för 10 km, och 150 / 10 = 15 kr per km. Den nya modellen är 50 + 15 · x.",
+      "feedback": [
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "Du delade hela priset med 10. Dra bort startavgiften 50 kr först."
+        },
+        {
+          "answers": [
+            "170"
+          ],
+          "message": "170 kr är vad den gamla modellen säger, 50 + 12 · 10. Frågan gäller vad taxin egentligen kostar per km."
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så prövar och förbättrar du en modell",
+      "example": "Elins modell är 1,5 · x kr. I januari använde hon 400 kWh och räkningen blev 750 kr.",
+      "steps": [
+        {
+          "do": "Räkna ut vad modellen säger.",
+          "show": [
+            "1,5 · 400 = 600 kr"
+          ]
+        },
+        {
+          "do": "Jämför med verkligheten.",
+          "show": [
+            "750 − 600 = 150 kr",
+            "Räkningen är 150 kr mer än modellen."
+          ]
+        },
+        {
+          "do": "Förklara skillnaden och ändra modellen.",
+          "show": [
+            "Elbolaget tar en fast avgift varje månad.",
+            "Ny modell: 150 + 1,5 · x"
+          ]
+        },
+        {
+          "do": "Pröva den nya modellen på ett nytt värde.",
+          "show": [
+            "I februari använde hon 300 kWh och räkningen blev 600 kr.",
+            "150 + 1,5 · 300 = 600 kr stämmer."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ]
+}

@@ -1,0 +1,277 @@
+{
+  "id": "valj-modell",
+  "input": "math",
+  "area": "algebra",
+  "parentId": "matematisk-modellering",
+  "title": "Välj modell: lika mycket eller lika många procent",
+  "level": "Linjär eller procentuell förändring · ungefär åk 9",
+  "grade": 9,
+  "duration": "10 min",
+  "prerequisites": [
+    "linjara-funktioner-km",
+    "procentuell-forandring"
+  ],
+  "summary": "Data kan växa med lika mycket varje steg eller med lika många procent varje steg. Du tar reda på vilket genom att räkna skillnader och förändringsfaktorer, och väljer modell efter det.",
+  "explanationTitle": "Skillnad eller faktor?",
+  "explanation": "Problemet: Ett konto på sociala medier hade 2000 följare, en månad senare 2200 och månaden efter det 2420. Hur många följare blir det nästa månad om det fortsätter likadant? Det beror på vilken modell som passar. Växer talen med lika mycket varje steg passar en linjär modell, där du lägger till samma tal varje gång. Växer de med lika många procent varje steg passar en procentuell modell, där du multiplicerar med samma förändringsfaktor varje gång. Räkna både skillnaderna och förändringsfaktorerna, så ser du vilken som är lika varje steg.",
+  "visual": {
+    "type": "tabell",
+    "title": "Följare på kontot",
+    "headers": [
+      "Månad",
+      "Följare"
+    ],
+    "rows": [
+      [
+        "1",
+        "2000"
+      ],
+      [
+        "2",
+        "2200"
+      ],
+      [
+        "3",
+        "2420"
+      ],
+      [
+        "4",
+        "?"
+      ]
+    ]
+  },
+  "rule": "Samma skillnad varje steg: lägg till skillnaden (linjär modell). Samma förändringsfaktor varje steg: multiplicera med faktorn (procentuell modell).",
+  "ruleLabel": "VÄLJ MODELL",
+  "example": "5, 8, 11, 14 ökar med 3 varje gång, så nästa tal är 17. 5, 10, 20, 40 multipliceras med 2 varje gång, så nästa tal är 80.",
+  "practice": [
+    {
+      "id": "monster",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "s": [
+          2,
+          6
+        ],
+        "f": [
+          2,
+          4
+        ]
+      },
+      "prompt": "Talen {s}, {s*f}, {s*f*f} och {s*f*f*f} följer ett mönster. Vilket tal kommer sedan?",
+      "answer": [
+        "=s*f*f*f*f"
+      ],
+      "correct": "Rätt! Skillnaderna är olika, men varje tal är {f} gånger det förra. {s*f*f*f} · {f} = {s*f*f*f*f}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*s*f*f*f-s*f*f"
+          ],
+          "message": "Du lade till den senaste skillnaden. Skillnaderna växer, så räkna i stället hur många gånger större varje tal är än det förra."
+        }
+      ]
+    },
+    {
+      "id": "taxi",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "m": [
+          20,
+          50,
+          5
+        ],
+        "k": [
+          10,
+          20
+        ],
+        "n": [
+          8,
+          15
+        ]
+      },
+      "prompt": "En taxiresa kostar {m+k} kr för 1 km, {m+2*k} kr för 2 km och {m+3*k} kr för 3 km. Vad kostar {n} km om mönstret håller?",
+      "answer": [
+        "=m+k*n",
+        "{m+k*n} kr"
+      ],
+      "correct": "Rätt! Priset ökar med {k} kr per km, så det är en linjär modell med startavgiften {m} kr: {m} + {k} · {n} = {m+k*n} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=(m+k)*n"
+          ],
+          "message": "Du multiplicerade priset för 1 km med {n}. Då får du med startavgiften {n} gånger. Priset ökar med {k} kr för varje km."
+        },
+        {
+          "answers": [
+            "=k*n"
+          ],
+          "message": "{k*n} kr är bara kilometerpriset. Startavgiften {m} kr ska också med."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Ett konto hade 2000 följare, sedan 2200 och sedan 2420. Hur många följare blir det nästa månad om det fortsätter likadant?",
+    "answer": [
+      "2662"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om skillnaden mellan talen är lika stor varje steg passar en linjär modell.",
+        "answer": true,
+        "explain": "Då lägger du till samma tal varje gång."
+      },
+      {
+        "text": "Om talen ökar varje steg passar alltid en linjär modell.",
+        "answer": false,
+        "explain": "Talen kan öka med lika många procent i stället. Räkna förändringsfaktorn för att se det."
+      }
+    ],
+    "correct": "Rätt! Räkna skillnaderna och förändringsfaktorerna och välj den modell där de är lika."
+  },
+  "exercise": {
+    "prompt": "Talen 4, 12, 36 och 108 följer ett mönster. Vilket tal kommer sedan?",
+    "answer": [
+      "324"
+    ],
+    "correct": "Rätt! Skillnaderna är 8, 24 och 72, så de är inte lika. Men varje tal är 3 gånger det förra: 108 · 3 = 324.",
+    "feedback": [
+      {
+        "answers": [
+          "180"
+        ],
+        "message": "Du lade till 72, den senaste skillnaden. Skillnaderna växer, så räkna i stället hur många gånger större varje tal är än det förra."
+      },
+      {
+        "answers": [
+          "216"
+        ],
+        "message": "Du multiplicerade med 2. Kontrollera: 4 · 2 är inte 12."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett konto på sociala medier hade 2000 följare, en månad senare 2200 och månaden efter det 2420. Hur många följare blir det nästa månad om det fortsätter likadant?",
+      "answer": [
+        "2662",
+        "2662 följare"
+      ],
+      "correct": "Rätt! Skillnaderna är 200 och 220, men förändringsfaktorn är 1,1 båda gångerna. 2420 · 1,1 = 2662 följare.",
+      "feedback": [
+        {
+          "answers": [
+            "2640"
+          ],
+          "message": "Du lade till 220, den senaste skillnaden. Skillnaderna är 200 och 220, så de är inte lika. Räkna förändringsfaktorn: 2200 / 2000."
+        },
+        {
+          "answers": [
+            "2620"
+          ],
+          "message": "Du lade till 200 varje månad. Den andra månaden ökade det med 220, så ökningen är inte lika stor varje gång."
+        }
+      ]
+    },
+    {
+      "prompt": "En taxiresa kostar 45 kr för 1 km, 60 kr för 2 km och 75 kr för 3 km. Vad kostar 10 km om mönstret håller?",
+      "answer": [
+        "180",
+        "180 kr"
+      ],
+      "correct": "Rätt! Priset ökar med 15 kr per km, så startavgiften är 45 − 15 = 30 kr. 30 + 15 · 10 = 180 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "450"
+          ],
+          "message": "Du multiplicerade 45 kr med 10. Då får du med startavgiften tio gånger. Priset ökar med 15 kr för varje km."
+        },
+        {
+          "answers": [
+            "150"
+          ],
+          "message": "150 kr är bara kilometerpriset, 15 · 10. Startavgiften ska också med."
+        }
+      ]
+    },
+    {
+      "prompt": "En bil kostar 200 000 kr när den är ny och tappar 10 % av sitt värde varje år. Vad är den värd efter 2 år, i kronor?",
+      "answer": [
+        "162000",
+        "162000 kr"
+      ],
+      "correct": "Rätt! Förändringsfaktorn är 0,9 varje år: 200 000 · 0,9 · 0,9 = 162 000 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "160000"
+          ],
+          "message": "Du drog bort 20 000 kr båda åren. Det andra året är 10 % av ett mindre värde, 180 000 kr."
+        },
+        {
+          "answers": [
+            "180000"
+          ],
+          "message": "180 000 kr är värdet efter ett år. Frågan gäller två år."
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så väljer du modell",
+      "example": "Kontot hade 2000, 2200 och 2420 följare de tre första månaderna.",
+      "steps": [
+        {
+          "do": "Räkna skillnaderna mellan talen.",
+          "show": [
+            "2200 − 2000 = 200",
+            "2420 − 2200 = 220",
+            "Skillnaderna är inte lika."
+          ]
+        },
+        {
+          "do": "Räkna förändringsfaktorerna.",
+          "show": [
+            "2200 / 2000 = 1,1",
+            "2420 / 2200 = 1,1",
+            "Faktorerna är lika."
+          ]
+        },
+        {
+          "do": "Välj den modell där det som är lika stämmer.",
+          "show": [
+            "Samma faktor varje månad: procentuell modell.",
+            "Kontot växer med 10 % i månaden."
+          ]
+        },
+        {
+          "do": "Räkna nästa värde med modellen.",
+          "show": [
+            "2420 · 1,1 = 2662",
+            "Nästa månad blir det 2662 följare."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ]
+}

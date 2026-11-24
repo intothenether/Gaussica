@@ -1,0 +1,54 @@
+{
+  "id": "matematisk-modellering",
+  "area": "algebra",
+  "title": "Matematisk modellering",
+  "level": "Samlat kapitel · ungefär åk 8–9",
+  "grade": 8,
+  "duration": "30 min",
+  "prerequisites": [
+    "proportionalitet",
+    "linjara-funktioner-km",
+    "procentuell-forandring"
+  ],
+  "isParentLesson": true,
+  "subLessons": [
+    {
+      "id": "modell-antaganden",
+      "title": "Gör antaganden och räkna",
+      "sequence": 1
+    },
+    {
+      "id": "valj-modell",
+      "title": "Välj modell: lika mycket eller lika många procent",
+      "sequence": 2
+    },
+    {
+      "id": "prova-modellen",
+      "title": "Pröva och förbättra modellen",
+      "sequence": 3
+    }
+  ],
+  "summary": "Du gör egna antaganden för att räkna på vardagsfrågor, väljer mellan en linjär och en procentuell modell, och prövar om modellen stämmer med verkligheten.",
+  "explanationTitle": "Matematik som beskriver verkligheten",
+  "explanation": "Problemet: Hur mycket vatten går åt när en familj duschar under ett år, och hur många följare får ett konto nästa månad? Sådana frågor har inget färdigt svar i boken. Du lär dig bygga en modell: gör antaganden, välj vilken sorts samband som passar, räkna, och jämför sedan med verkligheten för att se om modellen behöver bli bättre.",
+  "rule": "Gör antaganden, välj modell, räkna och pröva modellen mot verkligheten.",
+  "ruleLabel": "MODELLERING",
+  "example": "Fyra personer duschar 5 minuter var per dag med 10 liter per minut: 4 · 5 · 10 = 200 liter per dag.",
+  "exercise": {
+    "prompt": "Anta att fyra personer duschar 5 minuter var per dag och att duschen ger 10 liter per minut. Hur många liter blir det per dag?",
+    "answer": [
+      "200",
+      "200 liter"
+    ],
+    "correct": "Rätt! 4 · 5 · 10 = 200 liter per dag.",
+    "feedback": [
+      {
+        "answers": [
+          "50"
+        ],
+        "message": "50 liter är en persons dusch. Familjen är fyra personer."
+      }
+    ]
+  },
+  "wordProblems": []
+}

@@ -1,0 +1,286 @@
+{
+  "id": "modell-antaganden",
+  "input": "math",
+  "area": "algebra",
+  "parentId": "matematisk-modellering",
+  "title": "Gör antaganden och räkna",
+  "level": "Modellera en vardagsfråga · ungefär åk 8",
+  "grade": 8,
+  "duration": "10 min",
+  "prerequisites": [
+    "avrundning-overslag",
+    "proportionalitet"
+  ],
+  "summary": "Många frågor går inte att slå upp. Du gör egna antaganden, skriver upp dem, räknar steg för steg och prövar om svaret är rimligt.",
+  "explanationTitle": "En modell börjar med antaganden",
+  "explanation": "Problemet: Hur många liter vatten använder en familj på fyra personer till att duscha under ett år? Ingen har mätt det åt dig, så du får göra antaganden: hur ofta varje person duschar, hur länge, och hur mycket vatten duschen ger per minut. Antagandena och uträkningen tillsammans kallas en modell. Svaret blir inte exakt, men det blir ett rimligt svar som du kan förklara. Om någon gör andra antaganden får de ett annat svar, och då kan ni jämföra vilka antaganden som stämmer bäst. Stegen står i rutorna nedan.",
+  "rule": "Skriv upp dina antaganden, räkna med dem steg för steg och pröva om svaret är rimligt.",
+  "ruleLabel": "MODELL MED ANTAGANDEN",
+  "example": "Fyra personer duschar 5 minuter var per dag, och duschen ger 10 liter per minut: 4 · 5 · 10 = 200 liter per dag och 200 · 365 = 73 000 liter per år.",
+  "practice": [
+    {
+      "id": "papper",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "e": [
+          100,
+          600,
+          50
+        ],
+        "a": [
+          1,
+          4
+        ]
+      },
+      "prompt": "En skola har {e} elever. Anta att varje elev använder {a} pappersark per skoldag och att läsåret har 180 skoldagar. Hur många ark går åt på ett läsår?",
+      "answer": [
+        "=e*a*180",
+        "{e*a*180} ark"
+      ],
+      "correct": "Rätt! {e} · {a} = {e*a} ark per dag och {e*a} · 180 = {e*a*180} ark på ett läsår.",
+      "feedback": [
+        {
+          "answers": [
+            "=e*a"
+          ],
+          "message": "{e*a} ark är det som går åt på en dag. Läsåret har 180 skoldagar."
+        },
+        {
+          "answers": [
+            "=e*180"
+          ],
+          "message": "Du räknade med ett ark per elev och dag. Varje elev använder {a} ark."
+        }
+      ]
+    },
+    {
+      "id": "cykel",
+      "for": [
+        "word-0"
+      ],
+      "vars": {
+        "k": [
+          2,
+          8
+        ],
+        "v": [
+          30,
+          38
+        ]
+      },
+      "prompt": "Anta att du cyklar {k} km till skolan och {k} km hem, 5 dagar i veckan, i {v} veckor. Hur många km cyklar du på ett läsår?",
+      "answer": [
+        "=2*k*5*v",
+        "{2*k*5*v} km"
+      ],
+      "correct": "Rätt! {2*k} km per dag, {2*k*5} km per vecka och {2*k*5} · {v} = {2*k*5*v} km.",
+      "feedback": [
+        {
+          "answers": [
+            "=k*5*v"
+          ],
+          "message": "{k*5*v} km är bara vägen till skolan. Du cyklar hem också."
+        },
+        {
+          "answers": [
+            "=2*k*5"
+          ],
+          "message": "{2*k*5} km är en vecka. Läsåret har {v} veckor."
+        }
+      ]
+    },
+    {
+      "id": "hjarta",
+      "for": [
+        "word-1"
+      ],
+      "vars": {
+        "p": [
+          60,
+          90,
+          5
+        ]
+      },
+      "prompt": "Anta att ett hjärta slår {p} gånger per minut. Hur många gånger slår det på ett dygn?",
+      "answer": [
+        "=p*60*24",
+        "{p*60*24} gånger"
+      ],
+      "correct": "Rätt! {p} · 60 = {p*60} slag per timme och {p*60} · 24 = {p*60*24} slag per dygn.",
+      "feedback": [
+        {
+          "answers": [
+            "=p*60"
+          ],
+          "message": "{p*60} slag är en timme. Ett dygn har 24 timmar."
+        },
+        {
+          "answers": [
+            "=p*24"
+          ],
+          "message": "Du multiplicerade minuter med timmar. Räkna först om till slag per timme: en timme har 60 minuter."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Anta att fyra personer duschar 5 minuter var per dag och att duschen ger 10 liter per minut. Hur många liter blir det på ett år med 365 dagar?",
+    "answer": [
+      "73000"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Två personer kan göra olika antaganden och ändå få var sitt rimligt svar.",
+        "answer": true,
+        "explain": "Därför skriver du upp antagandena, så att andra kan se vad svaret bygger på."
+      },
+      {
+        "text": "En modell måste ge exakt rätt svar för att vara användbar.",
+        "answer": false,
+        "explain": "Ett rimligt svar som går att förklara räcker ofta för att kunna bestämma sig."
+      }
+    ],
+    "correct": "Rätt! Skriv upp antagandena, räkna och pröva om svaret är rimligt."
+  },
+  "exercise": {
+    "prompt": "En skola har 300 elever. Anta att varje elev använder 2 pappersark per skoldag och att läsåret har 180 skoldagar. Hur många ark går åt på ett läsår?",
+    "answer": [
+      "108000",
+      "108000 ark"
+    ],
+    "correct": "Rätt! 300 · 2 = 600 ark per dag och 600 · 180 = 108 000 ark på ett läsår.",
+    "feedback": [
+      {
+        "answers": [
+          "600"
+        ],
+        "message": "600 ark är det som går åt på en dag. Läsåret har 180 skoldagar."
+      },
+      {
+        "answers": [
+          "54000"
+        ],
+        "message": "Du räknade med ett ark per elev och dag. Varje elev använder 2 ark."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Anta att du cyklar 3 km till skolan och 3 km hem, 5 dagar i veckan, i 36 veckor. Hur många km cyklar du på ett läsår?",
+      "answer": [
+        "1080",
+        "1080 km"
+      ],
+      "correct": "Rätt! 6 km per dag, 30 km per vecka och 30 · 36 = 1080 km.",
+      "feedback": [
+        {
+          "answers": [
+            "540"
+          ],
+          "message": "540 km är bara vägen till skolan. Du cyklar hem också."
+        },
+        {
+          "answers": [
+            "30"
+          ],
+          "message": "30 km är en vecka. Läsåret har 36 veckor."
+        }
+      ]
+    },
+    {
+      "prompt": "Anta att ett hjärta slår 70 gånger per minut. Hur många gånger slår det på ett dygn?",
+      "answer": [
+        "100800",
+        "100800 gånger"
+      ],
+      "correct": "Rätt! 70 · 60 = 4200 slag per timme och 4200 · 24 = 100 800 slag per dygn.",
+      "feedback": [
+        {
+          "answers": [
+            "4200"
+          ],
+          "message": "4200 slag är en timme. Ett dygn har 24 timmar."
+        },
+        {
+          "answers": [
+            "1680"
+          ],
+          "message": "Du multiplicerade minuter med timmar. Räkna först om till slag per timme: en timme har 60 minuter."
+        }
+      ]
+    },
+    {
+      "prompt": "I duschexemplet antog vi att fyra personer duschar 5 minuter var per dag med 10 liter per minut. Anta i stället att varje dusch tar 8 minuter. Hur många liter blir det per dag för hela familjen?",
+      "answer": [
+        "320",
+        "320 liter"
+      ],
+      "correct": "Rätt! 4 · 8 · 10 = 320 liter per dag. Ett nytt antagande ger ett nytt svar, och det är därför du skriver upp antagandena.",
+      "feedback": [
+        {
+          "answers": [
+            "80"
+          ],
+          "message": "80 liter är en persons dusch. Familjen är fyra personer."
+        },
+        {
+          "answers": [
+            "116800"
+          ],
+          "message": "116 800 liter är för ett helt år. Frågan gäller en dag."
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "steg",
+      "title": "Så bygger du en modell med antaganden",
+      "example": "Hur många liter vatten använder en familj på fyra personer till att duscha under ett år?",
+      "steps": [
+        {
+          "do": "Bestäm vad du söker och i vilken enhet.",
+          "show": [
+            "Vi söker liter vatten per år."
+          ]
+        },
+        {
+          "do": "Skriv upp dina antaganden.",
+          "show": [
+            "Varje person duschar en gång per dag.",
+            "En dusch tar 5 minuter.",
+            "Duschen ger 10 liter per minut."
+          ]
+        },
+        {
+          "do": "Räkna steg för steg med antagandena.",
+          "show": [
+            "4 · 5 · 10 = 200 liter per dag",
+            "200 · 365 = 73 000 liter per år"
+          ]
+        },
+        {
+          "do": "Pröva om svaret är rimligt och svara med en hel mening.",
+          "show": [
+            "73 000 liter är 73 kubikmeter, ungefär ett litet rum fyllt med vatten.",
+            "Familjen använder ungefär 73 000 liter vatten om året till att duscha."
+          ]
+        }
+      ]
+    }
+  ],
+  "layout": [
+    "explanation",
+    "comp:0",
+    "rule",
+    "exercise",
+    "word:0",
+    "word:1",
+    "word:2"
+  ]
+}
