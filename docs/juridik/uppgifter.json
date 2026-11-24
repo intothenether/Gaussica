@@ -1,14 +1,14 @@
 {
-  "utkast": true,
+  "utkast": false,
   "version": "2026-11",
   "datum": "2026-11-05",
-  "namn": "[Ditt namn]",
-  "status": "[privatperson eller enskild firma med organisationsnummer]",
-  "adress": "[Din postadress]",
-  "epost": "[din e-postadress för frågor och ångerrätt]",
+  "namn": "Sebastian Klawon",
+  "status": "privatperson",
+  "adress": "Lillbrostigen 7, 18441 Åkersberga",
+  "epost": "contact@gaussica.se",
   "webbplats": "https://gaussica.se",
   "provdagar": "14",
   "betalleverantor": "Paddle.com Market Limited",
-  "fillagring": "[var sidans filer ligger, till exempel GitHub Pages eller ditt webbhotell]",
-  "pris": "[pris per månad och per år, med moms, så som det visas när du köper]"
+  "fillagring": "GitHub Pages (GitHub, Inc.)",
+  "pris": "99 kr per månad, inklusive moms"
 }

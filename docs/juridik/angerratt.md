@@ -13,7 +13,7 @@ Du kan också säga upp prenumerationen när som helst under Mitt konto, "Hanter
 
 ## Om du har börjat använda tjänsten
 
-Prenumerationen börjar gälla direkt när du har betalat, och du kan börja använda den med en gång. Om du ångrar köpet under de 14 dagarna och har börjat använda tjänsten kan vi ta ut ett belopp för den tid du har använt den, om du har bett om att få börja direkt. [Kontrollera hur Paddle hanterar det i sin checkout och sina köpvillkor innan du bestämmer den här meningen.]
+Prenumerationen börjar gälla direkt när du har betalat, och du kan börja använda den med en gång. Om du ångrar köpet under de 14 dagarna får du tillbaka hela beloppet, även om du har börjat använda tjänsten.
 
 ## Provperioden
 
