@@ -1,0 +1,172 @@
+{
+  "id": "vinklar-parallella-linjer",
+  "area": "geometri",
+  "title": "Vinklar vid parallella linjer",
+  "level": "Sidovinklar, vertikalvinklar och likbelägna vinklar · ungefär åk 7",
+  "grade": 7,
+  "duration": "8 min",
+  "prerequisites": [
+    "vinklar",
+    "fyrhorningar-linjer"
+  ],
+  "summary": "När en linje skär två parallella linjer bildas åtta vinklar. Känner du en av dem kan du räkna ut alla de andra.",
+  "explanationTitle": "En vinkel ger alla åtta",
+  "explanation": "Problemet: Två parallella linjer skärs av en tredje linje. En av vinklarna är 70°. Hur stora är de andra sju vinklarna? Där linjen skär den första parallella linjen bildas fyra vinklar. Två vinklar som ligger bredvid varandra på en rak linje kallas sidovinklar och är tillsammans 180°. Därför är grannvinkeln 180° − 70° = 110°. Vinklar som ligger mitt emot varandra kallas vertikalvinklar och är lika stora. Där linjen skär den andra parallella linjen bildas samma fyra vinklar igen, eftersom de parallella linjerna har samma riktning. Vinklar på samma plats vid de två linjerna kallas likbelägna vinklar och är lika stora. Vinklar på var sin sida av den skärande linjen, mellan de parallella linjerna, kallas alternatvinklar och är också lika stora. Alla åtta vinklar är alltså 70° eller 110°.",
+  "visual": {
+    "type": "tabell",
+    "title": "Vinklar vid parallella linjer",
+    "headers": [
+      "Vinklar",
+      "Regel"
+    ],
+    "rows": [
+      [
+        "Sidovinklar",
+        "tillsammans 180°"
+      ],
+      [
+        "Vertikalvinklar",
+        "lika stora"
+      ],
+      [
+        "Likbelägna vinklar",
+        "lika stora när linjerna är parallella"
+      ],
+      [
+        "Alternatvinklar",
+        "lika stora när linjerna är parallella"
+      ]
+    ]
+  },
+  "rule": "Sidovinklar är tillsammans 180°. Vertikalvinklar är lika stora. Vid parallella linjer är likbelägna vinklar och alternatvinklar lika stora.",
+  "ruleLabel": "PARALLELLA LINJER",
+  "example": "En vinkel är 125°. Dess sidovinkel är 55°, och den likbelägna vinkeln vid den andra parallella linjen är 125°.",
+  "practice": [
+    {
+      "id": "sidovinkel",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "v": [
+          25,
+          85
+        ]
+      },
+      "prompt": "En vinkel vid två parallella linjer är {v}°. Hur stor är dess sidovinkel?",
+      "answer": [
+        "=180-v",
+        "{180-v}°"
+      ],
+      "correct": "Rätt! Sidovinklar är tillsammans 180°: 180° − {v}° = {180-v}°.",
+      "feedback": [
+        {
+          "answers": [
+            "=90-v"
+          ],
+          "message": "Sidovinklar är tillsammans 180°, inte 90°."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Två vinklar ligger bredvid varandra på en rak linje. Den ena är 70°. Hur stor är den andra?",
+    "answer": [
+      "110",
+      "110°"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Vertikalvinklar är alltid lika stora.",
+        "answer": true,
+        "explain": "De ligger mitt emot varandra där två linjer skär varandra."
+      },
+      {
+        "text": "Likbelägna vinklar är lika stora även när linjerna inte är parallella.",
+        "answer": false,
+        "explain": "Regeln gäller bara när linjerna är parallella."
+      }
+    ],
+    "correct": "Rätt! Kolla alltid om linjerna är parallella innan du använder likbelägna vinklar."
+  },
+  "exercise": {
+    "prompt": "Två parallella linjer skärs av en tredje linje. En vinkel är 48°. Hur stor är dess sidovinkel?",
+    "answer": [
+      "132",
+      "132°"
+    ],
+    "correct": "Rätt! 180° − 48° = 132°.",
+    "feedback": [
+      {
+        "answers": [
+          "42",
+          "42°"
+        ],
+        "message": "42° skulle göra vinklarna tillsammans 90°. Sidovinklar är tillsammans 180°."
+      },
+      {
+        "answers": [
+          "48",
+          "48°"
+        ],
+        "message": "48° är vertikalvinkeln. Sidovinkeln ligger bredvid, på samma raka linje."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En väg korsar en järnväg där rälsen är två parallella linjer. Vägen bildar vinkeln 65° med den ena rälsen. Hur stor är den likbelägna vinkeln vid den andra rälsen?",
+      "answer": [
+        "65",
+        "65°"
+      ],
+      "correct": "Rätt! Likbelägna vinklar vid parallella linjer är lika stora.",
+      "feedback": [
+        {
+          "answers": [
+            "115",
+            "115°"
+          ],
+          "message": "115° är sidovinkeln. Likbelägna vinklar är lika stora."
+        }
+      ]
+    },
+    {
+      "prompt": "I en parallellogram är en vinkel 70°. Hur stor är grannvinkeln längs samma sida?",
+      "answer": [
+        "110",
+        "110°"
+      ],
+      "correct": "Rätt! Sidorna är parallella, så två vinklar längs samma sida är tillsammans 180°: 180° − 70° = 110°.",
+      "feedback": [
+        {
+          "answers": [
+            "70",
+            "70°"
+          ],
+          "message": "Motstående vinklar är lika stora, men vinklarna längs samma sida är tillsammans 180°, eftersom sidorna är parallella."
+        }
+      ]
+    },
+    {
+      "prompt": "Två parallella linjer skärs av en tredje linje. En vinkel är 3 gånger så stor som sin sidovinkel. Hur stor är den största vinkeln?",
+      "answer": [
+        "135",
+        "135°"
+      ],
+      "correct": "Rätt! x + 3x = 180°, så x = 45° och den största vinkeln är 3 · 45° = 135°.",
+      "feedback": [
+        {
+          "answers": [
+            "45",
+            "45°"
+          ],
+          "message": "45° är den minsta vinkeln. Den största är 3 gånger så stor."
+        }
+      ]
+    }
+  ]
+}

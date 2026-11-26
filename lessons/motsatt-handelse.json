@@ -1,0 +1,182 @@
+{
+  "id": "motsatt-handelse",
+  "area": "data",
+  "title": "Motsatt händelse: minst en gång",
+  "level": "1 minus chansen för ingen · ungefär åk 9",
+  "grade": 9,
+  "duration": "8 min",
+  "prerequisites": [
+    "traddiagram"
+  ],
+  "summary": "Chansen för minst en gång är ofta lättast att räkna ut med motsatsen: 1 minus chansen att det inte händer någon gång alls.",
+  "explanationTitle": "Räkna på motsatsen",
+  "explanation": "Problemet: Du kastar en tärning tre gånger. Vad är chansen att få minst en sexa? Det finns många sätt att få minst en sexa: på första kastet, på det andra, på flera av dem. Det är enklare att räkna på motsatsen, att inte få någon sexa alls. Chansen att inte få en sexa på ett kast är 5/6. På tre kast blir det 5/6 · 5/6 · 5/6 = 125/216. Antingen får du ingen sexa, eller så får du minst en. Tillsammans är det säkert, alltså chansen 1. Chansen för minst en sexa är därför 1 − 125/216 = 91/216, ungefär 42 %.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tre tärningskast",
+    "headers": [
+      "Händelse",
+      "Chans"
+    ],
+    "rows": [
+      [
+        "Ingen sexa",
+        "5/6 · 5/6 · 5/6 = 125/216"
+      ],
+      [
+        "Minst en sexa",
+        "1 − 125/216 = 91/216"
+      ]
+    ]
+  },
+  "rule": "P(minst en) = 1 − P(ingen). En händelse och dess motsats har tillsammans chansen 1.",
+  "ruleLabel": "MOTSATT HÄNDELSE",
+  "example": "Två myntkast: chansen för ingen krona är 1/2 · 1/2 = 1/4, så chansen för minst en krona är 1 − 1/4 = 3/4.",
+  "practice": [
+    {
+      "id": "minst-en-krona",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          2,
+          7
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "pow(2,n)"
+        }
+      ],
+      "prompt": "Du kastar ett mynt {n} gånger. Vad är chansen att få minst en krona? Skriv svaret som ett bråk.",
+      "answer": [
+        "{v-1}/{v}"
+      ],
+      "correct": "Rätt! Chansen för ingen krona är 1/{v}, så chansen för minst en är 1 − 1/{v} = {v-1}/{v}.",
+      "feedback": [
+        {
+          "answers": [
+            "1/{v}"
+          ],
+          "message": "1/{v} är chansen att inte få någon krona alls. Ta 1 minus den."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Chansen att det regnar i morgon är 0,3. Vad är chansen att det inte regnar?",
+    "answer": [
+      "0,7",
+      "0.7",
+      "7/10"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om chansen att vinna är 1/8 är chansen att inte vinna 7/8.",
+        "answer": true,
+        "explain": "1 − 1/8 = 7/8."
+      },
+      {
+        "text": "Chansen för minst en sexa på två kast är 1/6 + 1/6 = 2/6.",
+        "answer": false,
+        "explain": "Då räknas två sexor två gånger. Rätt är 1 − 5/6 · 5/6 = 11/36."
+      }
+    ],
+    "correct": "Rätt! Minst en är motsatsen till ingen."
+  },
+  "exercise": {
+    "prompt": "Du kastar ett mynt tre gånger. Vad är chansen att få minst en krona? Skriv svaret som ett bråk.",
+    "answer": [
+      "7/8",
+      "0,875",
+      "0.875"
+    ],
+    "correct": "Rätt! Chansen för ingen krona är 1/2 · 1/2 · 1/2 = 1/8, så minst en krona är 1 − 1/8 = 7/8.",
+    "feedback": [
+      {
+        "answers": [
+          "1/8"
+        ],
+        "message": "1/8 är chansen att inte få någon krona alls. Ta 1 minus den."
+      },
+      {
+        "answers": [
+          "3/2"
+        ],
+        "message": "Du lade ihop 1/2 tre gånger, och en chans kan inte vara större än 1. Räkna i stället på motsatsen: ingen krona."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett larm fungerar med chansen 0,9. Ett hus har två sådana larm, som fungerar oberoende av varandra. Vad är chansen att minst ett larm fungerar?",
+      "answer": [
+        "0,99",
+        "0.99",
+        "99/100"
+      ],
+      "correct": "Rätt! Chansen att inget fungerar är 0,1 · 0,1 = 0,01, så chansen att minst ett fungerar är 1 − 0,01 = 0,99.",
+      "feedback": [
+        {
+          "answers": [
+            "0,81",
+            "0.81"
+          ],
+          "message": "0,81 är chansen att båda fungerar. Frågan gäller minst ett."
+        },
+        {
+          "answers": [
+            "1,8",
+            "1.8"
+          ],
+          "message": "En chans kan inte vara större än 1. Räkna på motsatsen: att inget larm fungerar."
+        }
+      ]
+    },
+    {
+      "prompt": "Du drar ett kort ur en vanlig kortlek, lägger tillbaka det och drar igen. Vad är chansen att minst ett av korten är hjärter? Skriv svaret som ett bråk.",
+      "answer": [
+        "7/16",
+        "0,4375",
+        "0.4375"
+      ],
+      "correct": "Rätt! Chansen för inget hjärter är 3/4 · 3/4 = 9/16, så minst ett hjärter är 1 − 9/16 = 7/16.",
+      "feedback": [
+        {
+          "answers": [
+            "1/2"
+          ],
+          "message": "1/4 + 1/4 räknar två hjärter dubbelt. Räkna på motsatsen: inget hjärter, 3/4 · 3/4."
+        },
+        {
+          "answers": [
+            "9/16"
+          ],
+          "message": "9/16 är chansen för inget hjärter. Ta 1 minus den."
+        }
+      ]
+    },
+    {
+      "prompt": "Chansen att Ali missar bussen en dag är 0,1. Vad är chansen att han hinner med bussen alla fem dagarna i en vecka? Svara i procent, avrundat till hela procent.",
+      "answer": [
+        "59",
+        "59 %"
+      ],
+      "correct": "Rätt! Chansen att hinna en dag är 1 − 0,1 = 0,9. Alla fem dagar: 0,9 · 0,9 · 0,9 · 0,9 · 0,9 ≈ 0,59, alltså 59 %.",
+      "feedback": [
+        {
+          "answers": [
+            "50",
+            "50 %"
+          ],
+          "message": "Du drog bort 10 procentenheter fem gånger. Chansen att hinna en dag är 0,9, och längs grenen multiplicerar du: 0,9 · 0,9 · 0,9 · 0,9 · 0,9."
+        }
+      ]
+    }
+  ]
+}

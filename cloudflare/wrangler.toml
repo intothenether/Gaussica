@@ -22,7 +22,7 @@ CAREGIVER_EMAIL_REQUIRED = "1"                        # en vårdnadshavare måst
 TRIAL_DAYS = "14"
 # PADDLE_ENV = "production"                           # utelämnas för sandlådan
 PADDLE_PRICES = '{"manad":{"priceId":"pri_01m87tpkmrkkqjjdb69e3vbs80","label":"Månad","text":"99 kr per månad"}}'
-# DIGEST_ENABLED = "1"                                # veckosammanfattning på mejl till vårdnadshavare som har bett om den (kräver mejl och cron-raden nedan)
+DIGEST_ENABLED = "1"                                  # veckosammanfattning på mejl till vårdnadshavare som har bett om den (kräver mejl och cron-raden nedan; kör migrations/009-digest.sql INNAN workern publiceras)
 # Hemligheter (wrangler secret put): RESEND_API_KEY, PADDLE_API_KEY, PADDLE_WEBHOOK_SECRET, ADMIN_TOKEN
 
 # Veckosammanfattningen skickas av ett schemalagt anrop: söndagar kl. 16 UTC. Det gör inget förrän DIGEST_ENABLED är påslaget.

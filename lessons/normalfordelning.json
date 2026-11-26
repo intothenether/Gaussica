@@ -1,0 +1,173 @@
+{
+  "id": "normalfordelning",
+  "area": "data",
+  "title": "Normalfördelning: 68, 95 och 99,7 procent",
+  "level": "Tumregler för klockformade data · gymnasiet, Ma 2",
+  "grade": 10,
+  "duration": "8 min",
+  "prerequisites": [
+    "standardavvikelse"
+  ],
+  "summary": "Många mätvärden är normalfördelade: flest nära medelvärdet och färre längre bort. Ungefär 68 % ligger inom en standardavvikelse från medelvärdet, 95 % inom två och 99,7 % inom tre.",
+  "explanationTitle": "Klockkurvan",
+  "explanation": "Problemet: Anta att längden hos en grupp vuxna är normalfördelad med medelvärdet 167 cm och standardavvikelsen 6 cm. Hur stor andel är mellan 161 och 173 cm? Många mätvärden fördelar sig som en klocka: flest nära medelvärdet och färre ju längre bort du kommer. Det kallas normalfördelning. För alla normalfördelningar gäller ungefär att 68 % av värdena ligger inom en standardavvikelse från medelvärdet, 95 % inom två och 99,7 % inom tre. 161 är 167 − 6 och 173 är 167 + 6, alltså en standardavvikelse åt varje håll. Svaret är ungefär 68 %. Kurvan är symmetrisk, så av de andra 32 procenten är hälften, 16 %, längre än 173 cm och hälften kortare än 161 cm.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tumreglerna",
+    "headers": [
+      "Intervall",
+      "Andel"
+    ],
+    "rows": [
+      [
+        "medelvärdet ± 1 standardavvikelse",
+        "68 %"
+      ],
+      [
+        "medelvärdet ± 2 standardavvikelser",
+        "95 %"
+      ],
+      [
+        "medelvärdet ± 3 standardavvikelser",
+        "99,7 %"
+      ]
+    ]
+  },
+  "rule": "68 % inom 1 standardavvikelse, 95 % inom 2 och 99,7 % inom 3. Kurvan är symmetrisk kring medelvärdet.",
+  "ruleLabel": "NORMALFÖRDELNING",
+  "example": "Medelvärdet 100 och standardavvikelsen 15: ungefär 95 % ligger mellan 70 och 130.",
+  "practice": [
+    {
+      "id": "undre-grans",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "m": [
+          40,
+          80,
+          10
+        ],
+        "s": [
+          4,
+          10,
+          2
+        ]
+      },
+      "prompt": "Ett mätvärde är normalfördelat med medelvärdet {m} och standardavvikelsen {s}. Ungefär 95 % av värdena ligger i ett intervall kring medelvärdet. Vad är intervallets undre gräns?",
+      "answer": [
+        "=m-2*s"
+      ],
+      "correct": "Rätt! 95 % ligger inom två standardavvikelser: {m} − 2 · {s} = {m-2*s}.",
+      "feedback": [
+        {
+          "answers": [
+            "=m-s"
+          ],
+          "message": "Det är en standardavvikelse bort. 95 % gäller två standardavvikelser."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Anta att längden är normalfördelad med medelvärdet 167 cm och standardavvikelsen 6 cm. Ungefär hur många procent är mellan 161 och 173 cm?",
+    "answer": [
+      "68",
+      "68 %"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "I en normalfördelning ligger ungefär 95 % av värdena inom två standardavvikelser från medelvärdet.",
+        "answer": true,
+        "explain": "Det är en av de tre tumreglerna: 68, 95 och 99,7 procent."
+      },
+      {
+        "text": "Hälften av värdena ligger inom en standardavvikelse från medelvärdet.",
+        "answer": false,
+        "explain": "Det är ungefär 68 %, alltså mer än hälften."
+      }
+    ],
+    "correct": "Rätt! Kom ihåg 68, 95 och 99,7."
+  },
+  "exercise": {
+    "prompt": "Resultaten på ett prov är normalfördelade med medelvärdet 50 poäng och standardavvikelsen 10. Ungefär hur många procent fick mellan 30 och 70 poäng?",
+    "answer": [
+      "95",
+      "95 %"
+    ],
+    "correct": "Rätt! 30 och 70 ligger två standardavvikelser från 50, så det är ungefär 95 %.",
+    "feedback": [
+      {
+        "answers": [
+          "68",
+          "68 %"
+        ],
+        "message": "68 % gäller en standardavvikelse. 30 och 70 ligger två standardavvikelser från 50."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Äggen från en gård väger i genomsnitt 60 g, normalfördelat med standardavvikelsen 5 g. Ungefär hur många procent av äggen väger mer än 65 g?",
+      "answer": [
+        "16",
+        "16 %"
+      ],
+      "correct": "Rätt! 68 % väger mellan 55 och 65 g. Av de andra 32 % väger hälften, 16 %, mer än 65 g.",
+      "feedback": [
+        {
+          "answers": [
+            "32",
+            "32 %"
+          ],
+          "message": "32 % ligger utanför intervallet åt båda hållen. Kurvan är symmetrisk, så bara hälften väger mer än 65 g."
+        },
+        {
+          "answers": [
+            "34",
+            "34 %"
+          ],
+          "message": "34 % väger mellan 60 och 65 g. Frågan gäller de ägg som väger mer än 65 g."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett test har medelvärdet 100 och standardavvikelsen 15, normalfördelat. Ungefär hur många procent får mer än 130?",
+      "answer": [
+        "2,5",
+        "2.5",
+        "2,5 %"
+      ],
+      "correct": "Rätt! 95 % ligger mellan 70 och 130. Av de andra 5 % är hälften, 2,5 %, över 130.",
+      "feedback": [
+        {
+          "answers": [
+            "5",
+            "5 %"
+          ],
+          "message": "5 % ligger utanför 70 till 130 åt båda hållen. Bara hälften är över 130."
+        }
+      ]
+    },
+    {
+      "prompt": "En maskin fyller flaskor med i genomsnitt 500 ml, normalfördelat med standardavvikelsen 4 ml. Nästan alla flaskor, 99,7 %, ligger i ett intervall kring 500 ml. Vad är intervallets övre gräns i ml?",
+      "answer": [
+        "512",
+        "512 ml"
+      ],
+      "correct": "Rätt! 99,7 % ligger inom tre standardavvikelser: 500 + 3 · 4 = 512 ml.",
+      "feedback": [
+        {
+          "answers": [
+            "508",
+            "508 ml"
+          ],
+          "message": "508 ml är två standardavvikelser bort. 99,7 % gäller tre."
+        }
+      ]
+    }
+  ]
+}

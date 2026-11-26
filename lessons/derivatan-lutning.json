@@ -1,0 +1,165 @@
+{
+  "id": "derivatan-lutning",
+  "area": "algebra",
+  "title": "Derivatan: lutningen i en punkt",
+  "level": "Från medelhastighet till derivata · gymnasiet, Ma 3",
+  "grade": 10,
+  "duration": "8 min",
+  "prerequisites": [
+    "forandringshastighet",
+    "andragradsfunktioner"
+  ],
+  "summary": "Derivatan är förändringshastigheten i en enda punkt, lutningen på kurvans tangent där. För f(x) = x^n är derivatan f′(x) = n · x^(n−1).",
+  "explanationTitle": "Låt punkterna komma närmare",
+  "explanation": "Problemet: En boll rullar så att sträckan i meter efter t sekunder är s(t) = t^2. Hur fort rullar bollen just när t = 3? Medelhastigheten mellan två tidpunkter är lutningen på linjen mellan två punkter på grafen. Mellan t = 3 och t = 4 blir den (16 − 9) delat med 1 = 7 m/s. Mellan t = 3 och t = 3,1 blir den (9,61 − 9) delat med 0,1 = 6,1 m/s. Mellan t = 3 och t = 3,01 blir den 6,01 m/s. Ju närmare varandra punkterna kommer, desto närmare 6 kommer svaret. Gränsvärdet 6 m/s är derivatan s′(3), lutningen på tangenten i punkten där t = 3. För f(x) = x^2 är derivatan f′(x) = 2x, och 2 · 3 = 6. För f(x) = x^n gäller f′(x) = n · x^(n−1).",
+  "visual": {
+    "type": "tabell",
+    "title": "Lutningen från t = 3 till en punkt allt närmare",
+    "headers": [
+      "Till",
+      "Lutning"
+    ],
+    "rows": [
+      [
+        "t = 4",
+        "7"
+      ],
+      [
+        "t = 3,1",
+        "6,1"
+      ],
+      [
+        "t = 3,01",
+        "6,01"
+      ],
+      [
+        "t = 3,001",
+        "6,001"
+      ]
+    ]
+  },
+  "rule": "Derivatan f′(a) är lutningen på tangenten där x = a. För f(x) = x^n är f′(x) = n · x^(n−1).",
+  "ruleLabel": "DERIVATA",
+  "example": "f(x) = x^3 ger f′(x) = 3x^2, så f′(2) = 3 · 4 = 12.",
+  "practice": [
+    {
+      "id": "derivata-x2",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          3,
+          9
+        ]
+      },
+      "prompt": "f(x) = x^2. Vad är f′({a})?",
+      "answer": [
+        "=2*a"
+      ],
+      "correct": "Rätt! f′(x) = 2x, så f′({a}) = 2 · {a} = {2*a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a*a"
+          ],
+          "message": "{a*a} är f({a}), funktionens värde. Derivatan är 2x."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En boll rullar så att sträckan i meter efter t sekunder är s(t) = t^2. Vad är medelhastigheten i m/s mellan t = 3 och t = 4?",
+    "answer": [
+      "7",
+      "7 m/s"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Derivatan av x^2 är 2x.",
+        "answer": true,
+        "explain": "Exponenten 2 flyttas ner framför, och exponenten minskar med 1."
+      },
+      {
+        "text": "Derivatan f′(3) är samma sak som funktionsvärdet f(3).",
+        "answer": false,
+        "explain": "f(3) är var grafen är. f′(3) är hur brant den är där."
+      }
+    ],
+    "correct": "Rätt! Derivatan mäter lutning, inte höjd."
+  },
+  "exercise": {
+    "prompt": "f(x) = x^2. Vad är f′(5)?",
+    "answer": [
+      "10"
+    ],
+    "correct": "Rätt! f′(x) = 2x, så f′(5) = 2 · 5 = 10.",
+    "feedback": [
+      {
+        "answers": [
+          "25"
+        ],
+        "message": "25 är f(5), funktionens värde. Derivatan är 2x, så f′(5) = 2 · 5."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "f(x) = x^3. Vad är f′(2)?",
+      "answer": [
+        "12"
+      ],
+      "correct": "Rätt! f′(x) = 3x^2, så f′(2) = 3 · 4 = 12.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är f(2). Derivatan av x^3 är 3x^2."
+        },
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "Exponenten minskar med 1: derivatan är 3x^2, inte 3x."
+        }
+      ]
+    },
+    {
+      "prompt": "Vattenståndet i meter efter t timmar är h(t) = 0,5t^2. Hur fort stiger vattnet, i meter per timme, när t = 4?",
+      "answer": [
+        "4",
+        "4 m/h"
+      ],
+      "correct": "Rätt! h′(t) = 0,5 · 2t = t, så h′(4) = 4 meter per timme.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "8 är vattenståndet h(4). Derivatan av 0,5t^2 är 0,5 · 2t = t."
+        }
+      ]
+    },
+    {
+      "prompt": "f(x) = x^2. Lutningen mellan x = 1 och x = 1,1 är (1,21 − 1) delat med 0,1. Vad blir den?",
+      "answer": [
+        "2,1",
+        "2.1"
+      ],
+      "correct": "Rätt! 0,21 delat med 0,1 är 2,1. Ju närmare 1 den andra punkten kommer, desto närmare f′(1) = 2 kommer lutningen.",
+      "feedback": [
+        {
+          "answers": [
+            "0,21",
+            "0.21"
+          ],
+          "message": "0,21 är ändringen i y. Dela med ändringen i x, 0,1."
+        }
+      ]
+    }
+  ]
+}

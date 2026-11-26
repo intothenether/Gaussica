@@ -1,0 +1,866 @@
+/* Split off from the end of styles.css: the pet, the start page, the caregiver's view, the new formats and the newer
+   lesson parts. Linked right after styles-features.css (see index.html), so the order of the rules is the same as before. */
+
+/* ---- the pet (pet.js, pet-art.js) ---- */
+.pet-chip { border-color: #e3b04a; background: #fff3cc; }
+.pet-overlay { z-index: 21600; }
+.pet-panel { width: min(860px, 100%); padding: 18px 22px 20px; }
+.pet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.pet-head h2 { margin: 0; }
+.pet-close { width: 38px; height: 38px; border: 0; border-radius: 50%; background: var(--sky-soft); font-size: 18px; cursor: pointer; }
+.pet-body { display: grid; gap: 14px; }
+.pet-lead { font-size: 16px; }
+.pet-art, .pet-stage { line-height: 0; }
+.pet-svg { display: block; width: 100%; height: auto; }
+.pet-stage { display: block; width: min(300px, 100%); margin: 0 auto; border: 0; padding: 0; background: none; border-radius: 26px; }
+.pet-stage-tap, .pet-stage-card { cursor: pointer; }
+.pet-stage:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+.pet-kinds { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.pet-kind { display: grid; justify-items: center; gap: 2px; padding: 8px 12px; border: 3px solid var(--border); border-radius: 16px; background: #fff; font: 700 14px "Nunito", sans-serif; cursor: pointer; }
+.pet-kind svg { width: 64px; height: 64px; }
+.pet-kind.is-on { border-color: var(--brand-dark); background: var(--sky-soft); }
+.pet-colors { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.pet-settings .pet-colors, .pet-settings .pet-kinds { justify-content: flex-start; }
+.pet-color { width: 38px; height: 38px; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 2px var(--border); cursor: pointer; }
+.pet-color.is-on { box-shadow: 0 0 0 4px var(--brand-dark); }
+.pet-field { display: grid; gap: 6px; font-weight: 700; }
+.pet-field input { padding: 10px 12px; border: 2px solid var(--border); border-radius: 12px; font: 700 17px "Nunito", sans-serif; }
+.pet-go { justify-self: center; min-width: 220px; }
+.pet-room { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); align-items: start; gap: 20px; }
+@media (max-width: 720px) { .pet-room { grid-template-columns: 1fr; } .pet-panel { padding: 14px 14px 18px; } }
+.pet-coins { margin: 8px 0 0; text-align: center; font-size: 18px; font-weight: 800; }
+.pet-coins b { font-size: 24px; }
+.pet-coin { margin-right: 4px; }
+.pet-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.pet-tab { padding: 7px 12px; border: 2px solid var(--border); border-radius: 999px; background: #fff; font: 700 14px "Nunito", sans-serif; cursor: pointer; }
+.pet-tab.is-on { border-color: var(--brand-dark); background: var(--brand); color: #fff; }
+.pet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; }
+.pet-item { display: grid; gap: 2px; justify-items: center; padding: 8px 6px; border: 3px solid var(--border); border-radius: 14px; background: #fff; font: 700 13px "Nunito", sans-serif; cursor: pointer; }
+.pet-item.is-owned { background: #f1faf4; }
+.pet-item.is-selected { border-color: var(--brand-dark); box-shadow: 0 0 0 2px var(--sky-line); }
+.pet-item-thumb { display: block; width: 72px; height: 54px; line-height: 0; }
+.pet-item-thumb svg { width: 100%; height: 100%; }
+.pet-item-name { text-align: center; line-height: 1.2; }
+.pet-item-price { color: var(--muted); font-weight: 800; }
+.pet-action { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; min-height: 52px; margin-top: 10px; padding: 10px 12px; border-radius: 14px; background: var(--sky-soft); }
+.pet-hint, .pet-short { margin: 0; color: var(--muted); font-size: 14px; font-weight: 700; }
+.pet-btn { padding: 8px 14px; border: 2px solid var(--brand); border-radius: 12px; background: #fff; color: var(--brand-dark); font: 700 14px "Nunito", sans-serif; cursor: pointer; }
+.pet-btn.primary-button { border-color: transparent; color: #fff; }
+.pet-msg { min-height: 22px; margin: 8px 0 0; font-weight: 600; color: var(--success-dark, #3b8556); }
+.pet-earn { margin-top: 8px; font-size: 14px; }
+.pet-earn summary { cursor: pointer; font-weight: 600; color: var(--brand-dark); }
+.pet-earn-list { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; line-height: 1.45; }
+.pet-earn-head { margin: 10px 0 0; font-weight: 700; }
+.pet-sub { margin: 14px 0 6px; font: 600 14px "Nunito", sans-serif; color: var(--muted); }
+.pet-settings { display: grid; gap: 8px; justify-items: start; }
+
+.pet-card { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin: 0 0 18px; padding: 16px 20px; border: 3px solid #f2d58a; border-radius: 22px; background: #fffaf0; }
+.pet-card[hidden] { display: none; }
+.pet-card .pet-stage-card { width: 120px; flex: none; margin: 0; }
+.pet-card-copy { flex: 1 1 240px; min-width: 0; }
+.pet-card-copy h3 { margin: 0 0 4px; font: 800 22px "Nunito", sans-serif; }
+.pet-card-copy p { margin: 0; font-size: 15px; line-height: 1.5; }
+.pet-bubble { position: relative; display: inline-block; padding: 9px 14px; border-radius: 16px 16px 16px 4px; background: #fff; border: 2px solid #f2d58a; font-weight: 600; }
+.pet-card-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; }
+.pet-coins-chip { padding: 5px 12px; border-radius: 999px; background: #fff3cc; border: 2px solid #e3b04a; font-weight: 800; color: #8a5a00; }
+.pet-invite-faces { display: flex; gap: 4px; }
+.pet-invite-face svg { width: 64px; height: 64px; }
+.pet-ribbon { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 14px 0; padding: 10px 14px; border-radius: 18px; background: #fff3cc; border: 2px solid #e3b04a; }
+.pet-ribbon-art { width: 72px; flex: none; line-height: 0; }
+.pet-ribbon-copy { display: grid; flex: 1 1 160px; gap: 2px; font-size: 15px; }
+.pet-face { display: inline-block; width: 34px; height: 34px; margin-right: 8px; vertical-align: middle; line-height: 0; }
+.pet-face svg { width: 100%; height: 100%; }
+.pet-thumb { width: 100%; height: 100%; }
+
+/* the animals move a little (not for those who asked for less movement) */
+.pet-svg .pet-bob { animation: pet-bob 2.6s ease-in-out infinite; }
+.pet-svg .pet-eyes:not(.is-happy) { transform-box: fill-box; transform-origin: center; animation: pet-blink 4.4s infinite; }
+.pet-svg .pet-tail { transform-origin: 134px 152px; animation: pet-wag 1.6s ease-in-out infinite; }
+.pet-svg .pet-wing-l { transform-origin: 62px 100px; }
+.pet-svg .pet-wing-r { transform-origin: 138px 100px; }
+.pet-svg .pet-prop { transform-origin: 100px 21px; animation: pet-spin .7s linear infinite; }
+.pet-svg.is-happy .pet-bob { animation: pet-jump .55s ease-out 2; }
+.pet-svg.is-happy .pet-tail { animation-duration: .35s; }
+.pet-svg.is-happy .pet-wing-l { animation: pet-flap-l .3s ease-in-out 4; }
+.pet-svg.is-happy .pet-wing-r { animation: pet-flap-r .3s ease-in-out 4; }
+.pet-svg .pet-spark { font-size: 16px; fill: #f2b01e; opacity: 0; animation: pet-spark 1.4s ease-out 1; }
+.pet-svg .pet-spark.s2 { animation-delay: .25s; }
+.pet-svg .pet-spark.s3 { fill: var(--accent); animation-delay: .5s; }
+@keyframes pet-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes pet-blink { 0%, 94%, 100% { transform: scaleY(1); } 96.5% { transform: scaleY(.1); } }
+@keyframes pet-wag { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(10deg); } }
+@keyframes pet-spin { to { transform: rotate(360deg); } }
+@keyframes pet-jump { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-16px); } }
+@keyframes pet-flap-l { 50% { transform: rotate(-28deg); } }
+@keyframes pet-flap-r { 50% { transform: rotate(28deg); } }
+@keyframes pet-spark { 0% { opacity: 0; transform: translateY(8px) scale(.6); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-18px) scale(1.2); } }
+@media (prefers-reduced-motion: reduce) {
+  .pet-svg .pet-bob, .pet-svg .pet-eyes, .pet-svg .pet-tail, .pet-svg .pet-prop, .pet-svg .pet-wing-l, .pet-svg .pet-wing-r, .pet-svg .pet-spark { animation: none !important; }
+  .pet-svg .pet-spark { opacity: 1; }
+}
+
+/* a drawn coin (the coin emoji is missing on older systems) */
+.coin-icon { display: inline-block; width: 1.15em; height: 1.15em; margin-right: 4px; vertical-align: -0.2em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10.5' fill='%23f2c94c' stroke='%23d9a520' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='6.6' fill='none' stroke='%23e3b030' stroke-width='1.6'/%3E%3Cpath d='M12 8.2l1.1 2.3 2.5.3-1.9 1.7.5 2.5-2.2-1.2-2.2 1.2.5-2.5-1.9-1.7 2.5-.3z' fill='%23fff6c9'/%3E%3C/svg%3E") center / contain no-repeat; }
+@media (max-width: 720px) { .pet-room .pet-stage { width: 190px; } }
+
+/* themed sets */
+.pet-set { margin: 12px 0 4px; }
+.pet-set-title { margin: 0; font: 800 16px "Nunito", sans-serif; }
+.pet-set-sub { margin: 2px 0 8px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.pet-item.is-locked { background: var(--surface-soft); }
+.pet-item.is-locked .pet-item-thumb { opacity: .55; filter: grayscale(.5); }
+.pet-setbonus { margin: 6px 0 0; text-align: center; font-weight: 700; color: #8a5a00; }
+.pet-stage.is-set { box-shadow: 0 0 0 4px #ffe08a, 0 0 22px rgba(246, 196, 83, .8); }
+
+/* the pet's speech bubble in the lesson footer */
+.pet-say { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; }
+.pet-say .pet-face { flex: none; margin: 0; width: 42px; height: 42px; }
+.pet-say-bubble { position: relative; padding: 8px 14px; border: 2px solid #f2d58a; border-radius: 16px 16px 16px 4px; background: #fff; color: var(--ink); font: 600 15px/1.35 "Nunito", sans-serif; animation: pet-pop .28s ease-out; }
+.pet-say-bubble::before { content: ""; position: absolute; left: -9px; bottom: 8px; border: 7px solid transparent; border-right-color: #f2d58a; border-left: 0; }
+.pet-say-bubble::after { content: ""; position: absolute; left: -6px; bottom: 9px; border: 6px solid transparent; border-right-color: #fff; border-left: 0; }
+@keyframes pet-pop { from { opacity: 0; transform: translateX(-6px) scale(.96); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .pet-say-bubble { animation: none; } }
+
+/* course against the syllabus and the documentation page (underlag.js) */
+.ul-area { margin: 18px 0 6px; font: 700 15px "Nunito", sans-serif; }
+.ul-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ul-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.ul-stage { width: 44px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+.ul-cov { width: 38%; }
+.ul-les { width: 96px; color: var(--muted); text-align: right; white-space: nowrap; }
+.ul-bar { display: flex; height: 10px; width: 100%; border-radius: 999px; overflow: hidden; background: var(--border); }
+.ul-seg { display: block; height: 100%; }
+.ul-klar { background: #3f9a62; }
+.ul-delvis { background: #f2c94c; }
+.ul-niva { background: #cfeadb; }
+.ul-count { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); font-weight: 800; }
+.ul-none { color: #b23a56; font-weight: 700; font-size: 13px; }
+.ul-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 6px; }
+.ul-sheet .ul-note { margin: 10px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.ul-facts { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 3px; line-height: 1.5; }
+.ul-teacher { color: var(--muted); font-style: italic; }
+.ul-print .ul-row { break-inside: avoid; }
+.ul-chip { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; background: var(--border); white-space: nowrap; }
+.ul-chip.is-klar { background: #d4efdd; color: #226a3f; }
+.ul-chip.is-delvis { background: #fbeeb8; color: #7a5a00; }
+.ul-chip.is-nivatest { background: #e4f4ec; color: #3b8556; }
+.ul-sheet .ul-status { width: 150px; }
+.ul-sheet .ul-ev { width: 34%; color: var(--muted); }
+.ul-lines { margin-top: 10px; }
+.ul-sign { margin-top: 18px; font-weight: 700; }
+
+/* pets in the teacher view (pet-teacher.js) */
+.tv-pet-cell { white-space: nowrap; }
+.tv-pet-face { display: inline-block; width: 30px; height: 28px; margin-right: 6px; vertical-align: middle; line-height: 0; }
+.tv-pet-face svg { width: 100%; height: 100%; }
+.tv-pet-name { font-weight: 800; margin-right: 8px; }
+.tv-pet-coins { display: inline-flex; align-items: center; padding: 1px 9px; border-radius: 999px; background: #fff3cc; border: 1px solid #e3b04a; font-weight: 800; font-size: 13px; color: #8a5a00; }
+.tv-pet-coins .coin-icon { margin-right: 3px; }
+.tv-pet-box { margin: 14px 0; padding: 12px 14px; border: 2px solid #f2d58a; border-radius: 14px; background: #fffaf0; }
+.tv-pet-box h4 { margin: 0 0 6px; font: 800 15px "Nunito", sans-serif; }
+.tv-pet-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 0; }
+.tv-pet-gifts { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 2px; font-size: 14px; }
+.tv-pet-gift { display: grid; gap: 8px; margin-top: 8px; max-width: 520px; }
+.tv-pet-amounts, .tv-pet-reasons { display: flex; flex-wrap: wrap; gap: 6px; }
+.tv-pet-reason { padding: 8px 12px; border: 2px solid var(--border); border-radius: 10px; font: 600 15px "Nunito", sans-serif; }
+
+/* the pet's room */
+
+/* Snabbträning (fluency.js) */
+.train-card { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin: 0 0 18px; padding: 14px 18px; border: 3px solid var(--sky-line); border-radius: 20px; background: var(--sky-soft); }
+.train-card[hidden] { display: none; }
+.train-icon { font-size: 34px; line-height: 1; }
+.train-copy { flex: 1 1 240px; min-width: 0; }
+.train-copy h3 { margin: 0 0 2px; font: 800 20px "Nunito", sans-serif; }
+.train-copy p { margin: 0; font-size: 14.5px; line-height: 1.5; }
+.fl-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.fl-question { margin: 18px 0 14px; font: 600 clamp(40px, 11vw, 64px) / 1.1 "Nunito", sans-serif; text-align: center; color: var(--ink); }
+.fl-form { justify-content: center; max-width: 360px; margin: 0 auto; }
+.fl-input { width: 100%; padding: 14px 16px; border: 3px solid var(--border); border-radius: 16px; background: #fff; font: 700 32px "Nunito", sans-serif; text-align: center; }
+.fl-note { text-align: center; min-height: 20px; }
+.fl-big { margin: 4px 0 0; font: 800 56px/1 "Nunito", sans-serif; color: var(--brand-dark); }
+.fl-trend { font-weight: 700; }
+.fl-list { margin: 0 0 12px; padding-left: 22px; display: grid; gap: 4px; font-size: 17px; font-weight: 600; }
+.fl-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 10px; font-size: 13px; font-weight: 700; }
+.fl-legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.fl-dot { display: inline-block; width: 14px; height: 14px; border-radius: 4px; }
+.fl-fast { background: #3f9a62; }
+.fl-secure { background: #4c9be8; }
+.fl-learning { background: #a9c9ee; }
+.fl-shaky { background: #f0a24b; }
+.fl-new { background: var(--border); }
+.fl-mapbox { margin: 0 0 14px; }
+.fl-grid { display: grid; gap: 3px; max-width: 420px; }
+.fl-head { text-align: center; font: 700 12px "Nunito", sans-serif; color: var(--muted); align-self: center; }
+.fl-cell { aspect-ratio: 1; min-height: 22px; border: 0; border-radius: 6px; cursor: pointer; padding: 0; font: 600 12px "Nunito", sans-serif; color: #fff; }
+.fl-cell.fl-new, .fl-cell.fl-learning { color: var(--ink); }
+.fl-row { display: flex; flex-wrap: wrap; gap: 4px; }
+.fl-cell.fl-wide { aspect-ratio: auto; width: 34px; height: 30px; }
+.fl-detail { min-height: 24px; font-weight: 600; }
+
+/* Verkstad (workshop.js) */
+.wk-overlay { z-index: 21700; }
+.wk-panel { width: min(900px, 100%); padding: 16px 20px 20px; }
+.wk-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.wk-head h2 { margin: 0; }
+.wk-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.wk-about { margin: 0 0 10px; color: var(--muted); font-size: 14px; font-weight: 700; }
+.wk-host { display: grid; gap: 10px; }
+.wk-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.wk-row select { padding: 8px 10px; border: 2px solid var(--border); border-radius: 10px; background: #fff; font: 600 14px "Nunito", sans-serif; }
+.wk-btn { padding: 8px 14px; border: 2px solid var(--border); border-radius: 12px; background: #fff; color: var(--ink); font: 700 14px "Nunito", sans-serif; cursor: pointer; }
+.wk-btn:hover:not(:disabled) { background: var(--sky-soft); }
+.wk-btn:disabled { opacity: .4; cursor: not-allowed; }
+.wk-btn.wk-primary, .wk-btn.is-on { border-color: var(--brand-dark); background: var(--brand); color: #fff; }
+.wk-btn.is-hint { border-color: #43b581; background: #e8f6f2; animation: wk-pulse 1.2s ease-in-out infinite; }
+.wk-task { padding: 10px 14px; border-radius: 14px; background: var(--sky-soft); }
+.wk-task-text { margin: 0; font-weight: 600; }
+.wk-task-msg { margin: 4px 0 0; min-height: 20px; font-size: 14px; font-weight: 600; color: var(--muted); }
+.wk-task-msg.is-good { color: #2f7a4b; }
+.wk-big { font: 800 56px/1 "Nunito", sans-serif; color: var(--brand-dark); text-align: center; }
+.wk-words { margin: 0; text-align: center; color: var(--muted); font-weight: 700; min-height: 22px; }
+.wk-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.wk-col { display: grid; gap: 6px; align-content: start; padding: 10px; border: 2px solid var(--border); border-radius: 14px; background: #fff; }
+.wk-col h4 { margin: 0; font: 800 14px "Nunito", sans-serif; text-align: center; }
+.wk-pile { display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; min-height: 80px; }
+.wk-block { padding: 0; border: 1px solid rgba(0, 0, 0, .25); cursor: pointer; }
+.wk-block.wk-e { width: 14px; height: 14px; background: var(--sky); border-radius: 3px; }
+.wk-block.wk-t { width: 14px; height: 62px; background: linear-gradient(#4c9be8, #4c9be8); background-image: repeating-linear-gradient(#4c9be8 0 5px, #3f86d4 5px 6.2px); border-radius: 3px; }
+.wk-block.wk-h { width: 62px; height: 62px; background-color: #43b581; background-image: repeating-linear-gradient(0deg, transparent 0 5px, rgba(255,255,255,.4) 5px 6.2px), repeating-linear-gradient(90deg, transparent 0 5px, rgba(255,255,255,.4) 5px 6.2px); border-radius: 4px; }
+.wk-exch { font-size: 12.5px; }
+@keyframes wk-pulse { 50% { box-shadow: 0 0 0 4px rgba(67, 181, 129, .3); } }
+.wk-bar { display: flex; align-items: stretch; height: 34px; border: 2px solid var(--border); border-radius: 10px; overflow: hidden; background: #fff; }
+.wk-bar-label { flex: none; width: 54px; display: grid; place-items: center; background: var(--sky-soft); font: 700 13px "Nunito", sans-serif; }
+.wk-whole { background: var(--border); }
+.wk-seg { border: 0; border-left: 2px solid #fff; cursor: pointer; padding: 0; }
+.wk-seg:hover { filter: brightness(1.1); }
+.wk-mine { min-height: 38px; background: var(--sky-soft); }
+.wk-piece { display: grid; place-items: center; color: #fff; font: 700 12px "Nunito", sans-serif; border-left: 2px solid #fff; overflow: hidden; }
+.wk-label { margin: 4px 0 0; font-weight: 700; font-size: 14px; }
+.wk-sum { margin: 0; font-weight: 700; }
+.wk-svg { display: block; width: 100%; height: auto; max-height: 340px; touch-action: none; }
+.wk-dot { cursor: grab; }
+.wk-eq { margin: 0; min-height: 24px; font: 700 17px "Nunito", sans-serif; }
+.wk-gridwrap, .wk-line, .wk-scale { border: 2px solid var(--border); border-radius: 14px; background: #fff; padding: 6px; }
+@media (max-width: 560px) { .wk-cols { grid-template-columns: 1fr; } .wk-block.wk-h { width: 46px; height: 46px; } .wk-block.wk-t { height: 46px; } }
+.pl-tools { margin-right: 4px; }
+html:is(.is-keyboard, .is-short) .pl-tools { display: none; }
+
+/* Radera och ladda ner egna uppgifter (konto) */
+.account-note { margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+.account-data .tv-btn { align-self: flex-start; }
+.account-danger { padding: 10px 12px; border: 1px solid var(--pink-line); border-radius: 10px; background: #fff; }
+.account-danger summary { cursor: pointer; font: 800 13px "Nunito", sans-serif; color: #a8324d; }
+.account-danger[open] { display: grid; gap: 10px; }
+.tv-class .tv-btn.is-danger { margin-left: auto; }
+
+/* Taxen: svansen sitter längre ut på den långa kroppen */
+.pet-svg.pet-tax .pet-tail { transform-origin: 200px 146px; }
+
+/* de nya djuren: svansar och vingar sitter på andra ställen */
+.pet-svg.pet-dragon .pet-tail { transform-origin: 134px 160px; }
+.pet-svg.pet-fox .pet-tail { transform-origin: 134px 158px; }
+.pet-svg.pet-dragon .pet-wing-l { transform-origin: 70px 128px; }
+.pet-svg.pet-dragon .pet-wing-r { transform-origin: 130px 128px; }
+
+/* Mat och lek (pet.js): godsaker och leksaker som rör sig i bilden */
+.pet-stage { position: relative; }
+.pet-fx { position: absolute; left: 38%; top: 44%; z-index: 2; width: 24%; line-height: 0; pointer-events: none; }
+.pet-fx svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 2px 2px rgba(0,0,0,.2)); }
+.pet-fx-eat { animation: fx-eat 1.9s ease-in-out both; }
+.pet-fx-bounce { left: 6%; top: 62%; width: 20%; animation: fx-bounce 2.2s ease-in-out both; }
+.pet-fx-fly { left: 4%; top: 18%; width: 22%; animation: fx-fly 2.2s ease-in-out both; }
+.pet-fx-roll { left: 4%; top: 66%; width: 20%; animation: fx-roll 2.2s ease-out both; }
+.pet-fx-float { left: 68%; top: 56%; width: 20%; animation: fx-float 2.3s ease-in-out both; }
+@keyframes fx-eat {
+  0% { opacity: 0; transform: translate(150%, 120%) rotate(25deg) scale(1); }
+  15% { opacity: 1; }
+  45% { transform: translate(0, 0) rotate(0) scale(1); }
+  55% { transform: scale(.85); }
+  65% { transform: scale(1); }
+  75% { transform: scale(.6); }
+  88% { opacity: 1; transform: scale(.3); }
+  100% { opacity: 0; transform: scale(0); }
+}
+@keyframes fx-bounce {
+  0% { opacity: 0; transform: translate(0, 0); }
+  8% { opacity: 1; }
+  20% { transform: translate(60%, -190%); }
+  35% { transform: translate(120%, 0); }
+  50% { transform: translate(180%, -120%); }
+  65% { transform: translate(240%, 0); }
+  80% { transform: translate(285%, -55%); }
+  92% { opacity: 1; transform: translate(310%, 0); }
+  100% { opacity: 0; transform: translate(320%, 0); }
+}
+@keyframes fx-fly {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0); }
+  10% { opacity: 1; }
+  50% { transform: translate(190%, -40%) rotate(360deg); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate(360%, 60%) rotate(720deg); }
+}
+@keyframes fx-roll {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0); }
+  10% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; transform: translate(330%, 0) rotate(900deg); }
+}
+@keyframes fx-float {
+  0% { opacity: 0; transform: translate(0, 0) scale(.8); }
+  15% { opacity: 1; }
+  40% { transform: translate(-30%, -90%) scale(1); }
+  65% { transform: translate(10%, -170%) scale(1.05); }
+  100% { opacity: 0; transform: translate(-20%, -290%) scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) { .pet-fx { animation: none !important; opacity: 1; } }
+.pet-friend { display: grid; gap: 4px; margin-bottom: 8px; padding: 10px 14px; border-radius: 14px; background: #fff3cc; border: 2px solid #e3b04a; }
+.pet-hearts { font-size: 22px; letter-spacing: 3px; color: #d97a96; }
+.pet-hearts .is-full { color: #e0506d; }
+.pet-friend-line { margin: 0; }
+.pet-friend-sub { margin: 0; font-size: 13px; font-weight: 600; color: #7a5a14; }
+.pet-friend progress { width: 100%; height: 10px; accent-color: #e0506d; }
+.pet-today { margin: 8px 0; font-size: 13px; font-weight: 700; color: var(--muted); }
+.pet-care-item.is-fav { border-color: #e3b04a; background: #fffaf0; }
+
+/* Mina knepiga (notebook.js) */
+.nb-overlay { z-index: 21500; }
+.nb-panel { width: min(760px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding: 18px 22px 22px; }
+.nb-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.nb-head h2 { margin: 0; }
+.nb-lead { margin: 6px 0 12px; color: var(--muted); font-weight: 600; line-height: 1.5; }
+.nb-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; margin: 4px 0; }
+.nb-hint { margin: 4px 0 10px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.nb-list, .nb-done-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 10px; }
+.nb-item { display: grid; gap: 6px; padding: 12px 14px; border: 2px solid var(--border); border-radius: 16px; background: #fff; }
+.nb-item-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.nb-chip { padding: 2px 10px; border-radius: 999px; background: var(--sky-soft); color: var(--brand-dark); font-size: 12px; font-weight: 700; }
+.nb-count { font-size: 12px; font-weight: 800; color: var(--muted); }
+.nb-q { margin: 0; font: 700 17px/1.4 "Nunito", sans-serif; }
+.nb-facts { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; font-size: 14px; font-weight: 600; color: var(--muted); }
+.nb-dots { margin: 0; font-size: 13px; font-weight: 700; color: var(--muted); }
+.nb-dots span { margin-right: 2px; font-size: 16px; color: var(--border-mid); }
+.nb-dots .is-on { color: #43b581; }
+.nb-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.nb-know { border-color: #43b581; color: #2f7a4b; }
+.nb-example { padding: 10px 12px; border-radius: 12px; background: #f1faf4; }
+.nb-example[hidden] { display: none; }
+.nb-steps { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 3px; font-weight: 700; }
+.nb-empty { display: grid; justify-items: center; gap: 4px; padding: 22px 10px; text-align: center; font-weight: 700; }
+.nb-empty-emoji { font-size: 40px; }
+.nb-done { margin-top: 16px; padding: 10px 14px; border-radius: 14px; background: #f1faf4; border: 2px solid #cdeedd; }
+.nb-done summary { cursor: pointer; font-weight: 600; color: #2f7a4b; }
+.nb-done-list { gap: 4px; font-size: 14px; }
+
+/* Resan (journey.js) */
+.jn-card { margin: 0 0 18px; }
+.jn-card[hidden] { display: none; }
+.jn { padding: 14px 18px 16px; border: 3px solid var(--sky-line); border-radius: 22px; background: #fff; }
+.jn-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.jn-emoji { font-size: 30px; line-height: 1; }
+.jn-title h3 { margin: 0; font: 800 22px "Nunito", sans-serif; }
+.jn-title p { margin: 0; font-size: 14px; font-weight: 800; color: var(--muted); }
+.jn-areas { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+.jn-stage { line-height: 0; overflow-x: auto; border-radius: 22px; }
+.jn-svg { display: block; width: 100%; height: auto; border-radius: 22px; }
+.jn-stop { cursor: pointer; outline: none; }
+.jn-stop:hover circle:not(.jn-pulse) { filter: brightness(1.06); }
+.jn-pulse { transform-box: fill-box; transform-origin: center; animation: jn-pulse 1.8s ease-in-out infinite; }
+@keyframes jn-pulse { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.18); opacity: .35; } }
+.jn-pet .pet-svg { overflow: visible; }
+.jn-conf { animation: jn-fall 2.4s ease-out both; }
+@keyframes jn-fall { from { transform: translateY(-30px); opacity: 0; } to { opacity: 1; } }
+.jn-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.jn-nav .pet-btn:disabled { opacity: .4; cursor: not-allowed; }
+.jn-dots { display: flex; gap: 6px; }
+.jn-dot { width: 14px; height: 14px; padding: 0; border: 2px solid #9aa4b8; border-radius: 50%; background: #fff; cursor: pointer; }
+.jn-dot.is-full { background: #43b581; border-color: #2f8f64; }
+.jn-dot.is-on { box-shadow: 0 0 0 3px var(--sky-line); }
+.jn-caption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; min-height: 52px; margin-top: 10px; padding: 10px 14px; border-radius: 14px; background: var(--sky-soft); }
+.jn-caption-text { display: grid; gap: 2px; min-width: 0; }
+.jn-meta, .jn-hint { margin: 0; font-size: 13px; font-weight: 600; color: var(--muted); }
+.jn-party { margin: 10px 0 0; font-weight: 700; }
+@media (prefers-reduced-motion: reduce) { .jn-pulse, .jn-conf { animation: none !important; } }
+
+/* Planera efter mål (planner.js) */
+.pl-controls select { padding: 6px 10px; border: 2px solid var(--border); border-radius: 10px; font: 700 14px "Nunito", sans-serif; background: #fff; }
+.pl-goals { display: grid; gap: 6px; margin-top: 10px; max-height: 420px; overflow: auto; padding-right: 4px; }
+.pl-goal { display: grid; grid-template-columns: auto 1fr minmax(160px, 34%); align-items: center; gap: 4px 12px; padding: 8px 10px; border: 2px solid var(--border); border-radius: 12px; background: #fff; cursor: pointer; }
+.pl-goal:hover { background: var(--sky-soft); }
+.pl-goal.is-on { border-color: var(--brand-dark); background: var(--sky-soft); }
+.pl-goal-text { font-weight: 600; font-size: 14px; line-height: 1.4; }
+.pl-stage { display: inline-block; margin-right: 4px; padding: 1px 8px; border-radius: 999px; background: var(--border); font-size: 12px; font-weight: 700; }
+.pl-goal-meta { display: grid; gap: 2px; }
+@media (max-width: 640px) { .pl-goal { grid-template-columns: auto 1fr; } .pl-goal-meta { grid-column: 2; } }
+.pl-plan { margin-top: 14px; padding: 14px 16px; border: 3px solid var(--brand); border-radius: 18px; background: var(--sky-soft); display: grid; gap: 10px; }
+.pl-plan h4 { margin: 0; font: 800 18px "Nunito", sans-serif; }
+.pl-goal-title { margin: 0; font-weight: 800; }
+.pl-check { width: 34px; }
+.pl-lessons td { vertical-align: middle; }
+.pl-prov { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.pl-prov select { padding: 6px 10px; border: 2px solid var(--border); border-radius: 10px; font: 700 14px "Nunito", sans-serif; background: #fff; }
+.pl-prov select[hidden] { display: none; }
+.pl-count { margin: 0; font-weight: 800; }
+
+@media (max-width: 700px) { .jn-svg { min-width: 640px; } .jn { padding: 12px 12px 14px; } .jn-title h3 { font-size: 20px; } }
+.jn-stop:focus-visible .jn-hit { stroke: #2a2630; stroke-width: 2; stroke-dasharray: 4 3; }
+
+/* Kort på startsidan: ett sätt att rama in. Alla kort har samma kantlinje och mjuka skugga. Det enda som får en egen färg är
+   dagens steg (Din väg) och uppdragen från läraren, så att det är tydligt vad som är viktigast. Guld används bara för mynt. */
+.path-card, .pet-card, .train-card, .jn, .mailbox, .next-card, .start-card {
+  border: 2px solid var(--border-mid); border-radius: 24px; box-shadow: 0 6px 18px rgba(var(--shadow-rgb), .07);
+}
+.pet-card, .train-card, .jn { background: var(--paper); }
+.path-card { border-color: var(--brand-light); background: linear-gradient(135deg, var(--paper) 0%, var(--sky-soft) 100%); }
+.mailbox { border-color: var(--pink-line); }
+.pet-bubble, .pet-say-bubble { border-color: var(--border-mid); }
+.tv-pet-box { border-color: var(--border-mid); background: var(--paper); }
+.pv-item { border: 2px solid var(--border-mid); box-shadow: 0 4px 0 var(--border-mid); }
+
+/* Idag och Mer att utforska (startsidan hålls lugn) */
+.today { margin: 0 0 14px; }
+.today[hidden], .more-cards[hidden] { display: none; }
+.today .path-card, .today .pet-card { margin: 0 0 16px; }
+.more-cards { margin: 0 0 18px; }
+.more-cards > summary { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; padding: 14px 20px; border: 2px solid var(--border-mid); border-radius: 24px; background: var(--paper); box-shadow: 0 6px 18px rgba(var(--shadow-rgb), .07); cursor: pointer; }
+.more-cards > summary::-webkit-details-marker { display: none; }
+.more-cards > summary::after { content: "▾"; margin-left: auto; color: var(--brand); font-size: 18px; transition: transform .15s; }
+.more-cards[open] > summary::after { transform: rotate(180deg); }
+.more-title { font: 800 18px "Nunito", sans-serif; color: var(--ink); }
+.more-peek { flex: 1 1 200px; min-width: 0; font-size: 14px; font-weight: 600; color: var(--muted); }
+.more-badge { min-width: 24px; padding: 1px 8px; border-radius: 999px; background: var(--pink-deep); color: #fff; text-align: center; font: 700 13px "Nunito", sans-serif; }
+.more-body { margin-top: 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+.more-body > * { min-width: 0; }
+.more-body > .train-card, .more-body > .jn-card { margin: 0 0 14px; }
+.more-cards > summary:hover { background: var(--surface-soft); }
+
+/* Utseende (theme.js) */
+.theme-picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.theme-option { display: grid; gap: 4px; justify-items: start; padding: 10px 12px; border: 2px solid var(--border-mid); border-radius: 14px; background: var(--paper); text-align: left; cursor: pointer; font: inherit; color: var(--ink); }
+.theme-option:hover { background: var(--surface-soft); }
+.theme-option[aria-pressed="true"] { border-color: var(--brand); box-shadow: 0 0 0 2px var(--brand); }
+.theme-dots { display: flex; gap: 4px; }
+.theme-dots i { display: block; width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, .15); }
+.theme-name { font: 800 14px "Nunito", sans-serif; }
+.theme-tag { font-size: 12px; font-weight: 600; color: var(--muted); }
+
+/* ---- Hero: du, djuret och dagens steg ---- */
+.hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); width: min(1120px, calc(100% - 64px)); margin: 0 auto 28px;
+  border: 2px solid var(--pink-line); border-radius: 32px; box-shadow: 0 18px 44px rgba(var(--shadow-rgb), .12);
+  background: linear-gradient(135deg, var(--hero-1) 0%, var(--hero-2) 55%, var(--hero-3) 100%); }
+.hero.has-panel { grid-template-columns: 250px minmax(0, 1fr); }
+.hero-main { position: relative; z-index: 1; align-self: center; padding: clamp(26px, 4vw, 44px) clamp(22px, 4vw, 52px); }
+.hero .eyebrow { margin: 0 0 12px; color: var(--brand); }
+.hero .eyebrow-dot { background: var(--accent); }
+.hero h1 { margin: 0 0 16px; font: 800 clamp(30px, 3.8vw, 46px)/1.1 "Nunito", "Segoe UI", sans-serif; letter-spacing: -0.02em; color: var(--ink); }
+.hero h1 span { color: var(--brand); }
+.hero-description { max-width: 440px; margin: 0 0 24px; color: var(--muted); font-size: 17px; line-height: 1.55; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.hero .primary-button { background: var(--brand); box-shadow: 0 5px 0 var(--brand-dark); }
+.hero .primary-button:hover { background: var(--brand-light); box-shadow: 0 7px 0 var(--brand-dark); }
+.hero .primary-button:active { box-shadow: 0 1px 0 var(--brand-dark); }
+.hero-description[hidden], .hero-actions[hidden], .hero-step[hidden], .hero-pet[hidden] { display: none; }
+
+/* the step of the day */
+.hero-step { max-width: 520px; }
+.hs { padding: 16px 20px 18px; border: 2px solid var(--border-mid); border-radius: 22px; background: var(--paper); box-shadow: 0 6px 18px rgba(var(--shadow-rgb), .08); }
+.hs-kicker { margin: 0 0 2px; color: var(--brand); font: 800 12px "Nunito", sans-serif; letter-spacing: .06em; }
+.hs-title { margin: 0 0 4px; font: 800 24px/1.2 "Nunito", sans-serif; color: var(--ink); }
+.hs-meta { margin: 0 0 12px; color: var(--muted); font-size: 14px; font-weight: 600; }
+.hs .mb-bar { margin: 0 0 14px; }
+.hs-go { text-decoration: none; }
+
+/* the pet panel */
+.hero-pet { display: grid; justify-items: center; align-content: center; gap: 10px; padding: 22px 18px 20px; background: color-mix(in srgb, var(--accent) 30%, var(--hero-1)); }
+.hp-bubble { position: relative; justify-self: stretch; margin: 0; padding: 9px 13px; border: 2px solid var(--border-mid); border-radius: 16px 16px 16px 4px; background: #fff; font-size: 14px; font-weight: 700; line-height: 1.35; color: var(--ink); }
+.hp-stage { position: relative; display: block; width: min(190px, 100%); padding: 0; border: 4px solid #fff; border-radius: 26px; background: #fff; line-height: 0; cursor: pointer; box-shadow: 0 12px 28px rgba(var(--shadow-rgb), .2); transition: transform .15s; }
+.hp-stage:hover { transform: translateY(-2px) rotate(-.5deg); }
+.hp-stage:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+.hp-stage .pet-svg { border-radius: 22px; }
+.hp-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 10px; }
+.hp-name { font: 800 20px "Nunito", sans-serif; color: var(--ink); }
+.hp-shop, .hp-choose { background: #fff; }
+.hp-faces { display: flex; justify-content: center; }
+.hp-face { display: block; width: 84px; height: 84px; margin: 0 -8px; line-height: 0; filter: drop-shadow(0 5px 8px rgba(var(--shadow-rgb), .18)); }
+.hp-face:nth-child(2) { width: 104px; height: 104px; position: relative; z-index: 1; margin-top: -10px; }
+.hp-face svg { width: 100%; height: 100%; }
+
+@media (max-width: 860px) {
+  .hero { width: calc(100% - 32px); }
+  .hero.has-panel { grid-template-columns: 1fr; }
+  /* on a narrow screen the panel is a strip above the text: the pet to the left, the rest beside it */
+  .hero-pet { grid-template-columns: 112px minmax(0, 1fr); grid-template-areas: "stage bubble" "stage row" "stage shop"; justify-items: start; align-content: center; gap: 6px 14px; padding: 16px 18px; }
+  .hp-stage { grid-area: stage; width: 112px; border-width: 3px; border-radius: 20px; }
+  .hp-bubble { grid-area: bubble; }
+  .hp-row { grid-area: row; justify-content: flex-start; }
+  .hp-shop { grid-area: shop; }
+  .hero-pet.is-invite { grid-template-columns: 1fr; grid-template-areas: none; justify-items: center; }
+  .hero-main { padding: 22px 20px 26px; }
+}
+@media (prefers-reduced-motion: reduce) { .hp-stage { transition: none; } .hp-stage:hover { transform: none; } }
+
+.py-goals-help { margin: 0 0 8px; color: var(--muted); font-size: 14px; font-weight: 700; }
+.py-check-btn { margin-top: 10px; }
+
+/* the year of a suggested lesson, and how it compares to the student's own */
+.pv-grade { display: inline-block; padding: 2px 9px; border: 2px solid var(--border-mid); border-radius: 999px; background: var(--paper); color: var(--ink); font: 800 12px "Nunito", sans-serif; letter-spacing: .06em; vertical-align: 1px; }
+.pv-grade.is-up { border-color: var(--sky-line); background: var(--sky-soft); }
+.pv-grade.is-high { border-color: var(--coral); background: var(--coral-soft); color: var(--coral-dark); }
+.pv-level, .hs-level { margin: 8px 0 0; color: var(--muted); font-size: 14px; font-weight: 700; line-height: 1.4; }
+.pv-level.is-high, .hs-level.is-high { padding: 8px 12px; border-radius: 12px; background: var(--coral-soft); color: var(--coral-dark); }
+.hs-level { margin: 0 0 12px; }
+
+/* the pet on the map: on its node, with paw prints on the nodes it has been to */
+.gn-pet { position: absolute; z-index: 4; width: 74px; height: 60px; pointer-events: none; filter: drop-shadow(0 3px 3px rgba(var(--shadow-rgb), .25)); transition: left 1.2s cubic-bezier(.45, .05, .3, 1), top 1.2s cubic-bezier(.45, .05, .3, 1); }
+.gn-pet svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.gn-pet.is-walking { animation: gn-pet-walk .4s ease-in-out infinite; }
+@keyframes gn-pet-walk { 50% { transform: translateY(-5px) rotate(4deg); } }
+.gn-paw { position: absolute; left: -3px; bottom: -1px; z-index: 1; width: 22px; height: 22px; color: var(--accent); opacity: .75; pointer-events: none; transform: rotate(-20deg); }
+.gn-step .gn-paw { width: 16px; height: 16px; }
+@media (prefers-reduced-motion: reduce) { .gn-pet { transition: none; } .gn-pet.is-walking { animation: none; } }
+
+/* the life of the pet: it moves a little, sleeps, plays and thinks (see startLife in pet.js) */
+.pet-svg .pet-actor { transform-origin: 100px 172px; transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r, 0deg)) scale(var(--sc, 1)); transition: transform 1.5s cubic-bezier(.45, .05, .3, 1); }
+.pet-svg .pet-eyes-closed { display: none; }
+.pet-svg.is-sleeping .pet-eyes { display: none; }
+.pet-svg.is-sleeping .pet-eyes-closed { display: inline; }
+.pet-svg.is-sleeping .pet-bob { animation-duration: 4.8s; }
+.pet-svg.is-hopping .pet-bob { animation: pet-jump .6s ease-out 3; }
+.pet-svg.is-playing .room-toy { transform-box: fill-box; transform-origin: center bottom; animation: room-toy-play .7s ease-in-out infinite; }
+.pet-svg .pet-thought { animation: pet-thought-in .5s ease-out both; }
+.pet-svg.is-sleeping .pet-thought text { animation: pet-zzz 2.4s ease-in-out infinite; }
+@keyframes room-toy-play { 0%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-9px) rotate(-8deg); } 60% { transform: translateY(0) rotate(6deg); } }
+@keyframes pet-thought-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pet-zzz { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .pet-svg .pet-actor { transition: none; }
+  .pet-svg.is-playing .room-toy, .pet-svg .pet-thought, .pet-svg.is-sleeping .pet-thought text { animation: none; }
+  .pet-svg.is-hopping .pet-bob { animation: none; }
+}
+
+/* phones: buttons that are easy to hit, and text that can be read */
+.py-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.py-actions .py-btn { flex: 1 1 120px; }
+.cv-writebar { margin: 0; }
+@media (max-width: 560px) {
+  .student-profile-btn, .rewards-chip, .mail-link, .view-switch, .preview-back, .area-filter, .pet-tab, .pv-more, .pv-link, .tv-chip, .top-link, .listen-btn, .scratchpad-toggle, .py-btn, .cv-btn-small { min-height: 44px; box-sizing: border-box; }
+  .tv-chip, .pv-more, .pv-link, .top-link, .listen-btn, .scratchpad-toggle { display: inline-flex; align-items: center; justify-content: center; }
+  .pl-close, .pet-close { min-width: 44px; min-height: 44px; }
+  .pl-read { min-height: 44px; }
+  .student-name, .student-class, .top-link, .eyebrow, .tv-chip, .area-filter, .graph-key-item, .graph-column-label, .graph-node-meta, .graph-node-title, .panel-kicker, .panel-duration,
+  .prerequisite-label, .prerequisite-tag, .progress-strip-text, .next-label, .footer-admin-link, .py-badge, .cv-tool-label { font-size: 12px; }
+  .graph-node-tag { font-size: 10px; }
+  .cv-zoom { right: 4px; bottom: 4px; padding: 2px; border-width: 1px; opacity: .92; }
+  .cv-zoom-label { display: none; }
+  .cv-zoom-btn { min-width: 36px; height: 36px; }
+}
+@media (max-width: 560px) {
+  .pet-btn, .next-link, .footer-privacy, .footer-admin-link, .wordmark { min-height: 44px; box-sizing: border-box; }
+  .next-link, .footer-privacy, .footer-admin-link, .wordmark { display: inline-flex; align-items: center; }
+  .gnl-step .graph-node-title { font-size: 12px; }
+  .gnl-step .graph-node-meta { font-size: 11px; }
+  .footer p { font-size: 12px; }
+}
+
+/* reactions: the eyes follow the cursor, and what the pet does depends on what happened (see reactionFor in pet.js) */
+.pet-svg .pet-gaze { transform: translate(var(--gx, 0px), var(--gy, 0px)); transition: transform .15s ease-out; }
+.pet-svg.is-sleeping .pet-gaze { transform: none; }
+.pet-svg.react-pose .pet-bob { transform-origin: 100px 172px; animation: pet-pose 1.2s ease-in-out 1; }
+.pet-svg.react-eat .pet-bob { transform-origin: 100px 172px; animation: pet-chew .32s ease-in-out .9s 5; }
+.pet-svg.react-play .pet-bob { animation: pet-jump .5s ease-out 4; }
+.pet-svg.react-look .pet-bob { transform-origin: 100px 172px; animation: pet-look 1.6s ease-in-out 1; }
+.pet-svg.react-pet .pet-bob { transform-origin: 100px 172px; animation: pet-wiggle .6s ease-in-out 2; }
+@keyframes pet-pose { 0%, 100% { transform: rotate(0) scale(1); } 25% { transform: rotate(-9deg) scale(1.08); } 55% { transform: rotate(8deg) scale(1.08); } 80% { transform: rotate(-3deg) scale(1.03); } }
+@keyframes pet-chew { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.03, .94); } }
+@keyframes pet-look { 0%, 100% { transform: rotate(0) translateX(0); } 30% { transform: rotate(-7deg) translateX(-5px); } 70% { transform: rotate(7deg) translateX(5px); } }
+@keyframes pet-wiggle { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-4deg) translateY(-4px); } 70% { transform: rotate(4deg) translateY(-4px); } }
+.pet-hearts { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: visible; }
+.pet-hearts i { position: absolute; left: calc(50% + var(--hx, 0px)); bottom: 42%; font-style: normal; font-size: 22px; line-height: 1; color: #e8394d; text-shadow: 0 1px 0 #fff; opacity: 0; animation: pet-heart 1.7s ease-out forwards; }
+@keyframes pet-heart { 0% { opacity: 0; transform: translateY(0) scale(.5); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-86px) scale(1.25); } }
+@media (prefers-reduced-motion: reduce) {
+  .pet-svg .pet-gaze { transition: none; }
+  .pet-svg.react-pose .pet-bob, .pet-svg.react-eat .pet-bob, .pet-svg.react-play .pet-bob, .pet-svg.react-look .pet-bob, .pet-svg.react-pet .pet-bob { animation: none; }
+  .pet-hearts i { animation: none; opacity: 1; transform: translateY(-44px); }
+}
+
+/* peeking around the page: over the bottom edge of the step card of the start page, and over the top edge of the footer of a lesson */
+.hs { position: relative; }
+.hs-peek { position: absolute; right: 12px; bottom: 0; width: 112px; height: 56px; pointer-events: none; }
+.hs-peek-head { position: absolute; right: 0; bottom: 0; width: 80px; height: 56px; overflow: hidden; line-height: 0; }   /* only the head is cut off, at the chin: the arm moves freely */
+.hs-peek-head svg { display: block; width: 100%; height: auto; }
+.hs-arm { position: absolute; left: 0; bottom: 8px; width: 52px; height: 21px; line-height: 0; transform-origin: right center; transform: rotate(14deg); animation: hs-point 5s ease-in-out 1.2s infinite; }
+.hs-arm svg { display: block; width: 100%; height: 100%; overflow: visible; }
+@keyframes hs-point { 0%, 52%, 100% { transform: rotate(14deg) translateX(0); } 60% { transform: rotate(14deg) translateX(-8px); } 68% { transform: rotate(14deg) translateX(0); } 76% { transform: rotate(14deg) translateX(-8px); } 84% { transform: rotate(14deg) translateX(0); } }
+.pl-footwrap { position: relative; }
+.pl-peek { position: absolute; left: max(18px, calc(50% - 490px + 6px)); bottom: 100%; z-index: 3; width: 88px; line-height: 0; pointer-events: none; animation: pl-peek-in .55s ease-out both; }
+.pl-peek svg { display: block; width: 100%; height: auto; }
+@keyframes pl-peek-in { from { transform: translateY(100%); } to { transform: none; } }
+html:is(.is-keyboard, .is-short) .pl-peek { display: none; }
+@media (prefers-reduced-motion: reduce) { .hs-arm { animation: none; } .pl-peek { animation: none; } }
+
+/* new formats: sortera, ordna, hittafelet, lucktext (see formats.js) */
+.fm-list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.fm-row, .fm-step { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; padding: 10px 12px; border: 2px solid var(--border); border-radius: 14px; background: var(--paper); }
+.fm-row.is-right, .fm-step.is-error { border-color: var(--success, #4c9f6b); background: var(--success-soft, #e2f3e7); }
+.fm-row.is-wrong, .fm-step.is-wrong { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); }
+.fm-item { display: flex; align-items: center; gap: 10px; margin: 0; flex: 1 1 160px; font-size: 18px; font-weight: 700; color: var(--ink); }
+.fm-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.fm-choice, .fm-arrow { min-height: 44px; padding: 8px 16px; border: 2px solid var(--border-mid); border-radius: 12px; background: #fff; color: var(--ink); font: 800 15px "Nunito", sans-serif; cursor: pointer; }
+.fm-choice:hover:not(:disabled), .fm-arrow:hover:not(:disabled) { background: var(--sky-soft); }
+.fm-choice.is-chosen { border-color: var(--brand-dark); background: var(--brand); color: #fff; }
+.fm-choice:disabled, .fm-arrow:disabled { opacity: .45; cursor: default; }
+.fm-choice.is-chosen:disabled { opacity: 1; }
+.fm-arrows { display: flex; gap: 8px; }
+.fm-arrow { min-width: 48px; padding: 8px 12px; }
+.fm-step { padding: 0; border: 0; background: none; display: block; }
+.fm-stepbtn { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 10px 14px; border: 2px solid var(--border); border-radius: 14px; background: var(--paper); color: var(--ink); font: 700 18px "Nunito", sans-serif; text-align: left; cursor: pointer; }
+.fm-stepbtn:hover:not(:disabled) { background: var(--sky-soft); }
+.fm-step.is-picked .fm-stepbtn { border-color: var(--brand-dark); background: var(--brand-soft); }
+.fm-step.is-wrong .fm-stepbtn { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); }
+.fm-step.is-error .fm-stepbtn { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); color: var(--coral-dark, #b23a56); }
+.fm-stepbtn:disabled { cursor: default; opacity: 1; }
+.fm-explain { padding: 12px 14px; border-radius: 14px; background: var(--success-soft, #e2f3e7); color: var(--ink); font-size: 16px; font-weight: 600; line-height: 1.5; }
+.fm-explain p { margin: 0 0 6px; }
+.fm-explain .fm-fix { margin: 0; font-weight: 800; }
+.fm-text { margin: 14px 0 0; font-size: 20px; font-weight: 700; line-height: 2.3; color: var(--ink); }
+.fm-gap { display: inline-block; min-height: 44px; margin: 0 4px; padding: 4px 10px; border: 2px solid var(--border-mid); border-radius: 10px; background: #fff; color: var(--ink); font: 800 18px "Nunito", sans-serif; text-align: center; vertical-align: middle; }
+select.fm-gap { text-align: left; }
+.fm-gap:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.fm-gap.is-wrong { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); }
+.fm-gap.is-right { border-color: var(--success, #4c9f6b); background: var(--success-soft, #e2f3e7); }
+.fm-exercise .fm-check { margin-top: 14px; }
+
+/* the editor: the list of what is wrong with a task of the new formats */
+.le-problems { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: var(--cream); font-size: 14px; }
+.le-problems ul { margin: 6px 0 0; padding-left: 20px; }
+.le-problems .le-ok { margin: 0; color: var(--success-dark, #2f7a4b); font-weight: 800; }
+
+/* a way past the menus for those who use the keyboard: it shows when it gets the focus */
+.skip-link { position: absolute; left: 12px; top: -60px; z-index: 1000; padding: 10px 16px; border-radius: 10px; background: #1f2a44; color: #fff; font: 800 15px "Nunito", sans-serif; text-decoration: none; }
+.skip-link:focus { top: 12px; }
+
+/* The overview of a lesson is a pop-up: opened from a node on the map, or from "Mer om lektionen" */
+body.lesson-popup-open { overflow: hidden; }
+.lesson-popup { z-index: 5000; grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.lesson-popup[hidden] { display: none; }
+.lesson-popup-card { position: relative; display: flex; flex-direction: column; width: min(760px, 100%); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); border-radius: 22px; background: var(--paper); box-shadow: 0 24px 60px rgba(37, 48, 79, .35); outline: none; }
+.lesson-popup-card .lesson-panel { overflow-y: auto; overscroll-behavior: contain; padding: 26px 28px 24px; border: 0; border-radius: 22px; background: none; box-shadow: none; }
+.lesson-popup-card .panel-header { margin-right: 44px; }
+.lesson-popup-close { position: absolute; top: 12px; right: 12px; z-index: 1; width: 38px; height: 38px; border: 2px solid var(--border); border-radius: 50%; background: var(--paper); color: var(--ink); font: 800 16px "Nunito", sans-serif; cursor: pointer; }
+.lesson-popup-close:hover { background: var(--coral-soft); }
+@media (max-width: 640px) {
+  .lesson-popup { padding: 8px; }
+  .lesson-popup-card { max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px); }
+  .lesson-popup-card .lesson-panel { padding: 22px 16px 20px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .lesson-popup:not([hidden]) .lesson-popup-card { animation: lesson-popup-in .18s ease-out; }
+  @keyframes lesson-popup-in { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+}
+
+.auth-about { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: var(--sky-soft, #eef5ff); color: var(--ink); font-size: 13.5px; line-height: 1.55; }
+
+/* The view of a caregiver (vårdnadshavare): the week of each child, and the family */
+.tv-children { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.tv-child { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border: 2px solid var(--border); border-radius: 18px; background: var(--paper); }
+.tv-child-head { display: flex; align-items: center; gap: 12px; }
+.tv-help { padding: 12px 14px; border-radius: 14px; background: var(--cream, #fff8e8); }
+.tv-help h4 { margin: 0 0 4px; font: 800 14px "Nunito", sans-serif; }
+.tv-help-list { margin: 8px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+.tv-help-list li { display: flex; flex-direction: column; gap: 2px; font-size: 13.5px; line-height: 1.5; }
+.tv-help-prompt { color: var(--ink); }
+.tv-help-answers { color: var(--muted); }
+.tv-good { margin: 0; color: #2f7a4b; font-weight: 800; font-size: 14px; }
+.tv-add-child { margin-top: 14px; padding-top: 12px; border-top: 2px dashed var(--border); }
+.tv-add-child h4 { margin: 0 0 8px; font: 800 15px "Nunito", sans-serif; }
+.tv-add-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 14px; margin-bottom: 10px; }
+.tv-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 700; }
+.tv-field input { padding: 9px 11px; border: 2px solid var(--border); border-radius: 10px; font: 600 15px "Nunito", sans-serif; }
+.tv-field small { font-weight: 500; }
+
+/* The adults of a class or a family, and the families of a caregiver */
+.tv-family-card { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; padding: 14px 16px; border: 2px solid var(--border); border-radius: 16px; }
+.tv-guides, .tv-join-guide { margin-top: 10px; padding-top: 10px; border-top: 2px dashed var(--border); }
+.tv-guides h4, .tv-join-guide h4 { margin: 0 0 6px; font: 800 14px "Nunito", sans-serif; }
+.tv-guide-list { margin: 0 0 6px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.tv-guide-list li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14px; }
+.tv-guide-code { margin: 4px 0; font-size: 14px; }
+.tv-join-guide { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.tv-join-guide h4, .tv-join-guide p { flex-basis: 100%; margin: 0; }
+.tv-join-guide input { padding: 9px 11px; border: 2px solid var(--border); border-radius: 10px; font: 600 15px "Nunito", sans-serif; }
+.chat-to { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; font-size: 13px; font-weight: 700; }
+.chat-to select { padding: 8px 10px; border: 2px solid var(--border); border-radius: 10px; font: 600 15px "Nunito", sans-serif; background: var(--paper); }
+
+.account-class-list { margin: 0 0 10px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.account-class-list li { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 700; }
+.account-join { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 10px; }
+
+/* Help for adults in the overview of a lesson (caregivers) */
+.parent-guide { margin: 16px 0 4px; padding: 12px 16px; border: 2px solid var(--sky-line, #bcd3ee); border-radius: 16px; background: var(--sky-soft, #eef5ff); }
+.parent-guide > summary { cursor: pointer; font-weight: 800; color: var(--brand); }
+.parent-guide h4 { margin: 14px 0 4px; font: 800 14px "Nunito", sans-serif; }
+.parent-guide ul, .parent-guide ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14.5px; line-height: 1.55; }
+.parent-guide-note { margin: 10px 0 0; color: var(--muted); font-size: 12.5px; }
+.parent-guide-facit { margin-top: 12px; }
+.parent-guide-facit > summary { cursor: pointer; font-weight: 700; }
+
+.tv-consent { display: block; margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; }
+.tv-consent input { margin-right: 6px; }
+
+/* The shop: the pieces of the themes and the things badges unlock are with the others, with a line saying which they are */
+.pet-item-tag { color: var(--brand); font-size: 11px; font-weight: 800; line-height: 1.1; text-align: center; }
+.pet-unlock-info { margin-top: 12px; padding: 8px 12px; border-radius: 12px; background: var(--surface-soft, #f6f7fb); font-size: 13.5px; }
+.pet-unlock-info > summary { cursor: pointer; font-weight: 800; }
+.pet-unlock-list { margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; line-height: 1.45; }
+
+/* ---- A wrong answer that is hard to miss (feedback-signals.js) ---- */
+.final-answer-field input.is-wrong, .answer-form input.is-wrong { border-color: var(--coral, #e0506d); background: var(--coral-soft, #ffe3ea); box-shadow: 0 0 0 3px var(--coral-soft, #ffe3ea); }
+.final-answer-field input.is-shaking, .answer-form input.is-shaking { animation: answer-shake .42s; }
+@keyframes answer-shake { 15% { transform: translateX(-7px); } 35% { transform: translateX(6px); } 55% { transform: translateX(-4px); } 75% { transform: translateX(3px); } }
+.feedback-message.is-nudged { animation: hint-pulse 1.1s ease-in-out 2; }
+@keyframes hint-pulse { 50% { box-shadow: 0 0 0 5px var(--coral, #e0506d); } }
+.answer-button.is-waiting { opacity: .75; cursor: progress; }
+.feedback-message.is-clipped { position: relative; box-shadow: inset 0 -16px 12px -12px rgba(0, 0, 0, .28); }
+.feedback-message.is-clipped::after { content: "▾ Fler rader, rulla"; display: block; position: sticky; bottom: -2px; text-align: right; font: 800 12px "Nunito", sans-serif; opacity: .8; }
+@media (prefers-reduced-motion: reduce) { .final-answer-field input.is-shaking, .answer-form input.is-shaking, .feedback-message.is-nudged { animation: none; } .feedback-message.is-nudged { box-shadow: 0 0 0 4px var(--coral, #e0506d); } }
+
+/* ---- The word bank under the answer field (wordbank.js) and the spelling note (spelling.js) ---- */
+.answer-bank, .answer-bank-words { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.answer-bank { margin: 10px 0 0; }
+.answer-bank-words[hidden] { display: none; }
+.answer-bank-label { font: 700 13px "Nunito", sans-serif; color: var(--ink); }
+.answer-bank-word { min-width: 0; padding: 6px 12px; font-size: 16px; font-weight: 700; box-shadow: 0 2px 0 var(--brand); }
+.answer-bank-toggle { padding: 6px 4px; border: 0; background: none; color: var(--brand); font: 700 13px "Nunito", sans-serif; text-decoration: underline; cursor: pointer; }
+.pl-foot-answer .answer-bank { margin: 0 0 8px; }
+html:is(.is-keyboard, .is-short) .answer-bank-label { display: none; }
+html:is(.is-keyboard, .is-short) .pl-foot-answer .answer-bank { margin: 0 0 6px; }
+.feedback-spelling { display: block; margin-top: 4px; font-weight: 800; }
+
+/* ---- How well each term is known (terms.js) ---- */
+.terms-box { margin: 0 0 18px; padding: 14px 18px; border: 2px solid var(--sky-line, #d9e4f5); border-radius: 16px; background: var(--paper, #fff); }
+.terms-title { margin: 0 0 8px; font: 800 16px "Nunito", sans-serif; }
+.terms-list { display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 0; padding: 0; list-style: none; }
+.terms-chip { padding: 4px 12px; border: 2px solid var(--border, #e3d4dc); border-radius: 999px; background: #fff; font: 700 14px "Nunito", sans-serif; color: var(--ink); }
+.terms-state { font-weight: 600; font-size: 12px; color: var(--ink); opacity: .85; }
+.terms-chip.is-practice { border-color: #e8b84b; background: #fff6dd; }
+.terms-chip.is-know { border-color: #5aa6e8; background: #e6f2fd; }
+.terms-chip.is-safe { border-color: #3fa66b; background: #e4f6ea; }
+.terms-chip.is-weak { border-style: dashed; }
+.terms-note { margin: 8px 0 0; font-size: 13px; color: var(--ink); opacity: .85; }
+
+/* ---- The tip after a wrong answer, in the middle of the screen (tip-dialog.js) ---- */
+.tip-overlay { position: fixed; inset: 0; z-index: 13200; display: grid; place-items: center; padding: 16px; background: rgba(31, 42, 68, .55); top: var(--vv-top, 0px); bottom: auto; height: var(--vv-h, 100%); }
+.tip-box { display: flex; flex-direction: column; gap: 14px; width: min(560px, 100%); max-height: 100%; padding: 22px 22px 20px; border: 3px solid var(--coral, #e0506d); border-radius: 24px; background: var(--cream, var(--paper)); box-shadow: 0 18px 50px rgba(31, 42, 68, .4); font-family: "Nunito", sans-serif; animation: tip-pop .22s ease-out; }
+.tip-head { display: flex; align-items: center; gap: 12px; }
+.tip-icon { font-size: 34px; line-height: 1; }
+.tip-title { margin: 0; font: 800 22px "Nunito", sans-serif; color: var(--ink, #1f2a44); }
+.tip-body { overflow-y: auto; padding: 14px 16px; border-radius: 16px; background: var(--coral-soft, #ffe3ea); color: #5c2033; font-size: 19px; line-height: 1.55; }
+.tip-body > * { margin: 0; }
+.tip-body > * + * { margin-top: 8px; }
+.tip-body .feedback-diagnosed-badge { display: inline-block; margin-bottom: 6px; font-weight: 800; }
+.tip-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+.tip-again { flex: 1 1 220px; min-height: 52px; font-size: 18px; }
+.tip-extra { flex: 0 1 auto; min-height: 52px; padding: 10px 16px; border: 2px solid #f6c453; border-radius: 14px; background: #fff3c9; color: #7a5200; font: 700 15px "Nunito", sans-serif; cursor: pointer; }
+.tip-extra:hover { background: #ffe9a0; }
+@keyframes tip-pop { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tip-box { animation: none; } }
+@media (max-width: 520px) { .tip-box { padding: 16px; } .tip-title { font-size: 19px; } .tip-body { font-size: 17px; } }
+
+/* ---- The explanation of a new lesson: the button waits while the page is read, and the short question at the end (lesson-player.js) ---- */
+.pl-btn.is-waiting { cursor: progress; background-image: linear-gradient(rgba(255, 255, 255, .32), rgba(255, 255, 255, .32)); background-repeat: no-repeat; background-position: left; background-size: 0 100%; animation: pl-wait var(--wait, 4s) linear forwards; }
+.pl-btn.is-waiting:hover { background-color: var(--brand); }
+.pl-btn.is-waiting[title="Svara på frågan först"] { animation: none; opacity: .7; }
+@keyframes pl-wait { to { background-size: 100% 100%; } }
+.pl-intro-check { width: min(720px, calc(100vw - 32px)); box-sizing: border-box; margin-top: 22px; padding-top: 18px; border-top: 2px dashed var(--pink-line, #f3c6d3); }
+.tip-lead { font-weight: 800; }
+.tv-pill.is-quick { background: #fff3c9; color: #7a5200; }
+.tv-intro-list { margin: 0; padding-left: 20px; line-height: 1.7; }
+.tv-intro-note { margin: 4px 0 8px; font-size: 13px; }
+.pl-try-prompt { font-size: 24px; line-height: 1.45; margin: 4px 0 14px; }
+.pl-try-form input { width: 100%; box-sizing: border-box; padding: 14px 16px; border: 2px solid var(--pink-line, #f3c6d3); border-radius: 12px; font: 600 20px "Nunito", sans-serif; }
+.pl-try-said { margin: 16px 0 0; font-size: 19px; line-height: 1.6; font-weight: 700; }
+.pl-guess { display: inline-block; margin: 0 0 12px; padding: 4px 12px; border-radius: 999px; background: #fff3c9; color: #7a5200; font-weight: 800; font-size: 14px; }
+.tv-week-summary { margin: 8px 0 12px; font-size: 16px; line-height: 1.55; font-weight: 700; }
+.tip-pet { display: inline-block; width: 58px; height: 58px; flex: none; transform-origin: 50% 90%; animation: tip-tilt .6s ease-out forwards; }
+.tip-pet svg { width: 100%; height: 100%; display: block; }
+@keyframes tip-tilt { 0% { transform: rotate(0); } 55% { transform: rotate(-11deg); } 100% { transform: rotate(-7deg); } }
+@media (prefers-reduced-motion: reduce) { .tip-pet { animation: none; transform: rotate(-7deg); } }
+
+/* ---- Provträning (provtraining.js) ---- */
+.provtr-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.provtr-btn { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 150px; padding: 10px 14px; border: 2px solid var(--brand-dark); border-radius: 14px; background: #fff; color: var(--ink); font: 700 14px "Nunito", sans-serif; text-align: left; cursor: pointer; box-shadow: 0 3px 0 var(--brand-dark); }
+.provtr-btn strong { font-size: 17px; }
+.provtr-btn small { font-weight: 600; opacity: .8; }
+.provtr-btn small:empty { display: none; }
+.provtr-btn:hover { background: var(--sky-soft); }
+
+/* ---- the steps of a method in boxes (step-boxes.js) ---- */
+.sb { margin: 18px 0; padding: 16px 18px; border: 2px solid var(--sky-line, #d9e4f5); border-radius: 18px; background: var(--paper, #fff); }
+.sb-title { margin: 0 0 6px; font: 800 21px "Nunito", sans-serif; }
+.sb-example { margin: 0 0 14px; padding: 8px 12px; border-radius: 10px; background: var(--sky-soft, #eef1fb); font-size: 16px; line-height: 1.5; }
+.sb-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.sb-step { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 2px solid var(--brand, #3b4f93); border-radius: 16px; background: #fff; }
+.sb-no { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--brand, #3b4f93); color: #fff; font: 800 18px "Nunito", sans-serif; }
+.sb-body { flex: 1; min-width: 0; }
+.sb-do { margin: 3px 0 8px; font-size: 18px; line-height: 1.5; font-weight: 700; }
+.sb-show { padding: 8px 12px; border-radius: 10px; background: #fff3c9; border: 1px dashed #f6c453; font-size: 17px; line-height: 1.6; color: #5c4200; }
+.sb-label { display: block; margin-bottom: 2px; font: 800 11px "Nunito", sans-serif; letter-spacing: .6px; text-transform: uppercase; opacity: .75; }
+.sb-show.is-mono .sb-line { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; white-space: pre; }
+@media (max-width: 480px) { .sb { padding: 12px; } .sb-step { padding: 10px; gap: 9px; } .sb-do { font-size: 17px; } }
+
+/* the pet's year, tricks and help (pet.js, pet-tricks.js, pet-help.js) */
+.pet-season { margin: 0 0 8px; padding: 9px 12px; border: 2px solid #f2d58a; border-radius: 14px; background: #fff8e1; font-size: 14px; font-weight: 700; color: #6b4b00; }
+.hp-help { background: #fff; }
+
+/* tricks */
+.pet-trick-props { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: visible; }
+.pet-trick-prop { position: absolute; left: calc(50% + var(--hx, 0px)); bottom: 55%; transform: translateX(-50%); font: 800 22px "Nunito", sans-serif; line-height: 1; color: var(--ink); text-shadow: 0 1px 0 #fff, 0 0 6px #fff; white-space: nowrap; }
+.pet-trick-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.pet-trick { display: grid; gap: 4px; align-content: start; padding: 10px 12px; border: 3px solid var(--border); border-radius: 14px; background: #fff; }
+.pet-trick.is-rusty { border-color: #e3c78a; background: #fffaf0; }
+.pet-trick.is-locked { background: #f7f4f6; }
+.pet-trick.is-locked .pet-trick-name { color: #4a4660; }
+.pet-trick.is-locked .pet-trick-sub { color: #5a5670; }
+.pet-trick-name { font: 800 15px "Nunito", sans-serif; }
+.pet-trick-sub { font-size: 13px; font-weight: 600; color: var(--muted); }
+.pet-ribbon-trick { font-weight: 800; color: #6b4b00; }
+
+/* help the pet */
+.pet-help { display: grid; gap: 12px; }
+.pet-help-say { display: flex; align-items: flex-end; gap: 10px; }
+.pet-help-face { flex: 0 0 56px; width: 56px; height: 56px; line-height: 0; }
+.pet-help-face svg { width: 100%; height: 100%; }
+.pet-help-bubble { position: relative; margin: 0; padding: 10px 14px; border: 2px solid var(--border-mid); border-radius: 16px 16px 16px 4px; background: #fff; font-weight: 700; line-height: 1.4; }
+.pet-help-card { display: grid; gap: 6px; padding: 14px 16px; border: 3px solid var(--border); border-radius: 16px; background: #fff; }
+.pet-help-prompt { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.45; }
+.pet-help-said { margin: 0; font-size: 16px; }
+.pet-help-answer { display: inline-block; padding: 2px 10px; border-radius: 10px; background: var(--brand-soft, #eef2fc); font-size: 18px; }
+.pet-help-choice { display: flex; flex-wrap: wrap; gap: 10px; }
+.pet-help-choice .pet-btn { min-height: 48px; padding-inline: 18px; font-size: 16px; }
+.pet-help-form { display: grid; gap: 8px; max-width: 360px; }
+.pet-help-form input { min-height: 48px; padding: 8px 12px; border: 3px solid var(--border-mid); border-radius: 12px; font: 700 18px "Nunito", sans-serif; }
+.pet-help-note { margin: 0; min-height: 1.2em; font-size: 14px; font-weight: 700; color: var(--muted); }
+.pet-help-why, .pet-help-how { margin: 0; padding: 10px 14px; border-radius: 12px; background: #f4f7fd; font-size: 15px; line-height: 1.45; }
+.pet-help-heart { margin: 0; font-weight: 800; color: #9a5a00; }
+
+/* search in the map (app.js) and in the lesson pickers of the assignments (teacher-view.js) */
+.map-search { margin: 0 0 18px; }
+.map-search-label { display: block; margin: 0 0 6px; font: 800 14px "Nunito", sans-serif; color: var(--ink); }
+.map-search-row { display: flex; gap: 8px; align-items: center; max-width: 560px; }
+.map-search-input { flex: 1; min-width: 0; min-height: 46px; padding: 8px 14px; border: 3px solid var(--border-mid); border-radius: 14px; background: #fff; font: 700 16px "Nunito", sans-serif; color: var(--ink); }
+.map-search-input:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+.map-search-clear { min-height: 46px; padding: 0 14px; }
+.map-search-count { margin: 6px 0 0; min-height: 1.3em; font-size: 14px; font-weight: 700; color: var(--muted); }
+.map-search-results { display: grid; gap: 6px; max-width: 560px; margin: 4px 0 0; padding: 0; list-style: none; }
+.map-search-hit { display: grid; gap: 1px; width: 100%; padding: 8px 14px; border: 2px solid var(--border); border-radius: 12px; background: #fff; text-align: left; font-family: "Nunito", sans-serif; color: var(--ink); cursor: pointer; }
+.map-search-hit:hover, .map-search-hit:focus-visible { border-color: var(--brand); background: var(--brand-soft, #eef2fc); }
+.map-search-hit-title { font-weight: 800; font-size: 15px; }
+.map-search-hit-meta { font-size: 13px; font-weight: 600; color: var(--muted); }
+.map-search-more { padding: 2px 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.graph-node.is-dim, .graph-node-label.is-dim { opacity: .22; }
+.graph-node.is-hit { box-shadow: 0 0 0 5px var(--brand-light, #9fb4e6); }
+.tv-pick-box { flex: 1; display: grid; gap: 4px; min-width: 0; }
+.tv-pick-search { width: 100%; padding: 8px 11px; border: 2px solid var(--border); border-radius: 10px; background: #fff; font: 600 14px "Nunito", sans-serif; color: var(--ink); }
+.tv-pick-box select { width: 100%; }
+.tv-pick-count { min-height: 1.1em; font-size: 12px; font-weight: 700; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .graph-node.is-dim, .graph-node-label.is-dim { transition: none; } }

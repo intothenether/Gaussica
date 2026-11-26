@@ -147,7 +147,9 @@ window.GaussicaLgr22 = (function () {
     "uppskatta-rimligt": ["t13-uppskatt"], "kassakvitto": ["t46-rakna", "t13-vardag"], "forflyttningar": ["g46-sym", "sf46-koord"], "cirkeldiagram": ["s46-diagram"],
     "delbarhetsregler": ["t46-hel"], "rationella-irrationella": ["t79-reella"], "fakultet-permutationer": ["s79-komb"], "utan-aterlaggning": ["s79-sannolik"],
     "potenslagar": ["t79-pot"], "exponentialfunktioner": ["sf79-funk", "t79-procent"], "logaritmer": ["t79-pot"], "andragradsfunktioner": ["sf79-funk"],
-    "sinus-cosinussatsen": ["g79-pyth"], "forandringshastighet": ["sf79-funk"], "trendlinje": ["sf79-funk", "s79-stat"]
+    "sinus-cosinussatsen": ["g79-pyth"], "forandringshastighet": ["sf79-funk"], "trendlinje": ["sf79-funk", "s79-stat"],
+    // a third lesson for the last thin parts, and more lessons for åk 7–9 and gymnasiet
+    "tal-olika-former": ["t79-rakna", "t46-procent"], "algoritm-villkor": ["a46-algo"], "skala-karta-area": ["g79-likform", "sf46-skala"], "rattvist-spel": ["s13-slump"], "kombinationer-ordning": ["s79-komb"], "motsatt-handelse": ["s79-sannolik"], "prova-dig-fram": ["p13", "t13-rakna"], "procent-baklanges": ["t79-procent"], "ekvationer-med-brak": ["a79-ekv", "t79-rakna"], "vinklar-parallella-linjer": ["g46-vinkel"], "klot-kon-volym": ["g79-area"], "potensekvationer": ["t79-pot", "a79-ekv"], "standardavvikelse": ["s79-stat"], "normalfordelning": ["s79-stat"], "derivatan-lutning": ["sf79-funk"]
   };
 
   function L() { return window.GaussicaLesson; }

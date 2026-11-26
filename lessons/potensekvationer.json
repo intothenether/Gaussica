@@ -1,0 +1,165 @@
+{
+  "id": "potensekvationer",
+  "area": "algebra",
+  "title": "Potensekvationer: x^3 = 64",
+  "level": "Ta roten ur båda sidor · gymnasiet, Ma 1",
+  "grade": 10,
+  "duration": "8 min",
+  "prerequisites": [
+    "potenslagar",
+    "rotuttryck"
+  ],
+  "summary": "En potensekvation x^n = a löser du genom att ta n:te roten ur båda sidor, vilket är samma sak som att upphöja till 1/n. Är n jämnt finns också en negativ lösning.",
+  "explanationTitle": "Gå baklänges från potensen",
+  "explanation": "Problemet: En kubformad låda rymmer 64 dm³. Hur lång är en sida? Om sidan är x dm gäller x^3 = 64. En sådan ekvation kallas potensekvation. Du löser den genom att ta tredje roten ur båda sidor, vilket är samma sak som att upphöja till 1/3: x = 64^(1/3) = 4, eftersom 4 · 4 · 4 = 64. Sidan är 4 dm. När exponenten är jämn finns två lösningar: x^2 = 25 ger x = 5 eller x = −5, eftersom (−5) · (−5) också är 25. När exponenten är udda finns bara en lösning. Står det ett tal framför, som i 2x^4 = 162, delar du först bort det: x^4 = 81, så x = 3 eller x = −3.",
+  "visual": {
+    "type": "tabell",
+    "title": "Några potensekvationer",
+    "headers": [
+      "Ekvation",
+      "Lösning"
+    ],
+    "rows": [
+      [
+        "x^3 = 64",
+        "x = 4"
+      ],
+      [
+        "x^2 = 25",
+        "x = 5 eller x = −5"
+      ],
+      [
+        "2x^4 = 162",
+        "x^4 = 81, x = 3 eller x = −3"
+      ],
+      [
+        "x^5 = 100",
+        "x = 100^(1/5) ≈ 2,51"
+      ]
+    ]
+  },
+  "rule": "x^n = a löses med x = a^(1/n). Är n jämnt är också −a^(1/n) en lösning.",
+  "ruleLabel": "POTENSEKVATIONER",
+  "example": "x^3 = 125 ger x = 125^(1/3) = 5.",
+  "practice": [
+    {
+      "id": "kubrot",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "b": [
+          2,
+          6
+        ]
+      },
+      "derive": [
+        {
+          "name": "v",
+          "expr": "pow(b,3)"
+        }
+      ],
+      "prompt": "Lös ekvationen x^3 = {v}. Vad är x?",
+      "answer": [
+        "=b"
+      ],
+      "correct": "Rätt! {b} · {b} · {b} = {v}, så x = {b}.",
+      "feedback": [
+        {
+          "answers": [
+            "=v/3"
+          ],
+          "message": "Du delade med 3. Exponenten 3 betyder x · x · x, så ta tredje roten ur {v}."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En kubformad låda rymmer 64 dm³. Hur lång är en sida i dm?",
+    "answer": [
+      "4",
+      "4 dm"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "x^2 = 49 har två lösningar, 7 och −7.",
+        "answer": true,
+        "explain": "Både 7 · 7 och (−7) · (−7) är 49."
+      },
+      {
+        "text": "x^3 = 27 ger x = 9, eftersom 27 delat med 3 är 9.",
+        "answer": false,
+        "explain": "Exponenten 3 betyder att x multipliceras med sig självt tre gånger. 3 · 3 · 3 = 27, så x = 3."
+      }
+    ],
+    "correct": "Rätt! Gå baklänges med roten, inte med division."
+  },
+  "exercise": {
+    "prompt": "Lös ekvationen x^4 = 16. Ange den positiva lösningen.",
+    "answer": [
+      "2"
+    ],
+    "correct": "Rätt! 2 · 2 · 2 · 2 = 16, så x = 2. Den andra lösningen är −2.",
+    "feedback": [
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "4^4 är 256. Du delade 16 med 4. Ta i stället fjärde roten: vilket tal multiplicerat med sig självt fyra gånger blir 16?"
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett belopp växer från 10 000 kr till 14 641 kr på 4 år, med samma förändringsfaktor varje år. Vad är förändringsfaktorn?",
+      "answer": [
+        "1,1",
+        "1.1"
+      ],
+      "correct": "Rätt! x^4 = 14 641 / 10 000 = 1,4641, så x = 1,4641^(1/4) = 1,1. Det är en ökning med 10 % per år.",
+      "feedback": [
+        {
+          "answers": [
+            "1,116",
+            "1.116"
+          ],
+          "message": "Du delade den totala ökningen med 4, men ökningen sker på ökningen. Lös i stället x^4 = 1,4641."
+        }
+      ]
+    },
+    {
+      "prompt": "Lös ekvationen 2x^3 = 250. Vad är x?",
+      "answer": [
+        "5"
+      ],
+      "correct": "Rätt! Dela först med 2: x^3 = 125, och 5 · 5 · 5 = 125.",
+      "feedback": [
+        {
+          "answers": [
+            "125"
+          ],
+          "message": "125 är x^3. Ta tredje roten ur 125."
+        }
+      ]
+    },
+    {
+      "prompt": "En kvadratisk tomt har arean 900 m². Hur lång är en sida?",
+      "answer": [
+        "30",
+        "30 m"
+      ],
+      "correct": "Rätt! s^2 = 900, och 30 · 30 = 900. Den negativa lösningen fungerar inte som längd.",
+      "feedback": [
+        {
+          "answers": [
+            "450"
+          ],
+          "message": "Du delade med 2. Sidan s uppfyller s^2 = 900, så ta kvadratroten."
+        }
+      ]
+    }
+  ]
+}

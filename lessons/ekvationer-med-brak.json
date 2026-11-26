@@ -1,0 +1,163 @@
+{
+  "id": "ekvationer-med-brak",
+  "area": "algebra",
+  "title": "Ekvationer med bråk",
+  "level": "Multiplicera bort nämnarna · ungefär åk 9",
+  "grade": 9,
+  "duration": "8 min",
+  "prerequisites": [
+    "ekvationer-bada-sidor",
+    "brak-multiplikation"
+  ],
+  "summary": "Har en ekvation bråk multiplicerar du alla termer på båda sidor med en gemensam nämnare. Då försvinner bråken och ekvationen blir lätt att lösa.",
+  "explanationTitle": "Bli av med nämnarna",
+  "explanation": "Problemet: Lös ekvationen x/3 + x/6 = 5. Bråken gör ekvationen krånglig att räkna med. Bli av med nämnarna genom att multiplicera båda sidor med ett tal som alla nämnare går jämnt upp i, en gemensam nämnare. Här är det 6. Varje term multipliceras: 6 · x/3 = 2x, 6 · x/6 = x och 6 · 5 = 30. Ekvationen blir 2x + x = 30, alltså 3x = 30 och x = 10. Kontrollera: 10/3 + 10/6 = 20/6 + 10/6 = 30/6 = 5. Det stämmer. Glöm inte att multiplicera alla termer, även de som inte är bråk.",
+  "visual": {
+    "type": "tabell",
+    "title": "x/3 + x/6 = 5 steg för steg",
+    "headers": [
+      "Vad du gör",
+      "Ekvationen"
+    ],
+    "rows": [
+      [
+        "Från början",
+        "x/3 + x/6 = 5"
+      ],
+      [
+        "Multiplicera alla termer med 6",
+        "2x + x = 30"
+      ],
+      [
+        "Förenkla",
+        "3x = 30"
+      ],
+      [
+        "Dela med 3",
+        "x = 10"
+      ]
+    ]
+  },
+  "rule": "Multiplicera alla termer på båda sidor med den gemensamma nämnaren. Då försvinner bråken.",
+  "ruleLabel": "EKVATIONER MED BRÅK",
+  "example": "x/4 = 3 ger x = 12 när du multiplicerar båda sidor med 4.",
+  "practice": [
+    {
+      "id": "x-genom-a",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          9
+        ]
+      },
+      "prompt": "Lös ekvationen x/{a} + 1 = 3. Vad är x?",
+      "answer": [
+        "=2*a"
+      ],
+      "correct": "Rätt! Multiplicera alla termer med {a}: x + {a} = {3*a}, så x = {2*a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=3*a-1"
+          ],
+          "message": "Du glömde att multiplicera 1 med {a}. Alla termer ska multipliceras."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Lös ekvationen x/2 = 7. Vad är x?",
+    "answer": [
+      "14"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "x/2 + x/4 = 3 blir 2x + x = 12 om du multiplicerar med 4.",
+        "answer": true,
+        "explain": "4 · x/2 = 2x, 4 · x/4 = x och 4 · 3 = 12."
+      },
+      {
+        "text": "x/5 + 1 = 3 blir x + 1 = 15 om du multiplicerar med 5.",
+        "answer": false,
+        "explain": "Alla termer ska multipliceras. 5 · 1 = 5, så ekvationen blir x + 5 = 15."
+      }
+    ],
+    "correct": "Rätt! Varje term på båda sidor multipliceras."
+  },
+  "exercise": {
+    "prompt": "Lös ekvationen x/2 + x/3 = 10. Vad är x?",
+    "answer": [
+      "12"
+    ],
+    "correct": "Rätt! Multiplicera med 6: 3x + 2x = 60, så 5x = 60 och x = 12.",
+    "feedback": [
+      {
+        "answers": [
+          "2"
+        ],
+        "message": "Du glömde att multiplicera 10 med 6. Alla termer ska multipliceras."
+      },
+      {
+        "answers": [
+          "60"
+        ],
+        "message": "60 är högerledet efter multiplikationen. Lös också ut x ur 5x = 60."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ali läser en tredjedel av en bok på måndagen och en fjärdedel på tisdagen. Då har han läst 140 sidor. Hur många sidor har boken?",
+      "answer": [
+        "240",
+        "240 sidor"
+      ],
+      "correct": "Rätt! x/3 + x/4 = 140. Multiplicera med 12: 4x + 3x = 1680, så 7x = 1680 och x = 240.",
+      "feedback": [
+        {
+          "answers": [
+            "20"
+          ],
+          "message": "20 sidor är en tolftedel av boken. Hela boken är 12 sådana delar."
+        }
+      ]
+    },
+    {
+      "prompt": "En tredjedel av ett tal är 4 mer än en femtedel av talet. Vilket är talet?",
+      "answer": [
+        "30"
+      ],
+      "correct": "Rätt! x/3 = x/5 + 4. Multiplicera med 15: 5x = 3x + 60, så 2x = 60 och x = 30.",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "Efter multiplikationen med 15 står det 5x = 3x + 60, alltså 2x = 60. Dela med 2."
+        }
+      ]
+    },
+    {
+      "prompt": "Hälften av eleverna i en klass åker buss, en tredjedel cyklar och 4 elever går. Hur många elever går i klassen?",
+      "answer": [
+        "24",
+        "24 elever"
+      ],
+      "correct": "Rätt! x/2 + x/3 + 4 = x. Multiplicera med 6: 3x + 2x + 24 = 6x, så x = 24.",
+      "feedback": [
+        {
+          "answers": [
+            "6"
+          ],
+          "message": "6 är den gemensamma nämnaren. Multiplicera alla termer med 6: 3x + 2x + 24 = 6x, och lös sedan ut x."
+        }
+      ]
+    }
+  ]
+}

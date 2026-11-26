@@ -1,0 +1,180 @@
+{
+  "id": "algoritm-villkor",
+  "area": "algebra",
+  "title": "Algoritmer med villkor: om och annars",
+  "level": "Välj steg efter en fråga · ungefär åk 5",
+  "grade": 5,
+  "duration": "6 min",
+  "prerequisites": [
+    "algoritmer",
+    "udda-jamna"
+  ],
+  "summary": "I en algoritm kan ett steg bero på en fråga: om svaret är ja gör du en sak, annars gör du en annan. Frågan ställs på nytt varje varv.",
+  "explanationTitle": "Om ja, gör det här. Annars, gör det där.",
+  "explanation": "Problemet: En robot får talet 7 och följer den här algoritmen: Om talet är jämnt, dela det med 2. Annars, lägg till 1. Vilket tal har roboten efter tre varv? Ett villkor är en fråga med svaret ja eller nej. Är svaret ja gör roboten det som står efter om. Är svaret nej gör den det som står efter annars. Varv 1: 7 är udda, så roboten lägger till 1 och får 8. Varv 2: 8 är jämnt, så den delar med 2 och får 4. Varv 3: 4 är jämnt, så den får 2. Svaret är 2. Ställ frågan på nytt varje varv, för talet har ändrats.",
+  "visual": {
+    "type": "tabell",
+    "title": "Robotens tre varv, start med 7",
+    "headers": [
+      "Varv",
+      "Talet",
+      "Jämnt?",
+      "Gör",
+      "Nytt tal"
+    ],
+    "rows": [
+      [
+        "1",
+        "7",
+        "nej",
+        "lägg till 1",
+        "8"
+      ],
+      [
+        "2",
+        "8",
+        "ja",
+        "dela med 2",
+        "4"
+      ],
+      [
+        "3",
+        "4",
+        "ja",
+        "dela med 2",
+        "2"
+      ]
+    ]
+  },
+  "rule": "Ställ frågan varje varv. Ja: gör det som står efter om. Nej: gör det som står efter annars.",
+  "ruleLabel": "OM OCH ANNARS",
+  "example": "Om talet är större än 10, dra bort 5. Annars, ta det dubbelt. Start 6: 6 är inte större än 10, så du får 12. Sedan: 12 är större än 10, så du får 7.",
+  "practice": [
+    {
+      "id": "tva-varv",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "h": [
+          3,
+          9
+        ]
+      },
+      "prompt": "Algoritmen: Om talet är jämnt, dela det med 2. Annars, lägg till 1. Du börjar med {4*h}. Vilket tal har du efter två varv?",
+      "answer": [
+        "=h"
+      ],
+      "correct": "Rätt! {4*h} är jämnt, så du får {2*h}. {2*h} är också jämnt, så du får {h}.",
+      "feedback": [
+        {
+          "answers": [
+            "=2*h+1"
+          ],
+          "message": "Efter första varvet har du {2*h}, som är jämnt. Då ska du dela med 2 igen."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Algoritmen: Om talet är jämnt, dela det med 2. Annars, lägg till 1. Du börjar med 9. Vilket tal har du efter ett varv?",
+    "answer": [
+      "10"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Med regeln \"om jämnt, dela med 2, annars lägg till 1\" blir 5 till 6.",
+        "answer": true,
+        "explain": "5 är udda, så du lägger till 1."
+      },
+      {
+        "text": "Frågan i ett villkor ställs bara en gång, i början.",
+        "answer": false,
+        "explain": "Frågan ställs varje varv, eftersom talet ändras."
+      }
+    ],
+    "correct": "Rätt! Svaret på frågan avgör vilket steg du gör."
+  },
+  "exercise": {
+    "prompt": "Algoritmen: Om talet är jämnt, dela det med 2. Annars, lägg till 1. Du börjar med 12. Vilket tal har du efter två varv?",
+    "answer": [
+      "3"
+    ],
+    "correct": "Rätt! 12 är jämnt, så du får 6. 6 är jämnt, så du får 3.",
+    "feedback": [
+      {
+        "answers": [
+          "7"
+        ],
+        "message": "Efter första varvet har du 6, och 6 är jämnt. Då ska du dela med 2 igen."
+      },
+      {
+        "answers": [
+          "13"
+        ],
+        "message": "12 är jämnt, så första steget är att dela med 2."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "I ett spel gäller: Om du slår en sexa får du 3 poäng. Annars får du 1 poäng. Nora slår 6, 2, 6 och 4. Hur många poäng får hon?",
+      "answer": [
+        "8",
+        "8 poäng"
+      ],
+      "correct": "Rätt! De två sexorna ger 3 + 3 och de andra slagen ger 1 + 1. Det blir 8 poäng.",
+      "feedback": [
+        {
+          "answers": [
+            "18",
+            "18 poäng"
+          ],
+          "message": "Du lade ihop tärningarna. Varje slag ger 3 eller 1 poäng."
+        },
+        {
+          "answers": [
+            "6",
+            "6 poäng"
+          ],
+          "message": "Slagen som inte är en sexa ger också 1 poäng var."
+        }
+      ]
+    },
+    {
+      "prompt": "En termostat följer regeln: Om det är kallare än 20 grader, sätt på värmen. Annars, stäng av den. Det är 18 grader, och värmen höjer temperaturen 1 grad i timmen. Hur många timmar är värmen på innan den stängs av?",
+      "answer": [
+        "2",
+        "2 timmar"
+      ],
+      "correct": "Rätt! Efter 1 timme är det 19 grader, och värmen är kvar. Efter 2 timmar är det 20 grader, som inte är kallare än 20. Då stängs värmen av.",
+      "feedback": [
+        {
+          "answers": [
+            "3",
+            "3 timmar"
+          ],
+          "message": "När det är 20 grader är det inte kallare än 20 grader. Då stängs värmen av."
+        }
+      ]
+    },
+    {
+      "prompt": "Algoritmen: Om talet är mindre än 50, ta det dubbelt. Annars, dra bort 30. Du börjar med 20. Vilket tal har du efter tre varv?",
+      "answer": [
+        "50"
+      ],
+      "correct": "Rätt! 20 blir 40, 40 blir 80, och 80 är inte mindre än 50, så det blir 80 − 30 = 50.",
+      "feedback": [
+        {
+          "answers": [
+            "160"
+          ],
+          "message": "80 är inte mindre än 50. Då ska du dra bort 30."
+        }
+      ]
+    }
+  ]
+}

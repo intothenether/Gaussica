@@ -1,0 +1,162 @@
+{
+  "id": "procent-baklanges",
+  "area": "tal",
+  "title": "Procent baklänges: vad kostade det från början?",
+  "level": "Dela med förändringsfaktorn · ungefär åk 8",
+  "grade": 8,
+  "duration": "8 min",
+  "prerequisites": [
+    "procentuell-forandring"
+  ],
+  "summary": "Vet du värdet efter en förändring i procent får du det gamla värdet genom att dela med förändringsfaktorn. Att lägga på procenten igen blir fel.",
+  "explanationTitle": "Dela med förändringsfaktorn",
+  "explanation": "Problemet: En tröja kostar 240 kr på rean, när priset är sänkt med 20 %. Vad kostade den från början? Många lägger på 20 % av 240 kr och får 288 kr, men det blir fel. De 20 procenten räknades på det gamla priset, inte på 240 kr. Efter sänkningen är 240 kr 80 % av det gamla priset, alltså 0,8 gånger det gamla priset. Då får du det gamla priset genom att dela: 240 delat med 0,8 är 300 kr. Kontrollera: 20 % av 300 kr är 60 kr, och 300 − 60 = 240. Det stämmer. Samma sak gäller en ökning: ett pris med 25 % moms är 1,25 gånger priset utan moms.",
+  "visual": {
+    "type": "tabell",
+    "title": "Från nytt värde till gammalt",
+    "headers": [
+      "Förändring",
+      "Förändringsfaktor",
+      "Gammalt värde"
+    ],
+    "rows": [
+      [
+        "Sänkt med 20 %",
+        "0,8",
+        "nytt värde delat med 0,8"
+      ],
+      [
+        "Höjt med 25 %",
+        "1,25",
+        "nytt värde delat med 1,25"
+      ]
+    ]
+  },
+  "rule": "Nytt värde = förändringsfaktor · gammalt värde. Gammalt värde = nytt värde delat med förändringsfaktorn.",
+  "ruleLabel": "PROCENT BAKLÄNGES",
+  "example": "Ett pris med 25 % moms är 500 kr. Utan moms är det 500 delat med 1,25, alltså 400 kr.",
+  "practice": [
+    {
+      "id": "rea-20",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "g": [
+          2,
+          9
+        ]
+      },
+      "prompt": "En jacka kostar {80*g} kr efter att priset sänkts med 20 %. Vad kostade den från början?",
+      "answer": [
+        "=100*g",
+        "{100*g} kr"
+      ],
+      "correct": "Rätt! {80*g} kr är 80 % av det gamla priset: {80*g} delat med 0,8 är {100*g} kr.",
+      "feedback": [
+        {
+          "answers": [
+            "=96*g"
+          ],
+          "message": "Du lade på 20 % av {80*g} kr. Rabatten räknades på det gamla priset. Dela i stället med 0,8."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En tröja kostar 240 kr efter att priset sänkts med 20 %. Vad kostade den från början?",
+    "answer": [
+      "300",
+      "300 kr"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om priset efter 50 % rabatt är 100 kr var det gamla priset 200 kr.",
+        "answer": true,
+        "explain": "100 kr är hälften av det gamla priset."
+      },
+      {
+        "text": "Efter 20 % rabatt får du det gamla priset genom att lägga på 20 % igen.",
+        "answer": false,
+        "explain": "Då räknar du procenten på det nya, lägre priset. Dela i stället med 0,8."
+      }
+    ],
+    "correct": "Rätt! Procenten räknas alltid på det gamla värdet."
+  },
+  "exercise": {
+    "prompt": "En cykel kostar 3600 kr efter att priset sänkts med 10 %. Vad kostade den från början?",
+    "answer": [
+      "4000",
+      "4000 kr"
+    ],
+    "correct": "Rätt! 3600 kr är 90 % av det gamla priset: 3600 delat med 0,9 är 4000 kr.",
+    "feedback": [
+      {
+        "answers": [
+          "3960"
+        ],
+        "message": "Du lade på 10 % av 3600 kr. Rabatten räknades på det gamla priset. Dela med 0,9."
+      },
+      {
+        "answers": [
+          "3240"
+        ],
+        "message": "Du sänkte priset en gång till. Frågan gäller priset före rean."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett hus är värt 2 750 000 kr efter att värdet ökat med 10 %. Vad var det värt före ökningen?",
+      "answer": [
+        "2500000",
+        "2500000 kr"
+      ],
+      "correct": "Rätt! 2 750 000 kr är 1,1 gånger det gamla värdet: 2 750 000 delat med 1,1 är 2 500 000 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "2475000"
+          ],
+          "message": "Du drog bort 10 % av 2 750 000 kr. Ökningen räknades på det gamla värdet. Dela med 1,1."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett pris med 25 % moms är 750 kr. Vad är priset utan moms?",
+      "answer": [
+        "600",
+        "600 kr"
+      ],
+      "correct": "Rätt! 750 delat med 1,25 är 600 kr. Kontrollera: 25 % av 600 kr är 150 kr, och 600 + 150 = 750.",
+      "feedback": [
+        {
+          "answers": [
+            "562,5",
+            "562.5"
+          ],
+          "message": "Du drog bort 25 % av 750 kr. Momsen räknades på priset utan moms. Dela med 1,25."
+        }
+      ]
+    },
+    {
+      "prompt": "Efter en löneökning på 4 % tjänar Sara 26 000 kr i månaden. Vad tjänade hon före ökningen?",
+      "answer": [
+        "25000",
+        "25000 kr"
+      ],
+      "correct": "Rätt! 26 000 delat med 1,04 är 25 000 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "24960"
+          ],
+          "message": "Du drog bort 4 % av den nya lönen. Dela i stället med 1,04."
+        }
+      ]
+    }
+  ]
+}

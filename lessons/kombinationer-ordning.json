@@ -1,0 +1,177 @@
+{
+  "id": "kombinationer-ordning",
+  "area": "data",
+  "title": "Kombinationer: när ordningen inte spelar roll",
+  "level": "Välja ut några av flera · ungefär åk 9",
+  "grade": 9,
+  "duration": "8 min",
+  "prerequisites": [
+    "fakultet-permutationer"
+  ],
+  "summary": "När du väljer ut några saker och ordningen inte spelar roll räknar du först som om den gjorde det. Sedan delar du med antalet sätt att ordna dem du valt.",
+  "explanationTitle": "Samma par räknas bara en gång",
+  "explanation": "Problemet: Fem vänner hälsar på varandra med ett handslag var. Hur många handslag blir det? Varje person skakar hand med de 4 andra, så det ser ut att bli 5 · 4 = 20. Men då har varje handslag räknats två gånger: när Ali skakar hand med Bo är det samma handslag som när Bo skakar hand med Ali. Ordningen spelar ingen roll, så du delar med 2: 20 delat med 2 är 10 handslag. Samma sak gäller när du väljer 2 av 5 saker. Räkna först som om ordningen spelade roll, 5 · 4. Dela sedan med antalet sätt att ordna de 2 du valt, 2 · 1 = 2. Väljer du 3 av 5 delar du med 3 · 2 · 1 = 6: 5 · 4 · 3 = 60, och 60 delat med 6 är 10.",
+  "visual": {
+    "type": "tabell",
+    "title": "Spelar ordningen roll?",
+    "headers": [
+      "Fråga",
+      "Ordningen",
+      "Antal"
+    ],
+    "rows": [
+      [
+        "Guld och silver bland 5 löpare",
+        "spelar roll",
+        "5 · 4 = 20"
+      ],
+      [
+        "Välj 2 av 5 till ett lag",
+        "spelar ingen roll",
+        "20 delat med 2 = 10"
+      ],
+      [
+        "Välj 3 av 5 till ett lag",
+        "spelar ingen roll",
+        "60 delat med 6 = 10"
+      ]
+    ]
+  },
+  "rule": "Räkna först som om ordningen spelade roll. Dela sedan med antalet sätt att ordna dem du valt.",
+  "ruleLabel": "KOMBINATIONER",
+  "example": "Välj 2 glassmaker av 6: 6 · 5 = 30, och 30 delat med 2 är 15 sätt.",
+  "practice": [
+    {
+      "id": "handslag",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "n": [
+          5,
+          12
+        ]
+      },
+      "prompt": "{n} personer hälsar på varandra med ett handslag var. Hur många handslag blir det?",
+      "answer": [
+        "=n*(n-1)/2"
+      ],
+      "correct": "Rätt! {n} · {n-1} = {n*(n-1)}, och eftersom varje handslag räknats två gånger blir det {n*(n-1)/2}.",
+      "feedback": [
+        {
+          "answers": [
+            "=n*(n-1)"
+          ],
+          "message": "Varje handslag har räknats två gånger. Dela med 2."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Fem vänner hälsar på varandra med ett handslag var. Hur många handslag blir det?",
+    "answer": [
+      "10",
+      "10 handslag"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Att välja 2 av 4 personer till ett lag kan göras på 6 sätt.",
+        "answer": true,
+        "explain": "4 · 3 = 12, och 12 delat med 2 är 6."
+      },
+      {
+        "text": "Att välja 2 av 4 till ett lag ger lika många sätt som att dela ut guld och silver bland 4.",
+        "answer": false,
+        "explain": "Guld och silver ger 12 sätt, eftersom ordningen spelar roll där. Ett lag ger 6."
+      }
+    ],
+    "correct": "Rätt! Fråga dig alltid om ordningen spelar roll."
+  },
+  "exercise": {
+    "prompt": "På hur många sätt kan du välja 2 av 7 böcker att ta med på semestern?",
+    "answer": [
+      "21",
+      "21 sätt"
+    ],
+    "correct": "Rätt! 7 · 6 = 42, och eftersom ordningen inte spelar roll delar du med 2: 21 sätt.",
+    "feedback": [
+      {
+        "answers": [
+          "42"
+        ],
+        "message": "42 räknar varje par två gånger. Ordningen spelar ingen roll, så dela med 2."
+      },
+      {
+        "answers": [
+          "14"
+        ],
+        "message": "Den första boken kan väljas på 7 sätt och den andra på 6 sätt."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En pizzeria låter dig välja 2 olika pålägg av 8. Hur många olika pizzor kan du få?",
+      "answer": [
+        "28",
+        "28 pizzor"
+      ],
+      "correct": "Rätt! 8 · 7 = 56, och skinka med ananas är samma pizza som ananas med skinka, så det blir 28.",
+      "feedback": [
+        {
+          "answers": [
+            "56"
+          ],
+          "message": "Skinka med ananas är samma pizza som ananas med skinka. Dela med 2."
+        }
+      ]
+    },
+    {
+      "prompt": "I en turnering med 6 lag möter varje lag alla andra lag en gång. Hur många matcher spelas?",
+      "answer": [
+        "15",
+        "15 matcher"
+      ],
+      "correct": "Rätt! 6 · 5 = 30, och varje match har räknats två gånger, så det blir 15.",
+      "feedback": [
+        {
+          "answers": [
+            "30"
+          ],
+          "message": "Varje match har räknats två gånger. Dela med 2."
+        },
+        {
+          "answers": [
+            "36"
+          ],
+          "message": "Ett lag möter inte sig självt. Varje lag möter 5 andra lag."
+        }
+      ]
+    },
+    {
+      "prompt": "Av 5 elever ska 3 väljas till elevrådet. På hur många sätt kan det göras?",
+      "answer": [
+        "10",
+        "10 sätt"
+      ],
+      "correct": "Rätt! 5 · 4 · 3 = 60, och de 3 valda kan ordnas på 3 · 2 · 1 = 6 sätt. 60 delat med 6 är 10.",
+      "feedback": [
+        {
+          "answers": [
+            "60"
+          ],
+          "message": "60 gäller när ordningen spelar roll. De 3 valda kan ordnas på 3 · 2 · 1 = 6 sätt, så dela med 6."
+        },
+        {
+          "answers": [
+            "30"
+          ],
+          "message": "Du delade med 2. När du väljer 3 delar du med 3 · 2 · 1 = 6."
+        }
+      ]
+    }
+  ]
+}

@@ -38,7 +38,9 @@ ok(bad.length === 0, "wrangler.toml has only comments, tables and key = value" +
 const keys = toml.filter((l) => /^[A-Za-z_]\w*\s*=/.test(l)).map((l) => l.split("=")[0].trim());
 // E-mail (MAIL_FROM, SITE_URL) and the caregiver's address (CAREGIVER_EMAIL_REQUIRED) were switched on at go-live (commit b12eadf). Billing and
 // the summary stay off until their lines are switched on, and the secrets are never written in the file (they are set with wrangler secret put).
-ok(!["BILLING_ENABLED", "DIGEST_ENABLED"].some((k) => keys.includes(k)), "billing and the summary are off in wrangler.toml until the line is switched on");
+ok(!keys.includes("BILLING_ENABLED"), "billing is off in wrangler.toml until the line is switched on");
+// the weekly summary is switched on (it sends nothing without the mail settings, and only to caregivers who asked for it)
+ok(keys.includes("DIGEST_ENABLED"), "the weekly summary is switched on in wrangler.toml");
 ok(!["RESEND_API_KEY", "PADDLE_API_KEY", "PADDLE_WEBHOOK_SECRET", "ADMIN_TOKEN", "TEACHER_CODE"].some((k) => keys.includes(k)), "no secret is written in wrangler.toml");
 
 if (failures) { console.log(failures + " check(s) failed"); process.exit(1); }

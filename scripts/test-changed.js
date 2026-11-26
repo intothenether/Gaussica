@@ -18,6 +18,7 @@ const FALLBACK = ["smoke", "a11y"];
 const RULES = [
   [/^(pet|pet-art|pet-teacher|pet-memory|pet-tricks|pet-help)\.js$/, ["pet", "pet-extras", "keyboard", "a11y"]],
   [/^tests\/(pet|peek)/, ["pet", "pet-extras"]],
+  [/^styles-pet-home\.css$/, ["pet", "pet-extras", "landing", "caregiver", "smoke"]],
   [/^(figures|figures-more|visuals)\.js$|^styles-figures-more\.css$/, ["figures-lower", "curves", "a11y", "pet-figures", "hopplek", "stege"]],
   [/^hopplek\.js$/, ["hopplek", "pet-figures"]],
   [/^(algebra|figures-algebra|steps|substitution|mathinput|worked-steps|symbolic-math|slips)\.js$|^styles-algebra\.css$/, ["algebra", "powers", "mobile-keyboard"]],
@@ -26,7 +27,7 @@ const RULES = [
   [/^(feedback|feedback-signals|misconceptions)\.js$/, ["feedback", "misconceptions"]],
   [/^reading\.js$/, ["intro", "feedback", "spelling"]],
   [/^(questions|lesson-player|lesson-model|richtext|canvas-pad|tip-dialog)\.js$/, ["smoke", "a11y", "keyboard", "feedback", "drawpad", "tip", "intro"]],
-  [/^(app|index)\.(js|html)$|^styles\.css$|^viewport\.js$/, ["smoke", "a11y", "popup", "phone", "demo", "landing"]],
+  [/^(app|index|map-search)\.(js|html)$|^styles(-features)?\.css$|^viewport\.js$/, ["smoke", "a11y", "popup", "phone", "demo", "landing"]],
   [/^(caregiver|parent-guide|parent-guides|teacher-view|mailbox|chat)\.js$/, ["caregiver", "multi", "week"]],
   [/^(subscription|auth-view|account|privacy|local-backend)\.js$|^styles-account\.css$|^(villkor|integritet|angerratt)\.html$/, ["account", "caregiver", "multi", "a11y", "landing", "demo"]],
   [/^(workshop|pyssel|worksheet)\.js$/, ["workshop", "pyssla", "stepboxes"]],

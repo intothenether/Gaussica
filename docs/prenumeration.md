@@ -45,6 +45,8 @@ Det här är handboken för att ta betalt av vårdnadshavare utan att tjänsten 
 
 En vårdnadshavare med bekräftad e-post kan under **Mitt konto** be om en sammanfattning av barnens vecka (inget skickas om hen inte ber om det). Mejlet säger för varje barn hur många dagar det övade, ungefär hur länge, hur många svar som var rätt och vilka lektioner det arbetade med, och hur man stänger av det.
 
+**Läge nu:** `DIGEST_ENABLED = "1"` är redan satt i `wrangler.toml`. Det enda som återstår är steg 1, före nästa `npx wrangler deploy` (`npm run db:status` visar om databasen redan har 009).
+
 1. Kör `migrations/009-digest.sql` mot databasen (på samma sätt som 008).
 2. Sätt `DIGEST_ENABLED = "1"` i `wrangler.toml` (Node-servern: miljövariabeln). Raden `crons = ["0 16 * * 0"]` under `[triggers]` finns redan och gör ingenting förrän inställningen är på.
 3. Det som skickas är sedan söndagar kl. 16 UTC. Ingen får mer än ett mejl per sex dagar. Du kan skicka direkt, för att prova, med `POST /api/admin/digest` och admin-nyckeln (`{ "force": true }` hoppar över dygnsspärren).

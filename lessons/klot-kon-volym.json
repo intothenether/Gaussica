@@ -1,0 +1,168 @@
+{
+  "id": "klot-kon-volym",
+  "area": "geometri",
+  "title": "Volym av kon, pyramid och klot",
+  "level": "En tredjedel av cylindern · ungefär åk 9",
+  "grade": 9,
+  "duration": "8 min",
+  "prerequisites": [
+    "volym-prisma-cylinder"
+  ],
+  "summary": "En kon rymmer en tredjedel av en cylinder med samma bas och höjd, och en pyramid en tredjedel av ett prisma. Ett klot har volymen 4 · π · r³ delat med 3.",
+  "explanationTitle": "Spetsiga kroppar och klot",
+  "explanation": "Problemet: En glasstrut är en kon med radien 3 cm och höjden 10 cm. Hur många kubikcentimeter glass får plats i struten? En kon får plats tre gånger i en cylinder med samma bas och samma höjd. Därför är konens volym en tredjedel av cylinderns: V = π · r² · h delat med 3. Här blir det π · 9 · 10 delat med 3 = 30π, ungefär 94 cm³. En pyramid är på samma sätt en tredjedel av ett prisma: basytan · höjden delat med 3. Ett klot med radien r har volymen 4 · π · r³ delat med 3. Ett klot med radien 3 cm rymmer 4 · π · 27 delat med 3 = 36π, ungefär 113 cm³.",
+  "visual": {
+    "type": "tabell",
+    "title": "Volymformler",
+    "headers": [
+      "Kropp",
+      "Volym"
+    ],
+    "rows": [
+      [
+        "Cylinder",
+        "π · r² · h"
+      ],
+      [
+        "Kon",
+        "π · r² · h / 3"
+      ],
+      [
+        "Pyramid",
+        "B · h / 3"
+      ],
+      [
+        "Klot",
+        "4 · π · r³ / 3"
+      ]
+    ]
+  },
+  "rule": "Kon och pyramid: basytan · höjden / 3. Klot: 4 · π · r³ / 3.",
+  "ruleLabel": "KON, PYRAMID, KLOT",
+  "example": "En pyramid har en kvadratisk bas med sidan 6 cm och höjden 5 cm. V = 6 · 6 · 5 / 3 = 60 cm³.",
+  "practice": [
+    {
+      "id": "pyramid",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "s": [
+          2,
+          6
+        ],
+        "h": [
+          3,
+          12,
+          3
+        ]
+      },
+      "prompt": "En pyramid har en kvadratisk bas med sidan {s} cm och höjden {h} cm. Vad är volymen i cm³?",
+      "answer": [
+        "=s*s*h/3"
+      ],
+      "correct": "Rätt! {s} · {s} · {h} = {s*s*h}, och en tredjedel av det är {s*s*h/3} cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "=s*s*h"
+          ],
+          "message": "Det är volymen av ett rätblock med samma bas och höjd. Pyramiden är en tredjedel av den."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "En cylinder rymmer 300 cm³. En kon har samma bas och samma höjd. Hur mycket rymmer konen?",
+    "answer": [
+      "100",
+      "100 cm³",
+      "100 cm3"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "En kon rymmer en tredjedel av en cylinder med samma bas och höjd.",
+        "answer": true,
+        "explain": "Det får plats tre koner i cylindern."
+      },
+      {
+        "text": "Ett klot med dubbelt så stor radie har dubbelt så stor volym.",
+        "answer": false,
+        "explain": "Radien står i kubik. Dubbel radie ger 2 · 2 · 2 = 8 gånger så stor volym."
+      }
+    ],
+    "correct": "Rätt! Spetsiga kroppar är en tredjedel av den raka kroppen."
+  },
+  "exercise": {
+    "prompt": "En pyramid har en kvadratisk bas med sidan 4 cm och höjden 9 cm. Vad är volymen i cm³?",
+    "answer": [
+      "48",
+      "48 cm³",
+      "48 cm3"
+    ],
+    "correct": "Rätt! 4 · 4 · 9 = 144, och en tredjedel av det är 48 cm³.",
+    "feedback": [
+      {
+        "answers": [
+          "144"
+        ],
+        "message": "144 cm³ är volymen av ett rätblock med samma bas och höjd. Pyramiden är en tredjedel av den."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En glasstrut är en kon med radien 3 cm och höjden 10 cm. Hur många cm³ rymmer den? Avrunda till hela cm³.",
+      "answer": [
+        "94",
+        "94 cm³"
+      ],
+      "correct": "Rätt! π · 9 · 10 / 3 = 30π, ungefär 94 cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "283"
+          ],
+          "message": "283 cm³ är cylinderns volym. Konen är en tredjedel av den."
+        }
+      ]
+    },
+    {
+      "prompt": "En fotboll har radien 11 cm. Vad är dess volym? Avrunda till hela cm³.",
+      "answer": [
+        "5575",
+        "5575 cm³"
+      ],
+      "correct": "Rätt! 4 · π · 11 · 11 · 11 / 3 ≈ 5575 cm³.",
+      "feedback": [
+        {
+          "answers": [
+            "507"
+          ],
+          "message": "Radien ska stå i kubik, r · r · r, inte i kvadrat."
+        }
+      ]
+    },
+    {
+      "prompt": "En sandhög har formen av en kon med radien 2 m och höjden 1,5 m. Hur många kubikmeter sand är det? Avrunda till en decimal.",
+      "answer": [
+        "6,3",
+        "6.3",
+        "6,3 m³"
+      ],
+      "correct": "Rätt! π · 4 · 1,5 / 3 = 2π, ungefär 6,3 m³.",
+      "feedback": [
+        {
+          "answers": [
+            "18,8",
+            "18.8"
+          ],
+          "message": "18,8 m³ är cylinderns volym. Konen är en tredjedel av den."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "id": "prova-dig-fram",
+  "area": "tal",
+  "title": "Pröva dig fram och kontrollera",
+  "level": "Gissa, kontrollera, ändra · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "addition",
+    "multiplikation"
+  ],
+  "summary": "När du inte vet hur du ska börja kan du gissa ett svar och kontrollera det. Gissningen visar om du ska pröva med mer eller mindre nästa gång.",
+  "explanationTitle": "Gissa, kontrollera och ändra",
+  "explanation": "Problemet: På en gård finns hönor och kaniner. Tillsammans har de 5 huvuden och 14 ben. Hur många kaniner finns det? En höna har 2 ben och en kanin har 4 ben. Gissa 1 kanin. Då är det 4 hönor, och benen blir 4 + 8 = 12. Det är för få. En kanin har fler ben än en höna, så pröva med fler kaniner. Gissa 2 kaniner och 3 hönor: 8 + 6 = 14. Det stämmer! Det finns 2 kaniner. Skriv upp varje försök i en tabell, så ser du åt vilket håll du ska ändra.",
+  "visual": {
+    "type": "tabell",
+    "title": "Försöken med hönor och kaniner",
+    "headers": [
+      "Kaniner",
+      "Hönor",
+      "Ben",
+      "Stämmer?"
+    ],
+    "rows": [
+      [
+        "1",
+        "4",
+        "4 + 8 = 12",
+        "för få"
+      ],
+      [
+        "2",
+        "3",
+        "8 + 6 = 14",
+        "ja"
+      ]
+    ]
+  },
+  "rule": "Gissa, kontrollera och ändra gissningen. Skriv upp försöken så att du ser åt vilket håll du ska ändra.",
+  "ruleLabel": "PRÖVA DIG FRAM",
+  "example": "Två tal är tillsammans 10, och det ena är 4 större än det andra. Pröva 5 och 5: skillnaden är 0. Pröva 3 och 7: skillnaden är 4. Talen är 3 och 7.",
+  "practice": [
+    {
+      "id": "tva-tal",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          8
+        ],
+        "d": [
+          1,
+          4
+        ]
+      },
+      "prompt": "Två tal är tillsammans {2*a+d}. Det ena talet är {d} större än det andra. Vilket är det minsta talet?",
+      "answer": [
+        "=a"
+      ],
+      "correct": "Rätt! {a} + {a+d} = {2*a+d}, och {a+d} är {d} större än {a}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+d"
+          ],
+          "message": "{a+d} är det största talet. Frågan gäller det minsta."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Två tal är tillsammans 10. Det ena talet är 4 större än det andra. Vilket är det minsta talet?",
+    "answer": [
+      "3"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om en gissning ger för få ben ska du pröva med fler kaniner.",
+        "answer": true,
+        "explain": "En kanin har fler ben än en höna, så fler kaniner ger fler ben."
+      },
+      {
+        "text": "Om den första gissningen är fel är det bäst att glömma den och börja om.",
+        "answer": false,
+        "explain": "Den felaktiga gissningen visar om du ska gissa högre eller lägre."
+      }
+    ],
+    "correct": "Rätt! Varje försök hjälper dig nästa gång."
+  },
+  "exercise": {
+    "prompt": "Hönor och kaniner har tillsammans 4 huvuden och 12 ben. Hur många kaniner finns det?",
+    "answer": [
+      "2",
+      "2 kaniner"
+    ],
+    "correct": "Rätt! 2 kaniner har 8 ben och 2 hönor har 4 ben. 8 + 4 = 12.",
+    "feedback": [
+      {
+        "answers": [
+          "4"
+        ],
+        "message": "Med 4 kaniner blir det 16 ben. Det är för många."
+      },
+      {
+        "answers": [
+          "1"
+        ],
+        "message": "Med 1 kanin och 3 hönor blir det 4 + 6 = 10 ben. Det är för få."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ella köper äpplen för 3 kr styck och päron för 5 kr styck. Hon köper 4 frukter och betalar 16 kr. Hur många päron köper hon?",
+      "answer": [
+        "2",
+        "2 päron"
+      ],
+      "correct": "Rätt! 2 päron kostar 10 kr och 2 äpplen kostar 6 kr. 10 + 6 = 16.",
+      "feedback": [
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "4 päron kostar 20 kr. Det är för mycket."
+        },
+        {
+          "answers": [
+            "1"
+          ],
+          "message": "1 päron och 3 äpplen kostar 5 + 9 = 14 kr. Det är för lite."
+        }
+      ]
+    },
+    {
+      "prompt": "Jag tänker på ett tal. Om jag lägger till 7 och sedan tar det dubbelt blir det 30. Vilket tal tänker jag på?",
+      "answer": [
+        "8"
+      ],
+      "correct": "Rätt! 8 + 7 = 15, och dubbelt så mycket är 30.",
+      "feedback": [
+        {
+          "answers": [
+            "23"
+          ],
+          "message": "Kontrollera: 23 + 7 = 30, och dubbelt så mycket är 60. Pröva ett mindre tal."
+        }
+      ]
+    },
+    {
+      "prompt": "I en låda ligger 10 leksaksbilar och motorcyklar. Tillsammans har de 32 hjul. Hur många bilar finns det?",
+      "answer": [
+        "6",
+        "6 bilar"
+      ],
+      "correct": "Rätt! 6 bilar har 24 hjul och 4 motorcyklar har 8 hjul. 24 + 8 = 32.",
+      "feedback": [
+        {
+          "answers": [
+            "8"
+          ],
+          "message": "Med 8 bilar och 2 motorcyklar blir det 32 + 4 = 36 hjul. Det är för många."
+        },
+        {
+          "answers": [
+            "4"
+          ],
+          "message": "Med 4 bilar och 6 motorcyklar blir det 16 + 12 = 28 hjul. Det är för få."
+        }
+      ]
+    }
+  ]
+}

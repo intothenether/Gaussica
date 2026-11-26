@@ -1,0 +1,175 @@
+{
+  "id": "standardavvikelse",
+  "area": "data",
+  "title": "Standardavvikelse: hur mycket värdena sprids",
+  "level": "Ett spridningsmått som använder alla värden · gymnasiet, Ma 2",
+  "grade": 10,
+  "duration": "8 min",
+  "prerequisites": [
+    "ladagram",
+    "medelvarde"
+  ],
+  "summary": "Standardavvikelsen visar hur långt värdena i genomsnitt ligger från medelvärdet. Den använder alla värden, inte bara det största och minsta.",
+  "explanationTitle": "Avståndet till medelvärdet",
+  "explanation": "Problemet: Två klasser fick samma medelvärde, 6 poäng, på ett test. I klass A fick eleverna 5, 6, 6 och 7 poäng. I klass B fick de 2, 4, 8 och 10. Vilken klass har störst spridning? Variationsbredden använder bara det största och det minsta värdet. Standardavvikelsen använder alla värden. Så räknar du ut den: räkna ut medelvärdet, ta varje värdes avstånd till medelvärdet och kvadrera det, räkna ut medelvärdet av kvadraterna och dra till sist roten ur. I klass A blir kvadraterna 1, 0, 0 och 1. Deras medelvärde är 2/4 = 0,5, och roten ur 0,5 är ungefär 0,71. I klass B blir kvadraterna 16, 4, 4 och 16, deras medelvärde 10 och roten ungefär 3,16. Klass B har störst spridning. Räknar du på ett stickprov delar du med antalet värden minus 1 i stället. Det är den standardavvikelse som miniräknaren kallar s. I den här lektionen delar du med antalet värden.",
+  "visual": {
+    "type": "tabell",
+    "title": "Klass B: 2, 4, 8 och 10 poäng",
+    "headers": [
+      "Värde",
+      "Avstånd till 6",
+      "Kvadrat"
+    ],
+    "rows": [
+      [
+        "2",
+        "−4",
+        "16"
+      ],
+      [
+        "4",
+        "−2",
+        "4"
+      ],
+      [
+        "8",
+        "2",
+        "4"
+      ],
+      [
+        "10",
+        "4",
+        "16"
+      ]
+    ]
+  },
+  "rule": "Standardavvikelse = roten ur medelvärdet av kvadraterna på avstånden till medelvärdet.",
+  "ruleLabel": "STANDARDAVVIKELSE",
+  "example": "Värdena 4 och 8: medelvärdet är 6, kvadraterna är 4 och 4, deras medelvärde är 4 och roten ur 4 är 2.",
+  "practice": [
+    {
+      "id": "tva-varden",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "m": [
+          4,
+          10
+        ],
+        "d": [
+          2,
+          5
+        ]
+      },
+      "prompt": "Två värden är {m-d} och {m+d}. Vad är standardavvikelsen, om du delar med antalet värden?",
+      "answer": [
+        "=d"
+      ],
+      "correct": "Rätt! Medelvärdet är {m}, båda avstånden är {d}, kvadraterna är {d*d} och roten ur {d*d} är {d}.",
+      "feedback": [
+        {
+          "answers": [
+            "=d*d"
+          ],
+          "message": "{d*d} är medelvärdet av kvadraterna. Dra roten ur."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Klass A fick 5, 6, 6 och 7 poäng. Klass B fick 2, 4, 8 och 10. Båda har medelvärdet 6. Vilken klass har störst spridning? Svara A eller B.",
+    "answer": [
+      "B"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om alla värden är lika är standardavvikelsen 0.",
+        "answer": true,
+        "explain": "Inget värde har något avstånd till medelvärdet."
+      },
+      {
+        "text": "Standardavvikelsen ändras inte om ett värde flyttas långt bort från de andra.",
+        "answer": false,
+        "explain": "Alla värden räknas, så ett avvikande värde ger en större standardavvikelse."
+      }
+    ],
+    "correct": "Rätt! Standardavvikelsen påverkas av varje värde."
+  },
+  "exercise": {
+    "prompt": "Räkna ut standardavvikelsen för värdena 3, 5, 7 och 9. Dela med antalet värden och avrunda till två decimaler.",
+    "answer": [
+      "2,24",
+      "2.24"
+    ],
+    "correct": "Rätt! Medelvärdet är 6, kvadraterna är 9, 1, 1 och 9, deras medelvärde är 5 och roten ur 5 är ungefär 2,24.",
+    "feedback": [
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "5 är medelvärdet av kvadraterna. Dra roten ur det."
+      },
+      {
+        "answers": [
+          "2,58",
+          "2.58"
+        ],
+        "message": "Du delade med 3. Här delar du med antalet värden, 4."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Temperaturen fem dagar i rad var 18, 20, 22, 20 och 20 grader. Vad är standardavvikelsen, om du delar med antalet värden? Avrunda till två decimaler.",
+      "answer": [
+        "1,26",
+        "1.26"
+      ],
+      "correct": "Rätt! Medelvärdet är 20, kvadraterna är 4, 0, 4, 0 och 0, deras medelvärde är 1,6 och roten ur 1,6 är ungefär 1,26.",
+      "feedback": [
+        {
+          "answers": [
+            "1,6",
+            "1.6"
+          ],
+          "message": "1,6 är medelvärdet av kvadraterna. Dra roten ur."
+        }
+      ]
+    },
+    {
+      "prompt": "Två maskiner fyller påsar som ska väga 500 g. Maskin A har standardavvikelsen 2 g och maskin B har 8 g. Vilken maskin fyller jämnast? Svara A eller B.",
+      "answer": [
+        "A"
+      ],
+      "correct": "Rätt! En mindre standardavvikelse betyder att vikterna ligger närmare medelvärdet.",
+      "feedback": [
+        {
+          "answers": [
+            "B"
+          ],
+          "message": "En större standardavvikelse betyder att vikterna sprids mer."
+        }
+      ]
+    },
+    {
+      "prompt": "Vad är standardavvikelsen för värdena 10, 10, 10 och 18, om du delar med antalet värden? Avrunda till en decimal.",
+      "answer": [
+        "3,5",
+        "3.5"
+      ],
+      "correct": "Rätt! Medelvärdet är 12, kvadraterna är 4, 4, 4 och 36, deras medelvärde är 12 och roten ur 12 är ungefär 3,5.",
+      "feedback": [
+        {
+          "answers": [
+            "12"
+          ],
+          "message": "12 är medelvärdet av kvadraterna. Dra roten ur det."
+        }
+      ]
+    }
+  ]
+}

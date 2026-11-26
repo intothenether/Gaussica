@@ -188,10 +188,10 @@ Färgerna bygger på paletten #425B9A (djupblå), #76C0EC (himmelsblå), #FFF6DC
 variabler i `:root` överst i `styles.css` (`--brand`, `--cream`, `--accent`
 m.fl.); "klar" är grönt och "behöver rättas" är korall. Temalagret längst ned i
 filen styr former, knappar, grafens färger och läsbarhet. Typsnittet är Nunito.
-Stilarna ligger i `styles.css`, utom två delar som hör till egna skript och läses in efter den:
-`styles-figures-more.css` (figurerna i `figures-more.js` och deras rörelse) och `styles-algebra.css`
+Stilarna ligger i `styles.css` och de två filer som delades av från dess slut och läses in direkt efter den i samma ordning: `styles-features.css` (uppdrag, chatt, figurer, arbetsblad, prov, värmekarta och lektionsverktyg) och `styles-pet-home.css` (djuret, startsidan, vårdnadshavarens vy och de nyare formaten). Dessutom finns tre delar som hör till egna skript och läses in efter dem:
+`styles-figures-more.css` (figurerna i `figures-more.js` och deras rörelse), `styles-algebra.css`
 (algebraverktygen: substitutionen, steg för steg, matteknappar, ekvationsmodellen och arbetade
-exempel). Nya `.css`-filer i rotmappen länkas i `index.html`; Pages-arbetsflödet kopierar alla
+exempel) och `styles-account.css` (konton och prenumeration). Nya `.css`-filer i rotmappen länkas i `index.html`; Pages-arbetsflödet kopierar alla
 `*.css`, och `tests/stylesheets.js` kontrollerar båda sakerna.
 Varje ämnesområde har en egen accentfärg (`--area-tal`, `--area-algebra` …).
 

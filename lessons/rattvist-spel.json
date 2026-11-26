@@ -1,0 +1,162 @@
+{
+  "id": "rattvist-spel",
+  "area": "data",
+  "title": "Är spelet rättvist?",
+  "level": "Lika stor chans att vinna · ungefär åk 3",
+  "grade": 3,
+  "duration": "6 min",
+  "prerequisites": [
+    "sakert-mojligt"
+  ],
+  "summary": "Ett spel är rättvist om alla har lika stor chans att vinna. Räkna hur många sätt var och en kan vinna på.",
+  "explanationTitle": "Lika många sätt att vinna",
+  "explanation": "Problemet: Ella och Max spelar med en vanlig tärning. Ella vinner om tärningen visar 1 eller 2. Max vinner om den visar 3, 4, 5 eller 6. Är spelet rättvist? Ett spel är rättvist om alla har lika stor chans att vinna. Räkna hur många sidor på tärningen som gör att var och en vinner. Ella har 2 sidor och Max har 4 sidor. Max har fler sidor, så han har större chans. Spelet är inte rättvist. Det blir rättvist om båda har lika många sidor, till exempel om Ella vinner på 1, 2 och 3 och Max på 4, 5 och 6.",
+  "visual": {
+    "type": "tabell",
+    "title": "Vem vinner på vad?",
+    "headers": [
+      "Spelare",
+      "Vinner på",
+      "Antal sidor"
+    ],
+    "rows": [
+      [
+        "Ella",
+        "1, 2",
+        "2"
+      ],
+      [
+        "Max",
+        "3, 4, 5, 6",
+        "4"
+      ]
+    ]
+  },
+  "rule": "Ett spel är rättvist om alla har lika många sätt att vinna.",
+  "ruleLabel": "RÄTTVIST SPEL",
+  "example": "Krona eller klave: du vinner på krona och jag på klave. Vi har en sida av myntet var, så spelet är rättvist.",
+  "practice": [
+    {
+      "id": "ta-bort-bla",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "r": [
+          2,
+          6
+        ],
+        "x": [
+          1,
+          4
+        ]
+      },
+      "prompt": "En påse har {r} röda och {r+x} blå kulor. Du vinner om du drar en röd, jag vinner om jag drar en blå. Hur många blå kulor ska tas bort för att spelet ska bli rättvist?",
+      "answer": [
+        "=x"
+      ],
+      "correct": "Rätt! Tar du bort {x} blå finns det {r} röda och {r} blå. Då har vi lika stor chans.",
+      "feedback": [
+        {
+          "answers": [
+            "=r+x"
+          ],
+          "message": "Tar du bort alla blå kan jag aldrig vinna. Det ska bli lika många röda som blå."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Ella vinner om tärningen visar 1 eller 2. Max vinner om den visar 3, 4, 5 eller 6. Vem har störst chans att vinna? Svara Ella eller Max.",
+    "answer": [
+      "Max"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Med en vanlig tärning är det rättvist om du vinner på udda tal och jag på jämna.",
+        "answer": true,
+        "explain": "Tärningen har 3 udda och 3 jämna tal."
+      },
+      {
+        "text": "Den som slår först har alltid störst chans.",
+        "answer": false,
+        "explain": "Vem som slår först ändrar inte hur många sidor som gör att man vinner."
+      }
+    ],
+    "correct": "Rätt! Räkna sätten att vinna för var och en."
+  },
+  "exercise": {
+    "prompt": "En påse har 3 röda och 5 blå kulor. Du vinner om du drar en röd, jag vinner om jag drar en blå. Hur många blå kulor ska tas bort för att spelet ska bli rättvist?",
+    "answer": [
+      "2",
+      "2 kulor"
+    ],
+    "correct": "Rätt! Då finns det 3 röda och 3 blå kulor, och vi har lika stor chans.",
+    "feedback": [
+      {
+        "answers": [
+          "5"
+        ],
+        "message": "Tar du bort alla blå kan jag aldrig vinna. Det ska bli lika många röda som blå."
+      },
+      {
+        "answers": [
+          "3"
+        ],
+        "message": "Tar du bort 3 blå finns det 2 blå och 3 röda kvar. Då är det inte lika många."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "Ett lyckohjul har 8 lika stora fält: 3 gröna och 5 gula. Hur många gula fält ska målas om till gröna för att grönt och gult ska ha lika stor chans?",
+      "answer": [
+        "1",
+        "1 fält"
+      ],
+      "correct": "Rätt! Då blir det 4 gröna och 4 gula fält.",
+      "feedback": [
+        {
+          "answers": [
+            "2",
+            "2 fält"
+          ],
+          "message": "Målar du om 2 fält blir det 5 gröna och 3 gula. Då har grönt större chans."
+        }
+      ]
+    },
+    {
+      "prompt": "Lova och Sam kastar ett mynt två gånger. Lova vinner om det blir krona båda gångerna. Sam vinner om det blir klave båda gångerna. Annars blir det oavgjort. Är spelet rättvist? Svara ja eller nej.",
+      "answer": [
+        "ja"
+      ],
+      "correct": "Rätt! Båda vinner på ett enda sätt: krona och krona, eller klave och klave.",
+      "feedback": [
+        {
+          "answers": [
+            "nej"
+          ],
+          "message": "Båda vinner på ett enda sätt: krona och krona, eller klave och klave. Då är chansen lika stor."
+        }
+      ]
+    },
+    {
+      "prompt": "I en påse ligger 4 röda och 4 gula kulor. Alva vinner på röd och Nils på gul. Alva tar bort en gul kula innan de börjar. Vem har nu störst chans? Svara Alva eller Nils.",
+      "answer": [
+        "Alva"
+      ],
+      "correct": "Rätt! Nu finns det 4 röda och bara 3 gula kulor.",
+      "feedback": [
+        {
+          "answers": [
+            "Nils"
+          ],
+          "message": "Nu finns det 4 röda och bara 3 gula kulor. Röd är mer troligt."
+        }
+      ]
+    }
+  ]
+}

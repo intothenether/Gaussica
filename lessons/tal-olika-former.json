@@ -1,0 +1,171 @@
+{
+  "id": "tal-olika-former",
+  "area": "tal",
+  "title": "Räkna med bråk, decimaltal och procent tillsammans",
+  "level": "Byt till samma form först · ungefär åk 8",
+  "grade": 8,
+  "duration": "8 min",
+  "prerequisites": [
+    "samma-tal-tre-satt",
+    "brak-multiplikation"
+  ],
+  "summary": "När en uppgift blandar bråk, decimaltal och procent byter du först alla tal till samma form. Sedan räknar du som vanligt.",
+  "explanationTitle": "Samma form först",
+  "explanation": "Problemet: En tårta delas så att Ali äter 1/4, Bea äter 0,3 och Cleo äter 20 % av den. Hur stor del är kvar? Talen står i tre olika former, så de går inte att lägga ihop direkt. Byt alla till decimaltal: 1/4 = 0,25 och 20 % = 0,2. Nu kan du räkna: 0,25 + 0,3 + 0,2 = 0,75. Hela tårtan är 1, så det som är kvar är 1 − 0,75 = 0,25, alltså en fjärdedel eller 25 %. Välj den form som gör räkningen enklast. Decimaltal fungerar oftast. Bråk är bättre när det finns tredjedelar, som inte går jämnt upp som decimaltal.",
+  "visual": {
+    "type": "tabell",
+    "title": "Samma tal i tre former",
+    "headers": [
+      "Bråk",
+      "Decimaltal",
+      "Procent"
+    ],
+    "rows": [
+      [
+        "1/4",
+        "0,25",
+        "25 %"
+      ],
+      [
+        "3/10",
+        "0,3",
+        "30 %"
+      ],
+      [
+        "1/5",
+        "0,2",
+        "20 %"
+      ]
+    ]
+  },
+  "rule": "Byt alla tal till samma form innan du räknar. Det hela är 1, eller 100 %.",
+  "ruleLabel": "SAMMA FORM FÖRST",
+  "example": "1/2 + 0,2 + 10 % = 0,5 + 0,2 + 0,1 = 0,8, alltså 80 %.",
+  "practice": [
+    {
+      "id": "fjardedel-plus",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          1,
+          3
+        ],
+        "p": [
+          1,
+          4
+        ]
+      },
+      "prompt": "Skriv {a}/4 + 0,{p} som ett decimaltal.",
+      "answer": [
+        "=a/4+p/10"
+      ],
+      "correct": "Rätt! {a}/4 = {a/4}, och {a/4} + 0,{p} = {a/4+p/10}.",
+      "feedback": [
+        {
+          "answers": [
+            "=a+0.4+p/10"
+          ],
+          "message": "{a}/4 är inte {a},4. Dela {a} med 4."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "Ali äter 1/4 av en tårta och Bea äter 0,5 av den. Hur stor del av tårtan har de ätit tillsammans? Svara med ett decimaltal.",
+    "answer": [
+      "0,75",
+      "0.75",
+      "3/4"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "0,3 + 20 % = 0,5",
+        "answer": true,
+        "explain": "20 % är 0,2, och 0,3 + 0,2 = 0,5."
+      },
+      {
+        "text": "1/4 är större än 30 %.",
+        "answer": false,
+        "explain": "1/4 är 25 %, och 25 % är mindre än 30 %."
+      }
+    ],
+    "correct": "Rätt! Byt till samma form, så går talen att jämföra och räkna med."
+  },
+  "exercise": {
+    "prompt": "Skriv 3/4 + 0,15 som ett decimaltal.",
+    "answer": [
+      "0,9",
+      "0.9",
+      "9/10"
+    ],
+    "correct": "Rätt! 3/4 = 0,75, och 0,75 + 0,15 = 0,9.",
+    "feedback": [
+      {
+        "answers": [
+          "3,55",
+          "3.55"
+        ],
+        "message": "3/4 är inte 3,4. Tre fjärdedelar är 0,75."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "I en klass vill 1/2 av eleverna åka till museet, 0,3 vill åka till skogen och resten vill bada. Hur många procent vill bada?",
+      "answer": [
+        "20",
+        "20 %"
+      ],
+      "correct": "Rätt! 1/2 = 50 % och 0,3 = 30 %. Det blir 80 %, så 100 % − 80 % = 20 % vill bada.",
+      "feedback": [
+        {
+          "answers": [
+            "80",
+            "80 %"
+          ],
+          "message": "80 % vill till museet eller skogen. Resten är 100 % − 80 %."
+        }
+      ]
+    },
+    {
+      "prompt": "En jacka kostar 800 kr. Först sänks priset med 1/4 och sedan med 10 % av det nya priset. Vad kostar jackan till slut?",
+      "answer": [
+        "540",
+        "540 kr"
+      ],
+      "correct": "Rätt! 1/4 av 800 kr är 200 kr, så priset blir 600 kr. 10 % av 600 kr är 60 kr, så jackan kostar 540 kr.",
+      "feedback": [
+        {
+          "answers": [
+            "520",
+            "520 kr"
+          ],
+          "message": "Du räknade båda sänkningarna på 800 kr. De 10 procenten räknas på det nya priset, 600 kr."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett recept behöver 0,75 liter mjölk. Du har 1/2 liter. Hur många deciliter fattas?",
+      "answer": [
+        "2,5",
+        "2.5",
+        "2,5 dl"
+      ],
+      "correct": "Rätt! 0,75 − 0,5 = 0,25 liter, och 0,25 liter är 2,5 dl.",
+      "feedback": [
+        {
+          "answers": [
+            "0,25",
+            "0.25"
+          ],
+          "message": "0,25 liter fattas. En liter är 10 deciliter, så räkna om till deciliter."
+        }
+      ]
+    }
+  ]
+}

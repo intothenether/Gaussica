@@ -1,0 +1,184 @@
+{
+  "id": "skala-karta-area",
+  "area": "geometri",
+  "title": "Skala och area: från kartan till verkligheten",
+  "level": "Areaskalan är längdskalan i kvadrat · ungefär åk 9",
+  "grade": 9,
+  "duration": "8 min",
+  "prerequisites": [
+    "likformighet",
+    "skala"
+  ],
+  "summary": "En skala gäller längder. Areor ändras med skalan i kvadrat. Det säkraste är att först räkna om längderna och sedan räkna arean.",
+  "explanationTitle": "Längder först, sedan arean",
+  "explanation": "Problemet: På en karta i skala 1 : 1000 är en tomt en rektangel som är 3 cm lång och 2 cm bred. Hur stor är tomten i verkligheten? Skalan gäller längder. Varje centimeter på kartan är 1000 cm, alltså 10 m, i verkligheten. Tomten är därför 30 m lång och 20 m bred, och arean är 30 · 20 = 600 m². På kartan är arean bara 3 · 2 = 6 cm². Areaskalan är längdskalan i kvadrat: 1000 · 1000 = 1 000 000. 6 cm² gånger 1 000 000 är 6 000 000 cm², vilket är 600 m². Det blir samma svar, men det är lättare att räkna om längderna först.",
+  "visual": {
+    "type": "tabell",
+    "title": "Tomten i skala 1 : 1000",
+    "headers": [
+      "",
+      "På kartan",
+      "I verkligheten"
+    ],
+    "rows": [
+      [
+        "Längd",
+        "3 cm",
+        "30 m"
+      ],
+      [
+        "Bredd",
+        "2 cm",
+        "20 m"
+      ],
+      [
+        "Area",
+        "6 cm²",
+        "600 m²"
+      ]
+    ]
+  },
+  "rule": "Räkna om längderna med skalan och räkna sedan arean. Areaskalan är längdskalan i kvadrat.",
+  "ruleLabel": "SKALA OCH AREA",
+  "example": "Skala 1 : 500. En kvadrat på kartan har sidan 4 cm. I verkligheten är sidan 4 · 5 m = 20 m, och arean är 20 · 20 = 400 m².",
+  "practice": [
+    {
+      "id": "ritning-100",
+      "for": [
+        "exercise"
+      ],
+      "vars": {
+        "a": [
+          2,
+          6
+        ],
+        "b": [
+          2,
+          6
+        ]
+      },
+      "prompt": "En ritning har skalan 1 : 100. Ett rum är {a} cm långt och {b} cm brett på ritningen. Hur många kvadratmeter är rummet i verkligheten?",
+      "answer": [
+        "=a*b",
+        "{a*b} m²"
+      ],
+      "correct": "Rätt! 1 cm på ritningen är 1 m i verkligheten, så rummet är {a} m · {b} m = {a*b} m².",
+      "feedback": [
+        {
+          "answers": [
+            "=100*a*b"
+          ],
+          "message": "Du multiplicerade arean med 100 en gång. Räkna i stället om båda sidorna till meter först."
+        }
+      ]
+    }
+  ],
+  "tryFirst": {
+    "prompt": "På en karta i skala 1 : 1000 är en tomt 3 cm lång och 2 cm bred. Hur många kvadratmeter är tomten i verkligheten?",
+    "answer": [
+      "600",
+      "600 m²",
+      "600 m2"
+    ]
+  },
+  "check": {
+    "prompt": "Sant eller falskt?",
+    "statements": [
+      {
+        "text": "Om längdskalan är 1 : 100 är areaskalan 1 : 10 000.",
+        "answer": true,
+        "explain": "100 · 100 = 10 000."
+      },
+      {
+        "text": "På en karta i skala 1 : 1000 är areor 1000 gånger mindre än i verkligheten.",
+        "answer": false,
+        "explain": "Areor blir 1000 · 1000 = 1 000 000 gånger mindre."
+      }
+    ],
+    "correct": "Rätt! Längder ändras med skalan, areor med skalan i kvadrat."
+  },
+  "exercise": {
+    "prompt": "En ritning har skalan 1 : 50. Ett rum är 8 cm långt och 6 cm brett på ritningen. Hur många kvadratmeter är rummet i verkligheten?",
+    "answer": [
+      "12",
+      "12 m²",
+      "12 m2"
+    ],
+    "correct": "Rätt! 8 cm · 50 = 400 cm = 4 m och 6 cm · 50 = 300 cm = 3 m. Arean är 4 · 3 = 12 m².",
+    "feedback": [
+      {
+        "answers": [
+          "2400"
+        ],
+        "message": "Du multiplicerade arean med 50 en gång. Räkna i stället om båda sidorna till meter först."
+      },
+      {
+        "answers": [
+          "0,24",
+          "0.24"
+        ],
+        "message": "Du multiplicerade arean med 50 bara en gång. Räkna om båda sidorna med skalan först."
+      }
+    ]
+  },
+  "wordProblems": [
+    {
+      "prompt": "En sjö är 5 cm² på en karta i skala 1 : 10 000. Hur många kvadratkilometer är sjön?",
+      "answer": [
+        "0,05",
+        "0.05",
+        "0,05 km²"
+      ],
+      "correct": "Rätt! 1 cm på kartan är 100 m. 1 cm² är då 100 m · 100 m = 10 000 m², och 5 cm² är 50 000 m² = 0,05 km².",
+      "feedback": [
+        {
+          "answers": [
+            "5"
+          ],
+          "message": "Areaskalan är 10 000 · 10 000. En kvadratcentimeter på kartan är 100 m · 100 m i verkligheten."
+        },
+        {
+          "answers": [
+            "0,5",
+            "0.5"
+          ],
+          "message": "Kontrollera omvandlingen: 1 km² är 1 000 000 m², så 50 000 m² är 0,05 km²."
+        }
+      ]
+    },
+    {
+      "prompt": "En modelljärnväg är byggd i skala 1 : 87. Hur många gånger så stor är golvytan i ett riktigt hus som i modellen av huset?",
+      "answer": [
+        "7569",
+        "7569 gånger"
+      ],
+      "correct": "Rätt! Längderna är 87 gånger så stora, så ytorna är 87 · 87 = 7569 gånger så stora.",
+      "feedback": [
+        {
+          "answers": [
+            "87",
+            "87 gånger"
+          ],
+          "message": "87 gäller längder. Ytor blir 87 · 87 gånger så stora."
+        }
+      ]
+    },
+    {
+      "prompt": "Ett foto förstoras så att varje sida blir dubbelt så lång. Det gick åt 2 ml lack för att lacka det lilla fotot. Hur mycket lack behövs för det förstorade fotot?",
+      "answer": [
+        "8",
+        "8 ml"
+      ],
+      "correct": "Rätt! Ytan blir 2 · 2 = 4 gånger så stor, så lacket blir 4 · 2 ml = 8 ml.",
+      "feedback": [
+        {
+          "answers": [
+            "4",
+            "4 ml"
+          ],
+          "message": "Du dubblade lacket. Ytan blir 2 · 2 = 4 gånger så stor, så lacket också."
+        }
+      ]
+    }
+  ]
+}
